@@ -1,0 +1,482 @@
+[
+ {
+  "parti": "C",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2023-06",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2025-02",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2026-03",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "C",
+  "month": "2026-05",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2023-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2025-02",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2026-03",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "KD",
+  "month": "2026-05",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2023-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2025-02",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2026-03",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "L",
+  "month": "2026-05",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2023-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2025-02",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2026-03",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "M",
+  "month": "2026-05",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2022-11",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2023-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2025-02",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2026-03",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "MP",
+  "month": "2026-05",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2023-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2025-02",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2026-03",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "S",
+  "month": "2026-05",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2023-04",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2023-06",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2024-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2025-02",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2025-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2026-03",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "SD",
+  "month": "2026-05",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2023-04",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2023-06",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2024-04",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2024-06",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2025-02",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2025-04",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2025-10",
+  "agreement": 1.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2026-03",
+  "agreement": 0.0,
+  "n": 1
+ },
+ {
+  "parti": "V",
+  "month": "2026-05",
+  "agreement": 0.0,
+  "n": 1
+ }
+]

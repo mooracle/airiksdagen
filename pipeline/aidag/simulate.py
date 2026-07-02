@@ -274,6 +274,10 @@ def collect(run_id: str) -> None:
         print(f"{entry['batch_id']} [{entry['party']}]: collected {n_ok} decisions, {n_err} errors")
 
 
+def _normalize_ws(text: str) -> str:
+    return " ".join(text.split())
+
+
 def verify_run(run_id: str):
     """Checks for `aidag verify simulate --run-id X`. Yields (name, ok, detail)."""
     from aidag.promptgen import _corpus_text  # noqa: PLC2701
@@ -298,12 +302,16 @@ def verify_run(run_id: str):
             seen.add(cid)
             for c in d.get("citations", []):
                 if d["parti"] not in corpus_map:
+                    # normalized: PDF extraction has arbitrary line wraps, and
+                    # models legitimately collapse them when quoting
                     corpus_map[d["parti"]] = {
-                        "valmanifest": _corpus_text(f"valmanifest-2022-{d['parti'].lower()}.txt"),
-                        "tidoavtalet": _corpus_text("tidoavtalet-2022.txt"),
+                        "valmanifest": _normalize_ws(
+                            _corpus_text(f"valmanifest-2022-{d['parti'].lower()}.txt")
+                        ),
+                        "tidoavtalet": _normalize_ws(_corpus_text("tidoavtalet-2022.txt")),
                     }
                 source = corpus_map[d["parti"]].get(c["document"], "")
-                if c["quote"] and c["quote"] not in source:
+                if c["quote"] and _normalize_ws(c["quote"]) not in source:
                     bad_quotes += 1
     yield ("no duplicate custom_ids", dupes == 0, f"{dupes} dupes in {n} decisions")
     yield ("citation quotes are real substrings", bad_quotes == 0, f"{bad_quotes} hallucinated of {n}")
