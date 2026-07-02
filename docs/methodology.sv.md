@@ -9,6 +9,8 @@ Den fullständiga metodbeskrivningen renderas på webbplatsen (`/metod/`,
 - **Agent:** en förfrågan per votering × parti; underlag = valmanifest 2022
   (SND Vivill), Tidöavtalet för M/KD/L/SD fr.o.m. 2022-10-14, samt månadsvis
   lägesbild med publiceringsvintage (ingen information efter beslutsmånaden).
+  Opinionsmätningar ingår medvetet **inte** i agentens underlag — partiet ska
+  följa sin plan, inte opinionen; väljarstödet visas bara på webbplatsen.
 - **Läckagekontroller:** inga ärendenummer/datum i prompten, anonymiserade
   motförslag, aldrig riksdagens beslutsnotis (endast utskottets
   förhandssammanfattning), maskering av dokumentreferenser. Regex-verifierat i

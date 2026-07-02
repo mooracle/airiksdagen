@@ -163,13 +163,10 @@ def render_kb_block(month: str) -> str:
     for ind in snap.get("indicators", []):
         period = ind["period"][:7]  # coarse month only — no exact dates in prompts
         lines.append(f"{ind['label']}: {ind['value']} {ind['unit']} (avser {period})")
-    support = snap.get("party_support")
-    if support:
-        ranked = sorted(support["parties"].items(), key=lambda kv: -kv[1])
-        lines.append(
-            "Opinionsläge (genomsnitt av senaste mätningar): "
-            + ", ".join(f"{p} {v:.1f}%" for p, v in ranked)
-        )
+    # NOTE: snapshot["party_support"] (opinion polls) is deliberately NOT
+    # rendered. The research question is whether parties follow their own
+    # pre-election plans; giving agents polling data would let them adjust to
+    # popularity instead of the documents. Polls are shown on the website only.
     events = snap.get("events", [])
     if events:
         lines.append("Händelser den senaste tiden:")

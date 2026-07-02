@@ -71,6 +71,15 @@ def test_coarse_time():
     assert coarse_time("2023-06-07") == "juni 2023"
 
 
+def test_no_poll_data_in_prompt():
+    # methodology: agents must follow party plans, never adjust to ratings —
+    # opinion-poll numbers live in the KB for the website but never in prompts
+    msg = render_user_message(CASE, arm="anonymous")
+    assert "Opinionsläge" not in msg
+    assert "opinionsmätning" not in msg.lower()
+    assert "väljarstöd" not in msg.lower()
+
+
 def test_scrub_text_replaces_docrefs_and_dates():
     out = scrub_text("bifaller proposition 2022/23:85 beslutad 2023-06-01", arm="anonymous")
     assert "2022/23:85" not in out and "2023-06-01" not in out

@@ -10,7 +10,9 @@ The full methodology is rendered on the site (`/en/methodology/`,
 - **Agent:** one request per vote × party; inputs = the 2022 election manifesto
   (SND Vivill), the Tidö agreement for M/KD/L/SD from 2022-10-14, and a monthly
   country snapshot with publication vintages (no information after the
-  decision month).
+  decision month). Opinion polls are deliberately **not** part of the agent's
+  inputs — the party must follow its plan, not the polls; support figures
+  appear on the website only.
 - **Leakage controls:** no case numbers/dates in prompts, anonymized
   counter-proposals, never the Riksdag's post-decision summary (only the
   committee's pre-decision one), document references masked. Regex-asserted in
