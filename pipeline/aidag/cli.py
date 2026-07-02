@@ -114,6 +114,38 @@ def export_site(run_id: str = typer.Option(None, "--run-id", help="Omit to expor
     run(run_id=run_id)
 
 
+@app.command("agent-prepare")
+def agent_prepare(
+    run_id: str = typer.Option(..., "--run-id"),
+    batch_size: int = typer.Option(240),
+    probes: bool = typer.Option(True, help="Include memorization probes"),
+) -> None:
+    """Emit the next subagent batch manifest from pending work (checkpoint-aware)."""
+    from aidag.agent_run import prepare
+
+    prepare(run_id=run_id, batch_size=batch_size, include_probes=probes)
+
+
+@app.command("agent-status")
+def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
+    """Progress report for a subagent-based run."""
+    from aidag.agent_run import status
+
+    status(run_id=run_id)
+
+
+@app.command("agent-ingest")
+def agent_ingest(
+    run_id: str = typer.Option(..., "--run-id"),
+    input: str = typer.Option(..., "--input", help="Workflow result JSON ({sims, probes})"),
+    model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
+) -> None:
+    """Ingest a workflow batch result into the standard results layout."""
+    from aidag.ingest_agent_run import run as ingest
+
+    ingest(run_id=run_id, input_path=input, model=model)
+
+
 @app.command()
 def verify(
     stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|site|all"),

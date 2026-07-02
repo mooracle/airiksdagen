@@ -74,7 +74,9 @@ slutliga propositionsparet; att avstå markerar den egna linjen. Använd Avstår
 dokumenten pekar på en tydligt egen position som varken utskottsförslaget eller \
 motförslaget motsvarar.
 
-Svara med JSON enligt schemat. Motiveringen skrivs på svenska, max 200 ord."""
+Svara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: \
+2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur \
+det leder till Ja/Nej/Avstår."""
 
 TIDO_ROLE_SIGNATORY = """\
 
