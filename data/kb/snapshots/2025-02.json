@@ -43,6 +43,22 @@
    "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
   }
  ],
+ "party_support": {
+  "parties": {
+   "S": 34.1,
+   "SD": 20.6,
+   "M": 19.1,
+   "V": 7.8,
+   "C": 4.4,
+   "KD": 3.5,
+   "MP": 5.9,
+   "L": 2.9
+  },
+  "n_polls": 7,
+  "period": "2025-02",
+  "vintage_date": "2025-02-27",
+  "source_url": "https://raw.githubusercontent.com/MansMeg/SwedishPolls/master/Data/Polls.csv"
+ },
  "events": [
   {
    "date": "2025-02-04",

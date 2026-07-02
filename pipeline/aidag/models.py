@@ -111,14 +111,26 @@ class KBEvent(BaseModel):
     source_url: str
 
 
+class PartySupport(BaseModel):
+    """Opinion-poll standing: monthly average across published polls."""
+
+    parties: dict[str, float]  # parti -> support %
+    n_polls: int
+    period: str  # YYYY-MM the polls were published in
+    vintage_date: str  # latest publication date used (must be <= snapshot end)
+    source_url: str
+
+
 class KBSnapshot(BaseModel):
     """Point-in-time 'state of the country' for one month.
 
-    The no-future-information rule: every indicator's vintage_date and every
-    event date must fall on or before the last day of `month`.
+    The no-future-information rule: every indicator's vintage_date, the poll
+    vintage, and every event date must fall on or before the last day of
+    `month`.
     """
 
     month: str  # YYYY-MM
     government: dict
     indicators: list[KBIndicator]
+    party_support: PartySupport | None = None
     events: list[KBEvent]

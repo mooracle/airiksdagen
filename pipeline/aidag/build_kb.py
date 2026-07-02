@@ -37,6 +37,9 @@ SCB_AKU_URL = (
     "&valueCodes%5BTid%5D=*&outputFormat=json-stat2"
 )
 WIKI_API = "https://sv.wikipedia.org/w/api.php"
+# Curated dataset of all published Swedish opinion polls (per-party support %).
+POLLS_CSV_URL = "https://raw.githubusercontent.com/MansMeg/SwedishPolls/master/Data/Polls.csv"
+POLL_PARTIES = ["S", "SD", "M", "V", "C", "KD", "MP", "L"]
 
 # Government timeline for the 2022–2026 period (used by promptgen per case date too).
 GOVERNMENTS = [
@@ -90,6 +93,52 @@ def fetch_policy_rate(client: httpx.Client, first: str, last: str) -> dict[str, 
     r = client.get(RIKSBANK_OBS_URL.format(frm=f"{first}-01", to=month_end(last)))
     r.raise_for_status()
     return {o["date"]: o["value"] for o in r.json()}
+
+
+def fetch_polls(client: httpx.Client) -> list[dict]:
+    """Parse SwedishPolls CSV -> [{publ_date, company, S: float, ...}]."""
+    import csv
+    import io
+
+    r = client.get(POLLS_CSV_URL)
+    r.raise_for_status()
+    polls = []
+    for row in csv.DictReader(io.StringIO(r.text)):
+        publ = (row.get("PublDate") or "").strip()
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", publ):
+            continue
+        values = {}
+        for p in POLL_PARTIES:
+            raw = (row.get(p) or "").strip()
+            try:
+                values[p] = float(raw)
+            except ValueError:
+                continue
+        if len(values) >= 6:
+            polls.append({"publ_date": publ, "company": row.get("Company", ""), **values})
+    return polls
+
+
+def party_support_for_month(polls: list[dict], month: str) -> dict | None:
+    """Average of polls published in `month`; falls back up to 3 months when a
+    month has no polls. Point-in-time safe: only polls published <= month end."""
+    for delta in range(0, 4):
+        m = month_shift(month, -delta)
+        batch = [p for p in polls if p["publ_date"][:7] == m]
+        if batch:
+            support = {
+                party: round(sum(p[party] for p in batch if party in p)
+                             / max(1, sum(1 for p in batch if party in p)), 1)
+                for party in POLL_PARTIES
+            }
+            return {
+                "parties": support,
+                "n_polls": len(batch),
+                "period": m,
+                "vintage_date": max(p["publ_date"] for p in batch),
+                "source_url": POLLS_CSV_URL,
+            }
+    return None
 
 
 def fetch_scb_series(client: httpx.Client, url: str) -> dict[str, float]:
@@ -188,6 +237,7 @@ def build_snapshot(
     kpi: dict[str, float],
     aku: dict[str, float],
     events: dict[str, list[dict]],
+    polls: list[dict] | None = None,
 ) -> dict:
     end = month_end(month)
     indicators = []
@@ -225,6 +275,7 @@ def build_snapshot(
         "month": month,
         "government": {k: v for k, v in gov.items() if k != "from"} | {"sedan": gov["from"]},
         "indicators": indicators,
+        "party_support": party_support_for_month(polls or [], month),
         "events": (events.get(month) or [])[:MAX_EVENTS_PER_MONTH],
     }
 
@@ -253,6 +304,8 @@ def run(month: str | None = None, force: bool = False) -> None:
         print("fetching SCB KPI + AKU…")
         kpi = fetch_scb_series(client, SCB_KPI_URL)
         aku = fetch_scb_series(client, SCB_AKU_URL)
+        print("fetching opinion polls (SwedishPolls)…")
+        polls = fetch_polls(client)
         years = sorted({int(m[:4]) for m in todo})
         events: dict[str, list[dict]] = {}
         for y in years:
@@ -260,7 +313,8 @@ def run(month: str | None = None, force: bool = False) -> None:
             events.update(fetch_year_events(client, y))
 
     for m in todo:
-        snap = build_snapshot(m, policy, kpi, aku, events)
+        snap = build_snapshot(m, policy, kpi, aku, events, polls)
         (KB_DIR / f"{m}.json").write_text(json.dumps(snap, ensure_ascii=False, indent=1))
-        print(f"  {m}: {len(snap['indicators'])} indicators, {len(snap['events'])} events")
+        n_polls = (snap["party_support"] or {}).get("n_polls", 0)
+        print(f"  {m}: {len(snap['indicators'])} indicators, {n_polls} polls, {len(snap['events'])} events")
     print(f"done: {len(todo)} snapshots")

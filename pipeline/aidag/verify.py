@@ -99,6 +99,9 @@ def verify_kb() -> None:
         bad_vintage = [
             i["series"] for i in snap.get("indicators", []) if i["vintage_date"] > last_day
         ]
+        support = snap.get("party_support")
+        if support and support["vintage_date"] > last_day:
+            bad_vintage.append("party_support")
         bad_events = [e["date"] for e in snap.get("events", []) if e["date"] > last_day]
         if bad_vintage or bad_events:
             check(f"point-in-time {month}", False, f"future vintages {bad_vintage} events {bad_events[:3]}")

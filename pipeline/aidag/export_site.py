@@ -167,6 +167,25 @@ def run(run_id: str | None = None) -> None:
         for f in agg_src.glob("*.json"):
             shutil.copy(f, SITE_DATA_DIR / "aggregates" / f.name)
 
+    # Party polling support per month, from the KB snapshots (run-independent).
+    from aidag.config import KB_DIR
+
+    support_rows = []
+    for snap_path in sorted(KB_DIR.glob("*.json")):
+        snap = json.loads(snap_path.read_text())
+        support = snap.get("party_support")
+        if support:
+            for parti, value in support["parties"].items():
+                support_rows.append({
+                    "month": snap["month"],
+                    "parti": parti,
+                    "support": value,
+                    "n_polls": support["n_polls"],
+                })
+    (SITE_DATA_DIR / "aggregates" / "party_support.json").write_text(
+        json.dumps(support_rows, ensure_ascii=False)
+    )
+
     meta = {
         "run_id": run_id,
         "n_cases": len(index),

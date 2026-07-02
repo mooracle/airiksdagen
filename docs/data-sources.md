@@ -40,6 +40,7 @@ Tidöavtalet (2022-10-14): PDF published by the four cooperating parties,
 | [Riksbank forecasts & outcomes](https://www.riksbank.se/en-gb/statistics/macro-indicators/forecasts-and-outcomes/) | CPI/GDP/unemployment *as known at each date* (true vintages) | Open data, attribution |
 | [SCB PxWebApi 2](https://statistikdatabasen.scb.se/api/v2/) | KPI and labour-market series | CC0-style open data, attribution |
 | Wikipedia (sv/en) via MediaWiki API | Monthly event digests, fetched as revision-at-date | CC BY-SA 4.0 |
+| [SwedishPolls](https://github.com/MansMeg/SwedishPolls) (curated dataset of published Swedish opinion polls) | Party support per month (average of polls published that month; vintage = latest publication date used) | Open dataset compiled from publicly released polls; attribute the repo |
 
 The no-future-information rule: every indicator in a monthly snapshot carries a
 `vintage_date` that must fall on or before the end of that month; `aidag verify kb`
