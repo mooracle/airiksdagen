@@ -1,0 +1,68 @@
+{
+ "month": "2023-07",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2023-07-31",
+   "vintage_date": "2023-07-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 9.3,
+   "unit": "%",
+   "period": "2023-06",
+   "vintage_date": "2023-07-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.2,
+   "unit": "%",
+   "period": "2023-05",
+   "vintage_date": "2023-06-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-07-03",
+   "text": "Israelisk militär genomför en omfattande militärräd i Jenin på den ockuperade Västbanken, där minst tio palestinier dödas och ett hundratal skadas.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-07-20",
+   "text": "20 augusti: Världsmästerskapet för damer spelas i Australien och Nya Zeeland. Spanien vinner turneringen mot England med 1–0 i finalen på Stadium Australia i Sydney. Sverige erövrar bronsmedaljerna efter seger med 2–0 mot Australien i matchen om tredje pris på Lang Park i Brisbane.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-07-23",
+   "text": "Parlamentsval hålls i Spanien, där både högerpartiet Partido Popular och socialdemokratiska PSOE når starka resultat.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-07-26",
+   "text": "Nigers president Mohamed Bazoum avsätts i en militärkupp.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

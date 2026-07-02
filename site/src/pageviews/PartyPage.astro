@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getAggregate } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; code: string }
+const { lang, code } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const party = meta.parties[code];
+
+const summary = getAggregate<{
+  per_party: Record<string, { n: number; agreement: number; kappa: number | null; avstar_recall: number | null }>;
+}>('summary');
+const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
+const confusion = getAggregate<Record<string, Record<string, Record<string, number>>>>('confusion');
+
+const stats = summary?.per_party?.[code];
+const ts = timeseries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
+const matrix = confusion?.[code];
+const LABELS = ['Ja', 'Nej', 'Avstår'];
+const voteLabel: Record<string, string> = { Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår') };
+
+// build-time SVG line chart
+const W = 720, H = 180, PAD = 30;
+const points = ts.map((r, i) => {
+  const x = PAD + (i * (W - 2 * PAD)) / Math.max(1, ts.length - 1);
+  const y = H - PAD - r.agreement * (H - 2 * PAD);
+  return `${x.toFixed(1)},${y.toFixed(1)}`;
+});
+---
+
+<Base lang={lang} title={party?.name ?? code} path={`/parti/${code.toLowerCase()}/`}>
+  <h1><span class="partydot" style={`background:${party?.color}`} />{party?.name ?? code}</h1>
+
+  {stats ? (
+    <div class="card">
+      <p style="margin:0">
+        <strong style="font-size:1.5rem">{(stats.agreement * 100).toFixed(1)}%</strong>
+        <span class="muted"> {t('home.agreement').toLowerCase()} · n = {stats.n} · κ = {stats.kappa ?? '–'}
+        {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}</span>
+      </p>
+    </div>
+  ) : (
+    <p class="muted">{t('home.noai')}</p>
+  )}
+
+  {ts.length > 1 && (
+    <>
+      <h2>{t('party.agreement')}</h2>
+      <div class="card">
+        <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
+          {[0, 0.25, 0.5, 0.75, 1].map((f) => (
+            <>
+              <line x1={PAD} x2={W - PAD} y1={H - PAD - f * (H - 2 * PAD)} y2={H - PAD - f * (H - 2 * PAD)} stroke="#eee" />
+              <text x={4} y={H - PAD - f * (H - 2 * PAD) + 4} font-size="10" fill="#999">{(f * 100).toFixed(0)}%</text>
+            </>
+          ))}
+          <polyline points={points.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2.5" />
+          <text x={PAD} y={H - 8} font-size="10" fill="#999">{ts[0]?.month}</text>
+          <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{ts[ts.length - 1]?.month}</text>
+        </svg>
+      </div>
+    </>
+  )}
+
+  {matrix && (
+    <>
+      <h2>{t('party.confusion')}</h2>
+      <table class="compare" style="max-width:420px">
+        <thead>
+          <tr><th>AI ↓ / {lang === 'sv' ? 'verklig' : 'actual'} →</th>{LABELS.map((l) => <th>{voteLabel[l]}</th>)}</tr>
+        </thead>
+        <tbody>
+          {LABELS.map((ai) => (
+            <tr>
+              <td><strong>{voteLabel[ai]}</strong></td>
+              {LABELS.map((act) => {
+                const v = matrix[ai]?.[act] ?? 0;
+                return <td style={ai === act ? 'font-weight:700' : ''}>{v}</td>;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )}
+
+  <p><a href={localePath(lang, '/parti/')}>← {t('party.title')}</a></p>
+</Base>

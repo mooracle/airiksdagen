@@ -1,0 +1,88 @@
+{
+ "month": "2025-06",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2,
+   "unit": "%",
+   "period": "2025-06-30",
+   "vintage_date": "2025-06-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.2,
+   "unit": "%",
+   "period": "2025-05",
+   "vintage_date": "2025-06-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.6,
+   "unit": "%",
+   "period": "2025-04",
+   "vintage_date": "2025-05-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-06-01",
+   "text": "Det nationalkonservativa partiet Lag och rättvisas kandidat Karol Nawrocki vinner presidentvalet i Polen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-03",
+   "text": "Lee Jae-myung från Demokratiska partiet vinner presidentvalet i Sydkorea.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-03",
+   "text": "Sveriges Radios trafikredaktion byter ut larmsignalen för trafikinformation, akuttutan, som använts sedan mitten av 1990-talet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-13",
+   "text": "Israel genomför stora flyganfall mot Iran.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-17",
+   "text": "Bella Nilsson och ytterligare tre personer döms till fängelsestraff för miljöbrott för sin inblandning i Think Pink-skandalen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-18",
+   "text": "Kaffeost producerad i norra Sverige får skyddad ursprungsbeteckning i EU.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-18",
+   "text": "Sveriges Radios trafikredaktion drar tillbaka sitt beslut att byta ut signaturljudet för trafikinformation efter omfattande kritik.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-06-18",
+   "text": "Grundskolan i Sverige blir 10 årig från och med höstterminen 2028 varav förskoleklassen slopas och ersätts av årskurs 1.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

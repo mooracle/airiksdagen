@@ -1,0 +1,68 @@
+{
+ "month": "2025-11",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2025-11-28",
+   "vintage_date": "2025-11-28",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.9,
+   "unit": "%",
+   "period": "2025-10",
+   "vintage_date": "2025-11-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.7,
+   "unit": "%",
+   "period": "2025-09",
+   "vintage_date": "2025-10-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-11-04",
+   "text": "Den demokratiska socialisten Zohran Mamdani vinner borgmästarvalet i New York",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-11-10",
+   "text": "21 november: Förenta nationernas klimatkonferens 2025 (COP30) hålls i Belém, Brasilien",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-11-14",
+   "text": "Bussolyckan vid Tekniska högskolan 3 döda och 3-4 skadade.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-11-18",
+   "text": "Kommun- och regionval hålls i Danmark",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

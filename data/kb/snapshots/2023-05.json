@@ -1,0 +1,78 @@
+{
+ "month": "2023-05",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2023-05-31",
+   "vintage_date": "2023-05-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 10.5,
+   "unit": "%",
+   "period": "2023-04",
+   "vintage_date": "2023-05-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.2,
+   "unit": "%",
+   "period": "2023-03",
+   "vintage_date": "2023-04-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-05-01",
+   "text": "Snooker-VM 2023 äger rum i Sheffield, Storbritannien. Segrar gör belgaren Luca Brecel, som därmed erhåller sin första världsmästartitel.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-05-06",
+   "text": "Kung Charles III av Storbritannien och Camilla av Storbritannien kröns till kung och drottning av ärkebiskopen av Canterbury i Westminster Abbey.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-05-13",
+   "text": "Finalen i Eurovision Song Contest 2023 äger rum i Liverpool, Storbritannien. Vinnare blir svenska Loreen, med bidraget \"Tattoo\".",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-05-14",
+   "text": "Allmänna val till nationalförsamlingen samt en första presidentvalsomgång hålls i Turkiet. I en andra omgång av presidentvalet den 28 maj besegrar sittande presidenten Recep Tayyip Erdoğan oppositionspartiet CHP:s ledare Kemal Kılıçdaroğlu.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-05-21",
+   "text": "Parlamentsval genomförs i Grekland. Störst blir konservativa Ny demokrati under den sittande premiärministern Kyriakos Mitsotakis, men då inget parti erhåller enkel majoritet väntas en andra valomgång genomföras i juli.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-05-21",
+   "text": "Orienteringstävlingen Tiomila går i Skellefteå, med NTNUI och IFK Göteborg som vinnare.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

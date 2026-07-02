@@ -1,0 +1,88 @@
+{
+ "month": "2023-02",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3,
+   "unit": "%",
+   "period": "2023-02-28",
+   "vintage_date": "2023-02-28",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 11.7,
+   "unit": "%",
+   "period": "2023-01",
+   "vintage_date": "2023-02-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.5,
+   "unit": "%",
+   "period": "2022-12",
+   "vintage_date": "2023-01-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-02-01",
+   "text": "Kometen C/2022 E3 och Jorden passerar varandra för första gången på 50 000 år.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-02",
+   "text": "Muharrem Demirok utses till ny partiledare för Centerpartiet vid en extrainsatt partistämma i Helsingborg, efter avgående Annie Lööf.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-03",
+   "text": "Nya bevis presenteras som pekar mot att Schering Rosenhane döljer sig bakom pseudonymen Skogekär Bergbo.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-04",
+   "text": "Amerikanska jaktflygplan öppnar eld mot en obemannad kinesisk ballong som siktats över USA under föregående dag. Ballongen störtar i Nordatlanten, utanför USA:s östkust. Händelsen är del av en veckolång incident – se Kinesiska ballongincidenten 2023.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-05",
+   "text": "Beyoncé vinner fyra priser vid årets Grammy Awards. Med totalt 32 vinster har hon därmed rekordet för flest Grammypriser genom åren. Hon delar topplaceringen för flest antal nomineringar (88 stycken) med maken Jay-Z.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-06",
+   "text": "Två jordbävningar, med magnituderna 7,8 respektive 7,5 på momentmagnitudskalan och med epicentrum vid städerna Gaziantep och Kahramanmaraş, drabbar områden i södra Turkiet och norra Syrien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-06",
+   "text": "Google släpper AI-textroboten Bard, en huvudkonkurrent till den uppmärksammade ChatGPT.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-02-15",
+   "text": "Nicola Sturgeon meddelar att hon avgår som Skottlands försteminister och partiledare för Skotska nationalistpartiet efter nio år på posterna. Hon kvarstår dock i uppdragen tills hennes efterträdare utsetts.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

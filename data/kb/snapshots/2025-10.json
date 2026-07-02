@@ -1,0 +1,73 @@
+{
+ "month": "2025-10",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2025-10-31",
+   "vintage_date": "2025-10-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.9,
+   "unit": "%",
+   "period": "2025-09",
+   "vintage_date": "2025-10-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.8,
+   "unit": "%",
+   "period": "2025-08",
+   "vintage_date": "2025-09-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-10-13",
+   "text": "Sveriges riksbanks pris i ekonomisk vetenskap till Alfred Nobels minne tilldelas Philippe Aghion, Peter Howitt och Joel Mokyr.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-10-15",
+   "text": "Centerpartiets partiledare Anna-Karin Hatt meddelar att hon inte ställer upp för omval.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-10-21",
+   "text": "Sanae Takaichi tillträder som Japans premiärminister. Hon blir den första kvinnan i ämbetet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-10-26",
+   "text": "Östtimor ansluts till Sydostasiatiska nationers förbund (ASEAN) som dess elfte medlem.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-10-29",
+   "text": "Socialliberala D66 blir största parti vid parlamentsvalet i Nederländerna.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

@@ -1,0 +1,68 @@
+{
+ "month": "2024-12",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.75,
+   "unit": "%",
+   "period": "2024-12-30",
+   "vintage_date": "2024-12-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 1.6,
+   "unit": "%",
+   "period": "2024-11",
+   "vintage_date": "2024-12-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.2,
+   "unit": "%",
+   "period": "2024-10",
+   "vintage_date": "2024-11-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-12-01",
+   "text": "En första presidentvalsomgång hålls i Rumänien, där ytterhögerns kandidat Calin Georgescu oväntat får störst andel röster. Resultatet upphävs dock av landets högsta domstol den 6 december efter misstankar om oegentligheter, och hela valprocessen måste göras om.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-12-03",
+   "text": "Sydkoreas president Yoon Suk-yeol inför undantagstillstånd och krigslagar i landet, med motivet att skydda landet från ”kommunistiska krafter” inom den politiska oppositionen. Efter stora protester och en majoritetsomröstning i parlamentet upphävs dock undantagstillståndet efter några timmar.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-12-04",
+   "text": "Frankrikes regering faller efter en misstroendeomröstning i nationalförsamlingen mot premiärminister Michel Barnier.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-12-08",
+   "text": "Syriens president Bashar al-Assad avsätts och går i exil i Moskva efter att den jihadistiska milisgruppen Hayat Tahrir al-Sham genomfört en hastig offensiv i landet och intagit huvudstaden Damaskus.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

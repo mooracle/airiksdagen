@@ -1,0 +1,121 @@
+---
+/**
+ * 349-seat chamber, rendered at build time as static SVG (zero client JS).
+ * Each seat = one MP colored by their actual vote; party wedges are contiguous
+ * (seats arrive pre-sorted in party-block order from export-site). Below each
+ * party's wedge a badge shows the AI decision with a match/mismatch marker.
+ */
+import { hemicycleLayout, VOTE_COLORS } from '../lib/hemicycle';
+import type { AiDecision, ActualPosition, PartyInfo } from '../lib/data';
+
+interface Props {
+  seats: [string, string, string, string][]; // [parti, rost, namn, valkrets]
+  parties: Record<string, PartyInfo>;
+  ai: Record<string, AiDecision>;
+  actual: Record<string, ActualPosition>;
+  voteLabels: Record<string, string>;
+}
+
+const { seats, parties, ai, actual, voteLabels } = Astro.props;
+const layout = hemicycleLayout(seats.length);
+
+// party label arcs: min/max seat index per party (seats are party-contiguous)
+const partyRanges: Record<string, { from: number; to: number }> = {};
+seats.forEach(([p], i) => {
+  partyRanges[p] ??= { from: i, to: i };
+  partyRanges[p].to = i;
+});
+const partyOrder = Object.entries(partyRanges).sort((a, b) => a[1].from - b[1].from);
+
+function labelPos(range: { from: number; to: number }) {
+  const mid = layout[Math.floor((range.from + range.to) / 2)];
+  const cx = 340, cy = 340;
+  const dx = mid.x - cx, dy = mid.y - cy;
+  const len = Math.hypot(dx, dy) || 1;
+  const r = 345;
+  return { x: cx + (dx / len) * r, y: cy + (dy / len) * r };
+}
+---
+
+<figure class="hemicycle">
+  <svg viewBox="-18 -18 716 400" role="img" aria-label={`${seats.length} seats`}>
+    {layout.map((seat, i) => {
+      const [parti, rost, namn, valkrets] = seats[i] ?? ['?', 'Frånvarande', '', ''];
+      return (
+        <circle cx={seat.x} cy={seat.y} r={seat.r} fill={VOTE_COLORS[rost] ?? '#999'}>
+          <title>{`${namn} (${parti}), ${valkrets}: ${voteLabels[rost] ?? rost}`}</title>
+        </circle>
+      );
+    })}
+    {partyOrder.map(([code, range]) => {
+      const pos = labelPos(range);
+      return (
+        <text
+          x={pos.x}
+          y={pos.y}
+          text-anchor="middle"
+          font-size="13"
+          font-weight="700"
+          fill={parties[code]?.color ?? '#444'}
+        >
+          {code}
+        </text>
+      );
+    })}
+  </svg>
+
+  <div class="ai-row">
+    {partyOrder.map(([code]) => {
+      const decision = ai[code];
+      const act = actual[code]?.position;
+      const comparable = act && act !== 'Frånvarande';
+      const isMatch = decision && comparable && decision.rost === act;
+      return (
+        <div class="ai-badge" style={`border-top: 3px solid ${parties[code]?.color ?? '#999'}`}>
+          <span class="code">{code}</span>
+          {decision ? (
+            <>
+              <span class="votechip" data-v={decision.rost}>{voteLabels[decision.rost] ?? decision.rost}</span>
+              {comparable && (
+                <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? '✓' : '✕'}</span>
+              )}
+            </>
+          ) : (
+            <span class="muted">–</span>
+          )}
+        </div>
+      );
+    })}
+  </div>
+
+  <figcaption class="muted">
+    {Object.entries(VOTE_COLORS).map(([v, c]) => (
+      <span class="legend"><span class="swatch" style={`background:${c}`} />{voteLabels[v] ?? v}</span>
+    ))}
+  </figcaption>
+</figure>
+
+<style>
+  .hemicycle svg { width: 100%; height: auto; display: block; }
+  .ai-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .ai-badge {
+    background: #fff; border: 1px solid var(--line); border-radius: 6px;
+    padding: 0.3rem 0.4rem; text-align: center; font-size: 0.85rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+  }
+  .ai-badge .code { font-weight: 700; }
+  figcaption { font-size: 0.8rem; margin-top: 0.6rem; text-align: center; }
+  .legend { margin: 0 0.5rem; white-space: nowrap; }
+  .swatch {
+    display: inline-block; width: 0.75em; height: 0.75em;
+    border-radius: 50%; margin-right: 0.3em;
+  }
+  @media (max-width: 640px) {
+    .ai-row { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

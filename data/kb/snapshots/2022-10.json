@@ -1,0 +1,84 @@
+{
+ "month": "2022-10",
+ "government": {
+  "statsminister": "Magdalena Andersson",
+  "parti": "S",
+  "koalition": [
+   "S"
+  ],
+  "stodpartier": [],
+  "beskrivning": "Socialdemokratisk enpartiregering (expeditionsministär efter valet 2022-09-11).",
+  "sedan": "2021-11-30"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2022-10-31",
+   "vintage_date": "2022-10-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 10.8,
+   "unit": "%",
+   "period": "2022-09",
+   "vintage_date": "2022-10-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 6.9,
+   "unit": "%",
+   "period": "2022-08",
+   "vintage_date": "2022-09-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2022-10-04",
+   "text": "Alain Aspect, John Clauser och Anton Zeilinger tilldelas Nobelpriset i fysik.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-05",
+   "text": "Carolyn Bertozzi, Morten Meldal och Karl Barry Sharpless tilldelas Nobelpriset i kemi.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-06",
+   "text": "Annie Ernaux tilldelas Nobelpriset i litteratur.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-07",
+   "text": "Ales Bjaljatski samt organisationerna Memorial och Center for Civil Liberties tilldelas Nobels fredspris.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-08",
+   "text": "Delar av den 19 kilometer långa Krimbron, som binder samman Krimhalvön med det ryska fastlandet, faller samman efter en explosion.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-10",
+   "text": "Ben Bernanke, Douglas Diamond och Philip H. Dybvig tilldelas Ekonomipriset till Alfred Nobels minne.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-10",
+   "text": "Erik Eckerdal väljs till ny biskop i Visby stift.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-10-10",
+   "text": "Det litauiska e-handelsföretaget Vinted kommer till Sverige.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  }
+ ]
+}

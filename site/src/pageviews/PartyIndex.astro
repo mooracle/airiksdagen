@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getAggregate } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const summary = getAggregate<{ per_party: Record<string, { agreement: number; n: number }> }>('summary');
+const order = meta.hemicycle_order;
+---
+
+<Base lang={lang} title={t('party.title')} path="/parti/">
+  <h1>{t('party.title')}</h1>
+  <div class="grid">
+    {order.map((code) => {
+      const p = meta.parties[code];
+      const s = summary?.per_party?.[code];
+      return (
+        <a class="card" href={localePath(lang, `/parti/${code.toLowerCase()}/`)} style="text-decoration:none;color:inherit">
+          <strong><span class="partydot" style={`background:${p.color}`} />{p.name}</strong>
+          {s && (
+            <p class="muted" style="margin:0.4rem 0 0">
+              {(s.agreement * 100).toFixed(1)}% · n = {s.n}
+            </p>
+          )}
+        </a>
+      );
+    })}
+  </div>
+</Base>

@@ -1,0 +1,78 @@
+{
+ "month": "2024-03",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2024-03-28",
+   "vintage_date": "2024-03-28",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 4.5,
+   "unit": "%",
+   "period": "2024-02",
+   "vintage_date": "2024-03-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.0,
+   "unit": "%",
+   "period": "2024-01",
+   "vintage_date": "2024-02-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-03-07",
+   "text": "Sverige blir medlem i Nato.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-03-10",
+   "text": "Nyval hålls i Portugal sedan premiärminister António Costa meddelat sin avgång, där mittenhögeralliansen Demokratisk allians under partiledaren Luís Montenegro får flest mandat.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-03-17",
+   "text": "Presidentval hålls i Ryssland, där den sittande presidenten Vladimir Putin blir omvald för en femte mandatperiod med 88 % av rösterna. Valet beskrivs av observatörer som riggat.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-03-22",
+   "text": "Minst 133 personer dödas och 152 skadas i ett attentat mot en konsertlokal utanför Rysslands huvudstad Moskva.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-03-25",
+   "text": "FN:s säkerhetsråd godkänner en resolution som manar till omedelbar vapenvila i Gaza efter att USA, som tidigare lagt in sitt veto mot liknande resolutioner, lägger ner sin röst.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-03-31",
+   "text": "Gränskontrollerna vid de inre luft- och sjögränserna mellan Bulgarien, Rumänien och Schengenområdet upphävs.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

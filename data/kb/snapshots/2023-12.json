@@ -1,0 +1,88 @@
+{
+ "month": "2023-12",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2023-12-29",
+   "vintage_date": "2023-12-29",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 5.8,
+   "unit": "%",
+   "period": "2023-11",
+   "vintage_date": "2023-12-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.9,
+   "unit": "%",
+   "period": "2023-10",
+   "vintage_date": "2023-11-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-12-11",
+   "text": "Fem personer omkommer på en byggarbetsplats i stadsdelen Ursvik i Sundbyberg efter att en bygghiss rasat 20 meter.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-12",
+   "text": "FN:s klimatkonfererens 2023 COP28 äger rum i Dubai, där konsensus nås om en omställning bort från fossila bränslen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-14",
+   "text": "Europeiska rådet beslutar att inleda medlemskapsförhandlingar med Ukraina och Moldavien, och att ge Georgien status som kandidatland.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-17",
+   "text": "Parlamentsval hålls i Serbien, där sittande presidenten Aleksandar Vučićs Serbiens progressiva parti erhåller en majoritet av rösterna.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-20",
+   "text": "Kriget mellan Hamas och Israel 2023: Dödssiffran på Gazaremsan rapporteras ha passerat 20 000, nära 1 % av hela Gazaremsans befolkning.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-21",
+   "text": "16 personer, inklusive gärningsmannen, omkommer och omkring 30 personer skadas vid en masskjutning på Karlsuniversitetet i Prag.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-23",
+   "text": "Hennes Majestät Drottning Silvia fyller 80 år.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-12-31",
+   "text": "Drottning Margrethe II av Danmark meddelar i sitt nyårstal sin abdikation den 14 januari 2024, 52 år efter sitt tillträde.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

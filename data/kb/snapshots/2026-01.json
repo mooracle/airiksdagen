@@ -1,0 +1,88 @@
+{
+ "month": "2026-01",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2026-01-30",
+   "vintage_date": "2026-01-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.3,
+   "unit": "%",
+   "period": "2025-12",
+   "vintage_date": "2026-01-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 9.0,
+   "unit": "%",
+   "period": "2025-11",
+   "vintage_date": "2025-12-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-01-01",
+   "text": "Bulgarien inför euro som sin valuta.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-01",
+   "text": "Cypern övertar ordförandeskapet i Europeiska unionens råd.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-01",
+   "text": "En brand bryter ut på en bar under nyårsfirandet i skidorten Crans-Montana i Schweiz, där minst 40 personer omkommer.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-03",
+   "text": "USA genomför flyganfall mot flera platser i Venezuela och tillfångatar landets president Nicolás Maduro.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-06",
+   "text": "Jubelåret (heligt år) inom den Romersk-katolska kyrkan avslutades av påve Leo XIV.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-06",
+   "text": "Sveriges herrjuniorlandslag i ishockey vinner världsmästerskapet efter finalseger mot Tjeckien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-08",
+   "text": "En frigivning av politiska fångar i Venezuela inleds.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-01-16",
+   "text": "Långfilmen Eagles of the Republic utses till bästa film vid Guldbaggegalan 2026.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  }
+ ]
+}

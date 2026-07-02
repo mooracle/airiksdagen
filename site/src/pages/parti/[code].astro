@@ -1,0 +1,15 @@
+---
+import PartyPage from '../../pageviews/PartyPage.astro';
+import { getMeta } from '../../lib/data';
+
+export async function getStaticPaths() {
+  return Object.keys(getMeta().parties).map((code) => ({
+    params: { code: code.toLowerCase() },
+    props: { partyCode: code },
+  }));
+}
+
+const { partyCode } = Astro.props;
+---
+
+<PartyPage lang="sv" code={partyCode} />

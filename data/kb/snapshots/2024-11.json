@@ -1,0 +1,78 @@
+{
+ "month": "2024-11",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.75,
+   "unit": "%",
+   "period": "2024-11-29",
+   "vintage_date": "2024-11-29",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 1.6,
+   "unit": "%",
+   "period": "2024-10",
+   "vintage_date": "2024-11-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.6,
+   "unit": "%",
+   "period": "2024-09",
+   "vintage_date": "2024-10-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-11-01",
+   "text": "Taket vid järnvägsstationen i Novi Sad i Serbien kollapsar och dödar 14 personer.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-11-05",
+   "text": "Presidentval hålls i USA, där landets före detta president, Republikanernas Donald Trump, besegrar den sittande vicepresidenten Kamala Harris från Demokraterna.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-11-06",
+   "text": "Tysklands regering kollapsar efter att förbundskansler Olaf Scholz från socialdemokratiska SPD avskedar finansminister Christian Lindner från liberala FDP, vilket får det senare partiets övriga ministrar att lämna regeringen. Nyval väntas hållas under våren 2025.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-11-11",
+   "text": "22 november: FN:s klimatkonferens 2024 COP29 hålls i Azerbajdzjans huvudstad Baku, och resulterar i ett avtal om att rika länder ska betala 300 miljarder amerikanska dollar årligen för att finansiera fattiga länders klimatomställning. De fattiga länderna, som krävt betydligt större finansiering, kritiserar beslutet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-11-21",
+   "text": "Internationella brottmålsdomstolen utfärdar arresteringsordrar mot Israels premiärminister Benjamin Netanyahu och förre försvarsminister Yoav Gallant, för misstänkta krigsbrott och brott mot mänskligheten begångna under det pågående kriget mellan Hamas och Israel. En arresteringsorder utfärdas även mot Mohammed Deif, ledare för Hamas väpnade gren, som av Israel uppges ha dödats i juli.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-11-26",
+   "text": "En vapenvila sluts mellan Israel och Hizbollah i Libanon.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

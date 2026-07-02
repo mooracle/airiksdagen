@@ -1,0 +1,83 @@
+{
+ "month": "2022-11",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2022-11-30",
+   "vintage_date": "2022-11-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 10.9,
+   "unit": "%",
+   "period": "2022-10",
+   "vintage_date": "2022-11-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.0,
+   "unit": "%",
+   "period": "2022-09",
+   "vintage_date": "2022-10-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2022-11-01",
+   "text": "Folketingsval hålls i Danmark, där Socialdemokratiet blir största parti och det röda blocket får egen majoritet. Trots detta lämnar den socialdemokratiska statsministern Mette Frederiksen dagen efter in regeringen Frederiksens avgångsansökan, för att istället förhandla om en bred mittenregering med övriga partier.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-03",
+   "text": "Den kinesiska rymdstationen Tiangong färdigställs i och med att den tredje och sista modulen, Mengtian, kommer på plats.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-06",
+   "text": "18 november – Förenta nationernas klimatkonferens 2022 (COP27) hålls i Sharm el-Sheikh, Egypten.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-08",
+   "text": "Mellanårsval genomförs till USA:s kongress, parallellt med val till delstaternas lagstiftande församlingar samt till ett flertal guvernörsposter. Det republikanska partiet får en knapp majoritet i representanthuset, medan det demokratiska partiet behåller kontrollen över senaten.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-11",
+   "text": "Rysslands invasion av Ukraina 2022: Ukrainska styrkor återtar Cherson, den enda större stad som Ryssland lyckats ta kontroll över sedan invasionens början i februari.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-13",
+   "text": "Big Ben i London slår för första gången sedan den tystnade den 21 augusti 2017 med start kl 11:00. Renoveringen var länge beräknad att vara slutförd 2021 men det blev försenat till 2022 pga coronapandemin.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-11-20",
+   "text": "Världsmästerskapet i fotboll 2022 i Qatar inleds.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  }
+ ]
+}

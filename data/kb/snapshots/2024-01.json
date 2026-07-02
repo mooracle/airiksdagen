@@ -1,0 +1,88 @@
+{
+ "month": "2024-01",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2024-01-31",
+   "vintage_date": "2024-01-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 4.4,
+   "unit": "%",
+   "period": "2023-12",
+   "vintage_date": "2024-01-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.0,
+   "unit": "%",
+   "period": "2023-11",
+   "vintage_date": "2023-12-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-01-01",
+   "text": "Egypten, Etiopien, Förenade arabemiraten och Iran blir medlemmar i Brics.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-01",
+   "text": "Republiken Artsakh upplöses formellt efter Azerbajdzjans återerövring av regionen Nagorno-Karabach.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-01",
+   "text": "515 personer omkommer och 1 389 skadas då en jordbävning på 7,5 Mw inträffar på Notohalvön i Japan. Ytterligare fem personer omkommer dagen därpå och 15 skadas på Tokyo-Hanedas internationella flygplats i Tokyo då ett flygplan med biståndsmaterial från japanska kustbevakningen kolliderar med ett passagerarflygplan.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-01",
+   "text": "Etiopien tillkännager ett avtal med Somaliland om att använda hamnen i Berbera. Etiopien säger också att de så småningom kommer att erkänna Somalilands självständighet och blir därmed det första landet att göra det.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-03",
+   "text": "Runt 1 000 bilar fastnar i ett snöoväder på E22 mellan Hörby och Kristianstad.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-03",
+   "text": "95 personer dödas då två bomber detonerar vid en minnesceremoni vid den iranske generalen Qasem Soleimanis grav i Kerman, Iran. Terrorgruppen Islamiska staten tar på sig dådet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-05",
+   "text": "Den lägsta lufttemperaturen i Sverige detta sekel uppmäts i Vittangi i Lapplandsfjällen med -44,6 °C.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-01-11",
+   "text": "Den USA-ledda koalitionen Operation Prosperity Guardian angriper mål i Jemen med kryssningsrobotar och stridsflyg, som ett svar på den jemenitiska huthirörelsens attacker mot lastfartyg i Suezkanalen och Röda havet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

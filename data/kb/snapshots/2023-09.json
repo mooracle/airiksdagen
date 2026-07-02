@@ -1,0 +1,88 @@
+{
+ "month": "2023-09",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2023-09-29",
+   "vintage_date": "2023-09-29",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 7.5,
+   "unit": "%",
+   "period": "2023-08",
+   "vintage_date": "2023-09-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.1,
+   "unit": "%",
+   "period": "2023-07",
+   "vintage_date": "2023-08-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-09-01",
+   "text": "Antti Lindtman efterträder Sanna Marin som partiledare för finländska Socialdemokraterna.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-08",
+   "text": "Fler än 2 600 människor omkommer, omkring 2 500 skadas och flera historiska byggnader förstörs då en jordbävning med magnituden 6,8 på Richterskalan inträffar mellan städerna Marrakech och Agadir i Marocko.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-10",
+   "text": "Fler än 11 300 människor omkommer och över 10 000 saknas i omfattande översvämningar i nordöstra Libyen, efter att två dammar brister vid staden Darnah i samband med kraftiga skyfall.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-11",
+   "text": "Lokalval genomförs i Norge, där högerpartierna Høyre och Fremskrittspartiet går framåt.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-15",
+   "text": "Kung Carl XVI Gustaf har sitt 50-årsjubileum som Sveriges regent.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-19",
+   "text": "Azerbajdzjan inleder en militär offensiv mot utbrytarrepubliken Nagorno-Karabach, vilket driver stora delar av den armeniska befolkningen på flykt.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-23",
+   "text": "Ett kraftigt jordskred inträffar i Stenungsund och motorvägen E6 blir förstörd i båda riktningar.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-09-29",
+   "text": "Minst 54 personer omkommer och minst 50 skadas vid en självmordsbombning mot en moské i Mastung i Pakistan.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

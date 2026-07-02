@@ -1,0 +1,68 @@
+{
+ "month": "2023-11",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2023-11-30",
+   "vintage_date": "2023-11-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 6.5,
+   "unit": "%",
+   "period": "2023-10",
+   "vintage_date": "2023-11-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.1,
+   "unit": "%",
+   "period": "2023-09",
+   "vintage_date": "2023-10-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-11-07",
+   "text": "Portugals premiärminister António Costa avgår efter en misstänkt korruptionsskandal.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-11-14",
+   "text": "Henrik Lundqvist blir som åttonde svensk invald i NHL:s Hockey Hall of Fame.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-11-22",
+   "text": "Parlamentsval hålls i Nederländerna, där det högerpopulistiska Frihetspartiet under ledning av Geert Wilders blir överlägset störst.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-11-24",
+   "text": "Kriget mellan Hamas och Israel 2023: Hamas och Israel når en överenskommelse om vapenvila i det pågående kriget, under vilken flera israeler som hållits som gisslan av Hamas utväxlas mot fängslade palestinier i Israel. Vapenvilan varar till den 1 december, då striderna återupptas.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

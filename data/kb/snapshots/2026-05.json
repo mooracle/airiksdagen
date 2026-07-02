@@ -1,0 +1,63 @@
+{
+ "month": "2026-05",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2026-05-29",
+   "vintage_date": "2026-05-29",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": -0.1,
+   "unit": "%",
+   "period": "2026-04",
+   "vintage_date": "2026-05-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 9.3,
+   "unit": "%",
+   "period": "2026-03",
+   "vintage_date": "2026-04-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-05-07",
+   "text": "Plaid Cymru blir för första gången största parti i valet till Wales parlament.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-05-09",
+   "text": "Péter Magyar tillträder som premiärminister i Ungern.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-05-16",
+   "text": "Finalen i Eurovision Song Contest 2026 äger rum i Wien i Österrike. Vinnare blir Bulgarien med bidraget ”Bangaranga”, framfört av Dara.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  }
+ ]
+}

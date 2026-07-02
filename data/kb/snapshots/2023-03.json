@@ -1,0 +1,83 @@
+{
+ "month": "2023-03",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3,
+   "unit": "%",
+   "period": "2023-03-31",
+   "vintage_date": "2023-03-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 12.0,
+   "unit": "%",
+   "period": "2023-02",
+   "vintage_date": "2023-03-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.1,
+   "unit": "%",
+   "period": "2023-01",
+   "vintage_date": "2023-02-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-03-10",
+   "text": "Den krisdrabbade amerikanska affärsbanken Silicon Valley Bank stängs av amerikanska myndigheter, vilket skapar oro på den globala finansmarknaden. Banken är den största i USA att kollapsa sedan finanskrisen 2007–08.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-10",
+   "text": "Kinas sittande president Xi Jinping väljs till en tredje mandatperiod av Nationella folkkongressen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-11",
+   "text": "Låten \"Tattoo\", framförd av Loreen, vinner Melodifestivalen 2023 med 177 poäng.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-12",
+   "text": "Den amerikanska dramakomedin Everything Everywhere All at Once tilldelas sju priser, inklusive Bästa film, vid Oscarsgalan 2023.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-17",
+   "text": "Internationella brottmålsdomstolen i Haag utfärdar en arresteringsorder mot Rysslands president Vladimir Putin, som anklagas för krigsbrott begångna under Rysslands pågående invasion av Ukraina.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-20",
+   "text": "FN:s klimatpanel IPCC publicerar sin sjätte utvärderingsrapport, som konstaterar att mänsklig påverkan genom framför allt utsläpp av växthusgaser har värmt upp klimatsystemet med 1,1°C under 2011–2020 jämfört med referensperioden 1850–1900.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-03-22",
+   "text": "Sveriges riksdag godkänner Sveriges anslutning till Nato och beslutar om lagändringar i lagen om operativt militärt stöd samt vad gäller Natos status och representation, med röstsiffrorna 269 för (C, KD, L, M, S, SD) och 37 emot (MP, V).",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

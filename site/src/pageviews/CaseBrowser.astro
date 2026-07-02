@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
+const indexUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/data/cases-index.json`;
+const caseBase = localePath(lang, casesPath);
+---
+
+<Base lang={lang} title={t('browser.title')} path={casesPath}>
+  <h1>{t('browser.title')} <span class="muted">({meta.n_cases})</span></h1>
+  <div class="controls">
+    <input id="q" type="search" placeholder={t('browser.search')} autocomplete="off" />
+    <select id="rm">
+      <option value="">{t('browser.filter.all')} riksmöten</option>
+      <option>2022/23</option><option>2023/24</option><option>2024/25</option><option>2025/26</option>
+    </select>
+    <select id="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
+    <label><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
+  </div>
+  <p class="muted" id="count"></p>
+  <table class="compare" id="results">
+    <tbody></tbody>
+  </table>
+  <p><button id="more" hidden>+ 100</button></p>
+
+  <script is:inline define:vars={{ indexUrl, caseBase }}>
+    let rows = [];
+    let filtered = [];
+    let shown = 0;
+    const PAGE = 100;
+    const q = document.getElementById('q');
+    const rm = document.getElementById('rm');
+    const utskott = document.getElementById('utskott');
+    const disagree = document.getElementById('disagree');
+    const tbody = document.querySelector('#results tbody');
+    const count = document.getElementById('count');
+    const more = document.getElementById('more');
+
+    const norm = (s) => s.toLowerCase();
+
+    function apply() {
+      const term = norm(q.value.trim());
+      filtered = rows.filter((r) => {
+        if (rm.value && r.rm !== rm.value) return false;
+        if (utskott.value && r.utskott !== utskott.value) return false;
+        if (disagree.checked && !(r.hasAi && r.agree < r.compared)) return false;
+        if (term && !norm(r.rubrik + ' ' + r.titel + ' ' + r.bet).includes(term)) return false;
+        return true;
+      });
+      filtered.sort((a, b) => b.datum.localeCompare(a.datum));
+      shown = 0;
+      tbody.innerHTML = '';
+      count.textContent = `${filtered.length}`;
+      renderMore();
+    }
+
+    function renderMore() {
+      const slice = filtered.slice(shown, shown + PAGE);
+      shown += slice.length;
+      const frag = document.createDocumentFragment();
+      for (const r of slice) {
+        const tr = document.createElement('tr');
+        const ai = r.hasAi ? `${r.agree}/${r.compared} ✓` : '';
+        tr.innerHTML =
+          `<td class="muted" style="white-space:nowrap">${r.datum}</td>` +
+          `<td><a href="${caseBase}${r.id}/"></a></td>` +
+          `<td class="muted">${r.bet} p.${r.punkt}</td>` +
+          `<td>${ai}</td>`;
+        tr.querySelector('a').textContent = r.rubrik || r.titel;
+        frag.appendChild(tr);
+      }
+      tbody.appendChild(frag);
+      more.hidden = shown >= filtered.length;
+    }
+
+    fetch(indexUrl)
+      .then((r) => r.json())
+      .then((data) => {
+        rows = data;
+        const organs = [...new Set(rows.map((r) => r.utskott))].sort();
+        for (const o of organs) {
+          const opt = document.createElement('option');
+          opt.textContent = o;
+          utskott.appendChild(opt);
+        }
+        apply();
+      });
+
+    for (const el of [q, rm, utskott, disagree]) el.addEventListener('input', apply);
+    more.addEventListener('click', renderMore);
+  </script>
+
+  <style>
+    .controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .controls input[type='search'] { flex: 1; min-width: 200px; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 6px; }
+    .controls select { padding: 0.4rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+    #more { padding: 0.4rem 1rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer; }
+  </style>
+</Base>

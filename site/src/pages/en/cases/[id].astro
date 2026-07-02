@@ -1,0 +1,13 @@
+---
+import CasePage from '../../../pageviews/CasePage.astro';
+import { listCaseIds, getCase } from '../../../lib/data';
+
+export async function getStaticPaths() {
+  return listCaseIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const caseData = getCase(id!);
+---
+
+<CasePage lang="en" caseData={caseData} />

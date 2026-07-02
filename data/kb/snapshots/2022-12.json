@@ -1,0 +1,78 @@
+{
+ "month": "2022-12",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2022-12-30",
+   "vintage_date": "2022-12-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 11.5,
+   "unit": "%",
+   "period": "2022-11",
+   "vintage_date": "2022-12-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.7,
+   "unit": "%",
+   "period": "2022-10",
+   "vintage_date": "2022-11-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2022-12-04",
+   "text": "Martin Modéus tas emot som Svenska kyrkans ärkebiskop vid en högmässa i Uppsala domkyrka.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-12-07",
+   "text": "En politisk kris i Peru leder till att president Pedro Castillo avsätts från sin post och grips sedan han försökt upplösa landets kongress.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-12-13",
+   "text": "Amerikanska forskare lyckas för första gången uppnå en nettoenergivinst vid en fusionsreaktion.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-12-14",
+   "text": "Fem schimpanser rymmer från sitt hägn i Furuviksparken, varav fyra senare skjuts ihjäl och en skottskadas.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-12-18",
+   "text": "Argentinas herrlandslag i fotboll vinner Världsmästerskapet i fotboll 2022 i Qatar.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  },
+  {
+   "date": "2022-12-31",
+   "text": "Påve emeritus Benedictus XVI avlider, 95 år gammal.",
+   "source_url": "https://sv.wikipedia.org/wiki/2022"
+  }
+ ]
+}

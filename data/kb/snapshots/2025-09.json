@@ -1,0 +1,58 @@
+{
+ "month": "2025-09",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2,
+   "unit": "%",
+   "period": "2025-09-30",
+   "vintage_date": "2025-09-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 1.0,
+   "unit": "%",
+   "period": "2025-08",
+   "vintage_date": "2025-09-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.9,
+   "unit": "%",
+   "period": "2025-07",
+   "vintage_date": "2025-08-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-09-08",
+   "text": "Norge går till stortingsval. Arbeiderpartiregeringen under statsminister Jonas Gahr Støre blir omvald.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-09-21",
+   "text": "Svenska kyrkan går till kyrkoval.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

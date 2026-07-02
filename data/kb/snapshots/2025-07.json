@@ -1,0 +1,68 @@
+{
+ "month": "2025-07",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2,
+   "unit": "%",
+   "period": "2025-07-31",
+   "vintage_date": "2025-07-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.7,
+   "unit": "%",
+   "period": "2025-06",
+   "vintage_date": "2025-07-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 9.1,
+   "unit": "%",
+   "period": "2025-05",
+   "vintage_date": "2025-06-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-07-02",
+   "text": "27 juli – Europamästerskapet i fotboll för damer 2025 genomförs i Schweiz. England försvarar sitt guld från EM 2022.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-07-04",
+   "text": "Den svenske gängledaren Ismail Abdo grips i Turkiet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-07-17",
+   "text": "Björn Skifs meddelar att han avslutar sin artistkarriär på grund av demensdiagnos.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-07-27",
+   "text": "Vid mountainbike-EM i Portugal vinner den svenska cyklisten Jenny Rissveds guld i cross country-klassen, efter att hon några dagar tidigare även vunnit guld i short track.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

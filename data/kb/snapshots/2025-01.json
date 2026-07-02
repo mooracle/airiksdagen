@@ -1,0 +1,73 @@
+{
+ "month": "2025-01",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2025-01-31",
+   "vintage_date": "2025-01-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.8,
+   "unit": "%",
+   "period": "2024-12",
+   "vintage_date": "2025-01-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.3,
+   "unit": "%",
+   "period": "2024-11",
+   "vintage_date": "2024-12-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-01-01",
+   "text": "Polen övertar ordförandeskapet i Europeiska unionens råd efter Ungern.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-01-16",
+   "text": "Ny forskning presenteras i tidskriften Antiquity. Ett gigantiskt vulkanutbrott förmörkade himlen för 4 900 år sedan och då planterade bönderna i Bornholm solstenar för att solen skulle \"komma tillbaka\".",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-01-19",
+   "text": "Den kinesiska sociala medier-plattformen Tiktok stängs ner i USA. Bara ett par timmar senare, meddelar tillträdande presidenten Donald Trump att de håller på att ta tillbaka plattformen igen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-01-20",
+   "text": "Donald Trump svärs in som USA:s 47:e president. Han blev därmed den andre presidenten i USA:s historia att sväras in till två icke sammanhängande mandatperioder. Trump efterträder Joe Biden som lämnar efter fyra år som USA:s president.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-01-26",
+   "text": "En undervattenskabel mellan Gotland och Lettland har skadats under omständigheter som pekar mot sabotage, vilket lett till att Sverige beslagtagit ett misstänkt Maltaregistrerat fartyg utanför Karlskrona.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

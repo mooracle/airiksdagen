@@ -1,0 +1,83 @@
+{
+ "month": "2023-04",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3,
+   "unit": "%",
+   "period": "2023-04-28",
+   "vintage_date": "2023-04-28",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 10.6,
+   "unit": "%",
+   "period": "2023-03",
+   "vintage_date": "2023-04-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.7,
+   "unit": "%",
+   "period": "2023-02",
+   "vintage_date": "2023-03-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-04-02",
+   "text": "Riksdagsval hålls i Finland, där borgerliga Samlingspartiet, under ledning av Petteri Orpo, får flest mandat i Finlands riksdag.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-04",
+   "text": "Finland blir officiellt medlem i Nato.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-04",
+   "text": "USA:s tidigare president Donald Trump åtalas i New York, misstänkt för 34 fall av bokföringsbrott i syfte att mörklägga utbetalningar gjorda under presidentvalskampanjen 2016.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-14",
+   "text": "ESA:s rymdsond Jupiter Icy Moons Explorer skjuts iväg från Franska Guyana för att utforska Callisto, Europa och Ganymedes.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-14",
+   "text": "Sveriges ställföreträdande rikspolischef Mats Löfving begravs i Matteus kyrka i Norrköping.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-15",
+   "text": "En väpnad konflikt utbryter mellan rivaliserande fraktioner inom Sudans regering och leder till sammandrabbningar över hela landet, huvudsakligen i huvudstaden Khartoum och regionen Darfur.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-04-15",
+   "text": "Tyskland stänger sina tre sista kärnkraftverksreaktorer.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

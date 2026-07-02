@@ -1,0 +1,73 @@
+{
+ "month": "2026-04",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2026-04-30",
+   "vintage_date": "2026-04-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.5,
+   "unit": "%",
+   "period": "2026-03",
+   "vintage_date": "2026-04-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.4,
+   "unit": "%",
+   "period": "2026-02",
+   "vintage_date": "2026-03-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-04-01",
+   "text": "11 april – Artemis II skjuts upp av NASA med en besättning av fyra astronauter och genomför den första bemannade rymdfärden förbi månen sedan Apollo 17 1972.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-04-18",
+   "text": "Partiet Tisza, lett av Péter Magyar, vinner parlamentsvalet i Ungern.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-04-18",
+   "text": "Finlands längsta bro, den 1,2 kilometer långa Kronbergsbron, invigs för cyklister och fotgängare.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-04-19",
+   "text": "Det nybildade partiet Progressiva Bulgarien, lett av den tidigare presidenten Rumen Radev, vinner egen majoritet vid parlamentsvalet i Bulgarien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-04-30",
+   "text": "H.M. Kung Carl XVI Gustaf firar sin 80-årsdag.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  }
+ ]
+}

@@ -1,0 +1,53 @@
+{
+ "month": "2025-03",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.25,
+   "unit": "%",
+   "period": "2025-03-31",
+   "vintage_date": "2025-03-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 1.3,
+   "unit": "%",
+   "period": "2025-02",
+   "vintage_date": "2025-03-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 9.8,
+   "unit": "%",
+   "period": "2025-01",
+   "vintage_date": "2025-02-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-03-08",
+   "text": "Låten “Bara bada bastu”, framförd av humorgruppen Kaj, vinner Melodifestivalen 2025 och slår rekord som den mest strömmade svenska låten på Spotify under ett dygn.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

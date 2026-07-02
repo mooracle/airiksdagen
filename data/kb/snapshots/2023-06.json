@@ -1,0 +1,78 @@
+{
+ "month": "2023-06",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.5,
+   "unit": "%",
+   "period": "2023-06-30",
+   "vintage_date": "2023-06-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 9.7,
+   "unit": "%",
+   "period": "2023-05",
+   "vintage_date": "2023-06-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.2,
+   "unit": "%",
+   "period": "2023-04",
+   "vintage_date": "2023-05-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-06-02",
+   "text": "Fler än 280 personer omkommer och fler än 900 skadas i en tågolycka i delstaten Odisha i Indien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-06-02",
+   "text": "Samhällsbyggnadsbolaget i Norden AB meddelar att grundaren Ilija Batljan avgår som vd för bolaget och ersätts av Leiv Synnes den 5 juni.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-06-04",
+   "text": "Zlatan Ibrahimović meddelar att han avslutar sin karriär som fotbollsspelare.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-06-14",
+   "text": "Fler än 80 personer omkommer och omkring 500 saknas efter att en fiskebåt med hundratals migranter kapsejsar utanför Greklands kust i Medelhavet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-06-23",
+   "text": "Den ryska paramilitära organisationen Wagnergruppen, under ledning av Jevgenij Prigozjin, inleder ett väpnat uppror mot Rysslands militär, med anledning av militärledningens hantering av Rysslands pågående invasion av Ukraina. Wagnergruppens styrkor avancerar mot huvudstaden Moskva och lyckas bland annat inta Rostov-na-Donu, men meddelar efter förhandlingar med Belarus president Aleksandr Lukasjenko den 24 juni att man avbryter upproret ”för att undvika blodspillan”.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-06-25",
+   "text": "En person omkommer och nio skadas i en olycka med berg- och dalbanan Jetline på nöjesparken Gröna Lund i Stockholm.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

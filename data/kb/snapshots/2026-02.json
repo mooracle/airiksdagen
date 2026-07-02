@@ -1,0 +1,68 @@
+{
+ "month": "2026-02",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2026-02-27",
+   "vintage_date": "2026-02-27",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.5,
+   "unit": "%",
+   "period": "2026-01",
+   "vintage_date": "2026-02-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.8,
+   "unit": "%",
+   "period": "2025-12",
+   "vintage_date": "2026-01-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-02-06",
+   "text": "22 februari – De 25:e olympiska vinterspelen) äger rum i Milano och Cortina d'Ampezzo i Italien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-02-17",
+   "text": "Perus president José Jerí avsätts av kongressen och ersätts av José María Balcázar, vilket innebär landets åttonde presidentskifte sedan 2016.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-02-22",
+   "text": "Den mexikanske kartelledaren Nemesio Oseguera Cervantes dödas av landets militär, vilket orsakar militära oroligheter.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-02-28",
+   "text": "USA och Israel attackerar Iran, vilket bland annat leder till dödandet av Irans högste ledare Ali Khamenei.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  }
+ ]
+}

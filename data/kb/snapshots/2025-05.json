@@ -1,0 +1,73 @@
+{
+ "month": "2025-05",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.25,
+   "unit": "%",
+   "period": "2025-05-30",
+   "vintage_date": "2025-05-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.3,
+   "unit": "%",
+   "period": "2025-04",
+   "vintage_date": "2025-05-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.0,
+   "unit": "%",
+   "period": "2025-03",
+   "vintage_date": "2025-04-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2025-05-03",
+   "text": "Det regerande Laborpartiet, lett av premiärminister Anthony Albanese, vinner parlamentsvalet i Australien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-05-05",
+   "text": "Jan Björklund utnämns av kung Carl XVI Gustaf till Sveriges riksmarskalk från och med 1 januari 2026.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-05-08",
+   "text": "Kardinal Robert Prevost väljs till påve i Romersk-katolska kyrkan och tar sig namnet Leo XIV.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-05-18",
+   "text": "Det regerande mitten–höger-samarbetet Demokratiska alliansen, som leds av premiärminister Luís Montenegro, vinner parlamentsvalet i Portugal, dock utan att nå egen majoritet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  },
+  {
+   "date": "2025-05-18",
+   "text": "Borgmästaren i Bukarest Nicușor Dan vinner presidentvalet i Rumänien. Dan, som är partipolitiskt obunden, har en liberal och EU-vänlig profil.",
+   "source_url": "https://sv.wikipedia.org/wiki/2025"
+  }
+ ]
+}

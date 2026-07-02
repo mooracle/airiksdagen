@@ -1,0 +1,88 @@
+{
+ "month": "2024-06",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2024-06-28",
+   "vintage_date": "2024-06-28",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 3.7,
+   "unit": "%",
+   "period": "2024-05",
+   "vintage_date": "2024-06-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.6,
+   "unit": "%",
+   "period": "2024-04",
+   "vintage_date": "2024-05-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-06-01",
+   "text": "I parlamentsvalet i Indien, världshistoriens största val som pågått i sammanlagt 44 dagar, påbörjas rösträkningen. Det styrande partiet Bharatiya Janata Party förlorar sin egen majoritet i parlamentet, men partiets valallians National Democratic Alliance blir fortsatt störst, vilket leder den sittande premiärministern Narendra Modi till en tredje mandatperiod.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-02",
+   "text": "President- och kongressval hålls i Mexiko, där Claudia Sheinbaum väljs till landets första kvinnliga president.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-06",
+   "text": "9 juni – Val till Europaparlamentet äger rum.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-14",
+   "text": "14 juli – Europamästerskapet i fotboll spelas i Tyskland.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-15",
+   "text": "I en fångutväxling mellan Sverige och Iran släpps svensken Johan Floderus och svensk-iraniern Saeed Azizi, som suttit häktade i Iran, mot iraniern Hamid Noury, som dömts för folkrättsbrott och fängslats i Sverige.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-20",
+   "text": "Över 1000 personer omkommer till följd av extrem hetta och ytterligare flera tusen vårdas för värmeslag i samband med hajj, den årliga pilgrimsfärden till islams heliga stad Mecka i Saudiarabien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-23",
+   "text": "Minst 19 personer dödas i väpnade attacker mot två kyrkor och en synagoga i städerna Derbent och Machatjkala i den ryska delrepubliken Dagestan.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-06-24",
+   "text": "Wikileaks grundare Julian Assange släpps ur fängelse i Storbritannien och tillåts återvända till sitt hemland Australien som en fri man, efter en överenskommelse i en amerikansk domstol där Assange erkänner sig skyldig till att ha spridit hemligstämplad information.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

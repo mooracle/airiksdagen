@@ -1,0 +1,73 @@
+{
+ "month": "2024-05",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2024-05-31",
+   "vintage_date": "2024-05-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 3.9,
+   "unit": "%",
+   "period": "2024-04",
+   "vintage_date": "2024-05-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.7,
+   "unit": "%",
+   "period": "2024-03",
+   "vintage_date": "2024-04-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-05-11",
+   "text": "Finalen i Eurovision Song Contest 2024 äger rum i Malmö i Sverige. Vinnare blir Schweiz med bidraget ”The Code”, framfört av Nemo.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-05-19",
+   "text": "Åtta personer, däribland Irans president Ebrahim Raisi och utrikesminister Hossein Amir-Abdollahian, omkommer i en helikopterolycka i Shahrestān-e Varzaqān i provinsen Östazerbaijan i Iran.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-05-24",
+   "text": "Kriget mellan Hamas och Israel: Internationella domstolen i Haag beordrar Israel att stoppa sin militära offensiv i Rafah på Gazaremsan som en provisorisk åtgärd medan landet utreds för brott mot folkmordskonventionen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-05-29",
+   "text": "Allmänna val hålls i Sydafrika.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-05-31",
+   "text": "De första utdelningarna av de svenska riddarordnarna till svenska medborgare sedan år 1974 äger rum.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

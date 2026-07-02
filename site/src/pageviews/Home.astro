@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getIndex, getAggregate } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const index = getIndex();
+const summary = getAggregate<{
+  overall_agreement: number;
+  n_decisions: number;
+  per_party: Record<string, { n: number; agreement: number; kappa: number | null }>;
+}>('summary');
+
+const latest = [...index].sort((a, b) => b.datum.localeCompare(a.datum)).slice(0, 10);
+const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
+---
+
+<Base lang={lang} path="/">
+  <h1>{t('site.tagline')}</h1>
+  <p>{t('home.intro')}</p>
+  <div class="card">
+    <p style="margin:0"><strong>⚠︎</strong> {t('home.disclaimer')}</p>
+  </div>
+
+  <h2>{t('home.agreement')}</h2>
+  {summary ? (
+    <div class="card">
+      <p>
+        <strong style="font-size:1.6rem">{(summary.overall_agreement * 100).toFixed(1)}%</strong>
+        <span class="muted"> · n = {summary.n_decisions}</span>
+      </p>
+      {Object.entries(summary.per_party).map(([code, s]) => (
+        <div class="statbar">
+          <span style="width:2.5rem"><span class="partydot" style={`background:${meta.parties[code]?.color}`} />{code}</span>
+          <div class="bar"><div style={`width:${(s.agreement * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
+          <span style="width:4rem;text-align:right">{(s.agreement * 100).toFixed(1)}%</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p class="muted">{t('home.noai')}</p>
+  )}
+
+  <h2>{t('home.latest')}</h2>
+  <table class="compare">
+    <tbody>
+      {latest.map((row) => (
+        <tr>
+          <td class="muted" style="white-space:nowrap">{row.datum}</td>
+          <td><a href={localePath(lang, `${casesPath}${row.id}/`)}>{row.rubrik}</a></td>
+          <td class="muted">{row.bet}</td>
+          <td>{row.hasAi ? `${row.agree}/${row.compared} ✓` : ''}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p><a href={localePath(lang, casesPath)}>{t('browser.title')} ({meta.n_cases}) →</a></p>
+</Base>

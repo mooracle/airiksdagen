@@ -1,0 +1,73 @@
+{
+ "month": "2024-10",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.25,
+   "unit": "%",
+   "period": "2024-10-31",
+   "vintage_date": "2024-10-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 1.6,
+   "unit": "%",
+   "period": "2024-09",
+   "vintage_date": "2024-10-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.3,
+   "unit": "%",
+   "period": "2024-08",
+   "vintage_date": "2024-09-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2024-10-01",
+   "text": "Israel inleder en markinvasion av Libanon. En talesperson för Israels försvarsmakt benämner invasionen som en ”begränsad” insats mot styrkor från Hizbollah i den södra delen av landet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-10-01",
+   "text": "Iran avfyrar ett stort antal robotar mot militära mål i Israel, i vad man beskriver som en vedergällning för tidigare israeliska attacker mot ledare för Hamas och Hizbollah.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-10-26",
+   "text": "Parlamentsval hålls i Georgien, där det regerande partiet Georgisk dröm vinner med 54 procent av rösterna. Resultatet accepteras inte av den georgiska oppositionen, som tillsammans med USA och europeiska länder kräver en utredning av valet efter anklagelser om oegentligheter.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-10-29",
+   "text": "M/S Nova, världens första elektriska bärplansbåt i linjetrafik, börjar trafikera Storstockholms Lokaltrafiks Ekerölinjen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  },
+  {
+   "date": "2024-10-30",
+   "text": "Stora regnmängder leder till kraftiga översvämningar i södra och östra Spanien, där över 200 personer omkommer och flera saknas.",
+   "source_url": "https://sv.wikipedia.org/wiki/2024"
+  }
+ ]
+}

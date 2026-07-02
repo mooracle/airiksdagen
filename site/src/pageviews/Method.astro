@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const path = lang === 'sv' ? '/metod/' : '/methodology/';
+---
+
+<Base lang={lang} title={lang === 'sv' ? 'Metod' : 'Methodology'} path={path}>
+  {lang === 'sv' ? (
+    <article>
+      <h1>Metod</h1>
+      <p><strong>Rekonstruktion, inte prediktion.</strong> Projektet mäter hur väl en AI-agent kan
+      rekonstruera ett partis röstbeteende enbart utifrån partiets egna offentliga dokument.
+      Det mäter <em>inte</em> förmågan att förutsäga röster: modellens träningsdata innehåller
+      med stor sannolikhet de verkliga utfallen.</p>
+
+      <h2>Uppställning</h2>
+      <ul>
+        <li><strong>Enhet:</strong> en votering i sakfrågan (huvudvotering) i kammaren, 2022–2026.
+        Ärendedata från Riksdagens öppna data (dokumentstatus, voteringar).</li>
+        <li><strong>Agent:</strong> en AI-förfrågan per (votering × parti). Agenten får partiets
+        valmanifest 2022 (SND Vivill), för M/KD/L/SD även Tidöavtalet (fr.o.m. 2022-10-14),
+        samt en månadsvis lägesbild (styrränta, inflation, arbetslöshet, händelser) där varje
+        värde bär sitt publiceringsdatum — ingen information efter beslutsmånaden.</li>
+        <li><strong>Utfall:</strong> Ja/Nej/Avstår med motivering och ordagranna citat ur
+        dokumenten. Citat verifieras maskinellt mot källtexterna.</li>
+        <li><strong>Jämförelse:</strong> partiets verkliga position = majoriteten av partiets
+        avgivna röster i voteringen. Frånvarande partier utesluts ur jämförelsen.</li>
+      </ul>
+
+      <h2>Läckagekontroller</h2>
+      <ul>
+        <li>Inga ärendenummer, beteckningar, voterings-ID eller exakta datum i prompten
+        (tidpunkt anges som månad). Dokumentreferenser i förslagstexten maskeras.</li>
+        <li>Motförslag anonymiseras ("Alternativ A/B") — partitillhörighet för reservationer
+        är nära facit. En separat pilotarm med partietiketter mäter effekten av anonymiseringen.</li>
+        <li>Riksdagens beslutsnotis (som anger utfallet) används aldrig i prompten; endast
+        utskottets förhandssammanfattning.</li>
+      </ul>
+
+      <h2>Kontamineringsmätning</h2>
+      <p>För varje ärende ställs en separat <em>minnesprob</em>: modellen får ärendet
+      <em>med</em> identifierare men <em>utan</em> partidokument och tillfrågas hur partierna
+      faktiskt röstade. Hög träffsäkerhet där betyder att överensstämmelsen i huvudmätningen
+      delvis kan bero på memorering — sambandet redovisas öppet per parti och ärende.</p>
+
+      <h2>Kända begränsningar</h2>
+      <ul>
+        <li>Språkmodeller har dokumenterad politisk slagsida i forskningslitteraturen;
+        fel kan vara asymmetriska mellan partier. Vi publicerar per-parti-fel i stället för
+        att dölja dem.</li>
+        <li>Reservationstexternas fulltext ingår inte i v1 (endast utskottets förslagstext
+        och reservationsmetadata).</li>
+        <li>Wikipedia-händelser är skrivna i efterhand; de är daterade inom månaden men
+        formuleringarna kan innehålla efterhandsperspektiv.</li>
+        <li>Regeringspartier röstar nästan alltid ja till sina egna förslag — hög
+        överensstämmelse där är väntad och föga informativ; Cohens kappa redovisas därför
+        vid sidan av rå överensstämmelse.</li>
+      </ul>
+
+      <h2>Reproducerbarhet</h2>
+      <p>All kod, alla prompter, alla rådata-referenser och alla modellsvar är öppna.
+      Datakällor: Sveriges riksdag (öppna data), SND Vivill, Sveriges riksbank, SCB,
+      Wikipedia (CC BY-SA). Koden är MIT-licensierad. Projektet är inte anslutet till
+      något parti eller riksdagen.</p>
+    </article>
+  ) : (
+    <article>
+      <h1>Methodology</h1>
+      <p><strong>Reconstruction, not prediction.</strong> The project measures how well an AI
+      agent can reconstruct a party's voting behaviour from the party's own public documents
+      alone. It does <em>not</em> measure forecasting ability: the model's training data most
+      likely contains the real outcomes.</p>
+
+      <h2>Setup</h2>
+      <ul>
+        <li><strong>Unit:</strong> one main chamber vote on the substantive question
+        (sakfrågan), 2022–2026. Case data from the Riksdag's open data.</li>
+        <li><strong>Agent:</strong> one AI request per (vote × party). The agent receives the
+        party's 2022 election manifesto (SND Vivill), for M/KD/L/SD also the Tidö agreement
+        (from 2022-10-14), and a monthly country snapshot (policy rate, inflation,
+        unemployment, events) where every value carries its publication vintage — no
+        information after the decision month.</li>
+        <li><strong>Output:</strong> Ja/Nej/Avstår with reasoning and verbatim citations,
+        machine-verified against the source texts.</li>
+        <li><strong>Comparison:</strong> the party's actual position = the majority of its
+        cast votes. Absent parties are excluded.</li>
+      </ul>
+
+      <h2>Leakage controls</h2>
+      <ul>
+        <li>No case numbers, designations, vote IDs or exact dates in the prompt (time given
+        as month). Document references inside proposal texts are masked.</li>
+        <li>Counter-proposals are anonymized ("Alternative A/B") — reservation authorship is
+        near-ground-truth. A separate labeled pilot arm measures the effect.</li>
+        <li>The Riksdag's post-decision summary (which states the outcome) is never used in
+        prompts; only the committee's pre-decision summary.</li>
+      </ul>
+
+      <h2>Contamination measurement</h2>
+      <p>Each case also gets a separate <em>memorization probe</em>: the model is shown the
+      case <em>with</em> identifiers but <em>without</em> party documents and asked how the
+      parties actually voted. High recall there means agreement in the main measurement may
+      partly reflect memorization — the relationship is published per party and per case.</p>
+
+      <h2>Known limitations</h2>
+      <ul>
+        <li>Language models have documented political bias; errors may be asymmetric across
+        parties. Per-party errors are published rather than hidden.</li>
+        <li>Full reservation texts are not included in v1.</li>
+        <li>Wikipedia events are written retrospectively; dated within the month but phrasing
+        may carry hindsight.</li>
+        <li>Government parties nearly always support their own proposals — high agreement
+        there is expected and uninformative; Cohen's kappa is reported alongside raw
+        agreement.</li>
+      </ul>
+
+      <h2>Reproducibility</h2>
+      <p>All code, prompts, raw-data references and model responses are open. Data sources:
+      the Swedish Parliament (open data), SND Vivill, Sveriges Riksbank, Statistics Sweden,
+      Wikipedia (CC BY-SA). Code is MIT-licensed. The project is not affiliated with any
+      party or with the Riksdag.</p>
+    </article>
+  )}
+</Base>

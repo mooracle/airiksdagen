@@ -1,0 +1,68 @@
+{
+ "month": "2026-06",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 1.75,
+   "unit": "%",
+   "period": "2026-06-30",
+   "vintage_date": "2026-06-30",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 0.8,
+   "unit": "%",
+   "period": "2026-05",
+   "vintage_date": "2026-06-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.5,
+   "unit": "%",
+   "period": "2026-04",
+   "vintage_date": "2026-05-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-06-03",
+   "text": "Danmark får en ny regering, över två månader efter Folketingsvalet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-06-24",
+   "text": "Två jordbävningar inträffar i Venezuela och drabbar tusentals personer.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-06-27",
+   "text": "Den högsta lufttemperaturen i Danmark uppmäts på Hans Christian Andersens flygplats på ön Fyn med + 37,0 °C och att rekordet på + 36,4 °C i Holstebro från 1975 slås.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  },
+  {
+   "date": "2026-06-29",
+   "text": "Polen köper tre A26-ubåtar av Sverige för knappt 50 miljarder kronor, det är då Sveriges största exportorder genom tiderna.",
+   "source_url": "https://sv.wikipedia.org/wiki/2026"
+  }
+ ]
+}

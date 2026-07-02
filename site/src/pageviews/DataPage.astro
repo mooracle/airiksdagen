@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta } from '../lib/data';
+import type { Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const meta = getMeta();
+const sv = lang === 'sv';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base lang={lang} title="Data" path="/data/">
+  <h1>{sv ? 'Data och kod' : 'Data and code'}</h1>
+  <p>
+    {sv
+      ? 'Allt underlag är öppet: pipeline-kod, prompter, simuleringsresultat och aggregat.'
+      : 'Everything is open: pipeline code, prompts, simulation results and aggregates.'}
+  </p>
+  <ul>
+    <li><a href="https://github.com/OWNER/aidag">GitHub</a> — {sv ? 'kod, prompter, resultat (JSONL)' : 'code, prompts, results (JSONL)'}</li>
+    <li><a href={`${base}/data/cases-index.json`}>cases-index.json</a> — {sv ? `index över ${meta.n_cases} ärenden` : `index of ${meta.n_cases} cases`}</li>
+  </ul>
+  <h2>{sv ? 'Källor' : 'Sources'}</h2>
+  <ul>
+    <li><a href="https://data.riksdagen.se">data.riksdagen.se</a> — {meta.attribution}</li>
+    <li><a href="https://snd.se/sv/vivill">SND Vivill</a> — {sv ? 'valmanifest (Public Domain Mark)' : 'election manifestos (Public Domain Mark)'}</li>
+    <li><a href="https://api.riksbank.se">Sveriges riksbank</a>, <a href="https://www.scb.se">SCB</a></li>
+    <li>Wikipedia (CC BY-SA 4.0)</li>
+  </ul>
+</Base>

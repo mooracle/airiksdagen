@@ -1,0 +1,88 @@
+{
+ "month": "2023-01",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 2.5,
+   "unit": "%",
+   "period": "2023-01-31",
+   "vintage_date": "2023-01-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 12.3,
+   "unit": "%",
+   "period": "2022-12",
+   "vintage_date": "2023-01-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 7.3,
+   "unit": "%",
+   "period": "2022-11",
+   "vintage_date": "2022-12-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-01-01",
+   "text": "Sverige tillträder som ordförandeland för Europeiska unionens råd för perioden 1 januari–30 juni 2023.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-01",
+   "text": "Kroatien inför euron som valuta och ansluter sig till Schengenområdet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-01",
+   "text": "Luiz Inácio Lula da Silva tillträder som Brasiliens president.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-03",
+   "text": "7 januari – USA:s 118:e kongress öppnar, men först efter 15 valomgångar lyckas representanthuset välja Kevin McCarthy (R) till ny talman. Det är det högsta antalet valomgångar sedan 1859.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-08",
+   "text": "Anhängare av Brasiliens expresident Jair Bolsonaro intar nationalkongressen, högsta domstolen samt president- och regeringskansliet Palácio do Planalto, mot bakgrund av Bolsonaros förlust mot Luiz Inácio Lula da Silva i presidentvalet 2022. Polis och militär återtar byggnaderna, och undantagstillstånd utfärdas i huvudstadsområdet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-16",
+   "text": "Nils van der Poel tar storslam vid Svenska Idrottsgalan 2023 och utses till Årets manlige idrottare, prisas för Årets prestation och tilldelas Jerringpriset.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-16",
+   "text": "Christine Lambrecht avgår som Tysklands försvarsminister, efter kritik rörande hennes hantering av Tysklands stöd till Ukraina efter Rysslands invasion. Hon efterträds den 19 januari av Boris Pistorius.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-01-19",
+   "text": "Peyman Kia döms av Stockholms tingsrätt till livstids fängelse för grovt spioneri och obehörig befattning med hemlig uppgift. Enligt domen ska Kia ha skaffat hemliga dokument medan han var anställd på SÄPO och MUST. Hans bror, Payam Kia, som ska ha deltagit i planeringen och skött kontakterna med Ryssland och GRU, döms till 9 år och 10 månaders fängelse för grovt spioneri. Domen kommer att överklagas.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import Hemicycle from '../components/Hemicycle.astro';
+import { getMeta, type CaseData } from '../lib/data';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; caseData: CaseData }
+const { lang, caseData: c } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+
+const voteLabels: Record<string, string> = {
+  Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår'), 'Frånvarande': t('vote.Frånvarande'),
+};
+const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
+const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
+---
+
+<Base lang={lang} title={c.rubrik} path={`${casesPath}${c.votering_id}/`}>
+  <p class="muted">{c.datum} · {c.rm}:{c.beteckning} punkt {c.punkt} · {c.utskott}</p>
+  <h1>{c.rubrik}</h1>
+  {c.dok_titel !== c.rubrik && <p class="muted">{c.dok_titel}</p>}
+
+  <Hemicycle
+    seats={c.seats}
+    parties={meta.parties}
+    ai={c.ai}
+    actual={c.actual}
+    voteLabels={voteLabels}
+  />
+
+  <h2>{t('case.ai')} / {t('case.actual')}</h2>
+  <table class="compare">
+    <thead>
+      <tr>
+        <th></th>
+        <th>{t('case.ai')}</th>
+        <th>{t('case.actual')}</th>
+        <th></th>
+        <th>{t('case.confidence')}</th>
+        <th>{t('case.coverage')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {partyOrder.map((code) => {
+        const d = c.ai[code];
+        const a = c.actual[code];
+        const comparable = a && a.position !== 'Frånvarande';
+        const isMatch = d && comparable && d.rost === a.position;
+        return (
+          <tr>
+            <td><span class="partydot" style={`background:${meta.parties[code]?.color}`} /><strong>{code}</strong></td>
+            <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
+            <td>
+              {a ? (
+                <>
+                  <span class="votechip" data-v={a.position}>{voteLabels[a.position]}</span>
+                  <span class="muted" style="font-size:0.8rem"> {a.n_ja}/{a.n_nej}/{a.n_avstar}/{a.n_franvarande}</span>
+                </>
+              ) : <span class="muted">–</span>}
+            </td>
+            <td>{d && comparable && <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? `✓ ${t('case.match')}` : `✕ ${t('case.mismatch')}`}</span>}</td>
+            <td class="muted">{d?.confidence ?? ''}</td>
+            <td class="muted">{d ? t(`coverage.${d.coverage}` as any) : ''}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+
+  <h2>{t('case.committee')}</h2>
+  <div class="card"><p style="white-space:pre-line; margin:0">{c.forslag_text}</p></div>
+  {c.notis && (
+    <div class="card">
+      <p style="margin:0"><strong>{t('case.decision')}:</strong> {c.notis}</p>
+    </div>
+  )}
+  {c.alternatives.filter((a) => a.alt_id !== 'utskottet').length > 0 && (
+    <>
+      <h2>{t('case.alternatives')}</h2>
+      <ul>
+        {c.alternatives.filter((a) => a.alt_id !== 'utskottet').map((a) => (
+          <li>{a.text}{a.source_partier.length > 0 && <span class="muted"> ({a.source_partier.join(', ')})</span>}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {Object.keys(c.ai).length > 0 && (
+    <>
+      <h2>{t('case.motivering')}</h2>
+      {partyOrder.filter((p) => c.ai[p]).map((code) => {
+        const d = c.ai[code];
+        return (
+          <details class="card">
+            <summary>
+              <span class="partydot" style={`background:${meta.parties[code]?.color}`} />
+              <strong>{meta.parties[code]?.name ?? code}</strong> — <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
+            </summary>
+            <p>{d.motivering}</p>
+            {d.citations.length > 0 && (
+              <ul>
+                {d.citations.map((cit) => (
+                  <li><em>»{cit.quote}«</em> <span class="muted">({cit.document})</span></li>
+                ))}
+              </ul>
+            )}
+            {d.flags.length > 0 && <p class="muted">flags: {d.flags.join(', ')}</p>}
+          </details>
+        );
+      })}
+    </>
+  )}
+
+  {c.probe && (
+    <>
+      <h2>{t('case.probe')}</h2>
+      <div class="card">
+        <p style="margin:0">
+          {c.probe.recalls_case ? t('case.probe.recalled') : t('case.probe.notRecalled')}
+          <span class="muted"> ({c.probe.exact_match_count}/8)</span>
+        </p>
+      </div>
+    </>
+  )}
+
+  <p class="muted">
+    {t('case.source')} ·
+    <a href={c.riksdagen_url}>riksdagen.se</a> ·
+    <a href={c.source_url}>dokumentstatus (API)</a>
+  </p>
+</Base>

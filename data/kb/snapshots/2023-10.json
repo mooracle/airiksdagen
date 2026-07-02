@@ -1,0 +1,83 @@
+{
+ "month": "2023-10",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 4,
+   "unit": "%",
+   "period": "2023-10-31",
+   "vintage_date": "2023-10-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 6.5,
+   "unit": "%",
+   "period": "2023-09",
+   "vintage_date": "2023-10-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.1,
+   "unit": "%",
+   "period": "2023-08",
+   "vintage_date": "2023-09-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-10-03",
+   "text": "Minst 21 personer omkommer och 18 skadas då en buss faller ner från en viadukt i orten Mestre nära Venedig i Italien.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-07",
+   "text": "Hamas och andra militanta palestinska grupper genomför en väpnad attack mot Israel från Gazaremsan, i vilken omkring 1 200 människor dödas och omkring 240 tas som gisslan. Attacken föranleder Israel att förklara krig mot Hamas och genomföra massiva bombkampanjer mot Gazaremsan.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-15",
+   "text": "Lagtings- och kommunalval genomförs på Åland.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-15",
+   "text": "Parlamentsval genomförs i Polen, där liberala Medborgarkoalitionen under ledning av Donald Tusk besegrar det regerande konservativa partiet Lag och rättvisa. Tusk bildar regering den 13 december.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-22",
+   "text": "Allmänna val till nationalkongressen och en första presidentvalsomgång genomförs i Argentina. I en andra omgång i presidentvalet den 19 november väljs Javier Milei till landets president, och tillträder den 10 december.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-25",
+   "text": "Mike Johnson väljs till ny talman i USA:s representanthus efter att befattningen stått vakant i 21 dagar sedan Kevin McCartys avgång.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-10-27",
+   "text": "Kriget mellan Hamas och Israel 2023: Israel inleder en markoffensiv på Gazaremsan.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}

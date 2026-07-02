@@ -1,0 +1,111 @@
+---
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** path without locale prefix, used for the language switcher */
+  path?: string;
+}
+
+const { lang, title, description, path = '/' } = Astro.props;
+const t = useTranslations(lang);
+const pageTitle = title ? `${title} — ${t('site.title')}` : t('site.title');
+const otherLang: Lang = lang === 'sv' ? 'en' : 'sv';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description ?? t('site.tagline')} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a class="brand" href={localePath(lang, '/')}>{t('site.title')}</a>
+        <div class="links">
+          <a href={localePath(lang, lang === 'sv' ? '/fall/' : '/cases/')}>{t('nav.cases')}</a>
+          <a href={localePath(lang, '/parti/')}>{t('nav.parties')}</a>
+          <a href={localePath(lang, lang === 'sv' ? '/metod/' : '/methodology/')}>{t('nav.method')}</a>
+          <a href={localePath(lang, '/data/')}>{t('nav.data')}</a>
+          <a class="lang" href={localePath(otherLang, path)}>{otherLang.toUpperCase()}</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>{t('case.source')} · {t('footer.license')}</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #fafaf7;
+    --fg: #1c1c1a;
+    --muted: #6b6a64;
+    --line: #e3e1da;
+    --accent: #23538a;
+    --ja: #2e7d32;
+    --nej: #c62828;
+    --avstar: #f9a825;
+    --franvarande: #c9c4bb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.55;
+  }
+  header { border-bottom: 1px solid var(--line); background: #fff; }
+  nav {
+    max-width: 1080px; margin: 0 auto; padding: 0.7rem 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  nav .brand { font-weight: 700; font-size: 1.15rem; color: var(--fg); text-decoration: none; }
+  nav .links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  nav .links a { color: var(--muted); text-decoration: none; }
+  nav .links a:hover { color: var(--accent); }
+  nav .lang { border: 1px solid var(--line); border-radius: 4px; padding: 0 0.4rem; }
+  main { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); }
+  footer p { max-width: 1080px; margin: 0 auto; padding: 1rem; font-size: 0.85rem; }
+  h1 { font-size: 1.7rem; margin: 0.5rem 0 1rem; }
+  h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; }
+  a { color: var(--accent); }
+  .muted { color: var(--muted); }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 8px;
+    padding: 1rem 1.25rem; margin: 0.75rem 0;
+  }
+  table.compare { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  table.compare th, table.compare td {
+    text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line);
+  }
+  .votechip {
+    display: inline-block; padding: 0.05rem 0.55rem; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 600; color: #fff;
+  }
+  .votechip[data-v='Ja'] { background: var(--ja); }
+  .votechip[data-v='Nej'] { background: var(--nej); }
+  .votechip[data-v='Avstår'] { background: var(--avstar); color: #3a2f00; }
+  .votechip[data-v='Frånvarande'] { background: var(--franvarande); color: #494740; }
+  .partydot { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.35em; }
+  .match { color: var(--ja); font-weight: 700; }
+  .mismatch { color: var(--nej); font-weight: 700; }
+  .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .statbar { display: flex; align-items: center; gap: 0.6rem; margin: 0.3rem 0; }
+  .statbar .bar { flex: 1; height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; }
+  .statbar .bar > div { height: 100%; border-radius: 5px; }
+  code { background: #f0efe9; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+</style>

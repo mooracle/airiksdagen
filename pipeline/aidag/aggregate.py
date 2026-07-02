@@ -1,0 +1,164 @@
+"""Aggregate simulation results vs actual positions into site-ready statistics.
+
+Outputs data/results/aggregates/{run_id}/:
+  summary.json           headline agreement, per-party agreement + Cohen's kappa
+  party_timeseries.json  per party x month agreement %
+  confusion.json         3x3 (AI rost x actual position) per party
+  coverage.json          coverage/confidence/flag distributions
+  probe.json             contamination: recall rates, probe-agreement relation
+"""
+
+from __future__ import annotations
+
+import json
+from collections import Counter, defaultdict
+
+import polars as pl
+
+from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
+
+SIM_LABELS = ["Ja", "Nej", "Avstår"]
+
+
+def load_decisions(run_id: str) -> pl.DataFrame:
+    sim_dir = RESULTS_DIR / "simulations" / run_id
+    rows = []
+    for path in sorted(sim_dir.glob("*.jsonl")):
+        for line in path.read_text().splitlines():
+            if line.strip():
+                rows.append(json.loads(line))
+    if not rows:
+        raise FileNotFoundError(f"no decisions found in {sim_dir}")
+    return pl.DataFrame(rows)
+
+
+def cohens_kappa(pairs: list[tuple[str, str]]) -> float | None:
+    """Kappa over (predicted, actual) label pairs."""
+    n = len(pairs)
+    if n == 0:
+        return None
+    labels = sorted({l for p in pairs for l in p})
+    po = sum(1 for a, b in pairs if a == b) / n
+    pred_counts = Counter(a for a, _ in pairs)
+    act_counts = Counter(b for _, b in pairs)
+    pe = sum(pred_counts[l] * act_counts[l] for l in labels) / (n * n)
+    if pe == 1.0:
+        return 1.0
+    return (po - pe) / (1 - pe)
+
+
+def run(run_id: str) -> None:
+    decisions = load_decisions(run_id)
+    positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
+    cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet").select("votering_id", "datum", "utskott")
+
+    df = (
+        decisions.join(positions, on=["votering_id", "parti"], how="inner")
+        .join(cases, on="votering_id", how="left")
+        # A party that was absent has no comparable position; excluded from agreement.
+        .filter(pl.col("position") != "Frånvarande")
+        .with_columns(
+            (pl.col("rost") == pl.col("position")).alias("agree"),
+            pl.col("datum").str.slice(0, 7).alias("month"),
+        )
+    )
+
+    out_dir = RESULTS_DIR / "aggregates" / run_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # --- summary ---
+    per_party = {}
+    for p in PARTY_CODES:
+        sub = df.filter(pl.col("parti") == p)
+        if len(sub) == 0:
+            continue
+        pairs = list(zip(sub["rost"].to_list(), sub["position"].to_list()))
+        per_party[p] = {
+            "n": len(sub),
+            "agreement": round(float(sub["agree"].mean()), 4),
+            "kappa": round(cohens_kappa(pairs), 4) if cohens_kappa(pairs) is not None else None,
+            "avstar_recall": _avstar_recall(sub),
+        }
+    summary = {
+        "run_id": run_id,
+        "n_decisions": len(df),
+        "overall_agreement": round(float(df["agree"].mean()), 4),
+        "per_party": per_party,
+        "models": sorted(df["model"].unique().to_list()),
+        "arms": sorted(df["arm"].unique().to_list()),
+    }
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=1))
+
+    # --- timeseries ---
+    ts = (
+        df.group_by("parti", "month")
+        .agg(pl.col("agree").mean().alias("agreement"), pl.len().alias("n"))
+        .sort("parti", "month")
+    )
+    (out_dir / "party_timeseries.json").write_text(json.dumps(ts.to_dicts(), indent=1))
+
+    # --- confusion matrices ---
+    confusion: dict[str, dict] = {}
+    for p in PARTY_CODES:
+        sub = df.filter(pl.col("parti") == p)
+        matrix = {ai: {act: 0 for act in SIM_LABELS} for ai in SIM_LABELS}
+        for ai, act in zip(sub["rost"].to_list(), sub["position"].to_list()):
+            if ai in matrix and act in SIM_LABELS:
+                matrix[ai][act] += 1
+        confusion[p] = matrix
+    (out_dir / "confusion.json").write_text(json.dumps(confusion, indent=1))
+
+    # --- coverage / confidence / flags ---
+    coverage = {
+        "coverage": _dist(df, "coverage"),
+        "confidence": _dist(df, "confidence"),
+        "agreement_by_coverage": {
+            row["coverage"]: round(row["agreement"], 4)
+            for row in df.group_by("coverage").agg(pl.col("agree").mean().alias("agreement")).to_dicts()
+        },
+    }
+    (out_dir / "coverage.json").write_text(json.dumps(coverage, indent=1))
+
+    # --- probe / contamination ---
+    probe_path = RESULTS_DIR / "probes" / run_id / "probe.jsonl"
+    if probe_path.exists():
+        probes = [json.loads(l) for l in probe_path.read_text().splitlines() if l.strip()]
+        probe_by_vid = {p["votering_id"]: p for p in probes}
+        recall_rate = sum(p["recalls_case"] for p in probes) / len(probes)
+        buckets = defaultdict(list)
+        for row in df.iter_rows(named=True):
+            probe = probe_by_vid.get(row["votering_id"])
+            if probe:
+                buckets[probe["exact_match_count"] >= 6].append(row["agree"])
+        probe_out = {
+            "n_probed": len(probes),
+            "recall_rate": round(recall_rate, 4),
+            "mean_exact_matches": round(
+                sum(p["exact_match_count"] for p in probes) / len(probes), 2
+            ),
+            "agreement_when_memorized": _mean(buckets.get(True)),
+            "agreement_when_not_memorized": _mean(buckets.get(False)),
+        }
+        (out_dir / "probe.json").write_text(json.dumps(probe_out, indent=1))
+
+    print(f"aggregates written to {out_dir}")
+    print(f"  overall agreement: {summary['overall_agreement']:.1%} over {summary['n_decisions']} decisions")
+    for p, s in per_party.items():
+        print(f"  {p}: {s['agreement']:.1%} (kappa {s['kappa']}, n={s['n']})")
+
+
+def _avstar_recall(sub: pl.DataFrame) -> float | None:
+    avstar = sub.filter(pl.col("position") == "Avstår")
+    if len(avstar) == 0:
+        return None
+    return round(float((avstar["rost"] == "Avstår").mean()), 4)
+
+
+def _dist(df: pl.DataFrame, col: str) -> dict:
+    return {row[col]: row["len"] for row in df.group_by(col).len().to_dicts()}
+
+
+def _mean(values) -> float | None:
+    if not values:
+        return None
+    return round(sum(values) / len(values), 4)

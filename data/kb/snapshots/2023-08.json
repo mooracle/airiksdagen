@@ -1,0 +1,63 @@
+{
+ "month": "2023-08",
+ "government": {
+  "statsminister": "Ulf Kristersson",
+  "parti": "M",
+  "koalition": [
+   "M",
+   "KD",
+   "L"
+  ],
+  "stodpartier": [
+   "SD"
+  ],
+  "beskrivning": "Regeringen Kristersson (M, KD, L) med stöd av SD enligt Tidöavtalet (2022-10-14).",
+  "sedan": "2022-10-18"
+ },
+ "indicators": [
+  {
+   "series": "SECBREPOEFF",
+   "label": "Riksbankens styrränta",
+   "value": 3.75,
+   "unit": "%",
+   "period": "2023-08-31",
+   "vintage_date": "2023-08-31",
+   "source_url": "https://api.riksbank.se/swea/v1/Observations/SECBREPOEFF"
+  },
+  {
+   "series": "KPI-yoy",
+   "label": "Inflation (KPI, årstakt)",
+   "value": 9.3,
+   "unit": "%",
+   "period": "2023-07",
+   "vintage_date": "2023-08-15",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6596"
+  },
+  {
+   "series": "AKU-arbetslöshet",
+   "label": "Arbetslöshet (säsongrensad, 15–74 år)",
+   "value": 8.1,
+   "unit": "%",
+   "period": "2023-06",
+   "vintage_date": "2023-07-25",
+   "source_url": "https://statistikdatabasen.scb.se/api/v2/tables/TAB6387"
+  }
+ ],
+ "events": [
+  {
+   "date": "2023-08-23",
+   "text": "Indiens rymdsond Chandrayaan-3 mjuklandar på Månen.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-08-23",
+   "text": "Tio personer, däribland Wagnergruppens ledare Jevgenij Prigozjin och Dmitrij Utkin, omkommer i en flygkrasch utanför Tver i Ryssland.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  },
+  {
+   "date": "2023-08-30",
+   "text": "I Gabon avsätts den sittande presidenten Ali Bongo i en militärkupp, kort efter att ha blivit omvald i ett omstritt val. Kuppen innebär slutet på familjen Bongos 55-åriga styre i landet.",
+   "source_url": "https://sv.wikipedia.org/wiki/2023"
+  }
+ ]
+}
