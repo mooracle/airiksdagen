@@ -94,3 +94,32 @@ export function listCaseIds(): string[] {
     .filter((f) => f.endsWith('.json'))
     .map((f) => f.replace(/\.json$/, ''));
 }
+
+export function listCorpusDocs(): string[] {
+  const dir = path.join(DATA_DIR, 'corpus');
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.txt'))
+    .map((f) => f.replace(/\.txt$/, ''));
+}
+
+export function getCorpusDoc(slug: string): string {
+  return fs.readFileSync(path.join(DATA_DIR, 'corpus', `${slug}.txt`), 'utf-8');
+}
+
+/** Slug of the corpus document a citation points at, or null if not published. */
+export function citationDocSlug(party: string, document: string): string | null {
+  if (document === 'valmanifest') return `valmanifest-2022-${party.toLowerCase()}`;
+  if (document === 'tidoavtalet') return 'tidoavtalet-2022';
+  return null;
+}
+
+/** URL text-fragment for deep-linking a verbatim quote inside a document page. */
+export function quoteFragment(quote: string): string {
+  const words = quote.trim().split(/\s+/);
+  if (words.length <= 8) return encodeURIComponent(words.join(' '));
+  const start = words.slice(0, 5).join(' ');
+  const end = words.slice(-4).join(' ');
+  return `${encodeURIComponent(start)},${encodeURIComponent(end)}`;
+}

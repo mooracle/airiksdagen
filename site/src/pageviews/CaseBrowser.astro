@@ -20,6 +20,7 @@ const caseBase = localePath(lang, casesPath);
       <option value="">{t('browser.filter.all')} riksmöten</option>
       <option>2022/23</option><option>2023/24</option><option>2024/25</option><option>2025/26</option>
     </select>
+    <select id="month"><option value="">{t('browser.filter.allMonths')}</option></select>
     <select id="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
     <label><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
   </div>
@@ -36,6 +37,7 @@ const caseBase = localePath(lang, casesPath);
     const PAGE = 100;
     const q = document.getElementById('q');
     const rm = document.getElementById('rm');
+    const month = document.getElementById('month');
     const utskott = document.getElementById('utskott');
     const disagree = document.getElementById('disagree');
     const tbody = document.querySelector('#results tbody');
@@ -48,6 +50,7 @@ const caseBase = localePath(lang, casesPath);
       const term = norm(q.value.trim());
       filtered = rows.filter((r) => {
         if (rm.value && r.rm !== rm.value) return false;
+        if (month.value && !r.datum.startsWith(month.value)) return false;
         if (utskott.value && r.utskott !== utskott.value) return false;
         if (disagree.checked && !(r.hasAi && r.agree < r.compared)) return false;
         if (term && !norm(r.rubrik + ' ' + r.titel + ' ' + r.bet).includes(term)) return false;
@@ -89,10 +92,21 @@ const caseBase = localePath(lang, casesPath);
           opt.textContent = o;
           utskott.appendChild(opt);
         }
+        const monthsAvail = [...new Set(rows.map((r) => r.datum.slice(0, 7)))].sort().reverse();
+        for (const m of monthsAvail) {
+          const opt = document.createElement('option');
+          opt.value = m;
+          opt.textContent = m;
+          month.appendChild(opt);
+        }
+        // deep links from the homepage: /fall/?q=...&m=YYYY-MM
+        const params = new URLSearchParams(location.search);
+        if (params.get('q')) q.value = params.get('q');
+        if (params.get('m') && monthsAvail.includes(params.get('m'))) month.value = params.get('m');
         apply();
       });
 
-    for (const el of [q, rm, utskott, disagree]) el.addEventListener('input', apply);
+    for (const el of [q, rm, month, utskott, disagree]) el.addEventListener('input', apply);
     more.addEventListener('click', renderMore);
   </script>
 

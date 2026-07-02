@@ -167,6 +167,14 @@ def run(run_id: str | None = None) -> None:
         for f in agg_src.glob("*.json"):
             shutil.copy(f, SITE_DATA_DIR / "aggregates" / f.name)
 
+    # Corpus documents for the /dokument/ pages (citation deep links).
+    from aidag.config import CORPUS_DIR
+
+    corpus_out = SITE_DATA_DIR / "corpus"
+    corpus_out.mkdir(parents=True, exist_ok=True)
+    for txt in CORPUS_DIR.glob("*.txt"):
+        shutil.copy(txt, corpus_out / txt.name)
+
     # Party polling support per month, from the KB snapshots (run-independent).
     from aidag.config import KB_DIR
 

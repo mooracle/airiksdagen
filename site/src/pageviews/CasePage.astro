@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hemicycle from '../components/Hemicycle.astro';
-import { getMeta, type CaseData } from '../lib/data';
+import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; caseData: CaseData }
@@ -14,6 +14,31 @@ const voteLabels: Record<string, string> = {
 };
 const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
 const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const docLabel: Record<string, string> = {
+  valmanifest: lang === 'sv' ? 'valmanifest 2022' : '2022 manifesto',
+  partiprogram: lang === 'sv' ? 'partiprogram' : 'party programme',
+  tidoavtalet: 'Tidöavtalet',
+};
+
+function citationHref(party: string, document: string, quote: string): string | null {
+  const slug = citationDocSlug(party, document);
+  if (!slug) return null;
+  return `${base}/dokument/${slug}/#:~:text=${quoteFragment(quote)}`;
+}
+
+// per-party document references used in this case (deduped), for the study box
+const docRefs = partyOrder
+  .filter((p) => c.ai[p])
+  .map((p) => ({
+    party: p,
+    docs: [...new Set(c.ai[p].citations.map((cit) => cit.document))].map((d) => ({
+      document: d,
+      slug: citationDocSlug(p, d),
+    })),
+  }))
+  .filter((r) => r.docs.length > 0);
 ---
 
 <Base lang={lang} title={c.rubrik} path={`${casesPath}${c.votering_id}/`}>
@@ -68,6 +93,36 @@ const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
     </tbody>
   </table>
 
+  {docRefs.length > 0 && (
+    <>
+      <h2>{t('case.docrefs')}</h2>
+      <div class="card">
+        <table class="compare">
+          <tbody>
+            {docRefs.map((r) => (
+              <tr>
+                <td style="width:3rem"><span class="partydot" style={`background:${meta.parties[r.party]?.color}`} /><strong>{r.party}</strong></td>
+                <td>
+                  {r.docs.map((d, i) => (
+                    <>
+                      {i > 0 && ' · '}
+                      {d.slug ? (
+                        <a href={`${base}/dokument/${d.slug}/`}>{docLabel[d.document] ?? d.document}</a>
+                      ) : (
+                        <span>{docLabel[d.document] ?? d.document}</span>
+                      )}
+                    </>
+                  ))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:0.82rem;margin:0.5rem 0 0">{t('case.docrefsNote')}</p>
+      </div>
+    </>
+  )}
+
   <h2>{t('case.committee')}</h2>
   <div class="card"><p style="white-space:pre-line; margin:0">{c.forslag_text}</p></div>
   {c.notis && (
@@ -100,9 +155,19 @@ const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
             <p>{d.motivering}</p>
             {d.citations.length > 0 && (
               <ul>
-                {d.citations.map((cit) => (
-                  <li><em>»{cit.quote}«</em> <span class="muted">({cit.document})</span></li>
-                ))}
+                {d.citations.map((cit) => {
+                  const href = citationHref(code, cit.document, cit.quote);
+                  return (
+                    <li>
+                      <em>»{cit.quote}«</em>{' '}
+                      {href ? (
+                        <a class="muted" href={href}>({docLabel[cit.document] ?? cit.document} ↗)</a>
+                      ) : (
+                        <span class="muted">({docLabel[cit.document] ?? cit.document})</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
             {d.flags.length > 0 && <p class="muted">flags: {d.flags.join(', ')}</p>}

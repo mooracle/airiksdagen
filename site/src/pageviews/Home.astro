@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import MultiLineChart from '../components/MultiLineChart.astro';
 import { getMeta, getIndex, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -13,9 +14,77 @@ const summary = getAggregate<{
   n_decisions: number;
   per_party: Record<string, { n: number; agreement: number; kappa: number | null }>;
 }>('summary');
+const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
+const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 
-const latest = [...index].sort((a, b) => b.datum.localeCompare(a.datum)).slice(0, 10);
 const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
+const browserBase = localePath(lang, casesPath);
+
+// shared month domain across all charts: full period, from polls (dense) + cases
+const allMonths = new Set<string>([
+  ...supportSeries.map((r) => r.month),
+  ...index.map((r) => r.datum.slice(0, 7)),
+]);
+const months = [...allMonths].sort();
+
+// drift = share of decisions where AI differs from the real vote, per month
+const partyOrder = meta.hemicycle_order;
+const driftSeries = partyOrder.map((code) => ({
+  key: code,
+  color: meta.parties[code].color,
+  points: timeseries
+    .filter((r) => r.parti === code)
+    .map((r) => ({ month: r.month, value: (1 - r.agreement) * 100 })),
+}));
+// overall drift: n-weighted across parties per month
+const byMonth = new Map<string, { n: number; agree: number }>();
+for (const r of timeseries) {
+  const acc = byMonth.get(r.month) ?? { n: 0, agree: 0 };
+  acc.n += r.n;
+  acc.agree += r.agreement * r.n;
+  byMonth.set(r.month, acc);
+}
+const overallDrift = {
+  key: lang === 'sv' ? 'Alla' : 'All',
+  color: '#1c1c1a',
+  width: 3.2,
+  points: [...byMonth.entries()]
+    .map(([month, a]) => ({ month, value: (1 - a.agree / a.n) * 100 }))
+    .sort((a, b) => a.month.localeCompare(b.month)),
+};
+
+const pollSeries = partyOrder.map((code) => ({
+  key: code,
+  color: meta.parties[code].color,
+  width: 2,
+  points: supportSeries
+    .filter((r) => r.parti === code)
+    .map((r) => ({ month: r.month, value: r.support })),
+}));
+const pollMax = Math.max(10, Math.ceil(Math.max(0, ...supportSeries.map((r) => r.support)) / 10) * 10);
+
+// timeline: per-month case counts + agreement for the navigator
+const monthStats = new Map<string, { n: number; agree: number; compared: number }>();
+for (const row of index) {
+  const m = row.datum.slice(0, 7);
+  const acc = monthStats.get(m) ?? { n: 0, agree: 0, compared: 0 };
+  acc.n += 1;
+  if (row.hasAi) {
+    acc.agree += row.agree;
+    acc.compared += row.compared;
+  }
+  monthStats.set(m, acc);
+}
+const timelineMonths = months.filter((m) => monthStats.has(m));
+function monthColor(m: string): string {
+  const s = monthStats.get(m)!;
+  if (!s.compared) return '#e3e1da';
+  const ratio = s.agree / s.compared;
+  // red (drift) -> green (agreement)
+  const hue = Math.round(ratio * 120);
+  return `hsl(${hue} 55% 55%)`;
+}
+const hasAiData = timeseries.length > 0;
 ---
 
 <Base lang={lang} path="/">
@@ -25,37 +94,113 @@ const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
     <p style="margin:0"><strong>⚠︎</strong> {t('home.disclaimer')}</p>
   </div>
 
-  <h2>{t('home.agreement')}</h2>
-  {summary ? (
+  <h2>{t('home.drift')}</h2>
+  {hasAiData ? (
     <div class="card">
-      <p>
-        <strong style="font-size:1.6rem">{(summary.overall_agreement * 100).toFixed(1)}%</strong>
-        <span class="muted"> · n = {summary.n_decisions}</span>
+      {summary && (
+        <p style="margin:0 0 0.5rem">
+          <strong style="font-size:1.5rem">{((1 - summary.overall_agreement) * 100).toFixed(1)}%</strong>
+          <span class="muted"> {t('home.driftHeadline')} · n = {summary.n_decisions}</span>
+        </p>
+      )}
+      <MultiLineChart
+        series={[...driftSeries, overallDrift]}
+        months={months}
+        yMax={100}
+        yFormat={(v) => `${v.toFixed(0)}%`}
+      />
+      <p class="legend muted">
+        <span><span class="swatch" style="background:#1c1c1a" />{overallDrift.key}</span>
+        {partyOrder.map((code) => (
+          <span><span class="swatch" style={`background:${meta.parties[code].color}`} />{code}</span>
+        ))}
       </p>
-      {Object.entries(summary.per_party).map(([code, s]) => (
-        <div class="statbar">
-          <span style="width:2.5rem"><span class="partydot" style={`background:${meta.parties[code]?.color}`} />{code}</span>
-          <div class="bar"><div style={`width:${(s.agreement * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
-          <span style="width:4rem;text-align:right">{(s.agreement * 100).toFixed(1)}%</span>
-        </div>
-      ))}
+      <p class="muted" style="font-size:0.85rem">{t('home.driftNote')}</p>
     </div>
   ) : (
     <p class="muted">{t('home.noai')}</p>
   )}
 
-  <h2>{t('home.latest')}</h2>
-  <table class="compare">
-    <tbody>
-      {latest.map((row) => (
-        <tr>
-          <td class="muted" style="white-space:nowrap">{row.datum}</td>
-          <td><a href={localePath(lang, `${casesPath}${row.id}/`)}>{row.rubrik}</a></td>
-          <td class="muted">{row.bet}</td>
-          <td>{row.hasAi ? `${row.agree}/${row.compared} ✓` : ''}</td>
-        </tr>
+  <h2>{t('home.polls')}</h2>
+  <div class="card">
+    <MultiLineChart
+      series={pollSeries}
+      months={months}
+      yMax={pollMax}
+      yFormat={(v) => `${v.toFixed(0)}%`}
+      height={220}
+    />
+    <p class="legend muted">
+      {partyOrder.map((code) => (
+        <span><span class="swatch" style={`background:${meta.parties[code].color}`} />{code}</span>
       ))}
-    </tbody>
-  </table>
-  <p><a href={localePath(lang, casesPath)}>{t('browser.title')} ({meta.n_cases}) →</a></p>
+    </p>
+    <p class="muted" style="font-size:0.85rem">{t('home.pollsNote')}</p>
+  </div>
+
+  <h2>{t('home.timeline')}</h2>
+  <div class="card">
+    <div class="timeline">
+      {timelineMonths.map((m) => {
+        const s = monthStats.get(m)!;
+        return (
+          <a
+            class="tcell"
+            href={`${browserBase}?m=${m}`}
+            style={`background:${monthColor(m)}`}
+            title={`${m}: ${s.n} ${t('home.cases')}${s.compared ? ` · ${s.agree}/${s.compared} ✓` : ''}`}
+          >
+            <span class="tm">{m.slice(2).replace('-', '/')}</span>
+            <span class="tn">{s.n}</span>
+          </a>
+        );
+      })}
+    </div>
+    <p class="muted" style="font-size:0.85rem;margin-bottom:0">{t('home.timelineNote')}</p>
+  </div>
+
+  <h2>{t('home.search')}</h2>
+  <form class="searchrow" action={browserBase} method="get">
+    <input type="search" name="q" placeholder={t('browser.search')} />
+    <button type="submit">{t('home.searchBtn')}</button>
+  </form>
+
+  {summary && (
+    <>
+      <h2>{t('home.agreement')}</h2>
+      <div class="card">
+        {Object.entries(summary.per_party).map(([code, s]) => (
+          <div class="statbar">
+            <span style="width:2.5rem"><span class="partydot" style={`background:${meta.parties[code]?.color}`} />{code}</span>
+            <div class="bar"><div style={`width:${(s.agreement * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
+            <span style="width:4rem;text-align:right">{(s.agreement * 100).toFixed(1)}%</span>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+
+  <p><a href={browserBase}>{t('browser.title')} ({meta.n_cases}) →</a></p>
+
+  <style>
+    .legend { font-size: 0.8rem; margin: 0.3rem 0 0; }
+    .legend span { margin-right: 0.7rem; white-space: nowrap; }
+    .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.3em; }
+    .timeline { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 0.6rem; }
+    .tcell {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 46px; height: 40px; border-radius: 4px; text-decoration: none;
+      color: #1c1c1a; font-size: 0.62rem; line-height: 1.15;
+    }
+    .tcell:hover { outline: 2px solid var(--accent); }
+    .tcell .tn { font-weight: 700; font-size: 0.75rem; }
+    .searchrow { display: flex; gap: 0.5rem; }
+    .searchrow input {
+      flex: 1; padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 6px; font-size: 1rem;
+    }
+    .searchrow button {
+      padding: 0.55rem 1.1rem; border: none; border-radius: 6px;
+      background: var(--accent); color: #fff; font-size: 1rem; cursor: pointer;
+    }
+  </style>
 </Base>

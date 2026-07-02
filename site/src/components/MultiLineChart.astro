@@ -1,0 +1,68 @@
+---
+/**
+ * Build-time multi-series SVG line chart over a shared month axis.
+ * Series may have gaps (sparse months): available points are connected and
+ * also drawn as dots so single-point months stay visible.
+ */
+interface Series {
+  key: string;
+  color: string;
+  width?: number;
+  points: { month: string; value: number }[];
+}
+
+interface Props {
+  series: Series[];
+  months: string[]; // full ordered x-domain
+  yMax: number;
+  yTicks?: number[];
+  yFormat?: (v: number) => string;
+  height?: number;
+}
+
+const { series, months, yMax, yTicks, yFormat = (v) => `${v}`, height = 240 } = Astro.props;
+const W = 760;
+const H = height;
+const PAD_L = 44;
+const PAD_R = 14;
+const PAD_T = 10;
+const PAD_B = 26;
+
+const mIndex = new Map(months.map((m, i) => [m, i]));
+const x = (m: string) => PAD_L + ((mIndex.get(m) ?? 0) * (W - PAD_L - PAD_R)) / Math.max(1, months.length - 1);
+const y = (v: number) => H - PAD_B - (Math.min(v, yMax) / yMax) * (H - PAD_T - PAD_B);
+
+const ticks = yTicks ?? [0, yMax / 4, yMax / 2, (3 * yMax) / 4, yMax];
+// year boundaries for x labels
+const xLabels = months.filter((m) => m.endsWith('-01') || m === months[0]);
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto" role="img">
+  {ticks.map((tv) => (
+    <>
+      <line x1={PAD_L} x2={W - PAD_R} y1={y(tv)} y2={y(tv)} stroke="#ecece6" stroke-width="1" />
+      <text x={PAD_L - 6} y={y(tv) + 4} font-size="10" fill="#999" text-anchor="end">{yFormat(tv)}</text>
+    </>
+  ))}
+  {xLabels.map((m) => (
+    <text x={x(m)} y={H - 8} font-size="10" fill="#999" text-anchor="middle">{m.slice(0, 4)}</text>
+  ))}
+  {series.map((s) => {
+    const pts = s.points
+      .filter((p) => mIndex.has(p.month))
+      .sort((a, b) => a.month.localeCompare(b.month));
+    const path = pts.map((p) => `${x(p.month).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
+    return (
+      <>
+        {pts.length > 1 && (
+          <polyline points={path} fill="none" stroke={s.color} stroke-width={s.width ?? 1.8} stroke-linejoin="round" opacity="0.9" />
+        )}
+        {pts.map((p) => (
+          <circle cx={x(p.month)} cy={y(p.value)} r={s.width ? 2.5 : 2} fill={s.color}>
+            <title>{`${s.key} ${p.month}: ${yFormat(p.value)}`}</title>
+          </circle>
+        ))}
+      </>
+    );
+  })}
+</svg>

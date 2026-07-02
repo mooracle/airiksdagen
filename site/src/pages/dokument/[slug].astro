@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getMeta, listCorpusDocs, getCorpusDoc } from '../../lib/data';
+
+export async function getStaticPaths() {
+  return listCorpusDocs().map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const meta = getMeta();
+const text = getCorpusDoc(slug!);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+let title = slug!;
+if (slug === 'tidoavtalet-2022') title = 'Tidöavtalet (2022)';
+const m = slug!.match(/^valmanifest-2022-(\w+)$/);
+if (m) {
+  const code = m[1].toUpperCase();
+  title = `Valmanifest 2022 — ${meta.parties[code]?.name ?? code}`;
+}
+---
+
+<Base lang="sv" title={title} path={`/dokument/${slug}/`}>
+  <p class="muted"><a href={`${base}/dokument/`}>← Partidokument</a></p>
+  <h1>{title}</h1>
+  <article class="doc">{text}</article>
+
+  <style>
+    .doc {
+      white-space: pre-wrap;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+  </style>
+</Base>
