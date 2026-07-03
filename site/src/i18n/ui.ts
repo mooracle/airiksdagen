@@ -226,7 +226,30 @@ export function useTranslations(lang: Lang) {
   };
 }
 
-export function localePath(lang: Lang, path: string): string {
+// Route slugs that differ between the language trees (sv ↔ en). Paths are
+// always passed around in CANONICAL (Swedish) form; localePath translates.
+const SLUG_PAIRS: [string, string][] = [
+  ['/fall/', '/cases/'],
+  ['/metod/', '/methodology/'],
+  ['/dokument/', '/documents/'],
+  ['/analys/', '/analysis/'],
+  ['/parti/', '/parties/'],
+];
+
+/** Language-local path (without base/locale prefix) for a canonical sv path. */
+export function localizedSlugs(lang: Lang, canonicalPath: string): string {
+  if (lang === 'sv') return canonicalPath;
+  for (const [sv, en] of SLUG_PAIRS) {
+    if (canonicalPath.startsWith(sv)) return en + canonicalPath.slice(sv.length);
+  }
+  return canonicalPath;
+}
+
+/** Full site path for a canonical (Swedish) path: translates slugs for EN and
+ * adds base + locale prefix. All internal links go through this. */
+export function localePath(lang: Lang, canonicalPath: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  return lang === 'sv' ? `${base}${path}` : `${base}/en${path}`;
+  return lang === 'sv'
+    ? `${base}${canonicalPath}`
+    : `${base}/en${localizedSlugs(lang, canonicalPath)}`;
 }

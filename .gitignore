@@ -25,3 +25,4 @@ data/results/aggregates/mock*/
 data/results/translations/mock*/
 site/public/downloads/decisions-mock*
 site/public/data/
+.claude/

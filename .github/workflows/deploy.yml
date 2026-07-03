@@ -44,11 +44,12 @@ jobs:
           else
             uv run aidag export-site
           fi
+      # Custom domain: base stays '/', CNAME in site/public/ points GH Pages at it.
       - run: npm ci && npx astro build
         working-directory: site
         env:
-          SITE_BASE: /${{ github.event.repository.name }}
-          SITE_URL: https://${{ github.repository_owner }}.github.io
+          SITE_BASE: /
+          SITE_URL: https://airiksdagen.se
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist

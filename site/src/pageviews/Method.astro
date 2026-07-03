@@ -4,7 +4,7 @@ import type { Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
-const path = lang === 'sv' ? '/metod/' : '/methodology/';
+const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
 ---
 
 <Base lang={lang} title={lang === 'sv' ? 'Metod' : 'Methodology'} path={path}>

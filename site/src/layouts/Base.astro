@@ -5,7 +5,8 @@ interface Props {
   lang: Lang;
   title?: string;
   description?: string;
-  /** path without locale prefix, used for the language switcher */
+  /** CANONICAL (Swedish) path without base/locale prefix — localePath
+   * translates slugs, so the switcher and hreflang always pair correctly */
   path?: string;
 }
 
@@ -14,6 +15,12 @@ const t = useTranslations(lang);
 const pageTitle = title ? `${title} — ${t('site.title')}` : `${t('site.title')} — ${t('site.tagline')}`;
 const otherLang: Lang = lang === 'sv' ? 'en' : 'sv';
 const desc = description ?? t('site.tagline');
+
+// SEO: absolute canonical + hreflang alternates for both language versions.
+const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/, '');
+const urlSv = `${site}${localePath('sv', path)}`;
+const urlEn = `${site}${localePath('en', path)}`;
+const canonical = lang === 'sv' ? urlSv : urlEn;
 ---
 
 <!doctype html>
@@ -23,9 +30,17 @@ const desc = description ?? t('site.tagline');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="sv" href={urlSv} />
+    <link rel="alternate" hreflang="en" href={urlEn} />
+    <link rel="alternate" hreflang="x-default" href={urlSv} />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/sitemap-index.xml`} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'sv' ? 'sv_SE' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'sv' ? 'en_US' : 'sv_SE'} />
     <meta name="twitter:card" content="summary" />
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
   </head>
@@ -36,11 +51,11 @@ const desc = description ?? t('site.tagline');
           <span class="brand-mark">■</span> {t('site.title')}
         </a>
         <div class="links">
-          <a href={localePath(lang, lang === 'sv' ? '/fall/' : '/cases/')}>{t('nav.cases')}</a>
+          <a href={localePath(lang, '/fall/')}>{t('nav.cases')}</a>
           <a href={localePath(lang, '/analys/')}>{t('nav.analysis')}</a>
           <a href={localePath(lang, '/parti/')}>{t('nav.parties')}</a>
           <a href={localePath(lang, '/dokument/')}>{t('nav.documents')}</a>
-          <a href={localePath(lang, lang === 'sv' ? '/metod/' : '/methodology/')}>{t('nav.method')}</a>
+          <a href={localePath(lang, '/metod/')}>{t('nav.method')}</a>
           <a href={localePath(lang, '/data/')}>{t('nav.data')}</a>
           <a class="lang" href={localePath(otherLang, path)}>{otherLang.toUpperCase()}</a>
         </div>

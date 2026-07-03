@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getCorpusDoc } from '../lib/data';
+import { localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const meta = getMeta();
+const text = getCorpusDoc(slug);
+
+let title = slug;
+if (slug === 'tidoavtalet-2022') title = 'Tidöavtalet (2022)';
+const m = slug.match(/^valmanifest-2022-(\w+)$/);
+if (m) {
+  const code = m[1].toUpperCase();
+  const name = meta.parties[code]?.name ?? code;
+  title = lang === 'sv' ? `Valmanifest 2022 — ${name}` : `2022 election manifesto — ${name}`;
+}
+---
+
+<Base lang={lang} title={title} path={`/dokument/${slug}/`}>
+  <p class="muted">
+    <a href={localePath(lang, '/dokument/')}>
+      ← {lang === 'sv' ? 'Partidokument' : 'Party documents'}
+    </a>
+  </p>
+  <h1>{title}</h1>
+  {lang === 'en' && (
+    <p class="muted" style="font-size:0.85rem; font-style:italic">
+      Source document in the original Swedish — this is exactly what the AI agents read,
+      and what the citation links on the case pages point into.
+    </p>
+  )}
+  <article class="doc">{text}</article>
+
+  <style>
+    .doc {
+      white-space: pre-wrap;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+  </style>
+</Base>

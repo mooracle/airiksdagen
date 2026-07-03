@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Hemicycle from '../components/Hemicycle.astro';
 import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
-import { useTranslations, type Lang } from '../i18n/ui';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; caseData: CaseData }
 const { lang, caseData: c } = Astro.props;
@@ -12,9 +12,10 @@ const meta = getMeta();
 const voteLabels: Record<string, string> = {
   Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår'), 'Frånvarande': t('vote.Frånvarande'),
 };
-const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
 const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// canonical (sv) path of this page; localePath translates slug + prefix
+const pagePath = `/fall/${c.votering_id}/`;
 
 // On the English site, show translated case texts and AI reasoning where the
 // translation batch has run; otherwise fall back to Swedish (marked below).
@@ -32,10 +33,12 @@ const docLabel: Record<string, string> = {
   tidoavtalet: 'Tidöavtalet',
 };
 
+const docsBase = localePath(lang, '/dokument/');
+
 function citationHref(party: string, document: string, quote: string): string | null {
   const slug = citationDocSlug(party, document);
   if (!slug) return null;
-  return `${base}/dokument/${slug}/#:~:text=${quoteFragment(quote)}`;
+  return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
 // parties where the AI's plan-faithful vote differs from the actual vote —
@@ -63,8 +66,8 @@ const dissenters = c.seats
   .map(([parti, rost, namn, valkrets]) => ({ parti, rost, namn, valkrets, line: c.actual[parti].position }));
 
 // absolute URLs for the share/embed box (correct once SITE_URL is set in CI)
-const site = (Astro.site?.toString() ?? 'https://aidag.example.org/').replace(/\/$/, '');
-const pageAbsUrl = `${site}${base}${casesPath}${c.votering_id}/`;
+const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/, '');
+const pageAbsUrl = `${site}${localePath(lang, pagePath)}`;
 const embedAbsUrl = `${site}${base}/embed/${c.votering_id}/`;
 const embedSnippet = `<iframe src="${embedAbsUrl}" width="100%" height="430" style="border:1px solid #ddd;border-radius:8px" title="AI Riksdag: ${(en?.rubrik || c.rubrik).replace(/"/g, "'")}" loading="lazy"></iframe>`;
 
@@ -81,7 +84,7 @@ const docRefs = partyOrder
   .filter((r) => r.docs.length > 0);
 ---
 
-<Base lang={lang} title={rubrik} path={`${casesPath}${c.votering_id}/`}>
+<Base lang={lang} title={rubrik} path={pagePath}>
   <p>
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
@@ -226,7 +229,7 @@ const docRefs = partyOrder
                     <>
                       {i > 0 && ' · '}
                       {d.slug ? (
-                        <a href={`${base}/dokument/${d.slug}/`}>{docLabel[d.document] ?? d.document}</a>
+                        <a href={`${docsBase}${d.slug}/`}>{docLabel[d.document] ?? d.document}</a>
                       ) : (
                         <span>{docLabel[d.document] ?? d.document}</span>
                       )}

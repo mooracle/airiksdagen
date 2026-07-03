@@ -1,32 +1,5 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { getMeta, listCorpusDocs } from '../../lib/data';
-
-const meta = getMeta();
-const docs = listCorpusDocs().sort();
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-function label(slug: string): string {
-  if (slug === 'tidoavtalet-2022') return 'Tidöavtalet (2022)';
-  const m = slug.match(/^valmanifest-2022-(\w+)$/);
-  if (m) {
-    const code = m[1].toUpperCase();
-    return `Valmanifest 2022 — ${meta.parties[code]?.name ?? code}`;
-  }
-  return slug;
-}
+import DocumentIndex from '../../pageviews/DocumentIndex.astro';
 ---
 
-<Base lang="sv" title="Partidokument" path="/dokument/">
-  <h1>Partidokument</h1>
-  <p class="muted">
-    De exakta texter AI-agenterna får som underlag. Valmanifest från
-    <a href="https://snd.se/sv/vivill">SND Vivill</a> (Public Domain Mark);
-    Tidöavtalet från de fyra samarbetspartierna. Citat på ärendesidorna länkar hit.
-  </p>
-  <ul>
-    {docs.map((slug) => (
-      <li><a href={`${base}/dokument/${slug}/`}>{label(slug)}</a></li>
-    ))}
-  </ul>
-</Base>
+<DocumentIndex lang="sv" />

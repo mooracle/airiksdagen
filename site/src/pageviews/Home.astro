@@ -17,8 +17,7 @@ const summary = getAggregate<{
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 
-const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
-const browserBase = localePath(lang, casesPath);
+const browserBase = localePath(lang, '/fall/');
 
 // shared month domain across all charts: full period, from polls (dense) + cases
 const allMonths = new Set<string>([
@@ -100,7 +99,7 @@ const hasAiData = timeseries.length > 0;
       <strong>{t('home.forJournalistsTitle')}</strong>
       <p class="muted">{t('home.forJournalistsText')}</p>
     </a>
-    <a class="card apath" href={localePath(lang, lang === 'sv' ? '/metod/' : '/methodology/')}>
+    <a class="card apath" href={localePath(lang, '/metod/')}>
       <span class="chip">{t('home.forResearchers')}</span>
       <strong>{t('home.forResearchersTitle')}</strong>
       <p class="muted">{t('home.forResearchersText')}</p>

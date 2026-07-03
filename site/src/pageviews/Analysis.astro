@@ -13,7 +13,6 @@ const defeats = getAggregate<{ votering_id: string; datum: string; rubrik: strin
 const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n_dissent: number; rate: number }[]>('dissenters') ?? [];
 
 const order = meta.hemicycle_order;
-const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
 
 function cellColor(v: number | null): string {
   if (v == null) return '#f0efe9';
@@ -60,7 +59,7 @@ function cellColor(v: number | null): string {
         {defeats.slice(0, 25).map((d) => (
           <tr>
             <td class="muted" style="white-space:nowrap">{d.datum}</td>
-            <td><a href={localePath(lang, `${casesPath}${d.votering_id}/`)}>{d.rubrik}</a></td>
+            <td><a href={localePath(lang, `/fall/${d.votering_id}/`)}>{d.rubrik}</a></td>
             <td class="muted" style="white-space:nowrap">{d.bet}</td>
             <td style="white-space:nowrap">
               <span class="votechip" data-v={d.gov_pos}>{d.gov_pos}</span>

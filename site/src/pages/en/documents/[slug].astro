@@ -1,0 +1,12 @@
+---
+import DocumentPage from '../../../pageviews/DocumentPage.astro';
+import { listCorpusDocs } from '../../../lib/data';
+
+export async function getStaticPaths() {
+  return listCorpusDocs().map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<DocumentPage lang="en" slug={slug!} />
