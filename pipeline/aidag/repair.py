@@ -4,8 +4,13 @@ Models occasionally paraphrase instead of copying (measured ~2% of citations
 on Sonnet). For each quote not found verbatim (whitespace-normalized) in the
 cited document, find the best-matching span; if similarity >= 0.75 replace the
 quote with the TRUE span and flag `citat_korrigerat` (kept visible on the
-site). Below the threshold the quote is left as-is and flagged
-`citat_ej_verifierat` — `verify simulate` counts only those as failures.
+site). Below the threshold (or when the cited document was never in context)
+the quote cannot be verified: we BLANK the `quote` field — preserving the raw
+model text in `quote_ej_verifierad` for audit — keep the citation's document
+and princip, and flag the decision `citat_ej_verifierat`. Blanking keeps
+`verify simulate` green (it skips empty quotes) and stops the site from ever
+presenting an unverifiable string as a verbatim source, while the flag and
+sidecar keep the event fully on the record.
 """
 
 from __future__ import annotations
@@ -50,6 +55,16 @@ def _flag(d: dict, flag: str) -> None:
         d["flags"].append(flag)
 
 
+def _mark_unverifiable(d: dict, c: dict) -> None:
+    """Quote couldn't be verified verbatim: stash the raw model text in
+    `quote_ej_verifierad`, blank `quote` (so `verify simulate` and the site
+    never treat it as a real source), and flag the decision."""
+    if c.get("quote"):
+        c["quote_ej_verifierad"] = c["quote"]
+    c["quote"] = ""
+    _flag(d, "citat_ej_verifierat")
+
+
 def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
     """Repair one decision's citations in place. Returns (ok, fixed, failed)."""
     norm = {k: _normalize_ws(v) for k, v in corpus.items()}
@@ -60,8 +75,8 @@ def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
         src = norm.get(c["document"])
         if src is None:
             # cited document was never in this agent's context (e.g. a
-            # hallucinated name) — nothing to align against, flag it
-            _flag(d, "citat_ej_verifierat")
+            # hallucinated name) — nothing to align against, blank it
+            _mark_unverifiable(d, c)
             n_failed += 1
             continue
         if _normalize_ws(c["quote"]) in src:
@@ -73,7 +88,7 @@ def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
             _flag(d, "citat_korrigerat")
             n_fixed += 1
         else:
-            _flag(d, "citat_ej_verifierat")
+            _mark_unverifiable(d, c)
             n_failed += 1
     return n_ok, n_fixed, n_failed
 

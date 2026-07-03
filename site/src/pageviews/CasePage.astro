@@ -36,6 +36,7 @@ const docLabel: Record<string, string> = {
 const docsBase = localePath(lang, '/dokument/');
 
 function citationHref(party: string, document: string, quote: string): string | null {
+  if (!quote?.trim()) return null;  // unverifiable quotes are blanked — no text fragment to deep-link
   const slug = citationDocSlug(party, document);
   if (!slug) return null;
   return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
@@ -174,7 +175,7 @@ const docRefs = partyOrder
                 {(m.decisiveEn?.princip || m.decisive.princip) && (
                   <span class="chip">{m.decisiveEn?.princip || m.decisive.princip}</span>
                 )}
-                »{m.decisive.quote}«
+                {m.decisive.quote && <>»{m.decisive.quote}«</>}
                 {href ? (
                   <a class="muted src" href={href}>({docLabel[m.decisive.document] ?? m.decisive.document} ↗)</a>
                 ) : (
@@ -299,7 +300,7 @@ const docRefs = partyOrder
                     <li>
                       {(citEn?.princip || cit.princip) && <span class="chip">{citEn?.princip || cit.princip}</span>}
                       {i === 0 && <span class="chip" style="background:#e5efdb">{t('case.decisive')}</span>}
-                      <em>»{cit.quote}«</em>{' '}
+                      {cit.quote && <><em>»{cit.quote}«</em>{' '}</>}
                       {href ? (
                         <a class="muted" href={href}>({docLabel[cit.document] ?? cit.document} ↗)</a>
                       ) : (
