@@ -54,6 +54,14 @@ def build_kb(
     run(month=month, force=force)
 
 
+@app.command("build-worldstate")
+def build_worldstate(force: bool = typer.Option(False)) -> None:
+    """Build per-date worldstate datasets (economy + events, point-in-time)."""
+    from aidag.worldstate import run
+
+    run(force=force)
+
+
 @app.command("select-pilot")
 def select_pilot(n: int = typer.Option(100), seed: int = typer.Option(2026)) -> None:
     """Pick a stratified pilot sample of cases (seeded, reproducible)."""
@@ -132,6 +140,14 @@ def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
     from aidag.agent_run import status
 
     status(run_id=run_id)
+
+
+@app.command("repair-citations")
+def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
+    """Align paraphrased citation quotes to the true document span (flagged)."""
+    from aidag.repair import run as repair
+
+    repair(run_id=run_id)
 
 
 @app.command("agent-ingest")

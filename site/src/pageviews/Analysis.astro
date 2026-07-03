@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getAggregate } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+
+const matrix = getAggregate<{ overall: Record<string, Record<string, number | null>>; per_rm: Record<string, any> }>('pairs_matrix');
+const defeats = getAggregate<{ votering_id: string; datum: string; rubrik: string; bet: string; gov_pos: string; outcome: string }[]>('gov_defeats') ?? [];
+const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n_dissent: number; rate: number }[]>('dissenters') ?? [];
+
+const order = meta.hemicycle_order;
+const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
+
+function cellColor(v: number | null): string {
+  if (v == null) return '#f0efe9';
+  const hue = Math.round(v * 120); // red 0% -> green 100%
+  return `hsl(${hue} 52% ${88 - v * 26}%)`;
+}
+---
+
+<Base lang={lang} title={t('analysis.title')} path="/analys/">
+  <h1>{t('analysis.title')}</h1>
+  <p class="muted">{t('analysis.intro')}</p>
+
+  <h2>{t('analysis.matrix')}</h2>
+  {matrix && (
+    <div class="card" style="overflow-x:auto">
+      <table class="compare matrix">
+        <thead>
+          <tr><th></th>{order.map((p) => <th style="text-align:center">{p}</th>)}</tr>
+        </thead>
+        <tbody>
+          {order.map((a) => (
+            <tr>
+              <td><span class="partydot" style={`background:${meta.parties[a]?.color}`} /><strong>{a}</strong></td>
+              {order.map((b) => {
+                const v = a === b ? null : matrix.overall[a]?.[b];
+                return (
+                  <td style={`text-align:center;background:${a === b ? '#fff' : cellColor(v)}`}>
+                    {a === b ? '–' : v != null ? `${(v * 100).toFixed(0)}%` : ''}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="muted" style="font-size:0.83rem">{t('analysis.matrixNote')}</p>
+    </div>
+  )}
+
+  <h2>{t('analysis.defeats')} <span class="muted">({defeats.length})</span></h2>
+  <div class="card">
+    <table class="compare">
+      <tbody>
+        {defeats.slice(0, 25).map((d) => (
+          <tr>
+            <td class="muted" style="white-space:nowrap">{d.datum}</td>
+            <td><a href={localePath(lang, `${casesPath}${d.votering_id}/`)}>{d.rubrik}</a></td>
+            <td class="muted" style="white-space:nowrap">{d.bet}</td>
+            <td style="white-space:nowrap">
+              <span class="votechip" data-v={d.gov_pos}>{d.gov_pos}</span>
+              <span class="muted"> vs </span>
+              <span class="votechip" data-v={d.outcome}>{d.outcome}</span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:0.83rem">{t('analysis.defeatsNote')}</p>
+  </div>
+
+  <h2>{t('analysis.dissenters')}</h2>
+  <div class="card">
+    <table class="compare">
+      <thead>
+        <tr><th></th><th>{t('analysis.dissents')}</th><th>{t('analysis.votesCast')}</th><th>%</th></tr>
+      </thead>
+      <tbody>
+        {dissenters.slice(0, 20).map((d) => (
+          <tr>
+            <td><span class="partydot" style={`background:${meta.parties[d.parti]?.color}`} /><strong>{d.namn}</strong> <span class="muted">({d.parti})</span></td>
+            <td>{d.n_dissent}</td>
+            <td class="muted">{d.n_cast}</td>
+            <td>{(d.rate * 100).toFixed(1)}%</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    .matrix td, .matrix th { font-variant-numeric: tabular-nums; }
+  </style>
+</Base>

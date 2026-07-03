@@ -11,6 +11,17 @@ Den fullständiga metodbeskrivningen renderas på webbplatsen (`/metod/`,
   lägesbild med publiceringsvintage (ingen information efter beslutsmånaden).
   Opinionsmätningar ingår medvetet **inte** i agentens underlag — partiet ska
   följa sin plan, inte opinionen; väljarstödet visas bara på webbplatsen.
+- **Omvärldsläge (p4):** agenten får ett datumspecifikt omvärldsblock
+  (styrränta, inflation, BNP-indikator, barometer, växelkurs, elpris,
+  asylansökningar — alla med publiceringsvintage — samt ~10 händelser/frågor
+  från de senaste 30 dagarna: riksdagens egna interpellationer/frågor,
+  krisinformation, Wikipedia). Dokumenten förblir grunden; omvärlden får
+  vägas in endast när den väsentligt påverkar tillämpningen och redovisas då
+  strukturerat (`omvarld.paverkar` + faktorer). Källor och regler:
+  `docs/worldstate-plan.md`.
+- **Citatkontroll:** citat verifieras maskinellt som ordagranna utdrag;
+  parafraserade citat (~2 % hos Sonnet) rättas deterministiskt till närmaste
+  faktiska textställe och flaggas `citat_korrigerat` öppet på webbplatsen.
 - **Läckagekontroller:** inga ärendenummer/datum i prompten, anonymiserade
   motförslag, aldrig riksdagens beslutsnotis (endast utskottets
   förhandssammanfattning), maskering av dokumentreferenser. Regex-verifierat i

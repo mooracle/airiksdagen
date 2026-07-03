@@ -35,9 +35,26 @@ const DECISION_SCHEMA = {
         additionalProperties: false,
       },
     },
+    omvarld: {
+      type: 'object',
+      properties: {
+        paverkar: { type: 'boolean' },
+        faktorer: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: { faktor: { type: 'string' }, effekt: { type: 'string' } },
+            required: ['faktor', 'effekt'],
+            additionalProperties: false,
+          },
+        },
+      },
+      required: ['paverkar', 'faktorer'],
+      additionalProperties: false,
+    },
     flags: { type: 'array', items: { type: 'string' } },
   },
-  required: ['rost', 'confidence', 'coverage', 'motivering', 'citations', 'flags'],
+  required: ['rost', 'confidence', 'coverage', 'motivering', 'citations', 'omvarld', 'flags'],
   additionalProperties: false,
 }
 
@@ -86,6 +103,12 @@ const MANIFEST_SCHEMA = {
   additionalProperties: false,
 }
 
+// Fail fast if args were not forwarded — never let the loader agent guess
+// which manifest to run (240 unintended agents cost more than one error).
+if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.includes('agentrun')) {
+  throw new Error(`agent_batch_workflow: args.manifestPath missing or invalid: ${JSON.stringify(args)}`)
+}
+
 phase('Load')
 const manifest = await agent(
   `Read the file ${args.manifestPath} and return its exact contents as structured output. Do not modify anything.`,
@@ -107,6 +130,11 @@ const simPrompt = (item) =>
   `Pick the SPECIFIC passage that actually carries the vote, not a generic statement. Order ` +
   `citations by importance — the FIRST one is the decisive commitment. Give each citation a ` +
   `short "princip" (2-6 Swedish words) naming the commitment, e.g. "minskad asylinvandring".\n` +
+  `- The case text includes a worldstate block (economy + recent events) — incoming reality the ` +
+  `party could not plan for. The documents remain the basis; weigh worldstate in ONLY when it ` +
+  `materially changes how they apply. If you do, set omvarld.paverkar=true with max 3 factors; ` +
+  `otherwise paverkar=false with an empty list. If the documents are silent and worldstate ` +
+  `decides, use coverage="not_covered" AND omvarld.paverkar=true.\n` +
   `- Answer only via the structured output.`
 
 const probePrompt = (item) =>

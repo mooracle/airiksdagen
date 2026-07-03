@@ -36,6 +36,7 @@ export interface AiDecision {
   coverage: string;
   motivering: string;
   citations: { document: string; quote: string; princip?: string }[];
+  omvarld?: { paverkar: boolean; faktorer: { faktor: string; effekt: string }[] };
   flags: string[];
   model: string;
 }

@@ -272,6 +272,14 @@ const docRefs = partyOrder
                 })}
               </ul>
             )}
+            {d.omvarld?.paverkar && d.omvarld.faktorer.length > 0 && (
+              <p class="omvarld">
+                <strong>{t('case.omvarld')}:</strong>{' '}
+                {d.omvarld.faktorer.map((f, i) => (
+                  <span>{i > 0 && '; '}<em>{f.faktor}</em> — {f.effekt}</span>
+                ))}
+              </p>
+            )}
             {d.flags.length > 0 && <p class="muted">flags: {d.flags.join(', ')}</p>}
           </details>
         );
@@ -365,6 +373,7 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    .omvarld { background: #eef3f8; border-radius: 6px; padding: 0.5rem 0.8rem; font-size: 0.88rem; }
     .mismatchbox blockquote {
       margin: 0.6rem 0; padding: 0.6rem 0.9rem; background: #fbfaf5;
       border-radius: 6px; font-family: Georgia, serif; font-size: 1.02rem;

@@ -13,6 +13,17 @@ The full methodology is rendered on the site (`/en/methodology/`,
   decision month). Opinion polls are deliberately **not** part of the agent's
   inputs — the party must follow its plan, not the polls; support figures
   appear on the website only.
+- **Worldstate (p4):** the agent receives a per-vote-date worldstate block
+  (policy rate, inflation, GDP indicator, sentiment barometer, FX, electricity
+  price, asylum applications — all with publication vintages — plus ~10
+  events/questions from the preceding 30 days: the Riksdag's own
+  interpellations/questions, official crisis notices, Wikipedia). The
+  documents remain the basis; worldstate may be weighed in only when it
+  materially affects their application, and is then reported structurally
+  (`omvarld.paverkar` + factors). Sources and rules: `docs/worldstate-plan.md`.
+- **Citation control:** quotes are machine-verified as verbatim excerpts;
+  paraphrased quotes (~2% on Sonnet) are deterministically aligned to the
+  closest actual passage and flagged `citat_korrigerat`, visible on the site.
 - **Leakage controls:** no case numbers/dates in prompts, anonymized
   counter-proposals, never the Riksdag's post-decision summary (only the
   committee's pre-decision one), document references masked. Regex-asserted in

@@ -47,9 +47,29 @@ DECISION_SCHEMA = {
                 "additionalProperties": False,
             },
         },
+        "omvarld": {
+            "type": "object",
+            "properties": {
+                "paverkar": {"type": "boolean"},
+                "faktorer": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "faktor": {"type": "string"},
+                            "effekt": {"type": "string"},
+                        },
+                        "required": ["faktor", "effekt"],
+                        "additionalProperties": False,
+                    },
+                },
+            },
+            "required": ["paverkar", "faktorer"],
+            "additionalProperties": False,
+        },
         "flags": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["rost", "confidence", "coverage", "motivering", "citations", "flags"],
+    "required": ["rost", "confidence", "coverage", "motivering", "citations", "omvarld", "flags"],
     "additionalProperties": False,
 }
 
@@ -78,6 +98,16 @@ Så fungerar voteringen (voteringsordning i kammaren):
 slutliga propositionsparet; att avstå markerar den egna linjen. Använd Avstår när \
 dokumenten pekar på en tydligt egen position som varken utskottsförslaget eller \
 motförslaget motsvarar.
+
+Omvärldsläget ("Läget i landet och omvärlden" nedan) är inkommande läge som partiet \
+inte kunde planera för. Regler för omvärlden:
+- Dokumenten är alltid grunden för rösten. Omvärlden får vägas in ENDAST när den \
+väsentligt påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen \
+aldrig förutsåg).
+- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med \
+kort effekt. Annars omvarld.paverkar=false och tom lista.
+- Om dokumenten saknar svar och omvärlden avgör: sätt coverage="not_covered" OCH \
+omvarld.paverkar=true.
 
 Svara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: \
 2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur \
@@ -183,6 +213,36 @@ def render_kb_block(month: str) -> str:
     return "\n".join(lines)
 
 
+def render_worldstate_block(datum: str) -> str:
+    """Per-date worldstate (p4): indicators known before the vote date + the
+    most salient events of the preceding ~30 days. Falls back to '' when the
+    worldstate datasets are not built (caller then uses the monthly KB)."""
+    from aidag.worldstate import worldstate_for
+
+    snap = worldstate_for(datum)
+    if snap is None:
+        return ""
+    from aidag.build_kb import government_at
+
+    gov = government_at(datum)
+    lines = ["<laget_i_landet_och_omvarlden>"]
+    koalition = "+".join(gov.get("koalition", []))
+    stod = "+".join(gov.get("stodpartier", []))
+    lines.append(
+        f"Regering: {gov.get('statsminister')} ({koalition})"
+        + (f", stödparti: {stod}" if stod else "")
+    )
+    for ind in snap["indicators"]:
+        period = ind["period"][:7]  # coarse month — no exact dates in prompts
+        lines.append(f"{ind['label']}: {ind['value']} {ind['unit']} (avser {period})")
+    if snap["events"]:
+        lines.append("Senaste tidens händelser och frågor (urval):")
+        for e in snap["events"]:
+            lines.append(f"- {scrub_text(e['text'], 'anonymous')}")
+    lines.append("</laget_i_landet_och_omvarlden>")
+    return "\n".join(lines)
+
+
 def coarse_time(datum: str) -> str:
     """'2023-11-15' -> 'november 2023' — no exact date reaches the prompt."""
     return f"{SV_MONTH_NAMES[int(datum[5:7]) - 1]} {datum[:4]}"
@@ -190,9 +250,10 @@ def coarse_time(datum: str) -> str:
 
 def render_user_message(case: dict, arm: str = "anonymous") -> str:
     parts = [f"Tidpunkt: {coarse_time(case['datum'])}."]
-    kb = render_kb_block(case["kb_month"])
-    if kb:
-        parts.append(kb)
+    # p4: per-date worldstate; monthly KB only as fallback if not built
+    context = render_worldstate_block(case["datum"]) or render_kb_block(case["kb_month"])
+    if context:
+        parts.append(context)
 
     parts.append("<arende>")
     parts.append(f"Utskott: {case['utskott']}")

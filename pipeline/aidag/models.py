@@ -63,6 +63,21 @@ class Citation(BaseModel):
     princip: str = ""
 
 
+class OmvarldFaktor(BaseModel):
+    faktor: str  # e.g. "hög inflation", "kriget i Ukraina"
+    effekt: str  # how it modulates the document-based line
+
+
+class Omvarld(BaseModel):
+    """Worldstate reference: did events/economy materially affect the vote?
+
+    The party documents remain the normative basis; this records when the
+    agent judged that the situation changed how they apply (p4+)."""
+
+    paverkar: bool = False
+    faktorer: list[OmvarldFaktor] = []
+
+
 class Decision(BaseModel):
     """One AI party-agent decision on one case (one JSONL line in results)."""
 
@@ -77,6 +92,7 @@ class Decision(BaseModel):
     coverage: Literal["explicit", "inferred", "not_covered"]
     motivering: str
     citations: list[Citation] = []
+    omvarld: Omvarld = Omvarld()  # p4+; default for older runs
     flags: list[str] = []
     usage: dict[str, int] = {}
     batch_id: str = ""

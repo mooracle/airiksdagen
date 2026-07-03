@@ -71,6 +71,30 @@ def test_coarse_time():
     assert coarse_time("2023-06-07") == "juni 2023"
 
 
+def test_omvarld_required_in_schema():
+    from aidag.promptgen import DECISION_SCHEMA
+
+    assert "omvarld" in DECISION_SCHEMA["required"]
+    om = DECISION_SCHEMA["properties"]["omvarld"]
+    assert om["required"] == ["paverkar", "faktorer"]
+
+
+def test_worldstate_block_point_in_time_and_leakfree():
+    from aidag.worldstate import available
+    from aidag.promptgen import render_worldstate_block
+
+    if not available():
+        import pytest
+
+        pytest.skip("worldstate datasets not built")
+    block = render_worldstate_block("2023-06-07")
+    assert "styrränta" in block.lower()
+    for pattern in FORBIDDEN_PATTERNS:
+        assert not re.search(pattern, block), f"leak {pattern} in worldstate block"
+    assert "Riksdagen beslutade" not in block and "riksdagen röstade" not in block.lower()
+    assert "opinion" not in block.lower()  # polls stay out of prompts
+
+
 def test_no_poll_data_in_prompt():
     # methodology: agents must follow party plans, never adjust to ratings —
     # opinion-poll numbers live in the KB for the website but never in prompts

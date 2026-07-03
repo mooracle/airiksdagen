@@ -6,8 +6,18 @@ subagents on a subscription — no API key. Written to be executed by an **Opus
 orchestrator session** (paste this file or point the session at it); every
 vote/probe agent runs on **Sonnet**.
 
-Validated end-to-end by `agent-pilot-v1` (91 agents, 100% collection rate,
-all citations substring-verified).
+Validated end-to-end by `agent-pilot-v1` (91 agents, p1) and by the real
+**batch 1 of full-v1 on final p4** (240 Sonnet decisions, 30 cases, 2022-10 →
+2022-12): 85.4% agreement, 2.1% omvarld-referenced (Ukraine/NATO on defense
+votes — exactly the intended behavior), 612/625 citations verbatim + 13
+auto-repaired, 0 unverifiable. Batch 1 is already ingested and committed;
+the loop below resumes at batch 2 (next pending date 2022-12-20).
+
+**Expect a week or more of calendar time.** ~96 batches at 1–3 batches per
+subscription usage window means the orchestrator session runs the loop, hits
+the window limit, stops cleanly, and resumes in a later session — repeatedly.
+The checkpoint design makes every stop safe; nothing needs handover except
+this document.
 
 ## Roles
 
@@ -17,8 +27,18 @@ all citations substring-verified).
 | Vote agent | Sonnet (`claude-sonnet-4-6`, one per case × party) | read role file + case file → structured decision: `rost`, short Swedish `motivering` (2–4 sentences), verbatim `citations` into the party's own documents, `coverage`, `flags` |
 | Probe agent | Sonnet (one per case) | cold recall of the real outcome (contamination measurement); no party documents |
 
-Prompt version is **p2** (short motivering). Do not mix runs across prompt
-versions in one `run_id`.
+Prompt version is **p4 — FINAL for the full run**:
+- short Swedish motivering (2–4 sentences),
+- citations ordered by importance with per-citation `princip` labels
+  (the first citation is the decisive plan passage behind the vote),
+- per-date worldstate block (economy indicators with publication vintages +
+  ~10 recent events) with structured `omvarld` references — the agent flags
+  when incoming reality materially affected how the plan applies,
+- opinion polls deliberately excluded.
+
+Do not mix prompt versions in one `run_id`. `data/worldstate/` must exist
+(`aidag build-worldstate`, then `aidag verify worldstate`) before preparing
+batches — the prompts embed it at render time.
 
 ## Checkpoint model — where the state lives
 
@@ -45,15 +65,26 @@ Repeat until `agent-status` reports nothing pending:
 2. RUN       Workflow tool:
                { scriptPath: "scripts/agent_batch_workflow.js",
                  args: { manifestPath: "<absolute path from step 1>" } }
-             (runs in background; ~250 Sonnet agents ≈ 30–50 min; the workflow
+             (runs in background; ~250 Sonnet agents ≈ 45–65 min; the workflow
               returns { run_id, sims, probes } with only successful results)
+             ⚠ CONFIRM THE MANIFEST before walking away: the first workflow
+             log line must read "batch loaded: … (run full-v1)" with the
+             expected counts. The script throws if args.manifestPath did not
+             arrive (a lost-args launch once made the loader agent improvise
+             and run the wrong manifest — the guard exists because of that).
+             Do NOT prepare/regenerate manifests while a workflow is running.
 3. INGEST    write the workflow result JSON to a temp file, then:
                uv run aidag agent-ingest --run-id full-v1 --input <file> \
                    --model claude-sonnet-4-6
-             (idempotent: dedupes on custom_id, safe to re-ingest)
+               uv run aidag repair-citations --run-id full-v1
+             (ingest dedupes on custom_id; repair aligns paraphrased quotes to
+              the true document span and flags them `citat_korrigerat` —
+              measured ~2% of citations on Sonnet)
 4. VERIFY    uv run aidag verify simulate --run-id full-v1
-             — must be green (no dupes, no hallucinated citations) before the
-             next batch. A nonzero hallucination count = STOP and investigate.
+             — must be green (no dupes, 0 unverifiable citations) before the
+             next batch. Unverifiable citations after repair = STOP and
+             investigate. Repaired-quote share above ~5% = tighten the
+             verbatim instruction before continuing.
 5. CHECKPOINT
              git add data/results && git commit -m "full-v1 batch NNN: <n> decisions"
              uv run aidag agent-status --run-id full-v1   # progress report
@@ -118,7 +149,10 @@ Sanity expectations: M/KD/L agreement high with κ near 0 (they vote for their
 own government's proposals); V/MP/S agreement lower with meaningful κ; Avstår
 recall is the weak spot — track it per batch. Probe recall should stay low for
 routine votes and spike only for famous ones; anything above ~20% overall
-recall means contamination needs more prominent reporting.
+recall means contamination needs more prominent reporting. `omvarld.paverkar`
+rates should be low overall and spike in crisis months (2022-10 → 2023-06);
+a flat-high rate means agents are over-referencing worldstate — stop and
+review prompts before continuing.
 
 ## Publishing checkpoints
 

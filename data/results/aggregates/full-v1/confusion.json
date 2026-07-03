@@ -1,0 +1,138 @@
+{
+ "S": {
+  "Ja": {
+   "Ja": 22,
+   "Nej": 1,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 3,
+   "Nej": 3,
+   "Avst\u00e5r": 0
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 1,
+   "Avst\u00e5r": 0
+  }
+ },
+ "M": {
+  "Ja": {
+   "Ja": 30,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  }
+ },
+ "SD": {
+  "Ja": {
+   "Ja": 28,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 0,
+   "Nej": 2,
+   "Avst\u00e5r": 0
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  }
+ },
+ "C": {
+  "Ja": {
+   "Ja": 18,
+   "Nej": 1,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 3,
+   "Nej": 5,
+   "Avst\u00e5r": 2
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 1
+  }
+ },
+ "V": {
+  "Ja": {
+   "Ja": 6,
+   "Nej": 2,
+   "Avst\u00e5r": 1
+  },
+  "Nej": {
+   "Ja": 2,
+   "Nej": 15,
+   "Avst\u00e5r": 4
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  }
+ },
+ "KD": {
+  "Ja": {
+   "Ja": 29,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 1,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  }
+ },
+ "MP": {
+  "Ja": {
+   "Ja": 10,
+   "Nej": 7,
+   "Avst\u00e5r": 1
+  },
+  "Nej": {
+   "Ja": 2,
+   "Nej": 5,
+   "Avst\u00e5r": 2
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 2,
+   "Avst\u00e5r": 1
+  }
+ },
+ "L": {
+  "Ja": {
+   "Ja": 30,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Nej": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  },
+  "Avst\u00e5r": {
+   "Ja": 0,
+   "Nej": 0,
+   "Avst\u00e5r": 0
+  }
+ }
+}

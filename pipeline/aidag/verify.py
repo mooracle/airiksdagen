@@ -108,6 +108,14 @@ def verify_kb() -> None:
     check("point-in-time rule holds", all(f.split()[0] != "point-in-time" for f in _failures))
 
 
+def verify_worldstate() -> None:
+    print("worldstate:")
+    from aidag.worldstate import verify as ws_verify
+
+    n, failures = ws_verify()
+    check("worldstate datasets present and sane", not failures, f"{n} rows; {failures[:3]}")
+
+
 def verify_prompts() -> None:
     print("prompts: (covered by pytest golden tests)")
     import subprocess
@@ -145,6 +153,7 @@ def run(stage: str, run_id: str | None = None) -> int:
         "votes": verify_votes,
         "cases": verify_cases,
         "kb": verify_kb,
+        "worldstate": verify_worldstate,
         "prompts": verify_prompts,
         "site": verify_site,
     }

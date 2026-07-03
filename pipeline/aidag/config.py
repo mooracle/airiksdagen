@@ -54,8 +54,10 @@ VOTE_VALUES = ["Ja", "Nej", "Avstår", "Frånvarande"]
 DEFAULT_MODEL = "claude-opus-4-8"
 PILOT_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6"]
 # p1 = pilot (motivering <=200 words); p2 = short motivering (2-4 sentences);
-# p3 = p2 + decisive-first citations with per-citation "princip" labels
-PROMPT_VERSION = "p3"
+# p3 = p2 + decisive-first citations with "princip" labels;
+# p4 = p3 + per-date worldstate context with structured omvarld references
+# p4 is FINAL for the full run (see docs/orchestration-full-run.md).
+PROMPT_VERSION = "p4"
 BATCH_CHUNK_SIZE = 300
 
 RIKSDAG_ATTRIBUTION = "Källa: Sveriges riksdag"

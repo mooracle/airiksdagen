@@ -42,6 +42,7 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
                 "coverage": d["coverage"],
                 "motivering": d["motivering"],
                 "citations": d["citations"],
+                "omvarld": d.get("omvarld") or {"paverkar": False, "faktorer": []},
                 "flags": d["flags"],
                 "model": d["model"],
             }
@@ -199,6 +200,33 @@ def run(run_id: str | None = None) -> None:
     (SITE_DATA_DIR / "aggregates" / "party_support.json").write_text(
         json.dumps(support_rows, ensure_ascii=False)
     )
+
+    # Real-vote analytics (no AI involved) + researcher downloads.
+    from aidag import analytics
+
+    agg_dir = SITE_DATA_DIR / "aggregates"
+    (agg_dir / "pairs_matrix.json").write_text(json.dumps(analytics.pairs_matrix()))
+    (agg_dir / "gov_defeats.json").write_text(
+        json.dumps(analytics.gov_defeats(), ensure_ascii=False)
+    )
+    (agg_dir / "cohesion.json").write_text(json.dumps(analytics.cohesion_series()))
+    (agg_dir / "dissenters.json").write_text(
+        json.dumps(analytics.dissenter_league(), ensure_ascii=False)
+    )
+
+    import gzip
+
+    downloads = SITE_DATA_DIR.parents[1] / "public" / "downloads"
+    downloads.mkdir(parents=True, exist_ok=True)
+    positions.write_csv(downloads / "party_positions.csv")
+    cases.drop("alternatives", "references").write_csv(downloads / "cases.csv")
+    if run_id:
+        sim_dir = RESULTS_DIR / "simulations" / run_id
+        lines = []
+        for f in sorted(sim_dir.glob("*.jsonl")):
+            lines.append(f.read_text())
+        with gzip.open(downloads / f"decisions-{run_id}.jsonl.gz", "wt") as gz:
+            gz.write("".join(lines))
 
     meta = {
         "run_id": run_id,

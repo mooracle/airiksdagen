@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import MultiLineChart from '../components/MultiLineChart.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -15,6 +16,7 @@ const summary = getAggregate<{
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 const confusion = getAggregate<Record<string, Record<string, Record<string, number>>>>('confusion');
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
+const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
 const stats = summary?.per_party?.[code];
 const ts = timeseries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
@@ -43,6 +45,22 @@ const supportGrid = [0, 0.25, 0.5, 0.75, 1].map((f) => ({
   label: `${(f * supportMax).toFixed(0)}%`,
 }));
 const latestSupport = support[support.length - 1];
+
+const coh = cohesionSeries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
+const cohMonths = coh.map((r) => r.month);
+const cohesionChart = [
+  {
+    key: lang === 'sv' ? 'Sammanhållning' : 'Cohesion',
+    color: party?.color ?? '#333',
+    width: 2.4,
+    points: coh.map((r) => ({ month: r.month, value: r.cohesion * 100 })),
+  },
+  {
+    key: lang === 'sv' ? 'Frånvaro' : 'Absence',
+    color: '#8a95a0',
+    points: coh.map((r) => ({ month: r.month, value: r.absence * 100 })),
+  },
+];
 ---
 
 <Base lang={lang} title={party?.name ?? code} path={`/parti/${code.toLowerCase()}/`}>
@@ -98,6 +116,19 @@ const latestSupport = support[support.length - 1];
           <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{support[support.length - 1]?.month}</text>
         </svg>
         <p class="muted" style="margin:0.4rem 0 0;font-size:0.8rem">{t('party.supportSource')}</p>
+      </div>
+    </>
+  )}
+
+  {coh.length > 1 && (
+    <>
+      <h2>{t('party.cohesion')}</h2>
+      <div class="card">
+        <MultiLineChart series={cohesionChart} months={cohMonths} yMax={100} yFormat={(v) => `${v.toFixed(0)}%`} height={190} />
+        <p class="muted" style="font-size:0.83rem;margin:0.4rem 0 0">
+          <span style={`color:${party?.color}`}>■</span> {cohesionChart[0].key} ·
+          <span style="color:#8a95a0"> ■</span> {cohesionChart[1].key} — {t('party.cohesionNote')}
+        </p>
       </div>
     </>
   )}

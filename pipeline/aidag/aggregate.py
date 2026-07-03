@@ -121,7 +121,7 @@ def run(run_id: str) -> None:
 
     # --- probe / contamination ---
     probe_path = RESULTS_DIR / "probes" / run_id / "probe.jsonl"
-    if probe_path.exists():
+    if probe_path.exists() and probe_path.read_text().strip():
         probes = [json.loads(l) for l in probe_path.read_text().splitlines() if l.strip()]
         probe_by_vid = {p["votering_id"]: p for p in probes}
         recall_rate = sum(p["recalls_case"] for p in probes) / len(probes)

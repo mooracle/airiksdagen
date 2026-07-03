@@ -20,6 +20,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <ul>
     <li><a href="https://github.com/OWNER/aidag">GitHub</a> — {sv ? 'kod, prompter, resultat (JSONL)' : 'code, prompts, results (JSONL)'}</li>
     <li><a href={`${base}/data/cases-index.json`}>cases-index.json</a> — {sv ? `index över ${meta.n_cases} ärenden` : `index of ${meta.n_cases} cases`}</li>
+    <li><a href={`${base}/downloads/cases.csv`}>cases.csv</a> — {sv ? 'alla ärenden' : 'all cases'}</li>
+    <li><a href={`${base}/downloads/party_positions.csv`}>party_positions.csv</a> — {sv ? 'partiernas verkliga positioner per votering' : 'actual party positions per division'}</li>
+    {meta.run_id && (
+      <li><a href={`${base}/downloads/decisions-${meta.run_id}.jsonl.gz`}>decisions-{meta.run_id}.jsonl.gz</a> — {sv ? 'AI-beslut med citat (JSONL)' : 'AI decisions with citations (JSONL)'}</li>
+    )}
   </ul>
   <h2>{sv ? 'Källor' : 'Sources'}</h2>
   <ul>
