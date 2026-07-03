@@ -91,6 +91,25 @@ def build_alternatives(uf: dict, ds: dict) -> list[dict]:
     return alts
 
 
+def extract_references(ds: dict, limit: int = 20) -> list[dict]:
+    """Documents the betänkande deals with (propositions, motions) with ids
+    for deep links. referenstyp 'behandlar' = under consideration."""
+    refs = []
+    for r in _as_list(ds.get("dokreferens", {}).get("referens")):
+        if r.get("referenstyp") != "behandlar" or not r.get("ref_dok_id"):
+            continue
+        refs.append({
+            "dok_id": r["ref_dok_id"],
+            "typ": r.get("ref_dok_typ") or "",
+            "label": f"{r.get('ref_dok_dokumentnamn') or ''} {r.get('ref_dok_rm') or ''}:{r.get('ref_dok_bet') or ''}".strip(),
+            "titel": (r.get("ref_dok_titel") or "").strip(),
+            "undertitel": (r.get("ref_dok_subtitel") or "").strip(),
+        })
+        if len(refs) == limit:
+            break
+    return refs
+
+
 def build_party_positions(votes: pl.DataFrame) -> pl.DataFrame:
     """Aggregate per-MP sakfråga votes into party positions."""
     counts = (
@@ -182,6 +201,7 @@ def run() -> None:
             "beslut_sammanfattning": extract_uppgift(ds, "beslutssammanfattningusk"),
             "vinnare": uf.get("vinnare") or "",
             "alternatives": json.dumps(build_alternatives(uf, ds), ensure_ascii=False),
+            "references": json.dumps(extract_references(ds), ensure_ascii=False),
             "kb_month": row["datum"][:7],
         })
 

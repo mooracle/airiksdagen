@@ -28,6 +28,14 @@ function citationHref(party: string, document: string, quote: string): string | 
   return `${base}/dokument/${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
+// MPs who voted differently from their party's majority position
+const dissenters = c.seats
+  .filter(([parti, rost]) => {
+    const pos = c.actual[parti]?.position;
+    return rost !== 'Frånvarande' && pos && pos !== 'Frånvarande' && rost !== pos;
+  })
+  .map(([parti, rost, namn, valkrets]) => ({ parti, rost, namn, valkrets, line: c.actual[parti].position }));
+
 // absolute URLs for the share/embed box (correct once SITE_URL is set in CI)
 const site = (Astro.site?.toString() ?? 'https://aidag.example.org/').replace(/\/$/, '');
 const pageAbsUrl = `${site}${base}${casesPath}${c.votering_id}/`;
@@ -63,6 +71,17 @@ const docRefs = partyOrder
     actual={c.actual}
     voteLabels={voteLabels}
   />
+
+  {c.compact && (
+    <>
+      <h2>{t('case.meanings')}</h2>
+      <div class="card meanings">
+        <p><span class="votechip" data-v="Ja">{voteLabels.Ja}</span> {lang === 'sv' ? c.compact.ja_sv : c.compact.ja_en}</p>
+        <p><span class="votechip" data-v="Nej">{voteLabels.Nej}</span> {lang === 'sv' ? c.compact.nej_sv : c.compact.nej_en}</p>
+        <p><span class="votechip" data-v="Avstår">{voteLabels['Avstår']}</span> {lang === 'sv' ? c.compact.avstar_sv : c.compact.avstar_en}</p>
+      </div>
+    </>
+  )}
 
   <h2>{t('case.ai')} / {t('case.actual')}</h2>
   <table class="compare">
@@ -102,6 +121,29 @@ const docRefs = partyOrder
       })}
     </tbody>
   </table>
+
+  {dissenters.length > 0 && (
+    <>
+      <h2>{t('case.dissenters')}</h2>
+      <div class="card">
+        <table class="compare">
+          <tbody>
+            {dissenters.map((d) => (
+              <tr>
+                <td><span class="partydot" style={`background:${meta.parties[d.parti]?.color}`} /><strong>{d.namn}</strong> <span class="muted">({d.parti}, {d.valkrets})</span></td>
+                <td>
+                  <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
+                  <span class="muted"> — {t('case.dissentLine')}: </span>
+                  <span class="votechip" data-v={d.line}>{voteLabels[d.line]}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:0.82rem;margin:0.5rem 0 0">{t('case.dissentersNote')}</p>
+      </div>
+    </>
+  )}
 
   {docRefs.length > 0 && (
     <>
@@ -227,11 +269,30 @@ const docRefs = partyOrder
     </label>
   </div>
 
-  <p class="muted">
-    {t('case.source')} ·
-    <a href={c.riksdagen_url}>riksdagen.se</a> ·
-    <a href={c.source_url}>dokumentstatus (API)</a>
-  </p>
+  <h2>{t('case.sources')}</h2>
+  <div class="card">
+    <ul class="srclist">
+      <li><a href={c.riksdagen_url}>{t('case.sources.bet')}</a> <span class="muted">({c.rm}:{c.beteckning})</span></li>
+      <li><a href={c.fulltext_url}>{t('case.sources.fulltext')}</a> <span class="muted">({c.dok_id})</span></li>
+      <li><a href={c.votering_url}>{t('case.sources.votering')}</a></li>
+      <li><a href={c.source_url}>{t('case.sources.status')}</a></li>
+    </ul>
+    {c.references.length > 0 && (
+      <>
+        <p style="margin:0.8rem 0 0.3rem"><strong>{t('case.sources.refs')}</strong></p>
+        <ul class="srclist">
+          {c.references.map((r) => (
+            <li>
+              <a href={`https://data.riksdagen.se/dokument/${r.dok_id}.html`}>{r.label}</a>
+              {r.titel && <span class="muted"> — {r.titel}</span>}
+              {r.undertitel && <span class="muted"> {r.undertitel}</span>}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+    <p class="muted" style="font-size:0.82rem;margin:0.8rem 0 0">{t('case.source')}</p>
+  </div>
 
   <script is:inline define:vars={{ pageAbsUrl }}>
     for (const btn of document.querySelectorAll('[data-copybtn]')) {
@@ -254,6 +315,10 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    .srclist { margin: 0.2rem 0; padding-left: 1.2rem; }
+    .srclist li { margin: 0.25rem 0; }
+    .meanings p { margin: 0.45rem 0; }
+    .meanings .votechip { min-width: 4.2rem; text-align: center; margin-right: 0.5rem; }
     .sharebox label { display: block; margin-bottom: 0.9rem; font-size: 0.86rem; color: var(--muted); }
     .sharebox label > span:first-child { display: block; margin-bottom: 0.25rem; }
     .sharebox .row { display: flex; gap: 0.5rem; }

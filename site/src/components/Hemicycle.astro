@@ -41,9 +41,20 @@ function labelPos(range: { from: number; to: number }) {
   <svg viewBox="-18 -18 716 400" role="img" aria-label={`${seats.length} seats`}>
     {layout.map((seat, i) => {
       const [parti, rost, namn, valkrets] = seats[i] ?? ['?', 'Frånvarande', '', ''];
+      const partyPos = actual[parti]?.position;
+      // an MP who cast a vote different from their party's majority position
+      const dissent =
+        rost !== 'Frånvarande' && partyPos && partyPos !== 'Frånvarande' && rost !== partyPos;
       return (
-        <circle cx={seat.x} cy={seat.y} r={seat.r} fill={VOTE_COLORS[rost] ?? '#999'}>
-          <title>{`${namn} (${parti}), ${valkrets}: ${voteLabels[rost] ?? rost}`}</title>
+        <circle
+          cx={seat.x}
+          cy={seat.y}
+          r={seat.r}
+          fill={VOTE_COLORS[rost] ?? '#999'}
+          stroke={dissent ? '#17222c' : 'none'}
+          stroke-width={dissent ? 2 : 0}
+        >
+          <title>{`${namn} (${parti}), ${valkrets}: ${voteLabels[rost] ?? rost}${dissent ? ' ⚠' : ''}`}</title>
         </circle>
       );
     })}

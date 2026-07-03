@@ -40,7 +40,17 @@ export interface AiDecision {
   model: string;
 }
 
+export interface CompactMeanings {
+  ja_sv: string;
+  nej_sv: string;
+  avstar_sv: string;
+  ja_en: string;
+  nej_en: string;
+  avstar_en: string;
+}
+
 export interface CaseData {
+  compact?: CompactMeanings;
   votering_id: string;
   rm: string;
   beteckning: string;
@@ -57,7 +67,10 @@ export interface CaseData {
   ai: Record<string, AiDecision>;
   probe: { recalls_case: boolean; exact_match_count: number } | null;
   seats: [string, string, string, string][]; // [parti, rost, namn, valkrets]
+  references: { dok_id: string; typ: string; label: string; titel: string; undertitel: string }[];
   source_url: string;
+  fulltext_url: string;
+  votering_url: string;
   riksdagen_url: string;
 }
 

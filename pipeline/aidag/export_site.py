@@ -120,7 +120,10 @@ def run(run_id: str | None = None) -> None:
             if actual.get(p, {}).get("position") not in (None, "Frånvarande")
         )
         alternatives = json.loads(case["alternatives"]) if isinstance(case["alternatives"], str) else case["alternatives"]
+        from aidag.compact import compact_meanings
+
         payload = {
+            "compact": compact_meanings(case["forslag_text"], alternatives),
             "votering_id": vid,
             "rm": case["rm"],
             "beteckning": case["beteckning"],
@@ -137,7 +140,10 @@ def run(run_id: str | None = None) -> None:
             "ai": case_decisions,
             "probe": probes.get(vid),
             "seats": seat_array(case_votes),
+            "references": json.loads(case["references"]) if isinstance(case.get("references"), str) else (case.get("references") or []),
             "source_url": f"https://data.riksdagen.se/dokumentstatus/{case['dok_id']}.json",
+            "fulltext_url": f"https://data.riksdagen.se/dokument/{case['dok_id']}.html",
+            "votering_url": f"https://data.riksdagen.se/votering/{vid}/json",
             "riksdagen_url": f"https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/_{case['dok_id']}/",
         }
         (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))

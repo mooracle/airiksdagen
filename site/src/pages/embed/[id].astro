@@ -20,6 +20,19 @@ const caseUrl = `${base}/fall/${c.votering_id}/`;
 const voteLabels: Record<string, string> = {
   Ja: 'Ja', Nej: 'Nej', 'Avstår': 'Avstår', 'Frånvarande': 'Frånvarande',
 };
+
+const dissenters = c.seats
+  .filter(([parti, rost]) => {
+    const pos = c.actual[parti]?.position;
+    return rost !== 'Frånvarande' && pos && pos !== 'Frånvarande' && rost !== pos;
+  })
+  .map(([parti, rost, namn]) => `${namn} (${parti}: ${rost})`);
+const dissentLine =
+  dissenters.length === 0
+    ? ''
+    : dissenters.length <= 4
+      ? dissenters.join(', ')
+      : `${dissenters.slice(0, 3).join(', ')} +${dissenters.length - 3} till`;
 ---
 
 <!doctype html>
@@ -43,6 +56,14 @@ const voteLabels: Record<string, string> = {
         actual={c.actual}
         voteLabels={voteLabels}
       />
+      {c.compact && (
+        <p class="meaning">
+          <strong>Ja</strong> = {c.compact.ja_sv} <strong>Nej</strong> = {c.compact.nej_sv}
+        </p>
+      )}
+      {dissentLine && (
+        <p class="meaning"><strong>Avvek från partilinjen:</strong> {dissentLine}</p>
+      )}
       <p class="foot">
         Verklig röst per ledamot; märket under varje parti = AI enligt partiets egna dokument.
         <a href={caseUrl} target="_blank" rel="noopener">AI Riksdag →</a>
@@ -60,6 +81,7 @@ const voteLabels: Record<string, string> = {
       .title { font-weight: 700; color: #17222c; text-decoration: none; font-size: 1.02rem; }
       .title:hover { color: #1c5d99; }
       .meta { color: #6e7a85; font-size: 0.78rem; white-space: nowrap; }
+      .meaning { margin: 6px 0 0; color: #45525e; font-size: 0.78rem; }
       .foot { margin: 6px 0 0; color: #6e7a85; font-size: 0.75rem; }
       .muted { color: #6e7a85; }
       .votechip {
