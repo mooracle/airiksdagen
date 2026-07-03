@@ -35,7 +35,7 @@ export interface AiDecision {
   confidence: string;
   coverage: string;
   motivering: string;
-  citations: { document: string; quote: string }[];
+  citations: { document: string; quote: string; princip?: string }[];
   flags: string[];
   model: string;
 }

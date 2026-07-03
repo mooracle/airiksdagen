@@ -57,6 +57,10 @@ class PartyPosition(BaseModel):
 class Citation(BaseModel):
     document: Literal["valmanifest", "partiprogram", "tidoavtalet"]
     quote: str
+    # Short label (2-6 words) of the commitment the quote expresses, e.g.
+    # "minskad asylinvandring". Empty in pre-p3 runs. The FIRST citation in a
+    # decision is the decisive one — the passage that stands behind the vote.
+    princip: str = ""
 
 
 class Decision(BaseModel):

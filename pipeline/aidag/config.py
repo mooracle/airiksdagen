@@ -53,8 +53,9 @@ VOTE_VALUES = ["Ja", "Nej", "Avstår", "Frånvarande"]
 # Simulation defaults. Pilot runs one arm per model; full run picks by eval.
 DEFAULT_MODEL = "claude-opus-4-8"
 PILOT_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6"]
-# p1 = pilot (motivering <=200 words); p2 = short motivering (2-4 sentences)
-PROMPT_VERSION = "p2"
+# p1 = pilot (motivering <=200 words); p2 = short motivering (2-4 sentences);
+# p3 = p2 + decisive-first citations with per-citation "princip" labels
+PROMPT_VERSION = "p3"
 BATCH_CHUNK_SIZE = 300
 
 RIKSDAG_ATTRIBUTION = "Källa: Sveriges riksdag"

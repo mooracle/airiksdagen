@@ -28,6 +28,21 @@ function citationHref(party: string, document: string, quote: string): string | 
   return `${base}/dokument/${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
+// parties where the AI's plan-faithful vote differs from the actual vote —
+// each shown with the decisive plan quote so the deviation claim is verifiable
+const mismatches = partyOrder
+  .filter((code) => {
+    const d = c.ai[code];
+    const a = c.actual[code];
+    return d && a && a.position !== 'Frånvarande' && d.rost !== a.position;
+  })
+  .map((code) => ({
+    code,
+    decision: c.ai[code],
+    actual: c.actual[code],
+    decisive: c.ai[code].citations[0] ?? null,
+  }));
+
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
   .filter(([parti, rost]) => {
@@ -122,6 +137,39 @@ const docRefs = partyOrder
     </tbody>
   </table>
 
+  {mismatches.length > 0 && (
+    <>
+      <h2>{t('case.planVsReal')}</h2>
+      {mismatches.map((m) => {
+        const href = m.decisive ? citationHref(m.code, m.decisive.document, m.decisive.quote) : null;
+        return (
+          <div class="card mismatchbox" style={`border-left: 4px solid ${meta.parties[m.code]?.color}`}>
+            <p class="mm-head">
+              <strong><span class="partydot" style={`background:${meta.parties[m.code]?.color}`} />{meta.parties[m.code]?.name ?? m.code}</strong>
+              <span>
+                {t('case.ai')}: <span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
+                <span class="muted"> · </span>
+                {t('case.actual')}: <span class="votechip" data-v={m.actual.position}>{voteLabels[m.actual.position]}</span>
+              </span>
+            </p>
+            {m.decisive && (
+              <blockquote>
+                {m.decisive.princip && <span class="chip">{m.decisive.princip}</span>}
+                »{m.decisive.quote}«
+                {href ? (
+                  <a class="muted src" href={href}>({docLabel[m.decisive.document] ?? m.decisive.document} ↗)</a>
+                ) : (
+                  <span class="muted src">({docLabel[m.decisive.document] ?? m.decisive.document})</span>
+                )}
+              </blockquote>
+            )}
+            <p class="muted mm-note">{t('case.planVsRealNote')}</p>
+          </div>
+        );
+      })}
+    </>
+  )}
+
   {dissenters.length > 0 && (
     <>
       <h2>{t('case.dissenters')}</h2>
@@ -207,10 +255,12 @@ const docRefs = partyOrder
             <p>{d.motivering}</p>
             {d.citations.length > 0 && (
               <ul>
-                {d.citations.map((cit) => {
+                {d.citations.map((cit, i) => {
                   const href = citationHref(code, cit.document, cit.quote);
                   return (
                     <li>
+                      {cit.princip && <span class="chip">{cit.princip}</span>}
+                      {i === 0 && <span class="chip" style="background:#e5efdb">{t('case.decisive')}</span>}
                       <em>»{cit.quote}«</em>{' '}
                       {href ? (
                         <a class="muted" href={href}>({docLabel[cit.document] ?? cit.document} ↗)</a>
@@ -315,6 +365,13 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    .mismatchbox blockquote {
+      margin: 0.6rem 0; padding: 0.6rem 0.9rem; background: #fbfaf5;
+      border-radius: 6px; font-family: Georgia, serif; font-size: 1.02rem;
+    }
+    .mismatchbox .src { font-size: 0.82rem; margin-left: 0.4rem; font-family: inherit; }
+    .mm-head { display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; margin: 0; }
+    .mm-note { font-size: 0.8rem; margin: 0.2rem 0 0; }
     .srclist { margin: 0.2rem 0; padding-left: 1.2rem; }
     .srclist li { margin: 0.25rem 0; }
     .meanings p { margin: 0.45rem 0; }

@@ -41,8 +41,9 @@ DECISION_SCHEMA = {
                         "enum": ["valmanifest", "partiprogram", "tidoavtalet"],
                     },
                     "quote": {"type": "string"},
+                    "princip": {"type": "string"},
                 },
-                "required": ["document", "quote"],
+                "required": ["document", "quote", "princip"],
                 "additionalProperties": False,
             },
         },
@@ -64,7 +65,11 @@ faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunk
 - Om dokumenten inte täcker frågan: härled från dokumentens principer och ange \
 coverage="inferred", eller ange coverage="not_covered" och rösta utifrån närmast \
 liggande princip.
-- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag.
+- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. \
+Välj det STÄLLE i dokumenten som faktiskt bär beslutet — inte en allmän formulering. \
+Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat en kort \
+"princip" (2–6 ord) som namnger åtagandet, t.ex. "minskad asylinvandring" eller \
+"höjda försvarsanslag".
 
 Så fungerar voteringen (voteringsordning i kammaren):
 - Ja = du stödjer utskottets förslag (beslutsförslaget).

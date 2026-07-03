@@ -29,8 +29,9 @@ const DECISION_SCHEMA = {
         properties: {
           document: { type: 'string', enum: ['valmanifest', 'partiprogram', 'tidoavtalet'] },
           quote: { type: 'string' },
+          princip: { type: 'string' },
         },
-        required: ['document', 'quote'],
+        required: ['document', 'quote', 'princip'],
         additionalProperties: false,
       },
     },
@@ -102,7 +103,10 @@ const simPrompt = (item) =>
   `- Read ONLY those two files. No web search, no other files, no other tools.\n` +
   `- Base the decision exclusively on the documents in the role file and the situational picture in the case text. Do NOT use your own knowledge of how the party actually voted or of events after the stated time.\n` +
   `- "motivering": Swedish, SHORT — 2-4 sentences (max ~80 words) stating the decisive plan commitment and how it maps to Ja/Nej/Avstår.\n` +
-  `- Every citation "quote" must be a VERBATIM substring copied exactly from the document text.\n` +
+  `- Every citation "quote" must be a VERBATIM substring copied exactly from the document text. ` +
+  `Pick the SPECIFIC passage that actually carries the vote, not a generic statement. Order ` +
+  `citations by importance — the FIRST one is the decisive commitment. Give each citation a ` +
+  `short "princip" (2-6 Swedish words) naming the commitment, e.g. "minskad asylinvandring".\n` +
   `- Answer only via the structured output.`
 
 const probePrompt = (item) =>
