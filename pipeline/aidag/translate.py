@@ -160,16 +160,26 @@ def _pending(run_id: str) -> tuple[list[dict], list[dict]]:
     return pending_cases, pending_decisions
 
 
-def prepare(run_id: str, batch_size: int = 240, kind: str = "all") -> None:
+def prepare(
+    run_id: str, batch_size: int = 240, kind: str = "all", decided_only: bool = False
+) -> None:
     """Write the NEXT translation batch manifest from whatever is pending.
 
     One manifest item = one request file = one translation agent handling
     several units. Case texts (run-independent) are packed before the run's
     decision texts; `kind` restricts the batch to one of the two.
+
+    `decided_only` scopes pending CASE texts to voteringar that already have a
+    decision in this run — so incremental translation keeps pace with the
+    simulation instead of translating case texts for cases not yet simulated
+    (decisions are per-run and already scoped, so they are unaffected).
     """
     if kind not in ("all", "cases", "decisions"):
         raise ValueError(f"kind must be all|cases|decisions, got {kind!r}")
     pending_cases, pending_decisions = _pending(run_id)
+    if decided_only:
+        decided_vids = {d["votering_id"] for d in _load_decisions(run_id).values()}
+        pending_cases = [c for c in pending_cases if c["votering_id"] in decided_vids]
 
     groups = []
     if kind in ("all", "cases"):
