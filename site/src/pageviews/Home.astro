@@ -88,10 +88,28 @@ const hasAiData = timeseries.length > 0;
 ---
 
 <Base lang={lang} path="/">
-  <h1>{t('site.tagline')}</h1>
-  <p>{t('home.intro')}</p>
-  <div class="card">
-    <p style="margin:0"><strong>⚠︎</strong> {t('home.disclaimer')}</p>
+  <section class="hero">
+    <h1>{t('site.tagline')}</h1>
+    <p class="lede">{t('home.intro')}</p>
+    <p class="muted disclaimer">⚠︎ {t('home.disclaimer')}</p>
+  </section>
+
+  <div class="audience">
+    <a class="card apath" href={`${browserBase}?d=1`}>
+      <span class="chip">{t('home.forJournalists')}</span>
+      <strong>{t('home.forJournalistsTitle')}</strong>
+      <p class="muted">{t('home.forJournalistsText')}</p>
+    </a>
+    <a class="card apath" href={localePath(lang, lang === 'sv' ? '/metod/' : '/methodology/')}>
+      <span class="chip">{t('home.forResearchers')}</span>
+      <strong>{t('home.forResearchersTitle')}</strong>
+      <p class="muted">{t('home.forResearchersText')}</p>
+    </a>
+    <a class="card apath" href={browserBase}>
+      <span class="chip">{t('home.forEveryone')}</span>
+      <strong>{t('home.forEveryoneTitle')}</strong>
+      <p class="muted">{t('home.forEveryoneText')}</p>
+    </a>
   </div>
 
   <h2>{t('home.drift')}</h2>
@@ -183,6 +201,14 @@ const hasAiData = timeseries.length > 0;
   <p><a href={browserBase}>{t('browser.title')} ({meta.n_cases}) →</a></p>
 
   <style>
+    .hero { max-width: 60rem; }
+    .hero .lede { font-size: 1.12rem; color: var(--ink-2); }
+    .hero .disclaimer { font-size: 0.9rem; border-left: 3px solid var(--avstar); padding-left: 0.8rem; }
+    .audience { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: 1.4rem 0 0.5rem; }
+    .apath { text-decoration: none; color: inherit; display: block; }
+    .apath:hover { border-color: var(--accent); }
+    .apath strong { display: block; margin: 0.5rem 0 0.25rem; font-size: 1.05rem; }
+    .apath p { margin: 0; font-size: 0.88rem; }
     .legend { font-size: 0.8rem; margin: 0.3rem 0 0; }
     .legend span { margin-right: 0.7rem; white-space: nowrap; }
     .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.3em; }

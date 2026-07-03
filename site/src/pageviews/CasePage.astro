@@ -28,6 +28,12 @@ function citationHref(party: string, document: string, quote: string): string | 
   return `${base}/dokument/${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
+// absolute URLs for the share/embed box (correct once SITE_URL is set in CI)
+const site = (Astro.site?.toString() ?? 'https://aidag.example.org/').replace(/\/$/, '');
+const pageAbsUrl = `${site}${base}${casesPath}${c.votering_id}/`;
+const embedAbsUrl = `${site}${base}/embed/${c.votering_id}/`;
+const embedSnippet = `<iframe src="${embedAbsUrl}" width="100%" height="430" style="border:1px solid #ddd;border-radius:8px" title="AI Riksdag: ${c.rubrik.replace(/"/g, "'")}" loading="lazy"></iframe>`;
+
 // per-party document references used in this case (deduped), for the study box
 const docRefs = partyOrder
   .filter((p) => c.ai[p])
@@ -42,7 +48,11 @@ const docRefs = partyOrder
 ---
 
 <Base lang={lang} title={c.rubrik} path={`${casesPath}${c.votering_id}/`}>
-  <p class="muted">{c.datum} · {c.rm}:{c.beteckning} punkt {c.punkt} · {c.utskott}</p>
+  <p>
+    <span class="chip">{c.datum}</span>
+    <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
+    <span class="chip">{c.utskott}</span>
+  </p>
   <h1>{c.rubrik}</h1>
   {c.dok_titel !== c.rubrik && <p class="muted">{c.dok_titel}</p>}
 
@@ -73,7 +83,7 @@ const docRefs = partyOrder
         const comparable = a && a.position !== 'Frånvarande';
         const isMatch = d && comparable && d.rost === a.position;
         return (
-          <tr>
+          <tr id={`vote-${code}`}>
             <td><span class="partydot" style={`background:${meta.parties[code]?.color}`} /><strong>{code}</strong></td>
             <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
             <td>
@@ -189,9 +199,65 @@ const docRefs = partyOrder
     </>
   )}
 
+  <h2>{t('case.share')}</h2>
+  <div class="card sharebox">
+    <label>
+      <span>{t('case.shareLink')}</span>
+      <span class="row">
+        <input type="text" readonly value={pageAbsUrl} data-copy />
+        <button class="btn ghost" type="button" data-copybtn>{t('case.copy')}</button>
+      </span>
+    </label>
+    <label>
+      <span>{t('case.sharePartyLink')}</span>
+      <span class="row">
+        <select data-partysel>
+          {partyOrder.map((code) => <option value={code}>{meta.parties[code]?.name ?? code}</option>)}
+        </select>
+        <input type="text" readonly value={`${pageAbsUrl}#vote-${partyOrder[0]}`} data-copy data-partylink />
+        <button class="btn ghost" type="button" data-copybtn>{t('case.copy')}</button>
+      </span>
+    </label>
+    <label>
+      <span>{t('case.shareEmbed')} <a href={embedAbsUrl} target="_blank" rel="noopener">{t('case.embedPreview')}</a></span>
+      <span class="row">
+        <textarea readonly rows="3" data-copy>{embedSnippet}</textarea>
+        <button class="btn ghost" type="button" data-copybtn>{t('case.copy')}</button>
+      </span>
+    </label>
+  </div>
+
   <p class="muted">
     {t('case.source')} ·
     <a href={c.riksdagen_url}>riksdagen.se</a> ·
     <a href={c.source_url}>dokumentstatus (API)</a>
   </p>
+
+  <script is:inline define:vars={{ pageAbsUrl }}>
+    for (const btn of document.querySelectorAll('[data-copybtn]')) {
+      btn.addEventListener('click', () => {
+        const field = btn.parentElement.querySelector('[data-copy]');
+        navigator.clipboard.writeText(field.value ?? field.textContent).then(() => {
+          const old = btn.textContent;
+          btn.textContent = '✓';
+          setTimeout(() => (btn.textContent = old), 1200);
+        });
+      });
+    }
+    const sel = document.querySelector('[data-partysel]');
+    const link = document.querySelector('[data-partylink]');
+    if (sel && link) {
+      sel.addEventListener('input', () => {
+        link.value = `${pageAbsUrl}#vote-${sel.value}`;
+      });
+    }
+  </script>
+
+  <style>
+    .sharebox label { display: block; margin-bottom: 0.9rem; font-size: 0.86rem; color: var(--muted); }
+    .sharebox label > span:first-child { display: block; margin-bottom: 0.25rem; }
+    .sharebox .row { display: flex; gap: 0.5rem; }
+    .sharebox input[type='text'], .sharebox textarea { flex: 1; font-size: 0.84rem; font-family: ui-monospace, Menlo, monospace; }
+    .sharebox textarea { resize: vertical; }
+  </style>
 </Base>

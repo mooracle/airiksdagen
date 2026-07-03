@@ -103,6 +103,7 @@ const caseBase = localePath(lang, casesPath);
         const params = new URLSearchParams(location.search);
         if (params.get('q')) q.value = params.get('q');
         if (params.get('m') && monthsAvail.includes(params.get('m'))) month.value = params.get('m');
+        if (params.get('d') === '1') disagree.checked = true;
         apply();
       });
 

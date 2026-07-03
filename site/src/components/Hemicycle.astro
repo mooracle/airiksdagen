@@ -71,7 +71,7 @@ function labelPos(range: { from: number; to: number }) {
       const comparable = act && act !== 'Frånvarande';
       const isMatch = decision && comparable && decision.rost === act;
       return (
-        <div class="ai-badge" style={`border-top: 3px solid ${parties[code]?.color ?? '#999'}`}>
+        <div class="ai-badge" id={code} style={`border-top: 3px solid ${parties[code]?.color ?? '#999'}`}>
           <span class="code">{code}</span>
           {decision ? (
             <>

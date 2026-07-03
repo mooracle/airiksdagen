@@ -1,0 +1,79 @@
+---
+/**
+ * Embeddable widget: one case, hemicycle + AI-vs-actual badges, no chrome.
+ * Meant for <iframe src=".../embed/{id}/" width="100%" height="430">.
+ * A URL fragment like #S highlights that party's badge (CSS :target).
+ */
+import Hemicycle from '../../components/Hemicycle.astro';
+import { getMeta, getCase, listCaseIds } from '../../lib/data';
+
+export async function getStaticPaths() {
+  return listCaseIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const c = getCase(id!);
+const meta = getMeta();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const caseUrl = `${base}/fall/${c.votering_id}/`;
+
+const voteLabels: Record<string, string> = {
+  Ja: 'Ja', Nej: 'Nej', 'Avstår': 'Avstår', 'Frånvarande': 'Frånvarande',
+};
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{c.rubrik} — AI Riksdag</title>
+  </head>
+  <body>
+    <div class="widget">
+      <p class="head">
+        <a class="title" href={caseUrl} target="_blank" rel="noopener">{c.rubrik}</a>
+        <span class="meta">{c.datum} · {c.rm}:{c.beteckning} p.{c.punkt}</span>
+      </p>
+      <Hemicycle
+        seats={c.seats}
+        parties={meta.parties}
+        ai={c.ai}
+        actual={c.actual}
+        voteLabels={voteLabels}
+      />
+      <p class="foot">
+        Verklig röst per ledamot; märket under varje parti = AI enligt partiets egna dokument.
+        <a href={caseUrl} target="_blank" rel="noopener">AI Riksdag →</a>
+      </p>
+    </div>
+
+    <style is:global>
+      body {
+        margin: 0; background: #fff; color: #17222c;
+        font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+      }
+      .widget { padding: 10px 14px; }
+      .head { margin: 0 0 4px; display: flex; justify-content: space-between; gap: 0.8rem; align-items: baseline; flex-wrap: wrap; }
+      .title { font-weight: 700; color: #17222c; text-decoration: none; font-size: 1.02rem; }
+      .title:hover { color: #1c5d99; }
+      .meta { color: #6e7a85; font-size: 0.78rem; white-space: nowrap; }
+      .foot { margin: 6px 0 0; color: #6e7a85; font-size: 0.75rem; }
+      .muted { color: #6e7a85; }
+      .votechip {
+        display: inline-block; padding: 0 0.5rem; border-radius: 999px;
+        font-size: 0.75rem; font-weight: 700; color: #fff;
+      }
+      .votechip[data-v='Ja'] { background: #2e7d32; }
+      .votechip[data-v='Nej'] { background: #c62828; }
+      .votechip[data-v='Avstår'] { background: #e8a013; color: #3a2c00; }
+      .votechip[data-v='Frånvarande'] { background: #c8c4ba; color: #4b4941; }
+      .match { color: #2e7d32; font-weight: 700; }
+      .mismatch { color: #c62828; font-weight: 700; }
+      /* #S / #SD etc. in the iframe src highlights one party's badge */
+      :target { outline: 2px solid #1c5d99; border-radius: 6px; }
+    </style>
+  </body>
+</html>
