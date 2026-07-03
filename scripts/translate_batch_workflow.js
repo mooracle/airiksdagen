@@ -114,6 +114,9 @@ const manifest = await agent(
   `Read the file ${args.manifestPath} and return its exact contents as structured output. Do not modify anything.`,
   { label: 'load-manifest', model: 'sonnet', schema: MANIFEST_SCHEMA },
 )
+if (!manifest) {
+  throw new Error('manifest loader agent returned null (agent error) — nothing was run; relaunch the workflow')
+}
 // verify the manifest survived the loader agent's transcription
 if (manifest.items.length !== manifest.n_items) {
   throw new Error(`manifest item count ${manifest.items.length} != n_items ${manifest.n_items}`)

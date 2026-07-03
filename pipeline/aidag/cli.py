@@ -127,11 +127,30 @@ def agent_prepare(
     run_id: str = typer.Option(..., "--run-id"),
     batch_size: int = typer.Option(240),
     probes: bool = typer.Option(True, help="Include memorization probes"),
+    group: int = typer.Option(1, help=">1: one agent decides N same-party/month cases"),
+    mirror_run: str = typer.Option(None, help="Restrict to cids already collected in this run"),
 ) -> None:
     """Emit the next subagent batch manifest from pending work (checkpoint-aware)."""
     from aidag.agent_run import prepare
 
-    prepare(run_id=run_id, batch_size=batch_size, include_probes=probes)
+    prepare(
+        run_id=run_id,
+        batch_size=batch_size,
+        include_probes=probes,
+        group=group,
+        mirror_run=mirror_run,
+    )
+
+
+@app.command("compare-runs")
+def compare_runs(
+    run_a: str = typer.Option(..., "--run-a"),
+    run_b: str = typer.Option(..., "--run-b"),
+) -> None:
+    """Decision-by-decision comparison of two runs over their common cids."""
+    from aidag.compare_runs import run
+
+    run(run_a=run_a, run_b=run_b)
 
 
 @app.command("agent-status")

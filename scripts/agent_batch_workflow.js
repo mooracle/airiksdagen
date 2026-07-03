@@ -79,12 +79,18 @@ const PROBE_SCHEMA = {
   additionalProperties: false,
 }
 
+// Compact manifest: party/vid/case_file derive from the cid and the
+// manifest-level dirs — keeps the loader agent's transcription small enough
+// for its output-token limit even on 240+-item batches.
 const MANIFEST_SCHEMA = {
   type: 'object',
   properties: {
     run_id: { type: 'string' },
     n_sims: { type: 'number' },
     n_probes: { type: 'number' },
+    cases_dir: { type: 'string' },
+    probes_dir: { type: 'string' },
+    system_dir: { type: 'string' },
     items: {
       type: 'array',
       items: {
@@ -92,18 +98,15 @@ const MANIFEST_SCHEMA = {
         properties: {
           kind: { type: 'string', enum: ['sim', 'probe'] },
           cid: { type: 'string' },
-          party: { type: 'string' },
+          sys: { type: 'string' },
           vid: { type: 'string' },
-          system_file: { type: 'string' },
-          case_file: { type: 'string' },
-          path: { type: 'string' },
         },
-        required: ['kind', 'vid'],
+        required: ['kind'],
         additionalProperties: false,
       },
     },
   },
-  required: ['run_id', 'n_sims', 'n_probes', 'items'],
+  required: ['run_id', 'n_sims', 'n_probes', 'cases_dir', 'probes_dir', 'system_dir', 'items'],
   additionalProperties: false,
 }
 
@@ -122,28 +125,45 @@ const manifest = await agent(
   `Read the file ${args.manifestPath} and return its exact contents as structured output. Do not modify anything.`,
   { label: 'load-manifest', model: 'sonnet', schema: MANIFEST_SCHEMA },
 )
-const simItems = manifest.items.filter((i) => i.kind === 'sim')
-const probeItems = manifest.items.filter((i) => i.kind === 'probe')
+if (!manifest) {
+  throw new Error('manifest loader agent returned null (agent error) — nothing was run; relaunch the workflow')
+}
+// derive per-item fields from the compact manifest
+const simItems = manifest.items
+  .filter((i) => i.kind === 'sim')
+  .map((i) => {
+    const [party, vid] = (i.cid ?? '').split(':')
+    return {
+      cid: i.cid,
+      sys: i.sys,
+      party,
+      vid,
+      system_file: `${manifest.system_dir}/${i.sys}`,
+      case_file: `${manifest.cases_dir}/${vid}.json`,
+    }
+  })
+const probeItems = manifest.items
+  .filter((i) => i.kind === 'probe')
+  .map((i) => ({ vid: i.vid, path: `${manifest.probes_dir}/${i.vid}.json` }))
 
 // The manifest passes through an agent transcription above — verify it arrived
-// intact before spending ~240 agents on it. A dropped item, a truncated path or
+// intact before spending ~240 agents on it. A dropped item, a truncated dir or
 // a typo'd cid would otherwise surface as corrupt or missing results at ingest.
 const PARTY_SET = new Set(PARTY_CODES)
 const problems = []
 if (simItems.length !== manifest.n_sims) problems.push(`sim count ${simItems.length} != manifest n_sims ${manifest.n_sims}`)
 if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeItems.length} != manifest n_probes ${manifest.n_probes}`)
+for (const dir of [manifest.cases_dir, manifest.probes_dir, manifest.system_dir]) {
+  if (!dir || !dir.includes('agentrun')) problems.push(`bad manifest dir: ${dir}`)
+}
 for (const item of simItems) {
-  if (!item.cid || !item.party || !item.system_file || !item.case_file) {
-    problems.push(`incomplete sim item: ${JSON.stringify(item)}`)
-    continue
-  }
-  const [party, vid] = item.cid.split(':')
-  if (party !== item.party || vid !== item.vid || !PARTY_SET.has(item.party)) {
-    problems.push(`cid does not match item fields: ${item.cid} vs ${item.party}/${item.vid}`)
+  const [party, vid, version, arm] = (item.cid ?? '').split(':')
+  if (!party || !vid || !version || !arm || !PARTY_SET.has(party) || !item.sys) {
+    problems.push(`malformed sim item: ${JSON.stringify({ cid: item.cid, sys: item.sys })}`)
   }
 }
 for (const item of probeItems) {
-  if (!item.path) problems.push(`probe item missing path: ${JSON.stringify(item)}`)
+  if (!item.vid) problems.push(`probe item missing vid`)
 }
 if (problems.length) {
   throw new Error(`manifest failed integrity check (${problems.length} problems):\n${problems.slice(0, 10).join('\n')}`)
