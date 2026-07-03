@@ -101,6 +101,10 @@ const MANIFEST_SCHEMA = {
 }
 
 // Fail fast if args were not forwarded — never let the loader agent guess.
+// Tolerate args arriving as a JSON-encoded string (a recurring launch mistake).
+if (typeof args === 'string') {
+  try { args = JSON.parse(args) } catch { /* falls through to the guard below */ }
+}
 if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.includes('translate')) {
   throw new Error(`translate_batch_workflow: args.manifestPath missing or invalid: ${JSON.stringify(args)}`)
 }

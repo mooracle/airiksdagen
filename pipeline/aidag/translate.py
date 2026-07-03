@@ -160,15 +160,23 @@ def _pending(run_id: str) -> tuple[list[dict], list[dict]]:
     return pending_cases, pending_decisions
 
 
-def prepare(run_id: str, batch_size: int = 240) -> None:
+def prepare(run_id: str, batch_size: int = 240, kind: str = "all") -> None:
     """Write the NEXT translation batch manifest from whatever is pending.
 
     One manifest item = one request file = one translation agent handling
-    several units. Case texts (run-independent) are translated before the
-    run's decision texts.
+    several units. Case texts (run-independent) are packed before the run's
+    decision texts; `kind` restricts the batch to one of the two.
     """
+    if kind not in ("all", "cases", "decisions"):
+        raise ValueError(f"kind must be all|cases|decisions, got {kind!r}")
     pending_cases, pending_decisions = _pending(run_id)
-    if not pending_cases and not pending_decisions:
+
+    groups = []
+    if kind in ("all", "cases"):
+        groups += [("cases", g) for g in _pack(pending_cases, CASES_PER_REQUEST)]
+    if kind in ("all", "decisions"):
+        groups += [("decisions", g) for g in _pack(pending_decisions, DECISIONS_PER_REQUEST)]
+    if not groups:
         print("nothing pending — translations complete")
         return
 
@@ -176,8 +184,6 @@ def prepare(run_id: str, batch_size: int = 240) -> None:
     (base / "reqs").mkdir(parents=True, exist_ok=True)
     (base / "batches").mkdir(exist_ok=True)
 
-    groups = [("cases", g) for g in _pack(pending_cases, CASES_PER_REQUEST)]
-    groups += [("decisions", g) for g in _pack(pending_decisions, DECISIONS_PER_REQUEST)]
     batch_groups = groups[:batch_size]
 
     existing = sorted((base / "batches").glob("batch-*.json"))

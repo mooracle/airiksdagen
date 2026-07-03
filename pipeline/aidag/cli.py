@@ -146,13 +146,14 @@ def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
 def translate_prepare(
     run_id: str = typer.Option(..., "--run-id"),
     batch_size: int = typer.Option(240, help="Translation agents per batch"),
+    kind: str = typer.Option("all", help="all|cases|decisions"),
 ) -> None:
     """Emit the next English-translation batch manifest (checkpoint-aware).
 
     Run AFTER repair-citations so quote translations use the repaired quotes."""
     from aidag.translate import prepare
 
-    prepare(run_id=run_id, batch_size=batch_size)
+    prepare(run_id=run_id, batch_size=batch_size, kind=kind)
 
 
 @app.command("translate-ingest")
