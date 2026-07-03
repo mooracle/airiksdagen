@@ -208,11 +208,14 @@ def agent_ingest(
     run_id: str = typer.Option(..., "--run-id"),
     input: str = typer.Option(..., "--input", help="Workflow result JSON ({sims, probes})"),
     model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
+    batch_id: str = typer.Option(
+        "claude-code-workflow", help="Provenance tag, e.g. claude-code-workflow-grouped8"
+    ),
 ) -> None:
     """Ingest a workflow batch result into the standard results layout."""
     from aidag.ingest_agent_run import run as ingest
 
-    ingest(run_id=run_id, input_path=input, model=model)
+    ingest(run_id=run_id, input_path=input, model=model, batch_id=batch_id)
 
 
 @app.command()

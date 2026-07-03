@@ -1,3 +1,8 @@
+> **SUPERSEDED (2026-07-03):** the full simulation now runs as the unified
+> grouped run `full-v2` — see **`docs/orchestration-grouped-run.md`**. This
+> per-case protocol is kept for the record; `full-v1` (256 decisions) is
+> frozen as part of the grouped-vs-per-case validation study.
+
 # Full-run orchestration: Opus orchestrator + Sonnet vote agents
 
 Operational runbook for simulating **all 2,539 voteringar × 8 parties (20,312

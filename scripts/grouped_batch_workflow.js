@@ -15,10 +15,29 @@ export const meta = {
   phases: [
     { title: 'Load', detail: 'read the batch manifest' },
     { title: 'Simulate', detail: 'one Sonnet agent per (party x case-group)', model: 'sonnet' },
+    { title: 'Probe', detail: 'memorization probes (one per case)', model: 'sonnet' },
   ],
 }
 
 const PARTY_CODES = ['S', 'M', 'SD', 'C', 'V', 'KD', 'MP', 'L']
+
+const PROBE_SCHEMA = {
+  type: 'object',
+  properties: {
+    recalls_case: { type: 'boolean' },
+    positions: {
+      type: 'object',
+      properties: Object.fromEntries(
+        PARTY_CODES.map((p) => [p, { type: 'string', enum: ['Ja', 'Nej', 'Avstår', 'Frånvarande', 'okänt'] }]),
+      ),
+      required: PARTY_CODES,
+      additionalProperties: false,
+    },
+    notes: { type: 'string' },
+  },
+  required: ['recalls_case', 'positions', 'notes'],
+  additionalProperties: false,
+}
 
 const DECISION_PROPS = {
   cid: { type: 'string' },
@@ -93,17 +112,18 @@ const MANIFEST_SCHEMA = {
       items: {
         type: 'object',
         properties: {
-          kind: { type: 'string', enum: ['simgroup'] },
+          kind: { type: 'string', enum: ['simgroup', 'probe'] },
           party: { type: 'string' },
           sys: { type: 'string' },
           cids: { type: 'array', items: { type: 'string' } },
+          vid: { type: 'string' },
         },
-        required: ['kind', 'party', 'sys', 'cids'],
+        required: ['kind'],
         additionalProperties: false,
       },
     },
   },
-  required: ['run_id', 'n_sims', 'n_probes', 'cases_dir', 'system_dir', 'items'],
+  required: ['run_id', 'n_sims', 'n_probes', 'cases_dir', 'probes_dir', 'system_dir', 'items'],
   additionalProperties: false,
 }
 
@@ -125,21 +145,32 @@ if (!manifest) {
 }
 
 // derive per-case fields from the compact manifest
-const groups = manifest.items.map((item) => ({
-  ...item,
-  system_file: `${manifest.system_dir}/${item.sys}`,
-  cases: item.cids.map((cid) => {
-    const vid = cid.split(':')[1] ?? ''
-    return { cid, vid, case_file: `${manifest.cases_dir}/${vid}.json` }
-  }),
-}))
+const groups = manifest.items
+  .filter((i) => i.kind === 'simgroup')
+  .map((item) => ({
+    ...item,
+    system_file: `${manifest.system_dir}/${item.sys}`,
+    cases: item.cids.map((cid) => {
+      const vid = cid.split(':')[1] ?? ''
+      return { cid, vid, case_file: `${manifest.cases_dir}/${vid}.json` }
+    }),
+  }))
+const probeItems = manifest.items
+  .filter((i) => i.kind === 'probe')
+  .map((i) => ({ vid: i.vid, path: `${manifest.probes_dir}/${i.vid}.json` }))
 
 // verify the manifest survived the loader agent's transcription
 const PARTY_SET = new Set(PARTY_CODES)
 const problems = []
 const totalCases = groups.reduce((s, i) => s + i.cases.length, 0)
 if (totalCases !== manifest.n_sims) problems.push(`case count ${totalCases} != manifest n_sims ${manifest.n_sims}`)
-if (!manifest.cases_dir || !manifest.cases_dir.includes('agentrun')) problems.push(`bad cases_dir: ${manifest.cases_dir}`)
+if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeItems.length} != manifest n_probes ${manifest.n_probes}`)
+for (const item of probeItems) {
+  if (!item.vid) problems.push('probe item missing vid')
+}
+for (const dir of [manifest.cases_dir, manifest.probes_dir, manifest.system_dir]) {
+  if (!dir || !dir.includes('agentrun')) problems.push(`bad manifest dir: ${dir}`)
+}
 for (const item of groups) {
   if (!item.sys || !PARTY_SET.has(item.party)) {
     problems.push(`bad group item: ${item.party} / ${item.sys}`)
@@ -155,7 +186,7 @@ for (const item of groups) {
 if (problems.length) {
   throw new Error(`manifest failed integrity check (${problems.length} problems):\n${problems.slice(0, 10).join('\n')}`)
 }
-log(`batch loaded: ${groups.length} groups, ${totalCases} decisions (run ${manifest.run_id})`)
+log(`batch loaded: ${groups.length} groups (${totalCases} decisions), ${probeItems.length} probes (run ${manifest.run_id})`)
 
 const groupPrompt = (item) =>
   `You decide how a Swedish party SHOULD vote in ${item.cases.length} SEPARATE Riksdag divisions, strictly from the party's own documents.\n\n` +
@@ -178,30 +209,38 @@ const groupPrompt = (item) =>
   `If the documents are silent and worldstate decides, use coverage="not_covered" AND omvarld.paverkar=true.\n` +
   `- Return one decision per case, copying its "cid" EXACTLY as given above. Answer only via the structured output.`
 
-phase('Simulate')
+const probePrompt = (item) =>
+  `Read the JSON file at ${item.path}. Its "prompt" field contains instructions and a question ` +
+  `about a real Riksdag vote. Follow them exactly: answer only from your actual memory of this ` +
+  `specific vote; if you do not remember it, set recalls_case=false and "okänt" for parties you ` +
+  `do not remember. Read only that one file, use no other tools, answer only via structured output.`
+
 const byCid = new Map(groups.flatMap((item) => item.cases.map((c) => [c.cid, { party: item.party, vid: c.vid }])))
-const results = (
-  await parallel(
-    groups.map((item) => () =>
-      agent(groupPrompt(item), {
-        label: `${item.party}:${item.cases.length} cases`,
-        phase: 'Simulate',
-        model: 'sonnet',
-        schema: GROUP_SCHEMA,
-      }).then((r) => (r ? { item, decisions: r.decisions } : null))),
-  )
-).filter(Boolean)
+const work = [
+  ...groups.map((item) => () =>
+    agent(groupPrompt(item), {
+      label: `${item.party}:${item.cases.length} cases`,
+      phase: 'Simulate',
+      model: 'sonnet',
+      schema: GROUP_SCHEMA,
+    }).then((r) => (r ? { kind: 'group', decisions: r.decisions } : null))),
+  ...probeItems.map((item) => () =>
+    agent(probePrompt(item), { label: `probe:${item.vid}`, phase: 'Probe', model: 'sonnet', schema: PROBE_SCHEMA })
+      .then((r) => (r ? { kind: 'probe', vid: item.vid, result: r } : null))),
+]
+const results = (await parallel(work)).filter(Boolean)
 
 const sims = []
 let unknown = 0
-for (const { decisions } of results) {
-  for (const d of decisions) {
+for (const r of results.filter((r) => r.kind === 'group')) {
+  for (const d of r.decisions) {
     const ref = byCid.get(d.cid)
     if (!ref) { unknown++; continue } // hallucinated cid — leave the real one pending
     const { cid, ...decision } = d
     sims.push({ kind: 'sim', cid, party: ref.party, vid: ref.vid, decision })
   }
 }
+const probes = results.filter((r) => r.kind === 'probe').map(({ vid, result }) => ({ kind: 'probe', vid, result }))
 if (unknown > 0) log(`WARNING: ${unknown} decisions returned with unknown cids (dropped, stay pending)`)
-log(`batch done: ${sims.length}/${totalCases} decisions from ${results.length}/${groups.length} groups`)
-return { run_id: manifest.run_id, sims, probes: [] }
+log(`batch done: ${sims.length}/${totalCases} decisions, ${probes.length}/${probeItems.length} probes`)
+return { run_id: manifest.run_id, sims, probes }

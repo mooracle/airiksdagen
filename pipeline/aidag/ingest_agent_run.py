@@ -20,7 +20,16 @@ from aidag.probe import probe_results_path
 from aidag.simulate import collected_ids, results_path
 
 
-def parse_sim(sim: dict, run_id: str, model: str, known_vids: set[str]) -> Decision:
+DEFAULT_BATCH_ID = "claude-code-workflow"
+
+
+def parse_sim(
+    sim: dict,
+    run_id: str,
+    model: str,
+    known_vids: set[str],
+    batch_id: str = DEFAULT_BATCH_ID,
+) -> Decision:
     """Validate one workflow sim result against the case universe.
 
     The cid travels through an agent transcription (workflow loader), so a
@@ -41,13 +50,13 @@ def parse_sim(sim: dict, run_id: str, model: str, known_vids: set[str]) -> Decis
         prompt_version=prompt_version,
         model=model,
         arm=arm,
-        batch_id="claude-code-workflow",
+        batch_id=batch_id,
         collected_at=datetime.now(timezone.utc).isoformat(),
         **sim["decision"],
     )
 
 
-def run(run_id: str, input_path: str, model: str) -> None:
+def run(run_id: str, input_path: str, model: str, batch_id: str = DEFAULT_BATCH_ID) -> None:
     data = json.loads(open(input_path).read())
     positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
     actual: dict[str, dict[str, str]] = {}
@@ -59,7 +68,7 @@ def run(run_id: str, input_path: str, model: str) -> None:
     n_bad = 0
     for sim in data["sims"]:
         try:
-            decision = parse_sim(sim, run_id, model, known_vids)
+            decision = parse_sim(sim, run_id, model, known_vids, batch_id=batch_id)
         except Exception as e:  # noqa: BLE001
             n_bad += 1
             print(f"  skipped {sim.get('cid')}: {e}")
@@ -111,7 +120,7 @@ def run(run_id: str, input_path: str, model: str) -> None:
                 exact_match_count=matches,
                 recalls_case=bool(p["result"].get("recalls_case")),
                 raw_answer=p["result"].get("notes", ""),
-                batch_id="claude-code-workflow",
+                batch_id=batch_id,
             )
             f.write(probe.model_dump_json() + "\n")
             n_probes += 1
@@ -124,5 +133,6 @@ if __name__ == "__main__":
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--input", required=True)
     parser.add_argument("--model", default="claude-fable-5[1m] (claude-code-subagent)")
+    parser.add_argument("--batch-id", default=DEFAULT_BATCH_ID)
     args = parser.parse_args()
-    run(run_id=args.run_id, input_path=args.input, model=args.model)
+    run(run_id=args.run_id, input_path=args.input, model=args.model, batch_id=args.batch_id)
