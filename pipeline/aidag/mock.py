@@ -39,6 +39,12 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
         words = " ".join(_corpus_text(f"valmanifest-2022-{p.lower()}.txt").split()).split(" ")
         manifesto_snippets[p] = " ".join(words[100:120])
 
+    # mock English decision translations exercise the EN site path; case-text
+    # translations are deliberately left missing to exercise the fallback
+    trans_dir = RESULTS_DIR / "translations" / run_id
+    trans_dir.mkdir(parents=True, exist_ok=True)
+    trans_f = open(trans_dir / "decisions.jsonl", "w")
+
     for party in PARTY_CODES:
         with open(sim_dir / f"{party}.jsonl", "w") as f:
             for case in cases.iter_rows(named=True):
@@ -73,6 +79,18 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
                     flags=(["tido_conflict"] if rng.random() < 0.05 else []),
                 )
                 f.write(decision.model_dump_json() + "\n")
+                trans_f.write(json.dumps({
+                    "cid": f"{party}:{case['votering_id']}:mock:anonymous",
+                    "motivering": (
+                        f"[MOCKDATA EN] Simulated reasoning for {party} on "
+                        f"'{case['rubrik']}'. Replaced by a real AI translation."
+                    ),
+                    "citations": [{"quote": f"[EN] {manifesto_snippets[party]}", "princip": ""}],
+                    "omvarld": [],
+                    "model": "mock-model",
+                    "collected_at": "",
+                }, ensure_ascii=False) + "\n")
+    trans_f.close()
 
     with open(probe_dir / "probe.jsonl", "w") as f:
         for case in cases.iter_rows(named=True):

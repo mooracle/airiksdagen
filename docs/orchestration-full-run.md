@@ -102,6 +102,40 @@ exported and published at any point.
 Probes automatically fill batch room once all decisions are collected — no
 separate probe phase to manage.
 
+## Translation batches (English site)
+
+The English site shows full content — case texts (title, committee proposal,
+decision notice, counter-proposals) and every AI decision (motivering,
+citation quotes, princip labels, worldstate factors) — via a translation
+stage that mirrors the sim loop exactly (derived checkpoints, idempotent
+ingest, alignment-validated records):
+
+```text
+1. uv run aidag translate-prepare --run-id full-v1 --batch-size 240
+   → data/interim/translate/full-v1/batches/batch-NNN.json
+2. Workflow { scriptPath: "scripts/translate_batch_workflow.js",
+              args: { manifestPath: "<abs path from step 1>" } }
+3. write result JSON to a temp file, then
+   uv run aidag translate-ingest --run-id full-v1 --input <file>
+4. uv run aidag verify translate --run-id full-v1   # alignment gate
+5. git add data/results/translations && git commit
+   uv run aidag translate-status --run-id full-v1
+```
+
+Rules:
+- Run `translate-prepare` only AFTER `repair-citations` for the decisions
+  being translated — quote translations must come from repaired quotes.
+- Case-text translations (2,539 units, ~6 per agent ≈ 424 agents ≈ 2 batches)
+  are run-independent and can be executed any time, starting now. Decision
+  translations follow the sim batches (~12 per agent; ~1,700 agents for the
+  full run — much lighter per agent than sims, no corpus context).
+- `export-site` merges translations automatically; untranslated content falls
+  back to Swedish and the English page says so. Publishing checkpoints with
+  partial translation coverage is fine.
+- Ingest validates every record against its Swedish source (parallel array
+  lengths, non-empty fields, known ids) — misaligned units are skipped and
+  stay pending, exactly like failed sim agents.
+
 ## Respecting limits
 
 Subscription usage comes in ~5-hour windows plus a weekly cap. Rules for the
@@ -180,8 +214,12 @@ with partial coverage (cases without decisions simply show the real votes).
 | Path | What |
 |---|---|
 | `scripts/agent_batch_workflow.js` | the Workflow script (Sonnet agents, structured output) |
+| `scripts/translate_batch_workflow.js` | translation Workflow script (Sonnet agents) |
 | `pipeline/aidag/agent_run.py` | `agent-prepare` / `agent-status` (checkpoint logic) |
 | `pipeline/aidag/ingest_agent_run.py` | `agent-ingest` (idempotent collection) |
+| `pipeline/aidag/translate.py` | `translate-prepare` / `translate-ingest` / `translate-status` |
 | `data/interim/agentrun/{run_id}/` | request files + batch manifests (gitignored, regenerable) |
+| `data/interim/translate/{run_id}/` | translation request files + manifests (gitignored) |
 | `data/results/simulations/{run_id}/` | the scientific record (committed) |
+| `data/results/translations/` | English translations: cases.jsonl (global) + {run_id}/decisions.jsonl |
 | `docs/methodology.{sv,en}.md` | what the agents may and may not see |

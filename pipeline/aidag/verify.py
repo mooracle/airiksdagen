@@ -135,6 +135,14 @@ def verify_simulate(run_id: str | None) -> None:
         check(name, ok, detail)
 
 
+def verify_translate(run_id: str | None) -> None:
+    print(f"translate (run_id={run_id}):")
+    from aidag.translate import verify_translations
+
+    for name, ok, detail in verify_translations(run_id):
+        check(name, ok, detail)
+
+
 def verify_site() -> None:
     print("site:")
     from aidag.config import SITE_DATA_DIR
@@ -159,6 +167,8 @@ def run(stage: str, run_id: str | None = None) -> int:
     }
     if stage == "simulate":
         verify_simulate(run_id)
+    elif stage == "translate":
+        verify_translate(run_id)
     elif stage == "all":
         for fn in stages.values():
             try:

@@ -142,6 +142,39 @@ def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
     status(run_id=run_id)
 
 
+@app.command("translate-prepare")
+def translate_prepare(
+    run_id: str = typer.Option(..., "--run-id"),
+    batch_size: int = typer.Option(240, help="Translation agents per batch"),
+) -> None:
+    """Emit the next English-translation batch manifest (checkpoint-aware).
+
+    Run AFTER repair-citations so quote translations use the repaired quotes."""
+    from aidag.translate import prepare
+
+    prepare(run_id=run_id, batch_size=batch_size)
+
+
+@app.command("translate-ingest")
+def translate_ingest(
+    run_id: str = typer.Option(..., "--run-id"),
+    input: str = typer.Option(..., "--input", help="Workflow result JSON ({cases, decisions})"),
+    model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
+) -> None:
+    """Ingest a translate workflow batch result (validated, idempotent)."""
+    from aidag.translate import ingest
+
+    ingest(run_id=run_id, input_path=input, model=model)
+
+
+@app.command("translate-status")
+def translate_status(run_id: str = typer.Option(..., "--run-id")) -> None:
+    """Translation progress report."""
+    from aidag.translate import status
+
+    status(run_id=run_id)
+
+
 @app.command("repair-citations")
 def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     """Align paraphrased citation quotes to the true document span (flagged)."""
@@ -164,7 +197,7 @@ def agent_ingest(
 
 @app.command()
 def verify(
-    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|site|all"),
+    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|site|all"),
     run_id: str = typer.Option(None, "--run-id"),
 ) -> None:
     """Read-only integrity checks; exits nonzero on failure (CI gate)."""

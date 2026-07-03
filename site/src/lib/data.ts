@@ -39,6 +39,21 @@ export interface AiDecision {
   omvarld?: { paverkar: boolean; faktorer: { faktor: string; effekt: string }[] };
   flags: string[];
   model: string;
+  /** English translation; null until the translation batch has run. */
+  en?: {
+    motivering: string;
+    citations: { quote: string; princip: string }[];
+    omvarld: { faktor: string; effekt: string }[];
+  } | null;
+}
+
+/** English case texts; null until the translation batch has run. */
+export interface CaseEn {
+  rubrik: string;
+  dok_titel: string;
+  forslag_text: string;
+  notis: string;
+  alternatives: string[]; // parallel to CaseData.alternatives
 }
 
 export interface CompactMeanings {
@@ -52,6 +67,7 @@ export interface CompactMeanings {
 
 export interface CaseData {
   compact?: CompactMeanings;
+  en?: CaseEn | null;
   votering_id: string;
   rm: string;
   beteckning: string;
@@ -83,6 +99,7 @@ export interface IndexRow {
   punkt: number;
   utskott: string;
   rubrik: string;
+  rubrik_en?: string | null;
   titel: string;
   agree: number;
   compared: number;

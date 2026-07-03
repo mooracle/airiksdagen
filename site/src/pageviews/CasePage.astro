@@ -16,6 +16,16 @@ const casesPath = lang === 'sv' ? '/fall/' : '/cases/';
 const partyOrder = meta.hemicycle_order.filter((p) => c.actual[p] || c.ai[p]);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+// On the English site, show translated case texts and AI reasoning where the
+// translation batch has run; otherwise fall back to Swedish (marked below).
+const en = lang === 'en' ? c.en : null;
+const rubrik = en?.rubrik || c.rubrik;
+const dokTitel = en?.dok_titel || c.dok_titel;
+const forslagText = en?.forslag_text || c.forslag_text;
+const notis = (en && c.notis ? en.notis : '') || c.notis;
+const altTexts = c.alternatives.map((a, i) => (en?.alternatives?.[i] || a.text));
+const aiEn = (code: string) => (lang === 'en' ? c.ai[code]?.en ?? null : null);
+
 const docLabel: Record<string, string> = {
   valmanifest: lang === 'sv' ? 'valmanifest 2022' : '2022 manifesto',
   partiprogram: lang === 'sv' ? 'partiprogram' : 'party programme',
@@ -41,6 +51,7 @@ const mismatches = partyOrder
     decision: c.ai[code],
     actual: c.actual[code],
     decisive: c.ai[code].citations[0] ?? null,
+    decisiveEn: aiEn(code)?.citations?.[0] ?? null,
   }));
 
 // MPs who voted differently from their party's majority position
@@ -55,7 +66,7 @@ const dissenters = c.seats
 const site = (Astro.site?.toString() ?? 'https://aidag.example.org/').replace(/\/$/, '');
 const pageAbsUrl = `${site}${base}${casesPath}${c.votering_id}/`;
 const embedAbsUrl = `${site}${base}/embed/${c.votering_id}/`;
-const embedSnippet = `<iframe src="${embedAbsUrl}" width="100%" height="430" style="border:1px solid #ddd;border-radius:8px" title="AI Riksdag: ${c.rubrik.replace(/"/g, "'")}" loading="lazy"></iframe>`;
+const embedSnippet = `<iframe src="${embedAbsUrl}" width="100%" height="430" style="border:1px solid #ddd;border-radius:8px" title="AI Riksdag: ${(en?.rubrik || c.rubrik).replace(/"/g, "'")}" loading="lazy"></iframe>`;
 
 // per-party document references used in this case (deduped), for the study box
 const docRefs = partyOrder
@@ -70,14 +81,17 @@ const docRefs = partyOrder
   .filter((r) => r.docs.length > 0);
 ---
 
-<Base lang={lang} title={c.rubrik} path={`${casesPath}${c.votering_id}/`}>
+<Base lang={lang} title={rubrik} path={`${casesPath}${c.votering_id}/`}>
   <p>
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
     <span class="chip">{c.utskott}</span>
   </p>
-  <h1>{c.rubrik}</h1>
-  {c.dok_titel !== c.rubrik && <p class="muted">{c.dok_titel}</p>}
+  <h1>{rubrik}</h1>
+  {c.dok_titel !== c.rubrik && <p class="muted">{dokTitel}</p>}
+  {lang === 'en' && (
+    <p class="muted mtnote">{c.en ? t('case.mtNote') : t('case.notTranslated')}</p>
+  )}
 
   <Hemicycle
     seats={c.seats}
@@ -154,12 +168,17 @@ const docRefs = partyOrder
             </p>
             {m.decisive && (
               <blockquote>
-                {m.decisive.princip && <span class="chip">{m.decisive.princip}</span>}
+                {(m.decisiveEn?.princip || m.decisive.princip) && (
+                  <span class="chip">{m.decisiveEn?.princip || m.decisive.princip}</span>
+                )}
                 »{m.decisive.quote}«
                 {href ? (
                   <a class="muted src" href={href}>({docLabel[m.decisive.document] ?? m.decisive.document} ↗)</a>
                 ) : (
                   <span class="muted src">({docLabel[m.decisive.document] ?? m.decisive.document})</span>
+                )}
+                {m.decisiveEn?.quote && (
+                  <span class="qtrans">“{m.decisiveEn.quote}”</span>
                 )}
               </blockquote>
             )}
@@ -224,18 +243,26 @@ const docRefs = partyOrder
   )}
 
   <h2>{t('case.committee')}</h2>
-  <div class="card"><p style="white-space:pre-line; margin:0">{c.forslag_text}</p></div>
+  <div class="card">
+    <p style="white-space:pre-line; margin:0">{forslagText}</p>
+    {en && (
+      <details class="original">
+        <summary>{t('case.originalSv')}</summary>
+        <p style="white-space:pre-line">{c.forslag_text}</p>
+      </details>
+    )}
+  </div>
   {c.notis && (
     <div class="card">
-      <p style="margin:0"><strong>{t('case.decision')}:</strong> {c.notis}</p>
+      <p style="margin:0"><strong>{t('case.decision')}:</strong> {notis}</p>
     </div>
   )}
   {c.alternatives.filter((a) => a.alt_id !== 'utskottet').length > 0 && (
     <>
       <h2>{t('case.alternatives')}</h2>
       <ul>
-        {c.alternatives.filter((a) => a.alt_id !== 'utskottet').map((a) => (
-          <li>{a.text}{a.source_partier.length > 0 && <span class="muted"> ({a.source_partier.join(', ')})</span>}</li>
+        {c.alternatives.map((a, i) => ({ ...a, shownText: altTexts[i] })).filter((a) => a.alt_id !== 'utskottet').map((a) => (
+          <li>{a.shownText}{a.source_partier.length > 0 && <span class="muted"> ({a.source_partier.join(', ')})</span>}</li>
         ))}
       </ul>
     </>
@@ -246,20 +273,28 @@ const docRefs = partyOrder
       <h2>{t('case.motivering')}</h2>
       {partyOrder.filter((p) => c.ai[p]).map((code) => {
         const d = c.ai[code];
+        const dEn = aiEn(code);
         return (
           <details class="card">
             <summary>
               <span class="partydot" style={`background:${meta.parties[code]?.color}`} />
               <strong>{meta.parties[code]?.name ?? code}</strong> — <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
             </summary>
-            <p>{d.motivering}</p>
+            <p>{dEn?.motivering || d.motivering}</p>
+            {dEn?.motivering && (
+              <details class="original">
+                <summary>{t('case.originalSv')}</summary>
+                <p>{d.motivering}</p>
+              </details>
+            )}
             {d.citations.length > 0 && (
               <ul>
                 {d.citations.map((cit, i) => {
                   const href = citationHref(code, cit.document, cit.quote);
+                  const citEn = dEn?.citations?.[i] ?? null;
                   return (
                     <li>
-                      {cit.princip && <span class="chip">{cit.princip}</span>}
+                      {(citEn?.princip || cit.princip) && <span class="chip">{citEn?.princip || cit.princip}</span>}
                       {i === 0 && <span class="chip" style="background:#e5efdb">{t('case.decisive')}</span>}
                       <em>»{cit.quote}«</em>{' '}
                       {href ? (
@@ -267,6 +302,7 @@ const docRefs = partyOrder
                       ) : (
                         <span class="muted">({docLabel[cit.document] ?? cit.document})</span>
                       )}
+                      {citEn?.quote && <span class="qtrans">“{citEn.quote}”</span>}
                     </li>
                   );
                 })}
@@ -275,9 +311,10 @@ const docRefs = partyOrder
             {d.omvarld?.paverkar && d.omvarld.faktorer.length > 0 && (
               <p class="omvarld">
                 <strong>{t('case.omvarld')}:</strong>{' '}
-                {d.omvarld.faktorer.map((f, i) => (
-                  <span>{i > 0 && '; '}<em>{f.faktor}</em> — {f.effekt}</span>
-                ))}
+                {d.omvarld.faktorer.map((f, i) => {
+                  const fEn = dEn?.omvarld?.[i] ?? null;
+                  return <span>{i > 0 && '; '}<em>{fEn?.faktor || f.faktor}</em> — {fEn?.effekt || f.effekt}</span>;
+                })}
               </p>
             )}
             {d.flags.length > 0 && <p class="muted">flags: {d.flags.join(', ')}</p>}
@@ -374,6 +411,10 @@ const docRefs = partyOrder
 
   <style>
     .omvarld { background: #eef3f8; border-radius: 6px; padding: 0.5rem 0.8rem; font-size: 0.88rem; }
+    .mtnote { font-size: 0.8rem; font-style: italic; }
+    .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }
+    details.original { margin-top: 0.5rem; font-size: 0.88rem; }
+    details.original summary { color: var(--muted); cursor: pointer; }
     .mismatchbox blockquote {
       margin: 0.6rem 0; padding: 0.6rem 0.9rem; background: #fbfaf5;
       border-radius: 6px; font-family: Georgia, serif; font-size: 1.02rem;

@@ -27,6 +27,9 @@ from aidag.config import (
 def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
     if run_id is None:
         return {}
+    from aidag.translate import load_decision_translations
+
+    translations = load_decision_translations(run_id)
     out: dict[str, dict[str, dict]] = {}
     sim_dir = RESULTS_DIR / "simulations" / run_id
     for path in sorted(sim_dir.glob("*.jsonl")):
@@ -36,6 +39,8 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
             d = json.loads(line)
             if d.get("arm", "anonymous") != "anonymous":
                 continue  # the anonymous arm is the headline result
+            cid = f"{d['parti']}:{d['votering_id']}:{d['prompt_version']}:{d['arm']}"
+            tr = translations.get(cid)
             out.setdefault(d["votering_id"], {})[d["parti"]] = {
                 "rost": d["rost"],
                 "confidence": d["confidence"],
@@ -45,6 +50,11 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
                 "omvarld": d.get("omvarld") or {"paverkar": False, "faktorer": []},
                 "flags": d["flags"],
                 "model": d["model"],
+                # English translation of motivering/quotes/princip/omvärld
+                # (null until the translation batch for this decision has run)
+                "en": (
+                    {k: tr[k] for k in ("motivering", "citations", "omvarld")} if tr else None
+                ),
             }
     return out
 
@@ -87,6 +97,9 @@ def run(run_id: str | None = None) -> None:
     )
     decisions = load_decisions_by_case(run_id)
     probes = load_probes(run_id)
+    from aidag.translate import load_case_translations
+
+    case_translations = load_case_translations()
 
     cases_dir = SITE_DATA_DIR / "cases"
     if cases_dir.exists():
@@ -123,8 +136,15 @@ def run(run_id: str | None = None) -> None:
         alternatives = json.loads(case["alternatives"]) if isinstance(case["alternatives"], str) else case["alternatives"]
         from aidag.compact import compact_meanings
 
+        tr = case_translations.get(vid)
         payload = {
             "compact": compact_meanings(case["forslag_text"], alternatives),
+            # English case texts; null until translated (site falls back to Swedish)
+            "en": (
+                {k: tr[k] for k in ("rubrik", "dok_titel", "forslag_text", "notis", "alternatives")}
+                if tr
+                else None
+            ),
             "votering_id": vid,
             "rm": case["rm"],
             "beteckning": case["beteckning"],
@@ -156,6 +176,7 @@ def run(run_id: str | None = None) -> None:
             "punkt": case["punkt"],
             "utskott": case["utskott"],
             "rubrik": case["rubrik"],
+            "rubrik_en": tr["rubrik"] if tr else None,
             "titel": case["dok_titel"],
             "agree": n_agree,
             "compared": n_compared,
