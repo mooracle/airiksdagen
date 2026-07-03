@@ -72,6 +72,10 @@ Repeat until `agent-status` reports nothing pending:
              expected counts. The script throws if args.manifestPath did not
              arrive (a lost-args launch once made the loader agent improvise
              and run the wrong manifest — the guard exists because of that).
+             The script also verifies the manifest survived the loader agent's
+             transcription: item counts must match the manifest's n_sims /
+             n_probes fields and every cid must agree with its item's
+             party/vid — any mismatch throws before agents are spent.
              Do NOT prepare/regenerate manifests while a workflow is running.
 3. INGEST    write the workflow result JSON to a temp file, then:
                uv run aidag agent-ingest --run-id full-v1 --input <file> \
@@ -134,7 +138,11 @@ across different `run_id`s and compared.
 ## Verification gates
 
 Per batch (step 4): schema validity, custom_id uniqueness, citation quotes are
-verbatim substrings of the cited document (whitespace-normalized).
+verbatim substrings of the cited document (whitespace-normalized), and every
+citation points at a document that was actually in the agent's context
+(valmanifest always; tidoavtalet only for Tidö parties on post-Tidö dates —
+anything else could only come from memorized training data). Ingest also
+rejects results whose custom_id does not match a known case × party.
 
 Additionally after every ~10 batches and at the end:
 

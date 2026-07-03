@@ -27,7 +27,9 @@ const DECISION_SCHEMA = {
       items: {
         type: 'object',
         properties: {
-          document: { type: 'string', enum: ['valmanifest', 'partiprogram', 'tidoavtalet'] },
+          // only documents that are actually in the agent's context — citing
+          // anything else is uncheckable and therefore not allowed by schema
+          document: { type: 'string', enum: ['valmanifest', 'tidoavtalet'] },
           quote: { type: 'string' },
           princip: { type: 'string' },
         },
@@ -81,6 +83,8 @@ const MANIFEST_SCHEMA = {
   type: 'object',
   properties: {
     run_id: { type: 'string' },
+    n_sims: { type: 'number' },
+    n_probes: { type: 'number' },
     items: {
       type: 'array',
       items: {
@@ -99,7 +103,7 @@ const MANIFEST_SCHEMA = {
       },
     },
   },
-  required: ['run_id', 'items'],
+  required: ['run_id', 'n_sims', 'n_probes', 'items'],
   additionalProperties: false,
 }
 
@@ -112,10 +116,34 @@ if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.include
 phase('Load')
 const manifest = await agent(
   `Read the file ${args.manifestPath} and return its exact contents as structured output. Do not modify anything.`,
-  { label: 'load-manifest', schema: MANIFEST_SCHEMA },
+  { label: 'load-manifest', model: 'sonnet', schema: MANIFEST_SCHEMA },
 )
 const simItems = manifest.items.filter((i) => i.kind === 'sim')
 const probeItems = manifest.items.filter((i) => i.kind === 'probe')
+
+// The manifest passes through an agent transcription above — verify it arrived
+// intact before spending ~240 agents on it. A dropped item, a truncated path or
+// a typo'd cid would otherwise surface as corrupt or missing results at ingest.
+const PARTY_SET = new Set(PARTY_CODES)
+const problems = []
+if (simItems.length !== manifest.n_sims) problems.push(`sim count ${simItems.length} != manifest n_sims ${manifest.n_sims}`)
+if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeItems.length} != manifest n_probes ${manifest.n_probes}`)
+for (const item of simItems) {
+  if (!item.cid || !item.party || !item.system_file || !item.case_file) {
+    problems.push(`incomplete sim item: ${JSON.stringify(item)}`)
+    continue
+  }
+  const [party, vid] = item.cid.split(':')
+  if (party !== item.party || vid !== item.vid || !PARTY_SET.has(item.party)) {
+    problems.push(`cid does not match item fields: ${item.cid} vs ${item.party}/${item.vid}`)
+  }
+}
+for (const item of probeItems) {
+  if (!item.path) problems.push(`probe item missing path: ${JSON.stringify(item)}`)
+}
+if (problems.length) {
+  throw new Error(`manifest failed integrity check (${problems.length} problems):\n${problems.slice(0, 10).join('\n')}`)
+}
 log(`batch loaded: ${simItems.length} decisions, ${probeItems.length} probes (run ${manifest.run_id})`)
 
 const simPrompt = (item) =>

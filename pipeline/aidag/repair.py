@@ -44,6 +44,40 @@ def best_span(quote: str, source: str) -> tuple[str, float]:
     return best, best_ratio
 
 
+def _flag(d: dict, flag: str) -> None:
+    d.setdefault("flags", [])
+    if flag not in d["flags"]:
+        d["flags"].append(flag)
+
+
+def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
+    """Repair one decision's citations in place. Returns (ok, fixed, failed)."""
+    norm = {k: _normalize_ws(v) for k, v in corpus.items()}
+    n_ok = n_fixed = n_failed = 0
+    for c in d.get("citations", []):
+        if not c["quote"]:
+            continue
+        src = norm.get(c["document"])
+        if src is None:
+            # cited document was never in this agent's context (e.g. a
+            # hallucinated name) — nothing to align against, flag it
+            _flag(d, "citat_ej_verifierat")
+            n_failed += 1
+            continue
+        if _normalize_ws(c["quote"]) in src:
+            n_ok += 1
+            continue
+        span, ratio = best_span(c["quote"], corpus[c["document"]])
+        if ratio >= THRESHOLD:
+            c["quote"] = span
+            _flag(d, "citat_korrigerat")
+            n_fixed += 1
+        else:
+            _flag(d, "citat_ej_verifierat")
+            n_failed += 1
+    return n_ok, n_fixed, n_failed
+
+
 def run(run_id: str) -> None:
     sim_dir = RESULTS_DIR / "simulations" / run_id
     n_ok = n_fixed = n_failed = 0
@@ -53,31 +87,19 @@ def run(run_id: str) -> None:
             "valmanifest": _corpus_text(f"valmanifest-2022-{party.lower()}.txt"),
             "tidoavtalet": _corpus_text("tidoavtalet-2022.txt"),
         }
-        norm = {k: _normalize_ws(v) for k, v in corpus.items()}
         out_lines = []
         for line in path.read_text().splitlines():
             if not line.strip():
                 continue
             d = json.loads(line)
-            for c in d.get("citations", []):
-                src = norm.get(c["document"])
-                if src is None or not c["quote"]:
-                    continue
-                if _normalize_ws(c["quote"]) in src:
-                    n_ok += 1
-                    continue
-                span, ratio = best_span(c["quote"], corpus[c["document"]])
-                if ratio >= THRESHOLD:
-                    c["quote"] = span
-                    d.setdefault("flags", [])
-                    if "citat_korrigerat" not in d["flags"]:
-                        d["flags"].append("citat_korrigerat")
-                    n_fixed += 1
-                else:
-                    d.setdefault("flags", [])
-                    if "citat_ej_verifierat" not in d["flags"]:
-                        d["flags"].append("citat_ej_verifierat")
-                    n_failed += 1
+            ok, fixed, failed = repair_decision(d, corpus)
+            n_ok += ok
+            n_fixed += fixed
+            n_failed += failed
             out_lines.append(json.dumps(d, ensure_ascii=False))
-        path.write_text("\n".join(out_lines) + "\n")
+        # atomic replace — these files are the committed scientific record,
+        # never leave them truncated on an interrupt
+        tmp = path.with_suffix(".jsonl.tmp")
+        tmp.write_text("\n".join(out_lines) + "\n")
+        tmp.replace(path)
     print(f"citations: {n_ok} verbatim, {n_fixed} repaired (flagged), {n_failed} unverifiable")

@@ -36,9 +36,11 @@ DECISION_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
+                    # only documents actually provided in context — citing
+                    # anything else would be uncheckable against a source
                     "document": {
                         "type": "string",
-                        "enum": ["valmanifest", "partiprogram", "tidoavtalet"],
+                        "enum": ["valmanifest", "tidoavtalet"],
                     },
                     "quote": {"type": "string"},
                     "princip": {"type": "string"},

@@ -30,10 +30,14 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
     probe_dir = RESULTS_DIR / "probes" / run_id
     probe_dir.mkdir(parents=True, exist_ok=True)
 
-    manifesto_snippets = {
-        p: f"(mockcitat för {p} — ersätts av riktiga citat i en verklig körning)"
-        for p in PARTY_CODES
-    }
+    # real manifesto substrings so `verify simulate` stays green on mock runs
+    # (the [MOCKDATA] motivering is what marks the decision as fake)
+    from aidag.promptgen import _corpus_text  # noqa: PLC2701
+
+    manifesto_snippets = {}
+    for p in PARTY_CODES:
+        words = " ".join(_corpus_text(f"valmanifest-2022-{p.lower()}.txt").split()).split(" ")
+        manifesto_snippets[p] = " ".join(words[100:120])
 
     for party in PARTY_CODES:
         with open(sim_dir / f"{party}.jsonl", "w") as f:

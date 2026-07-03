@@ -14,10 +14,37 @@ from datetime import datetime, timezone
 
 import polars as pl
 
-from aidag.config import PROCESSED_DIR, RESULTS_DIR
+from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
 from aidag.models import Decision, Probe
 from aidag.probe import probe_results_path
-from aidag.simulate import results_path
+from aidag.simulate import collected_ids, results_path
+
+
+def parse_sim(sim: dict, run_id: str, model: str, known_vids: set[str]) -> Decision:
+    """Validate one workflow sim result against the case universe.
+
+    The cid travels through an agent transcription (workflow loader), so a
+    corrupted id must be rejected here — a bogus votering_id written to the
+    results would never match a case, while the real id stayed pending forever.
+    """
+    parti, vid, prompt_version, arm = sim["cid"].split(":")
+    if parti not in PARTY_CODES:
+        raise ValueError(f"unknown party {parti!r}")
+    if vid not in known_vids:
+        raise ValueError(f"votering_id {vid!r} not in cases")
+    if sim.get("party") not in (None, parti) or sim.get("vid") not in (None, vid):
+        raise ValueError(f"cid disagrees with item fields {sim.get('party')}/{sim.get('vid')}")
+    return Decision(
+        votering_id=vid,
+        parti=parti,
+        run_id=run_id,
+        prompt_version=prompt_version,
+        model=model,
+        arm=arm,
+        batch_id="claude-code-workflow",
+        collected_at=datetime.now(timezone.utc).isoformat(),
+        **sim["decision"],
+    )
 
 
 def run(run_id: str, input_path: str, model: str) -> None:
@@ -26,40 +53,33 @@ def run(run_id: str, input_path: str, model: str) -> None:
     actual: dict[str, dict[str, str]] = {}
     for r in positions.iter_rows(named=True):
         actual.setdefault(r["votering_id"], {})[r["parti"]] = r["position"]
+    known_vids = set(actual)
 
     by_party: dict[str, list[Decision]] = {}
     n_bad = 0
     for sim in data["sims"]:
         try:
-            parti, vid, prompt_version, arm = sim["cid"].split(":")
-            decision = Decision(
-                votering_id=vid,
-                parti=parti,
-                run_id=run_id,
-                prompt_version=prompt_version,
-                model=model,
-                arm=arm,
-                batch_id="claude-code-workflow",
-                collected_at=datetime.now(timezone.utc).isoformat(),
-                **sim["decision"],
-            )
+            decision = parse_sim(sim, run_id, model, known_vids)
         except Exception as e:  # noqa: BLE001
             n_bad += 1
             print(f"  skipped {sim.get('cid')}: {e}")
             continue
-        by_party.setdefault(parti, []).append(decision)
+        by_party.setdefault(decision.parti, []).append(decision)
 
     n = 0
     for parti, decisions in sorted(by_party.items()):
         path = results_path(run_id, parti)
         path.parent.mkdir(parents=True, exist_ok=True)
-        existing = set()
-        if path.exists():
-            existing = {json.loads(l)["votering_id"] for l in path.read_text().splitlines() if l.strip()}
+        # dedupe on the full custom_id, matching agent-prepare's pending logic —
+        # a votering_id-only key would silently drop a later labeled/new-prompt
+        # arm while prepare kept re-issuing it forever
+        existing = collected_ids(run_id, parti)
         with open(path, "a") as f:
             for d in decisions:
-                if d.votering_id in existing:
+                cid = f"{d.parti}:{d.votering_id}:{d.prompt_version}:{d.arm}"
+                if cid in existing:
                     continue
+                existing.add(cid)
                 f.write(d.model_dump_json() + "\n")
                 n += 1
 
@@ -74,6 +94,11 @@ def run(run_id: str, input_path: str, model: str) -> None:
             vid = p["vid"]
             if vid in existing_probes:
                 continue
+            if vid not in known_vids:
+                n_bad += 1
+                print(f"  skipped probe {vid!r}: not in cases")
+                continue
+            existing_probes.add(vid)
             predicted = p["result"].get("positions", {})
             act = actual.get(vid, {})
             matches = sum(1 for parti, v in predicted.items() if v != "okänt" and act.get(parti) == v)

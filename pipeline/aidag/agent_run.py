@@ -123,10 +123,16 @@ def prepare(run_id: str, batch_size: int = 240, include_probes: bool = True) -> 
     existing = sorted((base / "batches").glob("batch-*.json"))
     n = int(existing[-1].stem.split("-")[1]) + 1 if existing else 1
     manifest_path = base / "batches" / f"batch-{n:03d}.json"
-    manifest_path.write_text(json.dumps({"run_id": run_id, "items": items}, ensure_ascii=False))
-
     n_sims = sum(1 for i in items if i["kind"] == "sim")
     n_probes = len(items) - n_sims
+    # n_sims/n_probes let the workflow script verify the manifest survived the
+    # loader agent's transcription intact (it re-counts and compares)
+    manifest_path.write_text(
+        json.dumps(
+            {"run_id": run_id, "n_sims": n_sims, "n_probes": n_probes, "items": items},
+            ensure_ascii=False,
+        )
+    )
     print(f"batch manifest: {manifest_path}")
     print(f"  {n_sims} decisions + {n_probes} probes in this batch")
     print(f"  remaining after this batch: {len(sims) - n_sims} decisions, {len(probes) - n_probes} probes")

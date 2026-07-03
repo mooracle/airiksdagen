@@ -280,14 +280,21 @@ def _normalize_ws(text: str) -> str:
 
 def verify_run(run_id: str):
     """Checks for `aidag verify simulate --run-id X`. Yields (name, ok, detail)."""
-    from aidag.promptgen import _corpus_text  # noqa: PLC2701
+    from aidag.promptgen import _corpus_text, tido_applies  # noqa: PLC2701
 
     sim_dir = RESULTS_DIR / "simulations" / run_id
     files = sorted(sim_dir.glob("*.jsonl")) if sim_dir.exists() else []
     yield ("results exist", bool(files), f"{len(files)} party files")
+    datum_by_vid = {
+        r["votering_id"]: r["datum"]
+        for r in pl.read_parquet(
+            PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum"]
+        ).iter_rows(named=True)
+    }
     seen: set[str] = set()
     dupes = 0
     bad_quotes = 0
+    out_of_context = 0
     n = 0
     corpus_map = {}
     for path in files:
@@ -310,8 +317,22 @@ def verify_run(run_id: str):
                         ),
                         "tidoavtalet": _normalize_ws(_corpus_text("tidoavtalet-2022.txt")),
                     }
-                source = corpus_map[d["parti"]].get(c["document"], "")
+                # a citation must point at a document the agent actually had:
+                # valmanifest always; tidoavtalet only for Tidö parties on
+                # post-Tidö dates. Anything else could only come from memory.
+                doc = c["document"]
+                datum = datum_by_vid.get(d["votering_id"], "")
+                if doc == "tidoavtalet" and not tido_applies(d["parti"], datum):
+                    out_of_context += 1
+                elif doc not in ("valmanifest", "tidoavtalet"):
+                    out_of_context += 1
+                source = corpus_map[d["parti"]].get(doc, "")
                 if c["quote"] and _normalize_ws(c["quote"]) not in source:
                     bad_quotes += 1
     yield ("no duplicate custom_ids", dupes == 0, f"{dupes} dupes in {n} decisions")
     yield ("citation quotes are real substrings", bad_quotes == 0, f"{bad_quotes} hallucinated of {n}")
+    yield (
+        "citations only cite in-context documents",
+        out_of_context == 0,
+        f"{out_of_context} citations to documents the agent never saw",
+    )
