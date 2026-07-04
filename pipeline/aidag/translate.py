@@ -137,8 +137,11 @@ def validate_decision_translation(rec: dict, unit: dict) -> None:
         )
     if len(rec.get("omvarld", [])) != len(unit["omvarld"]):
         raise ValueError(f"omvarld length {len(rec.get('omvarld', []))} != {len(unit['omvarld'])}")
-    for c in rec.get("citations", []):
-        if not str(c.get("quote", "")).strip():
+    # a blanked (unverifiable) source quote has nothing to translate — only
+    # require a translated quote where the source quote is itself non-empty
+    for i, c in enumerate(rec.get("citations", [])):
+        src_quote = unit["citations"][i]["quote"] if i < len(unit["citations"]) else ""
+        if str(src_quote).strip() and not str(c.get("quote", "")).strip():
             raise ValueError("empty citation quote")
 
 
