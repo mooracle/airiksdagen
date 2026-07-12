@@ -12,6 +12,7 @@ dependencies = [
     "httpx>=0.28",
     "anthropic>=0.75",
     "pypdf>=5.1",
+    "pymupdf>=1.28.0",
 ]
 
 [project.scripts]
