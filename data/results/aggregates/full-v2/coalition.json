@@ -1,0 +1,1762 @@
+{
+ "n_decisions": 2794,
+ "per_party": {
+  "S": {
+   "n": 350,
+   "bloc": "opposition",
+   "coalition_baseline": 0.5886,
+   "programme_accuracy": 0.7314,
+   "programme_lift": 0.1429,
+   "authored_reservation_n": 115,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 52,
+      "num": 4,
+      "rate": 0.0769
+     },
+     "authored": {
+      "den": 38,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 14,
+      "num": 4,
+      "rate": 0.2857
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 57,
+      "num": 5,
+      "rate": 0.0877
+     },
+     "authored": {
+      "den": 42,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 15,
+      "num": 5,
+      "rate": 0.3333
+     }
+    }
+   }
+  },
+  "M": {
+   "n": 350,
+   "bloc": "government",
+   "coalition_baseline": 0.9914,
+   "programme_accuracy": 0.9857,
+   "programme_lift": -0.0057,
+   "authored_reservation_n": 3,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    }
+   }
+  },
+  "SD": {
+   "n": 349,
+   "bloc": "support",
+   "coalition_baseline": 0.702,
+   "programme_accuracy": 0.7708,
+   "programme_lift": 0.0688,
+   "authored_reservation_n": 63,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 51,
+      "num": 9,
+      "rate": 0.1765
+     },
+     "authored": {
+      "den": 27,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 24,
+      "num": 9,
+      "rate": 0.375
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 63,
+      "num": 13,
+      "rate": 0.2063
+     },
+     "authored": {
+      "den": 29,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 34,
+      "num": 13,
+      "rate": 0.3824
+     }
+    }
+   }
+  },
+  "C": {
+   "n": 349,
+   "bloc": "opposition",
+   "coalition_baseline": 0.4527,
+   "programme_accuracy": 0.6418,
+   "programme_lift": 0.1891,
+   "authored_reservation_n": 88,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 98,
+      "num": 2,
+      "rate": 0.0204
+     },
+     "authored": {
+      "den": 42,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 56,
+      "num": 2,
+      "rate": 0.0357
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 103,
+      "num": 3,
+      "rate": 0.0291
+     },
+     "authored": {
+      "den": 42,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 61,
+      "num": 3,
+      "rate": 0.0492
+     }
+    }
+   }
+  },
+  "V": {
+   "n": 349,
+   "bloc": "opposition",
+   "coalition_baseline": 0.51,
+   "programme_accuracy": 0.6074,
+   "programme_lift": 0.0974,
+   "authored_reservation_n": 118,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 80,
+      "num": 5,
+      "rate": 0.0625
+     },
+     "authored": {
+      "den": 47,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 33,
+      "num": 5,
+      "rate": 0.1515
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 81,
+      "num": 6,
+      "rate": 0.0741
+     },
+     "authored": {
+      "den": 47,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 34,
+      "num": 6,
+      "rate": 0.1765
+     }
+    }
+   }
+  },
+  "KD": {
+   "n": 349,
+   "bloc": "government",
+   "coalition_baseline": 0.9914,
+   "programme_accuracy": 0.9885,
+   "programme_lift": -0.0029,
+   "authored_reservation_n": 3,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    }
+   }
+  },
+  "MP": {
+   "n": 349,
+   "bloc": "opposition",
+   "coalition_baseline": 0.4756,
+   "programme_accuracy": 0.5501,
+   "programme_lift": 0.0745,
+   "authored_reservation_n": 105,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 57,
+      "num": 3,
+      "rate": 0.0526
+     },
+     "authored": {
+      "den": 27,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 30,
+      "num": 3,
+      "rate": 0.1
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 63,
+      "num": 6,
+      "rate": 0.0952
+     },
+     "authored": {
+      "den": 29,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 34,
+      "num": 6,
+      "rate": 0.1765
+     }
+    }
+   }
+  },
+  "L": {
+   "n": 349,
+   "bloc": "government",
+   "coalition_baseline": 0.9914,
+   "programme_accuracy": 0.9914,
+   "programme_lift": 0.0,
+   "authored_reservation_n": 3,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     },
+     "not_authored": {
+      "den": 0,
+      "num": 0,
+      "rate": null
+     }
+    }
+   }
+  }
+ },
+ "per_month": [
+  {
+   "parti": "S",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 0.5,
+   "programme_accuracy": 0.5,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "S",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 0.9231,
+   "programme_accuracy": 0.9615,
+   "programme_lift": 0.0385
+  },
+  {
+   "parti": "S",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.7,
+   "programme_accuracy": 0.8,
+   "programme_lift": 0.1
+  },
+  {
+   "parti": "S",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 0.6667,
+   "programme_accuracy": 0.5,
+   "programme_lift": -0.1667
+  },
+  {
+   "parti": "S",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 0.4375,
+   "programme_accuracy": 0.5938,
+   "programme_lift": 0.1562
+  },
+  {
+   "parti": "S",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.6,
+   "programme_accuracy": 0.713,
+   "programme_lift": 0.113
+  },
+  {
+   "parti": "S",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 0.5486,
+   "programme_accuracy": 0.7292,
+   "programme_lift": 0.1806
+  },
+  {
+   "parti": "S",
+   "month": "2023-05",
+   "n": 15,
+   "coalition_baseline": 0.5333,
+   "programme_accuracy": 0.8667,
+   "programme_lift": 0.3333
+  },
+  {
+   "parti": "M",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.9,
+   "programme_accuracy": 0.9,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.9826,
+   "programme_accuracy": 0.9652,
+   "programme_lift": -0.0174
+  },
+  {
+   "parti": "M",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-05",
+   "n": 15,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "SD",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "SD",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 0.9231,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0769
+  },
+  {
+   "parti": "SD",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "SD",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "SD",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 0.75,
+   "programme_accuracy": 0.7812,
+   "programme_lift": 0.0312
+  },
+  {
+   "parti": "SD",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.6087,
+   "programme_accuracy": 0.7652,
+   "programme_lift": 0.1565
+  },
+  {
+   "parti": "SD",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 0.6875,
+   "programme_accuracy": 0.7083,
+   "programme_lift": 0.0208
+  },
+  {
+   "parti": "SD",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 0.7143,
+   "programme_accuracy": 0.7143,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "C",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.0,
+   "programme_lift": -1.0
+  },
+  {
+   "parti": "C",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 0.7308,
+   "programme_accuracy": 0.8462,
+   "programme_lift": 0.1154
+  },
+  {
+   "parti": "C",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.5,
+   "programme_accuracy": 0.8,
+   "programme_lift": 0.3
+  },
+  {
+   "parti": "C",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 0.5,
+   "programme_accuracy": 0.8333,
+   "programme_lift": 0.3333
+  },
+  {
+   "parti": "C",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 0.4375,
+   "programme_accuracy": 0.625,
+   "programme_lift": 0.1875
+  },
+  {
+   "parti": "C",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.4957,
+   "programme_accuracy": 0.7043,
+   "programme_lift": 0.2087
+  },
+  {
+   "parti": "C",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 0.3681,
+   "programme_accuracy": 0.5694,
+   "programme_lift": 0.2014
+  },
+  {
+   "parti": "C",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 0.3571,
+   "programme_accuracy": 0.4286,
+   "programme_lift": 0.0714
+  },
+  {
+   "parti": "V",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 0.5,
+   "programme_accuracy": 0.0,
+   "programme_lift": -0.5
+  },
+  {
+   "parti": "V",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 0.2692,
+   "programme_accuracy": 0.8077,
+   "programme_lift": 0.5385
+  },
+  {
+   "parti": "V",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.4,
+   "programme_accuracy": 0.6,
+   "programme_lift": 0.2
+  },
+  {
+   "parti": "V",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 0.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 1.0
+  },
+  {
+   "parti": "V",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 0.5312,
+   "programme_accuracy": 0.6562,
+   "programme_lift": 0.125
+  },
+  {
+   "parti": "V",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.5652,
+   "programme_accuracy": 0.5913,
+   "programme_lift": 0.0261
+  },
+  {
+   "parti": "V",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 0.5625,
+   "programme_accuracy": 0.5764,
+   "programme_lift": 0.0139
+  },
+  {
+   "parti": "V",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 0.2143,
+   "programme_accuracy": 0.5,
+   "programme_lift": 0.2857
+  },
+  {
+   "parti": "KD",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.9,
+   "programme_accuracy": 0.9,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.9826,
+   "programme_accuracy": 0.9826,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.9931,
+   "programme_lift": -0.0069
+  },
+  {
+   "parti": "KD",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "MP",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 0.0,
+   "programme_accuracy": 0.5,
+   "programme_lift": 0.5
+  },
+  {
+   "parti": "MP",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 0.4615,
+   "programme_accuracy": 0.6154,
+   "programme_lift": 0.1538
+  },
+  {
+   "parti": "MP",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.6,
+   "programme_accuracy": 0.6,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "MP",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 0.0,
+   "programme_accuracy": 0.8333,
+   "programme_lift": 0.8333
+  },
+  {
+   "parti": "MP",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 0.3438,
+   "programme_accuracy": 0.4062,
+   "programme_lift": 0.0625
+  },
+  {
+   "parti": "MP",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.5217,
+   "programme_accuracy": 0.5913,
+   "programme_lift": 0.0696
+  },
+  {
+   "parti": "MP",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 0.4931,
+   "programme_accuracy": 0.5278,
+   "programme_lift": 0.0347
+  },
+  {
+   "parti": "MP",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 0.4286,
+   "programme_accuracy": 0.5,
+   "programme_lift": 0.0714
+  },
+  {
+   "parti": "L",
+   "month": "2022-10",
+   "n": 2,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2022-11",
+   "n": 26,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2022-12",
+   "n": 10,
+   "coalition_baseline": 0.9,
+   "programme_accuracy": 0.9,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-01",
+   "n": 6,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-02",
+   "n": 32,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-03",
+   "n": 115,
+   "coalition_baseline": 0.9826,
+   "programme_accuracy": 0.9826,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-04",
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-05",
+   "n": 14,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  }
+ ],
+ "override_cases": [
+  {
+   "votering_id": "B6542C29-E1B2-490A-81F9-1BF018EDCFFD",
+   "datum": "2022-12-20",
+   "rubrik": "Bostadspolitiskt mål",
+   "utskott": "CU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "MP vill 'utveckla och utöka investeringsstödet' för klimatsmarta hyresrätter med rimliga hyror, men regeringens budget avvecklar just detta stöd. Utskottets förslag godkänner avvecklingen och avslår V:s motion som sannolikt kräver bibehållet stöd – i linje med MP:s manifest. Att rösta Ja vore att aktivt stödja en policy som direkt motsäger ett explicit manifestablöfte; MP röstar därför Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "bygga fler klimatsmarta hyresrätter med rimliga hyror, utveckla och utöka investeringsstödet som gjorde det billigare att bygga",
+     "princip": "utöka investeringsstödet"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "stoppa renovräkningar. Renovering ska inte vara så lyxig att människor måste vräkas från sina hem.",
+     "princip": "stoppa renovräkningar"
+    }
+   ]
+  },
+  {
+   "votering_id": "0E7BC721-232A-495A-B305-FC99575F83ED",
+   "datum": "2022-12-20",
+   "rubrik": "Mål och resultatredovisning för utgiftsområdet",
+   "utskott": "FöU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Manifestet slår fast att Sverige ska vara en röst för fred och rättvisa, inte ökad militarisering, och att V är motståndare till fördjupat militärt samarbete med NATO och EU. Att bifalla utskottets förslag innebär att godkänna ca 94 miljarder i försvarsanslag och 173 miljarder i upphandlingsbemyndiganden – en upprustning som direkt strider mot partiets dokumenterade ståndpunkt.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet anser att Sverige ska vara en röst för fred och rättvisa, inte för ökad militarisering.",
+     "princip": "mot ökad militarisering"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Därför är Vänsterpartiet motståndare till Sveriges allt djupare militära samarbete med NATO och EU",
+     "princip": "mot militärt NATO/EU-samarbete"
+    }
+   ]
+  },
+  {
+   "votering_id": "0B771E7B-D719-40A3-9771-C7087A7AC20D",
+   "datum": "2023-02-08",
+   "rubrik": "Cyberpolitik",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD:s eget yrkande 42 om cyberpolitik ingår bland de motioner utskottet föreslår avslås, vilket innebär att partiet lagt reservation 12 (alternativ A). Valmanifestet understryker att 'störningar i elektroniska system, betaltjänster eller elnät kan uppstå på grund av naturfenomen, angrepp eller fel och skulle kunna få oöverskådliga följder relativt snabbt' och att samhällets beredskap behöver stärkas. Partiet röstar Nej för att värna sin reservation om stärkt cyberförmåga.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det moderna samhället är sårbart för störningar. Störningar i elektroniska system, betaltjänster eller elnät kan uppstå på grund av naturfenomen, angrepp eller fel och skulle kunna få oöverskådliga följder relativt snabbt.",
+     "princip": "Digital och cyber-sårbarhet adresseras"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Samhällets sårbarhet behöver bättre utvärderas, inkluderat hur ett allt mer elektrifierat och digitalt samhälle påverkar utsattheten vid en kris eller störning.",
+     "princip": "Stärkt digital krisberedskap"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill stärka samhällets beredskap för alla typer av kriser som kan uppstå.",
+     "princip": "Stärkt samhällsberedskap"
+    }
+   ]
+  },
+  {
+   "votering_id": "E3F60E14-6F5D-4E81-8059-D8F1A9E662BE",
+   "datum": "2023-02-08",
+   "rubrik": "Försvarspolitisk inriktning och totalförsvar",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD:s eget yrkande 41 (Sven-Olof Sällström) om försvarspolitisk inriktning avslås av utskottet. Partiet kräver uttryckligen minst 2 % av BNP till försvaret och återupprättande av totalförsvaret – åtaganden som är centrala i valmanifestet. Att rösta Nej innebär stöd för den egna reservationen och dessa oeftergivliga försvarspolitiska åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill säkerställa långsiktig finansiering av försvaret om minst två procent av BNP inom en tioårsperiod",
+     "princip": "försvarssatsning minst 2 % av BNP"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Återupprätta ett totalförsvar som är rustat för krig",
+     "princip": "återupprätta totalförsvar"
+    }
+   ]
+  },
+  {
+   "votering_id": "888A03FE-E755-40C5-AD84-7A610BDCF1B8",
+   "datum": "2023-02-08",
+   "rubrik": "Civilt försvar och förmåga",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD:s egna yrkanden 34 och 35 om civilt försvar ingår bland de avslagna motionerna, och partiet har lagt reservation 5 (alternativ A). Valmanifestet anger att 'anslagen till de myndigheter som har övergripande ansvar för civilförsvar, krisledning och beredskap bör öka'. Partiet röstar Nej för att stödja sin reservation om stärkt civilt försvar och beredskap.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Anslagen till de myndigheter som har övergripande ansvar för civilförsvar, krisledning och beredskap bör öka och stödet till civilorganisationer med samhällsuppdrag ska stärkas.",
+     "princip": "Ökade anslag till civilförsvar"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill stärka samhällets beredskap för alla typer av kriser som kan uppstå.",
+     "princip": "Stärkt samhällsberedskap"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill också återupprätta beredskapslager för att täcka kritiska behov som kan uppstå utifrån olika scenarier.",
+     "princip": "Återupprättade beredskapslager"
+    }
+   ]
+  },
+  {
+   "votering_id": "329F9E66-61B8-4B25-80CA-636F2BEB645F",
+   "datum": "2023-02-08",
+   "rubrik": "Militärt försvar och förmåga",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD:s egna yrkanden 18, 19 och 23 om militärt försvar ingår bland dem utskottet föreslår avslås, vilket innebär att partiet lagt reservation 3 (alternativ A). Valmanifestet är tydligt: partiet vill 'återupprätta totalförsvaret' och 'säkerställa långsiktig finansiering av försvaret om minst två procent av BNP inom en tioårsperiod'. Partiet röstar Nej för att stödja sin reservation om stärkt militär förmåga.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill återupprätta totalförsvaret och att Sverige ska ha förmåga att möta potentiella angripare.",
+     "princip": "Återupprätta totalförsvaret"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill säkerställa långsiktig finansiering av försvaret om minst två procent av BNP inom en tioårsperiod.",
+     "princip": "Minst 2 % av BNP till försvar"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Svensk försvarsindustri ska också stärkas genom att fortsatt satsa på inhemsk försvarsteknologi och att tydligare värdera det strategiska intresset av svenska leverantörer vid inköp av försvarsmateriel.",
+     "princip": "Stärkt försvarsindustri och materiel"
+    }
+   ]
+  },
+  {
+   "votering_id": "EF40FF9B-2B2B-4CBE-BA4C-E26333AF876A",
+   "datum": "2023-03-15",
+   "rubrik": "Påföljder",
+   "utskott": "JuU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "S har en egen motion i betänkandet (Serkan Köse m.fl. (S)) om påföljder som utskottsmajoriteten avslår. Reservationen (Alternativ A) speglar S:s kriminalpolitiska linje. Manifestet kräver skärpta straff för gängrelaterad brottslighet och upprepade allvarliga brott, och S röstar Nej för att hävda sin position.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill skärpa straffen bland annat för gängrelaterad brottslighet, för den som begår upprepade och allvarliga brott och för den som understödjer organiserad kriminalitet",
+     "princip": "Skärpta straff för gängbrott"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kampen mot kriminaliteten och våldet ska vara kompromisslös",
+     "princip": "Kompromisslös brottsbekämpning"
+    }
+   ]
+  },
+  {
+   "votering_id": "F4ABDD10-360D-4464-999E-A0C66CA3D63A",
+   "datum": "2023-03-15",
+   "rubrik": "Jämställdhet, SRHR och biståndseffektivitetsagendan",
+   "utskott": "UU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Manifestet slår explicit fast att flickors och kvinnors rättigheter måste stärkas globalt och att säkra aborter ska vara en global rättighet. Motionen om SRHR och jämställdhet i biståndet är direkt i linje med dessa åtaganden. S röstar Nej mot utskottets avslag och stödjer reservationen om stärkt SRHR-bistånd.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Flickors och kvinnors rättigheter måste stärkas globalt. Vi socialdemokrater står upp för alla kvinnors rätt att bestämma över sin egen kropp. Säkra aborter måste vara en rättighet för kvinnor i hela världen.",
+     "princip": "Globala kvinnorättigheter och SRHR"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "vi dubblera klimatbiståndet.",
+     "princip": "Stärkt bistånd internationellt"
+    }
+   ]
+  },
+  {
+   "votering_id": "A126A3C0-57F4-470D-825F-BE275E59E946",
+   "datum": "2023-03-15",
+   "rubrik": "Fridskränkningsbrott",
+   "utskott": "JuU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet arbetar aktivt för att stärka skyddet mot fridskränkningsbrott, kontrollerande beteende och psykiskt våld mot kvinnor, barn och hbtqi-personer. Manifestet är explicit om att krafttag mot sådant våld är nödvändigt. Partiet stödjer Reservation 4 och röstar Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "I ett tryggt samhälle tar vi krafttag mot våld, hedersförtryck och sexuella kränkningar mot kvinnor, barn och hbtqi-personer.",
+     "princip": "krafttag mot våld och hedersförtryck"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Barnperspektivet måste stärkas i vårdnadstvister och det ska inte vara möjligt för våldsutövare att behålla gemensam vårdnad.",
+     "princip": "stärkt barnperspektiv och skydd mot våldsutövare"
+    }
+   ]
+  },
+  {
+   "votering_id": "6942970B-86B9-4656-BCAC-E1804D215897",
+   "datum": "2023-03-23",
+   "rubrik": "Minkhållning",
+   "utskott": "MJU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "S lämnade egna motioner om nytt resursfördelningssystem (Åsa Westlund m.fl., yrkandena 1–4) som avslås. Manifestet är explicit: skolpengen ska bli rättvisare och fristående skolor ska inte överkompenseras. S bör stödja Reservation 1 och rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Skolpengen måste bli rättvisare så att fristående skolor inte överkompenseras på ett sätt som går ut över elever i kommunala skolor.",
+     "princip": "rättvisare skolpeng"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ta tillbaka kontrollen över skolan. Skolan ska vara till för barnen, inte ägarna.",
+     "princip": "demokratisk kontroll av skolan"
+    }
+   ]
+  },
+  {
+   "votering_id": "20B2FCBD-7D8A-4AD9-8AD4-03877DA59C47",
+   "datum": "2023-03-23",
+   "rubrik": "Djurskydd och konkurrenskraft",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD lämnade egna yrkanden (2–4 och 20) om djurskydd och konkurrenskraft som utskottet föreslår avslag på. Partiet vill stärka djurens rättsliga ställning och göra svensk djurhållningsstandard till norm för hela EU. Eftersom SD:s egna ståndpunkter avslås stödjer partiet reservation 7 och röstar Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill ha ett stärkt djurskydd där större hänsyn tas till djurens naturliga beteende. Djur ska behandlas med respekt och djurplågeri stoppas. Djurens rättsliga ställning ska stärkas och lagbrott ska få större konsekvenser.",
+     "princip": "Stärkt djurskydd och rättslig ställning"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraternas ambition är att svensk standard vad gäller djurhållning ska bli standard för hela EU.",
+     "princip": "Svensk djurhållningsnorm som EU-standard"
+    }
+   ]
+  },
+  {
+   "votering_id": "B3F2FA71-5905-44A6-B5B3-56D927394939",
+   "datum": "2023-03-29",
+   "rubrik": "Omarbetade hållbarhetskrav i handelsavtal",
+   "utskott": "NU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "C:s valmanifest kräver explicit hårdare krav på arbetsvillkor, miljö och klimat i handelsavtal. MP:s motion om omarbetade hållbarhetskrav i handelsavtal sammanfaller direkt med detta åtagande. C röstar Nej mot utskottet och stöder Alternativ A/Reservation 5.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Ställ hårdare krav på arbetsvillkor, miljö och klimat i handelsavtal.",
+     "princip": "hållbarhetskrav i handelsavtal"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige klarar sig inte utan frihandel. Öppna upp fler marknader för svenska varor och tjänster.",
+     "princip": "frihandel med krav"
+    }
+   ]
+  },
+  {
+   "votering_id": "623B0ABC-0949-4080-ACFD-0C3813FABDDE",
+   "datum": "2023-03-29",
+   "rubrik": "Systembolagets detaljhandelsmonopol m.m.",
+   "utskott": "SoU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "C har ett explicit valmanifestlöfte om att tillåta gårdsförsäljning av alkohol för att stärka landsbygdens besöksnäring. C:s motion (Niels Paarup-Petersen m.fl.) om alkohollagstiftning avslås av utskottet. C stöder sin reservation (Reservation 4) och röstar Nej för att förverkliga detta tydliga åtagande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det är orimligt att lokala producenter av alkoholhaltiga drycker inte kan sälja sina produkter till besökare. Tillåt gårdsförsäljning av alkohol för att stärka besöksnäringen och utveckla landsbygden.",
+     "princip": "gårdsförsäljning av alkohol"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Regelförenklingar, skattesänkningar, gårdsförsäljning av alkohol och ett mer tillväxtvänligt strandskydd är bara några av de reformer som måste komma på plats för att stärka landsbygdens konkurrenskraft och öka människors frihet och självbestämmande.",
+     "princip": "landsbygdens konkurrenskraft"
+    }
+   ]
+  },
+  {
+   "votering_id": "73A24F53-B977-4F0B-8712-175886BF36D2",
+   "datum": "2023-03-29",
+   "rubrik": "Klimattullar och handel med klimatsmarta varor och tjänster",
+   "utskott": "NU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver explicit att Sverige ska 'införa klimattullar på varor från länder utanför EU.' Utskottets förslag avslår motioner om just klimattullar och handel med klimatsmarta varor, medan Reservation 11 sannolikt stöder dessa åtgärder. MP bör rösta Nej och stödja reservationen i enlighet med partiets klimatpolitiska åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "införa klimattullar på varor från länder utanför EU",
+     "princip": "klimattullar på importvaror"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "höja priset på utsläppsrätter i EU, inkludera utsläpp från flyg och sjöfart i systemet och införa klimattullar på varor från länder utanför EU",
+     "princip": "klimatpris på utsläpp och handel"
+    }
+   ]
+  },
+  {
+   "votering_id": "D06067DA-9F7E-4294-8D97-A4BA3970F0C0",
+   "datum": "2023-03-29",
+   "rubrik": "Antal underleverantörer och skäliga villkor",
+   "utskott": "FiU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "S:s manifest kräver krafttag mot arbetslivskriminalitet och slår fast att offentliga upphandlare ska vara föredömen för sund konkurrens. V:s motion om antal underleverantörer och skäliga villkor i offentlig upphandling sammanfaller direkt med dessa åtaganden. Att stödja utskottets avslag skulle strida mot partiets uttalade krav på schyssta villkor i upphandlingskedjor.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Krafttag mot arbetslivskriminaliteten. Arbetslivskriminalitet ska inte finnas på svensk arbetsmarknad och offentliga arbetsgivare och upphandlare ska vara föredömen i att verka för en sund konkurrens.",
+     "princip": "sund konkurrens vid upphandling"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska aldrig löna sig att begå brott eller skaffa sig konkurrensfördelar genom att försumma de anställdas rätt till en trygg arbetsmiljö.",
+     "princip": "trygg arbetsmiljö som krav"
+    }
+   ]
+  },
+  {
+   "votering_id": "6EAB4B63-0C4B-4E7D-8A7E-300ED62D0D2A",
+   "datum": "2023-03-29",
+   "rubrik": "Informationsutbyte mellan myndigheter",
+   "utskott": "KU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Clara Aranda m.fl. (SD) yrkande 4 om informationsutbyte avslås; Reservation 1 är SDs eget motförslag. Tidöavtalet är explicit: 'Inför – i ett första led – en ny huvudregel i sekretesslagstiftningen: all relevant information ska delas med brottsbekämpande myndigheter.' SDs krav på utökat informationsutbyte är ett kärnåtagande i Tidöavtalet som partiet driver via sin reservation.",
+   "citations": [
+    {
+     "document": "tidoavtalet",
+     "quote": "Inför – i ett första led – en ny huvudregel i sekretesslagstiftningen: all relevant information ska delas med brottsbekämpande myndigheter för att bekämpa brott.",
+     "princip": "ny sekretesslagstiftningshuvudregel"
+    },
+    {
+     "document": "tidoavtalet",
+     "quote": "måste 21 kunna dela information med brottsbekämpande myndigheter när det behövs för att bekämpa brott, bidragsfusk, felaktig bokföring och arbetslivskriminalitet.",
+     "princip": "obligatorisk informationsdelning"
+    }
+   ]
+  },
+  {
+   "votering_id": "519D00A2-29D9-4C76-A08A-85AC37CC2B63",
+   "datum": "2023-04-12",
+   "rubrik": "Rätten till målsägandebiträde",
+   "utskott": "JuU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Utskottet avslår MP:s egna motion (Märta Stenevi m.fl., yrkande 85) om rätten till målsägandebiträde. MP vill 'skapa en dörr ut för våldsutsatta i hela landet' och ger starkt stöd åt brottsoffers juridiska rättigheter och skydd. Partiet röstar Nej för att stödja Reservation 13, som speglar MP:s eget yrkande om offrets rätt till rättslig företrädare.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "skapa en dörr ut för våldsutsatta i hela landet, så att ansvaret för skydd, boende och vård samordnas direkt efter uppbrottet.",
+     "princip": "stöd och skydd till brottsoffer"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "stärka arbetet mot hedersrelaterat våld och förtryck så att likvärdig hjälp ges i hela landet.",
+     "princip": "likvärdig hjälp till våldsutsatta"
+    }
+   ]
+  },
+  {
+   "votering_id": "DCE903B3-79E5-4B24-871D-A3CA5710CA92",
+   "datum": "2023-04-12",
+   "rubrik": "Biståndsnivå",
+   "utskott": "UU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "SD:s egna yrkanden (Nordberg m.fl. yrkandena 4–7) om biståndsnivån avslås av utskottet. Partiets valmanifest kräver kraftigt minskat bistånd och effektivisering. Reservation 1 är sannolikt SD:s reservation i linje med partiets biståndspolitiska ståndpunkt om att minska biståndet till förmån för svensk välfärd.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Minska svenskt bistånd till förmån för svensk välfärd och trygghet",
+     "princip": "minskat bistånd"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Överlag måste det internationella biståndet kraftigt minska och insatserna effektiviseras.",
+     "princip": "effektiviserat och minskat bistånd"
+    },
+    {
+     "document": "tidoavtalet",
+     "quote": "Villkora delar av bistånd med att mottagarlandet tar ansvar för sina egna medborgare",
+     "princip": "villkorat bistånd"
+    }
+   ]
+  },
+  {
+   "votering_id": "9312F7C2-040D-4326-93E3-5927C0ED570D",
+   "datum": "2023-04-12",
+   "rubrik": "Prioriteringar",
+   "utskott": "UU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Utskottet avslår ett stort antal SD-motioner om bistånd från Christiansson, Nordberg, Wiechel och Emilsson. Valmanifestet kräver minskat bistånd och konditionerat bilateralt bistånd. Reservation 6 är SD:s samlande ståndpunkt om biståndet; SD röstar Nej för att stödja sina egna reserverade positioner.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Minska svenskt bistånd till förmån för svensk välfärd och trygghet",
+     "princip": "minskat bistånd till förmån för välfärd"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Som regel villkora bilateralt bistånd med avtal om mottagandesamverkan",
+     "princip": "konditionerat bilateralt bistånd"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stoppa allt bistånd till islamistiska organisationer eller regimer",
+     "princip": "stopp för islamistiskt bistånd"
+    }
+   ]
+  },
+  {
+   "votering_id": "29560C94-D2FF-44EF-83AA-497C0E47093C",
+   "datum": "2023-04-12",
+   "rubrik": "Klimatfrågor i planeringen och planering för gröna områden",
+   "utskott": "CU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "V kräver explicit att alla politiska beslut tar hänsyn till klimatkrisen och betonar skyddet av biologisk mångfald och naturområden. Motionerna från MP och C om klimathänsyn i samhällsplaneringen och skydd av grönområden stämmer direkt med dessa åtaganden. Utskottets avslag är oförenligt med V:s klimatmandat.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "alla politiska beslut behöver ta hänsyn till den akuta kris som vi befinner oss i",
+     "princip": "klimat i all samhällsplanering"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skyddet av skogs- och strandområden är en viktig del för att värna den svenska allemansrätten och den biologiska mångfalden",
+     "princip": "skydd av naturområden och biologisk mångfald"
+    }
+   ]
+  },
+  {
+   "votering_id": "F726428A-C24D-4C62-A2B3-4343B8835172",
+   "datum": "2023-04-12",
+   "rubrik": "Bostäder för äldre personer",
+   "utskott": "CU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "V kräver att alla ska ha rätt till en bra bostad och att äldre ska kunna leva tryggt och inte bara överleva på sin pension. Utskottets avslag på motioner om bostäder för äldre strider mot V:s tydliga åtaganden om trygghet och goda livsvillkor för äldre. V stöder reservation 24.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Att se till att alla som bor i Sverige har en bra bostad är ett sådant exempel.",
+     "princip": "rätt till bra bostad för alla"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Du ska vara trygg när du blir gammal. Vänsterpartiet vill ha ett nytt pensionssystem som inte gör människor fattiga",
+     "princip": "trygghet för äldre"
+    }
+   ]
+  },
+  {
+   "votering_id": "F692A652-827B-40E9-930D-906AB20DFF63",
+   "datum": "2023-04-19",
+   "rubrik": "Kunskap inom rättsväsendet m.m. om våld i nära relationer",
+   "utskott": "JuU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet kräver uttryckligen ökad kunskap inom rättsväsendet om våld mot kvinnor och barn. De avslagna motionerna handlar precis om detta, så partiet bör stödja reservationen istället för utskottets avslag.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "det behövs det fler poliser, ökad kunskap inom rättsväsendet om samtycke och om våld mot kvinnor och barn, och straff som gör att brotten prioriteras av rättsvårdande instanser",
+     "princip": "ökad kunskap i rättsväsendet om våld"
+    }
+   ]
+  },
+  {
+   "votering_id": "D3C096B5-E425-40D1-AD95-B4DC0E44748A",
+   "datum": "2023-04-26",
+   "rubrik": "Idrottsanläggningar",
+   "utskott": "KrU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Angelika Bengtssons (SD) fyra yrkanden om idrottsanläggningar ingår bland de avslagna motionerna, vilket visar att reservationen är partiets egen linje. SD:s program vill att samhället i större utsträckning tillgodoser behovet av idrottsanläggningar och stimulerar barn- och ungdomsidrott. Partiet bör därför rösta Nej och stödja sin egen reservation.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Samhället bör i större utsträckning tillgodose behovet av idrottsanläggningar, främja föreningslivet och underlätta elitklubbar att bedriva verksamhet på en nivå som mäter sig i internationell konkurrens.",
+     "princip": "fler idrottsanläggningar"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Idrottsundervisningen bör öka i skolan och fritidsbaserad barn- och ungdomsidrott bör stimuleras.",
+     "princip": "stimulera barn- och ungdomsidrott"
+    }
+   ]
+  },
+  {
+   "votering_id": "BB5C8603-2C1E-4E1F-BACE-DAA5C5642AB7",
+   "datum": "2023-03-08",
+   "rubrik": "Kulturskolelag",
+   "utskott": "KrU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "S:s manifest lovar uttryckligen att stärka kulturskolan för att säkra alla barns möjligheter till kulturella aktiviteter. Utskottets förslag avslår en motion som driver på detta mål. Reservation 7 antas ligga i linje med S:s kulturskoleambitioner och partiet bör stödja den snarare än avslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill stärka kulturskolan för att säkra alla barns möjligheter till kulturella aktiviteter, och genomföra särskilda satsningar i resurssvaga områden.",
+     "princip": "Stärkt kulturskola för alla barn"
+    }
+   ]
+  },
+  {
+   "votering_id": "20B2FCBD-7D8A-4AD9-8AD4-03877DA59C47",
+   "datum": "2023-03-23",
+   "rubrik": "Djurskydd och konkurrenskraft",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP:s manifest kräver att djurskyddet i EU skärps rejält och att djurens lidande vid transport och slakt minimeras. Utskottet avslår motioner om internationellt djurskydd, handel med vilda djur och djurtransporter — direkt i strid med MP:s djurskyddspolitik. MP bör stödja Reservation 7 och rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Djurskyddet i EU måste skärpas rejält.",
+     "princip": "skärpt djurskydd EU"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "minimera djurs lidande vid transport och slakt",
+     "princip": "djurtransport och slakt"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Djur ska leva sina liv fritt från lidande och stress",
+     "princip": "djurvälfärd grundprincip"
+    }
+   ]
+  },
+  {
+   "votering_id": "BF510893-ED43-4F40-B7A9-8C06DE3C78E0",
+   "datum": "2023-04-12",
+   "rubrik": "Stärkt lokalt inflytande i viltförvaltningen",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "SD:s valmanifest ställer explicit krav på att viltvårdsuppdraget återges till jägarorganisationerna och att EU:s inflytande minskar. Utskottets avslag på motioner om stärkt lokalt inflytande i viltförvaltningen strider mot denna tydliga princip. Partiet röstar Nej för att upprätthålla positionen om lokalt självbestämmande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Ge tillbaka viltvårdsuppdraget till jägarorganisationerna",
+     "princip": "lokalt viltvårdsansvar"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill minska EU:s inflytande över svensk jakt och viltvård.",
+     "princip": "minskat EU-inflytande över jakt"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ett större lokalt inflytande bör råda över rovdjurspolitiken.",
+     "princip": "lokalt inflytande i viltförvaltningen"
+    }
+   ]
+  },
+  {
+   "votering_id": "99D8863D-E325-4E1A-B846-AAC7D1A9F641",
+   "datum": "2023-04-12",
+   "rubrik": "Blyammunition",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "SD:s valmanifest namnger explicit att förbud mot bly i ammunition är ett exempel på åtgärder som försvårar legalt vapeninnehav. C:s motion (Daniel Bäckström yrkande 19) om blyammunition syftar sannolikt till att värna jägares rätt att använda blyammunition. Reservation 13 speglar SD:s ståndpunkt; SD röstar Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "orimliga. Magasinsreglering och förbud mot bly i ammunition är exempel på åtgärder som görs för att försvåra legalt",
+     "princip": "mot förbud på blyammunition"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stoppa hetsjakten på jägare och legala vapeninnehavare",
+     "princip": "värna legalt vapeninnehav"
+    }
+   ]
+  },
+  {
+   "votering_id": "5AB62C2B-6263-4442-9F5B-FD334F2EBB9A",
+   "datum": "2023-04-12",
+   "rubrik": "Åtgärder på bostadsmarknaden",
+   "utskott": "CU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill uttryckligen öka bostadsbyggandet och förenkla regler och processer för planering och byggnation. SD:s egen motion (Eskilandersson) om åtgärder på bostadsmarknaden ingår bland de avslagna förslagen, så partiet bör rösta Nej för att stödja reservationen och den egna linjen om ökat och enklare byggande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Öka bostadsbyggandet",
+     "princip": "öka bostadsbyggandet"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Anpassa och förenkla regler och processer för planering och byggnation",
+     "princip": "förenklade byggregler"
+    }
+   ]
+  },
+  {
+   "votering_id": "27B4888E-0E37-4875-B2E5-54D32D4517F9",
+   "datum": "2023-04-19",
+   "rubrik": "Nolltolerans mot barnäktenskap",
+   "utskott": "JuU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet har ett uttryckligt åtagande om nolltolerans mot hedersförtryck och tvångsäktenskap. Partiet är i opposition mot en SD-understödd regering och bör aktivt verka för konkreta lagstiftningsåtgärder snarare än att godta utskottets hänvisning till 'pågående arbete'. Manifestets prioritering av nolltolerans mot hedersförtryck och barnäktenskap pekar mot stöd för reservation 19 i stället för utskottets avslag.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Ingen ska utsättas för hedersförtryck i Sverige.",
+     "princip": "nolltolerans mot hedersförtryck"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Alla kommuner ska ha handlingsplaner för att förebygga mäns våld mot kvinnor och alla skolor ska ha handlingsplaner mot hedersförtryck.",
+     "princip": "handlingsplaner mot hedersförtryck"
+    }
+   ]
+  },
+  {
+   "votering_id": "27B4888E-0E37-4875-B2E5-54D32D4517F9",
+   "datum": "2023-04-19",
+   "rubrik": "Nolltolerans mot barnäktenskap",
+   "utskott": "JuU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP:s program kräver explicit att arbetet mot hedersrelaterat våld och förtryck stärks i hela landet, och barnäktenskap hör direkt till detta område. Utskottets hänvisning till pågående arbete räcker inte för ett oppositionsparti vars manifest kräver konkret handling. Reservation 19, som antas spegla krav på nolltolerans mot barnäktenskap, faller i linje med MP:s plattform.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "stärka arbetet mot hedersrelaterat våld och förtryck så att likvärdig hjälp ges i hela landet",
+     "princip": "stärkt arbete mot hedersvåld"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "skydda barn från att tvingas till umgänge med en våldsam förälder",
+     "princip": "skydd av barn mot våldsamma föräldrar"
+    }
+   ]
+  },
+  {
+   "votering_id": "1F0DDFC5-A881-43AE-924D-6C23D140871F",
+   "datum": "2023-04-19",
+   "rubrik": "Förbättrings- och ändringsarbeten",
+   "utskott": "CU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Manifesetet kräver uttryckligen stärkt skydd för hyresgäster vid renovering och stopp för renovräkningar. V:s och S:s motioner om förbättrings- och ändringsarbeten i hyresrätten speglar samma ambition. MP röstar Nej och stöder Reservation 4.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "stoppa renovräkningar. Renovering ska inte vara så lyxig att människor måste vräkas från sina hem. Vi vill stärka hyresgästernas ställning vid renovering.",
+     "princip": "stärkt hyresgästskydd vid renovering"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "minska hemlösheten, genom en nationell strategi som på riktigt minskar hemlösheten och en bostadsstiftelse som finansierar en bostad för dem som inte har ett tryggt boende",
+     "princip": "motverka hemlöshet"
+    }
+   ]
+  },
+  {
+   "votering_id": "419DAD76-477D-418B-980B-44D302586F86",
+   "datum": "2023-04-20",
+   "rubrik": "Migration och asylpolitik",
+   "utskott": "SfU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller migrations- och asylpolitik i bred bemärkelse, där utskottet avslår motioner bland annat från MP, C och S om en mer human linje. Vänsterpartiet kräver permanenta uppehållstillstånd vid beviljad asyl och att asylrätten aldrig ska tummas på, vilket talar för att stödja reservationen framför utskottets avslag. Partiet röstar Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "vi kräver att endast permanenta uppehållstillstånd ska utfärdas vid beviljad asyl.",
+     "princip": "permanenta uppehållstillstånd"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rätten att söka asyl kan aldrig tummas på",
+     "princip": "försvara asylrätten"
+    }
+   ]
+  },
+  {
+   "votering_id": "1C0E5B94-DAEB-41A6-96A0-BFFA1E9A0A62",
+   "datum": "2023-05-03",
+   "rubrik": "Försvarsmaktens förmåga att utveckla och behålla personal",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "SD vill i sitt valmanifest säkra försvarets personalförsörjning genom konkurrenskraftiga villkor, återrekrytering av avhoppad personal och stärkt status för veteraner, vilket sammanfaller med den egna motion utskottet avslår. Utskottet hänvisar i stället till Försvarsmaktens egna frihet i personalfrågor utan konkreta åtgärder, vilket inte motsvarar SD:s krav på aktiva satsningar. SD bör därför stå fast vid reservationen och rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill satsa på att behålla personal och rekrytera tillbaka de som slutat genom konkurrenskraftiga villkor för specialist- och yrkesofficerare.",
+     "princip": "behålla och rekrytera försvarspersonal"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärka veteranernas ställning",
+     "princip": "stärkt status för veteraner"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Personalförsörjningen inom försvaret behöver säkerställas genom en blandning av yrkessoldater och värnpliktiga.",
+     "princip": "personalförsörjning yrkes/värnpliktiga"
+    }
+   ]
+  }
+ ],
+ "run_id": "full-v2"
+}

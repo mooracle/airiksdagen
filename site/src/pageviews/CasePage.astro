@@ -136,7 +136,10 @@ const docRefs = partyOrder
         const isMatch = d && comparable && d.rost === a.position;
         return (
           <tr id={`vote-${code}`}>
-            <td><span class="partydot" style={`background:${meta.parties[code]?.color}`} /><strong>{code}</strong></td>
+            <td>
+              <span class="partydot" style={`background:${meta.parties[code]?.color}`} /><strong>{code}</strong>
+              {a?.authored_reservation && <span class="tag own" title={t('coalition.ownResTip')}>{t('coalition.ownRes')}</span>}
+            </td>
             <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
             <td>
               {a ? (
@@ -146,7 +149,14 @@ const docRefs = partyOrder
                 </>
               ) : <span class="muted">–</span>}
             </td>
-            <td>{d && comparable && <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? `✓ ${t('case.match')}` : `✕ ${t('case.mismatch')}`}</span>}</td>
+            <td>
+              {d && comparable && <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? `✓ ${t('case.match')}` : `✕ ${t('case.mismatch')}`}</span>}
+              {d?.program_override && (
+                <span class="tag override" title={t('coalition.overrideTip')}>
+                  {t('coalition.override')}{d.program_override === 'strict' ? '' : '*'}
+                </span>
+              )}
+            </td>
             <td class="muted">{d?.confidence ?? ''}</td>
             <td class="muted">{d ? t(`coverage.${d.coverage}` as any) : ''}</td>
           </tr>
@@ -414,6 +424,13 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    .tag {
+      display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
+      border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
+      vertical-align: middle; cursor: help;
+    }
+    .tag.own { background: #eceae2; color: #55524a; }
+    .tag.override { background: #f3e2c7; color: #7a4b12; }
     .omvarld { background: #eef3f8; border-radius: 6px; padding: 0.5rem 0.8rem; font-size: 0.88rem; }
     .mtnote { font-size: 0.8rem; font-style: italic; }
     .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }

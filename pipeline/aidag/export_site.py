@@ -14,6 +14,7 @@ import shutil
 
 import polars as pl
 
+from aidag import coalition
 from aidag.config import (
     HEMICYCLE_ORDER,
     PARTIES,
@@ -86,6 +87,33 @@ def seat_array(votes: pl.DataFrame) -> list[list]:
     return [[r["parti"], r["rost"], r["namn"], r["valkrets"]] for r in rows.iter_rows(named=True)]
 
 
+def annotate_coalition(alternatives: list[dict], actual: dict, ai: dict) -> None:
+    """Tag each party with the procedural fact and the programme/coalition conflict.
+
+    actual[p].authored_reservation  did the party move the reservation itself
+    ai[p].program_override          'strict'|'loose' when the party's own documents
+                                    explicitly implied opposing the committee and it
+                                    voted Ja anyway (see coalition.py for the caveat)
+    """
+    authors = {
+        p
+        for alt in alternatives
+        if alt.get("alt_id") != "utskottet"
+        for p in (alt.get("source_partier") or [])
+    }
+    for p, a in actual.items():
+        a["authored_reservation"] = p in authors
+    for p, d in ai.items():
+        overridden = (
+            d.get("rost") in coalition.DIVERGENT
+            and d.get("coverage") == "explicit"
+            and actual.get(p, {}).get("position") == "Ja"
+        )
+        d["program_override"] = (
+            ("strict" if d.get("confidence") == "high" else "loose") if overridden else None
+        )
+
+
 def run(run_id: str | None = None) -> None:
     cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet")
     positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
@@ -135,6 +163,8 @@ def run(run_id: str | None = None) -> None:
         )
         alternatives = json.loads(case["alternatives"]) if isinstance(case["alternatives"], str) else case["alternatives"]
         from aidag.compact import compact_meanings
+
+        annotate_coalition(alternatives, actual, case_decisions)
 
         tr = case_translations.get(vid)
         payload = {

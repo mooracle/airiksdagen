@@ -1,29 +1,29 @@
 {
  "S": {
   "Ja": {
-   "Ja": 36,
-   "Nej": 3,
-   "Avst\u00e5r": 0
+   "Ja": 159,
+   "Nej": 18,
+   "Avst\u00e5r": 5
   },
   "Nej": {
-   "Ja": 7,
-   "Nej": 11,
-   "Avst\u00e5r": 2
+   "Ja": 45,
+   "Nej": 96,
+   "Avst\u00e5r": 23
   },
   "Avst\u00e5r": {
-   "Ja": 1,
-   "Nej": 0,
-   "Avst\u00e5r": 0
+   "Ja": 2,
+   "Nej": 1,
+   "Avst\u00e5r": 1
   }
  },
  "M": {
   "Ja": {
-   "Ja": 59,
-   "Nej": 1,
+   "Ja": 345,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
-   "Ja": 0,
+   "Ja": 2,
    "Nej": 0,
    "Avst\u00e5r": 0
   },
@@ -35,14 +35,14 @@
  },
  "SD": {
   "Ja": {
-   "Ja": 36,
-   "Nej": 0,
-   "Avst\u00e5r": 0
+   "Ja": 221,
+   "Nej": 15,
+   "Avst\u00e5r": 8
   },
   "Nej": {
-   "Ja": 3,
-   "Nej": 4,
-   "Avst\u00e5r": 1
+   "Ja": 24,
+   "Nej": 48,
+   "Avst\u00e5r": 33
   },
   "Avst\u00e5r": {
    "Ja": 0,
@@ -52,46 +52,46 @@
  },
  "C": {
   "Ja": {
-   "Ja": 32,
-   "Nej": 4,
-   "Avst\u00e5r": 0
+   "Ja": 146,
+   "Nej": 11,
+   "Avst\u00e5r": 1
   },
   "Nej": {
-   "Ja": 3,
-   "Nej": 12,
-   "Avst\u00e5r": 9
+   "Ja": 11,
+   "Nej": 78,
+   "Avst\u00e5r": 101
   },
   "Avst\u00e5r": {
-   "Ja": 0,
+   "Ja": 1,
    "Nej": 0,
    "Avst\u00e5r": 0
   }
  },
  "V": {
   "Ja": {
-   "Ja": 16,
-   "Nej": 3,
-   "Avst\u00e5r": 1
+   "Ja": 102,
+   "Nej": 11,
+   "Avst\u00e5r": 2
   },
   "Nej": {
-   "Ja": 2,
-   "Nej": 29,
-   "Avst\u00e5r": 5
+   "Ja": 72,
+   "Nej": 109,
+   "Avst\u00e5r": 48
   },
   "Avst\u00e5r": {
-   "Ja": 0,
+   "Ja": 4,
    "Nej": 0,
-   "Avst\u00e5r": 0
+   "Avst\u00e5r": 1
   }
  },
  "KD": {
   "Ja": {
-   "Ja": 59,
-   "Nej": 1,
+   "Ja": 345,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
-   "Ja": 0,
+   "Ja": 1,
    "Nej": 0,
    "Avst\u00e5r": 0
   },
@@ -103,14 +103,14 @@
  },
  "MP": {
   "Ja": {
-   "Ja": 16,
-   "Nej": 5,
-   "Avst\u00e5r": 3
+   "Ja": 113,
+   "Nej": 28,
+   "Avst\u00e5r": 13
   },
   "Nej": {
-   "Ja": 5,
-   "Nej": 12,
-   "Avst\u00e5r": 7
+   "Ja": 53,
+   "Nej": 77,
+   "Avst\u00e5r": 63
   },
   "Avst\u00e5r": {
    "Ja": 0,
@@ -120,8 +120,8 @@
  },
  "L": {
   "Ja": {
-   "Ja": 59,
-   "Nej": 1,
+   "Ja": 346,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {

@@ -18,6 +18,41 @@ export const ui = {
     'analysis.dissenters': 'Flest avvikelser från partilinjen',
     'analysis.dissents': 'Avvikelser',
     'analysis.votesCast': 'Avgivna röster',
+
+    'coalition.title': 'Koalitionen eller partiprogrammet?',
+    'coalition.nav': 'Koalition',
+    'coalition.intro':
+      'Varje votering ställer utskottets förslag (Ja) mot en reservation (Nej). Två konkurrerande förklaringar till hur ett parti röstar ställs mot varandra: koalitionslinjen — rösta med utskottet, utan att veta något om partiet — och partiprogrammet, som AI-agenten läser utan att få veta vem som skrivit reservationen. Skillnaden mellan dem är mätningen.',
+    'coalition.tableTitle': 'Vad förklarar partiets röst?',
+    'coalition.baseline': 'Koalitionslinjen',
+    'coalition.programme': 'Partiprogrammet',
+    'coalition.lift': 'Programmets tillskott',
+    'coalition.baselineNote':
+      'Koalitionslinjen = andelen röster som träffas av regeln ”rösta alltid Ja, med utskottet”. Partiprogrammet = AI-agentens träffsäkerhet utifrån partiets egna dokument. Tillskottet är skillnaden: noll betyder att programmet inte tillför något utöver koalitionspositionen.',
+    'coalition.govNote':
+      'För M, KD och L träffar koalitionslinjen redan 99 % av rösterna. De lade bara 8, 11 respektive 8 reservationer under perioden — och AI-agenten fann aldrig en enda gång ett uttryckligt skäl i deras egna dokument att rösta mot utskottet. Deras program och utskottets linje är samma sak; det finns ingen spänning att mäta.',
+    'coalition.overrideTitle': 'När koalitionen väger tyngre än de egna dokumenten',
+    'coalition.overrideIntro':
+      'Voteringar där partiets egna dokument uttryckligen talar för att rösta mot utskottet — men partiet röstade Ja ändå. Uppdelat efter om partiet självt lagt reservationen.',
+    'coalition.ownRes': 'egen reservation',
+    'coalition.ownResTip': 'Partiet står självt bakom reservationen som röstas ned.',
+    'coalition.override': 'mot eget program',
+    'coalition.overrideTip':
+      'Partiets egna dokument talade uttryckligen för att rösta mot utskottet — partiet röstade Ja ändå. * = AI-agenten var inte högt säker.',
+    'coalition.ownResCol': 'Egen reservation',
+    'coalition.notOwnCol': 'Annans reservation',
+    'coalition.strict': 'strikt',
+    'coalition.loose': 'vid',
+    'coalition.casesTitle': 'Voteringarna',
+    'coalition.casesIntro':
+      'Varje rad: partiets egna dokument sa en sak, partiet röstade en annan. Motiveringen och citaten är AI-agentens, hämtade ur partiets valmanifest.',
+    'coalition.aiSaid': 'Programmet sa',
+    'coalition.voted': 'Röstade',
+    'coalition.caveatTitle': 'Vad detta inte visar',
+    'coalition.caveat':
+      'En markering betyder att en dokumentgrundad läsning av partiets program pekade åt ett annat håll än partiets röst. Den kan inte ensam skilja ”koalitionsdisciplin övertrumfade programmet” från ”AI-agenten läste programmet fel”. Att partier aldrig överger sin egen reservation (0 % i samtliga fall nedan) talar för att mätningen fångar något verkligt — men enskilda rader ska läsas som frågor, inte som domar.',
+    'coalition.authoredZero':
+      'Lade partiet reservationen självt övergav det den aldrig — 0 % för samtliga partier, båda trösklarna. Proceduren är avgörande där proceduren gäller. Kolumnen till höger är därför det egentliga testet.',
     'party.cohesion': 'Sammanhållning och frånvaro',
     'party.cohesionNote': 'Sammanhållning = andel av partiets avgivna röster som följde partilinjen (månadsmedel). Frånvaro = andel frånvarande ledamöter.',
     'nav.method': 'Metod',
@@ -126,6 +161,41 @@ export const ui = {
     'analysis.dissenters': 'Most deviations from the party line',
     'analysis.dissents': 'Deviations',
     'analysis.votesCast': 'Votes cast',
+
+    'coalition.title': 'The coalition, or the party programme?',
+    'coalition.nav': 'Coalition',
+    'coalition.intro':
+      "Every division pits the committee's proposal (Ja) against a reservation (Nej). Two rival explanations of how a party votes are set against each other: the coalition line — vote with the committee, knowing nothing about the party — and the party programme, which the AI agent reads without ever being told who authored the reservation. The gap between them is the measurement.",
+    'coalition.tableTitle': "What explains the party's vote?",
+    'coalition.baseline': 'Coalition line',
+    'coalition.programme': 'Party programme',
+    'coalition.lift': 'What the programme adds',
+    'coalition.baselineNote':
+      'Coalition line = the share of votes hit by the rule "always vote Ja, with the committee". Party programme = the AI agent\'s accuracy reasoning from the party\'s own documents. The difference is what the programme adds: zero means it contributes nothing beyond coalition position.',
+    'coalition.govNote':
+      'For M, KD and L the coalition line already accounts for 99% of votes. They moved only 8, 11 and 8 reservations respectively over the period — and not once did the AI agent find an explicit reason in their own documents to vote against the committee. Their programme and the committee line are the same object; there is no tension to measure.',
+    'coalition.overrideTitle': 'When the coalition outweighs a party’s own documents',
+    'coalition.overrideIntro':
+      'Divisions where the party’s own documents explicitly imply voting against the committee — yet it voted Ja anyway. Split by whether the party moved the reservation itself.',
+    'coalition.ownRes': 'own reservation',
+    'coalition.ownResTip': 'The party itself is behind the reservation being voted down.',
+    'coalition.override': 'against own programme',
+    'coalition.overrideTip':
+      'The party’s own documents explicitly implied voting against the committee — it voted Ja anyway. * = the AI agent was not highly confident.',
+    'coalition.ownResCol': 'Own reservation',
+    'coalition.notOwnCol': "Another party's reservation",
+    'coalition.strict': 'strict',
+    'coalition.loose': 'loose',
+    'coalition.casesTitle': 'The divisions',
+    'coalition.casesIntro':
+      "Each row: the party's own documents said one thing, the party voted another. The reasoning and quotes are the AI agent's, drawn from the party's election manifesto.",
+    'coalition.aiSaid': 'Programme said',
+    'coalition.voted': 'Voted',
+    'coalition.caveatTitle': 'What this does not show',
+    'coalition.caveat':
+      'A flag means a document-grounded reading of the party’s programme pointed the other way from its vote. It cannot by itself distinguish "coalition discipline overrode the programme" from "the AI agent misread the programme". That parties never abandon their own reservation (0% in every case below) suggests the measurement captures something real — but individual rows should be read as questions, not verdicts.',
+    'coalition.authoredZero':
+      'Where a party moved the reservation itself, it never abandoned it — 0% for every party, at both thresholds. Procedure is decisive where procedure applies. The right-hand column is therefore the real test.',
     'party.cohesion': 'Cohesion and absence',
     'party.cohesionNote': 'Cohesion = share of the party\'s cast votes following the party line (monthly mean). Absence = share of absent MPs.',
     'nav.method': 'Methodology',
@@ -233,6 +303,7 @@ const SLUG_PAIRS: [string, string][] = [
   ['/metod/', '/methodology/'],
   ['/dokument/', '/documents/'],
   ['/analys/', '/analysis/'],
+  ['/koalition/', '/coalition/'],
   ['/parti/', '/parties/'],
 ];
 

@@ -6,6 +6,7 @@ Outputs data/results/aggregates/{run_id}/:
   confusion.json         3x3 (AI rost x actual position) per party
   coverage.json          coverage/confidence/flag distributions
   probe.json             contamination: recall rates, probe-agreement relation
+  coalition.json         coalition baseline vs party programme (see coalition.py)
 """
 
 from __future__ import annotations
@@ -15,6 +16,7 @@ from collections import Counter, defaultdict
 
 import polars as pl
 
+from aidag import coalition
 from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
 
 SIM_LABELS = ["Ja", "Nej", "Avstår"]
@@ -50,7 +52,9 @@ def cohens_kappa(pairs: list[tuple[str, str]]) -> float | None:
 def run(run_id: str) -> None:
     decisions = load_decisions(run_id)
     positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
-    cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet").select("votering_id", "datum", "utskott")
+    cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet").select(
+        "votering_id", "datum", "utskott", "rubrik"
+    )
 
     df = (
         decisions.join(positions, on=["votering_id", "parti"], how="inner")
@@ -119,6 +123,11 @@ def run(run_id: str) -> None:
     }
     (out_dir / "coverage.json").write_text(json.dumps(coverage, indent=1))
 
+    # --- coalition discipline vs party programme ---
+    coal = coalition.compute(df)
+    coal["run_id"] = run_id
+    (out_dir / "coalition.json").write_text(json.dumps(coal, indent=1, ensure_ascii=False))
+
     # --- probe / contamination ---
     probe_path = RESULTS_DIR / "probes" / run_id / "probe.jsonl"
     if probe_path.exists() and probe_path.read_text().strip():
@@ -145,6 +154,16 @@ def run(run_id: str) -> None:
     print(f"  overall agreement: {summary['overall_agreement']:.1%} over {summary['n_decisions']} decisions")
     for p, s in per_party.items():
         print(f"  {p}: {s['agreement']:.1%} (kappa {s['kappa']}, n={s['n']})")
+
+    print("\n  coalition baseline vs party programme:")
+    print(f"  {'':4} {'coalition':>10} {'programme':>10} {'lift':>8}  {'override (strict)':>18}")
+    for p, s in coal["per_party"].items():
+        strict = s["override"]["strict"]["all"]
+        ov = f"{strict['num']}/{strict['den']}" if strict["den"] else "—"
+        print(
+            f"  {p:4} {s['coalition_baseline']:9.1%} {s['programme_accuracy']:9.1%} "
+            f"{s['programme_lift']:+7.1%}  {ov:>18}"
+        )
 
 
 def _avstar_recall(sub: pl.DataFrame) -> float | None:

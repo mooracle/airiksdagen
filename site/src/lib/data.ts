@@ -28,6 +28,8 @@ export interface ActualPosition {
   n_avstar: number;
   n_franvarande: number;
   cohesion: number;
+  /** The party itself moved the reservation being voted down (procedural fact, no AI). */
+  authored_reservation?: boolean;
 }
 
 export interface AiDecision {
@@ -39,6 +41,11 @@ export interface AiDecision {
   omvarld?: { paverkar: boolean; faktorer: { faktor: string; effekt: string }[] };
   flags: string[];
   model: string;
+  /**
+   * The party's own documents explicitly implied opposing the committee, yet it
+   * voted Ja. 'strict' = the agent was also highly confident. Null otherwise.
+   */
+  program_override?: 'strict' | 'loose' | null;
   /** English translation; null until the translation batch has run. */
   en?: {
     motivering: string;

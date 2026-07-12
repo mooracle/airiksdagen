@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import type { Lang } from '../i18n/ui';
+import { localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -60,7 +60,16 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
         formuleringarna kan innehålla efterhandsperspektiv.</li>
         <li>Regeringspartier röstar nästan alltid ja till sina egna förslag — hög
         överensstämmelse där är väntad och föga informativ; Cohens kappa redovisas därför
-        vid sidan av rå överensstämmelse.</li>
+        vid sidan av rå överensstämmelse. Detta är inte ett fel i mätningen utan
+        resultatet: se <a href={localePath(lang, '/koalition/')}>Koalitionen eller
+        partiprogrammet?</a>, där koalitionslinjen ställs mot partiets egna dokument
+        som två konkurrerande förklaringar.</li>
+        <li>En markering ”mot eget program” säger att en dokumentgrundad läsning pekade
+        åt annat håll än partiets röst. Den kan inte i sig skilja koalitionsdisciplin
+        från att AI-agenten läst programmet fel. Vem som skrivit en reservation är
+        medvetet borttaget ur agentens underlag — det är nästan en facit-uppgift
+        (partier röstar praktiskt taget aldrig ned sin egen reservation) och skulle
+        göra mätningen meningslös.</li>
       </ul>
 
       <h2>Reproducerbarhet</h2>
@@ -120,7 +129,16 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
         may carry hindsight.</li>
         <li>Government parties nearly always support their own proposals — high agreement
         there is expected and uninformative; Cohen's kappa is reported alongside raw
-        agreement.</li>
+        agreement. This is not a flaw in the measurement but the result of it: see
+        <a href={localePath(lang, '/koalition/')}>The coalition, or the party
+        programme?</a>, which sets the coalition line against a party's own documents as
+        two competing explanations.</li>
+        <li>An "against own programme" flag says a document-grounded reading pointed the
+        other way from the party's vote. It cannot by itself separate coalition discipline
+        from the AI agent misreading the programme. Who authored a reservation is
+        deliberately withheld from the agent's context — it is close to an answer key
+        (parties practically never vote down their own reservation) and would render the
+        measurement meaningless.</li>
       </ul>
 
       <h2>Reproducibility</h2>

@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import { getMeta, getAggregate } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+
+interface Bucket { den: number; num: number; rate: number | null }
+interface PartyRow {
+  n: number;
+  bloc: string;
+  coalition_baseline: number;
+  programme_accuracy: number;
+  programme_lift: number;
+  authored_reservation_n: number;
+  override: Record<'strict' | 'loose', Record<'all' | 'authored' | 'not_authored', Bucket>>;
+}
+interface OverrideCase {
+  votering_id: string; datum: string; rubrik: string; utskott: string; parti: string;
+  ai_rost: string; actual: string; confidence: string; coverage: string;
+  strict: boolean; authored_reservation: boolean; motivering: string;
+  citations: { document: string; quote: string; princip?: string }[];
+}
+const coalition = getAggregate<{
+  n_decisions: number;
+  per_party: Record<string, PartyRow>;
+  override_cases: OverrideCase[];
+}>('coalition');
+
+const voteLabels: Record<string, string> = {
+  Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår'), 'Frånvarande': t('vote.Frånvarande'),
+};
+
+// Ordered by how much the programme adds: coalition-explained parties first.
+const parties = coalition
+  ? meta.hemicycle_order
+      .filter((p) => coalition.per_party[p])
+      .sort((a, b) => coalition.per_party[a].programme_lift - coalition.per_party[b].programme_lift)
+  : [];
+const cases = coalition?.override_cases ?? [];
+const pct = (v: number | null) => (v == null ? '–' : `${(v * 100).toFixed(0)}%`);
+const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
+---
+
+<Base lang={lang} title={t('coalition.title')} path="/koalition/">
+  <h1>{t('coalition.title')}</h1>
+  <p class="muted">{t('coalition.intro')}</p>
+
+  {!coalition ? (
+    <div class="card"><p class="muted">–</p></div>
+  ) : (
+    <>
+      <h2>{t('coalition.tableTitle')}</h2>
+      <div class="card" style="overflow-x:auto">
+        <table class="compare nums">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{t('coalition.baseline')}</th>
+              <th>{t('coalition.programme')}</th>
+              <th>{t('coalition.lift')}</th>
+              <th></th>
+              <th>n</th>
+            </tr>
+          </thead>
+          <tbody>
+            {parties.map((p) => {
+              const s = coalition.per_party[p];
+              const lift = s.programme_lift;
+              // Bar is scaled against the largest lift on the page.
+              const width = Math.max(0, lift) * 100 * 4;
+              return (
+                <tr>
+                  <td>
+                    <span class="partydot" style={`background:${meta.parties[p]?.color}`} />
+                    <strong>{p}</strong>
+                  </td>
+                  <td>{pct(s.coalition_baseline)}</td>
+                  <td>{pct(s.programme_accuracy)}</td>
+                  <td class={lift > 0.02 ? 'lift pos' : 'lift zero'}>
+                    {lift >= 0 ? '+' : '−'}{Math.abs(lift * 100).toFixed(1)} pp
+                  </td>
+                  <td class="barcell">
+                    <span class="bar" style={`width:${width}%;background:${meta.parties[p]?.color}`} />
+                  </td>
+                  <td class="muted">{s.n}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p class="muted note">{t('coalition.baselineNote')}</p>
+        <p class="muted note"><strong>M · KD · L —</strong> {t('coalition.govNote')}</p>
+      </div>
+
+      <h2>{t('coalition.overrideTitle')}</h2>
+      <p class="muted">{t('coalition.overrideIntro')}</p>
+      <div class="card" style="overflow-x:auto">
+        <table class="compare nums">
+          <thead>
+            <tr>
+              <th></th>
+              <th colspan="2">{t('coalition.ownResCol')}</th>
+              <th colspan="2">{t('coalition.notOwnCol')}</th>
+            </tr>
+            <tr class="sub">
+              <th></th>
+              <th>{t('coalition.strict')}</th>
+              <th>{t('coalition.loose')}</th>
+              <th>{t('coalition.strict')}</th>
+              <th>{t('coalition.loose')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {parties.filter((p) => coalition.per_party[p].override.loose.all.den > 0).map((p) => {
+              const o = coalition.per_party[p].override;
+              return (
+                <tr>
+                  <td>
+                    <span class="partydot" style={`background:${meta.parties[p]?.color}`} />
+                    <strong>{p}</strong>
+                  </td>
+                  <td class="zero">{cell(o.strict.authored)} <span class="muted">{pct(o.strict.authored.rate)}</span></td>
+                  <td class="zero">{cell(o.loose.authored)} <span class="muted">{pct(o.loose.authored.rate)}</span></td>
+                  <td class="hot"><strong>{cell(o.strict.not_authored)}</strong> <span class="muted">{pct(o.strict.not_authored.rate)}</span></td>
+                  <td class="hot">{cell(o.loose.not_authored)} <span class="muted">{pct(o.loose.not_authored.rate)}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p class="muted note">{t('coalition.authoredZero')}</p>
+      </div>
+
+      <h2>{t('coalition.casesTitle')} <span class="muted">({cases.length})</span></h2>
+      <p class="muted">{t('coalition.casesIntro')}</p>
+      <div class="card">
+        {cases.map((c) => (
+          <div class="ovcase">
+            <p class="ov-head">
+              <span class="partydot" style={`background:${meta.parties[c.parti]?.color}`} />
+              <strong>{c.parti}</strong>
+              <a href={localePath(lang, `/fall/${c.votering_id}/`)}>{c.rubrik}</a>
+              <span class="muted date">{c.datum}</span>
+            </p>
+            <p class="ov-votes">
+              <span class="muted">{t('coalition.aiSaid')}</span>
+              <span class="votechip" data-v={c.ai_rost}>{voteLabels[c.ai_rost]}</span>
+              <span class="muted">{t('coalition.voted')}</span>
+              <span class="votechip" data-v={c.actual}>{voteLabels[c.actual]}</span>
+              {!c.strict && <span class="muted small">({c.confidence})</span>}
+            </p>
+            <p class="ov-mot">{c.motivering}</p>
+            {c.citations[0] && (
+              <blockquote>
+                »{c.citations[0].quote}«
+                {c.citations[0].princip && <span class="muted small"> — {c.citations[0].princip}</span>}
+              </blockquote>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <h2>{t('coalition.caveatTitle')}</h2>
+      <div class="card caveat">
+        <p>{t('coalition.caveat')}</p>
+      </div>
+    </>
+  )}
+
+  <style>
+    .nums td, .nums th { font-variant-numeric: tabular-nums; }
+    .nums thead tr.sub th { font-weight: 400; font-size: 0.8rem; color: var(--muted); }
+    .note { font-size: 0.83rem; }
+    .lift.pos { color: #1d6b3a; font-weight: 600; }
+    .lift.zero { color: var(--muted); }
+    .barcell { width: 40%; }
+    .bar { display: block; height: 9px; border-radius: 4px; min-width: 1px; }
+    .zero { color: var(--muted); }
+    .hot { background: #fdf5e8; }
+    .ovcase { padding: 0.9rem 0; border-bottom: 1px solid #ece9df; }
+    .ovcase:last-child { border-bottom: 0; }
+    .ov-head { margin: 0 0 0.3rem; display: flex; gap: 0.45rem; align-items: baseline; flex-wrap: wrap; }
+    .ov-head .date { margin-left: auto; font-size: 0.82rem; white-space: nowrap; }
+    .ov-votes { margin: 0 0 0.4rem; display: flex; gap: 0.4rem; align-items: center; font-size: 0.85rem; flex-wrap: wrap; }
+    .ov-mot { margin: 0 0 0.4rem; font-size: 0.92rem; }
+    .small { font-size: 0.8rem; }
+    .ovcase blockquote {
+      margin: 0; padding: 0.5rem 0.85rem; background: #fbfaf5; border-radius: 6px;
+      font-family: Georgia, serif; font-size: 0.98rem;
+    }
+    .caveat p { margin: 0; }
+  </style>
+</Base>
