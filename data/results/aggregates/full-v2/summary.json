@@ -1,0 +1,61 @@
+{
+ "run_id": "full-v2",
+ "n_decisions": 450,
+ "overall_agreement": 0.8511,
+ "per_party": {
+  "S": {
+   "n": 60,
+   "agreement": 0.7833,
+   "kappa": 0.5131,
+   "avstar_recall": 0.0
+  },
+  "M": {
+   "n": 60,
+   "agreement": 0.9833,
+   "kappa": 0.0,
+   "avstar_recall": null
+  },
+  "SD": {
+   "n": 44,
+   "agreement": 0.9091,
+   "kappa": 0.648,
+   "avstar_recall": 0.0
+  },
+  "C": {
+   "n": 60,
+   "agreement": 0.7333,
+   "kappa": 0.5092,
+   "avstar_recall": 0.0
+  },
+  "V": {
+   "n": 56,
+   "agreement": 0.8036,
+   "kappa": 0.6207,
+   "avstar_recall": 0.0
+  },
+  "KD": {
+   "n": 60,
+   "agreement": 0.9833,
+   "kappa": 0.0,
+   "avstar_recall": null
+  },
+  "MP": {
+   "n": 50,
+   "agreement": 0.6,
+   "kappa": 0.3606,
+   "avstar_recall": 0.1667
+  },
+  "L": {
+   "n": 60,
+   "agreement": 0.9833,
+   "kappa": 0.0,
+   "avstar_recall": null
+  }
+ },
+ "models": [
+  "claude-sonnet-4-6"
+ ],
+ "arms": [
+  "anonymous"
+ ]
+}
