@@ -32,14 +32,49 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
         avgivna röster i voteringen. Frånvarande partier utesluts ur jämförelsen.</li>
       </ul>
 
+      <h2>Vilka dokument agenten ser</h2>
+      <p>Varje parti får <strong>sina egna dokument och ingen annans</strong>. Varje dokument
+      är synligt <strong>först från sitt eget antagandedatum</strong> — samma regel som
+      Tidöavtalet alltid följt.</p>
+      <table class="docs">
+        <thead><tr><th>Dokument</th><th>Vilka partier</th><th>Från</th></tr></thead>
+        <tbody>
+          <tr><td>Valmanifest 2022</td><td>alla åtta</td><td>alltid — väger tyngst när dokumenten säger olika</td></tr>
+          <tr><td>Partiprogram</td><td>alla åtta</td><td>sitt antagandedatum; den gällande versionen byts ut mitt i mandatperioden</td></tr>
+          <tr><td>Tidöavtalet</td><td>M, KD, L (undertecknare), SD (samarbetsparti)</td><td>2022-10-14</td></tr>
+          <tr><td>Budgetmotion</td><td>endast S, V, C, MP</td><td>sitt inlämningsdatum — men <em>aldrig</em> i den votering som avgör den</td></tr>
+        </tbody>
+      </table>
+      <p>Bara S, V, C och MP lägger en egen budgetmotion: M, KD och L lägger regeringens
+      budgetproposition och SD stöder den. De fyra partier som har en skuggbudget är därmed
+      precis de fyra som har de tunnaste valmanifesten.</p>
+
+      <h3>Varför datumstyrning och inte en enda ögonblicksbild</h3>
+      <p>Ingen av ytterligheterna fungerar. <strong>Bara gamla dokument</strong> är blinda:
+      Socialdemokraternas partiprogram från 2013 nämner inte Nato en enda gång, under en
+      mandatperiod som dominerats av medlemskapsfrågan. <strong>Bara aktuella dokument</strong>
+      är kontaminerade: Miljöpartiets partiprogram från 2025 innehåller meningen
+      <em>”När Sverige anslöt sig till Nato valde Miljöpartiet att rösta emot beslutet”</em> —
+      partiet anger alltså <strong>hur det röstade i en votering som ingår i det här
+      materialet</strong>. Ett sådant dokument gör mätningen cirkulär.</p>
+      <p>S, V och MP skrev helt nya partiprogram under perioden (1–4 % textlikhet med de
+      gamla); SD, KD och L gjorde bara ändringar (95–98 % likhet). Totalt ger detta
+      <strong>34 olika dokumentlägen</strong> över åtta partier och fyra år — uppräkneliga,
+      inte flytande.</p>
+
       <h2>Läckagekontroller</h2>
       <ul>
         <li>Inga ärendenummer, beteckningar, voterings-ID eller exakta datum i prompten
         (tidpunkt anges som månad). Dokumentreferenser i förslagstexten maskeras.</li>
-        <li>Motförslag anonymiseras ("Alternativ A/B") — partitillhörighet för reservationer
-        är nära facit. En separat pilotarm med partietiketter mäter effekten av anonymiseringen.</li>
+        <li>Motförslag anonymiseras ("Alternativ A/B") — <strong>vem som skrivit en reservation
+        är nära facit</strong>: ett parti röstar Nej på sin egen reservation i 3 877 fall av
+        3 878. Därför tas den uppgiften bort ur agentens underlag.</li>
+        <li>Av samma skäl får ett parti <strong>aldrig se sin egen budgetmotion i den votering
+        som avgör den</strong> (33 fall).</li>
         <li>Riksdagens beslutsnotis (som anger utfallet) används aldrig i prompten; endast
         utskottets förhandssammanfattning.</li>
+        <li>Ett citat till ett dokument som agenten inte fick se underkänns maskinellt —
+        kontrollen frågar samma funktion som byggde prompten.</li>
       </ul>
 
       <h2>Kontamineringsmätning</h2>
@@ -89,11 +124,10 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
       <ul>
         <li><strong>Unit:</strong> one main chamber vote on the substantive question
         (sakfrågan), 2022–2026. Case data from the Riksdag's open data.</li>
-        <li><strong>Agent:</strong> one AI request per (vote × party). The agent receives the
-        party's 2022 election manifesto (SND Vivill), for M/KD/L/SD also the Tidö agreement
-        (from 2022-10-14), and a monthly country snapshot (policy rate, inflation,
-        unemployment, events) where every value carries its publication vintage — no
-        information after the decision month.
+        <li><strong>Agent:</strong> one AI request per (vote × party). The agent receives
+        <em>that party's own documents and no one else's</em> — see below — plus a monthly
+        country snapshot (policy rate, inflation, unemployment, events) where every value
+        carries its publication vintage.
         <strong>Opinion polls are deliberately withheld from the agents:</strong> the question
         is whether a party follows its own plan, not whether it adjusts to public opinion.
         Polling support is shown on the website as context only.</li>
@@ -103,14 +137,48 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
         cast votes. Absent parties are excluded.</li>
       </ul>
 
+      <h2>Which documents the agent sees</h2>
+      <p>Every party gets <strong>its own documents and no one else's</strong>. Each document
+      becomes visible <strong>only from its own adoption date onward</strong> — the rule the
+      Tidö agreement always followed.</p>
+      <table class="docs">
+        <thead><tr><th>Document</th><th>Which parties</th><th>From</th></tr></thead>
+        <tbody>
+          <tr><td>2022 election manifesto</td><td>all eight</td><td>always — and it wins where the documents conflict</td></tr>
+          <tr><td>Party programme</td><td>all eight</td><td>its adoption date; the standing version rolls over mid-term</td></tr>
+          <tr><td>Tidö agreement</td><td>M, KD, L (signatories), SD (support party)</td><td>2022-10-14</td></tr>
+          <tr><td>Shadow budget</td><td>S, V, C, MP only</td><td>its submission date — but <em>never</em> on the division that votes on it</td></tr>
+        </tbody>
+      </table>
+      <p>Only S, V, C and MP file a shadow budget: M, KD and L present the actual government
+      budget and SD backs it. So the four parties with a shadow budget are exactly the four
+      with the thinnest election manifestos.</p>
+
+      <h3>Why date-gating rather than a single snapshot</h3>
+      <p>Neither extreme works. <strong>Old documents alone</strong> are blind: the Social
+      Democrats' 2013 party programme does not mention NATO once, across a term dominated by
+      accession. <strong>Current documents alone</strong> are contaminated: the Green Party's
+      2025 programme contains the sentence <em>"When Sweden joined NATO, the Green Party chose
+      to vote against the decision"</em> — the party stating <strong>how it voted on a division
+      in this very dataset</strong>. Such a document makes the measurement circular.</p>
+      <p>S, V and MP wrote entirely new programmes mid-term (1–4% textual similarity to the
+      old ones); SD, KD and L only amended theirs (95–98%). Together this yields
+      <strong>34 distinct document states</strong> across eight parties and four years —
+      enumerable, not fluid.</p>
+
       <h2>Leakage controls</h2>
       <ul>
         <li>No case numbers, designations, vote IDs or exact dates in the prompt (time given
         as month). Document references inside proposal texts are masked.</li>
-        <li>Counter-proposals are anonymized ("Alternative A/B") — reservation authorship is
-        near-ground-truth. A separate labeled pilot arm measures the effect.</li>
+        <li>Counter-proposals are anonymized ("Alternative A/B") — <strong>reservation
+        authorship is close to an answer key</strong>: a party votes Nej on its own reservation
+        in 3,877 of 3,878 cases. That fact is therefore removed from the agent's context.</li>
+        <li>For the same reason, a party is <strong>never shown its own shadow budget on the
+        division that votes on it</strong> (33 cases).</li>
         <li>The Riksdag's post-decision summary (which states the outcome) is never used in
         prompts; only the committee's pre-decision summary.</li>
+        <li>A citation to a document the agent was not served fails machine verification — the
+        check asks the same function that built the prompt.</li>
       </ul>
 
       <h2>Contamination measurement</h2>
@@ -147,4 +215,21 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
       party or with the Riksdag.</p>
     </article>
   )}
+
+  <style>
+    table.docs {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.9rem 0 1.1rem;
+      font-size: 0.9rem;
+    }
+    table.docs th, table.docs td {
+      text-align: left;
+      padding: 0.45rem 0.6rem;
+      border-bottom: 1px solid #ece9df;
+      vertical-align: top;
+    }
+    table.docs th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+    table.docs td:first-child { font-weight: 600; white-space: nowrap; }
+  </style>
 </Base>
