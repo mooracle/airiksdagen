@@ -1,21 +1,24 @@
-// Grouped variant of agent_batch_workflow.js: one Sonnet agent decides a
-// GROUP of same-party, same-month cases, reading the party corpus once
-// (~4x fewer tokens per decision). Used for the grouped-vs-per-case
-// methodology experiment; do not use for the headline run unless the
-// comparison (aidag compare-runs) shows equivalence.
+// THE workflow for the full run: one agent decides a GROUP of same-party,
+// same-month cases, reading that party's corpus once. The corpus is the
+// expensive part (53k-126k tokens under p5), so group size is what makes the
+// run affordable — ~19k tokens/decision at group 8, ~8k at month scale.
+//
 //   Workflow({ scriptPath: "scripts/grouped_batch_workflow.js",
-//              args: { manifestPath: "<abs path to batch-NNN.json>" } })
-// Manifest items must be kind 'simgroup' (aidag agent-prepare --group N).
-// Returns the same shape as the per-case script ({run_id, sims, probes}),
-// so `aidag agent-ingest` works unchanged.
+//              args: { manifestPath: "<abs path to batch-NNN.json>",
+//                      model: "opus" } })     // model optional, default sonnet
+//
+// Manifest items must be kind 'simgroup' (aidag agent-prepare --group N, or
+// --group 0 for size-driven packing). The citable-document set comes from the
+// manifest's prompt_version. Returns {run_id, sims, probes} — `aidag
+// agent-ingest` works unchanged.
 
 export const meta = {
   name: 'aidag-grouped-batch',
-  description: 'One batch of AI-party vote decisions, grouped N cases per agent (Sonnet)',
+  description: 'One batch of AI-party vote decisions, grouped by party-month',
   phases: [
     { title: 'Load', detail: 'read the batch manifest' },
-    { title: 'Simulate', detail: 'one Sonnet agent per (party x case-group)', model: 'sonnet' },
-    { title: 'Probe', detail: 'memorization probes (one per case)', model: 'sonnet' },
+    { title: 'Simulate', detail: 'one agent per (party x case-group)' },
+    { title: 'Probe', detail: 'memorization probes (one per case)' },
   ],
 }
 
@@ -39,7 +42,15 @@ const PROBE_SCHEMA = {
   additionalProperties: false,
 }
 
-const DECISION_PROPS = {
+// Citable documents, per prompt version — must mirror corpus.DOCS_P4/DOCS_P5.
+// Derived from the manifest, never a permissive union: a p4 agent that never saw
+// a partiprogram must not even be able to name one.
+const DOCS_BY_VERSION = {
+  p4: ['valmanifest', 'tidoavtalet'],
+  p5: ['valmanifest', 'tidoavtalet', 'partiprogram', 'budgetmotion'],
+}
+
+const decisionProps = (promptVersion) => ({
   cid: { type: 'string' },
   rost: { type: 'string', enum: ['Ja', 'Nej', 'Avstår'] },
   confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
@@ -50,7 +61,10 @@ const DECISION_PROPS = {
     items: {
       type: 'object',
       properties: {
-        document: { type: 'string', enum: ['valmanifest', 'tidoavtalet'] },
+        document: {
+          type: 'string',
+          enum: DOCS_BY_VERSION[promptVersion] || DOCS_BY_VERSION.p4,
+        },
         quote: { type: 'string' },
         princip: { type: 'string' },
       },
@@ -78,21 +92,24 @@ const DECISION_PROPS = {
   flags: { type: 'array', items: { type: 'string' } },
 }
 
-const GROUP_SCHEMA = {
-  type: 'object',
-  properties: {
-    decisions: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: DECISION_PROPS,
-        required: Object.keys(DECISION_PROPS),
-        additionalProperties: false,
+const groupSchema = (promptVersion) => {
+  const props = decisionProps(promptVersion)
+  return {
+    type: 'object',
+    properties: {
+      decisions: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: props,
+          required: Object.keys(props),
+          additionalProperties: false,
+        },
       },
     },
-  },
-  required: ['decisions'],
-  additionalProperties: false,
+    required: ['decisions'],
+    additionalProperties: false,
+  }
 }
 
 // Compact manifest: per-case vid and case_file derive from the cid and the
@@ -102,6 +119,7 @@ const MANIFEST_SCHEMA = {
   type: 'object',
   properties: {
     run_id: { type: 'string' },
+    prompt_version: { type: 'string' },
     n_sims: { type: 'number' },
     n_probes: { type: 'number' },
     cases_dir: { type: 'string' },
@@ -133,6 +151,12 @@ if (typeof args === 'string') {
 }
 if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.includes('agentrun')) {
   throw new Error(`grouped_batch_workflow: args.manifestPath missing or invalid: ${JSON.stringify(args)}`)
+}
+// Vote/probe model. One model per run — mixing them would make the per-party
+// statistics incomparable across batches of the same dataset.
+const MODEL = args.model || 'sonnet'
+if (!['sonnet', 'opus', 'haiku'].includes(MODEL)) {
+  throw new Error(`grouped_batch_workflow: unknown model ${JSON.stringify(MODEL)}`)
 }
 
 phase('Load')
@@ -183,10 +207,18 @@ for (const item of groups) {
     }
   }
 }
+// The citable-document set is decided by the prompt version, so a mis-read
+// version would let an agent cite a document it never saw. Fail rather than
+// silently fall back.
+const promptVersion = manifest.prompt_version
+if (!DOCS_BY_VERSION[promptVersion]) {
+  problems.push(`unknown prompt_version ${JSON.stringify(promptVersion)} (expected one of ${Object.keys(DOCS_BY_VERSION).join(', ')})`)
+}
 if (problems.length) {
   throw new Error(`manifest failed integrity check (${problems.length} problems):\n${problems.slice(0, 10).join('\n')}`)
 }
-log(`batch loaded: ${groups.length} groups (${totalCases} decisions), ${probeItems.length} probes (run ${manifest.run_id})`)
+const GROUP_SCHEMA = groupSchema(promptVersion)
+log(`batch loaded: ${groups.length} groups (${totalCases} decisions), ${probeItems.length} probes (run ${manifest.run_id}, prompt ${promptVersion}, model ${MODEL}, citable: ${DOCS_BY_VERSION[promptVersion].join('/')})`)
 
 const groupPrompt = (item) =>
   `You decide how a Swedish party SHOULD vote in ${item.cases.length} SEPARATE Riksdag divisions, strictly from the party's own documents.\n\n` +
@@ -221,11 +253,11 @@ const work = [
     agent(groupPrompt(item), {
       label: `${item.party}:${item.cases.length} cases`,
       phase: 'Simulate',
-      model: 'sonnet',
+      model: MODEL,
       schema: GROUP_SCHEMA,
     }).then((r) => (r ? { kind: 'group', decisions: r.decisions } : null))),
   ...probeItems.map((item) => () =>
-    agent(probePrompt(item), { label: `probe:${item.vid}`, phase: 'Probe', model: 'sonnet', schema: PROBE_SCHEMA })
+    agent(probePrompt(item), { label: `probe:${item.vid}`, phase: 'Probe', model: MODEL, schema: PROBE_SCHEMA })
       .then((r) => (r ? { kind: 'probe', vid: item.vid, result: r } : null))),
 ]
 const results = (await parallel(work)).filter(Boolean)

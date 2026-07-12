@@ -17,6 +17,10 @@ from aidag.simulate import _normalize_ws
 
 
 def _load(run_id: str) -> dict[str, dict]:
+    """Keyed on (party, votering_id) — the identity of a DECISION, not of the
+    prompt that produced it. Keying on the full cid (which embeds prompt_version
+    and arm) would silently find zero overlap for exactly the comparisons this
+    tool exists to make: one corpus or prompt against another."""
     out: dict[str, dict] = {}
     sim_dir = RESULTS_DIR / "simulations" / run_id
     for path in sorted(sim_dir.glob("*.jsonl")):
@@ -24,8 +28,7 @@ def _load(run_id: str) -> dict[str, dict]:
             if not line.strip():
                 continue
             d = json.loads(line)
-            cid = f"{d['parti']}:{d['votering_id']}:{d['prompt_version']}:{d['arm']}"
-            out[cid] = d
+            out[f"{d['parti']}:{d['votering_id']}"] = d
     return out
 
 
@@ -33,8 +36,16 @@ def run(run_a: str, run_b: str) -> None:
     a, b = _load(run_a), _load(run_b)
     common = sorted(set(a) & set(b))
     if not common:
-        print("no common cids between the two runs")
+        print("no decisions in common between the two runs")
         return
+
+    def _design(run: dict) -> str:
+        vs = sorted({d["prompt_version"] for d in run.values()})
+        arms = sorted({d["arm"] for d in run.values()})
+        return f"{'/'.join(vs)} {'/'.join(arms)}"
+
+    print(f"  A = {run_a} ({_design(a)})")
+    print(f"  B = {run_b} ({_design(b)})")
 
     positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
     actual = {

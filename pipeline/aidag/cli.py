@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import typer
 
+from aidag.config import PROMPT_VERSION
+
 app = typer.Typer(no_args_is_help=True, add_completion=False, pretty_exceptions_show_locals=False)
 
 
@@ -127,8 +129,16 @@ def agent_prepare(
     run_id: str = typer.Option(..., "--run-id"),
     batch_size: int = typer.Option(240),
     probes: bool = typer.Option(True, help="Include memorization probes"),
-    group: int = typer.Option(1, help=">1: one agent decides N same-party/month cases"),
-    mirror_run: str = typer.Option(None, help="Restrict to cids already collected in this run"),
+    group: int = typer.Option(
+        1, help=">1: N cases per agent; 0: size-driven (pack each party-month to --context-limit)"
+    ),
+    context_limit: int = typer.Option(
+        200_000, help="Agent context window, used when --group 0 (e.g. 1000000 for Opus 1M)"
+    ),
+    mirror_run: str = typer.Option(None, help="Restrict to decisions already collected in this run"),
+    prompt_version: str = typer.Option(
+        PROMPT_VERSION, help="p4 = valmanifest+Tidö; p5 = + date-gated partiprogram & budgetmotion"
+    ),
 ) -> None:
     """Emit the next subagent batch manifest from pending work (checkpoint-aware)."""
     from aidag.agent_run import prepare
@@ -139,6 +149,8 @@ def agent_prepare(
         include_probes=probes,
         group=group,
         mirror_run=mirror_run,
+        prompt_version=prompt_version,
+        context_limit=context_limit,
     )
 
 

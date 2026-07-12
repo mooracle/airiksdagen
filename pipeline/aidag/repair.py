@@ -94,19 +94,34 @@ def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
 
 
 def run(run_id: str) -> None:
+    import polars as pl
+
+    from aidag.config import PROCESSED_DIR
+    from aidag.corpus import documents_for
+
+    cases = pl.read_parquet(
+        PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum", "rm"]
+    )
+    meta = {r["votering_id"]: (r["datum"], r["rm"]) for r in cases.iter_rows(named=True)}
+
     sim_dir = RESULTS_DIR / "simulations" / run_id
     n_ok = n_fixed = n_failed = 0
     for path in sorted(sim_dir.glob("*.jsonl")):
         party = path.stem
-        corpus = {
-            "valmanifest": _corpus_text(f"valmanifest-2022-{party.lower()}.txt"),
-            "tidoavtalet": _corpus_text("tidoavtalet-2022.txt"),
-        }
         out_lines = []
         for line in path.read_text().splitlines():
             if not line.strip():
                 continue
             d = json.loads(line)
+            # align against exactly the documents this decision's agent was
+            # served — under p5 that varies by date and by case
+            datum, rm = meta.get(d["votering_id"], ("", ""))
+            corpus = {
+                kind: text
+                for kind, _tag, text in documents_for(
+                    party, datum, rm, d["votering_id"], d["prompt_version"]
+                )
+            }
             ok, fixed, failed = repair_decision(d, corpus)
             n_ok += ok
             n_fixed += fixed

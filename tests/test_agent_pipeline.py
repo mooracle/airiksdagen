@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from aidag.corpus import docs_for_version
 from aidag.ingest_agent_run import parse_sim
 from aidag.promptgen import DECISION_SCHEMA
 from aidag.repair import repair_decision
@@ -97,6 +98,17 @@ class TestWorkflowScriptSync:
         assert "enum: ['valmanifest', 'tidoavtalet']" in src
         py_enum = DECISION_SCHEMA["properties"]["citations"]["items"]["properties"]["document"]["enum"]
         assert py_enum == ["valmanifest", "tidoavtalet"]
+
+    def test_grouped_js_document_enum_is_version_gated(self):
+        """The grouped script serves both p4 and p5, so its citable-document set
+        must come FROM the manifest — a permissive union would let a p4 agent
+        cite a partiprogram it was never given."""
+        src = (WORKFLOW_JS.parent / "grouped_batch_workflow.js").read_text()
+        for version in ("p4", "p5"):
+            js_enum = "', '".join(docs_for_version(version))
+            assert f"{version}: ['{js_enum}']" in src, f"js DOCS_BY_VERSION drifted from corpus.py for {version}"
+        assert "DOCS_BY_VERSION[promptVersion]" in src, "schema not derived from the manifest"
+        assert "unknown prompt_version" in src, "missing fail-fast on an unknown prompt version"
 
     def test_required_fields_match(self):
         src = WORKFLOW_JS.read_text()

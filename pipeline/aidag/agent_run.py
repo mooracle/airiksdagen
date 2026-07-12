@@ -25,8 +25,9 @@ import json
 import polars as pl
 
 from aidag.config import INTERIM_DIR, PARTY_CODES, PROCESSED_DIR, PROMPT_VERSION
+from aidag.corpus import context_key
 from aidag.probe import PROBE_SYSTEM, collected_probe_ids, probe_user_message
-from aidag.promptgen import build_system_blocks, render_user_message, tido_applies
+from aidag.promptgen import build_system_blocks, render_user_message
 from aidag.simulate import collected_ids
 
 ARM = "anonymous"
@@ -44,14 +45,91 @@ def _load_cases() -> list[dict]:
     )
 
 
-def _system_filename(party: str, datum: str) -> str:
-    return f"{party}-{'tido' if tido_applies(party, datum) else 'base'}.txt"
+def _system_filename(party: str, case: dict, prompt_version: str) -> str:
+    return f"{context_key(party, case['datum'], case['rm'], case['votering_id'], prompt_version)}.txt"
 
 
-def _pending(run_id: str, cases: list[dict], include_probes: bool, mirror_run: str | None = None):
-    """Pending work. With mirror_run, the universe is restricted to the cids
-    already COLLECTED in that run — used for methodology experiments that
-    re-run the same decisions under a different execution design."""
+# Context budget for one group agent. The agent must hold its party corpus, every
+# case in the group, its own reasoning, and emit a decision per case — so the cap
+# is on the whole conversation, not just the input.
+CONTEXT_HEADROOM = 0.85     # leave room for the agent's reasoning turns
+TOOL_SLACK = 10_000         # file reads, retries
+OUTPUT_PER_CASE = 400       # motivering + citations, in tokens
+# The group agent emits every decision in ONE structured response, so the output
+# cap binds independently of the context window — a 1M window does not buy a 1M
+# response. A truncated response loses the whole group, and this project has
+# already lost an agent to a 32k output limit once (the manifest loader).
+MAX_OUTPUT_TOKENS = 24_000
+MAX_GROUP = MAX_OUTPUT_TOKENS // OUTPUT_PER_CASE   # 60 cases
+
+
+def _tokens(text: str) -> int:
+    """Swedish averages ~3.6 characters per token."""
+    return int(len(text) / 3.6)
+
+
+def plan_groups(
+    system_text: str,
+    members: list[tuple[str, dict]],
+    context_limit: int,
+) -> list[list[tuple[str, dict]]]:
+    """Split one party-month into the FEWEST agents that each fit the window.
+
+    Group size is decided by context, not by a fixed number: a party's corpus
+    runs 53k-126k tokens under p5, and a month holds 1 to 208 cases. So a whole
+    month goes to one agent when it fits, and is split into EQUAL parallel groups
+    when it does not — rather than packing full agents and leaving a stub.
+
+    This is what makes p5 affordable: the corpus is read once per agent, so at
+    group 8 it would cost ~19k tokens/decision, and at month scale ~8k.
+    """
+    budget = context_limit * CONTEXT_HEADROOM - _tokens(system_text) - TOOL_SLACK
+    # a case costs its user message plus the decision the agent must write back
+    costs = [
+        _tokens(render_user_message(case, arm=ARM)) + OUTPUT_PER_CASE
+        for _cid, case in members
+    ]
+    total = sum(costs)
+    if budget <= 0:
+        raise ValueError("party corpus alone exceeds the context budget")
+    # bounded by BOTH limits: context (the corpus + cases must fit) and output
+    # (every decision comes back in one response)
+    by_context = -(-int(total) // int(budget))                 # ceil
+    by_output = -(-len(members) // MAX_GROUP)                  # ceil
+    n_groups = max(1, by_context, by_output)
+    target = total / n_groups                                  # balance, don't fill-and-stub
+
+    groups: list[list[tuple[str, dict]]] = [[]]
+    running = 0.0
+    for member, cost in zip(members, costs):
+        over_target = groups[-1] and running + cost > target
+        over_cap = len(groups[-1]) >= MAX_GROUP
+        if (over_target and len(groups) < n_groups) or over_cap:
+            groups.append([])
+            running = 0.0
+        groups[-1].append(member)
+        running += cost
+    return groups
+
+
+def _decision_of(cid: str) -> tuple[str, str]:
+    """(party, votering_id) — the identity of a decision, independent of which
+    prompt version or arm produced it. Mirroring and cross-run comparison key on
+    this, because an experiment's whole point is to vary prompt or arm."""
+    party, vid, _prompt, _arm = cid.split(":")
+    return party, vid
+
+
+def _pending(
+    run_id: str,
+    cases: list[dict],
+    include_probes: bool,
+    mirror_run: str | None = None,
+    prompt_version: str = PROMPT_VERSION,
+):
+    """Pending work. With mirror_run, the universe is restricted to the decisions
+    already COLLECTED in that run — used for methodology experiments that re-run
+    the same decisions under a different execution design, prompt or corpus."""
     done = set()
     for party in PARTY_CODES:
         done |= collected_ids(run_id, party)
@@ -59,14 +137,14 @@ def _pending(run_id: str, cases: list[dict], include_probes: bool, mirror_run: s
     if mirror_run:
         universe = set()
         for party in PARTY_CODES:
-            universe |= collected_ids(mirror_run, party)
+            universe |= {_decision_of(c) for c in collected_ids(mirror_run, party)}
     sims = []
     for case in cases:
         for party in PARTY_CODES:
-            cid = f"{party}:{case['votering_id']}:{PROMPT_VERSION}:{ARM}"
+            cid = f"{party}:{case['votering_id']}:{prompt_version}:{ARM}"
             if cid in done:
                 continue
-            if universe is not None and cid not in universe:
+            if universe is not None and (party, case["votering_id"]) not in universe:
                 continue
             sims.append((cid, party, case))
     probes = []
@@ -82,6 +160,8 @@ def prepare(
     include_probes: bool = True,
     group: int = 1,
     mirror_run: str | None = None,
+    prompt_version: str = PROMPT_VERSION,
+    context_limit: int = 200_000,
 ) -> None:
     """Write the NEXT batch manifest from whatever is still pending.
 
@@ -90,7 +170,9 @@ def prepare(
     party corpus once (see scripts/grouped_batch_workflow.js)."""
     base = run_dir(run_id)
     cases = _load_cases()
-    sims, probes = _pending(run_id, cases, include_probes, mirror_run=mirror_run)
+    sims, probes = _pending(
+        run_id, cases, include_probes, mirror_run=mirror_run, prompt_version=prompt_version
+    )
     if not sims and not probes:
         print("nothing pending — run complete")
         return
@@ -100,14 +182,17 @@ def prepare(
     (base / "probes").mkdir(exist_ok=True)
     (base / "batches").mkdir(exist_ok=True)
 
-    # party role+corpus files (idempotent; 12 variants)
-    for party in PARTY_CODES:
-        for datum in ("2022-09-01", "2023-01-01"):  # pre-/post-Tidö
-            name = _system_filename(party, datum)
-            path = base / "system" / name
-            if not path.exists():
-                text = "\n\n".join(b["text"] for b in build_system_blocks(party, datum))
-                path.write_text(text)
+    def _system_file(party: str, case: dict) -> str:
+        """One file per distinct context (12 under p4; 34 under p5, since the
+        programme and the shadow budget roll over on their adoption dates)."""
+        name = _system_filename(party, case, prompt_version)
+        path = base / "system" / name
+        if not path.exists():
+            blocks = build_system_blocks(
+                party, case["datum"], case["rm"], case["votering_id"], prompt_version
+            )
+            path.write_text("\n\n".join(b["text"] for b in blocks))
+        return name
 
     # take the next slice; probes (cheap) fill whatever room decisions leave,
     # so probe batches naturally run once all decisions are collected
@@ -124,19 +209,25 @@ def prepare(
         return path
 
     items = []
-    if group > 1:
+    if group != 1:
         # pack same-party cases (same Tidö-era system file, same month, in
         # chronological order) into groups of <= `group` for one agent each
         buckets: dict[tuple, list] = {}
         for cid, party, case in batch_sims:
-            key = (party, _system_filename(party, case["datum"]), case["datum"][:7])
+            key = (party, _system_file(party, case), case["datum"][:7])
             buckets.setdefault(key, []).append((cid, case))
         # compact on purpose: party/vid/case_file derive from the cid + the
         # manifest-level dirs, so the workflow's loader agent can transcribe
         # a large manifest within its output-token limit
         for (party, system_name, _month), members in sorted(buckets.items()):
-            for i in range(0, len(members), group):
-                chunk = members[i : i + group]
+            if group > 0:
+                chunks = [members[i : i + group] for i in range(0, len(members), group)]
+            else:
+                # group=0: size-driven. Fit the whole party-month in one agent if
+                # it fits the window; otherwise split into equal parallel groups.
+                system_text = (base / "system" / system_name).read_text()
+                chunks = plan_groups(system_text, members, context_limit)
+            for chunk in chunks:
                 for _cid, case in chunk:
                     _case_file(case)
                 items.append({
@@ -151,7 +242,7 @@ def prepare(
             items.append({
                 "kind": "sim",
                 "cid": cid,
-                "sys": _system_filename(party, case["datum"]),
+                "sys": _system_file(party, case),
             })
     for case in batch_probes:
         probe_file = base / "probes" / f"{case['votering_id']}.json"
@@ -179,6 +270,7 @@ def prepare(
         json.dumps(
             {
                 "run_id": run_id,
+                "prompt_version": prompt_version,
                 "n_sims": n_sims,
                 "n_probes": n_probes,
                 "cases_dir": str(base / "cases"),

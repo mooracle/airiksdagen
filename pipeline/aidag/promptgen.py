@@ -17,12 +17,34 @@ from __future__ import annotations
 import json
 from functools import lru_cache
 
-from aidag.config import CORPUS_DIR, KB_DIR, PARTIES, TIDO_DATE, TIDO_SIGNATORIES, TIDO_SUPPORT
+from aidag.config import (
+    CORPUS_DIR,
+    KB_DIR,
+    PARTIES,
+    PROMPT_VERSION,
+    TIDO_DATE,
+    TIDO_SIGNATORIES,
+    TIDO_SUPPORT,
+)
+from aidag.corpus import DOCS_P4, docs_for_version, documents_for, tido_applies  # noqa: F401
 
 SV_MONTH_NAMES = [
     "januari", "februari", "mars", "april", "maj", "juni",
     "juli", "augusti", "september", "oktober", "november", "december",
 ]
+
+def decision_schema(prompt_version: str = PROMPT_VERSION) -> dict:
+    """The schema for one decision. The citable-document enum is exactly the set
+    of documents that prompt version can ever put in context — p5 adds the party
+    programme and the shadow budget."""
+    import copy
+
+    schema = copy.deepcopy(DECISION_SCHEMA)
+    schema["properties"]["citations"]["items"]["properties"]["document"]["enum"] = list(
+        docs_for_version(prompt_version)
+    )
+    return schema
+
 
 DECISION_SCHEMA = {
     "type": "object",
@@ -40,7 +62,7 @@ DECISION_SCHEMA = {
                     # anything else would be uncheckable against a source
                     "document": {
                         "type": "string",
-                        "enum": ["valmanifest", "tidoavtalet"],
+                        "enum": list(DOCS_P4),
                     },
                     "quote": {"type": "string"},
                     "princip": {"type": "string"},
@@ -128,36 +150,45 @@ Tidöavtalet (återges nedan) som grund för sitt stöd; väg det mot partiets e
 där de skiljer sig."""
 
 
+P5_ROLE_DOCS = """\
+
+Dokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest \
+bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet \
+anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst."""
+
+
 @lru_cache(maxsize=32)
 def _corpus_text(filename: str) -> str:
     return (CORPUS_DIR / filename).read_text().lstrip("﻿").strip()
 
 
-def tido_applies(code: str, datum: str) -> bool:
-    return code in (TIDO_SIGNATORIES | TIDO_SUPPORT) and datum >= TIDO_DATE
+def build_system_blocks(
+    code: str,
+    datum: str,
+    rm: str = "",
+    votering_id: str = "",
+    prompt_version: str = PROMPT_VERSION,
+) -> list[dict]:
+    """System blocks for one party at one date.
 
-
-def build_system_blocks(code: str, datum: str) -> list[dict]:
-    """System blocks for one party. Byte-identical within a party+Tidö-era,
-    with a 1h cache breakpoint on the last corpus block."""
+    Byte-identical for every case sharing a context_key, with a 1h cache
+    breakpoint on the last corpus block. Which documents appear is decided by
+    corpus.documents_for — the same function the verify gate uses, so an agent
+    can never be blamed for citing a document it was given, nor credited for one
+    it never saw.
+    """
     party_name = PARTIES[code]["name"]
     role = ROLE_PROMPT.format(party_name=party_name, code=code)
     if tido_applies(code, datum):
         extra = TIDO_ROLE_SIGNATORY if code in TIDO_SIGNATORIES else TIDO_ROLE_SUPPORT
         role += extra.format(party_name=party_name)
+    if prompt_version >= "p5":
+        role += P5_ROLE_DOCS
 
-    blocks = [
-        {"type": "text", "text": role},
-        {
-            "type": "text",
-            "text": f"<valmanifest_2022>\n{_corpus_text(f'valmanifest-2022-{code.lower()}.txt')}\n</valmanifest_2022>",
-        },
-    ]
-    if tido_applies(code, datum):
-        blocks.append({
-            "type": "text",
-            "text": f"<tidoavtalet>\n{_corpus_text('tidoavtalet-2022.txt')}\n</tidoavtalet>",
-        })
+    blocks = [{"type": "text", "text": role}]
+    for _kind, tag, text in documents_for(code, datum, rm, votering_id, prompt_version):
+        open_tag = tag.split(" ")[0]
+        blocks.append({"type": "text", "text": f"<{tag}>\n{text}\n</{open_tag}>"})
     blocks[-1]["cache_control"] = {"type": "ephemeral", "ttl": "1h"}
     return blocks
 

@@ -280,17 +280,16 @@ def _normalize_ws(text: str) -> str:
 
 def verify_run(run_id: str):
     """Checks for `aidag verify simulate --run-id X`. Yields (name, ok, detail)."""
-    from aidag.promptgen import _corpus_text, tido_applies  # noqa: PLC2701
+    from aidag.corpus import documents_for
 
     sim_dir = RESULTS_DIR / "simulations" / run_id
     files = sorted(sim_dir.glob("*.jsonl")) if sim_dir.exists() else []
     yield ("results exist", bool(files), f"{len(files)} party files")
-    datum_by_vid = {
-        r["votering_id"]: r["datum"]
-        for r in pl.read_parquet(
-            PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum"]
-        ).iter_rows(named=True)
-    }
+    _cases = pl.read_parquet(
+        PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum", "rm"]
+    )
+    datum_by_vid = {r["votering_id"]: r["datum"] for r in _cases.iter_rows(named=True)}
+    rm_by_vid = {r["votering_id"]: r["rm"] for r in _cases.iter_rows(named=True)}
     seen: set[str] = set()
     dupes = 0
     bad_quotes = 0
@@ -308,25 +307,27 @@ def verify_run(run_id: str):
                 dupes += 1
             seen.add(cid)
             for c in d.get("citations", []):
-                if d["parti"] not in corpus_map:
+                # exactly what THIS decision's agent was served, from the same
+                # function the prompt builder used — a citation to anything else
+                # could only have come from the model's memory. The set is
+                # per-(party, date, case) under p5: the programme and the shadow
+                # budget roll over on their adoption dates, and a party voting on
+                # its own budget never sees it.
+                datum = datum_by_vid.get(d["votering_id"], "")
+                rm = rm_by_vid.get(d["votering_id"], "")
+                key = (d["parti"], datum, rm, d["votering_id"], d["prompt_version"])
+                if key not in corpus_map:
                     # normalized: PDF extraction has arbitrary line wraps, and
                     # models legitimately collapse them when quoting
-                    corpus_map[d["parti"]] = {
-                        "valmanifest": _normalize_ws(
-                            _corpus_text(f"valmanifest-2022-{d['parti'].lower()}.txt")
-                        ),
-                        "tidoavtalet": _normalize_ws(_corpus_text("tidoavtalet-2022.txt")),
+                    corpus_map[key] = {
+                        kind: _normalize_ws(text)
+                        for kind, _tag, text in documents_for(*key)
                     }
-                # a citation must point at a document the agent actually had:
-                # valmanifest always; tidoavtalet only for Tidö parties on
-                # post-Tidö dates. Anything else could only come from memory.
+                in_context = corpus_map[key]
                 doc = c["document"]
-                datum = datum_by_vid.get(d["votering_id"], "")
-                if doc == "tidoavtalet" and not tido_applies(d["parti"], datum):
+                if doc not in in_context:
                     out_of_context += 1
-                elif doc not in ("valmanifest", "tidoavtalet"):
-                    out_of_context += 1
-                source = corpus_map[d["parti"]].get(doc, "")
+                source = in_context.get(doc, "")
                 if c["quote"] and _normalize_ws(c["quote"]) not in source:
                     bad_quotes += 1
     yield ("no duplicate custom_ids", dupes == 0, f"{dupes} dupes in {n} decisions")
