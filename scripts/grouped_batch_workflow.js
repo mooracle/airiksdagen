@@ -123,6 +123,7 @@ const MANIFEST_SCHEMA = {
     n_sims: { type: 'number' },
     n_probes: { type: 'number' },
     cases_dir: { type: 'string' },
+    groups_dir: { type: 'string' },
     probes_dir: { type: 'string' },
     system_dir: { type: 'string' },
     items: {
@@ -133,6 +134,7 @@ const MANIFEST_SCHEMA = {
           kind: { type: 'string', enum: ['simgroup', 'probe'] },
           party: { type: 'string' },
           sys: { type: 'string' },
+          gf: { type: 'string' },
           cids: { type: 'array', items: { type: 'string' } },
           vid: { type: 'string' },
         },
@@ -145,7 +147,7 @@ const MANIFEST_SCHEMA = {
   // a loader that quietly omitted it would leave the schema to guess.
   required: [
     'run_id', 'prompt_version', 'n_sims', 'n_probes',
-    'cases_dir', 'probes_dir', 'system_dir', 'items',
+    'cases_dir', 'groups_dir', 'probes_dir', 'system_dir', 'items',
   ],
   additionalProperties: false,
 }
@@ -179,10 +181,8 @@ const groups = manifest.items
   .map((item) => ({
     ...item,
     system_file: `${manifest.system_dir}/${item.sys}`,
-    cases: item.cids.map((cid) => {
-      const vid = cid.split(':')[1] ?? ''
-      return { cid, vid, case_file: `${manifest.cases_dir}/${vid}.json` }
-    }),
+    group_file: `${manifest.groups_dir}/${item.gf}`,
+    cases: item.cids.map((cid) => ({ cid, vid: cid.split(':')[1] ?? '' })),
   }))
 const probeItems = manifest.items
   .filter((i) => i.kind === 'probe')
@@ -197,12 +197,12 @@ if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeI
 for (const item of probeItems) {
   if (!item.vid) problems.push('probe item missing vid')
 }
-for (const dir of [manifest.cases_dir, manifest.probes_dir, manifest.system_dir]) {
+for (const dir of [manifest.cases_dir, manifest.groups_dir, manifest.probes_dir, manifest.system_dir]) {
   if (!dir || !dir.includes('agentrun')) problems.push(`bad manifest dir: ${dir}`)
 }
 for (const item of groups) {
-  if (!item.sys || !PARTY_SET.has(item.party)) {
-    problems.push(`bad group item: ${item.party} / ${item.sys}`)
+  if (!item.sys || !item.gf || !PARTY_SET.has(item.party)) {
+    problems.push(`bad group item: ${item.party} / sys=${item.sys} / gf=${item.gf}`)
     continue
   }
   for (const c of item.cases) {
@@ -228,10 +228,9 @@ log(`batch loaded: ${groups.length} groups (${totalCases} decisions), ${probeIte
 const groupPrompt = (item) =>
   `You decide how a Swedish party SHOULD vote in ${item.cases.length} SEPARATE Riksdag divisions, strictly from the party's own documents.\n\n` +
   `1. Read the file ${item.system_file} — it is your complete role and instructions, including the party's documents. Read it ONCE; it applies to every case.\n` +
-  `2. Read each case file below. Each JSON file's "user" field is one case to decide:\n` +
-  item.cases.map((c, i) => `   ${i + 1}. [cid ${c.cid}] ${c.case_file}`).join('\n') + '\n\n' +
+  `2. Read the file ${item.group_file}. Its "cases" array holds all ${item.cases.length} cases: each entry has a "cid" and a "user" field with that case's text.\n\n` +
   `Rules:\n` +
-  `- Read ONLY those files. No web search, no other files, no other tools.\n` +
+  `- Read ONLY those TWO files. No web search, no other files, no other tools.\n` +
   `- Decide EVERY case INDEPENDENTLY on its own merits, as if it were the only case in front of you. ` +
   `Do NOT seek consistency across the cases in this batch and do NOT let one decision influence another; ` +
   `the same commitment can point to Ja in one division and Nej in another depending on what is actually being voted on.\n` +

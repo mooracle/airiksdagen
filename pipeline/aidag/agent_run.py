@@ -181,6 +181,7 @@ def prepare(
     (base / "cases").mkdir(exist_ok=True)
     (base / "probes").mkdir(exist_ok=True)
     (base / "batches").mkdir(exist_ok=True)
+    (base / "groups").mkdir(exist_ok=True)
 
     def _system_file(party: str, case: dict) -> str:
         """One file per distinct context (12 under p4; 34 under p5, since the
@@ -228,12 +229,28 @@ def prepare(
                 system_text = (base / "system" / system_name).read_text()
                 chunks = plan_groups(system_text, members, context_limit)
             for chunk in chunks:
-                for _cid, case in chunk:
-                    _case_file(case)
+                # One file per group, not one per case: the agent reads its
+                # corpus once and its cases once, so a 30-case agent makes 2 tool
+                # calls instead of 31. Measured at ~2 tool calls per case before
+                # this, and that turn overhead — not the case text (768 tokens) —
+                # is most of the 7.2k tokens a decision costs.
+                gf = f"g-{len(items):04d}.json"
+                (base / "groups" / gf).write_text(
+                    json.dumps(
+                        {
+                            "cases": [
+                                {"cid": cid, "user": render_user_message(case, arm=ARM)}
+                                for cid, case in chunk
+                            ]
+                        },
+                        ensure_ascii=False,
+                    )
+                )
                 items.append({
                     "kind": "simgroup",
                     "party": party,
                     "sys": system_name,
+                    "gf": gf,
                     "cids": [cid for cid, _case in chunk],
                 })
     else:
@@ -274,6 +291,7 @@ def prepare(
                 "n_sims": n_sims,
                 "n_probes": n_probes,
                 "cases_dir": str(base / "cases"),
+                "groups_dir": str(base / "groups"),
                 "probes_dir": str(base / "probes"),
                 "system_dir": str(base / "system"),
                 "items": items,
