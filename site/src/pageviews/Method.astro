@@ -20,13 +20,12 @@ const path = '/metod/'; // canonical; localePath maps EN to /en/methodology/
       <ul>
         <li><strong>Enhet:</strong> en votering i sakfrågan (huvudvotering) i kammaren, 2022–2026.
         Ärendedata från Riksdagens öppna data (dokumentstatus, voteringar).</li>
-        <li><strong>Agent:</strong> en AI-förfrågan per (votering × parti). Agenten får partiets
-        valmanifest 2022 (SND Vivill), för M/KD/L/SD även Tidöavtalet (fr.o.m. 2022-10-14),
-        samt en månadsvis lägesbild (styrränta, inflation, arbetslöshet, händelser) där varje
-        värde bär sitt publiceringsdatum — ingen information efter beslutsmånaden.
-        <strong>Opinionsmätningar ges medvetet inte till agenterna:</strong> frågan är om
-        partiet följer sin egen plan, inte om det anpassar sig efter opinionen. Väljarstödet
-        visas endast på webbplatsen som kontext.</li>
+        <li><strong>Agent:</strong> en AI-förfrågan per (votering × parti). Agenten får
+        <em>partiets egna dokument och ingen annans</em> — se nedan — samt en månadsvis
+        lägesbild (styrränta, inflation, arbetslöshet, händelser) där varje värde bär sitt
+        publiceringsdatum. <strong>Opinionsmätningar ges medvetet inte till agenterna:</strong>
+        frågan är om partiet följer sin egen plan, inte om det anpassar sig efter opinionen.
+        Väljarstödet visas endast på webbplatsen som kontext.</li>
         <li><strong>Utfall:</strong> Ja/Nej/Avstår med motivering och ordagranna citat ur
         dokumenten. Citat verifieras maskinellt mot källtexterna.</li>
         <li><strong>Jämförelse:</strong> partiets verkliga position = majoriteten av partiets

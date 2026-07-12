@@ -5,22 +5,18 @@ av Elisabeth Thand Ringqvist m.fl. (C)
 En budget för framtiden – fler jobb och lägre utsläpp
 Sammanfattning
 Sverige har, trots ett i grunden gott utgångsläge, hamnat i en förvärrad ekonomisk situation med ett av västvärldens allra högsta arbetslöshetstal, svag tillväxt och fallande nyföretagande. Det har skett ett tvärt omkast i klimatpolitiken där vi gått från att vara ett klimatföredöme till att bli ett land som står för kraftigt höjda utsläpp. Klyftorna har växt inom välfärden, mellan vård- och skolresultat i städer och på landsbygden och i utsatta områden. Järnvägar och vägar fungerar allt sämre. Detta sker samtidigt som Sverige behöver inleda en historiskt stor upprustning av det militära och civila försvaret. Sverige behöver nu en politik som på allvar tar tag i problemen, frigör vår potential och inger framtidstro. I Centerpartiets budgetmotion läggs fokus på tre områden:
-1
 Växande företag och jobbskapande – Centerpartiets plan för att få tillbaka tillväxten och få ned arbetslösheten
 Total satsning: 17,7 mdkr (10,2 mdkr mer än regeringen).
 För att få ner arbetslösheten och upp tillväxten satsas både på sänkta kostnader för företag och på utbildning. Till det kommer satsningar på infrastruktur och klimat
-­
 ledarskap för att stärka Sveriges konkurrenskraft.
 Kraftigt sänkta kostnader för företagen att anställa genom sänkta skatter. Slopade arbetsgivaravgifter för småföretag upp till tio anställda och för grupper som måste in på arbetsmarknaden: unga och de med ingångslöner. Arbetsgivaravgifterna slopas även för alla långtidsarbetslösa. Sjuklöneansvaret lyfts bort från småföretagen när högkostnadsskydd återinförs.
 Förstärkta inkomstskattesänkningar för de med låga och medelstora inkomster.
 Satsningar på intensiv integration med ett nystartsår och jobbsvenska.
 Satsningar på utbildning och vidareutbildning (yrkesvux, branschskolor, nationella yrkesprogram och YH).
 Tillväxthöjande AI-satsning på stipendier till elitforskare och FoU-avdrag.
-2
 Klimat- och miljöledarskap – Centerpartiets klimatplan för att nå utsläppsmålen och bli ett klimatföredöme igen
 Totalt: 7,9 mdkr.
 Med Tidöregeringen har det fossila ökat och utsläppen höjts kraftigt. För att fixa klimat
-­
 politiken i Sverige måste vi ta oss an tre ”big bets” – bilen, boendet och industrin – med ny grön el som förutsättning för att klara det.
 Miljöbilar måste dominera bilförsäljningen igen. För att det ska bli möjligt ska minst 100
 000 fler personer per år kunna leasa miljöbil för 1
@@ -30,7 +26,6 @@ Kollektivtrafiken måste stärkas i städerna, samtidigt som trängselskatten f�
 Den gröna industrin, från stål till kemi, ska kunna ställa om och skala upp, genom att Industriklivet dubbleras och breddas till innovationer, ett område där regeringen skurit ned.
 Den förnybara elen, som helt slutat byggas, måste få full fart genom kablar för att bygga havsvindkraft, riktig skatteåterbäring till vindkraftskommuner, avskaffad solskatt och stabilare energisystem med bland annat satsning på batterilagring.
 På det här viset kan utsläppen minskas med över 8 miljoner ton till 2030 och vi kan både nå ESR-målet (gap med regeringens budget: minst 4,3 miljoner ton) och det svenska etappmålet.
-3
 Investera i landsbygdens välfärd och utradera de geografiska orättvisorna
 Totalt: 4,5 mdkr.
 Sverige har under en längre tid utvecklat oacceptabla skillnader i skolresultat och i dödlighet i behandlingsbara sjukdomar mellan stad och landsbygd och mellan olika delar av landet. Samma ojämlikhet ser vi även när det gäller infrastrukturen. Dessa skillnader måste överbryggas med investeringar i välfärden.
@@ -41,12 +36,10 @@ Folkbildning, förenings- och idrottsliv, kulturen och civilsamhällets samlings
 Centerpartiet vill att den ekonomiska politiken inte bara ska vara inriktad på att förstärka hushållens konsumtion utan också på att investera och bygga infrastruktur, grön industri, grön energi och billiga bostäder i hela landet. Järnvägar och mindre vägar förfaller på många platser i landet. Här behövs investeringar för att minska klyftorna och höja tillväxten.
 En task force för tågen, för att snabbt ta itu med tågens och järnvägens underhåll, som inte kan vänta till 2050. Därutöver behövs bland annat särskilda driftsstöd till enskilda vägar.
 Självförsörjningen av livsmedel och konkurrenskraften i svenskt jordbruk förstärks genom införandet av ett jordbruksavdrag och satsning på beredskapslager.
-4
 Satsningar på effektiv brottsbekämpning, kvinnors trygghet, jämställdhet och bistånd
 Satsningar på brottsbekämpning med särskilt fokus på närvarande poliser i yttre tjänst,
 ett specialiserat och effektivt “Ekokrim” mot ekonomisk brottslighet och first responder
 -drönare för att identifiera brottslingar. Mäns våld mot kvinnor och hedersrelaterat våld och förtryck kräver krafttag med ett lämnaprogram och en riktig lämnapeng för den som måste ut ur våldsamma relationer, exitprogram för unga i prostitution, och resurser för skyddade boenden. Sverige ska återigen ta emot sin (lilla) andel av kvotflyktingar och påbörja en återställning av enprocentsmålet för biståndet.
-5
 Hushållens köpkraft stärks på kort sikt, men framförallt på lång sikt
 Centerpartiets plan för tillväxt syftar till att stärka tillväxten och minska arbetslösheten på lång sikt. Det är reformer som kommer innebära många tusenlappar i skillnad per person i ökade reallöner och minskade kostnader för arbetslöshet. I vårt budgetförslag finns även insatser för att omedelbart öka köpkraften:
 Matmomsen halveras.
@@ -174,9 +167,7 @@ Avvisade förslag till skatteförändringar i budgetpropositionen för 2026
 Inkomstberäkning
 Utgifter
 Tabell 4 Förslag till utgiftsramar
-2026
 Tabell 5 Förslag till utgiftsramar
-2027–2028
 Utgifter per utgiftsområde
 Offentliga finanser
 Utgiftstak
@@ -198,32 +189,26 @@ Riksdagen godkänner den preliminära beräkningen av inkomster i statens budget
 Centerpartiets inriktning för den ekonomiska politiken
 Bedömning av det ekonomiska läget
 Svensk ekonomi är i ett fortsatt svagt läge, med vissa tecken på återhämtning. Risk
-­
 bilden i omvärlden är fortsatt stor samtidigt som särskilt hushåll men även vissa sektorer i näringslivet ser läget som sämre än normalt.
 Omvärldens osäkerhet väger på svensk ekonomi, men effekten är inte helt entydig. Finansdepartementet beskriver att geopolitiska spänningar och handelspolitiska åtgärder förlänger lågkonjunkturen. I euroområdet har dock BNP ökat under andra kvartalet och den ekonomiska utvecklingen är något starkare än förväntat, enligt Riksbankens senaste rapport. Eurostat visar samtidigt att euroområdets arbetslöshet ligger nära rekordlåga nivåer och att EU-genomsnittet för trendmässig arbetslöshet ligger på historiskt låga 5,9
 %, vilket speglar en ännu relativt stark europeisk arbetsmarknad, tvärtemot utvecklingen i Sverige. Något som har större indirekta effekter på svensk ekonomi är dock besluten i flera europeiska länder och gemensamt inom EU och Nato att öka investeringarna i försvaret, både det militära och det civila. Sveriges försvarsindustri är blott en procent av BNP men sammantaget kan den ökade investeringsnivån ha positiva effekter på svensk BNP framöver.
 I USA har den ekonomiska utvecklingen börjat sakta ner till följd av osäkerheten i handelspolitiken även om tillväxtstatistiken hittills har hållit emot bättre än befarat. Det syns viss svaghet på arbetsmarknaden i USA, vilket till viss del förklaras av ett lägre arbetsutbud i takt med att migrationspolitiken har stramats åt, samtidigt som inflationen väntas stiga både på kort och lång sikt när alltfler tullar mot andra länder, inklusive EU, bekräftas på historiskt höga nivåer. Såväl den ekonomiska politiken i stort som finans
-­
 politiken specifikt genomgår samtidigt stora förändringar under den nuvarande administrationen i USA. Det finns risk för att förtroendet för USA:s ekonomiska politik urholkas med följden att räntenivån stiger kraftigt, ofta med överspillning till Europa och USA, samtidigt som den amerikanska ekonomin blir mer inåtvänd med negativa konsekvenser för tillväxten i resten av världen.
 Sedan 2023 har tillväxten i Sverige varit ovanligt svag och den svenska ekonomin har knappt vuxit alls. Statistiken för andra kvartalet 2025 ger sken av en vändning när BNP ökade med 0,5
 % jämfört med första kvartalet i år
 och 1,4
 % jämfört med samma kvartal förra året.
 Tillväxten drevs av fasta bruttoinvesteringar (+1,7
-%
 q/q) och ett tydligt positivt lagerbidrag (+1,1
 P/E),
 medan nettoexporten höll tillbaka utvecklingen till följd av stigande import, eventuellt som konsekvens av tullosäkerheten, se mer om det nedan. Hushållens konsumtion ökade 0,4
-%
 q/q, vilket fortfarande signalerar lägre nivåer än normalt.
 Det finns tecken i det här mönstret som är typiska för tidig åter
-­
 hämtning, men med stor osäkerhet om framtiden.
 KPIF-inflationen uppgick i augusti till 3,2
 % medan KPI låg lägre på 1,1
 %. SCB noterade samtidigt att elpriserna steg ovanligt mycket, medan räntekostnader för boende sjönk i KPI. Under det senaste året har KPIF exkl. energi legat högre än inflationsmålet runt 3
 %, men enligt Riksbankens bedömning är detta till följd av ett antal olika be
-­
 gränsade prisuppgångar som inte återfinns brett i ekonomin samtidigt som en långsam ökning av arbetskostnader, stärkt kronkurs och framåtblickande indikatorer pekar på ett historiskt sett normalt inflationstryck nära 2
 % framöver. Riksbanken sänkte därför den 23 september styrräntan till 1,75
 % och signalerade samtidigt att räntan nu kan ligga kvar på denna nivå ”en tid framöver”.
@@ -252,17 +237,13 @@ En viktig anledning till det försvagade finansiella sparandet inför 2026 och u
 % av BNP därutöver för investeringar i civilt försvar. Centerpartiet står bakom denna överenskommelse, inte minst det som gäller en snabbare uppbyggnad av det civila försvaret och beredskapen. Men denna uppbyggnad förklarar inte hela den tänkta ökningen av offentlig sektors skuldsättning. Med regeringens föreslagna ekonomiska politik ökar Maastrichtskulden till 36,8
 % av BNP sista året för planperioden, 2028, vilket är över det så kallade skuldankaret som återfinns i det finanspolitiska ramverket. Centerpartiet ser att den tilltagna kostymen för statsbudgeten också måste kombineras med åtgärder som får ekonomin att växa och skapar ytterligare resurser till välfärden, som beskrivet ovan och senare i motionen.
 För att öka säkerhetsmarginalen i de offentliga finanserna framöver ser Centerpartiet att reformutrymmet bör anses vara mindre än vad som föreslås i regeringens budget
-­
 proposition. För 2026 lägger Centerpartiet en budget med ett reformutrymme på under 70 miljarder att jämföra med de 80 miljarder som regeringen har lagt fram. Hela banan för budgeten återfinns i reformtabellen nedan.
 En budget för framtiden – släpp loss kraften
 Sveriges välstånd och utbildningsnivå, våra stabila statsfinanser och vår historiska innovationskraft borde ge en stor potential att vara drivande i de kommande årens ekonomiska och tekniska utveckling, men också kunna rusta oss väl i ett oroligt internationellt läge.
 Tyvärr har det ekonomiska läget i Sverige förvärrats snabbt under de senaste åren, med hög arbetslöshet, svag tillväxt och samtidigt stigande klimatutsläpp. Centerpartiet anser därför att svensk ekonomi behöver en kraftfull kursändring. Förtroende och framtidstro måste ingjutas i företag och konsumenter. Det kan inte ske genom att likt Tidöregeringen fortsätta med fler tillfälliga och kortsiktiga stimulanser inför riksdags
-­
 valet.
 Det som behövs är en liberal och grön reformpolitik som prioriterar riktiga struktur
-­
 reformer som ger långsiktighet och framtidstro, skapar förutsättningar för företagen att anställa och för att Sverige ska återta ledarskapet i klimatomställningen. Bara så kan tillväxten, reallönerna och resurserna till välfärden öka stadigt nästa mandatperiod. Centerpartiet vill inte att den ekonomiska politiken bara ska vara inriktad på att för
-­
 stärka hushållens konsumtion utan också på att investera och bygga infrastruktur, grön industri, grön energi och billiga bostäder i hela landet.
 Denna budgetmotion bygger på en sådan liberal och grön plan för jobben, för tillväxt och företag, för klimatet och för investeringar i välfärd och infrastruktur i hela landet.
 Så tar vi oss ur jobbkrisen
@@ -276,42 +257,33 @@ Men det är framförallt en stor mänsklig förlust, som skapar utanförskap, v�
 Cirka hälften av de arbetslösa är utlandsfödda, men medan deras arbetslöshet minskat så har arbetslösheten stigit bland inrikes födda och når nu alla grupper, från de som bara har grundskoleutbildning till nyutexaminerade akademiker.
 [2]
 Enligt akademikernas a
-‑
 kassa är antalet arbetslösa akademiker på den högsta nivån på 20 år.
 [3]
 Antalet långtidsarbetslösa stiger också och uppgick i augusti 2025 till 204
 300 personer, det högsta antal som någonsin uppmätts i Sverige. Företagens anställningsplaner är fortsatt försiktiga, vilket syns i det minskade antalet lediga jobb.
 Den konjunkturberoende arbetslösheten har stigit, men det har även den strukturella arbetslösheten. Enligt Konjunkturinstitutets skattningar av den strukturella arbetslös
-­
 heten uppgår den så kallade jämviktsarbetslösheten nu till 7,5 procent, vilket är den högsta nivån sedan 90-talskrisen. Därför måste finanspolitiken inriktas också på strukturella reformer för att bryta den höga arbetslösheten på riktigt och på längre sikt.
 Läget går inte att beskriva som något annat än en jobbkris, eller rentav mass
-­
 arbetslöshet. Centerpartiet menar att det kräver mycket omfattande insatser för att bryta den höga arbetslösheten. Det behövs både kraftfulla minskningar av företagens kostnader för att anställa, inte minst sänkta arbetsgivaravgifter, och stora insatser för utbildning och vidareutbildning, men också specifikt för integration och svensk
-­
 undervisning. Dessutom behövs stärkta incitament att arbeta genom lägre skatt för låg- och medelinkomsttagare. I Centerpartiets budgetmotion beskrivs var och en av dessa insatser för att bryta jobbkrisen, som också sammanfattas i en
 Jobbplan för Sverige
-.
 Totalt sett är målet med insatserna för att bryta jobbkrisen att minska antalet arbetslösa med minst lika många personer som arbetslösheten ökat under Tidöregeringen, alltså mer än 100
 000 personer.
 Många nya jobb genom kraftfullt sänkta kostnader för företagen
 Sverige har fortfarande bland västvärldens högsta skatter för att anställa, i synnerhet för småföretag och på låga löner. En första självklar åtgärd i ett läge med mycket hög arbetslöshet är därför att sänka kostnaderna för att anställa. Långsiktigt bör skatten på att anställa, arbetsgivaravgiften, sänkas för alla med den del som utgör ren skatt och idag motsvarar över 10 procent av lönen.
 Till en början behöver arbetsgivaravgiften sänkas för småföretagen, som står för en helt avgörande del av de nya jobben i Sverige. Arbetsgivaravgiften behöver samtidigt sänkas för de grupper som mest behöver ett nytt jobb och där arbetslösheten slår som hårdast: unga, långtidsarbetslösa och de som går in på arbetsmarknaden på ingångs
-­
 löner.
 Därför föreslås en total sänkning av arbetsgivaravgiften med 13,3 miljarder 2026 och sammanlagt med 57 miljarder till och med 2030. Den består av flera delar:
 Slopad arbetsgivaravgift för småföretag.
 Arbetsgivaravgiften slopas helt
 [4]
 för små företag på de första tio anställda under dessa anställdas första två år i företag. Detta är särskilt viktigt eftersom 9 av 10 av alla nya jobb enligt ny statistik skapas i små
-­
 företagen. Till skillnad från dagens så kallade växa-stöd, som bara omfattar de första två anställda, är inte slopandet av arbetsgivaravgiften något företagen ska behöva söka som ett ”stöd” eller bidrag, utan en automatisk skattesänkning. Skattesänkningen på arbete väntas därmed få ett betydligt större genomslag för just den grupp av företag som står för den helt dominerande andelen av nya jobb i Sverige.
 Slopad arbetsgivaravgift för långtidsarbetslösa.
 Arbetsgivaravgiften slopas även helt för långtidsarbetslösa – en allt större grupp där bara mellan en femtedel och en tiondel tar sig ur arbetslöshet varje år, med allt djupare utanförskap och bidragsberoende som följd. Återigen finns i dag olika stödsystem för att anställa långtidsarbetslösa, med nystartsjobben som de mest framgångsrika bland många mindre framgångsrika subven
-­
 tioner. Här vill vi införa en rak skattesänkning, ett slopande av arbetsgivaravgiften under de två första åren av anställning, för alla som varit arbetslösa i mer än ett år.
 Slopad arbetsgivaravgift för unga.
 Unga är en särskilt utsatt grupp på arbets
-­
 marknaden. Sverige har här ett av västvärldens högsta ungdomsarbetslöshetstal, nästan var fjärde ung svensk (23,9 procent av 15–24-åringarna) var arbetslös i augusti med säsongsrensade tal. Det är den näst högsta siffran i EU efter Spanien. Även om man bortser från de ungdomar som är arbetslösa mellan eller inför utbildningar är svensk ungdomsarbetslöshet bland västvärldens högsta. Ungdomsarbetslösheten steg kraftigt efter att den nytillträdda Tidöregeringen 2023 höjde skatten på att anställa unga med 12 procent. Nya utvärderingar visar att sänkta arbetsgivaravgifter för unga har en större effekt på arbetslösheten än vad man tidigare förutsett, bland annat genom att företag som anställer unga kan växa snabbare och anställa fler.
 [5]
 Alldeles inför valet, i april 2026, har Tidöregeringen nu föreslagit att ungas arbetsgivaravgifter ska sänkas igen med nästan lika mycket som den först höjdes, men bara i ett och ett halvt års tid – en kortsiktighet som helt underminerar företagens möjligheter att anställa. Centerpartiet föreslår att ungas arbetsgivaravgifter slopas med en högre taknivå än regeringens.
@@ -321,18 +293,13 @@ Särskilt stor roll spelar självklart skatten på att anställa när en person,
 För en restaurang eller ett tillverkande företag med 10 anställda, varav 5 unga, innebär Centerpartiets förslag att skatten sänks med över en halv miljon kronor per år, vilket med våra förslag ger möjlighet att anställa ytterligare minst en till två personer till. I anslutning till detta föreslås även en annan avgörande sänkning av kostnaden för att anställa:
 Vi lyfter bort sjuklönekostnaden för små företag.
 För ett litet företag är en sjuk
-­
 skrivning av en medarbetare ett stort problem. Någon måste hittas som tillfälligt kan gå in och göra de arbetsuppgifter som den sjuka skulle ha gjort. Därutöver måste också företagaren ändå betala den sjukskrivna personens lön. Just detta gör att små företag är oroliga för att anställa personer med sjukdomshistoria, ofta precis de personer som är utsatta och behöver komma tillbaka i jobb. Alliansen införde därför ett högkostnads
-­
 skydd som lyfter lönekostnaden från småföretag när någon är sjukskriven. En sänkt kostnad för småföretag som följande socialdemokratiska regeringar behöll, men som Tidöregeringen återinförde och vill behålla. Centerpartiet återinför högkostnadsskyddet för småföretagens sjuklöner, så att en viktig kostnad och ett viktigt hinder för ny
-­
 anställning röjs. Ersättningen ska betalas ut automatiskt och löpande, utan att företagen ansöker om det, till skillnad från tidigare, vilket innebär att det blir minskade kostnader utan ökad administration för företagen som skapar jobb.
 Sänkt skatt för alla som arbetar – men särskilt på låga och medelstora inkomster
 Samtidigt som det ska löna sig för företag att anställa fler (så att efterfrågan på arbets
-­
 kraft ökar) är det viktigt att det ska löna sig att arbeta. Tröskeln för att gå från bidrag till arbete ska vara så låg som möjligt (så att arbetsutbudet ökar).
 Centerpartiet vill därför genomföra en skattereform som både sänker skatten på arbete för alla och sänker trösklarna för att komma i arbete. Samtidigt måste skatte
-­
 systemet under nästa mandatperiod förenklas så det blir enkelt att se hur mycket det lönar sig att börja arbeta, och att arbeta mer.
 Inför genomförandet av en större skattereform under nästa mandatperiod vill Centerpartiet se ett nytt jobbskatteavdrag, som sänker skatten för alla men särskilt på låga och medelstora inkomster.
 Nuvarande jobbskatteavdrag ger en skattesänkning som är störst för inkomster om cirka 40
@@ -340,7 +307,6 @@ Nuvarande jobbskatteavdrag ger en skattesänkning som är störst för inkomster
 000 och 40
 000 kronor. Detta gäller på arbetsinkomster för alla som ännu inte fyllt 66 år med ett förstärkt jobbskatteavdrag, men även på förvärvsinkomster för äldre över 66 år med ett högre förhöjt grundavdrag.
 Med vår föreslagna modell sänks skatten för ett hushåll med två vuxna med ingångs
-­
 löner på 27
 000 respektive 30
 000 kronor med 508 kronor i månaden, för ett hushåll med två vuxna med medianlön om 38
@@ -351,26 +317,21 @@ Om sänkta kostnader för att anställa fler är den ena sidan av att bryta jobb
 000 lediga jobb i Sverige och många företag menar att man inte kan hitta rätt kompetens. Av dem var så
 mycket som en tredjedel inom praktiska yrken som svetsare, elektriker och vårdbiträden.
 Samtidigt är det fyra gånger högre risk att bli arbetslös för den som saknar gymnasie
-­
 utbildning, och ordentliga yrkesutbildningar är då ofta vägen tillbaka i arbete.
 Efter en lång period av otillräckliga satsningar på yrkesutbildningar har regeringen gradvis ökat dessa igen, även om till exempel omställningsstudiestödet för att vidare
-­
 utbilda sig till bristyrken används alldeles för ineffektivt.
 Det kvarstår samtidigt stora hål i de svenska vidareutbildningarna, och Centerpartiet vill inleda en stegvis ökning av yrkesutbildningarna med fokus på särskilt framgångs
-­
 rika delar av vidareutbildningen:
 Yrkeshögskolan
 är trots en nödvändig expansion under senare år fortfarande kraftigt underdimensionerad, och det saknas permanenta medel. Inte minst det så kallade ”Lärande i arbete” där mycket av utbildningen sker ute på företag och där även personer som missat gymnasieexamen kan komma in efter inträdesprov.
 Nationell yrkesutbildning
 har visat sig framgångsrik i att lära elever ett praktiskt yrke som i regel leder direkt till anställning. Dessa behöver bekräftas som en viktig pusselbit och skalas upp snabbt och brett. På gymnasiet har yrkesprogrammen en liknande funk
-­
 tion som behöver förstärkas. Dessa utbildningar behöver kunna fånga upp elever som annars riskerar att hoppa av skolan.
 Branschskolor.
 Med sin nära anknytning till företag och specifika branscher har de specialiserade branschskolorna visat sig framgångsrika att få elever direkt in i kvalificerat yrkesarbete och att fylla kompetensgap i svenska företag.
 Samtidigt föreslår Centerpartiet att lärlingsprogrammen förstärks och reformeras, med bland annat stärkta incitament för lärlingar att fullborda utbildningar med riktiga löner efter en prövotid och med incitament som gör det möjligt för arbetsgivare att ta emot lärlingar och att välja vilka man vill anställa som lärlingar.
 En smartare intensiv integration med både krav och förväntningar
 Integrationen har under de senaste åren hamnat på undantag i den svenska jobb
-­
 politiken, med få förslag från regeringen och en närmast uppgiven eller kritisk inställning till integrationsinsatser. Givet att en stor del av de arbetslösa är födda utomlands och att kunskap i svenska och om svenska arbetsplatser ofta är skillnaden mellan att få och inte få arbete, är en väl fungerande integrationspolitik helt avgörande för att få ned arbetslösheten.
 För detta föreslås en integration som är intensiv och ställer krav, samtidigt som den i andra änden innefattar investeringar från samhället i ordentlig utbildning och riktiga insatser som avslutas med certifikat över kunskaper och svenska. Du ska kunna slita och studera på sena kvällar och tidiga mornar, men samtidigt veta att det till slut lönar sig med jobb och karriär.
 Centerpartiet föreslår därför:
@@ -381,24 +342,17 @@ Dagens sfi har nått vägs ände. Trots att alla nyanlända flyktingar och deras
 D – efter tre år. Centerpartiet föreslår att sfi mycket tydligare utgår från elevens förutsättningar och delas upp i två delar: En praktisk jobbsvenska, i huvudsak förlagd på, och anpassad till, en arbetsplats, med ett tydligt certifikat liknande de som ges för språkstudier som bevisar praktisk språkförmåga. Den andra delen riktar in sig mot akademisk utbildning och fortsatta studier på högskolenivå.
 Villkora föräldraledighet.
 Ett kombinerat jobb- och jämställdhetsproblem är att många kvinnor kan bo länge i Sverige utan att arbeta på grund av långa perioder med föräldra
-­
 ledighet. Föräldraledighet för utrikes födda som fått asyl, eller deras anhöriga (och som inte pratar svenska) ska begränsas samt villkoras med svenskundervisning. Efter ett år måste personen läsa svenska två dagar i veckan som villkor för att få fortsätta vara föräldraledig. När föräldern läser svenska ska barnet gå i förskola för att också lära sig svenska. Antalet dagar med föräldrapenning halveras för den som kommer till Sverige med barn som fyllt ett år.
 En effektivare arbetsmarknadspolitik
 Samtidigt som sänkta kostnader och bättre utbildningar är avgörande för att skapa fler jobb i växande företag finns en rad andra faktorer som gör att arbetsmarknaden i Sverige inte fungerar som den borde och som bidrar till arbetslösheten.
 En a-kassa som uppmuntrar till jobb
 Ett annat skäl är att bidrag och arbetslöshetskassan är fel utformade så att det inte uppmuntrar till att söka jobb. Genom att ge ersättningar på för hög nivå under för lång tid uppmuntrar a
-‑
 kassan människor att vänta med att söka jobb, eller vänta in jobb på en viss lönenivå. Detta riskerar att förlänga tiden i arbetslöshet och ökar risken för lång
-­
 tidsarbetslöshet. I samband med pandemin höjdes taken i a
-‑
 kassan, vilket var nöd
-­
 vändigt under en period då det var svårt eller omöjligt att söka nya jobb. Sedan dess har de nya nivåerna permanentats av Tidöregeringen och a
-‑
 kassans utformning även efter de senaste reformerna bidragit till att låsa in människor i bidragsberoende.
 Centerpartiet vill i stället ha en a
-‑
 kassa som är tillräckligt stark i början men som avtrappas snabbare, så att det finns en inledande trygghet men starka incitament att söka ett nytt jobb. Vi prioriterar att maximera möjligheterna att få ett nytt jobb framför höga och långa ersättningar och bidrag.
 Begränsa bidragen klokt och kräv aktivitetskrav – utan byråkrati
 Det ska alltid och utan undantag löna sig att gå från bidrag till arbete. Ett sätt att stimulera det är att begränsa olika former av bidrag som kan läggas på varandra. I praktiken räknas dock bidrag av mot försörjningsstödet. Det gör att det till exempel för familjer med många barn ofta är barnbidraget, som är en rättighet oberoende av inkomst och arbete, som utgör grunden för en långtidsarbetslös förälders faktiska inkomst. Det gör att det avgörande för familjer som lever på bidrag är att aktivt söka jobb och att de får behålla så stor del av sin inkomst som möjligt när de kommer i jobb.
@@ -410,7 +364,6 @@ detta och problemet är ofta att se till så att myndigheter, inte minst Arbetsf
 Etableringsjobben måste göras om eller läggas ned
 Lönebildningen tar i regel inte hänsyn till arbetslösas behov av att komma i arbete och ingångslöner sätts på nivåer där en del av de arbetslösa helt enkelt inte får jobb. Att sänka skatten på att anställa, i synnerhet på ingångslöner, är ett sätt att sänka trösklarna. Därtill behövs subventionerade jobb som kan sökas, likt nystartsjobben. Ett annat sätt är att skapa särskilda jobb där den lön som möter arbetsgivaren är mycket lägre och där staten betalar hela eller en del av mellanskillnaden.
 En relativt ny form av sådana jobb är de så kallade etableringsjobben, där staten tar bort skatten och betalar en del av den anställdas lön i två år. Tyvärr har etablerings
-­
 jobben urvattnats och byråkratiserats, bland annat genom att de gjorts beroende av avtal med fackföreningar. Facken har dessutom ofta varit ovilliga att teckna avtal i just de branscher där många arbetslösa får jobb. Dessutom är de som står för många av de nya jobben, små företag utan kollektivavtal och bemanningsbranschen, exkluderade från etableringsjobben. Fram till dags dato har bara cirka 100 personer fått ett etableringsjobb under 2024 och 2025.
 Etableringsjobben framstår därför som ett fiasko, och det finns akut behov av att göra om dem eller lägga ned dem. Ett steg är att göra små företag utan kollektivavtal och bemanningsföretag delaktiga.
 Effektivare matchningsstöd
@@ -420,24 +373,19 @@ Sverige har fortfarande mycket stora matchningsproblem, med över 100
 Stora resurser har i många år lagts på arbetslösa via den statliga Arbetsförmedlingen, med mycket svaga resultat som följd. Få jobb har förmedlats via Arbetsförmedlingen och myndighetens stöd har endast till liten del bidragit till att någon fått jobb. För de nästan 100
 000 som omfattas av jobb- och utvecklingsgarantin så är den vanligaste insatsen ingen insats alls. Mer än en tredjedel får inget aktivt stöd. Arbetsförmedlingen tycks oförmögen att göra något alls.
 Vårt alternativ är att fler arbetslösa ska få en utomstående matchningstjänst, där den som levererar matchningen får betalt efter resultat, efter hur snabbt den arbetslösa kom i arbete och hur varaktig arbetet var. I dag får bara cirka var tionde arbetslös matchnings
-­
 tjänst via en extern resultatbaserad leverantör. Ersättningen för matchningstjänster är inte tillräckligt anpassad efter den arbetssökandes olika utmaningar och framförallt får inte de som utför matchningstjänsterna ersättning strikt efter om den arbetssökande faktiskt kommit varaktigt i jobb – vilket var grunden för systemet. Leverantörer som inte haft tillräckliga resultat har inte heller sållats bort från systemet i tillräckligt stor utsträckning.
 Matchningstjänsterna bör därför förstärkas samtidigt som de görs mer resultat
-­
 baserade, antalet leverantörer begränsas till de som kan visa resultat. Att likt regeringen sätta hoppet till att Arbetsförmedlingen på egen hand ska bygga upp större matchning är dömt att misslyckas. Arbetsförmedlingens nya matchningsinsats ”Sammanhållet matchningsstöd” som inletts under Tidöregeringen är hitintills nästan helt verkningslös.
 Före tillträdet delade Tidöpartierna Centerpartiets kritik mot Samhall, som ska skapa skyddade arbetsplatser för personer med funktionshinder, men som ofta väljer bort funktionshindrade till förmån för personer som hade kunnat komma in på den ordinarie arbetsmarknaden och använder de mycket höga subventionerna för att slå ut konkur
-­
 renter på de marknader där de agerar. Tidöregeringen har dock inte reformerat Samhall utan tillfört nya medel och tolererat att Samhall använder sina miljardsubventioner för att få bort personer från arbetslöshetsstatistiken i stället för att hjälpa de personer som verkligen behöver stöd. De vill vi ändra på i vår budgetmotion.
 Centerpartiets jobbplan
 Sänka arbetsgivaravgifterna.
 Avgifterna hämmar anställningar och bör sänkas generellt. I ett första skede vill vi slopa dem helt för utvalda kategorier: för dem med ingångslöner och för unga, långtidsarbetslösa samt de tio första som ett företag anställer.
 Införa tak på sjuklönekostnader.
 Vi vill återinföra ersättningen för höga sjuklöne
-­
 kostnader. När den avskaffades ökade kostnaden för företagen och risken att anställa blev högre.
 Sänka skatten på de lägsta inkomsterna.
 Vi vill att skatten ska sänkas för de lägsta inkomsterna genom lägre inkomstskatt med störst effekt för låg- och medelinkomst
-­
 tagare, som del av en bred skattereform.
 Jobbsvenska.
 Sfi ska omvandlas till jobbsvenska med fokus på att den studerande ska komma i arbete genom samarbete med näringslivet. Utbildningen ska så långt som möjligt vara arbetsplatsförlagd.
@@ -453,29 +401,23 @@ Sänkt matmoms och konkurrenskraftig svensk matproduktion
 Matpriserna är omkring 30 procent högre än i januari 2022. Det här drabbar många men särskilt dem som redan tidigare hade små marginaler. Samtidigt behöver lantbrukarna bättre förutsättningar. Regeringen och Sverigedemokraterna har misslyckats med att stärka lantbrukarnas förutsättningar att producera mer, bättre och mer prisvärd mat. Livsmedelsstrategin från tidigare satte inte de konkreta mål som vi i Centerpartiet krävde för att öka Sveriges självförsörjning, och presenterade mycket få reformer.
 I vår budgetmotion kommer vi att halvera momsen på mat och alkoholfri dryck, från 12 till 6
 procent. Det är en åtgärd som träffar brett, men som särskilt hjälper barn
-­
 familjer, pensionärer och låginkomsttagare. SEB uppskattar att det kan sänka mat
-­
 priserna med så mycket som 5
 procent och trycka ner inflationen med 0,8 procent. Matpriskollen tror att det skulle kunna sänka matkostnaderna med omkring 1
 500 till 2
 000 kronor per person och år.
 Men det räcker inte. Att bara sänka matmomsen kommer inte på egen hand att skapa de långsiktiga förutsättningar som krävs för att stärka matproduktionen och sänka hus
-­
 hållens kostnader om tre, fem eller tio år. Därför vill vi i Centerpartiet göra satsningar knutna till det, främst ett jordbruksavdrag som sänker skatten för 95 procent av alla företag som har intäkter från skogs- eller lantbruk, men även gårdarnas beredskap och beredskapslager för livsmedel.
 Bostadsbidraget
 För Centerpartiet är det viktigt att sociala bidrag är träffsäkra och uppfyller sitt syfte. Bostadsbidraget är till för att fungera som ett ekonomiskt stöd för hushåll som har svårt att klara sina boendekostnader. Det är en åtgärd som ska minska risken att hamna i ekonomisk utsatthet på grund av höga boendekostnader eller låga inkomster. Reger
-­
 ingens förslag om att höja gränsen för boendekostnader är inte tillräckligt träffsäkert eftersom de som har det allra svårast ekonomiskt redan bor så litet och billigt som det går.
 Centerpartiet föreslår en höjd inkomstgräns för när bostadsbidraget börjar trappas av. Inkomstgränserna i bostadsbidraget har länge släpat efter i förhållande till löne
-­
 utvecklingen. Resultatet är att hushåll med relativt låga inkomster inte längre får något bidrag, trots att deras ekonomiska situation inte förbättrats i reala termer. Att höja inkomstgränsen gör systemet relevant och mer träffsäkert.
 En höjning av boendekostnadsgränsen gynnar främst de hushåll som redan har bostadsbidrag och höga hyror. En höjning av inkomstgränsen gör att fler hushåll överhuvudtaget kvalificerar sig för bidraget, särskilt de som i dag ligger precis över gränsen men ändå har små marginaler. Det innebär att stödet blir mer inkluderande och når fler barnfamiljer med ekonomiska problem. Höjd boendekostnadsgräns gynnar främst hushåll i storstäder med höga hyror. Höjd inkomstgräns gynnar hushåll i hela landet, både på landsbygden där hyreskostnaden i sig är lägre och i storstäder för hushåll med låga inkomster. Det gör reformen mer geografiskt rättvis och mindre beroende av lokala hyresnivåer.
 Centerpartiets förslag innebär att inkomstgränsen i bostadsbidraget för barnfamiljer höjs med 45
 000 kronor, från 150
 000 till 195
 000 kronor. Det har samma offentlig
-­
 finansiella effekt som regeringens förslag, men antalet hushåll som berättigas till bostadsbidrag beräknas öka så att ytterligare 29
 600 barnfamiljer med svag ekonomi kan få bostadsbidrag. För hushåll som har bostadsbidrag innebär Centerpartiets förslag en höjning med 3
 869 kr om året.
@@ -488,46 +430,34 @@ Efter Tidöregeringens misslyckande är Centerpartiet det främsta tillväxtpart
 En debatt har uppstått i USA och Europa om att återigen skapa ett välstånd och överflöd (”abundance”) med ett tillväxtprogram fokuserat på att investera, inte bara spendera; att avreglera, inte försvåra, byggandet av billiga bostäder, infrastruktur och grön fossilfri energi. Samtidigt hamnar entreprenörskapet och företagandet åter i fokus.
 Minskat regelkrångel och kortare tillståndsprocesser
 En av de största utmaningarna för tillväxten, enligt företagen själva, är den växande regelbördan. Inte bara mängden regler utan de många parallella tillståndsprocesser som företag måste gå igenom. Särskilt små och medelstora företag dignar under en regel
-­
 börda som hämmar deras tillväxt, konkurrenskraft och innovationsförmåga. Kostnad
-­
 erna för regelkrångel uppgår till hundratals miljoner kronor årligen och enligt Till
-­
 växtverkets beräkningar utgör regelkostnader 6
 procent av Sveriges BNP. Bland svenska företag är det 97 procent av företagen som inte tycker att regelbördan har minskat under mandatperioden, enligt en enkätundersökning av Företagarna. Det handlar om nationella lagar men även om att Sverige har bland de mest övernitiska genomförandena av EU-regleringar inom unionen. Det försvårar byggande av bostäder och infrastruktur liksom företagens möjlighet att starta och växa.
 Centerpartiet har frågat företagare själva vilka regler de ser som hinder och vi har därefter upprättat en lista på 101 regler som bör skrotas eller reformeras för att drastiskt minska regelbördan för svenska företag.
 Därför föreslås i denna budget en förstärkning av bland annat Regelrådets arbete för regelförenkling. I nästa steg måste dock de myndigheter som arbetar för regelförenkling slås samman och ges mycket större befogenheter.
 Snabbare tillståndsprocesser
 Runt om i landet finns en enorm potential för nya investeringar – inom vindkraftverk, lantbruk, gruvnäring och industri. Men det tar alldeles för lång tid att få besked om tillstånd. Mediantiden för ärenden som avgjordes i mark- och miljödomstol förra året var 474 dagars handläggning, medan de 10 procent av processerna som var mest ut
-­
 dragna tog hela 926 dagar.
 [7]
 Konsekvenserna av de långa processerna är att investeringar försenas, flyttar till andra länder eller helt uteblir. Detta medför enorma kostnader för svenskt näringsliv. Genom ökade resurser vill vi kapa kostnader och ta bort byråkratiska hinder samt ge utökat stöd till domstolarnas handläggning för att göra tillstånds
-­
 processerna mer rättssäkra, förutsebara och tidseffektiva.
 Sänkta egenavgifter
 Många företag börjar med en egenföretagare som skapar inkomst och sysselsättning för sig själv. För att garantera återväxten av företag får inte heller skattebördan vara för hög på egenföretagare i form av egenavgiften (motsvarigheten till arbetsgivaravgiften). I synnerhet är det orimligt att egenföretagare betalar en ren skatt, allmän löneavgift, när de tar ut lön i det egna företaget. I vår budget sänker vi därför egenavgifterna.
 AI-satsning på stipendier för forskare och utökat FoU-avdrag
 Samtidigt som Sverige har rekordhög långtidsarbetslöshet och svag tillväxt är vi världs
-­
 ledande inom många spetsteknologier och har även förutsättningarna att vara en viktig spelare i strävan att utveckla artificiell generativ intelligens (AI) och använda den för att höja produktiviteten i näringslivet.
 Sverige har redan några av de snabbast växande AI-företagen i världen, som app
-­
 generatorn Lovable, och några av de mest kända namnen i debatten om AI är svenskar. Men enligt AI-kommissionens rapport saknas viktiga politiska faktorer för att befästa Sverige som en nation i framkant, inte minst förmågan att skapa en ännu mer attraktiv miljö för AI-forskare på svenska lärosäten. Lärosäten som i sin tur kan skapa kluster som agerar i växelverkan med ledande företag.
 Som en del i en satsning på spetsteknologi föreslår Centerpartiet bland annat detta:
 En AI-miljard, tre miljarder totalt i denna budget, bestående av stipendier för att locka AI-forskare till Sverige
 , både spetsforskare och doktorander. Målet är att stärka de kluster av forskare som finns på svenska universitet och högskolor, i linje med förslagen från AI-kommissionen.
 FoU-avdraget måste göras lättare att söka för att stärka Sverige i kampen om talanger och spetsforskare.
 Det nuvarande FoU-avdraget är en nedsättning av arbetsgivaravgiften för anställda som arbetar med forskning och utveckling. En fördel med skattestödet är att det inte är ett avdrag på vinsten, så att även nystartade företag som ännu inte går med vinst kan dra nytta av det. Dessutom gynnas småföretag i högre grad av skatteincitament än stora koncerner. Generellt betraktas skattebaserade stöd som mindre kostsamma att administrera och mindre snedvridande än direkta utgiftsstöd. Samtidigt visar utredningen av FoU
-‑
 avdraget (SOU 2025:3) att även skattestöd kan innebära betydande administrativa bördor för både Skatteverket och företagen. Dess
-­
 utom kan de skapa osäkerhet kring förutsägbarheten. FoU
-‑
 avdraget har kritiserats för att vara svårt att tillämpa, eftersom det inte alltid är tydligt vad som faktiskt räknas som forskning och utveckling. Detta leder till tolkningsfrågor, ofta hanterade av personer utan sakkunskap inom de aktuella områdena. Resultatet blir en osäkerhet som kan minska företagens vilja eller möjlighet att göra planerade investeringar. Särskilt mindre företag utan egna forskningsavdelningar, administrativ kapacitet eller juridisk expertis riskerar att drabbas, till skillnad från större aktörer som har resurser att hantera regel
-­
 verket. Fokus behöver vara på att kunna locka internationella investeringar till spets
-­
 områden och till svenska startups. Centerpartiet satsar i vårt budgetalternativ på att skyndsamt genomföra utredningens förslag och i nästa steg se till att avdrag för FoU kan betalas ut tidigare och med en enklare och bredare definition.
 Ledarskap i klimatpolitiken – sänk utsläppen med grön tillväxt
 Ända sedan början av 1990-talet har Sverige varit ett klimatföredöme i världen. Vi har halverat våra utsläpp av klimatgaser, samtidigt som vår BNP mer än fördubblats. Vi har omnämnts vid internationella klimatförhandlingar, vi har inspirerat EU, och förstärkt svenska företags gröna varumärke. Många svenska företag är världsledande när det kommer till grön teknik och klimatsmarta lösningar.
@@ -540,7 +470,6 @@ miljoner ton koldioxid back jämfört med våra klimatmål i EU, de klimatmål r
 Parallellt med det har tillgången till ny grön el strypts sedan vindkraftsmarknaden förstörts i och med att vindkraftskommuner inte fått ta emot vindkraftsskatten, eftersom den stannat i Stockholm. Detta samtidigt som tillstånd för havsvindkraft dragits in eller bromsats och anslutningar fördyras. Under början av 2025 beställdes inte en enda ny vindkraftsturbin i Sverige.
 Om inget görs snabbt kommer den gröna industrin stå utan stora tillskott av grön el under det kommande årtiondet. Regeringen har dessutom på kort tid halverat stödet till teknologiutveckling i den gröna industrin, det så kallade Industriklivet, som man till helt nyligen använde som exempel på bra klimatpolitik. Tidöregeringen har, jämfört med andra europeiska länder och Kina, närmast motarbetat den gröna industrialiseringen.
 Utsläppsökningen och de sänkta klimatambitionerna gör att Sveriges gröna varu
-­
 märke är solkat. Sverige kan bli ett klimatföredöme igen men då krävs rejäla insatser för att återupprätta svensk klimatpolitik.
 Vi beskriver här tre ”big bets”, stora satsningar, för att vända utvecklingen: bilen (där även lastbilar innefattas), boendet och den gröna industrin.
 Bilen
@@ -549,7 +478,6 @@ Miljöbilsleasing för 1
 Helt avgörande för att klara klimatmålen till 2030 är att utsläppen från bilar, lastbilar och andra fordon minskar mycket snabbare än de just nu gör. Förra året ökade till och med utsläppen från inrikes transporter med 22 procent – det motsvarar 3
 miljoner ton i nya koldioxidutsläpp som vi måste ta igen under kommande år.
 Om utsläppen ska ner måste hushållen få tillgång till miljöbilar de har råd med eller miljöbränsle de har råd med – Centerpartiet föreslår både och. Både smart miljöbils
-­
 leasing som minskar utsläppen och kostnaderna, och att staten upphandlar en strategisk reserv av biobränslen av rester från skogen som kan säljas så billigt som möjligt vid pump.
 Minst 100
 000 hushåll i Sverige ska varje år få möjlighet till miljöbilsleasing för 1
@@ -557,58 +485,42 @@ Minst 100
 000 kr i månaden. Som alternativ kan en miljöbilsbonus ges om 50
 000 kronor vid köp av miljöbil, ny eller begagnad.
 Först till kvarn ska gälla och prioritet gälla för personer som bor i landsbygds
-­
 kommuner. Under mandatperioden väntas minst 500
 000 fler personer kunna byta till laddbar bil eller gasbil. Miljöbilsleasingen gäller för billigare miljöbilar (leasing
-­
 kostnaden får högst vara 5
 000 kronor, netto 3
 000 kronor).
 På så vis förväntas minst 500
 000 hushåll byta till miljöbil under kommande mandat
-­
 period med 2,5–3 miljoner ton koldioxid minskade klimatutsläpp fram till och med 2030.
 En strategisk reserv av biodrivmedel som pressar priset på biobränsle vid pump och stärker beredskapen
 Vi vill se en satsning på att bygga upp en strategisk reserv av biobränsle från skogs
-­
 råvara där staten förhandlar upp volymen och ner priset, enligt den modell för upp
-­
 handling som föreslogs i Bioekonomiutredningen (Förnybart i tanken – ett styrmedels
-­
 förslag för en stärkt bioekonomi, SOU 2023:15). Med bibehållen skattefrihet för bio
-­
 bränsle får hushållen fossilfritt biobränsle till ett stabilt lågt pris, betydligt lägre än med reduktionsplikten (enligt bland annat beräkningar från Energimyndigheten) i nivå med dagens pris för diesel vid pump. Det skapar långsiktiga villkor för svensk produktion av biodrivmedel och gör det möjligt att producera motsvarande hälften av all fossil diesel till 2030. Samtidigt blir Sverige på ett helt annat sätt oberoende av fossila drivmedel i händelse av kris eller krig i vårt närområde. Enligt förslaget byggs denna strategiska reserv upp gradvis under kommande mandatperiod.
 Fossilfria lastbilar
 Ifall Sverige ska kunna nå utsläppsmålen måste hela fordonsflottan ställa om från fossilt till fossilfritt. Lastbilarna drivs i dag till 95 procent av diesel och måste bytas eller byta bränsle.
 Det finns en klimatpremie för lätta och tunga ellastbilar som infördes under förra mandatperioden på Centerpartiets initiativ, i syfte att påskynda elektrifieringen av transportsektorn och göra det mer ekonomiskt attraktivt för företag, kommuner och regioner att välja eldrivna transportbilar i stället för fossildrivna. På grund av reger
-­
 ingens otydlighet om klimatpolitiken, och exempelvis om premien ska skrotas eller inte, är det få som får premien för ellastbilar. Den senaste började gälla den 1
 januari 2025 och skulle ha löpt ut den 1
 oktober 2025, men nu förlängs den, just eftersom det inte betalats ut tillräckligt med premier och andelen eldrivna lastbilar fortfarande är väldigt låg.
 Flera har varit kritiska till själva handläggningen och ansökningsprocessen. Hand
-­
 läggningen tar alltför lång tid, vilket sätter käppar i hjulen för småföretagare som inte har möjlighet att vänta. Administrationen kring ansökan om premien är omfattande och komplex. Eftersom stödet är tidsbegränsat och villkoren ändrats flera gånger tvekar många företag att planera sina investeringar. Dessutom går det inte att beställa en ellast
-­
 bil innan premien godkänts. Centerpartiet satsar på fler och snabbare klimatpremier för lätta och tunga lastbilar. Vi vill att den administrativa bördan vid ansökan om premien begränsas, så att syftet med själva satsningen faktiskt kan uppfyllas, och fler premier delas ut. Samtidigt bör regelverket kring hur miljölastbilar, på biogas och på el, ses över, inklusive differentieringen av eurovinjetten och vem som har tillträde till miljö
-­
 zoner, så att omställningen av lastbilsflottan förstärks maximalt.
 Boendet
 Det finns fortfarande möjligheter att göra stora besparingar av energi i svenska bostäder, viktigt både för att förbättra energianvändningen och för att minska hushållens upp
-­
 värmningskostnader. För hushåll som fortfarande har direktverkande el kan värme
-­
 växlare spara tusenlappar och kraftigt minska belastningen på elförsörjningen.
 Vi vill bredda det gröna avdraget med 400 miljoner kronor per år för energi
-­
 effektivisering, till exempel genom att installera värmeväxlare för hus uppvärmda med direktverkande el, och för att byta återstående oljepannor mot effektiv modern fossilfri teknologi. Det skapar möjligheter för att kraftigt minska hushållens elanvändning med en potential om 10 TWh till 2030 enligt Energimyndigheten. Totalt minskar detta utsläppen med minst 200
 000 ton till 2030.
 Industrin
 Den svenska industrin, från grönt stål till grön kemi är världsledande inom klimat
-­
 omställningen. För att kunna fortsätta utvecklas behöver den snabbare och enklare tillstånd, bättre infrastruktur och mer billig grön el.
 För att ytterligare kunna skala upp den gröna industriomställningen behöver också Industriklivet reformeras och få ytterligare medel i stället för att som med regeringens politik få halverade anslag i ett strategiskt läge.
 Industriklivet ska inte bara stötta forskningsprojekt och traditionell industris klimat
-­
 omställning utan även kunna finansiera det nya näringslivet, gröna industriprojekt i alla stadier och gärna i flera skeden under tiden som företaget skalar upp sin verksamhet. Industriklivet bör ha kontinuerliga utlysningar för att företag enklare ska kunna söka ekonomiskt stöd för uppskalning och kommersialisering. Industriklivet har varit framgångsrikt och för varje statlig krona som investerats har näringslivet finansierat med ytterligare tio kronor. Regeringen har minskat anslaget med mer än hälften 2026, medan Centerpartiet både dubblar anslaget för nästa år och dubblerar bemyndigandet från 3,85 mdkr 2027–2033 till 7,5 miljarder för samma period.
 Fossilfritt flyg
 Uppbyggnaden av en strategisk reserv av biodrivmedel är också central för att Sverige ska kunna få ett helt fossilfritt inrikesflyg, där flygbränsle kan produceras billigt från svensk skogsråvara.
@@ -616,49 +528,37 @@ Inrikesflyget är en viktig del av Sveriges sammanhållning, och många delar av
 Ny grön el – dubbelt så snabbt till en fjärdedel av kostnaden
 Krisen för försörjningen av grön el pågår alltjämt. Ska vi snabbt få fram ny el kommande år så är det vindkraft, solel, vattenkraft och kraftvärme som har potentialen. Detta framgår tydligt av Centerpartiets nyligen publicerade rapport Ny strategi för Sveriges elförsörjning. Men på grund av regeringens senfärdighet och ovilja har i stort sett hela den tillförseln av ny elproduktion blockerats.
 I stället för att som regeringen sätta allt hopp till subventionerad kärnkraft som står klar tidigast 2040 menar Centerpartiet att vi genom effekthöjningar och flexiblare användning av befintlig kraft kan täcka ett ökat elbehov och ha det på plats på halva tiden, dubbelt så snabbt till en fjärdedel av priset. Förutom incitamenten och regel
-­
 verken för vindkraft, som beskrivits ovan, handlar det om att skala upp kraftvärmen, som är viktig i söder, liksom åtgärder som moderniserar och utökar vattenkraften i norr. Energimyndigheten har tagit fram en fjärrvärme- och kraftvärmestrategi samt potential
-­
 rapport som visar att det finns en lönsam utbyggnadspotential på ungefär 800 MW och att ytterligare 1
 000 MW sannolikt skulle vara samhällsekonomiskt lönsam, vilket motsvarar närmare två kärnkraftsreaktorer till en kostnad om bara 3–4 miljarder kronor.
 Genom en teknikneutral ansats får vi ett betydligt mer ansvarsfullt nyttjande av skattebetalarnas pengar än med regeringens ensidiga kärnkraftsplaner. Vi vill också snabbt utreda införandet av en ny flexibilitetsmarknad i form av ett elgarantisystem med effektupphandling. Det skulle täcka upp med produktion från flexibla källor de få timmar om året som ordinarie elsystem inte räcker till och minska de största fluktua
-­
 tionerna i elpriset när det inte blåser och solen inte skiner. Det prissätter och ökar lön
-­
 samheten i planerbar och flexibel kraftproduktion för att kapa pristopparna. Ersättningen
 ska kunna gå till befintliga kraftverk som med enkla och kostnadseffektiva medel kan skruva upp produktion i befintliga anläggningar och även innefatta exempelvis gårds
-­
 stöd för biogasturbiner.
 Vindkraften måste frigöras för mer grön el i närtid
 Sedan vindkraftsutbyggnaden nästan helt stannat av saknar Sverige i hög grad förut
-­
 sättningar att i närtid öka produktionen av grön el. Under början av 2025 beställdes inte en enda ny vindkraftsturbin i Sverige. Det är en direkt följd av stoppade tillstånd och kablar till havsbaserad vindkraft. Många kommuner som inte får ersättning för vindkraft på land har lagt in veto mot fortsatt utbyggnad. Dessutom råder stor osäkerhet kring framtiden då en bred politisk energiöverenskommelse saknas.
 Vindkraftskommuner måste få vindkraftsskatten permanent och långsiktigt återförd
 Vindkraft på land har blockerats i väntan på den utlovade ersättning till närboende som föreslogs i regeringens utredning Värdet av vinden (SOU 2023:18) om återföring av fastighetsskatten på vindkraft till kommunerna.
 Utredningens förslag ska efter ett års fördröjning eventuellt genomföras, även om någon proposition fortfarande inte presenterats för riksdagen. Överföringen av fastighetsskatten kommer dock endast ske till del, och i form av ett tillfälligt bidrag och inte en permanent ersättning. I väntan på en långsiktig ersättning har under 2025 hela 26 av 29 vindkraftsprojekt stoppats.
 Inte heller har något stöd ännu betalats ut, utan det kommer dröja till någon gång under 2026.
 Stödet riskerar dessutom att fastna i invecklad byråkrati. Därför menar Center
-­
 partiet att fastighetsskatten på vindkraftsel måste föras till kommunerna långsiktigt och fullständigt, som i Finland och Norge, inte skickas som del av ett riktat statsbidrag.
 Kablar till havsvindkraften
 De planerade vindkraftsparker långt ute till havs, som ska fördubbla den svenska elproduktionen, har även de blockerats av regeringens förbud mot att finansiera anslutningar till havsvinden. Som en följd av stoppet för kablarna meddelade förra året Vattenfall att man inte bygger Kriegers Flak, en vindkraftspark som hade kunnat leverera el till en halv miljon sydsvenska hushåll. Nu väntar högre elpriser, och tusentals jobb hotas enligt Sydsvenska handelskammaren. Regeringen är bakbunden av Tidöavtalets förbud mot att använda Svenska Kraftnäts flaskhalsintäkter, som just ska användas till att bygga överföring och anslutningar som minskar regionala flaskhalsar. Centerpartiet avsätter därför utrymme i budgeten för detta i väntan på ett annat beslut kring flaskhalsintäkterna, så att kablarna byggs och hushåll och företag i södra Sverige får den elproduktion de behöver.
 Lagring och solskatt
 Energiskatten på lagrad el behöver slopas eftersom den innebär att elen dubbelbeskattas. Elen skattas vid inmatning samt vid uttag efter lagring. Incitamenten för att investera i och använda batterilager för att jämna ut sin elkonsumtion stärks av att slopa skatten på batterilagring. Det leder till att investeringarna blir mer lönsamma, elnätet stärks, effekt
-­
 brist motverkas och elkostnaderna blir lägre för både företag och hushåll. Dessutom påskyndas den gröna omställningen eftersom batterier är en nyckelkomponent för att hantera den intermittenta produktionen från sol- och vindkraft. Genom att kunna lagra energin när det blåser mycket eller solen skiner, och använda den senare, blir förnybar energi en mer pålitlig och planerbar resurs. Detta är också ett sätt att gynna de som i dag producerar solel och säljer ut på marknaden, som från och med 2026 kommer ha högre skatt på sin egenproducerade el till följd av att regeringen avskaffar den så kallade 60
-‑
 öringen utan att ersätta den med något annat system för att premiera decentraliserad elproduktion, vilket vi i Centerpartiet är mycket kritiska till.
 Bättre kollektivtrafik för klimatet
 Svensk kollektivtrafik har haft tuffa år efter pandemin, eftersom mer hemarbete lett till att trycket på kollektivtrafiken minskat. Dessutom har viktiga reformer för kollektiv
-­
 trafikens attraktivitet uteblivit, exempelvis ett förändrat reseavdrag som skulle gynna klimatsmarta transporter. Centerpartiet vill därför bredda trängselskatterna i städerna för att kunna stärka kollektivtrafiken och få färre att använda bilar i storstäder med konsekvenser för klimatet och för luftkvaliteten. Genom ökade trängselavgifter kan städerna öka sin finansiering till kollektivtrafiken. Detta för att förbättra tillgängligheten i kollektivtrafiken och få fler att välja ett kollektivt färdmedel.
 Klimatplan för Sverige
 Sverige har en kris i klimatpolitiken där vår roll som föredöme hotas av missade klimatmål och snabbt ökande utsläpp. Därför presenterar Centerpartiet en klimatplan för att nå utsläppsmålen fram till 2030. Sverige missar enligt regeringens budgetproposition samtliga klimatmål, inte minst de som är till år 2030. Vissa av målen följer direkt av beslut på EU-nivå, såsom ESR-åtagandet (Effort Sharing Regulation), medan andra är beslutade i Sveriges riksdag, med det svenska etappmålet som ett särskilt viktigt mål för de svenska utsläppen. Enligt regeringens budgetproposition missas samtliga klimatmål, och det viktiga ESR-målet med 4,3 miljoner ton, efter kraftiga utsläppsökningar under 2024 men det finns endast åtgärder för att få ned utsläppen på 0,4 miljoner ton fram
-­
 över. Centerpartiet menar att målen går att nå som utlovat och att det handlar om framför allt tre delar: bilarna, boendet och basindustrin.
 Bilarna.
 Det är utsläppen från biltrafiken som rusat mest, där både elbilsbonusen och reduktionsplikten avskaffats av Tidöregeringen utan att ersättas med andra klimatför
-­
 bättrande åtgärder, vilket lett till att fossilt bränsle åter börjat dominera både körande och försäljning av nya bilar. Hushållen måste få möjligheter att byta bränsle och bil till klimatsmarta och billigare alternativ. Med en bonus och miljöleasing som sänker kostnaden för att byta och leasa en miljöbil till 1
 500 kronor per månad kan minst 500
 000 hushåll minska utsläppen. Detta minskar utsläppen till 2030 med minst 2,7 miljoner ton. Vi vill samtidigt ge fler en chans att byta bränsle genom att bygga upp en strategisk reserv av biobränsle från skogsråvara, där staten förhandlar upp volymen och ned priset, med den metod som föreslogs i Bioekonomiutredningen. Det förväntas ge en utsläppsminskning på nära 6
@@ -671,56 +571,40 @@ Industrin är inte en del av ESR-sektorn men förtjänar ändå betydligt mer fo
 Sverige kan bli ett miljö- och klimatföredöme igen
 Sverige har en ambitiös miljölagstiftning, men den bygger i flera hänseenden på gamla sanningar och föråldrade strukturer. Regelverken behöver ses över i ljuset av dagens samhällsstrukturer och nya tekniska landvinningar. Det som vi tidigare betraktade som avfall måste ses som en tillgång. Samhällskritiska anläggningar som vattenreningsverk behöver omvandlas till resursverk som i högre grad sluter kretsloppen. Som ett av världens mest innovativa länder har Sverige goda möjligheter att ta en global ledarroll i denna omställning. Sverige ska gå före, visa vägen och återigen bli ett miljö- och klimatföredöme för resten av världen.
 För att bryta den negativa utvecklingen föreslår Centerpartiet kraftfulla satsningar för att bevara och restaurera den biologiska mångfalden och Sveriges naturliga rikedom. Landets redan skyddade områden, såväl på land som till havs, behöver förvaltas bättre och dess livskraftiga ekosystem måste säkerställas. Känsliga områden som har för
-­
 orenats genom mänsklig aktivitet ska saneras och återställas, ett långsiktigt arbete som måste intensifieras. Särskilt prioriterat är områden och vattentäkter som har konta
-­
 minerats av PFAS. Övergödningen av våra hav måste förebyggas genom kraftfullare insatser både vid utsläppskällan och direkt i haven. Invasiva främmande arter måste bekämpas mer aktivt och med mer inkludering av hela samhället. Därför vill Centerpartiet se att resurserna för detta ökar kraftfullt och i vår budget uppgår anslagen för olika typer av åtgärder för värdefull natur till den största hittills jämfört med budgetarna historiskt.
 Centerpartiet vill se en större mångfald av aktörer involverade i arbetet med att förvalta och återställa våra naturliga ekosystem. Den enskilde markägaren som bedriver sin näringsverksamhet inom lantbruket eller längs kusten har en nyckelroll att spela för att minska övergödningen, den enskilde skogsägaren spelar en avgörande roll för att främja artrikedomen i våra skogar, och på hushållsnivå finns det många som vill och kan bidra till vår gemensamma miljö, bara för att nämna några exempel. Sammantaget behövs det fler ekonomiska incitament, mer samverkan och mindre pekpinnar från myndigheterna för att åstadkomma en effektiv naturvård. Att koppla in allmänheten och civilsamhället är viktigt för att skapa en större lokal acceptans och ett engagemang i frågan från yngre generationer.
 Håll Sverige Rent
 Håll Sverige Rent gör enorma insatser för att minska nedskräpningen i alla delar av Sverige och leder ett antal viktiga projekt som till exempel minskar mängden plast och annat skräp i haven varje dag. Exempelvis leder Håll Sverige Rent projektet Re:Fish som bidrar till att rensa grunda bottnar i Östersjön från fiskeredskap som spökgarn. Tyvärr har regeringen i de senaste två budgetarna successivt skurit bort det verksam
-­
 hetsstöd som tidigare gått till Håll Sverige Rent. I budgeten för 2026 finns endast en symbolisk mindre summa för “miljöorganisationer”. I vårt alternativ återställer vi hela
 grundstödet till Håll Sverige Rent som både håller rent och snyggt, minskar belastningen
 på miljön och bidrar till folkbildning och engagemang hos unga, samtidigt som vi bibehåller stödet till övriga viktiga miljöorganisationer.
 Det behövs ett textilkliv
 Sverige saknar i dag infrastruktur och teknik för återvinning av textilier. Vid årsskiftet blev det förbjudet att slänga textilier i hushållssoporna, och ansvaret för insamlingen ligger på kommunerna. Konsekvenserna av detta har bland annat blivit att många kommuner skickar stora mängder textilavfall till Litauen där en stor del trasiga kläder bränns upp, något som också sker i Sverige. I det långa loppet riskerar vi att förtroendet för avfallshantering och återvinning i Sverige tar skada, vilket i förlängningen kan leda till att människor slutar sortera sitt avfall överhuvudtaget. Det pågår ett arbete i EU för att införa ett producentansvar för textilier vilket skulle innebära att de som säljer nya kläder blir tvungna att bygga upp den infrastruktur som i dag saknas. Detta kan dock ta lång tid och bättre hantering av textilavfallet behövs mycket tidigare än så. I väntan på ett sådant producentansvar behövs ett nationellt stöd till innovation för textilåtervinning och uppskalning av mindre återvinningsprojekt som redan finns. Det finns tekniska utmaningar för textilåtervinning kring bland annat nya återvinningstekniker och metod
-­
 utveckling för automatiserad sortering av textilier. Dessa typer av innovation ska vara möjlig att söka innovationsstöd för genom det som Centerpartiet kallar Textilklivet och avsätter medel för i budgeten från 2026.
 Höjt tempo i klimatanpassningsåtgärderna
 Hela samhället påverkas av det förändrade klimatet. Under lång tid har det blivit tydligt för alla och envar att vårt moderna samhälle är sårbart för konsekvenserna av ett allt varmare klimat med enorma skogsbränder, skyfall, smältande isar och värmeböljor som följd. Det innebär att vi behöver vidta åtgärder för att anpassa alla delar av vårt sam
-­
 hälle: samhällsplanering, vatten och avlopp, energiförsörjning, skogsbruk och jordbruk, industrier och besöksnäring med mera. Ur ett beredskapsperspektiv handlar det inte bara om infrastrukturen utan också om att uthålligheten stärks och att tillgången på reserv
-­
 vattentäkter, nödvatten, reservkraft och andra kritiska resurser såsom kemikalier för rening finns så att dricksvattenproduktionen kan fortsätta även under störda för
-­
 hållanden. Stigande medeltemperaturer och de senaste årens återkommande väder
-­
 extremer med såväl svår torka som kraftiga översvämningar visar på klimatför
-­
 ändringarnas påverkan. För att hantera detta måste också det svenska jordbruket intensifiera sina anpassningsåtgärder. Med en aktiv politik för klimatanpassning kan vi förhindra stora produktionsbortfall. Det kräver inte minst kraftfulla och långsiktiga åtgärder för en säkrare och jämnare vattentillgång under växtsäsongen.
 Rent vatten både idag och i framtiden
 Sveriges vattendrag och kuster påverkas precis som alla andra av de globala klimat
-­
 förändringarna. Utsläpp, spridning av kemikalier liksom nedskräpning och övergödning av Östersjön och sjöar runtom i landet riskerar vår och ekosystemens tillgång på rent vatten. Samtidigt står vatten- och avloppsinfrastrukturen i Sverige inför stora investeringar framöver för att underhålla de rör och reningsverk som finns, men också för att utveckla och bygga nytt. Centerpartiet vill därför ha dubblerade satsningar på de insatser som idag finns i Livsmedelsverkets stöd till “nödvatten”, för att hjälpa kommuner i hanteringen av vatten vid kriser, och se till så att även kommunala bolag kan ta del av pengarna. Vi vill också stärka innovationen kring rening av PFAS som är ett stort och växande problem där reningsverk runt om i landet behöver investera mer.
 Investera i välfärd, infrastruktur och beredskap i hela landet
 Skillnaderna inom Sverige vad gäller välfärd och infrastruktur är idag oacceptabelt stora. Pojkar i små skolor på landsbygden kan ha hälften så stor chans som i städerna att gå vidare till gymnasiet. Dödligheten i behandlingsbara sjukdomar är dubbelt så hög i glesa landsbygdskommuner som i storstäder. På många platser på den svenska lands
-­
 bygden betalar man bland de högsta skatterna, men har bland den sämsta vården, skolan, vägarna och järnvägar. Det är också en omöjlig situation i det nya säkerhets
-­
 politiska läge som Sverige befinner sig och där beredskapen måste finnas inom exempelvis vården, för transporter och för självförsörjning av livsmedel i hela Sverige i händelse av kris eller krig.
 Här måste utvecklingen vändas, och Centerpartiet föreslår att mer läggs på väl
-­
 färdens kärna, skola, vård och omsorg, och på infrastruktur i hela landet. Det måste investeras 50 miljarder i den svenska landsbygden nästa mandatperiod för att råda bot på orättvisorna i det offentliga åtagandet.
 Skola utan geografiska orättvisor
 Skolresultaten skiljer sig kraftigt åt mellan olika delar av landet. Elever i städer och innerstadsområden klarar sig generellt sett mycket bättre än elever i glesbygds
-­
 kommuner och framförallt bättre än i många utsatta områden. Enligt Timss, som mäter elevers kunskaper i matematik och naturvetenskap, kan det skilja uppemot två års inlärning mellan elever i storstadsområden och elever i glesbygd. För flera utanför
-­
 skapsområden kan det skilja uppemot fyra år. Den här geografiska orättvisan drabbar de barn och unga som växer upp i glesbygd och i utsatta områden, men den äventyrar också hela Sveriges framtid om generationer av unga i delar av landet inte ges förutsättningar att bidra fullt ut och finna sig tillrätta på arbetsmarknaden.
 För att komma tillrätta med den här geografiska orättvisan måste alla Sveriges skolor ge varje elev chansen att lyckas utifrån sin egen förmåga. De måste kompensera för ojämlikheter och skapa möjligheter för klassresor. Så ser det dessvärre inte ut i dag. I våras gick närmare 20
 000 elever ut grundskolan utan behörighet till gymnasiet. Det motsvarar cirka var sjätte elev, vilket är unikt ur ett internationellt perspektiv. Andelen elever som lämnar grundskolan utan godkända betyg är högre i glesbygdskommuner och i utsatta områden. Nämnas kan att Sverige har tio gånger fler elever som lämnar grundskolan utan behörighet än Norge och Danmark, vars Pisaresultat är i nivå med Sveriges. Dessutom lämnar var femte elev gymnasiet med ofullständiga betyg. De utslagna eleverna har svårare att få jobb – arbetslösheten för de som inte har en gymnasieexamen är fyra gånger så hög som för de som har klarat gymnasiet. För att möta utslagningen vill Centerpartiet drastiskt höja kompetensen om NPF och börja föra statistik över NPF i skolan och skjuter till medel för detta i budgeten.
 De totala resurserna till skolan har under de senaste åren minskat i reala termer och många kommuner har en mycket tuff ekonomisk situation. Detta har lett till besparingar på just de lärare som skulle kunna bidra till att vända utvecklingen. Samtidigt har elev
-­
 kullarna, inte minst på högstadiet och gymnasiet, minskat kraftigt på många ställen. Det hade kunnat leda till minskade klasser och mer tid för eleverna, men pressade av inflationskrisen har många kommuner tvingats stänga skolor och säga upp personal.
 Ytterligare ett problem är att en mycket stor andel, långt över 10 miljarder kronor, av de statliga bidragen till kommunerna för skolan är riktade, vilket innebär att de kommer med omfattande byråkrati och är svåra att söka, i synnerhet för små kommuner. Det är också orimligt att kostnader för olika bidrag, transfereringar, är avsevärt högre i statens budget än satsningarna på utbildning.
 Centerpartiet föreslår i denna budgetmotion att skolan får de ordentliga investeringar som den behöver och förtjänar, med ett kraftfullt sektorsbidrag på sammanlagt nästan 20 miljarder kronor för nästa år. Totalt satsar Centerpartiet 3,3 miljarder mer på skolan än regeringen.
@@ -733,7 +617,6 @@ miljard per år initialt för att täcka upp till 100
 000 av kostnaderna som huvudmännen står med när läraren vidareutbildas. Det omfattar såväl kostnader för lärares utbildningsinsatser, som vikariekostnader för nuvarande arbetsplats och lärares löner under utbildningstiden, samt för att utöka lärcentrum, med cirka 50 stycken i hela landet, och utbildningscentrum så att lärare kan vidareutbildas i närheten av sitt nuvarande arbete.
 Bättre och mer attraktiv lärarutbildning
 Centralt för att få in fler högpresterande lärare i yrket är också att förbättra lärar
-­
 utbildningen. I Centerpartiets budgetmotion vill vi därför rikta särskilda medel för att höja kvaliteten på lärarutbildningen, stärka den verksamhetsförlagda utbildningen, samt skala upp det fortfarande mycket blygsamma programmet Teach for Sweden för att locka många fler unga professionella inom andra yrkesgrupper att pröva på och byta till läraryrket.
 Intensiv svenska för att fixa integrationen redan i skolan
 Slutligen vill Centerpartiet inom ramen för en starkare integrationspolitik erbjuda intensiv svenska med utökade studietimmar i veckan, intensivundervisning, och särskilda satsningar för elever som behöver komma ikapp och förbi i svenska språket. Med denna kraftfulla satsning kan skolan också stå stark och mobilisera många vuxna för att mota den förödande vågen i Sverige av rekrytering, även tvångsrekrytering, av skolbarn och ungdomar in i grov kriminalitet. Skolan måste på alla plan svara mot polisens och socialtjänstens vädjan om att skolan ska kunna nå fler ungdomar som befinner sig på glid och som ofta även hanterar hårda uppväxtförhållanden och/eller neuropsykiatriska funktionsnedsättningar.
@@ -745,32 +628,24 @@ Ojämlikheten inom svensk vård är en av de största orättvisorna. Möjlighete
 Vi vet samtidigt att många läkare är positiva till att arbeta eller starta mottagningar på landsbygden, men att det krävs bättre ekonomiska incitament och större möjlighet att påverka arbetssättet.
 Primärvården stärks, bland annat med en reform för landsbygdsläkare
 Centerpartiet gör en kraftfull, flerårig och riktad satsning på primärvården med fokus på landsbygden. Vi föreslår en ny vårdform för primärvård på landsbygden, där allmän
-­
 läkare, eller vad vi kallar landsbygdsläkare, kan driva små läkarmottagningar där behovet är som störst och där uppdraget anpassas efter de lokala förutsättningar som råder på landsbygden. Regelverket ska samtidigt förenklas och göras mer flexibelt för att möjliggöra små mottagningar med en allmänläkare och en sjuksköterska.
 En ny vårdform anpassad efter landsbygdens förutsättningar kan öka tillgänglig
-­
 heten, förbättra kontinuiteten och minska de geografiska ojämlikheterna i vården. Vi lägger därmed totalt 2
 miljarder kronor årligen på att stärka primärvården, med fokus på nya landsbygdsläkare inom ramen för den nya vårdformen för primärvård på lands
-­
 bygden. Detta kan ge upp till 1
 000 fler läkare per år beroende på hur regionerna fördelar medlen.
 När mandatperioden nu lider mot sitt slut är det tydligt att regeringen misslyckats med sina löften om utbyggd primärvård, kortare vårdköer och mer tillgänglig och jämlik vård i hela landet. För att bidra till en jämlik vård med kortare kötider och för att stärka patientens möjligheter att söka vård i hela landet satsar vi på en ny nationell jämförelse
-­
 tjänst genom att bygga ut 1177. Där ska patienten redan från dag ett kunna välja sin specialistvård utifrån information om väntetider, tillgänglighet och kvalitet.
 Fler läkare och sjuksköterskor behövs
 Den största strukturella utmaningen i den svenska vården handlar om kompetens
-­
 försörjningen. Med för få allmänläkare stannar omställningen mot primärvården av och patienterna får aldrig tillgång till en egen fast läkarkontakt. Patienterna lider i långa vårdköer i brist på specialistläkare, specialistsjuksköterskor och andra vårdyrken. Antalet allmänläkare behöver fördubblas i Sverige för att möta Socialstyrelsens rikt
-­
 värde på 1
 100 invånare per allmänläkare. Vårdanalys har särskilt uppgett att det är stor brist på ST-platser, där 42 procent av landsbygdskommunerna saknar ST-tjänster. Centerpartiet lägger därför i budgeten för 2026 även en satsning på kompetens
-­
 försörjning om drygt 1 miljard kronor per år för nya ST-läkarplatser i hela landet samt nya utbildningsplatser i grundutbildningen för läkare och sjuksköterskor.
 Ingen nedskärning på kvinnors hälsa
 Dagens sjukvård är inte jämställd. Centerpartiet vill stärka vården för kvinnor, som vi vet underbehandlas såväl för flera stora folksjukdomar som för komplikationer i samband med förlossning. Tiden till diagnos när det gäller sjukdomar som drabbar kvinnor kan vara lång, ibland flera år. Det finns också betydande kunskapsluckor om sjukdomar som främst drabbar kvinnor. Detta leder till felbehandlingar, onödigt lidande och höga samhällskostnader i form av bland annat sjukskrivningar. Att säkra en jämställd och jämlik vård är ett av våra grundläggande jämställdhetspolitiska mål. Att då som regeringen gör skära ner på just insatserna för att förstärka kunskaperna inom detta område och på de insatser i praktiken för att råda bot på bristande vårdinsatser för kvinnors hälsa är helt fel. Centerpartiet säkrar resurserna till kvinnovården i vår budget.
 Investeringar för beredskap
 Sverige befinner sig sedan en tid i ett nytt säkerhetspolitiskt läge, sedan Ryssland under Vladimir Putins diktatur inlett först en invasion och därefter en fullskalig invasion av ett fredligt demokratiskt grannland och förvandlat fält och städer i centrala Europa till slag
-­
 fält och miljoner civila till måltavlor. Sverige måste nu inleda en snabb upprustning av det militära och det civila försvaret, som både visat sig viktiga i Ukrainas försvar. Därför behöver nu beredskapen stärkas på en rad punkter, från infrastruktur och livsmedelsförsörjning till inhemsk drivmedelsproduktion och folkbildning. I stora stycken är det också investeringar som är viktiga för att förbättra förutsättningarna för tillväxten, företagandet och välfärden i hela landet.
 I juni 2025 enades riksdagens partier om att lånefinansiera en 300 miljarder stor snabb upprustning av det svenska försvaret varav 50 miljarder till det civila försvaret. Centerpartiet vill att inte bara resurserna till det militära försvaret utan även de civila försvarsresurserna används till konkreta insatser så snabbt och kraftfullt som möjligt.
 Infrastruktur
@@ -779,16 +654,12 @@ Sveriges infrastruktur har länge varit eftersatt och bortprioriterad, vilket ha
 Nu när regeringen har presenterat sin nationella plan för infrastrukturen står vi med facit av regeringens prioriteringar och förmåga att ta itu med behovet av en fungerande infrastruktur. Vi ser att det eftersatta underhållet på järnvägen blir kvar till 2050. Det håller inte utan nu måste investeringarna i en fungerande infrastruktur ta fart.
 Task force för tågen – beta av eftersatt underhåll
 Situationen i svensk infrastruktur är inget annat än ett stort misslyckande. Det rapporteras ständigt inte bara om hur resurserna som är avsatta för underhåll och upprustning av järnvägen inte räcker till, utan också om att Trafikverket och andra berörda myndigheter inte förmår att åtgärda det. Samtidigt som det eftersatta underhållet kostar näringslivet och svensk ekonomi miljarder varje år menar regeringen att det inte ska kunna åtgärdas förrän 2050. Bara 10–15 procent av underhållet ska klaras under planperioden fram till 2037. Ofta hänvisas till att det saknas manskap och maskiner för att öka takten i underhållet, men det är en syn som inte delas av leverantörer på området. Centerpartiet vill därför pröva hur långt man kan få fram snabbt och effektivt underhåll, som kan spara miljarder för företag och resenärer per år genom att alla slipper för
-­
 seningar och inställda tåg.
 Vi vill skapa en task force som identifierar och arbetar med att bygga bort de brister på järnvägen som drabbar tågresenärerna mest i form av förseningar, ofta signal- och växelfel. Denna task force ska snabbt kunna vara på plats och på så vis förhindra för
-­
 seningar och uppehåll i tågtrafiken som drabbar resenärer och gods. Detta sker utanför ordinarie underhållsplan som offensiva punktinsatser på de platser där flest fel orsakas.
 Enskilda vägar
 Varje dag börjar drygt en miljon människor sin arbetsdag vid en enskild väg. Det är därför centralt att de enskilda vägarna och dess vägföreningar har resurser för att kunna ta hand om vägarna på ett ändamålsenligt sätt. Det finns ett stort, uppdämt behov av underhåll på det enskilda vägnätet samtidigt som nya extremväder med skyfall och snabba väderomslag leder till ökade skador som erosion, bortspolade vägbankar och skred. De enskilda vägarna som sköts av samfälligheter är en viktig del i en levande och fungerande landsbygd, de påverkas likt annan infrastruktur också hårt av klimat
-­
 förändringarna men har inte resurser för att klara av all den ökade påfrestning som nu sker. Centerpartiet skjuter till 150 miljoner kronor årligen från 2026 och framåt för att satsa på ett ökat så kallat särskilt driftsbidrag till underhållet av enskilda vägar. Center
-­
 partiet har även tidigare föreslagit både reformer och resurser för att de enskilda vägarna ska fortsätta utvecklas.
 Ta tillbaka nattågen
 Under våren 2025 körde SJ de sista nattågen från Västsverige till Jämtland, nattåg som hade god beläggning och var viktiga för privatpersoner, företag och besöksnäringen i alla de berörda regionerna. Då regeringen inte sköt till de summor för upphandlad trafik som Trafikverket behövde finns inte nattågen mellan Västsverige och Jämtland kvar. Centerpartiet vill återuppta nattågstrafiken från Västsverige till Jämtland. Vi vet att det finns tågsträckor som inte är tillräckligt lönsamma men som ändå fyller en viktig funktion, därför är den upphandlade tågtrafiken av stor vikt.
@@ -798,13 +669,11 @@ I grunden står dessutom svenskt jordbruk för god djuromsorg, säker mat, öppn
 Den fullskaliga ryska invasionen av Ukraina i februari 2022 understryker behovet av att bygga upp en motståndskraftig svensk livsmedelsproduktion. I dag har Sverige alltför låg självförsörjningsgrad och självförsörjningsförmåga när det gäller livsmedel och vi måste sluta blunda för det faktum att vi för flera av våra vanligaste baslivsmedel och kritiska insatsvaror är beroende av import från andra sidan jorden. Detta förhållande måste förändras om vi vill känna oss trygga med att kunna klara en allvarlig kris eller krig i framtiden.
 Investera i landsbygden och matproduktionen
 Vid sidan om lagerhållning, som nu får ökade resurser genom den överenskommelse med riksdagens alla partier där Centerpartiet var särskilt drivande för ökad försörjnings
-­
 beredskap, behöver regeringen investera i ett mer robust jordbruk. Svenskt jordbruk behöver bli mindre fossilberoende och beredskapen på gårdsnivå behöver stärkas, så att det finns förutsättningar att klara exempelvis ett längre strömavbrott eller en situation med brist på vatten. Det behöver också skapas förutsättningar att bedriva jordbruk i hela landet, det vill säga även i landets glesbefolkade delar och i landsdelar med sämre odlingsförutsättningar. Centerpartiet vill stärka det nationella investeringsstödet för att åstadkomma detta.
 Utökad djurvälfärdsersättning
 Regeringen har avsatt medel i den strategiska planen för att kompensera svenska mjölkproducenter för den svenska beteslagstiftningen. Centerpartiet välkomnar denna
 budgetsatsning, som vi länge har efterfrågat, och förhoppningen är att även kommissionen
 ska godkänna den. Regeringen borde även verka för att en motsvarande djurvälfärdsersättning, en dikopeng, ska bli verklighet för svensk nötköttsproduktion. Det behövs fler betande mular i de svenska landskapen och de fyller både en viktig roll för att bevara den biologisk mångfalden och för att upprätthålla den svenska livsmedels
-­
 beredskapen. Trots dessa beroenden uppgår den svenska försörjningsgraden på nötkött till endast 58 procent.
 Ett jordbruksavdrag för stärkt lönsamhet
 Centerpartiet vill införa ett jordbruksavdrag i syfte att stärka svenskt jordbruks konkurrenskraft och påskynda den gröna omställningen. Förslaget innebär en övergång från dagens system med tillfällig återbetalning av dieselskatt till ett permanent, teknikneutralt skatteavdrag för företag inom jord-, skogs- och vattenbruk. Vi sänker skatten för 95 procent av alla företag som har intäkter från skogs- eller lantbruk. Jordbruksavdraget är mer kraftfullt och långsiktigt än den nuvarande nedsättningen på jordbruksdiesel, som i grunden var en nödåtgärd Centerpartiet satte in för att svenska lantbrukare skulle klara inflationskrisen.
@@ -816,59 +685,44 @@ Som ytterligare bevis på ojämlikheten i Sverige har vi förutsättningarna fö
 000 kronor. Det är staten som genom Trafikverket har upphandlat trafiken och därför har staten ett ansvar för att motverka de skenande priserna som försvårar för gotlänningar att leva och bo på ön. Därför anser Centerpartiet att Sverige skyndsamt ska hemställa hos EU-kommissionen om att under 2026, i väntan på nytt avtal som vi hoppas ska leda till långsiktigt lägre prisnivåer, sänka färjepriserna för gotlänningar och avsätter 30 miljoner för detta. Om 30 miljoner kan användas till en prisjustering så skulle det innebära upp till 500 kronor i lägre pris per resa för en familj på fyra.
 Stärka föreningslivet och civilsamhället
 Under Tidöregeringen har det svenska civilsamhället, föreningsliv och folkbildning, hamnat på undantag i hela landet. Resurserna har skurits ned, ibland som för folk
-­
 bildningen dramatiskt, samtidigt som byråkratin kring fritidskortet svällt utan att leverera resultat för människor i vardagen. För att återupprätta civilsamhällets resurser ökar Centerpartiet resurserna med över 800 miljoner kronor per år.
 Rädda studieförbunden för vår beredskap
 Folkbildningen är en helt avgörande resurs som når många av dem som står långt från arbetsmarknaden. Folkbildningen välkomnar alla, oberoende av ålder, bakgrund eller funktionsvariation. I många landsortsområden är folkbildningen dessutom den enda kulturaktören som kan bredda perspektiven. Studieförbunden har exempelvis spelat en avgörande roll för de många ukrainare som kom till Sverige efter Rysslands invasion. Det var här de tog sina första steg för att lära sig svenska genom kurser för nyanlända, samtidigt som de på plats förvärvade kunskap om det samhälle de kommit till. Studie
-­
 förbunden kan på många håll i landet också vara den enda som tillhandahåller exempel
-­
 vis replokaler för nästa generation av det svenska musikundret. Centerpartiet kommer alltid att verka för att varje krona till studieförbunden används effektivt, samtidigt som vi tydligt står upp för folkbildningens värde, och vi avvisar i vår budget nedmonteringen av folkbildningen.
 I dessa allvarsamma tider kan folkbildningen spela en särskilt viktig roll för att stärka landets beredskap. Folkbildningen har människors förtroende, ett lokalt kontaktnät och upparbetade metoder som bygger på delaktighet, dialog och gemensamt lärande. Genom att använda allt detta för en större satsning på folkbildningen inriktad på beredskap kan tiotusentals svenskar stärkas inom första hjälpen, cyberförsvar, hemberedskap med mera. För detta avsätter Centerpartiet särskilda medel.
 Infrastruktur är inte bara vägar, räls och kablar utan civilsamhällets infrastruktur är mötesplatser och platser för kultur, idrott och demokrati i praktiken. Byalag som fixar aktiviteter för sin bygd, idrottsföreningar som ordnar cuper för barn och ungdomar eller trygghetsmöten i Folkets hus, som några exempel. Centerpartiet föreslår i budget
-­
 motionen särskilda satsningar på samlingslokaler, bygdegårdar och idrottsanläggningar.
 Idrotts- och friluftsliv tillgängligt för alla
 Idrott spelar en viktig roll inte minst för lokal sammanhållning och engagemang, för en lyckad integration och som en gemensam arena på tvärs av socioekonomiska skillnader. Idrotten handlar både om bredden och spetsen, där de båda delarna stärker varandra. Centerpartiet skjuter till medel för att flera ska kunna idrotta – barn och unga, personer med sämre tillgång till medel för idrott i exempelvis utsatta områden, samt personer med funktionsnedsättning som i dag idrottar i lägre utsträckning än andra – men också för att ge fler möjlighet att satsa på idrotten fullt ut i en elitsatsning. Friluftslivet stärker såväl hälsa och gemenskap som beredskap. När fler får tillgång till natur och vandrings
-­
 leder får vi ett friskare, tryggare och robustare samhälle. Därför satsar Centerpartiet också på ökat stöd till friluftsorganisationer.
 Tryggheten måste återupprättas för alla
 Resurser för en polis som är på plats i vardagen
 Sverige befinner sig i ett allvarligt läge med en grov organiserad brottslighet på fram
-­
 marsch. Det behövs kraftfulla åtgärder för att bekämpa detta. De historiskt stora resurs
-­
 förstärkningar till rättsväsendet som görs är nödvändiga. Dessa ökade resurser går till att kunna bekämpa den grova organiserade brottsligheten men även till att bekämpa våld mot kvinnor och barn och det stora antalet brott, mängdbrott och vardagsbrott, där småföretagare ofta är de mest utsatta.
 Resursökningarna har dock hittills inte givit tillräckliga resultat. Därför föreslår Centerpartiet att medel omfördelas inom Polismyndigheten, så att grunduppdraget – inklusive hanteringen av våldet mot kvinnor och barn samt mängdbrotten och att det ska vara en närvarande polis i hela landet – kan genomföras. För detta avsätter vi särskilt 500 miljoner kronor.
 Nödvändigheten av detta är extra tydlig när stängning av för allmänheten öppna polisreceptioner sker i flera kommuner i landet och polisen inte syns närvarande på gatan i många utsatta områden. Med en politik för att bryta utanförskap och fler i jobb, inte minst unga, kan mycket av den grova organiserade brottslighetens möjlighet att rekrytera unga motverkas. I regeringens skrivelse Barriärer mot brott – en social
-­
 preventiv strategi mot kriminella nätverk slås fast att av de mest angelägna åtgärds
-­
 områdena för det breda brottsförebyggande arbetet är nummer ett “att motverka passivitet och utanförskap genom tydliga incitament för arbete och företagsamhet”. Insatser för att bryta arbetslöshet bland unga och utsatta, och mer resurser till skolan och skolhälsan är därför centrala även för att bekämpa gängkriminaliteten.
 Inrätta ett kraftfullt Ekokrim
 Ekonomisk brottslighet är intimt förknippad med den grova och våldsamma organiserade kriminaliteten. För att komma åt det stora pengaflödet till gängen och deras uppdragsgivare måste ett särskilt fokus riktas mot just detta. En myndighet som har till uppdrag att bekämpa denna brottslighet måste ha förutsättningar att på egen hand sätta ihop utredningsteam med rätt kunskaper och kompetens på området. Därför behöver en ny spetsmyndighet växa fram ur nuvarande EBM och bli ett Ekokrim, med möjlighet att rekrytera och utbilda sin egen personal och som får de befogenheter som krävs för att självständigt kunna utreda och lagföra brottsligheten inom sitt område. Ett stärkt brottsförebyggande arbete, som utgår från en myndighet med specialistkompetens på området, är nödvändigt för att snabbt sprida kunskap till de myndigheter, kommuner och organisationer som riskerar att drabbas. För att genomföra allt detta föreslår Centerpartiet att ett Ekokrim med spetskompetens som slår mot korruption, ekobrott och miljöbrott, skapas från och med 2026 med resurser från dagens Ekobrotts
-­
 myndighet, Polismyndigheten och Åklagarmyndigheten samt en viss ytterligare resursförstärkning. Arbetet påbörjas under 2026 men är helt genomfört till 2027.
 Förebyggande insatser så att kampen mot brottsligheten inte är halv och haltande
 Kampen mot den organiserade brottsligheten är halv och haltande så länge som inte socialtjänst och skola får resurser att snabbt fånga upp de ungdomar och barn som idag på kort tid glider in i tung kriminalitet. Vid varje nytt spektakulärt dåd upprepar polisen vädjan om att övriga delar av samhället ska stärkas, inte minst skolan, som möter ungdomarna i vardagen. Det är ett viktigt skäl till att denna budgetmotion lägger en mycket stor satsning på att stärka skolan och minska utslagningen där, samt att minska kostnaderna att anställa unga till ingångslöner i feriejobb.
 I Centerpartiets budgetmotion föreslås en stor satsning på ett större antal vuxna, både fältarbetare och frivilliga, som med stöd av polisen rör sig i utsatta områden för att mycket proaktivt fånga upp ungdomar och erbjuda dem organiserade fritidsaktiviteter och extrajobb, en metod som haft framgång i Danmark och lokalt i Sverige. Vi vill också ytterligare förstärka satsningarna på medarbetare i socialtjänsten som behöver bli fler och behöver kompletterande utbildning, med fokus på utvalda metoder baserade på evidens, eftersom de idag i allt högre grad konfronteras med svåra uppgifter i kontakt med familjer i kris. Det handlar om föräldrar som behöver stöd för att kunna stödja små barn med antisociala beteenden och där föräldrar behöver stöd för att kontrollera sina barns kriminella beteende. Vi måste i ett mycket tidigare skede fånga upp dessa föräldrar och barn.
 En grogrund för senare kriminalitet och ohälsa är avsaknaden av en säker och trygg uppväxt, fri från våld. Våldet kan ta många former – fysiskt, psykiskt, sexuellt, heders
-­
 relaterat, eller att barn bevittnar våld i hemmet. Det lämnar djupa spår och påverkar barns hälsa, utveckling och framtid. Centerpartiet vill se en nationell strategi för att förebygga och bekämpa våld mot barn. Strategin ska utgå från barnets perspektiv och behov i centrum, särskilt barns våldsutsatthet i hemmiljö inklusive hedersrelaterat våld och förtryck.
 Vi vill även se ett evidensbaserat nationellt traumascreeningprogram för att upptäcka våld och trauma mot barn, som ska genomföras vid regelbundna hållpunkter under barnets uppväxt, exempelvis på barnavårdscentralen (BVC) eller vid hälsounder
-­
 sökningar i grundskolan. Syftet är att tidigt identifiera utsatthet och möjliggöra snabba insatser som traumabehandling, stöd från socialtjänst och skyddade boenden. Parallellt behöver personal inom hälso- och sjukvård, skola och socialtjänst få utbildning och kompetens i trauma och traumamedveten omsorg. För att nå fler barn och unga vill vi även utöka hembesöksprogrammen, där BVC ska arbeta tillsammans med socialtjänsten för att fånga upp våld, utsatthet eller riskfaktorer i hemmet. Detta behöver göras i hela landet. Inget barn ska glömmas bort.
 Stopp för återfall i nya våldsdåd
 Samhällets vård och tvångsvård av barn och unga har fortsatt stora brister, vad gäller såväl kvalitet som trygghet. De missförhållanden som råder på Statens institutions
-­
 styrelse måste omedelbart upphöra. Kontrollen och tillsynen av HVB-hem behöver skärpas, vårdens och behandlingens kvalitet måste öka och tillsynsmyndigheter som Ivo behöver får stärka resurser och befogenheter. Frihetsberövade barn och unga dömda till sluten ungdomsvård har ofta omfattande behov, kopplat till såväl psykisk ohälsa, missbruk, bristande skolgång som kriminalitet. Komplexiteten och utsattheten för barnen är stor, även efter placeringen. Trots detta är eftervården ofta otillräcklig. En betydande andel återfaller i brott kort efter att verkställigheten avslutats. Vi föreslår därför ett nationellt utslussningsprogram för frihetsberövade barn och unga, med syfte att minska återfallsrisken för brott och stärka återanpassningen till samhället.
 Mäns våld mot kvinnor måste stoppas
 Centerpartiet ser ett stort behov av ett mer sammanhållet stöd till våldsutsatta kvinnor. Parallellt med skjutningarna och sprängningarna i Sverige pågår en annan våldsepidemi som under perioder skördar lika många offer som det som fyller rubriker och nyhets
-­
 sändningar: mäns våld mot kvinnor, ofta i hemmet. Det är årligen alltför många kvinnor som förlorar sitt liv på grund av detta våld.
 I Sverige lever idag 35
 000 personer i Sverige med skyddade personuppgifter. Drygt 40 procent av dessa uppger att de hade skyddsskäl på grund av hot och våld i nära relation och knappt en tiondel på grund av hedersrelaterat hot och våld, enligt under
-­
 sökning från Skatteverket år 2022. Att leva med skyddade personuppgifter kan få omfattande konsekvenser på livets alla områden och påverkar inte minst människors livsutrymme och friheten. För personer med skyddade personuppgifter kan helt vanliga vardagliga situationer innebära stora säkerhetsrisker. Därför är det extra allvarligt att myndigheter och till och med rättssystemet röjer uppgifter gång på gång. Riksrevisionen har konstaterat i sin rapport 2024 att staten inte gör tillräckligt för att skydda hotade personer. Skadestånd kan sökas av Justitiekanslern, men det görs i väldigt liten utsträckning. Att skyddade personuppgifter röjs får stora konsekvenser för den som lever gömd. Därför vill Centerpartiet att ett automatiskt skadestånd ska betalas ut till den som får sin identitet röjd av myndigheter.
 Lämnaprogram mot våld i hemmet och exitprogram från prostitution
 Många av de värsta konsekvenserna av detta våld mot kvinnor beror på svårigheter att hitta bostad och att ta sig ur ett ekonomiskt beroende. Detta medför problem för många kvinnor som vill lämna en destruktiv och våldsam relation. Centerpartiet vill därför tillföra 100 miljoner kronor till anslaget som gäller bidrag till brottsförebyggande arbete. I denna satsning ingår ett program med lämnapeng som ska ge våldsutsatta kvinnor ett samordnat stöd och ekonomisk trygghet när de ska lämna en farlig relation, ett läge där kvinnor ofta blir inte bara fysiskt utan även ekonomiskt utsatta.
@@ -881,7 +735,6 @@ Säkerhet
 Ställda inför det nya säkerhetspolitiska läget med ett pågående storkrig i Europa och en allt mer hotfull rysk regim har Centerpartiet förordat en ökning av försvarsanslagen. Strax före sommaren kom också riksdagens samtliga partier överens om en ökning av anslagen till Natos nya utgiftsmål på 3,5 procent av BNP årligen senast 2032, med ytterligare 1,5 procent till bredare försvarsrelaterade investeringar. Dessa nya mål ska nås. Här har samtliga partier också skrivit under på att 50 miljarder av de 300 miljarder som beräknas behöva lånas för att nå den nya målnivån ska gå till det civila försvaret. Centerpartiet var särskilt drivande för att den ökade ambitionsnivån för det civila försvaret skulle komma på plats.
 Stödet till Ukraina måste upp till en procent av BNP per år
 Tre och ett halvt år efter att Ryssland inlett sin fullskaliga invasion står Ukraina fort
-­
 farande starkt i sin kamp för självständighet, demokrati. Ett krig de också utkämpar för hela Europas frihet. Sedan USA under Trumpadministrationen minskat sitt stöd växer dock behovet av att Europa och Sverige visar ledarskap. Ukraina behöver vårt stöd i form av mer och tyngre vapen. De behöver ekonomiskt stöd till att fortsätta bygga upp sin egen vapenindustri som nu står för mer än hälften av alla de vapen Ukraina använder, men där potential finns att öka produktionen ytterligare med hundratals miljarder kronor, och där Danmark och därefter Sverige bidragit med ökande finansiering. Ukraina behöver också stöd för att klara att finansiera sin budget, där underskotten, trots en välfungerande ekonomi och export, för 2026 väntas uppgå till över 800 miljarder kronor. Allt detta kräver att länder som Sverige, som har goda statsfinanser och ett starkt intresse av att Ukraina vinner kriget, går före i sitt stöd till Ukraina.
 Enligt den uppgörelse som nåddes av finansieringen av upprustningen av det militära och civila försvaret mellan alla riksdagens partier inför toppmötet i Haag i juni, ligger nu all finansiering av stöd till Ukraina utanför budgetramverket. Men regeringens ramar för biståndet begränsar fortfarande insatserna, som förblir under en procent av BNP för innevarande år, och betydligt lägre för 2026 och 2027. Centerpartiet vill att Sverige höjer stödet till Ukraina till över en procent av BNP per år, på en nivå om minst 75 miljarder per år. Det måste ske nu eftersom behovet är nu. Därtill vill Centerpartiet att allt bistånd, civilt och militärt, läggs utanför biståndsbudgeten och inte begränsas av, eller tränger ut, biståndsinsatser i andra delar av världen.
 Sverige kan ta emot 5
@@ -894,10 +747,8 @@ procent av BNI. Som en del i detta bör stödet till Ukraina flyttas ur den ordi
 Centerpartiets tillväxtplan för Sverige
 Tillväxten är i slutänden det som avgör utvecklingen i Sverige. Den påverkar människors
 möjligheter att göra mesta möjliga av sin förmåga, välfärdens resurser, statens möjlig
-­
 heter att bygga ett starkt försvar, och investeringar i infrastruktur och forskning som i sin tur driver tillväxten. Är tillväxten grön, om den sker samtidigt som klimatutsläpp och miljöpåverkan minskar, då formas en positiv spiral där teknologi och investeringar skapar ett hållbart samhälle.
 Även om välfärden spelar en central roll så är företagen det som driver tillväxten, ofta de nya, små företagen. Deras möjligheter att växa och anställa är avgörande för en ökad tillväxt. Tyvärr har svensk tillväxt släpat efter omvärlden under den sittande reger
-­
 ingen, samtidigt som konkurserna ökat och nyföretagande gått fortsatt ned. Det behövs en vändpunkt för tillväxtpolitiken i Sverige, som utgår från företagens verklighet.
 Sverige behöver en tillväxtplan med utgångspunkt i entreprenörskap och innovation, som skapar bättre möjligheter för företag att växa. Då måste kostnader, krångel och skatter ned, liksom klimatutsläpp och miljöpåverkan, medan kompetens, utbildning och infrastruktur måste stärkas.
 Centerpartiet väljer därför att summera denna budget ur ett tillväxtperspektiv, med en tillväxtplan för Sverige, där vi får jobbet gjort för en framtid där Sverige är rikt och grönt igen.
@@ -905,7 +756,6 @@ Centerpartiets tillväxtplan
 Sänkta kostnader för företagen för att anställa, växa och besegra arbetslösheten
 Sänkta skatter på att anställa för att skapa jobb.
 Vi föreslår slopade arbetsgivar
-­
 avgifter för alla småföretag med upp till tio anställda och för alla som måste in på arbetsmarknaden, framförallt unga och långtidsarbetslösa. Småföretagen ska inte behöva bära sjuklönekostnader.
 Sänkta kostnader för regelkrångel och tillstånd.
 Det måste ske en drastisk minskning av regelkrånglet, där minst 101 regler bör avskaffas, och de myndigheter som övervakar regelkrånglet och underlättar tillstånd får utökade resurser och befogenheter.
@@ -918,7 +768,6 @@ Investeringar i skola och lärare.
 Alla som går i skolan i Sverige ska mötas av behöriga, kompetenta lärare. Alla elever ska ges möjlighet att lyckas i skolan, oavsett postnummer. Därför måste de geografiska orättvisorna utraderas och utslagningen minska.
 Investeringar i vidareutbildning och yrkesutbildning.
 Bristen på yrkesutbildningar måste åtgärdas här och nu. Vidareutbildning, från yrkesvux och jobbsvenska till hög
-­
 skola, måste byggas ut snabbare för att fylla kompetensluckor.
 Investeringar i grön tillväxt och beredskap
 Investeringar i grön industri, grön energi och elektrifiering.
@@ -932,12 +781,10 @@ I detta avsnitt redovisas Centerpartiets förslag till förändringar, jämfört
 Skatt på förvärvsinkomster – förvärvsinkomstbeskattning
 Förstärkt jobbskatteavdrag
 Centerpartiet utökar jobbskatteavdraget i vår budget för 2026. Jobbskatteavdraget (JSA) är en skattereduktion som sänker skatten på inkomster från anställning eller närings
-­
 verksamhet. Reduktionen är som högst på löner från och med 8,08 prisbasbelopp, vilket motsvarar en månadslön strax under cirka 40
 000 kr. Vårt förslag innebär sänkt skatt för alla, men med ett större fokus på löner under den punkten. På så vis sänks skatten för alla, men Centerpartiet sänker det ännu mer för de med låg- och medelinkomster jämfört med regeringen.
 Nuvarande JSA ger en skattesänkning som är störst för inkomster om 8,08 prisbasbelopp (PBB) och högre, vilket motsvarar cirka 40
 000 kronor i månadslön. Regeringen förstärker jobbskatteavdraget för alla inkomster över 3,24 PBB, vilket mot
-­
 svarar en månadslön om cirka 16
 000 kronor. Centerpartiets förslag innebär ytterligare en förstärkning av jobbskatteavdraget som sänker skatten ytterligare på månadslöner mellan 16
 000 och 40
@@ -946,7 +793,6 @@ Syftet är dels att sänka tröskeln till att ta ett arbete för någon som idag
 med låg- och medelinkomster får behålla mer av sin arbetsinkomst. På så sätt kombineras
 en generell skattesänkning med en riktad förstärkning för de grupper som har störst marginalnytta av ökade inkomster.
 Studier på tidigare genomförda skatteförändringar pekar tydligt på att alltför höga marginalskatter hämmar tillväxten genom flera kanaler. Det sker framför allt genom att arbetade timmar minskar i de grupper som möter allt högre skattesats på sin arbets
-­
 inkomst, men också exempelvis genom att fler som har möjligheten väljer att ta ut en större del av sin inkomst i pensionsavsättning. Därför är det samtidigt klokt att skatten sänks för alla oavsett inkomstnivå.
 Den totala offentligfinansiella effekten av Centerpartiets föreslagna förändringar av
 jobbskatteavdraget är 1
@@ -958,7 +804,6 @@ Egenavgifter
 Egenavgifter uppgår i dag till 28,97
 % av överskottet i enskild firma. För många småföretagare innebär detta en tung kostnad som minskar möjligheten att återinvestera i verksamheten. Anställda får sina sociala avgifter betalda av arbetsgivaren, medan egenföretagare själva måste bära hela bördan. Centerpartiet vill sänka egenavgifterna för att frigöra kapital för investeringar, innovation och nyanställningar. Det ökar incitamenten att starta och driva företag, särskilt för unga eller för de som vill gå från deltidsföretagande till företagande på heltid.
 Centerpartiets förslag är att taket för den generella nedsättningen av egenavgifterna justeras upp enligt inkomstindex, vilket motsvarar en ökning med 4,7
-% 2026, 3,6
 % 2027 och 3,6
 % 2028, motsvarande ett nytt tak på 15
 700 kr, 16
@@ -966,52 +811,37 @@ Centerpartiets förslag är att taket för den generella nedsättningen av egena
 900 kr respektive år. Inkomsttitel 1240 Egenavgifter minskar till följd av detta med 85 miljoner kronor 2026, 160 miljoner kronor 2027 och 225 miljoner kronor 2028.
 Bredda det gröna avdraget till smarta uppvärmda hem
 Skattereduktionen för installation av grön teknik är ett uppskattat styrmedel som in
-­
 fördes den 1 januari 2021. I dagsläget omfattar det installation av nätanslutna solcells
-­
 system, system för lagring av egenproducerad el och laddpunkter för elfordon. Sedan införandet har det lett till fler klimatsmarta investeringar som både sänkt kostnader för hushåll och ökat energieffektiviseringen.
 Centerpartiet vill bredda det gröna avdraget för att inkludera uppvärmning av hem, och flera aktörer pekar på att nuvarande politik inte är tillräcklig för att nå Sveriges energieffektiviseringsmål till 2030. Att skärpa styrmedlen för energieffektivisering genom ett breddat grönt avdrag är därför en nödvändig åtgärd.
 Många energieffektiviserande åtgärder är lönsamma på sikt, men den initiala investeringskostnaden kan vara ett hinder. På så vis är det gröna avdraget ett effektivt ekonomiskt styrmedel som bör breddas till fler energieffektiviserande investeringar för privatpersoner.
 Utvidgningarna väntas sammantaget innebära att inkomsttitel 1140 Skattereduktioner minskar med 400 miljoner kronor år 2026. Av samma anledning väntas inkomsttiteln minska med 400 miljoner kronor år 2027 och 400 miljoner kronor år 2028.
 Jordbruksavdrag
 Centerpartiet vill införa ett jordbruksavdrag i syfte att stärka svenskt jordbruks konkurrenskraft och påskynda den gröna omställningen. Förslaget innebär en övergång från dagens system med tillfällig återbetalning av dieselskatt till ett permanent, teknik
-­
 neutralt skatteavdrag för företag inom jord-, skogs- och vattenbruk.
 Nuvarande system innebär att företagen får en återbetalning av punktskatten på för
-­
 brukad diesel. Det gynnar enbart användning av fossil diesel och baseras på tillfälliga politiska beslut. Det kräver ansökan om återbetalning baserat på förbrukning. Center
-­
 partiets förslag är långsiktigt, teknikneutralt, premierar företagens lönsamhet och under
-­
 lättar omställning från fossila bränslen. Dessutom hanteras det i samband med den ordinarie inkomstdeklarationen, vilket tar bort den administrativa bördan för företagen.
 Centerpartiet vill se att den nuvarande nedsättningen på skatten på jordbruksdiesel som gång på gång förlängts av regeringen skyndsamt görs om till ett teknikneutralt jord
-­
 bruksavdrag som behandlar alla drivmedel lika, samt att detta avdrag permanentas. Eftersom både aktiebolag och enskilda näringsverksamheter kan ta del av jordbruks
-­
 avdraget påverkas flera inkomsttitlar. Det permanentade avdraget för enskilda närings
-­
 idkare väntas minska inkomsttitel 1111 Statlig inkomstskatt med 42 miljoner kronor 2026 och 85 miljoner årligen 2027–2028. Inkomsttitel 1240 Egenavgifter väntas minska med 158 miljoner kronor 2026 och 315 miljoner årligen 2027–2028. Inkomsttitel 1115 vänta minska med 125 miljoner kronor 2026 och 250 miljoner kronor årligen 2027–2028. För aktiebolag väntas inkomsttitel 1320 Skatt på företagsvinster minska med 75 miljoner 2026 och 150 miljoner årligen 2027–2028.
 Landsbygdsfokuserat reseavdrag
 Reseavdraget bör reformeras i grunden och göras om till en teknikneutral och avståndsbaserad skattereduktion för att både gynna mer miljö- och klimatvänligt resande och för att verkligen kompensera de som behöver pendla långt och saknar tillgång till alternativ till bilen. Detta bör snabbt utredas på nytt och kan leda till att stärka kollektivtrafiken på landsbygden. I väntan på detta föreslår Centerpartiet att milersättningen i reseavdraget höjs på landsbygden men begränsas kraftigt i storstäder. Detta leder till besparingar om 800 miljoner kronor årligen, vilket 2026–2028 påverkar inkomsttitel 1115.
 Avskaffad skattereduktion för medlemsavgift i a-kassa
 Skattereduktionen för medlemsavgifter i a
-‑
 kassan föreslås avvisas, vilket väntas inne
-­
 bära att inkomsttitel 1140 Skattereduktioner ökar med 1
 700 miljoner kronor 2026. Av samma anledning väntas inkomsttiteln öka med 1
 700 miljoner kronor årligen 2027–2028.
 A-kassan
 Centerpartiets egen modell för a
-‑
 kassan är utformad på ett sätt som syftar till att göra det mer lönsamt att arbeta än att vara arbetslös, uppmuntra till snabb återgång i arbete och anpassa systemet till en modern arbetsmarknad. A
-‑
 kassan bör reformeras från att vara ett passivt bidrag till att bli en aktiv omställningsförsäkring. Det ska vara en tillfällig ersättning mellan jobb, inte en långsiktig försörjning. Enligt Centerpartiets modell är ersättningen relativt hög i början av arbetslösheten, men trappas sedan ned snabbare än i dagens system, för att stärka incitamenten för arbetssökande. Läs mer om
 Centerpartiets modell för a
-‑
 kassan under beskrivningen av utgifter längre ner i motionen.
 Arbetslösheten har länge varit på alltför höga nivåer i Sverige och enligt prognos kommer den att förbli på lika höga nivåer. Centerpartiets modell för a
-‑
 kassan minskar inkomsttitel 1115 Kommunal inkomstskatt med 3
 800 miljoner kr 2026 och med 3
 700 miljoner kr årligen 2027–2028.
@@ -1026,20 +856,16 @@ Skatt på förvärvsinkomster – socialavgifter m.m.
 Sänkt arbetsgivaravgift på ingångslöner och för unga
 Tre fjärdedelar av de inskrivna arbetslösa tillhör grupper med svag konkurrensförmåga. Samtidigt har Sverige en mycket låg andel så kallade enkla jobb jämfört med andra länder i EU. Jobb utan höga krav på tidigare erfarenhet eller utbildning är samtidigt precis vad många människor med så kallad svag konkurrensförmåga kan behöva, för att få in en fot på arbetsmarknaden.
 En orsak till bristen på enkla jobb är höga lägstalöner och höga skatter på att anställa. Idag finns det anställningsstöd för arbetsgivare som anställer personer som står långt från arbetsmarknaden. Vissa av dessa anställningsstöd fyller en viktig funktion. Särskilt gäller detta anställningsstöd som är förhållandevis kraftfulla, väl riktade och innebär sysselsättning som i hög grad liknar en reguljär anställning. Anställningsstöden har dock ett antal problem. Ett av de viktigaste är att de är tillfälliga. Det gör att personer som står långt från arbetsmarknaden bara kan konkurrera om existerande jobb; det skapar inte förutsättningar för att nya branscher med enklare jobb ska kunna växa fram. Det finns grupper som har mer långvariga svårigheter att etablera sig på arbets
-­
 marknaden och som av olika skäl inte kan förväntas öka sin produktivitet nämnvärt över tid. För dessa personer innebär stödens tidsbegränsning en risk för att de ska slussas fram och tillbaka mellan olika typer av åtgärder. Dagens stöd riskerar också att vara stigmatiserande och fungera som en negativ signal för potentiella arbetsgivare om att den arbetssökande är i behov av särskilt stöd.
 Det finns alltså starka argument som talar för att det behöver genomföras generella åtgärder som mer långsiktigt stöttar människor med låg produktivitet och möjliggör skapandet av nya typer av så kallade enkla jobb.
 Regeringen har i BP26 föreslagit en tillfällig sänkning av arbetsgivaravgifter för unga som gäller från den 1 april 2026 till den 30 september 2027. Samma regering slopade den tidigare sänkningen av arbetsgivaravgifter för unga, vilket mitt i inflations
-­
 krisen dels ökade företagens kostnader, dels gjorde det svårare för unga att få ett första jobb eller att gå från deltid till heltid.
 Regeringens förslag om att sänka arbetsgivaravgifterna för unga är tillfälligt. Det gäller enbart 2026–2027 och innebär inte att sänkningen bidrar med att skapa lång
-­
 siktiga möjligheter för företag att utveckla sin verksamhet, växa och anställa fler. Att arbetsgivaravgiften under en begränsad tidsperiod blir lite lägre än innan är en ren företagssubvention enbart för vissa företag som i nuläget har en verksamhet med anställda mellan 19 och 23 år.
 Centerpartiet föreslår därför att arbetsgivaravgiften, förutom ålderspensionsavgiften, slopas på ingångslöner upp till 30
 000 kronor. Sänkningen är permanent och överlappar regeringens förslag om att sänka arbetsgivaravgiften för unga 19–23 år på löner upp till 25
 000 kr i månaden. Centerpartiets förslag innebär ett stort utrymme för företag att växa och skapa fler jobb.
 Nedsättningen fasas ut i intervallet 20
-000–30
 000 kronor per månad, för att vara helt utfasad vid månadslöner som överstiger 30
 000 kronor och överlappar då med ingångslöner i många yrken med lägre krav på formell utbildning.
 Att nedsättningen baseras på heltidsjusterade löner – en person som arbetar 50 procent
@@ -1048,7 +874,6 @@ till en lön på 15
 000 kronor – innebär att nedsättningen inte premierar deltidsarbete.
 Förslaget har ett antal tydliga fördelar. Sänkningen fokuserar på de som behöver stöd, då låg lön är en god approximation av låg produktivitet. För personer som bara behöver få in en fot på arbetsmarknaden fasas nedsättningen ut när de får högre lön. Samtidigt är stödet permanent för de personer som behöver ett mer långsiktigt stöd, eftersom det inte finns någon tidsgräns.
 Sänkningen stöttar branscher som erbjuder människor låga trösklar till svensk arbets
-­
 marknad. Men den skapar också förutsättningar för att nya branscher kan uppstå, där jobb som idag är för dyra kan skapas. Sänkningen är långsiktig och ger därmed större förutsättningar för att fler enkla jobb skapas jämfört med dagens anställningsstöd, som är tidsbegränsade.
 Förslaget om sänkta arbetsgivaravgifter för ingångslöner och unga som beskrivits ovan förväntas kunna införas den 1 januari 2026. Nedsättningen som gäller både privat och offentlig sektor beräknas minska inkomsttitel 1280 Nedsättningar med 10,135 miljarder kronor 2026 och 10 miljarder kronor årligen från och med 2027. Detta förslag ersätter regeringens förslag om tillfälligt sänkta arbetsgivaravgifter för unga 19–23 år och på månadslöner upp till 25
 000 kronor, vilket ökar inkomsttitel 1280 Nedsättningar med 6,05 miljarder kronor 2026 och 5,59 miljarder kronor 2027.
@@ -1057,9 +882,7 @@ Arbetslösheten i Sverige alldeles för hög och flera tunga institutioner bedö
 Dessutom ökar arbetslösheten bland grupper som vanligtvis inte har haft svårt att få ett jobb och där arbetslösheten varit låg: akademiker, högutbildade och inrikes födda.
 Många, men långt ifrån alla, långtidsarbetslösa kan få anställning enbart med den typ
 av matchningshjälp som beskrivs utförligare under avsnittet rörande UO14 – utbildnings
-­
 insatser och subventioner. Många arbetsgivare anser att subventioner, även sådana som är större än skattenedsättningar och relativt automatiska, som till exempel nystarts
-­
 jobben, är svåra att befatta sig med. Samtidigt spelar den totala lönekostnaden en viktig roll för hur arbetsgivare väljer att organisera sin verksamhet, inte minst om de ska fatta beslut om att anställa en person som står längre från arbetsmarknaden.
 Centerpartiets förslag är att arbetsgivaravgifterna slopas helt under ett år för personer som anställs efter långtidsarbetslöshet (minst 12 månader). Nedsättningen är automatisk och gäller för löner upp till 30
 000 kronor per månad, för att specifikt sänka tröskeln för att anställa den grupp som står längst från arbetsmarknaden. Reformen föreslås vara additionell och fungera parallellt med de befintliga nystartsjobben. Detta skapar ett tvådelat system där arbetsgivare kan välja mellan en enkel, automatisk nedsättning (denna reform) och den mer omfattande men administrativt krävande subventionen via nystartsjobb.
@@ -1069,13 +892,11 @@ En av de viktigaste faktorerna för de små företagens tillväxt är möjlighet
 000 kr i månadslön per anställd. Avdraget innebär en årlig besparing på 445
 000 kr för den företagare som går från 0 till 5 anställda, vilket innebär att företaget har råd att anställa ännu en person på ingångslön. Satsningen innebär att minst 10
 000 jobb i små och snabbväxande företag kan till
-­
 komma.
 Reformen bedöms minska inkomsttitel 1280 Nedsättningar med 1,1 miljarder kronor 2026 och 1,45 miljarder kronor årligen från och med 2027. Reformen ersätter det så kallade växa-stödet som är betydligt mer begränsat i sin omfattning och innebär mycket administration för företagare. På så vis ökar inkomsttitel 1280 Nedsättningar med 300 miljoner kronor årligen 2026–2028.
 Skatt på kapital
 Högkostnadsskydd för höga sjuklönekostnader
 Sista juni 2024 slopades ersättningen för höga sjuklönekostnader, vilket fick tre tydliga konsekvenser: företagens kostnader ökade markant, risken att anställa blev högre och personer som bedöms ha en högre sjukdomsrisk har det mycket svårare att bli anställda än innan. Centerpartiet vill att högkostnadsskyddet för höga sjuklönekostnader åter
-­
 införs, vilket väntas öka inkomsttitel 1320 Skatt på företagsvinster med 150 miljoner 2025 och 400 miljoner under åren därefter.
 Justeringar i ränteavdraget för vissa billån
 Centerpartiet anser att ränteavdraget bör slopas på lån som går till fossildrivna bilar. Som en följd av detta väntas inkomsttitel 1310 Skatt på kapital, hushåll öka med 1
@@ -1084,18 +905,15 @@ Centerpartiet anser att ränteavdraget bör slopas på lån som går till fossil
 Investeringssparkonto
 Centerpartiet står bakom de förändringar som har skett och till nästkommande år sker av beskattningen av investeringssparkonton med upp till 300
 000 kronor skattefritt. Centerpartiet uppmuntrar sparande på investeringssparkonto och värnar samtidigt småföretagens finansieringsmöjligheter genom att vi vill säkerställa att även onoterade värdepapper kan användas som säkerhet för lån med bibehållet ränteavdrag. En diskrepans mellan hanteringen av noterade och onoterade värdepapper riskerar att försämra förutsättningarna för lånefinansiering av små och växande företag och skulle även kunna påverka utlåningen från statens egen verksamhet inom Almi. Detta bör utredas vidare i syfte att justeras snarast möjligt, men senast i samband med budget
-­
 propositionen för 2027.
 Skatt på konsumtion m.m.
 Halverad mervärdesskatt på livsmedel
 Centerpartiet vill att mervärdesskatten på livsmedel sänks från 12 till 6 procent. Detta förslag gäller från och med den 1 april 2026. Regelförändringarna och kostnaden för detta förslag stämmer överens med det som föreslås i budgetpropositionen.
 Det är en åtgärd som träffar brett, men som särskilt hjälper barnfamiljer, pensionärer och låginkomsttagare. Syftet är att öka konsumtionen och att göra det enklare för svenska hushåll att få ekonomin att gå ihop. Det är viktigt att den halverade matmomsen inte tillfaller stora handlares fickor, utan faktiskt förbättrar för svenska hushåll. Vi anser därför att det är oerhört viktigt att Konkurrensverket kontinuerligt undersöker pris
-­
 utveckling av livsmedel.
 Centerpartiet föreslår i samband med halverad matmoms lägre kostnader för svenska matproducenter för att öka deras konkurrenskraft. Vårt matprispaket underlättar både för svenska hushåll och för svenska matproducenter.
 Skattefri batterilagring för billigare el
 Energiskatten på lagrad el behöver slopas eftersom den innebär att elen dubbelbeskattas. Elen skattas vid inmatning samt vid uttag efter lagring. Incitamenten för att investera i och använda batterilager för att jämna ut sin elkonsumtion stärks av att skatten på batterilagring slopas. Det leder till att investeringarna blir mer lönsamma, elnätet stärks, effektbrist motverkas och elkostnaderna blir lägre för både företag och hushåll. Dess
-­
 utom påskyndas den gröna omställningen eftersom batterier är en nyckelkomponent för att hantera den intermittenta produktionen från sol- och vindkraft. Genom att kunna lagra energin när det blåser mycket eller solen skiner, och använda den senare, blir förnybar energi en mer pålitlig och planerbar resurs. Detta är också ett sätt att gynna de som idag producerar solel och säljer ut på marknaden, som från och med 2026 kommer ha högre skatt på sin egenproducerade el till följd av att regeringen avskaffar den så kallade 60-öringen utan att ersätta det med något annat system för att premiera decentraliserad elproduktion, vilket vi i Centerpartiet är mycket kritiska till.
 Detta förslag väntas minska inkomsttitel 1430 Energiskatt med 193 miljoner kronor 2026, 253 miljoner kronor 2027 och 312 miljoner kronor 2028.
 Borttaget skatteundantag för fossil gas
@@ -1104,13 +922,10 @@ Skatt på begagnad elektronik
 Kemikalieskatten betalas av företag som tillverkar, för in eller tar emot skattepliktiga elektronikvaror eller vitvaror. Sedan en tid är skatten avskaffad för begagnade varor, men endast för begagnade varor som tidigare brukats i Sverige. Centerpartiet menar att skattskyldigheten också bör begränsas för begagnade varor som importeras i syfte att ytterligare gynna återbruk. För detta ändamål beräknas inkomsttitel 1450 Övriga skatter på energi och miljö minska med 20 miljoner kronor per år 2026–2028.
 Differentierad spelskatt
 Spelskatten är sedan omregleringen 2019 på en enhetlig nivå och tas ut på det så kallade spelnettot, spelaktörernas behållning efter utbetalda vinster. Centerpartiet anser att det är viktigt att spelskatten kan bidra till att motverka problemspelande till förmån för ett spelande som är både sunt och nöjesfyllt. Regeringen höjde i föregående budget
-­
 proposition spelskatten från 18 till 22 procent. I konsekvensanalysen inför detta konstaterade regeringen att höjningen leder till minskade intäkter för den svenska häst
-­
 sporten utan att ge förslag på kompensatoriska åtgärder. Centerpartiet anser att den effektiva skattesatsen för olika typer av spel bör differentieras med fokus på att hämma riskspelande till förmån för sunt och nöjesfyllt spelande. Centerpartiet beräknar att detta förslag minskar inkomsttitel 1480 Övriga skatter med 200 miljoner kronor årligen 2026–2028. Samtidigt höjs skatten på andra spelformer, så som nätcasino, vilket leder till ökade intäkter under samma inkomsttitel med 200 miljoner kronor årligen 2026–2028.
 Cigaretter
 Skatten på cigaretter är väldigt låg i Sverige jämfört med i andra länder. Samtliga av de nordiska grannländerna har betydligt högre skatt på cigaretter än Sverige har, och även i flera andra EU-länder är skatten betydligt högre. Detta får konsekvenser för den samlade folkhälsopolitiken och gör att Sverige inte fullt ut lever upp till EU:s gemen
-­
 samma ambitioner. Det finns också ett värde i att ytterligare differentiera skattesatsen för cigaretter och snus.
 Centerpartiet vill därför att skatten på cigaretter ska höjas till EU-snittet. Den svenska
 punktskatten på cigaretter är 2,06 kronor per styck plus 1 procent av detaljhandelspriset. Detta skulle innebära att skatten ökar med 0,21 kronor per styck. Detta förslag ökar inkomsttitel 1420 Skatt på alkohol och tobak med 1,136 miljarder kr årligen 2026–2027 och med 1,183 miljarder kronor 2028.
@@ -1120,7 +935,6 @@ Det är viktigt att politiken inte bortser från sitt ansvar att nå Sveriges kl
 med 350 miljoner kronor 2026, 450 miljoner kronor 2027 och 500 miljoner kronor 2028.
 Övriga förslag som påverkar inkomstberäkningen
 Centerpartiet föreslår en teknikneutral avgiftsfri anslutning av ny elproduktion till stamnätet. Detta ska i första hand bekostas direkt av Affärsverket svenska kraftnät, men i det fall oklarheter eller dröjsmål uppstår ska staten finansiera detta genom ett nytt anslag inom utgiftsområde 21. Eventuella kostnader för staten ska sedan återbetalas från Svenska kraftnäts uppbyggda flaskhalsintäkter och som förberedelse för detta finns en bedömning om intäkter under inkomsttitel 2000 på 900 miljoner kronor 2026, 1,6 miljarder 2027 och 1,9 miljarder 2028. Därtill menar Centerpartiet att möjligheten till ytterligare tariffreduktioner bör prövas för att ersätta hushåll och företag som står med höga elpriser till följd av att flaskhalsar i elnäten byggs bort i för långsam takt, vilket också gäller utbyggnaden av elproduktionen som har saktat ner betydligt under inne
-­
 varande mandatperiod. En modell för sådan kompensation bör kunna genomföras betydligt mer effektivt än regeringens högkostnadsskydd alternativt att detta också får kompensation, i enlighet med vad EU-direktiv säger om prioriteringsordningen för användningen av flaskhalsintäkter, från den stora uppbyggda reserven på Svenska kraftnäts balansräkning. Därför beräknas att ytterligare 1 miljard i inkomster under inkomsttitel 2000 kommer staten till del under 2026.
 Inkomstberäkning
 Nedan presenteras Centerpartiets förslag till inkomstberäkning för år 2026.
@@ -1132,72 +946,54 @@ Tabell 3 Inkomster 2027–2028
 Miljoner kronor
 Utgifter
 I detta avsnitt redovisas Centerpartiets förslag till förändringar, jämfört med vad som före
-­
 slås i budgetpropositionen för 2026, vad gäller utgifter. Det faktum att budgetmotionen uttrycks i termer av skillnader jämfört med förslaget i budgetpropositionen innebär att en frånvaro av förslag till förändring innebär ett accepterande av förslagen i proposi
-­
 tionen. I tabellen nedan presenteras Centerpartiets förslag till utgiftsramar för år 2026.
 Tabell 4
 Förslag till utgiftsramar
-2026
 Tusental kronor
 I tabellen nedan presenteras Centerpartiets förslag till inriktning av utgiftsramar nästföljande år.
 Tabell 5
 Förslag till utgiftsramar
-2027–2028
 Miljoner kronor
 Utgifter per utgiftsområde
 I tabellerna nedan återfinns utgifter för planperioden för respektive utgiftsområde.
 För en fullständig beskrivning av Centerpartiets politik för respektive område hänvisas till utgiftsområdesmotionen för respektive utgiftsområde.
 Avvikelser gentemot regeringen för utgiftsområde
-1
 Rikets styrelse
 Miljoner kronor
 Centerpartiet avvisar regeringens ytterligare utökning för ett ”fullföljande av reform
-­
 agendan”, vilket minskar anslagen inom 4:1 med 300 miljoner kr årligen 2026–2028. Centerpartiet instämmer i att Sverige behöver rusta sig bättre för det nya säkerhetsläget och accepterar ökade resurser för detta, men vi delar inte regeringens uppfattning att
 detta och regeringens andra politiska prioriteringar kräver så stora tillskott till Regering
 s
-­
 kansliet. Därför minskar anslagen under 4:1 med 350 miljoner årligen 2026–2028. Centerpartiet satsar på en effektivare kontorsanvändning, vilket minskar anslagen under 4:1 med 500 miljoner 2026, 650 miljoner 2027 och 750 miljoner kr 2028. Centerpartiet satsar på myggbekämpning, vilket ökar anslagen under 5:1 med 5
 miljoner kr årligen 2026–2028. Centerpartiet avvisar regeringens satsning på miljötillstånd för ny kärn
-­
 kraft, vilket minskar anslagen under 5:1 med 10 miljoner kr 2026 och 15 miljoner kr årligen 2027–2028. Centerpartiet satsar på en effektivare kontorsanvändning, vilket minskar anslagen under 5:1 med 50 miljoner 2026 och 100 miljoner kr årligen 2027–2028. Anslagen ökar under 6:2 med 3 miljoner 2026 och 50 miljoner kr årligen 2027–2028 eftersom Centerpartiet satsar på skadestånd vid röjd skyddad identitet. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-2
 Samhällsekonomi och finansförvaltning
 Miljoner kronor
 Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löne
-­
 omräkning som görs avseende myndigheternas förvaltningsanslag och investerings
-­
 anslag med 25 procent, vilket får effekt på samtliga myndigheter. Centerpartiet ökar anslagen till Finansinspektionen med en satsning på 24 miljoner för förstärkt tillsyn. Centerpartiets satsning är hälften av regeringens, vilket minskar anslagen under 1:10
 med 25 miljoner årligen 2026–2028. Till följd av sänkningen i pris- och löneomräkningen
 minskar anslagen under 1:10 med 4 miljoner 2027, 8
 miljoner 2027 och 12 miljoner 2028. Anslagen under 1:11 minskar med 4 miljoner 2026, 6
 miljoner årligen 2027–2028 till följd av att Centerpartiet avvisar regeringens satsningar på genomförande av Kärn
-­
 kraftsprövningsutredningens förslag. Anslagen under 1:11 minskar med 1 miljon 2026, 3
 miljoner 2027 och 5 miljoner 2028 till följd av sänkningen av pris- och löneom
-­
 räkningen. Centerpartiet satsar på servicekontoren i hela landet för att undvika fler nedläggningar av lokala kontor och ökar anslagen under 1:14 med 50 miljoner 2026 och 75 miljoner årligen 2027–2028. Anslagen under 1:14 minskar med 4 miljoner 2026, 7
 miljoner 2027 och 12 miljoner 2028 till följd av sänkningen av pris- och löneom
-­
 räkningen.
 Avvikelser gentemot regeringen för utgiftsområde
-3
 Skatt, tull och exekution
 Miljoner kronor
 Anslag 1:1 föreslås minska med 205 miljoner kronor under 2026, samt med 226 miljoner 2027 och 130 miljoner 2028, i och med att Centerpartiet avvisar regeringens tidigare förslag om en folkräkning. Till följd av effektivare kontorsanvändning minskar anslagen under 1:1 med 100 miljoner 2026 och 150 miljoner årligen 2027–2028. Centerpartiet vill inrätta den nya myndigheten Ekokrim. Till följd av det minskar anslagen under 1:1 med 25 miljoner årligen 2026–2028 eftersom Ekokrim ersätter regeringens satsning på finansiellt underrättelsecentrum och förstärkning i arbetet mot organiserad brottslighet. Anslag 1:2 föreslås minska med 30 miljoner kr 2026, samt med 25 miljoner kr årligen 2027–2028, i och med att Centerpartiet avvisar den nya vapenlagen. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-4
 Rättsväsendet
 Miljoner kronor
 Centerpartiet är positivt inställt till regeringens förstärkning av rättsväsendet, men menar att resursökningarna hittills inte gett de resultat de borde. Därför föreslår Center
-­
 partiet att medel omfördelas inom Polismyndigheten så att grunduppdraget, inklusive hanteringen av våldet mot kvinnor
 och barn, mängdbrotten och en närvarande polis i hela landet, kan genomföras.
 För detta avsätter Centerpartiet under 1:1 Polismyndig
-­
 heten 500 miljoner kronor årligen under 2026–2028 och anser att detta bör finansieras genom omprioriteringar inom Polismyndigheten med samma belopp under samma period.
 Centerpartiet vill införa ”first responder”-drönare på landsbygden för att stärka den polisiära närvaron. Detta ökar anslagen under 1:1 med 100 miljoner kr årligen 2026–2028. Vi satsar även på avhopparverksamhet, med särskilt fokus på barn och unga, samt särskilt på kvinnor, vilket ökar anslagen under 1:1 med 50 miljoner kr årligen 2026–2028. Vi avvisar regeringens tvångsinlösen av halvautomatiska vapen. Det minskar stödet till Ukraina, vilket vi anser är fel. Därmed minskar anslagen under 1:1 med 110 miljoner kr 2026, 55 miljoner kr 2027 och 110 miljoner kr 2028.
 Centerpartiet vill inrätta en ny myndighet för att bekämpa den kriminella ekonomin: Ekokrim. För detta införs ett nytt anslag, 99:1 Ekokrim – inrättande av ny myndighet, vilken har anslag om 700 miljoner kr 2026, 1
@@ -1208,108 +1004,81 @@ Centerpartiet vill inrätta en ny myndighet för att bekämpa den kriminella eko
 Centerpartiet avvisar regeringens förslag om miljötillstånd för ny kärnkraft, vilket
 minskar anslagen under 1:5 med 4 miljoner kr 2026, 8 miljoner kr 2027 och 10 miljoner kr 2028. Vi avvisar regeringens sänkning av straffbarhetsåldern, vilket minskar anslagen
 under 1:6 med 11 miljoner kr 2026, 159 miljoner kr 2027 och 347 miljoner kr 2028. Det minskar även anslagen under 1:11 med 1 miljon kr 2026, och 3 miljoner kr årligen 2027–2028. Centerpartiet avvisar även straffrättsliga åtgärder mot tjänstefel, vilket minskar anslagen under 1:11 med 1 miljon kr 2026 och 3 miljoner kr årligen 2027–2028. Center
-­
 partiet satsar på att öka det brottsförebyggande arbetet genom att öka antalet vuxna på gator och torg i utsatta områden. Detta ökar anslagen under 1:14 med 250 miljoner kr årligen 2026–2028.
 För att få till snabbare tillståndsprocesser skjuter Centerpartiet till 10 miljoner årligen till Sveriges Domstolar. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-5
 Internationell samverkan
 Miljoner kronor
 Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneom
-­
 räkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-6
 Försvar och samhällets krisberedskap
 Miljoner kronor
 Centerpartiet satsar på inrättandet av ett cyberhemvärn, vilket ökar anslagen under 1:1 med 15 miljoner årligen 2026–2028. Regeringen minskar anslagen under 1:14 Stöd till Ukraina för tvångsinlösen av vissa vapen i Sverige. Centerpartiet avvisar detta, vilket ökar anslagen under 1:14 Stöd till Ukraina med 275 miljoner kr 2026. Centerpartiet avvisar regeringens paket för genomförande av Kärnkraftsprövningsutredningens förslag, vilket minskar anslagen under 3:1 med 108 miljoner kr 2026, 165 miljoner 2027 och 215 miljoner 2028.
 Avvikelser gentemot regeringen för utgiftsområde
-7
 Internationellt bistånd
 Miljoner kronor
 Centerpartiet vill återställa biståndet till 1
 % av BNI, därför ökar anslagen till 1:1 med 1,1 miljarder 2026, 2,5 miljarder 2027 och 3,5 miljarder 2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-8
 Migration
 Miljoner kronor
 Centerpartiet avvisar den mycket stora höjningen av återvandringsbidraget från 10
-000
 kr per person till 340
 000 kr per person, vilket innebär lägre utgifter om 1,475 miljarder kronor 2026, 950 miljoner kronor 2027 och 950 miljoner kronor 2028. Till
 följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning
 som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter. Till följd av effektivare kontors
-­
 användning minskar anslagen under 1:1 med 100 miljoner 2026, 150 miljoner 2027 och 200 miljoner 2028.
 Avvikelser gentemot regeringen för utgiftsområde
-9
 Hälsovård, sjukvård och social omsorg
 Miljoner kronor
 Centerpartiet ökar resurserna till Socialstyrelsen för att införliva Myndigheten för familjerätt och föräldraskapsstöd, vilket ökar anslagen under 1:1 med 50 miljoner kr årligen 2026–2028. Anslagen under 4:1 minskar med 68 miljoner kr 2026, 69 miljoner kr 2027 och 70 miljoner kr 2028. Centerpartiet vill att tillgången till nya särläkemedel ska öka, vilket ökar anslagen under 1:5 med 50 miljoner kr 2026 och 100 miljoner kr årligen 2027–2028. Regeringens satsning på prestationsbundna insatser för att korta vårdköerna har inte haft någon effekt och Centerpartiet minskar därmed anslagen under 1:11 med 2
 600 miljoner kr årligen 2026–2027 och 2
 000 miljoner kr 2028. Regeringens satsning på stöd till nära vård i lands- och glesbygd är samma satsning som i förra årets budget. Denna har inte uppfyllt sitt syfte, så Centerpartiet avfärdar detta med ett eget förslag och satsning på en ny vårdform för primärvård på landsbygden. Det minskar anslagen under 1:6 med 300 miljoner kronor årligen 2026–2028. Centerpartiet satsar istället på en välfungerande primärvård, främst i glesbygd, vilket ökar anslagen under 1:6 med 2
 000 miljoner kr årligen 2026–2028. Vi satsar även på att antalet platser för ST-läkare ska bli fler, vilket ökar anslagen under 1:6 med 950 miljoner kr årligen 2026–2028. Regeringen satsar 125 miljoner kr 2026 på ökade incitament för implementering av nationell vårdförmedling. Centerpartiet avvisar denna satsning, vilket minskar anslagen under 1:6 med motsvarande belopp. Regeringen minskar anslagen till kvinnors vård, vilket Centerpartiet anser är fel. Vi har en egen satsning för att stärka mödrahälso
-­
 vård, förlossningsvård och kvinnors hälsa, vilket ökar anslagen under 1:6 med 600 miljoner kr årligen 2026–2027. Centerpartiet vill införa en jämförelsetjänst för kortare väntetider och högre tillgänglighet i vården, vilket ökar anslagen under 1:10 med 75 miljoner kr årligen 2026–2028. Centerpartiet avvisar det så kallade fritidskortet till förmån för mer effektiva satsningar direkt på föreningslivet och civilsamhället, vilket minskar anslagen under 2:6 med 792 miljoner kr årligen 2026–2028. Centerpartiet avvisar regeringens förslag om stöd för att förebygga ohälsa och ensamhet bland äldre, vilket minskar anslagen under 2:7 med 100 miljoner årligen 2026–2028. Detta är till förmån för en egen och större satsning på äldreboendegaranti för de över 85 år, vilket ökar anslagen under 4:5 med 100 miljoner kr 2026, 200 miljoner kr 2027 och 400 miljoner kr 2028.
 Centerpartiet vill höja schablonen för assistansersättningen, vilket ökar anslagen under 4:4 med 135 miljoner kr årligen 2026–2028. Centerpartiet prioriterar om i tidigare anslagsökningar under 4:7 för att finansiera andra prioriterade reformer inklusive fler vuxna på gator och torg, vilket minskar anslagen med 350 miljoner kr årligen 2026–2028. Centerpartiet satsar på ett utslussningsprogram för frihetsberövade barn och unga och avsätter 4 miljoner för att förbereda detta under 2026 och 4
 miljoner för en nationell strategi för att förebygga och bekämpa våld mot barn. Samtidigt avvisas medlen för vissa verktyg utan samtycke, vilket minskar samma anslag 4:7 med 8 miljoner 2026. Därutöver satsar Centerpartiet på att införa traumascreening för barn från 2027 vilket innebär ökade anslag om 50 miljoner per år därefter, utökade hembesöksprogram från 2027 vilket innebär ökade anslag om 100 miljoner per år där
-­
 efter och att införa utslussningsprogrammet för frihetsberövade barn och unga vilket
 innebär ökade anslag om 50 miljoner per år därefter. Till följd av ett större produktivitets
-­
 avdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndig
-­
 heternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-10
 Ekonomisk trygghet vid sjukdom och funktionsnedsättning
 Miljoner kronor
 Centerpartiet återinför det högkostnadsskydd som regeringen slopade sista juni 2024. Till följd av det tillför Centerpartiet ett nytt anslag, ”99:1 Ersättning för höga sjuklöne
-­
 kostnader”, som får ett anslag om 850 miljoner kr 2026, 1,7 miljarder 2027 och 1,8 miljarder 2028. Centerpartiet anser att regeringens satsning på kvalificering till välfärden bör kunna genomföras inom ram, så anslagen under 2:1 minskar med 194 miljoner kr 2027 och 203 miljoner kr 2028. Centerpartiet anser också att stärkt högkostnadsskydd för tandvård kan finansieras delvis inom ram, så anslagen under 2:1 minskar på grund av det med 25 miljoner 2026, 30 miljoner 2027 och 40 miljoner 2028. Centerpartiet anser att regeringens AI-satsning för offentlig verksamhet bör ha Skatteverket som huvudansvarig, vilket minskar anslagen under 2:1 med 50 miljoner kr årligen 2026–2028. Centerpartiet satsar på effektivare kontorsanvändning, vilket minskar anslagen under 2:1 med 150 miljoner 2026 och 200 miljoner årligen 2027–2028. Centerpartiet avvisar flyktingundantag i aktivitets- och sjukersättningen, vilket minskar anslagen under 1:2 med 300 miljoner årligen 2026–2028. För att finansiera prioriterade reformer minskas ökningen av Försäkringskassans förvaltningsanslag något, med 150 miljoner 2026, 50 miljoner årligen 2027–2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-11
 Ekonomisk trygghet vid ålderdom
 Miljoner kronor
 Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneom
-­
 räkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-12
 Ekonomisk trygghet för familjer och barn
 Miljoner kronor
 Centerpartiet vill att flerbarnstillägget slopas för barn två. Det minskar anslagen till 1:1
 med 1,3 miljarder kr årligen 2026–2028. Centerpartiet föreslår även att flerbarnstillägget
 halveras från och med barn 3, vilket minskar anslagen till 1:1 med 1
 100 miljarder kr årligen 2026–2028. Centerpartiet föreslår ett borttagande av dagar på lägstanivån i för
-­
 äldraförsäkringen, vilket medför minskade utgifter under anslag 1:2 med 200 miljoner k
 r 2026, 125 miljoner 2027 och 300 miljoner 2028. Till följd av en reviderad modell för a
-‑
 kassan beräknas kostnaderna för bostadsbidrag öka, vilket reflekteras under anslag 1:8 som ökar med 100 miljoner årligen 2026–2028.
 Avvikelser gentemot regeringen för utgiftsområde
-13
 Integration och jämställdhet
 Miljoner kronor
 Centerpartiet vill öka antalet kvotflyktingar till 5
 000 igen, därför ökar anslagen under 1:2 med 180 miljoner 2026, 550 miljoner 2027 och 750 miljoner 2028. Centerpartiet prioriterar delvis andra reformer än regeringens för att komma åt HRV, vilket minskar anslagen under 3:1 med 50 miljoner årligen 2026–2028. Centerpartiet satsar på att rikta insatser mot elevhälsan via Skolverket för att informera flickor och stötta dem att delta fullt ut i undervisningen under menstruation, vilket ökar anslagen under 3:1 med 5
 miljoner årligen 2026–2028. Centerpartiet vill införa exitprogram för unga kvinnor i prostitution, vilket ökar anslagen under 3:1 med 10 miljoner 2026, 15 miljoner 2027 och 20 miljoner 2028. Centerpartiet satsar på skyddade boenden, vilket ökar anslagen under 3:1 med 50 miljoner årligen 2026–2028. Centerpartiet vill införa lämnaprogram och lämnapeng för våldsutsatta i nära relation, vilket ökar anslagen till 3:1 med 100 miljoner årligen 2026–2028. Totalt ökar anslagen under 3:1 med 115 miljoner 2026, 120 miljoner 2027 och 125 miljoner 2028. Till följd av ett större produktivitetsavdrag sänker Center
-­
 partiet den pris- och löneomräkning som görs avseende myndigheternas förvaltnings
-­
 anslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-14
 Arbetsmarknad och arbetsliv
 Miljoner kronor
 I den situation som Sverige är i, med en arbetslöshet som stiger och väntas ligga kvar på en hög nivå, så är det viktigt att prioritera resurser till att bryta utanförskapet. Center
-­
 partiet vill införa ett obligatoriskt nystartsår och avsätter 500 miljoner per år för detta under 2026–2028. Detta följs också av sänkningar av arbetsgivaravgifter på ingångs
-­
 löner, vilket ökar efterfrågan på arbetskraft genom sänkta kostnader för att anställa. För att finansiera Centerpartiets politik för att få fler personer i arbete dras stödet till Samhall, under anslag 1:4, ner med 2
 500 miljoner årligen och Arbetsförmedlingens förvaltningsanslag justeras utifrån historisk medelsanvändning och genom att prioritera effektiva arbetsmarknadsåtgärder, vilket får en effekt om 2
 000 miljoner årligen 2026–2028. Centerpartiets modell för a
-‑
 kassan innebär minskade utgifter inom anslag 1:2 motsvarande 14
 300 miljoner 2026, 13
 700 miljoner 2027 och samma belopp 2028.
@@ -1323,14 +1092,12 @@ Centerpartiet vill återställa beviskravet vid dag 365 i sjukförsäkringen, vi
 700 miljoner 2028, samt med 500 miljoner 2026, 700 miljoner 2027 och 500 miljoner 2028. Centerpartiet vill öka antalet kvotflyktingar till 5
 000 igen, därför ökar anslagen under 1:2 med 70 miljoner 2026, 220 miljoner 2027 och 300 miljoner 2028 och under 1:3 med 10 miljoner 2026, 50 miljoner 2027 och 80 miljoner 2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter. Till följd av effektivare kontorsanvändning minskar anslagen under 2:1 med 10 miljoner 2026, 15 miljoner 2027 och 20 miljoner 2028.
 Avvikelser gentemot regeringen för utgiftsområde
-15
 Studiestöd
 Miljoner kronor
 Centerpartiet vill förstärka satsningen på nationella yrkesprogram, vilket ökar anslagen till 1:2 med 11 miljoner. Centerpartiet vill förstärka satsningen på yrkeshögskolor, vilket ökar anslagen till 1:2 med 17 miljoner årligen 2026–2028. Totalt ökar anslagen under 1:2
 med 28,3 miljoner 2026. Till följd av ett större produktivitetsavdrag sänker Centerpartiet
 den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-16
 Utbildning och universitetsforskning
 Miljoner kronor
 Centerpartiet föreslår att ett antal riktade statsbidrag ska avvecklas för att istället slås samman till ett större sektorsbidrag till skolan. Dessa avvisningar påverkar särskilt anslag 1:5 med 3
@@ -1343,48 +1110,36 @@ Centerpartiet föreslår att ett antal riktade statsbidrag ska avvecklas för at
 365 miljoner 2026, 7
 583 miljoner 2027 och 6
 623 miljoner 2028. Som en följd av det tillför Centerpartiet ett nytt anslag, “Sektorsbidrag till skolan inklusive behörighets
-­
 reform”. Inom ramen för detta anslag tillför Centerpartiet dels 2 miljarder per år i tillskott till sektorsbidraget samt medel för skolor att utöka antalet elevhälsosamtal i grundskolan. Centerpartiet satsar på nationell statistik om elever med NPF, vilket ökar anslagen under
 1:1 med 2 miljoner årligen 2026–2028. Centerpartiet vill få fler elever på yrkesgymnasiet
 genom yrkesprov, vilket ökar anslagen under 1:1 med 5 miljoner årligen 2026–2028. Centerpartiet vill avskaffa nationella prov i lågstadiet, vilket minskar anslagen under 1:1 med 7 miljoner 2026 och 2 miljoner 2027. Centerpartiet vill att det genomförs en effektivisering av Skolverket och minskar därför anslagen under 1:1 med 80 miljoner 2026, 60 miljoner 2027 och 40 miljoner 2028. Centerpartiet satsar på en visselblåsar
-­
 funktion på Skolinspektionen, vilket ökar anslagen under 1:2 med 5 miljoner årligen 2026–2028. Centerpartiet satsar på att införa ett kompetenslyft om NPF bland rektorer och lärare, vilket ökar anslagen under 1:3 med 20 miljoner årligen 2026–2028. Centerpartiet vill ge ett stimulansbidrag för judiska studier, vilket ökar anslagen under 1:5 med 1 miljon årligen 2026–2028. Centerpartiet vill även satsa på branschskolor, vilket ökar anslagen under 1:5 med 50 miljoner årligen 2026–2028. Centerpartiet avvisar regeringens höjning av maxtaxan, vilket minskar anslagen under 1:7 med 1
 miljard 2026 och 2,5 miljarder årligen 2027–2028.
 Centerpartiet satsar på evidensbaserade insatser i skolan, vilket ökar anslagen under
 1:11 med 3 miljoner årligen 2026–2028. Centerpartiet satsar på utbildning i jobbsvenska,
 vilket ökar anslagen under 1:17 med 150 miljoner 2026 och 200 miljoner årligen 2027–2028. Centerpartiets förstärkning av de nationella yrkesprogrammen ökar anslagen under 1:17 med 50 miljoner årligen 2026–2028. Centerpartiets förstärkning av yrkes
-­
 högskolan ökar anslagen under 1:19 med 49 miljoner årligen 2026–2028. Centerpartiet satsar på uppbyggnad och drift av medborgarskapsprov i svenska och samhällskunskap, vilket minskar anslagen under 2:2 med 88 miljoner 2026, 95 miljoner 2027 och 137 miljoner 2028. Centerpartiet satsar på stärkt lärarutbildning och fler lärarbehöriga från andra yrken, vilket ökar anslagen under 2:64 med 50 miljoner 2026 och 100 miljoner årligen 2027–2028. Centerpartiet avvisar regeringens satsning på masterutbildning i offentlig förvaltning bl.a. med EU-inriktning, vilket minskar anslagen under 2:64 med 30 miljoner 2026 och 60 miljoner årligen 2027–2028. Centerpartiet avvisar också regeringens satsning på utvecklad utbildning i ledarskap, konflikt- och krishantering, vilket minskar anslagen med 3 miljoner 2026. Centerpartiet satsar på fler utbildnings
-­
 platser för läkare och sjuksköterskor, vilket ökar anslagen under 2:64 med 80 miljoner 2026 och 130 miljoner årligen 2027–2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-17
 Kultur, medier, trossamfund och fritid
 Miljoner kronor
 Centerpartiet gör en större satsning än regeringen på idrott, vilket höjer anslagen under 12:1 med 225 miljoner kr årligen 2026–2028, och detta bör särskilt riktas till elit
-­
 idrottens förutsättningar, jämlik idrott, insatser för idrott i utsatta områden samt barn och ungas idrottande. Vi ser ett stort värde i att satsa på och stötta bygdegårdar och samlingslokaler för civilsamhället i Sverige och höjer anslagen under 12:2 med 50 miljoner kr årligen 2026–2028. Vi ökar stödet till friluftsorganisationer, vilket ökar anslagen under 12:3 med 25 miljoner kr årligen 2026–2028. Vi avvisar regeringens tidigare satsning på den ideella sektorn, vilket minskar anslagen under 12:5 med 15 miljoner kr årligen 2026–2028, vilket är för finansiering av reformer. Vi vill öka anslagen under 12:6 med 150 miljoner kr 2028, för fler idrottsanläggningar i hela landet. Centerpartiet anser att det är fel av regeringen att skära ned på statsbidrag till studie
-­
 förbund. Vi vill återställa finansieringen, vilket ökar anslagen under 13:1 med 500 miljoner kr årligen 2026–2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas för
-­
 valtningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-18
 Samhällsplanering, bostadsförsörjning och byggande samt konsumentpolitik
 Miljoner kronor
 Centerpartiet ökar anslagen under 1:1 för att satsa på forskning och innovation för hållbart och effektivt byggande med 3 miljoner årligen 2026–2028. Centerpartiet satsar på effektivare kontorsanvändning, vilket minskar anslagen under 1:3 med 10 miljoner kr 2026, 15 miljoner 2027 och 20 miljoner 2028.
 För att åstadkomma rättssäkra, snabba och kostnadseffektiva processer för fastighetsbildning föreslår Centerpartiet att Lant
-­
 mäteriets anslag ökar med 10 miljoner kronor årligen 2026–2028. Centerpartiet satsar på fristående konsumentorganisationer, vilket ökar anslagen under 2:1 med 2
 miljoner årligen 2026–2028. Regeringens satsning på att stoppa farliga produkter och AI-satsning sker inom ramen, vilket minskar anslagen under 2:1 med 4 miljoner årligen 2026–2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-19
 Regional utveckling
 Miljoner kronor
 Regeringen avvisar regeringens besparing på regionala utvecklingsåtgärder. Centerpartiet
 avvisar detta, vilket ökar anslagen under 1:1 med 2 miljoner kr årligen 2026–2028.
 Avvikelser gentemot regeringen för utgiftsområde
-20
 Klimat, miljö och natur
 Miljoner kronor
 Regeringen drar ned på stödet till Håll Sverige Rent, vilket Centerpartiet avvisar. Till
@@ -1393,85 +1148,61 @@ satsar på ett textilkliv, vilket ökar anslagen under 1:1 med 50 miljoner årli
 Centerpartiet föreslår ökade anslag under 1:3 för åtgärder för värdefull natur och friluftslivet om 150 miljoner kronor årligen 2026–2028. Anslagen under 1:3 ökar med ytterligare 10 miljoner årligen 2026–2028 för LONA och våtmarker. Anslagen under 1:4 ökar med 25 miljoner kr årligen 2026–2028 för satsning på innovation vad gäller PFAS. Anslagen under 1:10 ökar med 50 miljoner kr årligen 2026–2028. Centerpartiet satsar på
 fler och snabbare klimatpremier för lätta och tunga lastbilar. Anslagen under 1:18 Industr
 i
-­
 klivet ökar med 653 miljoner kr 2026 och 700 miljoner årligen 2027–2028, vilket innebär en dubblering av stödet och breddning till gröna innovationer. Centerpartiet avvisar regeringens elbilspremie och satsar på en egen modell för köp och leasing av nya och begagnade miljöbilar. Det innebär att anslagen under 1:4 minskar med 400 miljoner 2026, 900 miljoner 2027 och 1,4 miljarder 2028. Anslagen under 1:4 ökar samtidigt med 4 miljarder kr 2026 och 5 miljarder 2027–2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-21
 Energi
 Miljoner kronor
 Centerpartiet avvisar den tidigare ökningen av förvaltningsanslag, vilket minskar anslagen under 1:1 med 20 miljoner kr årligen 2026–2028. Centerpartiet vill se snabbare tillståndsprocesser och avsätter 5 miljoner årligen under 2026–2028 för detta under Energimyndigheten 1:1. Regeringen satsar på energieffektivisering i småhus, vilken Centerpartiet avvisar till förmån för ett grönt avdrag som ger verkliga effekter på energieffektiviseringen. Det minskar anslagen under 1:2 med 327 miljoner kr 2026 och 323 miljoner kr årligen 2026–2028. Centerpartiet vill att vindkraftsskatten ska tillfalla kommunerna, fullt ut och permanent, vilket innebär minskade skatteintäkter för staten och i andra änden minskar anslagen något under 1:5 med 370 miljoner kr 2026 och 400 miljoner kr årligen 2027–2028. Centerpartiet avvisar regeringens insatser och sam
-­
 ordningsinsatser för ny kärnkraft, vilket minskar anslagen under 1:5 med 50 miljoner kr 2026, 55 miljoner kr 2027 och 45 miljoner kr 2028. Centerpartiet avvisar regeringens subvention av förväntade kostnader för lån till nya kärnkraftsreaktorer, vilket minskar anslagen under 1:13 med 50 miljoner kr årligen 2026–2027 och 150 miljoner kr 2028. Centerpartiet avvisar också ersättning för dubbelriktade differenskontrakt för nya kärn
-­
 kraftsreaktorer, vilket minskar anslagen under 1:14 med 1
 miljon kr årligen 2026–2028. Centerpartiet satsar på teknikneutral ersättning för anslutning av ny elproduktion, vilket ökar anslagen under den nya posten 99:1 med 900 miljoner kr 2026, 1,6 miljarder kr
 2027 och 1,9 miljarder kr 2028. Centerpartiet satsar på inhemsk biodrivmedelsproduktion
 för fossilfrihet genom en strategisk reserv och ett genomförande av förslag i Bioekonomi
-­
 utredningen, vilket ökar anslagen under den nya posten 99:2 med 500 miljoner kr 2026, 750 miljoner kr 2027 och 1,25 miljarder kr 2028. Till följd av ett större produktivitets
-­
 avdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndig
-­
 heternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-22
 Kommunikationer
 Miljoner kronor
 Centerpartiet ser situationen inom svensk infrastruktur inte minst på järnvägarna och anser att arbetet måste prioriteras upp. Det behövs akut underhåll och förmågehöjande åtgärder inom tåginfrastrukturen och det går att öka takten i arbetet. Centerpartiet avsätter ytterligare 2
 000 miljoner årligen 2026–2028 inom anslag 1:2 för en task force som kan ta sig an detta och göra arbetet snabbare. Centerpartiet anser också att fler investeringar i infrastrukturen bör tidigareläggas och flyttar därför 500 miljoner kronor från 2028 till 2027 under anslag 1:1. För särskilda insatser inom infrastrukturen på lokal nivå samt för snabbare implementering av modeller för alternativ finansiering avsätts 50 miljoner under anslag 1:2 årligen 2026–2028. För att dubblera mandatperiodens satsningar för enskilda vägar och utökat särskilt driftsstöd avsätts 150 miljoner kronor under åren 2026–2028. För att säkra viktiga tåglinjer tillskjuts 60 miljoner kronor årligen till anslag 1:7. För att möjliggöra och förbereda för fossilfritt flyg avsätts 130 miljoner kronor extra 2026–2028 under anslag 1:6, 10 miljoner årligen under anslag 1:12 och 10 miljoner årligen under anslag 1:1, medan det viktiga tillskottet till regionala flygplatser justeras efter verkliga behov och äskanden, vilket innebär 140 miljoner lägre ökning per år. Genom effektivare kontorsanvändning justeras Trafikverkets anslag 1:3 med 100 miljoner 2026, 150 miljoner 2027 och 200 miljoner 2028. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-23
 Areella näringar, landsbygd och livsmedel
 Miljoner kronor
 Centerpartiet satsar på ett nationellt investeringsstöd för höjd motståndskraft på gårds
-­
 nivå, vilket ökar anslagen till 1:12 med 150 miljoner kr 2026 och 250 miljoner kr årligen 2027–2028. Centerpartiet satsar på nötköttsproducenter genom en djurvälfärdsersättning för dikor, vilket ökar anslagen under 1:12 med 100 miljoner kr årligen 2026–2027.
 Centerpartiet ökar anslagen till 1:23 med 7 miljoner kr årligen 2026–2028 för bekämpning
 av almsjuka. Centerpartiet dubblerar satsningen för ett pilotprojekt med förmågehöjande åtgärder vad gäller dricksvattenförsörjningen vid höjd beredskap, vilket ökar anslagen under 1:26 med 15 miljoner kr årligen 2026–2028. Centerpartiet vill även stärka medlen för beredskapslager, vilket ökar anslagen under 1:26 med 50 miljoner kr årligen 2026–2028. Regeringen satsar på utökade förvaltningsåtgärder för varg genom att finansiera detta med att skära ned på insatser för skogsbruket. Centerpartiet avvisar denna finansi
-­
 eringskälla, vilket ökar anslagen under 1:2 med 10 miljoner kr årligen 2026–2028 och ökar anslagen under 1:2 med 10 miljoner kr 2026 och 12 miljoner kr årligen 2027–2028. Centerpartiet vill förbättra förutsättningarna för det småskaliga kustnära fisket och avsätter 10 miljoner årligen under 1:27. Till följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-24
 Näringsliv
 Miljoner kronor
 Centerpartiet satsar på stärkt innovation och stipendier för elitforskare inom AI, vilket ökar anslagen under 1:2 med 1,05 miljarder årligen 2026–2028. Centerpartiet vill för
-­
 stärka Regelrådet och avsätter därmed under 1:4 15 miljoner kr årligen 2026–2028. Till
 följd av ett större produktivitetsavdrag sänker Centerpartiet den pris- och löneomräkning
 som görs avseende myndigheternas förvaltningsanslag och investeringsanslag med 25 procent, vilket får effekt på samtliga myndigheter.
 Avvikelser gentemot regeringen för utgiftsområde
-25
 Allmänna bidrag till kommuner
 Miljoner kronor
 I stället för att införa ett riktat statsbidrag för en del av skatteintäkterna från fastighets
-­
 skatten på vindkraft vill Centerpartiet att de direkt, fullt ut och permanent återförs till berörda kommuner, varför anslag 1:1 ökar med 350 miljoner kronor 2026, 450 miljoner 2027 och 500 miljoner 2028. Centerpartiet anser vidare att Gotlands unika förut
-­
 sättningar för att bedriva välfärdsverksamhet innebär att ett särskilt ötillägg riktat till Region Gotland bör införas, vilket medför en ökning av anslag 1:4 med 200 miljoner kronor årligen från 2026. Centerpartiet avvisar regeringens förslag om mobilförbud i skolan, vilket minskar anslagen under 1:1 med 95 miljoner kronor 2026 och 100 miljoner årligen 2027–2028. Centerpartiets förslag om ett jordbruksavdrag medför lägre skatte
-­
 intäkter till kommunsektorn, vilket regleras i anslag 1:1 med 125 miljoner kronor 2026 och 250 miljoner kronor årligen 2027–2028. Centerpartiet tror starkt på att det alltid ska löna sig att gå från bidrag till arbete. Kommuner ska ställa krav på aktiviteter, men det ska ske på ett mindre byråkratiskt sätt. Centerpartiet avvisar därmed regeringens förslag, vilket minskar anslagen under 1:1 med 1,14 miljarder kronor 2026 och 2,282 miljarder
 kronor årligen 2027–2028. Centerpartiet har föreslagit en förändrad modell för a
-‑
 kassan,
 vilket i utgångsläget medför lägre skatteintäkter till kommunsektorn, vilket regleras i anslag 1:1 inom detta utgiftsområde med 5
 miljarder kronor årligen 2026–2028. Center
-­
 partiet avvisar delvis några av de förändringar som regeringen aviserat på social
-­
 tjänstens område för att finansiera mer prioriterade reformer, vilket minskar anslag 1:1 med 200 miljoner kronor årligen 2027–2028.
 Avvikelser gentemot regeringen för utgiftsområde
-26
 Statsskuldsräntor m.m.
 Miljoner kronor
 Centerpartiet har inga förslag till förändringar i förhållande till vad som föreslås i budget
-­
 propositionen för 2026.
 Avvikelser gentemot regeringen för utgiftsområde
-27
 Avgiften till Europeiska unionen
 Miljoner kronor
 Centerpartiet har inga förslag till förändringar i förhållande till vad som föreslås i budget
-­
 propositionen för 2026.
 Offentliga finanser
 I detta kapitel redovisas den samlade effekten på den offentliga sektorns finanser av de reformer Centerpartiet föreslår i denna motion. Effekterna redovisas även per sektor. Därtill redovisas Centerpartiets förslag till utgiftstak för staten.
@@ -1482,7 +1213,6 @@ Miljoner kronor
 – avvikelse från regeringen
 Kommunsektorn
 I nedanstående tabell presenteras effekterna av förslagen i denna budgetmotion på kommunsektorns finanser. Förslagen i denna motion har, som regel, behandlats på följande sätt. Förslag som påverkar kommunsektorns skatteintäkter eller egna skatte
-­
 betalningar har reglerats via UO25 anslag 1:1. De förändringar av statsbidrag från andra utgiftsområden än UO25 som föreslås har antagits motverkas av förändrade utgifter inom kommunsektorn, då sektorn har ett balansmål.
 Tabell 7 Kommunsektorns finanser
 Miljoner kronor

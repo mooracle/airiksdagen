@@ -90,7 +90,7 @@ const decisionProps = (promptVersion) => ({
     additionalProperties: false,
   },
   flags: { type: 'array', items: { type: 'string' } },
-}
+})
 
 const groupSchema = (promptVersion) => {
   const props = decisionProps(promptVersion)
@@ -141,7 +141,12 @@ const MANIFEST_SCHEMA = {
       },
     },
   },
-  required: ['run_id', 'n_sims', 'n_probes', 'cases_dir', 'probes_dir', 'system_dir', 'items'],
+  // prompt_version is REQUIRED: it decides which documents an agent may cite, so
+  // a loader that quietly omitted it would leave the schema to guess.
+  required: [
+    'run_id', 'prompt_version', 'n_sims', 'n_probes',
+    'cases_dir', 'probes_dir', 'system_dir', 'items',
+  ],
   additionalProperties: false,
 }
 

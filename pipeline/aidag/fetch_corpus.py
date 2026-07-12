@@ -76,6 +76,11 @@ def pdf_to_text(pdf_bytes: bytes) -> str:
     text = re.sub(r"\.{4,}\s*\d*", " ", text)              # table-of-contents dot leaders
     text = text.replace(" ", " ")                     # nbsp
     text = re.sub(r"[ \t]+", " ", text)
+    # bare page numbers and rules: pure noise, and an agent can cite them
+    text = "\n".join(
+        s for line in text.splitlines()
+        if (s := line.strip()) and not re.fullmatch(r"[\d\s.,%‑‒–—•·|-]+", s)
+    )
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -134,14 +139,30 @@ def budget_narrative(html: str) -> str:
     each area being voted), so it is kept whole; only the numeric tables go.
     """
     import re
+    import unicodedata
 
     text = re.sub(r"<table.*?</table>", "\n", html, flags=re.S | re.I)
     text = re.sub(r"<(script|style).*?</\1>", "\n", text, flags=re.S | re.I)
     text = re.sub(r"<[^>]+>", "\n", text)
     text = unescape(text)
-    lines = [s for line in text.splitlines() if (s := line.strip())]
-    out = "\n".join(lines)
-    out = re.sub(r"[ \t]+", " ", out)
+
+    # Same word-integrity cleanup the PDF path gets. Riksdagen's HTML carries the
+    # motion's typesetting, soft hyphens and all — C's 2022/23 budget alone holds
+    # 322 of them. Left in, they sit inside words and turn any citation drawn
+    # from them into an unverifiable quote.
+    text = unicodedata.normalize("NFC", text)
+    text = text.replace("­", "").replace("​", "").replace(" ", " ")
+    text = re.sub(r"(\w)-\s*\n\s*(?=[a-zåäö])", r"\1", text)
+
+    lines = []
+    for line in text.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        if re.fullmatch(r"[\d\s.,%‑‒–—•·|-]+", s):   # page numbers, rules, table debris
+            continue
+        lines.append(s)
+    out = re.sub(r"[ \t]+", " ", "\n".join(lines))
     return re.sub(r"\n{3,}", "\n\n", out).strip()
 
 

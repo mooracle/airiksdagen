@@ -3,23 +3,17 @@ Motion till riksdagen
 2025/26:2792
 av Nooshi Dadgostar m.fl. (V)
 En ny regering – För ett starkare och tryggare Sverige
-1
 Sammanfattning
 Den svenska ekonomin har utvecklats svagt de senaste åren, med låg tillväxt och stigande arbetslöshet. Reallönesänkningarna, plus regeringens passiva och ineffektiva finanspolitik, har resulterat i en svag utveckling för framför allt hushållens konsumtion och investeringarna i näringslivet. Den höga arbetslösheten där en stor del av de arbets
-­
 lösa står långt ifrån arbetsmarknaden kräver en politik för full sysselsättning med investeringar i klimatet och ett tryggande av hushållens ekonomi samt en fungerande arbetsförmedling. Den nuvarande Arbetsförmedlingen har dock dränerats på resurser. Dessutom har stora delar av arbetsmarknadspolitiken privatiserats, vilket försvårar en sammanhållen, effektiv och koordinerad arbetsmarknadspolitik. Regeringens svar för att få fler i arbete är ytterligare sänkta ersättningsnivåer för framförallt barnfamiljer. Men sänkta ersättningar som incitament ger inga fler jobb i Sverige. Det har konstaterats otaliga gånger, bl.a. av regeringens eget finanspolitiska råd.
 Ett strukturproblem i den svenska ekonomin är de stora och kraftigt växande ekono
-­
 miska klyftorna. Sverige hör till de OECD-länder där den ekonomiska ojämlikheten ökat mest sedan mitten av 1980-talet. Regeringen har dock fortsatt att sänka skatterna – med sammanlagt 110 miljarder kronor under mandatperioden, vilket innebär att utrymmet för att satsa på hushållen eller välfärden ständigt minskar.
 Med ett år kvar till valet kan vi konstatera att regeringen spelar ett cyniskt valspel. Efter tre år på svältkur med Tidöpartierna tömmer regeringen statskassan och låter välfärden stå för notan. Genom att under lång tid ha låtit bli att satsa har regeringen med stöd av Sverigedemokraterna cementerat lågkonjunkturen.
 Regeringen föreslår skattesänkningar med över 50 miljarder kronor för 2026. I Vänsterpartiets budgetalternativ finns en helt annan inriktning. Istället för att sänka skatten mest för de med höga inkomster beskattar vi bankernas övervinster, höjer kapitalskatterna och omvandlar dagens rotavdrag till ett grönt rotavdrag för att under
-­
 lätta den gröna omställningen. Vi använder pengarna till att bl.a. stärka välfärden, med ett särskilt fokus på sjukvården genom att förlänga sektorsbidraget till hälso- och sjuk
-­
 vården. Vi avsätter betydande resurser till klimatinvesteringar och stärker hushållens ekonomi bl.a. genom höjda barnbidrag. Så främjar vi den gröna omställningen samtidigt som vi sänker arbetslösheten. Så bygger vi Sverige starkare samtidigt som vi utjämnar klyftorna.
 Vänsterpartiets viktigaste reformer i budgetmotionen för 2026
 Miljoner kronor
-2
 Innehållsförteckning
 1 Sammanfattning
 2 Innehållsförteckning
@@ -102,7 +96,6 @@ Innehållsförteckning
 11 Utgiftsramar och fördelning av utgifter i statsbudgeten
 12 Den offentliga sektorns finanser m.m.
 13 Beräkning av statens inkomster
-3
 Förslag till riksdagsbeslut
 Riksdagen godkänner de riktlinjer för den ekonomiska politiken och budgetpolitiken som föreslås i motionen.
 Riksdagen fastställer utgiftstaket för staten inklusive ålderspensionssystemet vid sidan av statens budget för 2026–2028 enligt förslaget i tabell 12 i motionen.
@@ -112,12 +105,9 @@ Riksdagen beslutar om fördelning av utgifter på utgiftsområden för 2026 enli
 5 i motionen.
 Riksdagen godkänner den preliminära fördelningen av utgifter på utgiftsområden för 2027 och 2028 enligt förslaget i tabell
 6 i motionen som riktlinje för regeringens budgetarbete.
-4
 Det ekonomiska läget
-4.1
 En osäker omvärld
 Sommaren har präglats av den amerikanska administrationens olika utspel och förhandlingar om tullar. De nya amerikanska tullarna har nu trätt i kraft och är samman
-­
 taget de högsta sedan 1930-talet. Fullt genomförda beräknas de uppgå till 300 miljarder dollar per år, vilket motsvarar ca 1 procent av BNP. De flesta varor från EU, Japan och Sydkorea beskattas nu med importtullar på 15 procent. Men osäkerheten är fortfarande stor; det kan inte uteslutas att ingångna avtal rivs upp. En fråga som skulle kunna utlösa detta är EU:s tillämpning av ”Digital Service Act” som berör beskattningen av de stora amerikanska tech-företagen.
 [1]
 Vidare saknas fortfarande avtal om tullar mellan Kina och
@@ -129,7 +119,6 @@ De senaste amerikanska arbetsmarknadssiffrorna visade också på en påtaglig av
 Euroområdets BNP överträffade förväntningarna och steg med 1,5 procent första halvåret jämfört med samma period förra året. Bakom de siffrorna döljer sig dock stora skillnader mellan olika sektorer. Den europeiska tillverkningsindustrin var under press redan innan de amerikanska tullarna och möter nu ytterligare utmaningar. Samtidigt bidrar fallande inflation, lägre räntor och rekordhög sysselsättning till att konsumtionen väntas ta fart. Betydande skillnader mellan länderna föreligger dock; Spanien växer på bra medan det inte syns några påtagliga tecken på någon återhämtning i Italien och Frankrike.
 Trots tullpress har Kinas ekonomi utvecklats bättre än väntat. De ser ut att nå sitt tillväxtmål på 5 procent i år med hjälp av finanspolitiska stimulanser och export till andra länder än USA. Förhandlingarna med USA har pausat införandet av de allra högsta tullarna mot att Kina exporterar sällsynta jordartsmetaller och magneter.
 [3]
-4.2
 Svensk ekonomi
 Den svenska ekonomin har utvecklats svagt de senaste åren, med låg tillväxt och stigande arbetslöshet, se figur 1 nedan.
 Figur 1 Sveriges BNP-tillväxt, 2011–2025
@@ -137,9 +126,7 @@ Procentuell förändring, fasta priser
 Källa: Konjunkturinstitutet.
 Det finns dock vissa tecken på att den svenska ekonomin kan vara på väg att vända. I slutet av augusti kom de definitiva BNP-siffrorna för det andra kvartalet och de var betydligt starkare än de preliminära siffror som tidigare hade publicerats. BNP ökade med 0,5 procent under andra kvartalet, säsongsrensat och jämfört med kvartalet innan. Tillväxten förklaras av uppgångar i bruttoinvesteringar, export och hushållskonsumtion. Kalenderkorrigerat och jämfört med andra kvartalet 2024 ökade BNP med 1,4 procent.
 Konjunkturinstitutets mätning av stämningsläget i den svenska ekonomin visade i augusti på ett förbättrat stämningsläge i samtliga sektorer. I näringslivet är stämnings
-­
 läget nu i linje med det historiska genomsnittet, men hushållen är fortsatt mer pessimi
-­
 stiska än normalt (se figur 2 nedan).
 Figur 2 Hushållens konfidensindikator
 Medelvärde =100
@@ -149,20 +136,15 @@ procent nästa år.
 [4]
 Lägg därtill finanspolitiska stimulanser i budgetpropositionen för 2026 på cirka 80 miljarder.
 Utsikterna för industrin de närmaste åren är blandade. Ökade försvars- och infra
-­
 strukturinvesteringar i Europa bidrar till ökad efterfrågan samtidigt som högre tullar sannolikt kommer att leda till fallande export till USA.
-4.2.1
 Massarbetslösheten biter sig fast
 Reallönesänkningarna, plus regeringens passiva och ineffektiva finanspolitik, har resul
-­
 terat i en svag utveckling för framför allt hushållens konsumtion och investeringarna i näringslivet. Den dåliga utvecklingen av investeringarna syns inte minst inom bygg- och bostadsmarknaden, där antalet påbörjade flerbostadshus och småhus sammantaget har minskat med närmare 60 procent mellan 2021 och 2024 (jfr figur 3 nedan).
 Figur 3 Påbörjade lägenheter och småhus, 2000–2024
 Källa: SCB.
 Den dämpade ekonomiska utvecklingen syns tydligt på arbetsmarknaden. Arbetslös
-­
 heten har ökat med ca 1,4 procentenheter sedan början av 2023 och är nu nästan uppe på
 nivåer som under finanskrisen 2008–2009 och pandemiåren 2020–2021, vilket motsvarar
-75
 000 fler arbetslösa.
 Figur 4 Arbetslöshet, 15–74 år, 2005–2025 (augusti)
 Procent av arbetskraften, säsongsrensade månadsdata, trendvärden
@@ -183,24 +165,20 @@ Figur 7 Andel (procent) unga i Sverige i åldern 15–29 år som varken arbetar 
 Källa: RUT, dnr 2025:1092.
 Den höga arbetslösheten där en stor del av de arbetslösa står långt ifrån arbetsmarknaden
 kräver en effektiv arbetsförmedling. Den nuvarande Arbetsförmedlingen klarar dock inte av sitt nuvarande uppdrag. Detta är ett resultat av flera olika beslut. Arbetsförmed
-­
 lingen har dels fått nya uppdrag, bl.a. i form av nyanländas etablering. Stora delar av arbetsmarknadspolitiken har dessutom privatiserats, vilket försvårar en sammanhållen,
 effektiv och koordinerad arbetsmarknadspolitik. Arbetsförmedlingen har därtill dränerats
 på resurser. I reala termer minskade Arbetsförmedlingens förvaltningsanslag med 28 procent mellan 2018 och 2025 (se figur 8 nedan). Detta har sammantaget fått stora
 åter
-­
 verkningar på Arbetsförmedlingens verksamhet. Personalstyrkan på Arbetsförmedlingen
 har minskat från drygt 14
 000 (2018) till cirka 11
 400 anställda (2023), omräknat till heltider, vilket motsvarar en minskning på nästan 20 procent. Mest har kärnverksam
-­
 heten minskat, där arbetsförmedlarna ingår. Under samma tidsperiod, 2018–2023, minskade antalet heltidsanställda arbetsförmedlare med drygt 23 procent.
 [6]
 Figur 8 Arbetsförmedlingens förvaltningsanslag
 [7]
 (2025 års priser), mnkr
 Källa: ESV, KI och egen beräkning.
-4.2.2
 Ökad ojämlikhet
 Ett strukturproblem i den svenska ekonomin är de stora och kraftigt växande ekonomiska klyftorna. Sverige hör till de OECD-länder där den ekonomiska ojämlikheten ökat mest sedan mitten av 1980-talet. I figuren nedan visas hur den ekonomiska standarden utvecklats över inkomstfördelningen. Där framgår det tydligt hur den rikaste tiondelen dragit ifrån de övriga i befolkningen.
 Figur 9 Förändring av ekonomisk standard efter decil, 1991–2023
@@ -209,10 +187,8 @@ Källa: SCB.
 En viktig orsak till de ökade klyftorna är hur det svenska skattesystemet
 utvecklats. Sverige har gått från att vara ett av de länder vars skattesystem
 omfördelar mest till att ha det minst omfördelande skattesystemet inom EU:s kärnländer
-.
 [8]
 En annan central faktor bakom den växande ojämlikheten är kapitalinkomsternas utveck
-­
 ling och fördelning. Inkomsterna från kapital har ökat markant sedan början av 1990-talet,
 och eftersom fördelningen av kapitalinkomsterna är mycket ojämn har det lett till ökade klyftor.
 I figuren nedan visas kapitalinkomsterna per percentil som andel av hushållens totala inkomster av kapital (2023).
@@ -220,157 +196,114 @@ Figur 10 Inkomst av kapital per percentil, 2023
 Andel av hushållens totala inkomster från kapital, procent
 Källa: SCB.
 Av de totala kapitalinkomsterna gick 53 procent till den hundradel av befolkningen som hade de högsta inkomsterna. I Konjunkturrådets (SNS) rapport för 2018 görs bedöm
-­
 ningen att ungefär hälften av de ökade klyftorna sedan 1995 kan härledas till kapital
-­
 inkomsterna.
 [9]
 Kapitalinkomsterna är också ojämnt fördelade mellan kvinnor och män, där kvinnors andel av de totala kapitalinkomsterna uppgår till ca 30 procent.
 [10]
 De ökande inkomstskillnaderna påverkar naturligtvis förmögenhetsfördelningen. Dessa är betydligt mer ojämlikt fördelade än inkomsterna. Den svenska förmögenhets
-­
 fördelningen är bland de mest ojämlika i hela världen, se figur 11 nedan. Den är betydligt mer ojämlik än i europeiska länder som Frankrike och Tyskland och t.o.m. mer ojämlik än i länder som USA, Indien och Mexiko.
 Figur 11 Förmögenhetsfördelning, 2024, Ginikoefficient
 Källa: UBS, Global Wealth Report 2025.
 De ekonomiska klyftorna är ett stort samhällsproblem. I boken Jämlikhetsanden går för
-­
 fattarna Wilkinson och Pickett igenom och sammanställer 40 års forskning om ojämlikhet,
 hälsa och so
-­
 ciala problem.
 [11]
 I boken visar de på en stark koppling mellan ojämlikhet och en rad olika sociala
 och hälsorelaterade indikatorer. När ojämlikheten ökar tenderar skolresultat, förväntad livslängd,
 social rörlighet, psykisk ohälsa, droganvändning, krimi
-­
 nalitet m.m. att utvecklas negativt. I ojämlika
 samhällen får klass och status ökad betydelse och påverkar hur vi människor ser på varandra.
 Den ekonomiska ojämlikheten påverkar också tillväxten negativt. Sverige hör till de länder där den ökade ojämlikheten påverkat tillväxten förhållandevis mycket.
 [12]
 Det behövs en radikal omläggning av den ekonomiska politiken. I denna motion lägger Vänsterpartiet förslag på höjda skatter på kapitalinkomster, fastigheter och höga arbetsinkomster m.m. som finansiering för satsningar på välfärden, socialförsäkringarna och bostads- och infrastrukturfinansieringar samt sänkt skatt för låg- och medelinkomst
-­
 tagare. På så sätt ökar vi jämlikheten samtidigt som vi stärker välfärden. Så bygger vi Sverige starkare i en värld av hård global konkurrens.
-4.2.3
 Läget i kommunsektorn
 Sveriges kommuner och regioner har haft ett antal tuffa år. Stigande kostnader för varor, tjänster och inte minst avtalspensioner satte hård press på framför allt regionernas ekonomi. När sedan regeringen valde att inte skjuta till de medel som behövdes för att täcka kostnadsökningarna tvingades många regioner till nedskärningar inom sjukvården.
 För år 2025 och 2026 stärks dock kommunsektorns ekonomi påtagligt. Fallande kostnader för tjänstepensioner och en hygglig utveckling av skatteunderlaget leder till en avsevärd förbättring av kommunsektorns ekonomi. Mönstret att regionerna har det tuffare ekonomiskt än kommunerna håller dock i sig.
 Två demografiska tendenser påverkar starkt kommunsektorn. Antalet barn fortsätter att minska samtidigt som antalet äldre kraftigt ökar. SCB prognosticerar fortsatt låga födelsetal, vilket innebär att antalet barn i förskolan och i de lägre stadierna i grund
-­
 skolan kommer att minska de kommande åren. Mellan 2024 och 2034 väntas antalet barn i åldern 1–5 år minska med 43
 000 och antalet barn i grundskoleåldern, 6–15 år, väntas minska med hela 172
 000. Detta leder i teorin till ett lägre kostnadstryck inom förskola och grundskola men också till kostnader för att anpassa lokaler m.m. till de lägre barn- och elevkullarna.
 Antalet äldre har ökat det senaste decenniet men väntas öka än mer de kommande tio åren. Trots ökningen av antalet äldre har inte antalet personer som utnyttjar äldre
-­
 omsorgen ökat i samma utsträckning. Vi lever längre men är samtidigt friskare. Faktorer som påverkar detta är bland annat den medicintekniska utvecklingen och sjukvårdens förebyggande och rehabiliterade insatser. En längre livslängd kan medföra fler fall av sjukdomar som cancer men den medicintekniska utvecklingen ger också upphov till fler behandlingsmöjligheter, vilket ökar kostnaderna. Detta visar på ett komplext samband mellan hälsa och kostnader, där bättre hälsa möjliggör fler behandlingar och därmed ökade kostnader. Detta åskådliggör också hur de demografiska förändringar slår mycket hårdare mot regionerna och sjukvården (jämfört med kommunerna).
 De senaste årens uppåtgående trend med stora investeringsvolymer i kommunsektorn väntas bestå de närmaste åren. Det märks dock en förändring i fråga om vad kommu
-­
 nerna väljer att investera i. Investeringarna i förskola och skola väntas minska samtidigt som investeringarna ökar inom va, klimatanpassningar och civil beredskap.
 I Ekonomirapporten från i maj gör SKR bedömningen att kommunernas resultat de närmaste åren kommer att ligga på en hygglig nivå. Läget i regionerna är kärvare. Där bedöms resultatet de närmaste åren ligga runt nollan, vilket är cirka 10 miljarder lägre än målet om ett resultat på 2 procent av skatter och bidrag.
 [13]
-4.3
 Finanspolitiska överväganden
-4.3.1
 Överenskommelsen om balansmålet redan överspelad – avstämning mot saldomålet
 Det nya saldomålet för de offentliga finanserna, som ska börja gälla 2027, innebär att det finansiella sparandet ska vara i balans över en konjunkturcykel. Detta betyder att det strukturella sparandet, dvs. sparandet rensat för konjunktureffekter och stora händelser av tillfällig karaktär, i normalfallet ska ligga nära 0 procent av BNP. Vänsterpartiet förslog i den senaste översynen av nivån på saldomålet att målet för de offentliga finanserna skulle sättas till –1 procent av BNP för att säkra investeringar i klimat
-­
 omställningen och infrastrukturen men fick tyvärr inte gehör för det. Därför kan det ses som anmärkningsvärt att regeringens förslag i budgetpropositionen för 2026 försvagar de offentliga finanserna med cirka 127 miljarder kronor 2026. Detta beräknas resultera i ett finansiellt sparande på –2,4 procent av BNP och ett strukturellt sparande på –1,8 procent av BNP 2026.
 De ökade försvarsutgifterna, som är en följd av försvarsöverenskommelsen och som tecknades kort efter översynen av saldomålet, har undantagits från avstämning mot saldomålet de närmaste åren. Detta är en mycket tveksam hantering då överens
-­
 kommelsen om försvaret är ett långsiktigt åtagande om en ökning av försvaret från 2,6 procent till 3,5 procent av BNP. I förhandlingarna drev Vänsterpartiet att tillfälliga investeringar kan lånefinansieras men att åtaganden som innebär permanenta utgifter måste skattefinansieras. Vänsterpartiet fick i försvarsöverenskommelsen igenom 50 miljarder till nya investeringar i civil infrastruktur och samtalen för att konkretisera fördelningen av dessa medel ska nu inledas. Dessa investeringar ökar inte utgifterna permanent, vilket innebär att de kan lånefinansieras.
 Rensat för stödet till Ukraina och nya försvarsutgifter beräknas det strukturella sparandet till –0,5 procent för såväl 2026 som 2027 (se figur 12 nedan). Det är en tydlig avvikelse från saldomålet. Regeringen motiverar avvikelsen med att det är lågkonjunk
-­
 tur och att denna är långvarig. Saldomålets konstruktion tillåter dock att det finansiella
 sparandet varierar med konjunkturen. Det strukturella sparandet är rensat för konjunktur
-­
 effekter
 . Som angetts ovan kan det dock vara rimligt att låta det finansiella sparandet avvika nedåt i händelse av en större konjunkturnedgång för att hålla uppe efterfrågan i ekonomin och på så sätt minska risken för att lågkonjunkturen även får långsiktiga negativa effekter på sysselsättning och tillväxt. Huruvida den nuvarande konjunktur
-­
 nedgången kan karaktäriseras som så djup kan diskuteras. Den har ju helt klart visat sig vara långvarig, bl.a. på grund av regeringens tidigare passiva finanspolitik. Det hade mot den bakgrunden varit mer välavvägt att driva en mer expansiv finanspolitik när lågkonjunkturen började jämfört med nu, då man ändå kan skönja en ekonomisk åter
-­
 hämtning. För att förstå regeringens politik måste man nog väga in att 2026 är ett valår. Det är svårt att frigöra sig från misstanken att den expansiva finanspolitiken mest handlar om valtaktik.
 Figur 12 Strukturellt sparande, 2025–2028
 Procent av potentiell BNP
 Källa: BP26.
 Vi kan konstatera att trots ett högt tonläge i samband med att överenskommelsen om balansmålet slöts har regeringen och SD nu i praktiken övergett överenskommelsen redan innan den ens trätt i kraft. De ligger nu på ett budgetsaldo som är i linje med det som Vänsterpartiet föreslog. Vänsterpartiet har inget emot en mer expansiv politik, Sverige har en låg statsskuld och stora investeringsbehov, men i slutändan handlar det givetvis om vad man gör med pengarna.
 Regeringen sänker skatterna netto med ca 53 miljarder kronor för 2026. Vänster
-­
 partiet avvisar inte den tillfälligt sänkta matmomsen eller de delar av regeringens skattesänkningar som går till låg- och medelinkomsttagare, men för att inte välfärden ska fortsätta att dräneras finansierar vi till skillnad från regeringen dessa skattesänk
-­
 ningar. I vårt budgetalternativ för 2026 ligger vår skattekvot ungefär på samma nivå som 2025. Men vi har en helt annan inriktning på skattepolitiken. Istället för att sänka skatten mest för de med höga inkomster beskattar vi bankernas övervinster, höjer kapitalskatterna och omvandlar dagens rotavdrag till ett grönt rotavdrag för att under
-­
 lätta den gröna omställningen. Vi använder pengarna till att bland annat stärka väl
-­
 färden, med ett särskilt fokus på sjukvården genom att förlänga sektorsbidraget till hälso- och sjukvården. Vi avsätter betydande resurser till klimatinvesteringar och stärker hushållens ekonomi bland annat genom höjda barnbidrag. Så främjar vi den gröna omställningen samtidigt som vi sänker arbetslösheten. Så bygger vi Sverige starkare samtidigt som vi utjämnar klyftorna.
-4.3.2
 Finansiering av kärnkraftsutbyggnaden
 I våras beslutade riksdagen om regeringens proposition 2024/25:150 Finansiering och riskdelning vid investeringar i ny kärnkraft.
 Hela projektet syftar till en utbyggnad av kärnkraften med 5
-000
 MW.
 I propositionen beräknas den totala investeringskostnaden till 413 miljarder kronor, varav statliga lån finansierar 75 procent av investerings
-­
 kostnaderna, dvs. 315 miljarder.
 I budgetpropositionen lämnar regeringen förslag på ekonomiska ramar för kärn
-­
 kraftsutbyggnaden. Detta görs i form av tre bemyndiganden på sammanlagt 840 miljarder kronor. Regeringen föreslår att den ska bemyndigas att besluta om lån i Riksgäldskontoret för statligt stöd för investeringar i ny kärnkraft om 220 miljarder. I
 budgetpropositionen skriver regeringen att: ”Lån till investeringar i ny kärnkraft omfattande ungefär hälften av stödets omfattning beräknas kunna uppgå till ca 220 miljarder i 2026 års prisnivå.”
 [14]
 Det är svårt att tolka detta på annat sätt än att de 220 miljarderna endast förväntas räcka till hälften av den planerade utbyggnaden, dvs. 2
-500
 MW. I sådana fall har det redan skett en fördyring av projektet. I propositionen i våras beräknades varje MW kosta staten 63 miljoner (315
 mkr/5
-000
 MW). I budget
-­
 propositionen verkar det som att kostnaden för staten har stigit till 88 miljoner per MW (220
 mkr/2
-500
 MW). Det innebär i sådana fall en fördyring på hela 40 procent redan innan första spaden är i marken. Till detta ska läggas ett bemyndigande på ytterligare 220 miljarder kr i lån i Riksgäldskontoret till en s.k. ”riskreserv” i händelse av fördyringar. Vidare föreslår regeringen att den ska bemyndigas att under 2026 och 2027 ingå ekonomiska åtaganden på 400 miljarder kronor för ”ersättning för dubbelriktade differenskontrakt”. Med detta avses statlig ersättning till kärnkraftsbolagen om marknadspriset på el understiger det pris som staten garanterat bolagen (det s.k. garanti
-­
 priset). Sammantaget föreslår regeringen alltså bemyndiganden på hela 840 miljarder kronor. Risken är stor att detta blir en dyr affär för såväl skattebetalarna som elkonsumenterna.
-5
 Vänsterpartiets syn på regeringens ekonomiska politik
 Med ett år kvar till valet kan vi konstatera att regeringen spelar ett cyniskt valspel. Efter tre år på svältkur med Tidöpartierna tömmer regeringen statskassan och låter välfärden stå för notan. Regeringen beklagar att hushållen inte har börjat konsumera och att tillväxten inte har kommit igång, som om de själva inte var ansvariga för den politik som förs. Genom att under lång tid ha låtit bli att satsa har regeringen med stöd av Sverigedemokraterna cementerat lågkonjunkturen. Vi befinner oss nu i en period med den lägsta tillväxten under hela decenniet.
 Genom regeringens politik och ovilja att agera mot matjättar och elbolag har hus
-­
 hållen blivit skinnade. De ekonomiska marginalerna har utraderats. För en barnfamilj med två barn har hushållskostnaderna i snitt gått upp med hela 12
 000 kronor per månad mellan 2020 och 2024.
 [15]
 Arbetslösheten är rekordhög och Sverige har nu bland den högsta arbetslösheten i Europa. Regeringens svar för att få fler i arbete är ytterligare sänkta ersättningsnivåer för framförallt barnfamiljer. Men sänkta ersättningar som incitament ger inga fler jobb i Sverige. Det har konstaterats otaliga gånger, bl.a. av regeringens eget finanspolitiska råd.
 [16]
 I årets budget presenterar regeringen med stöd av Sverigedemokraterna reformer för ca 80 miljarder kronor. Men efter att ha grävt hålen i välfärden stora har man nu svårt att fylla igen dem. I sin budget för 2026 presenterar man varken några generella stats
-­
 bidrag till välfärden eller några andra större välfärdssatsningar. Den kömiljard man budgeterar för landets regioner är långt ifrån tillräcklig och täcker inte ens det befintliga underskottet i Västra Götaland.
 Regeringens tillfälliga högkostnadsskydd för el är ett slag i luften. Samtidigt drabbas hushåll utan skydd direkt av ett elpris som i praktiken har tredubblats.
 Bostadsbyggandet har tvärnitat. Antalet påbörjade lägenheter 2021 låg på 68
 000 för att 2024 ligga på mindre än hälften, 28
-000.
 Alla har däremot inte fått det tuffare. De som tjänar över 65
 000 kronor i månaden har istället fått stora skattesänkningar. Regeringens prat om breda satsningar på hus
-­
 hållen låter bra men är i verkligenheten bara tomma ord. Den ekonomiska situationen för hushållen tycks vara helt ointressant för regeringen och Sverigedemokraterna som istället lägger allt krut på att göra de rikare ännu rikare. Som exempel kan nämnas hur en genomsnittsfamilj har fått mindre i skattesänkningar per år än vad statsministern själv får på en enda månad.
 Figur 13 Tidöpartiernas ”breda” hushållssatsningar
 Källa: Löner – SCB, skattesänkning – Ekonomifakta, siffror för 2025.
 Med ett år kvar till valet öppnar regeringen plötsligt plånboken. Nu tycks man inte ha någonting emot att gå med stora underskott. Samtidigt saknar man garantier för att pengarna går dit det faktiskt är avsett. Den sänkta matmomsen riskerar med regeringens politik att bli ett presentkort på 21 miljarder kronor rakt ner i fickan på Icakoncernens aktieägare. Vänsterpartiet har lanserat en prisgaranti som sätter stopp för matjättarnas smyghöjningar och säkerställer att momssänkningen faktiskt gör skillnad på prislappen. Utan den får vi helt enkelt hålla tummarna för att pengarna kommer hushållen till del.
 Hade Tidöpartierna menat allvar med att vända lågkonjunkturen hade man gjort betydligt mer betydligt tidigare. Istället har man sparat på slantarna för att kunna spendera ett valår. Helt enkelt för att det ska se bra ut i valrörelsen. Så gör bara en svindlarregering.
-5.1
 Regeringen fortsätter på skattesänkarspåret
 Hittills under mandatperioden har regeringen sänkt skatterna med cirka 60 miljarder kronor. I budgetpropositionen för 2026 slår regeringen till med ytterligare 52 miljarder i skattesänkningar, varav 29 miljarder är permanenta sådana. Lagom till valet sänker man matmomsen för 21 miljarder. Vidare föreslås ett nytt jobbskatteavdrag, det tionde i
 ordningen, för 17 miljarder kronor. Det är inte helt lätt att förstå vilka problem det tionde
 jobbskatteavdraget ska lösa som inte de tidigare nio har lyckats råda bot på. Regeringen motiverar jobbskatteavdragen med att det ska löna sig bättre att arbeta och att detta ska leda till minskad arbetslöshet. Men efter nio jobbskatteavdrag är den svenska arbetslös
-­
 heten tredje högst i Europa och på en nivå som närmar sig nivåerna under finanskrisen och pandemin. I en omtalad studie från London School of Economics har forskarna D. Hope och J. Limberg analyserat effekterna av sänkta skatter på höga inkomster.
 [17]
 Studien kommer, föga förvånande, fram till att skattesänkningar för de rika ökar den ekonomiska ojämlikheten utan att nämnvärt påverka arbetslösheten eller den ekono
-­
 miska tillväxten.
 Sammantaget under mandatperioden kommer regeringen att ha sänkt skatterna med uppskattningsvis 110 miljarder. Detta kommer att allvarligt försvåra finansieringen av vår gemensamma välfärd. Dessa pengar hade kunnat användas på ett bättre sätt. Sjuk
-­
 vården går på knäna efter år av nedskärningar, tågen går inte i tid, klimatkrisen är akut och vi har en gängbrottslighet som enligt statsministern själv är bortom kontroll. Regeringens stora skattesänkningar med lånade pengar är djupt oansvariga.
-5.2
 Ett bidragstak leder inte till fler jobb
 Regeringen föreslår i budgeten för 2026 en bidragsreform för att ”det ska löna sig mer att arbeta än att leva på bidrag”. Förslaget innebär bl.a. att riksnormen stramas åt och för familjer med fyra barn eller fler föreslås en s.k. begränsningsregel i försörjningsstödet. Regeringen är mycket frikostig i sina typexempel för att få det att se ut som om människor på försörjningsstöd lever lyxliv, när det i själva verket är tvärt om. Stats
-­
 ministern har upprepat hur en fembarnsfamilj kan få 46
 500 kronor i månaden. I själva verket är den genomsnittliga summa som en fembarnsfamilj som har bidrag får knappt 14
 000 kronor i månaden. Bara totalt 14 hushåll fick förra året 40
@@ -385,20 +318,15 @@ De skriver dessutom att förslaget kan få väsentliga bieffekter, bl.a. i form 
 Beräkningarna av ekonomiskt bistånd ska enligt lag ges för att tillförsäkra den enskilde en skälig levnadsnivå.
 [21]
 Ett bidragstak blir ett avsteg från den lagstiftningen. Det om något är ett sätt att cementera ”ett liv i utanförskap”. Tvärtemot det Tidö
-­
 partierna säger sig vilja motverka.
 En annan del i regeringens förslag är att människor framöver kommer att behöva kvalificera sig in i socialförsäkringen. På så vis frångår man själva grundidén om en generell välfärd. Tidöpartierna inför också ett hårdare aktivitetskrav i försörjningsstödet eftersom man vill ”ställa betydligt högre krav på att människor gör sig anställnings
-­
 bara”.
 [22]
 Men det är knappast någon som ”väljer” att få försörjningsstöd. Regeringen sprider bilden av att ekonomiskt bistånd ges helt utan krav. I själva verket kan social
-­
 tjänsten redan idag kräva att man söker arbete eller deltar i program och åtgärder för arbetslösa. Med regeringens insinuanta retorik antyds att vissa människor, i synnerhet invandrare, helt enkelt inte förtjänar det sociala skyddsnätet.
 Regeringen inför också en s.k. jobbpremie, en alldeles för liten insats i jämförelse med vad som skulle behövas när det råder massarbetslöshet. En jobbpremie blir bara ett sätt att ytterligare lägga ansvaret på individen. Bidragstak och hårdare aktivitetskrav leder inte till fler jobb. För det krävs istället en regering som är redo att föra en aktiv politik för att faktiskt skapa jobb.
-5.3
 Sverige missar klimatmålen med hästlängder
 Världen står inför ett klimatnödläge och den svenska regeringen med stöd av Sverige
-­
 demokraterna svarar med att göra ingenting. Med dem vid rodret missar Sverige klimatmålen med råge. I regeringens egen klimatredovisning noteras ett underskott på 5,8 miljoner ton koldioxidekvivalenter fram till 2030.
 [23]
 Sänkt reduktionsplikt för bensin och diesel har lett till stora utsläppsökningar. Energimyndigheten konstaterar att det under 2024 såldes mer fossilt drivmedel i Sverige än det gjort de senaste tio åren.
@@ -411,10 +339,8 @@ Behovet av omfattande investeringar är stort. För att minska utsläppen behöv
 I regeringens och Sverigedemokraternas budget för 2026 saknas helt den politiska
 vilja som krävs för att ställa om samhället. För varje år som går utan att vi gör någonting
 åt utsläppen ökar klimatskulden och det blir svårare att göra någonting åt de problem som redan märks. Då duger det inte med en regering som helt saknar klimatambitioner.
-5.4
 Regeringens elpristak är ett slag i luften
 Regeringen har föreslagit ett elpristak. Det innebär i praktiken ett tillfälligt högkost
-­
 nadsskydd om månadsmedelvärdet för spotpriset på el överstiger 1,5
 kr/kWh. Men det finns inga prognoser som tyder på att elpriset kommer att närma sig det här taket. Sannolikheten att någon får skyddet utbetalat, även i södra Sverige, är därför mycket liten. Samtidigt drabbas hushåll utan skydd direkt av ett elpris som i praktiken har tredubblats.
 Vänsterpartiet föreslår istället ett elpristak för hushåll på 75
@@ -422,103 +348,75 @@ Vänsterpartiet föreslår istället ett elpristak för hushåll på 75
 öre/kWh kommer att täcka hushållets elkostnader till 90 procent över pristaket. Detta för att upprätthålla incitament för elbesparing vid höga elpriser. Vårt förslag bygger på samma princip som vid hantering av finansiella kriser. Tidigare har staten gått in och räddat banker med skattemedel när de tagit för stora risker, trots att bankerna gjort
 vinster på riskerna. Idag betalar istället bankerna själva för sin försäkring genom avgifter
 till särskilda fonder. På så sätt är det aktieägarna och långivarna som tar förlusterna om något går fel. På samma sätt vill Vänsterpartiet att elbranschen själv ska stå för den försäkring som staten indirekt ger idag. Kostnaderna kommer därigenom att bäras av branschen, inte av skattebetalarna.
-5.5
 Kömiljarder utan effekt
 Riksrevisionen har granskat de prestationsbundna insatserna för att korta vårdköerna, även kallade kömiljarder. Riksrevisionen konstaterar att satsningen inte har haft någon tydlig, långvarig effekt på väntetiderna. Flera aspekter av kömiljarderna har snarare försämrat effekten, som att de inte tar hänsyn till regionernas olikheter. Regionernas incitament att vidta åtgärder har även försvagats av att kömiljarderna inte tar hänsyn till relativ förbättring, vilket gjort att regioner som redan låg bra till belönats. Dessutom menar Riksrevisionen att kömiljarderna riskerar att leda till undanträngning av andra vårdinsatser till förmån för insatser för att korta köerna, men att det inte varit möjligt att belägga detta kvantitativt på grund av bristande statistik.
 Vänsterpartiet har under en längre tid varit kritiskt mot de prestationsbaserade kö
-­
 miljarderna för att de inte kortar vårdköer, inte höjer kvaliteten i vården och inte går att förena med målet om en jämlik vård. Vi anser att satsningen bör avskaffas i sin helhet och resurserna tillföras hälso- och sjukvården genom ökade sektorsbidrag och ökade generella statsbidrag.
-5.6
 Sverige sviker världens fattiga och utsatta
 Det är tydligt att regeringen helt saknar ambitioner i fråga om att ta ansvar för den globala utvecklingen. Runt om i världen protesterar människor mot Israels folkmord i Gaza. Människor samlas i frustration över att världens makthavare inte gör tillräckligt för att få ett slut på mördandet av civila. Så även i Sverige. Vaga uttalanden från regeringen samtidigt som man stoppar allt bistånd till UNRWA och låter Försvars
-­
 makten ingå en miljardaffär med ett israeliskt vapenföretag visar ett hyckleri utan motstycke. De dubbla standarderna är tydliga; pratet om mänskliga rättigheter tycks inte omfatta alla. Israel har gått långt utanför folkrätten med sina attacker mot civila. Om folkrättens principer ska kunna upprätthållas är det centralt att demokratiska stater som Sverige agerar när krigsförbrytelser och brott mot mänskligheten begås. Sveriges regering måste sluta ge sitt stöd till Israels regering och militär.
 Regeringen har med stöd av Sverigedemokraterna övergivit en lång tradition av svensk biståndspolitik. Det etablerade enprocentsmålet övergavs redan i budget
-­
 propositionen för 2023 och ersattes då med ett mål satt i kronor och ören. I årets budget omfattar den totala biståndsbudgeten 53 miljarder kronor. Prognosen är att Sverige 2028 kommer att hamna under åtagandet om minst 0,7 procent av BNI i bistånd. Det handlar om miljardtals kronor som försvinner från arbetet med att utrota hunger och fattigdom i världen. För Vänsterpartiet är det självklart att Sverige ska uppnå målet att en procent av BNI ska avsättas för internationellt bistånd. Regeringens sänkning innebär dock att återgången kommer att behöva ske över tid. Under en mandatperiod har regeringen med stöd av Sverigedemokraterna monterat ner det svenska biståndet. Vi ska åter bygga upp förtroendet för Sveriges biståndspolitik under en mandatperiod.
-6
 Stoppa rånet
 Regeringen har under tre års tid drivit linjen att det bästa de kan göra för att bekämpa inflationen och underlätta för hushållen i kostnadskrisen är – ingenting. Ändå övergick man ganska snart från att göra ingenting till att kraftigt sänka skatter för de allra rikaste. Det finns inget som talar för att detta har varit rätt strategi. Den här mandatperioden har inneburit den svagaste tillväxten på ett decennium – mycket på grund av hushållens svaga framtidstro och ovilja att konsumera. Vi har sett extrema kostnadsökningar för hushållen – maten har blivit nästan 3
-000
 kr dyrare i månaden för en familj med två barn. Hela hushållsbudgeten är 12
 000 kronor dyrare jämfört med 2020.
 Ett mer kraftfullt agerande från regeringens sida för att skapa fungerande marknader och förhindra uttaget av övervinster hade gett hushållen helt andra ekonomiska förutsätt
-­
 ningar – och därmed sannolikt en annan konjunkturutveckling. Det handlar om oligopol
-­
 marknader såsom livsmedelsjättarnas skamlösa prishöjningar och stora vinstuttag och bankernas enorma pengaregn över sina ägare. Det handlar om att svenska elproducenter
 tjänar på att svenska hushåll ska betala samma pris för all el som den sist inköpta enheten,
 om monopolmarknader som elnätet och att den här regeringen vill tvinga hus
-­
 hållen att betala priset för en mycket kostsam och olönsam kärnkraftsutbyggnad.
 Det hade också varit möjligt att skydda välfärden i krisen och att ge hushållen större marginaler utan att bidra till att spä på inflationen. Sverige är ett av de länder som har lagt minst resurser på att skydda hushåll och företag i kostnadskrisen.
 [26]
-6.1
 Ta kontroll över de skenande matpriserna
 Den svenska livsmedelsmarknaden sticker ut på två sätt i en internationell jämförelse. För det första domineras den helt av ett litet antal extremt stora aktörer; för det andra präglas den av internationellt sett höga priser. Den svenska marknaden för dagligvaru
-­
 handel är koncentrerad till fyra aktörer som har ett större butiksnät och en egen inköps
-­
 verksamhet: Ica, Axfood, Coop och Lidl. Ica ensamt har en marknadsandel på ca 50 procent och gjorde en vinst på totalt 26 miljarder kronor förra året (2024). Konkurrens
-­
 verket konstaterar att ”det är en koncentrerad marknad med få aktörer, en s.k. oligopol
-­
 marknad”.
 [27]
 I så mycket som var tredje kommun finns endast en eller två etablerade dagligvaruaktörer. Det saknas vidare lågprisbutiker i 102 av Sveriges 290 kommuner, vilket innebär att ca en miljon invånare inte har tillgång till en lågprisbutik i sin kommun.
 [28]
 Till skillnad mot en ”riktig” marknad där enskilda företag har svårt att påverka priset, innebär en oligopolmarknad att det är lätt att följa varandras agerande. Det innebär att priset på mat snarare handlar om hur dessa företag beter sig mot varandra för att maxi
-­
 mera vinsten. Dessutom karakteriseras matmarknaden av att grossistledet (partihandeln) också har en betydande koncentration, där Ica, Coop och Axfood helt dominerar. Om vinsterna ska hamna i partihandeln eller butik är en närmast administrativ affär inom företaget.
 Konkurrensverket har i en genomlysning av livsmedelsbranschen undersökt hur lönsamheten, mätt som bruttomarginaler, inom livsmedelsbranschen har utvecklats under de senaste åren.
 [29]
 Slutsatsen är att vissa aktörer i livsmedelskedjan, exempelvis inom dagligvaruhandeln, har kunnat bibehålla samma procentuella bruttomarginaler som under tiden innan kostnaderna började öka kraftigt. Med det betydligt högre kostnadsläget har detta lett till att marginalerna i kronor har ökat. En ytterligare slutsats är att de ökade priserna inte tycks ha stimulerat till ökad produktion eller marknads
-­
 inträde nämnvärt i något av leden i livsmedelskedjan som Konkurrensverket granskat. I rapporten konstateras även att det inte finns några tecken på att billigare alternativ har tagits fram och börjat säljas till konsumenterna, vilket hade kunnat ske om konkurren
-­
 sen hade fungerat bra.
 Vänsterpartiet menar att vi måste lagstifta mot överpriserna på mat.
 [30]
 För att snabbt få ner priserna ska handlarna vara skyldiga att redovisa inköpspriser och andra kostnader till Konkurrensverket. På så sätt kan myndigheten kontrollera om matbutik
-­
 erna sätter oskäligt höga priser och den som gör det ska få kännbara böter. Om någon handlare lämnar oriktiga uppgifter för att kunna sätta högre matpriser än vad som är motiverat ska det vara brottsligt, med fängelse i straffskalan. Vänsterpartiet anser även att det behövs lagstiftning som bryter upp den skadliga kopplingen mellan matbutikerna och deras grossister samt att grossisternas otillbörliga handelsmetoder mot livsmedels
-­
 producenterna bör kriminaliseras. Så kan Sverige få ned matpriserna och skapa en fungerande livsmedelsmarknad.
 Regeringen har inte agerat för att få till någon förändring på detta område. Men i budgetpropositionen föreslår man att momsen på livsmedel sänks tillfälligt från 12 till 6
 procent under perioden från den 1 april 2026 till den 31 december 2027. Regeringen inrättar också en matpriskommission där Konsumentverket, Konkurrensverket, KI och SCB får i uppdrag att följa matprisernas utveckling.
 Nedsatt moms på livsmedel innebär ett stöd för alla som konsumerar livsmedel, oavsett om de har barn eller inte och oavsett om de är låg- eller höginkomsttagare. Det innebär en låg träffsäkerhet om sänkningen är tänkt att fördela köpkraft till barnfamiljer och låginkomsthushåll. Riksrevisionen gjorde 2018 en granskning av den nedsatta momsen på livsmedel med avseende på dess fördelningsprofil och kostnadseffektivitet och kom fram till att kostnaden för att stödja barnfamiljer och låginkomsttagarhushåll direkt (med höjda barnbidrag exempelvis) är endast ca hälften av kostnaden för en sänkt matmoms.
 [31]
 Att sänka matmomsen är alltså en mycket dyr och inte särskilt träffsäker åtgärd men detta är vad som står till buds för hushållen. Då måste det skapas system för att garantera att miljarderna hamnar i vanligt folks plånböcker och inte i ökade vinster och utdelningar för Icagruppen. Som Vänsterpartiet tidigare har påtalat så är en orsak till att matpriserna har kunnat fortsätta att skena den bristande konkurrensen på livsmedels
-­
 marknaden. Dagens konkurrensverk är i detta sammanhang en helt tandlös myndighet, vilket också styrks av den nyligen publicerade statliga utredningen Förbättrad konkurrens i offentlig och privat verksamhet (SOU 2025:22).
 En sänkning av momsen från 12 till 6 procent innebär att priserna måste justeras med 5,4 procent för att det ska anses ha fått fullt genomslag. För att garantera att moms
-­
 sänkningen får fullt genomslag i hushållens plånböcker har Vänsterpartiet framhållit att regeringen nu måste agera skyndsamt och omedelbart ta fram referenspriser för samtliga varor som omfattas.
 Idag gäller prisinformationslagen när ett företag säljer varor och tjänster till konsumenter. Om ett företag anger att de sänkt priset på en vara ska de även ange det tidigare priset. Det tidigare pris som ska anges är det lägsta pris som företaget har haft på produkten under de senaste 30 dagarna före prissänkningen. Prissänkningen ska alltså baseras på det tidigare lägsta priset. Lagen syftar till att förhindra att företag ”smyghöjer” priserna för att sedan ge konsumenter intrycket av en prissänkning, trots att så inte är fallet (jfr Black Friday). Konkurrensverkets utvärdering visar att en stor del av företagen helt enkelt inte följer lagen.
 Vänsterpartiet är mycket angelägna om att regeringens momssänkning går ograverad till hushållen och inte spär på matvarujättarnas redan enorma vinster. Därför föreslår vi att prisinformationslagen utsträcks till att för livsmedel gälla från samma dag som regeringen aviserade momssänkningen på livsmedel.
 [32]
 Dessutom föreslår vi en ny myndighet: Statens pris- och kartellnämnd, SPK, som ska ansvara för skarp priskontroll i dagligvaruhandeln.
 Den nya myndigheten ska ha verktyg för att införa sanktioner mot de företag som inte följer prisinformationslagen och som förbättrar sin egen intjäning på konsument
-­
 ernas och skattebetalarnas bekostnad.
 Vänsterpartiets förslag:
 Utöka prisinformationslagen.
 Inrätta en ny myndighet: Statens pris- och kartellnämnd.
 Använd SBAB för att pressa storbankerna
 I likhet med dagligvaruhandeln råder det bristande konkurrens också på bolåne
-­
 marknaden. Sverige har en mycket hög koncentrationsgrad på bankmarknaden, där de fyra storbankerna, SEB, Handelsbanken, Nordea och Swedbank, kontrollerar runt 80 procent av marknaden. Den statliga banken SBAB kontrollerar ca 7 procent.
 De svenska storbankerna har en hög lönsamhet som står sig väl även i en europeisk jämförelse.
 [33]
 Lönsamheten drivs framför allt av räntenettot, som står för ca två tredje
-­
 delar av de svenska storbankernas totala intäkter. I takt med att Riksbanken har höjt styrräntan har bankerna passat på att höja utlåningsräntorna mer. Samtidigt har de kunnat dämpa sina finansieringskostnader på skuldsidan genom att inte höja inlånings
-­
 räntor till allmänheten i samma takt. Räntenettot har alltså kunnat öka genom att räntorna har ökat mer på bankernas tillgångar än på deras skulder. En kraftfullt bidragande orsak till hushållens kostnadsökningar har därmed varit de kraftigt höjda räntekostnaderna för hushållens bolån.
 Det statliga bolåneinstitutet SBAB har tidigare haft en tydlig roll att öka konkur
-­
 rensen på denna oligopolmarknad. Staten hade då fastställt att SBAB skulle drivas affärsmässigt med ett för verksamheten rimligt avkastningskrav. År 2000 bestämdes avkastningskravet till att avkastningen på eget kapital över tid i genomsnitt skulle uppgå till den 5-åriga statsobligationsräntan plus 5 procentenheter. En fallande trend i bolåne
-­
 marginalen mellan 2002 och 2011 kom också att spegla ett fallande vinstkrav på SBAB, då den femåriga statsobligationen föll. Detta är dock historia nu och förändringen har inneburit höjda marginaler för bankerna.
 Bankmarknaden är en oligopolmarknad. Det är därmed i högsta grad motiverat för staten att äga en aktör som driver affärsmässig verksamhet för att främja konkurrensen. SBAB bör därför återfå sitt tidigare uppdrag och avkastningskrav. Med ett antagande att det skulle gå att pressa bolåneräntan med i genomsnitt 0,5 procentenheter skulle det innebära 20
 000 kronor mer i hushållsbudgeten för ett hushåll med ett bolån på 4
@@ -529,16 +427,13 @@ Vänsterpartiets förslag:
 [34]
 Sänk SBAB:s avkastningskrav till femårig statsobligationsränta plus 5
 procent
-­
 enheter.
 Tillsätt en utredning för att se över SBAB:s risk och vad som är ett rimligt lång
-­
 siktigt avkastningskrav.
 Inför en bankskatt på 50 procent av bankernas övervinster.
 [35]
 Inför Sverigepriser på el
 Sverige har god tillgång till el och har en stadig överproduktion. Vi kan tillgodose det inhemska behovet av el, i de flesta fall med råge. Dagens modell med marginalpris
-­
 sättning på el på en gemensam EU-marknad innebär att det är den dyraste producerade elen som blir prissättande för all el. Den el som är billigast att producera förbrukas först. Priset utgår emellertid från vad det kostar att producera den sista kilowattimme som krävs för att möta efterfrågan, alltså den dyraste kilowattimmen.
 Produktionskostnaden varierar kraftigt mellan de olika energislagen. Vind- och vattenkraft har en klart billigare rörlig produktionskostnad än vad kärnkraft har och dyrast är kol och olja. De höga elpriserna riskerar att bromsa klimatomställningen eftersom viktiga elektrifieringsprocesser fördyras. Investeringsviljan kan på sikt hotas av de höga priserna och i takt med att energiprisernas förutsägbarhet försvåras hotas även planerbarheten för den energitunga industrin. För Sverige innebär sålunda den nuvarande elmarknaden ett sårbart system som försvårar klimatomställningen och drabbar de enskilda hushållen hårt.
 Vänsterpartiet har föreslagit en prisskyddsmodell som innebär att Sveriges fyra elprisområden kvarstår men separeras från den el som går på export.
@@ -553,38 +448,30 @@ Vänsterpartiets förslag:
 Inför Sverigepriser på el – separera inhemska priser från exportpriset på el.
 Ta tillbaka kontrollen över elnäten
 En stor del av elräkningen är avgiften till det företag som äger elnätet – och den har ökat kraftigt de senaste åren. Samtidigt som elräkningarna har skjutit i höjden har elnäts
-­
 bolagen
 passat på att göra enorma vinster på våra pengar. Bakgrunden är att elmarknaden
 avreglerades 1996, vilket innebär att handel med el konkurrensutsattes och att elnäten numera drivs som reglerade monopol. Som konsekvens höjde de tre största bolagen, Eon, Ellevio och Vattenfall, under 2012–2022 avgifterna på elnäten dubbelt så mycket som den genomsnittliga prisökningen i samhället. De stora elnätsbolagens vinst
-­
 marginaler har legat på uppemot 40 procent och så mycket som 75 procent har kunnat skickas vidare till ägarbolag.
 För att få lägre elpriser har Vänsterpartiet föreslagit ett offentligt ägande av hela elnätet, som lämpligen kan föregås av en beskattning av övervinsterna.
 [37]
 Syftet med en beskattning av övervinster är att göra det mindre attraktivt för vinstdrivande bolag att fortsätta äga elnätet. Genom att införa en förköpsrätt kan det offentliga ta över de elnäts
-­
 bolag som då säljs. I maj 2024 presenterades en offentlig utredning om en ny förköps
-­
 lag, som bl.a. föreslår att staten ska ha förköpsrätt till fast egendom som är viktig för det militära och civila försvaret samt för att bekämpa organiserad brottslighet.
 [38]
 Energi
-­
 anläggningar, som elnät, nämns som exempel på sådana objekt. Vänsterpartiet anser att det bör förtydligas att elnäten är avgörande för civilförsvaret och föreslår att kommuner ges förköpsrätt i första hand och staten i andra hand.
 Vänsterpartiets förslag:
 Skatt på elnätsföretagens övervinster.
 [39]
 Förköpsrätt för det offentliga.
-7
 Rädda välfärden!
 Finansministern har pratat mycket om Sveriges starka statliga finanser. Vi har bland de lägsta statsskulderna i hela Europa. Men, till skillnad från många andra länder, ligger ungefär hälften av den offentliga budgeten i kommuner och regioner. Där är det stora underskott. Under 2023 och 2024 gick regionerna sammantaget med över 20 miljarder i underskott.
 Figur 14 Resultat i regionerna 2023 och 2024, miljarder kronor
 Källa: SCB.
 Effektiviseringar och nya arbetssätt, i kombination med dämpad inflation och lägre pensionskostnader, har gett resultat och många kommuner i år har ett betydligt mer stabilt ekonomiskt läge – men det har krävts nedskärningar.
 Åren av hög inflation har dessutom gett en varaktig real försvagning av den kom
-­
 munala skattebasen. Kommuners och regioners skatteintäkter är i år (2025) 27 miljarder kronor lägre än vad som varit fallet om skatteunderlaget följt den historiska trenden. Den nya kömiljarden räcker inte ens för att täcka Region Västra Götalands underskott.
 Sverige lider av en underfinansierad hälso- och sjukvård som inte förmår möta de behov som finns och som kommer att finnas framöver. En ojämlik vård över landet, brist på vårdplatser i regionerna, brist på legitimerad personal och otillräckliga arbets
-­
 villkor är några av problemen.
 Socialstyrelsen slog 2025 fast att det råder brist på vårdplatser i alla regioner utom tre.
 [40]
@@ -594,15 +481,10 @@ Det leder bl.a. till överbeläggningar, långa väntetider, bristande patients�
 Inom intensivvården behövs ytterligare 44 vårdplatser, vilket motsvarar ett gap på 10 procent.
 Vårdgarantin är en lagstadgad rättighet som innebär att regionen ska erbjuda den som är folkbokförd där vård inom en viss tid. Om vårdgarantins tidsgränser inte kan hållas ska patienten erbjudas vård hos en annan vårdgivare.
 De tidsgränser som gäller är:
-‒
 kontakt med primärvården samma dag
-‒
 medicinsk bedömning inom tre dagar av en läkare eller annan hälso- och sjukvårds
-­
 personal inom primärvården
-‒
 besök inom den planerade specialiserade vården inom 90 dagar efter att en remiss eller vårdbegäran har skickats
-‒
 behandling eller operation inom 90 dagar efter ordination av specialistläkare.
 Vårdköerna minskar inte, de ökar. I januari 2021 var det 100
 000 personer som hade stått i kö mer än 90 dagar i väntan på planerad specialistvård. I juli i år var den summan över 180
@@ -611,16 +493,12 @@ Vårdköerna minskar inte, de ökar. I januari 2021 var det 100
 Figur 15 Väntande över 90 dagar på första besök i specialiserad vård
 Källa: Socialstyrelsen (2025). Exkluderar patientvald väntan och medicinskt orsakad väntan.
 Stora nedskärningar i verksamheten på bred front i kommuner och regioner har gjort välfärden och verksamheten mycket sårbar. Det finns helt enkelt inte resurser, varken ekonomiskt eller personellt, för att bedriva en tillräckligt bra verksamhet ens under normala förhållanden. På samma sätt har stora privatiseringar och utförsäljningar av offentlig verksamhet gjort att många kommuner inte har rådighet över den samhälls
-­
 viktiga verksamheten inom kommunens gränser, något som gör att verksamheten blir svår att samordna och styra i kriser.
 En underbemannad sjukvård som inte klarar av sitt uppdrag i fredstid kommer inte att kunna växla upp om behovet plötsligt ökar i en kris eller konflikt. Det handlar ytterst om samhällets funktionalitet och är helt nödvändigt för ett fungerande civilt försvar. Oavsett vilka kriser vi ställs inför kommer sjukvården att vara viktig och i ett krig är såklart fungerande sjukvård helt centralt. Försvarsberedningen ansåg i sin rapport Kraft
-­
 samling att det finns behov av särskilda beredskapssjukhus och vidare att regionerna ska ha möjligheten att vid krig kunna dubblera antalet fysiska vårdplatser jämfört med fredstid.
 [43]
 Trots att förskolans och skolans roll för att minska samhällsproblemen understryks gång på gång så säkerställer inte regeringen att det finns tillräckligt med resurser för verksamheterna inom skolområdet; förskolan, grundskolan, fritidshemmen, gymnasie
-­
 skolan, vuxenutbildningen och folkhögskolorna – alla vittnar om att det krävts bespar
-­
 ingar. Vänsterpartiet föreslår i denna budgetmotion att de generella statsbidragen ska öka kraftigt 2026 och i takt med inflation, löner och befolkningens tillväxt i olika åldersgrupper de kommande åren. Ökade generella statsbidrag till kommuner är den plattform som krävs för att verksamheterna ska få arbetsro för att skapa en långsiktigt trygg, demokratisk och produktiv utbildningssektor.
 Utöver detta har Vänsterpartiet ett antal förslag som ska öka personaltätheten i förskolan och stärka elevhälsan samt främja deltagandet i förskola och fritidshem. Vi föreslår dessutom mer resurser till forskning, folkbildning, kulturskolan och idrotten.
 Vi måste få ett stopp på ”pressmeddelandepengar” till sjukvård, skola och omsorg. I våra nordiska grannländer räknar man upp den statliga finansieringen av välfärden i takt med inflation, kostnadsökningar och den demografiska utvecklingen. Ett liknande system skulle vara självklart att införa i Sverige. En värdesäkring av statsbidragen är ingen satsning, det är stabilisering. Utebliven värdesäkring innebär däremot urholkning.
@@ -629,37 +507,30 @@ Vi måste få ett stopp på vinstuttaget från välfärden. Idag försvinner öv
 miljarder kronor varje år från medborgarna och välfärden i form av vinster till välfärdsbolagen. Störst är vinstuttaget från skolor och äldreomsorg.
 Figur 16 Vinster i välfärdssektorerna i miljarder kronor 2000–2023
 Not: Rörelseresultat. Källa: SCB.
-7.1
 Ökade generella statsbidrag och sektorsbidrag till hälso- och sjukvården
 Sjukvården är den del av välfärden som drabbats hårdast av regeringens neddragningar de senaste åren och har ett enormt behov av tillskott. För att fortsätta rikta det statliga stödet till vården, där behoven är som störst, föreslår Vänsterpartiet en förlängning av sektorsbidraget till hälso- och sjukvården. Vänsterpartiet vill tillföra 5 miljarder kronor för 2026 och föreslår en förlängning av sektorsbidraget även för 2027 och 2028. På sikt är dock vår fasta övertygelse att den mest effektiva finansieringen av välfärden är via generella statsbidrag som ökat enligt en förutbestämd faktor motsvarande inflationen och befolkningstillväxten.
 Sektorsbidraget innebär att regionerna själva beslutar över hur resurserna används, varför stödet till viss del går att likna vid ett generellt statsbidrag till hälso- och sjuk
-­
 vården. Det är regionerna som är bäst lämpade att besluta över vilka satsningar som behöver prioriteras i respektive region. Större resurser, med stor flexibilitet för regionerna att förfoga över, är också en nyckel för att öka jämlikheten inom vården.
 Generellt sett är primärvården den del av vårdkedjan som är i störst behov av upprustning i landets regioner. För att vårdcentralerna ska kunna utgöra basen i vårdkedjan och fungera på ett tillfredsställande sätt krävs en rad förändringar och åtgärder som regeringen inte har förmått att gå vidare med. Primärvården måste rustas upp och tillgängligheten behöver förbättras avsevärt. För att nå dit och för att klara uppdraget på ett tillfredsställande sätt saknas det framför allt resurser. De knappa resurserna innebär en ansträngd arbetsmiljö för de som arbetar i primärvården. Arbets
-­
 miljön behöver förbättras och arbetstiden förkortas. Utan personal som erhåller goda arbetsvillkor och en god arbetsmiljö kommer det inte att vara möjligt att förverkliga en upprustning av primärvården.
 Det bör finnas god tillgång till personal med lämplig utbildning och erfarenhet som kan erbjuda psykologisk behandling inom primärvården. Det är även viktigt att ha tillgång till psykosocial kompetens i form av kuratorer som kan ge stödsamtal samt sjuksköterskor och annan vårdpersonal som kan skapa möjligheter till en god vård för patienterna. Om fler får tillgång till behandling i ett tidigt skede ökar chanserna att förebygga allvarligare tillstånd.
 Det behöver finnas en nationell struktur rörande vilken specialistkompetens och vilket vårdutbud en vårdcentral ska tillhandahålla och erbjuda samt placeringen av vårdcentraler. Därför behövs en särskild förstärkning av primärvården med inriktning på vård- och hälsocentraler på landsbygden och i glesbygd.
 Vänsterpartiet har under en längre tid varit kritiskt mot de prestationsbaserade kömiljarderna för att de inte kortar vårdköer, inte höjer kvaliteten i vården och inte går att förena med målet om en jämlik vård. Vi anser att satsningen bör avskaffas i sin helhet och resurserna tillföras hälso- och sjukvården genom ökade sektorsbidrag och ökade generella statsbidrag.
 Regeringen föreslår ingen höjning av de generella statsbidragen till nästa år. Samtidigt
 slopas sektorsbidraget. Detta är långt ifrån vad kommunsektorn behöver i form av generella statsbidrag för att uppfylla sina åtaganden och stora investeringsbehov och för att förhindra fortsatta nedskärningar. Vänsterpartiet föreslår såväl ökade generella stats
-­
 bidrag som en förlängning och ökning av sektorsbidraget till regionerna.
 Vänsterpartiets förslag:
 Öka de generella statsbidragen med 8 miljarder kronor 2026. De bör fördelas med 50 procent till kommunerna och 50 procent till regionerna.
 Vänsterpartiet avsätter 5 miljarder kronor mer än regeringen i ett förlängt sektors
-­
 bidrag till sjukvården 2026.
 Glesbygdstillägg inom sjukvården
 I glest befolkade regioner är det dyrare att bedriva sjukvård på grund av de långa avstånden. Det är svårare och dyrare att i glesbygd bygga upp sjukvårdsenheter för att kunna erbjuda invånarna en rimlig tillgänglighet till vård. Som en följd av det har människor i glesbygdskommuner långt sämre hälsa än genomsnittet, medan boende i
 rika kommuner runt storstäderna har bättre hälsa.
 [44]
 Detta är en konsekvens av marknads
-­
 logikens
 intrång inom sjukvården; tillgången och användningen är som störst där flest och friskaste människor finns. För att säkra tillgången till vård även i glest befolkade områden krävs att vi solidariskt via skattesystemet tillför nödvändiga resurser.
 För att adressera de geografiska utmaningarna har begreppet glesbygdsmedicin vuxit fram. Det innefattar en rad kunskapsområden och metodutveckling som syftar till att kompensera för avståndsproblematik och upprätthålla den bredare kompetens som är nödvändig då befolkningsunderlaget är litet och avstånden stora. Att jobba i glesbygd kräver bred medicinsk kunskap med tillämpning i öppenvård, slutenvård och hemsjuk
-­
 vård. Därutöver fordras ingående kunskap om de sociala, psykologiska, ekonomiska, existentiella och samhällsstrukturella villkor som gäller för människor i glesbygd. Det betyder ett utvecklat och fördjupat närvårdskoncept.
 Vården kommer alltid att vara mer kostnadskrävande i glesbygden; därför måste våra gemensamma resurser fördelas efter de förutsättningarna. I vår budget för 2026 avsätter Vänsterpartiet 1 miljard kronor i ett generellt statsbidrag för ett glesbygdstillägg inom sjukvården.
 Vänsterpartiets förslag:
@@ -676,20 +547,13 @@ Höjningen mötte omfattande kritik från en lång rad remissinstanser när rege
 000 svarande att de varje vecka möter kunder som avstår från att hämta ut läkemedel på grund av kostnaderna. Nästan 90 procent av medarbetarna såg också att höjningen kommer att innebära att fler avstår från sin behandling.
 [45]
 Cancerfonden skriver i sitt remissvar att en höjning av hög
-­
 kost
-­
 nads
-­
 skyddet kan påverka drabbades möjlighet att genomföra sin cancerbehandling och att den redan ojämlika cancervården riskerar att bli ännu mer ojämlik. Funktionsrätt Sverige skriver att höjningen riskerar att belasta hälso- och sjukvården eftersom människor som inte tar sin medicin blir ännu sjukare och alltså hamnar i sjukvården i stället för att kunna leva på som vanligt. De får medhåll av bl.a. Astma- och allergi
-­
 förbundet, Psoriasisförbundet och Sveriges stadsmissioner. Folkhälsomyndigheten skriver att de ser en risk att personer med små ekonomiska marginaler och en relativt hög konsumtion av läkemedel riskerar en försämring av både privatekonomi och hälsa.
 I remissvaren har flera kommuner pekat på att ett höjt tak kan innebära att kostnad
-­
 erna för försörjningsstöd ökar. Regeringens beräkningar visar en kostnadsökning på 60 miljoner kronor 2027 för de hushåll som har ekonomiskt bistånd och behöver köpa läkemedel. Eftersom regeringen inte avser att kompensera för detta kommer kostnad
-­
 erna antingen leda till en försämrad kommunal ekonomi eller landa på de patienter som har absolut minst marginaler. Att regeringen trots den omfattande kritiken från remiss
-­
 instanserna och trots det ekonomiska läget och den växande fattigdomen valde att gå
 vidare med förslaget utan att analysera konsekvenserna av det eller undersöka alternativa
 lösningar visar med all tydlighet vad den prioriterar.
@@ -699,9 +563,7 @@ Dra tillbaka höjningen av högkostnadsskyddet för läkemedel. Vi avsätter 2
 160 miljoner kronor 2026 för ändamålet.
 Reformera tandvården
 Tänderna är en del av kroppen och tandvården bör på sikt ingå i sjukvården. Alla ska ha råd att ha bra tänder, inte bara de som kan betala dyra behandlingar. Sedan tandvårds
-­
 marknaden avreglerades har priserna stigit kraftigt. De höga kostnaderna för under
-­
 sökning och behandling gör att de som tjänar minst besöker tandläkaren mer sällan eller tvingas att avstå från tandläkarbesök. Personer med väldigt låga inkomster har ingen nytta av dagens högkostnadsskydd eftersom det bara gäller kostnader över 3
 000 kronor och endast halva kostnaden ersätts. Det har bidragit till att tandhälsa har blivit en klassmarkör.
 Undersökningar visar att sviktande munhälsa påverkar individens förutsättningar på exempelvis arbetsmarknaden.
@@ -710,28 +572,22 @@ Det är även dokumenterat att olika yrken leder till ojämlikheter, såsom att 
 [47]
 Vänsterpartiets reformplaner för tandvården i Sverige syftar till ökad jämlikhet, förbättrad tillgänglighet och en bättre generell tandhälsa i befolkningen. En god tandhälsa förebygger allvarlig infektionssjukdom med risk för hjärt-kärlsjukdomar och allvarliga tandsjukdomar samt behandlar vanligt förekommande tandbesvär i syfte att lindra smärta eller för att öka funktionalitet.
 Trots tydliga utfästelser från Sverigedemokraterna om progressiva tandvårds
-­
 reformer går politiken nu i helt fel riktning. Sverigedemokraterna och regeringen har sänkt åldersgränsen för fri tandvård från 23 till 19 år och slopat det dubbla tandvårds
-­
 bidraget för personer mellan 23 och 29 år. Reformerna infördes tack vare Vänsterpartiet 2019 och har ökat jämlikheten i munhälsa och tillgängligheten till tandvård för unga vuxna. Många unga vuxna kommer att sluta besöka tandvården i förebyggande syfte när de inte längre har tillgång till avgiftsfri tandvård.
 Vänsterpartiet vill gå mycket längre. Vi vill införa ett verkligt högkostnadsskydd inom tandvården. Det skulle ge en betydande fördelningspolitisk effekt. Vårt förslag liknar kostnadsfördelningen inom hälso- och sjukvården. Förslaget innebär att 100 procent av patientens kostnader skulle subventioneras över 1
 400 kronor per 12
-‑
 månadersperiod.
 [48]
 Patienternas andel av tandvårdskostnaderna i det statliga tandvårdsstödet skulle sjunka från 63 procent till 33 procent med denna reform.
 Tandhälsa skulle genom denna reform bli en del av den universella svenska välfärds
-­
 modellen. Fördelningseffekten är god eftersom patientandelen av avgiften för tandvård minskar och den skattefinansierade delen ökar.
 Vänsterpartiets förslag:
 Tandvård bör jämställas med sjukvården. Vi avsätter 1 miljard kronor för att återställa tandvårdskostnaderna för unga samt påbörja en riktig tandvårdsreform 2026.
 Stärk socialtjänsten
 Som en konsekvens av en ökande ojämlikhet och ett djupt rotat klassamhälle lever många barn och vuxna i social utsatthet i Sverige. All form av utsatthet ska så långt det går förebyggas, men när problem uppstår ska samhället kunna bistå med skydd och stöd.
 Socialtjänstens medarbetare utför i dag på individuell nivå ett arbete långt utöver vad som kan förväntas. Ändå räcker de inte till. Den ständiga resursbrist som präglar social
-­
 sekreterares vardag leder till att det inte är möjligt att leverera den sociala service som regler, bestämmelser och i vissa fall lagar reglerar.
 Under de senaste åren har förväntningarna på socialtjänsten ökat till följd av en otryggare omvärld, ett hårdare samhällsklimat och försämrade levnadsvillkor för många grupper i samhället. Vi ser ökade skillnader i skolan och svårare ekonomiska förutsätt
-­
 ningar för många familjer, vilket i sin tur har bidragit till grov kriminalitet där barn är både offer och förövare. Obalans mellan krav och resurser, tillsammans med desinformation, har lett till minskat förtroende för socialtjänsten. Behoven av stöd och hjälp ökar, samtidigt som allt fler socialchefer beskriver det som svårare att klara av socialtjänstens uppdrag med befintliga resurser.
 I socialchefsundersökningen 2020 ställde fackförbundet Vision för första gången frågor till socialchefer om kommunernas ekonomiska situation och dess konsekvenser inom det socialpolitiska området. I denna undersökning svarade en stor andel av socialcheferna att de inte hade tillräckliga resurser för att upprätthålla rättssäkerhet och kvalitet. 2023 hade läget förvärrats, enligt samma undersökning. Över hälften av socialcheferna svarade då att de hade svårt att ge insatser individen hade rätt till.
 [49]
@@ -739,7 +595,6 @@ I årets socialchefsrapport är försämringen dramatisk; nästan 8 av 10 social
 [50]
 En tredjedel av socialcheferna har tvingats till mer restriktiva bedömningar (34 procent), avveckling av verksamhet (36 procent) och neddragning av personal (35 procent) för att klara ekonomin. De verksamhetsområden som sticker ut och som har påverkats särskilt negativt av kommunernas ekonomiska förutsättningar är äldreomsorgen och stöd till barn och unga.
 Tidningen Socionomen ställde inför 2024 frågor om den ekonomiska situationen till kommunernas socialförvaltningar. Flera personer som Socionomen intervjuade jämförde med 90-talskrisen, som satte djupa spår i socialtjänsternas verksamhet. En rad undersökningar som genomförts visade att en stor andel av personalen inom social
-­
 tjänsten upplevde att de inte kunde uppfylla lagkraven och tvingades tumma på kvaliteten eftersom resurserna inte var tillräckliga. Ytterligare en konsekvens av resursbristen var att socialtjänsten och äldreomsorgen hade svårt att både behålla och rekrytera personal.
 [51]
 Den 1 juli trädde den nya socialtjänstlagen i kraft. Lagen är efterlängtad av såväl professionen som politiken och samhället i stort. Förändringarna är i huvudsak bra och välkomna. Vänsterpartiet står bakom den nya socialtjänstlagen och menar att den kan utveckla socialtjänstens arbete i rätt riktning, framför allt genom ett större fokus på förebyggande arbete och tidigare insatser och på att verksamheten ska bedrivas i enlighet med vetenskap och beprövad erfarenhet. Vi ser samtidigt att det finns flera delar av den som kan förbättras ytterligare för att den ska kunna uppfylla de högt ställda förhoppningar som finns på den (se motion 2024/25:3337).
@@ -751,18 +606,13 @@ Vänsterpartiets förslag:
 350 miljoner kronor mer till socialtjänstens arbete med mäns våld mot kvinnor
 Fler vuxna i förskolan
 Förskolan ska lägga grunden för resten av livet och personalen ska ha tiden och kompetensen att ge alla barn det stöd de behöver för att kunna utvecklas utifrån sina förutsättningar. Rätten till en bra förskola för alla barn är en självklarhet. Bra barn
-­
 omsorg är också en förutsättning för att kvinnor och män ska kunna förvärvsarbeta på lika villkor. Inom förskolan löper dock personalen större risk att drabbas av stress
-­
 relaterade sjukdomar jämfört med andra yrkesgrupper på arbetsmarknaden. I en ekono
-­
 miskt orolig tid ser vi hur kommunerna tvingas att dra ner på resurser och samtidigt föds det färre barn i Sverige, vilket gör att man i många kommuner tvingas att skära i verksamheten på grund av besparingar och lägga ned förskolor för att det inte finns tillräckligt med barn för att fylla dem.
 1990-talskrisen innebar en kraftig försämring av personaltätheten. Personalen i förskolan har minskat. Rektorerna har blivit färre, och även måltidspersonal och vaktmästare. Idag är det ca 40 procent av personalen som jobbar i förskolan som helt saknar någon form av utbildning för arbete med barn. I Sverige är varannan barngrupp för stor (55 procent 2024) i förhållande till Skolverkets rekommendationer, enligt en rapport från Sveriges Lärare. Det finns stora regionala skillnader och i flera kommuner är över 90 procent av barngrupperna större än de borde vara.
 För att höja kvalitén i förskolan föreslår Vänsterpartiet därför en reglering av barn
-­
 grupperna genom att man likt Norge reglerar hur många barn det får vara per anställd. Max 3 barn per vuxen för barn upp till och med 3 år och max 5 barn per vuxen i grupperna med barn som är 4–5 år. Samtidigt föreslås barngruppernas storlek regleras till max 12 barn i grupperna med barn under 3 år och max 15 barn i grupperna med barn över 3 år. Förslaget innebär även att staten ska ta det ekonomiska ansvaret för att hålla detta, inte kommunerna. En lagstiftning kring personaltäthet behöver tas fram och träda i kraft i kombination med det kompetenshöjande barnskötarlyftet. I budgeten avsätter vi medel för en stegvis ökad personaltäthet.
 För att förskolan ska kunna utvecklas och rekrytera mer personal krävs det en utveckling av de olika yrkesrollerna. Därför föreslår Vänsterpartiet ett riktat barnskötar
-­
 lyft. En utbildningssatsning som liknar Äldreomsorgslyftet. Personalen får kombinerat med arbete utbilda sig till barnskötare. Många har lång erfarenhet och kommer att kunna validera sina kunskaper och tillgodoräkna sig delar av utbildningen. Som en del av detta är det också viktigt att skydda yrkestiteln barnskötare. Titeln barnskötare bör reserveras för personer med en examen från barn- och fritidsprogrammet eller med motsvarande utbildning/yrkespaket på komvux. En skyddad yrkestitel höjer statusen på yrket och i förlängningen kvaliteten i verksamheten.
 Vänsterpartiets förslag:
 Vi avsätter 500 miljoner kronor för att stegvis minska barngrupperna i förskolan med start 2026.
@@ -775,7 +625,6 @@ pojkar. Sådana besvär är också dubbelt så vanliga hos pojkar med utlandsfö
 som hos dem med svenskfödda föräldrar.
 Elevernas hälsa ska uppfattas som en fråga för hela skolan, inte bara för den enskilde eleven. Om en elev har hög frånvaro, svårigheter i skolarbetet, svårigheter i sociala relationer etc., ska orsaker även sökas i skolan som helhet, inte åtgärdas genom att ogiltig frånvaro skrivs in i ordningsomdömen eller betyg. För att skolsköterska, kurator och psykolog ska kunna ingå i det förebyggande arbetet måste de finnas närvarande i skolverksamheten.
 Alla barn och unga ska få det stöd och den vård de behöver likvärdigt oavsett var i landet de bor. Vänsterpartiet föreslår därför att personaltätheten inom elevhälsan byggs ut kraftfullt genom ett reglerat tak för antal elever per respektive yrkesgrupp. Utgångs
-­
 punkten är vad de olika professionerna anser är rimliga nivåer.
 Vänsterpartiets förslag:
 Inför ett nyckeltal för elevhälsa vid varje skolenhet. Vi avsätter 1 miljard 2026.
@@ -784,14 +633,12 @@ och fritidshem
 I Skolinspektionens stora utvärdering av förskolan var den övergripande slutsatsen att kvaliteten varierar alltför mycket.
 [52]
 Det är allvarligt eftersom förskolans kompensa
-­
 toriska uppdrag blir påtagligt i en samhällsutveckling med ökad skolsegregation och socioekonomiska skillnader. En samstämmig forskning visar att en förskolas möjlighet att vara utjämnande är avhängig av dess kvalitet. Allra störst betydelse har det för barn från ekonomiskt och socialt utsatta förhållanden.
 [53]
 Vänsterpartiet anser att alla barn i Sverige ska erbjudas likvärdig tillgång till förskola.
 Eftersom förskoleavgiften kan utgöra ett hinder för hushåll med små resurser vill vi genomföra en riktad sänkning av den. Förslaget innebär att det införs ett fribelopp om 20
 000 kronor per månad och att den nuvarande gränsen för när maxtaxan börjar gälla höjs med 20
 000 kronor per månad. Fribeloppet gör att den nuvarande nivån på max
-­
 taxan inte påverkas. Förslaget skulle innebära att hushåll med inkomster upp till 20
 000 per månad inte betalar någon avgift alls. Hushåll med inkomster mellan 20
 000 och 74
@@ -817,7 +664,6 @@ av maxtaxan till förmån för vårt eget förslag som är mer generöst och avg
 Högre utbildning: universitet och högskola
 Universitet och högskolor ska enligt lagen ägna sig åt utbildning och forskning samt åt att samverka med samhället och att resultaten kommer samhället till del på ett produktivt sätt. Det är viktigt för att skapa välstånd och ett öppet och demokratiskt samhälle.
 Nuvarande resursfördelningssystem för högre utbildning har funnits i 30 år. I dag får utbildningarna en finansiering som styrs av en prislapp där olika utbildningar får olika anslag. Vänsterpartiet menar att dessa prislappar behöver ses över och finansieringssystemet göras om så att finansieringen följer högskolans och utbildningarnas behov och förändringar i kostnader. I väntan på en mer genomgripande förändring föreslår Vänsterpartiet en höjning av samtliga prislappar med 1
-000
 kr per helårsstudent.
 Genom forskning skapas ny kunskap. Denna kunskap är viktig för att utveckla ekonomin, skapa arbetstillfällen, förbättra välfärden och skapa ett ekologiskt och socialt hållbart samhälle. Forskning behövs även för att utsätta vårt samhälle för kritisk granskning i syfte att utveckla demokratin och kultur- och samhällslivet. Därför behövs ett ökat stöd till den fria forskningen.
 Vänsterpartiet stödjer en sammanhållen forskningspolitik och står bakom ambitionerna om en mer jämställd akademi. Styr- och resursutredningens resonemang om forskningsmedel tydliggjorde att lärosätenas anslag för forskning behöver öka. Vi vill avsätta ytterligare 500 miljoner kronor per år från 2025 till forskning, genom en förstärkning av basanslagen. Denna satsning är inte styrd eller riktad utan används på de sätt som lärosätena anser mest lämpligt.
@@ -833,10 +679,8 @@ Utöka sjuksköterskeutbildningen snarast med 1
 Skriv av studieskulderna för vårdutbildad personal som väljer att bo och arbeta i glesbefolkade regioner, på tio år. Den totala kostnaden för nya studiemedel samt avskrivningar beräknas bli 115 miljoner kronor.
 Stöd till folkbildningen
 Folkbildningen är en viktig plattform för människors möjlighet till bildning och utveckling under hela livet. Den stärker demokratin och människors möjlighet att delta i samhället. Vänsterpartiet avvisar regeringens stora sänkning av stödet till studie
-­
 förbunden. Studieförbunden fyller en unik roll i svensk utbildning och når ut till fler och är bredare. De är för många en första kontakt med det svenska föreningslivet och en väg in i samhället.
 Regeringen har skurit ned på detta område. Vänsterpartiet väljer därför att öka stats
-­
 bidraget och satsar 500 miljoner kronor mer än regeringen på studieförbunden år 2026.
 I folkbildningssammanhang har folkhögskolorna en alldeles särskild roll i att erbjuda utbildning för dem som saknar grundskole- eller gymnasieutbildning och ett viktigt mål är att utjämna utbildningsklyftor och att höja utbildningsnivån generellt i samhället. Folkbildningen möjliggör också att människor kan ta del av kultur, skapa kultur och verka inom kulturen oavsett var i landet man bor.
 Folkbildningsanslaget har ingen löne- och prisuppräkning och har därför urholkats över tid. Samtidigt är en allt större andel av deltagarna i behov av särskilt stöd. Läget på
@@ -845,7 +689,6 @@ bidrag per årsplats. Vi föreslår en ökning av anslaget med 160 miljoner kron
 Folkhögskolan fyller också en viktig roll vid hög arbetslöshet såsom läget är idag. Man är bra på att nå dem med kort utbildning som står långt ifrån arbetsmarknaden. Idag ser vi ett ökat tryck på antalet sökande och behovet av dessa utbildningssatsningar är därför stort. Vänsterpartiet föreslår en särskild satsning med 2
 000 extra platser på folkhögskola 2025–2027. För ändamålet avsätter vi 220 miljoner kronor år 2026.
 Asylsökande och de flyktingar från Ukraina som inte haft rätt att läsa sfi har erbjudits insatserna Svenska från dag 1 och Vardagssvenska genom studieförbunden. Studie
-­
 förbunden bedömer att det här är grupper som fortsatt behöver mycket stöd. Vi beklagar att regeringen tagit bort den tidigare riktade satsningen för asylsökande och vissa nyanlända långt ifrån arbetsmarknaden. Vänsterpartiet föreslår att ett nytt riktat stöd för särskilda folkbildningsinsatser för asylsökande och vissa nyanlända invandrare införs och avsätter 60 miljoner kronor år 2026 för detta.
 Vänsterpartiets förslag:
 Stärk folkbildningen med 940 miljoner kronor per år.
@@ -859,26 +702,18 @@ Vänsterpartiets förslag:
 Stärk idrotten för alla med 425 miljoner kronor per år.
 Kulturskolor för alla barn
 I en tid där kommunerna får det mer och mer kämpigt är kulturskolan en verksamhet som riskerar att bli lidande. Kulturskolan är en av landets största barn- och ungdoms
-­
 kulturverksamheter och spelar en viktig roll för barns och ungas kulturskapande. Alla barn ska uppmuntras att söka kunskap och lära sig nya saker, vidga sin värld och få ta del av nya sammanhang. Barn som ges möjlighet att utöva kultur får ökat självförtro
-­
 ende, stärker sin problemlösningsförmåga och blir bättre på socialt samspel. Drama, dans, bildkonst, film, musik och andra kulturyttringar är viktiga för att stärka barns möjligheter att uttrycka sig med mer än det talade språket.
 Kulturskolan måste säkras och det behövs en förstärkning av det nationella stödet.
 Vänsterpartiets förslag:
 Avsätt medel för att utveckla landets kulturskolor och öka tillgängligheten med 100 miljoner kronor per år.
-8
 Hushållens ekonomiska situation
 Till följd av de senaste årens höga inflation har omkring tio års reallöneökning raderats ut. De senaste årens snabba prisökningar på basvaror såsom el, boende, mat och driv
-­
 medel gör att fler hushåll får svårt att klara sin grundläggande försörjning. Regeringen har inte lagt fram ett enda förslag riktat till de hushåll som har det sämst ställt under mandatperioden. Istället har de bara i år sänkt skatterna för sig själva med 4
-000
 kr i månaden och för statsministern med 4
-700
 kr i månaden, samtidigt som en under
-­
 sköterska bara får cirka 200 kronor i månaden i sänkt skatt.
 Maten har blivit nästan 3
-000
 kr dyrare i månaden för en familj med två barn sedan 2022. Hela hushållsbudgeten för en barnfamilj är 12
 000 kronor dyrare varje månad i jämförelse med 2020.
 [57]
@@ -899,26 +734,19 @@ Den här utvecklingen syns inte bara i statistiken. Hjälporganisationer har und
 I undersökningen beskriver de svarande hur de har svårt att få råd till mat i slutet av månaden och tvingas att avstå från att köpa kläder som barnen behöver eller delta i olika aktiviteter.
 [61]
 Målen för den ekonomiska familjepolitiken är att bidra till en god ekonomisk levnadsstandard för alla barnfamiljer, att bidra till minskade skillnader i de ekonomiska villkoren mellan hushåll med och utan barn samt att bidra till ett jämställt föräldraskap. Förmågan hos förmånerna i den ekonomiska familjepolitiken att minska den ekono
-­
 miska utsattheten har minskat markant under 2000-talet. Räknar man bort den ekono
-­
 miska familjepolitikens ersättningar från hushållens disponibla inkomster hade före
-­
 komsten av låg relativ ekonomisk standard varit lika stor under 2024 som vid millennie
-­
 skiftet, omkring 24 procent. 2000 minskade andelen barnhushåll med låg relativ ekonomisk standard med nära två tredjedelar, tack vare förmånerna – från 23 procent om förmånerna inte hade funnits till 8 procent med förmånerna. 2024 beräknas den ha bidragit med en minskning från 24 procent till 16 procent. Det är framför allt de behovs
-­
 prövade bidragen som har mist sin förmåga att minska andelen ekonomiskt utsatta hushåll.
 [62]
 När samhällets orättvisor och klassklyftorna ökar skapas en mer gynnsam grogrund för grov kriminalitet, särskilt i de fattigaste områdena. Välfärden och de skyddsnät som ska finnas runt barn som ligger i riskzonen för att hamna i gängens klor har monterats ned. Resultatet av det ser vi nu. Det är ett svek och ett samhällsmisslyckande. För att få ned brottsligheten går det inte bara att vara hård mot de kriminella; det gäller att vara smartare än de kriminella. Vissa straff kan behöva höjas, men mycket mer fokus måste riktas mot att förhindra rekryteringen av nya barn till gängkriminalitet.
 Vänsterpartiet har en mängd förslag för att underlätta för hushållen i krisen. Fler av dem presenteras nedan. Utöver dem har vi lagt en rad förslag som syftar till att reglera marknader som idag inte fungerar. Under de senaste årens extrema inflation har det blivit allt tydligare att marknader som domineras av ett fåtal aktörer leder till stora möjligheter för dessa aktörer att sätta alldeles för höga priser och ta ut för höga vinster. Vänsterpartiets förslag för att åtgärda dessa problem omfattar såväl elmarknaden som livsmedelsbranschen och bolånemarknaden.
-8.1
 Höj och inflationsskydda barnbidraget
 Att inte ha råd med en oförutsedd utgift är en slags ekonomisk utsatthet som skiljer sig stort beroende på bland annat kön och familjesituation. Ensamstående föräldrar är en grupp som ofta har det ekonomiskt svårare. För ensamstående mammor är det exempelvis betydligt svårare än för ensamstående pappor att möta oförutsedda utgifter, 52 procent jämfört med 29 procent.
 Figur 19 Andel ensamstående föräldrar med ekonomiska svårigheter 2024, kvinnor och män
 Källa: SCB.
 En tredjedel av ensamstående mammor har inte heller ekonomisk möjlighet att regel
-­
 bundet delta i fritidsaktiviteter, jämfört med åtta procent bland de ensamstående papporna. När SCB undersökte barns levnadsförhållanden uppgav nästan 40
 000 barn mellan 12 och 15 år att de inte kunnat följa med kompisar på en aktivitet eftersom det kostade för mycket. Det är 8 procent av barnen i åldersgruppen.
 Barnbidragets värde har urholkats under lång tid. När Vänsterpartiet fick igenom en höjning av barnbidraget i budgetförhandlingarna med S-MP-regeringen 2018 var det första gången som barnbidraget höjdes sedan 2006. Bidragets faktiska värde hade då successivt sjunkit med 11 procent och i takt med att det reala värdet minskade sjönk bidragets förmåga att utjämna de ekonomiska villkoren mellan familjer med och utan barn.
@@ -926,10 +754,8 @@ Sedan den senaste höjningen 2018 har priserna på hushållens basvaror såsom m
 Våren 2025 konstaterade Swedbank i en analys att barnbidraget endast täcker 25 procent av de nödvändiga kostnaderna för en 10-åring. Det kan jämföras med 28 procent 2023 och 40 procent 2018. Swedbank konstaterar vidare att barnbidragets reala nivå inte varit lägre någon gång under de över 50 år som banken har följt hushållens ekonomi.
 [63]
 Barnbidraget behöver höjas och dessutom skyddas mot framtida inflation. Vänster
-­
 partiet anser därför att barnbidraget bör ökas med totalt 400 kronor per månad 2026 för att komma upp på en nivå så att barnbidraget återigen kan bidra till att täcka hushållens basala utgifter, och därefter bör barnbidraget prisindexeras så att inte dess värde på nytt urholkas i takt med inflationen.
 En analys av hur en höjning av barnbidraget skulle fördela sig över olika inkomst
-­
 deciler visar att hushåll med lägst inkomster skulle få mest, såväl i kronor som i procent.
 Figur 20 Förändring av genomsnittlig ekonomisk standard av höjt allmänt barnbidrag med 400 kronor per månad och barn, år 2026
 Källa: RUT 2025:1258.
@@ -940,49 +766,35 @@ Höj och reformera bostadsbidraget
 Fram till 1996 var både inkomst- och bostadskostnadsgränserna i bostadsbidraget indexerade. Sedan dess krävs politiska beslut för att de ska hänga med inflationen och löneutvecklingen – beslut som sittande regeringar endast undantagsvis tagit. I dag
 betalar den absoluta majoriteten av mottagarna av bostadsbidraget hyror som är betydligt
 högre än taket i bidraget, vilket gör att de kompenseras för en relativt liten del av hyres
-­
 kostnaderna. Som en effekt av att inkomstgränsen inte hållit jämna steg med inkomst
-­
 utvecklingen är det allt färre som har så låga inkomster som krävs för att omfattas av bostadsbidraget.
 Bostadsbidraget kan aldrig kompensera fullt ut för en situation med brist på bostäder som trissar upp priserna på boende. Där behövs en aktiv bostadspolitik. Däremot fyller bostadsbidraget ett viktigt syfte i fråga om att se till att folk har råd med ett fullvärdigt boende. Med tanke på att många hushåll i Sverige har problem med att få vardags
-­
 ekonomin att gå ihop – ofta p.g.a. höga boendekostnader – har bostadsbidraget en mycket viktig roll att spela.
 Under pandemin införde regeringen tillfälliga höjningar av bostadsbidraget efter påtryckningar från bl.a. Vänsterpartiet. Dessa gällde juli till december 2020 och motsvarande period 2021. Till följd av den höga inflationen infördes samma tillfälliga höjning under motsvarande period 2022. De tillfälliga höjningarna uppgick vid samtliga dessa tillfällen till 25 procent av storleken på det preliminära bostadsbidraget. Omkring 120
 000 hushåll fick varje månad ett höjt bostadsbidrag med i genomsnitt omkring 750 kronor under de perioder höjningarna gällde. Genom budgetbeslutet för 2024 genom
-­
 fördes ytterligare en förlängning av det tillfälligt höjda bostadsbidraget. Förlängningen gällde det första halvåret 2024 och under den perioden fick mottagarna av bostadsbidrag 40 procent mer än deras preliminära bostadsbidrag. Höjningen innebar att tilläggs
-­
 bidraget ökade till omkring 1
 200 kronor i genomsnitt. Genom vårändringsbudgeten för 2024 förlängdes den tillfälliga höjningen av bostadsbidraget ytterligare ett halvår.
 I budgeten för 2025 förlängde regeringen tilläggsbidraget till den 30 juni 2025 men sänkte nivån tillbaka till 25 procent av det preliminära bostadsbidraget. I vårändrings
-­
 budgeten 2025 föreslogs ingen förlängning av tilläggsbidraget, trots omfattande kritik från Vänsterpartiet, övriga oppositionspartier och en lång rad civilsamhälles
-­
 organisa
-­
 tioner och debattörer. Regeringen har motiverat avskaffandet av tilläggsbidraget med att ”inflationsbekämpningen har haft effekt och kampen mot den höga inflationen är nu vunnen”. Att inflationen gått ned betyder att prisökningstakten sjunkit, inte att priserna sjunkit. De som har bostadsbidrag lever med mycket små resurser.
 Vänsterpartiet har välkomnat det tillfälliga förhöjda bostadsbidraget men hela tiden påtalat att bostadsbidraget behöver reformeras i grunden. Ett höjt bostadsbidrag bör konstrueras så att andra inkomster, t.ex. försörjningsstöd, inte minskar i samma omfattning som bostadsbidraget ökar. För att fler ska kunna ta del av bostadsbidraget behöver inkomstgränserna höjas så att fler får rätt till bidraget och fler får ett större bidrag. Likaså behöver gränserna för bostadskostnaderna höjas. I dag betalar den absoluta majoriteten av bostadsbidragsmottagarna hyror som är högre än taket för bostadsbidraget, vilket gör att de kompenseras för en relativt liten del av hyres
-­
 kostnaderna. Dessa båda gränser behöver sedan inkomstindexeras så att deras värde inte urholkas från år till år.
 I och med att boendekostnaderna ökat kraftigt de senaste åren och bidrar till att många
 hushåll är ekonomiskt pressade anser Vänsterpartiet att det är rimligt att fler grupper, även hushåll utan barn, omfattas av bostadsbidraget. Våra förslag för att reformera bostadsbidraget beskrivs närmare i motionen En starkare ekonomisk familjepolitik (mot. 2025/26:2781).
 I väntan på att bostadsbidraget reformeras i grunden bör tilläggsbidraget på den förhöjda nivån om 40 procent av det preliminära bostadsbidraget återinföras. Vänster
-­
 partiet avsätter 1,3 miljarder kronor för ändamålet 2026.
 Vänsterpartiets förslag:
 Återinför tilläggsbidraget i bostadsbidraget på den förhöjda nivån om 40 procent av det preliminära bostadsbidraget.
 Höj tak och ersättningsnivåer i socialförsäkringen
 Socialförsäkringarna har urholkats under flera års tid. Det gäller inte minst pensionerna och sjukförsäkringen, inkluderat arbetsskadeförsäkringen, men också flera av de ersättningar och bidrag som tillhör familjepolitiken.
 Inspektionen för socialförsäkringen (ISF) har analyserat utvecklingen av social
-­
 försäkringsförmånerna under de senaste 30 åren. Inspektionen kom fram till att 14 procent av männen och 2,4 procent av kvinnorna hade inkomster över inkomsttaket i sjukpenningen 1992. 2017 var motsvarande andelar 57,4 procent av männen och 37,8 procent av kvinnorna.
 För att stärka socialförsäkringens inkomstutjämnande effekt anser Vänsterpartiet att ersättningarna i den bör vila på ett antal principer som varierar beroende på typ av ersättning. Vänsterpartiet anser att de inkomstrelaterade ersättningarna, inkluderat tak och grundnivåer, ska inkomstindexeras på sikt. Inkomstindexeringen ska börja tillämpas från 2027, efter att vi höjt nivåerna i flera ersättningssystem. Kostnadsrelaterade ersättningar såsom barnbidrag och bostadsbidrag ska prisindexeras och fasta belopp ska endast användas undantagsvis. Vidare anser vi att ersättningsnivåer och tak bör utformas så att 80 procent av löntagarna får 80 procent av lönen i ersättning. Dessa principer vägleder Vänsterpartiets politik avseende tak och nivåer på ersättningar inom socialförsäkringen.
 Den 1 januari 2022 höjdes taket i sjukpenningen till 10 prisbasbelopp. Taket i sjuk
-­
 ersättningen ligger på 8 prisbasbelopp, medan föräldraförsäkringen ligger på 10 prisbas
-­
 belopp och graviditetspenningen och den tillfälliga föräldrapenningen (vab) på 7,5 pris
-­
 basbelopp. Vänsterpartiet anser att taken i transfereringssystemen bör vara enhetliga och utformas så att 80 procent av löntagarna får 80 procent av lönen i ersättning. För att nå dit behöver taken höjas. Vänsterpartiet vill se en höjning av taken i samtliga delar av socialförsäkringen.
 Flera ersättningsnivåer inom sjukförsäkringen behöver höjas. Vänsterpartiet vill höja taket i sjukpenningen för arbetssökande från dagens 543 kronor per dag till 753 kronor per dag. Därefter bör det inkomstindexeras.
 Vi vill också avskaffa bestämmelserna om sjukpenning på fortsättningsnivå så att den som har sjukpenning i över ett år fortsatt får 80 procent av sin SGI i stället för 75 procent som i dag.
@@ -990,7 +802,6 @@ Vänsterpartiet anser vidare att ersättningsnivån i sjuk- och aktivitetsersät
 Vänsterpartiets förslag:
 Höj taken för tillfällig föräldrapenning och sjuk- och aktivitetsersättning. Vi avsätter 700 miljoner för detta 2026.
 Höj taket i sjukpenningen för arbetssökande till 753 kronor per dag och inkomst
-­
 indexera det. Vi avsätter 800 miljoner för detta 2026.
 Avskaffa bestämmelserna om sjukpenning på fortsättningsnivå så att den som har sjukpenning i över ett år fortsatt får 80 procent av sin SGI. Vi avsätter 500 miljoner för detta 2026.
 Höj ersättningsnivån i sjuk- och aktivitetsersättningen. Vi avsätter 1,25 miljarder för ett första steg 2026.
@@ -999,18 +810,14 @@ I ett läge där hushållen vänder på varje krona blir det kostsamt att stanna
 man är sjuk. För den som arbetar inom Kommunals avtalsområden, yrken där de anställda
 ofta utsätts för smitta, kostar varje sjuktillfälle omkring 1
 000 kronor före skatt i karens
-­
 avdrag. På ett år blir det i genomsnitt 3
-000–6
 000 kronor i uteblivna inkomster. En betydande summa för de allra flesta.
 Även sjuknärvaron kostar pengar, både för samhället och för individen. Den direkta kostnaden kommer i form av att smittspridningen ökar och fler riskerar att insjukna när anställda går till jobbet trots att de egentligen borde vara hemma och bli friska. På sikt riskerar den som upprepade gånger är sjuknärvarande att få sämre hälsa och ökad risk både för långtidssjukskrivning och förtida pension, enligt SHOP-studien vid Karolinska institutet. En kostsam konsekvens både för den enskilda och för samhället i stort, och något som till stor del skulle kunna avhjälpas genom ett slopat karensavdrag.
 Sverige är i dag det enda landet i Norden som har karensavdrag. Tyvärr tyder inget på att det kommer att avskaffas. Under coronapandemin infördes en tillfällig ersättning för karensavdraget (karensersättning), tack vare Vänsterpartiet och flera pådrivande fackförbund. Denna ersättning är slopad sedan den 1 april 2022. S-regeringen tillsatte i mars 2022 en utredning för att se över karensavdraget och sjuklönen (dir. 2022:23). Utredningen lades ned av SD och den nya regeringen och ersattes av en intern utredning inom Socialdepartementet.
 I december 2023 presenterade departementet sina slutsatser som bland annat innehöll ett förslag om att införa ett karenstak. Det innebär att karensavdrag inte ska göras om
 sådant avdrag har gjorts för en individ vid sex tillfällen under de senaste tolv månaderna.
 Karenstaket skulle ersätta det nuvarande allmänna högriskskyddet som innebär mot
-­
 svarande skydd för individer som haft fler än 10 karensavdrag under en tolvmånaders
-­
 period.
 Förslaget är långt ifrån tillräckligt och skulle ha liten effekt om det genomfördes. Ännu har regeringen inte agerat utifrån förslaget. Regeringens hantering av hela frågan tyder på att den inte kommer att lösa de uppenbara problem som finns.
 Vänsterpartiet anser att karensavdraget bör avskaffas snarast, för att underlätta för hushållen i det tuffa ekonomiska läge som råder och för att det med stor sannolikhet skulle bidra till en förbättrad folkhälsa.
@@ -1022,19 +829,15 @@ Hushållen med de minsta ekonomiska marginalerna är extra utsatta till följd a
 000 kronor per månad och hushåll. I ett första steg föreslår vi en höjning med 500 kronor.
 Vänsterpartiets förslag:
 Höj försörjningsstödet med 500 kronor per månad och hushåll. Vi avsätter 550 miljoner för det 2026.
-9
 Bygg Sverige starkt!
 Vi befinner oss i en klimatkris. Möjligheten att begränsa uppvärmningen till 1,5 grader enligt Parisavtalets målsättning minskar dramatiskt. År 2024 blev det första året med en global uppvärmning på mer än 1,5 grader.
 [64]
 Det är helt nödvändigt att omställnings
-­
 takten ökar kraftigt och att de globala utsläppen minskar drastiskt.
 Många av de nödvändiga förändringarna av vår produktion och konsumtion behöver genomföras de närmaste tio åren. Om omställningen ska lyckas behöver den ske med en tydlig folklig förankring för de genomgripande förslag som behöver komma till. Därför kan och bör inte klimatpolitiken frikopplas från frågor om sysselsättning, välfärd och regional utveckling. På mycket kort tid behöver omställningen av vår konsumtion och produktion sättas i centrum av samhällets utveckling och den ekonomiska politiken. Det är tydligt att marknadens krafter inte kan lösa kritiska systemfrågor.
 Sverige ska byggas starkt. Det förutsätter en annan regering med en politisk vilja och tro på förändring. Regeringen med stöd av Sverigedemokraterna bedriver en politik för ökade utsläpp. Resultatet är väntat för alla utom regeringen som tycks överrumplade av sitt eget siffertrixande i klimatpolitiken. Sverige kommer inte att nå upp varken till de nationella klimatmålen eller till EU:s klimatmål.
-9.1
 En investeringsplan för en grön omställning
 Genom gemensamma ansträngningar och ett aktivt samhälle som investerar i klimatet och miljön kan vi åstadkomma en verkligt meningsfull och effektiv klimatomställning. Genom investeringar på 700 miljarder kronor vill Vänsterpartiet de kommande tio åren se till att klimatomställningen accelereras på det sätt som efterfrågas av bl.a. Klimat
-­
 politiska rådet. Med våra föreslagna investeringar kommer Sverige att ta reella steg mot att bli världens första fossilfria välfärdsland.
 Redan nästa år behöver samhället dels genomföra viktiga klimatinsatser, såsom att kraftigt sänka biljettpriserna i kollektivtrafiken och stärka järnvägsunderhållet, dels inleda ett strukturerat arbete inför vår tids stora investeringsåtagande. Vänsterpartiet föreslår att en klimatinvesteringsmyndighet inrättas som ges i uppdrag att planera, samverka och strukturera det gröna investeringsprogram som vi vill sjösätta.
 Vänsterpartiets klimatinvesteringspaket:
@@ -1047,45 +850,36 @@ Sverige och världen står i dag inför större utmaningar än på länge, och v
 Den svenska försvarsförmågan behöver snabbt förstärkas. Det innebär stora satsningar
 på både militärt och civilt försvar och en försvarsmakt med goda villkor och löner för personalen men också ett bredare fokus på samhällets funktionalitet. Det bygger på att alla invånare får den välfärd, den hjälp och det stöd som de behöver. Det betyder att alla ska ha en trygg bostad, att förskola och äldreomsorg ska ge våra yngsta och äldsta en trygg och givande vardag och att alla ska känna sig säkra såväl på gator och torg som i det egna hemmet.
 Att rusta Sverige för kris och konflikt handlar om såväl att ha en beredskap för militära hot och hybridhot som att möta effekterna av klimatförändringen och risken för långvariga leveransuppehåll i fråga om el och livsmedel och andra civila svårigheter. Dessutom krävs klimatanpassning i en rad samhällsviktiga verksamheter. Det handlar om behov motsvarande miljardtals kronor under de kommande åren. Samhällets mot
-­
 ståndskraft är helt avhängig hur väl vi klarar den utmaningen. Uteblivna investeringar har en direkt påverkan på hela totalförsvarets förmåga att genomföra sitt uppdrag – att skydda och försvara Sverige.
 Vänsterpartiet föreslår en rad åtgärder som skulle stärka Sveriges totalförsvar. Det
 handlar både om att investera i samhällskritisk infrastruktur och om att stärka kommuner
 och regioner för att t.ex. kunna bibehålla personaltäthet.
 Den försvarspolitiska överenskommelse som presenterades i juni 2025 handlar om hur de stora kommande försvarssatsningarna ska lånefinansieras. Under en period på åtta år får staten lånefinansiera upp till 300 miljarder kronor för att täcka de ökade utgifterna för totalförsvaret. Överenskommelsen innefattar också stora satsningar på infrastruktur. Tack vare Vänsterpartiet kommer minst 50 miljarder kronor att gå till civil infrastruktur som tåginvesteringar. Vi ser ett enormt behov av satsningar på järnvägs
-­
 trafik och robusta elnät. Vänsterpartiet kommer inom ramen för försvarsuppgörelsen och de fortsatta samtalen om civil infrastruktur driva att minst 9
 miljarder kronor under 2026 ska gå till att åtgärda underhållsskulden i fråga om järnvägen, till investeringsstöd och förstärkning av transportinfrastruktur och till att stärka elöverföringskapaciteten.
 Tabell 3 Vänsterpartiets satsningar inom ramen för försvarsuppgörelsen och de fortsatta samtalen om civil infrastruktur
 Miljoner kronor
-9.3
 Framtidens transporter
 Infrastrukturen och transporter är avgörande för den gröna omställningen. Sverige har tyvärr i dag starkt eftersatta investeringar i infrastrukturen. Det rör sig bl.a. om investeringar i alla former av transportinfrastruktur, inte minst järnväg. Sverige har i fredstid fler tågförseningar än vad Ukraina har i krigstid. Störningar i trafiken påverkar både person- och godstransporter.
 Det svenska Natomedlemskapet ställer dessutom nya krav på svensk infrastruktur, inte minst på järnvägssystemet. En rapport från Stockholms Handelskammare och konsultbolaget WSP uppskattar Natorelaterade investeringar i svensk transportinfra
-­
 struktur till 111 miljarder kronor, varav 92 miljarder kronor i järnvägen.
 [65]
 Det är utöver de satsningar som redan är inkluderade i den nationella planen för investeringar i transportinfrastrukturen.
-9.3.1
 Åtgärda underhållsskulden i fråga om järnvägen
 Det är tydligt att det var under perioden 1950-talet till 1980-talet som en ambitiös investeringspolitik fördes och den svenska transportinfrastrukturen byggdes ut. Sedan dess har transportinvesteringarna under större delen av tiden legat under 1 procent av BNP. Vi har levt på tidigare generationers investeringar och bidragit alldeles för lite själva. En sådan politik går en tid men resultatet blir till slut omfattande brister och ett försvagat samhälle.
 Figur 21 Investeringar i transportinfrastruktur 1960–2020
 Det är nödvändigt att återställa allmänhetens och näringslivets förtroende för järnvägs
-­
 trafiken. Att åtgärda brister i och öka robustheten för järnvägsinfrastrukturen är en viktig del av detta. Vi vill komma upp till en nivå som åtgärdar underhållsskulden både på stambanorna och på de regionala banorna. Vänsterpartiet kommer därför inom ramen för försvarsuppgörelsen och de fortsatta samtalen om civil infrastruktur driva att 3
 miljarder kronor under 2026 ska gå till att åtgärda järnvägens underhållsskuld.
 Vänsterpartiets förslag:
 Avsätt 3 miljarder kronor 2026 för att åtgärda underhållsskulden i fråga om järn
-­
 vägen inom ramen för försvarsuppgörelsen och pengarna till civil infrastruktur.
 Investeringsstöd och förstärkning av transportinfrastruktur
 Investeringar i ny infrastruktur måste riktas till klimatvänliga transportslag. Vänster
-­
 partiet vill därför stärka trafiksystemet genom att införa ett statligt investeringsstöd. Syftet med investeringsstödet är att säkerställa hållbara infrastruktursatsningar, t.ex. genom utbyggnad av kollektivtrafiken och övergång till fossilfria fordon.
 Ett av Natos sju civila förmågekrav krav är resilienta transportsystem. I sin rapport
 Kraftsamling, inriktningen av totalförsvaret och utformningen av det civila försvaret
 skriver Försvarsberedningen om vikten av en fungerande kollektivtrafik för att upprätt
-­
 hålla samhällsviktiga verksamheters funktionalitet.
 [66]
 Vänsterpartiet kommer inom ramen för försvarsuppgörelsen och de fortsatta samtalen om civil infrastruktur driva att 4 miljarder kronor 2026 ska gå till investeringar som stärker infrastrukturen, med fokus på hållbara och kostnadseffektiva lösningar.
@@ -1101,7 +895,6 @@ Vänsterpartiets förslag:
 Inför en Sverigebiljett som gör det möjligt att resa kollektivt över hela landet för 450 kronor i månaden. Vi avsätter 2,5 miljarder kronor som ett första steg i denna reform.
 Ett hållbart energisystem
 För att åstadkomma en snabb och omfattande klimatomställning behöver vi elektrifiera delar av samhället. När fordonsflottan ska ställas om från fossilberoende till i huvudsak el, samtidigt som tåginfrastrukturen byggs ut och industrins tillverkningsprocesser skiftar till fossilfritt kommer tillgången till el att behöva öka betydligt; i vissa scenarier förutspås användningen öka mångdubbelt gentemot i dag. Sannolikt innebär denna process den största utbyggnaden av produktion och distribution av el i modern tid i Sverige. Vänsterpartiet tar ansvar för att det ska finnas el till elektrifieringen av både industrin och transportsektorn. Det är centralt för att pressa ned utsläppen. Vänster
-­
 partiet ser därför ett stort behov av fortsatta energisamtal mellan partierna.
 För Vänsterpartiet är det centralt med elpriser som hushållen klarar av. Vänsterpartiet avvisar regeringens elpristak till förmån för en modell vi menar är betydligt bättre. Se avsnitt 5.4.
 Vänsterpartiets förslag:
@@ -1110,7 +903,6 @@ Ett elpristak för hushåll på 75
 öre/kWh som finansieras genom en obligatorisk elprisförsäkringsavgift på elbranschen.
 Investeringar i förnybar elproduktion
 Vänsterpartiet vill göra massiva investeringar i förnybar elproduktion. Vi föreslår därför ett investeringsstöd till lokal förnybar elproduktion. Investeringarna riktas till förnybar lokal elproduktion till konkurrenskraftigt elpris, med kravet att det ska vara till gagn för svensk industri och svenska hushåll. Det omfattar investeringar i såväl lokal förnybar elproduktion som överföringskapacitetsutbyggnad till lokal- och regionalnät samt anslutning till transmissionsnät. Vi kommer därför inom ramen för fortsatta energi
-­
 samtal att driva att 1 miljard kronor per år ska gå till lokal förnybar energiproduktion.
 Vänsterpartiets förslag:
 Investera 1 miljard kronor per år i lokal förnybar energiproduktion.
@@ -1120,16 +912,13 @@ Trots att det finns en stor potential för havsbaserad vindkraft i Sverige har b
 Vänsterpartiet vill se en ny modell, som skulle innebära ett slut på marknadskaoset när det gäller utbyggnaden av svensk havsvind. Den bygger på ett auktionsförfarande i kombination med ett stopp för utbyggnaden av elkablar till Europa. För att få kontroll över priserna måste vi ta tillbaka kontrollen över den svenska elmarknaden. Offentliga investeringar i svensk elproduktion riskerar annars att i praktiken bli subventioner till grannländernas bristfälliga insatser. Läs mer om förslaget i vår motion Energipolitik för mer och förnybar el till rimliga priser (mot. 2025/26:2797).
 Ett robust och motståndskraftigt samhälle kräver att det offentliga har kontroll över samhällsviktig verksamhet. Genom ett statligt bolag som tillför eget kapital kan staten säkerställa sin ägarandel i kommande havsvindsprojekt. Vi menar att 25 procent, strax över vad som gäller i Danmark, är rimligt. Vi avsätter därför som utgångspunkt 50
 miljarder kronor över en tioårsperiod. Det är väl investerade pengar, både stats
-­
 finansiellt
 och klimatmässigt.
 Möjligheten till kommunalt veto mot vindkraft bör avskaffas. Samtidigt behövs bättre
 incitament för utbyggnad av vindkraft, både land- och havsbaserad, genom att den kommun och de boende i närområdet där vindkraften ska byggas gynnas.
 [68]
 Regeringens förslag om stöd motsvarande den fastighetsskatt som vindkraften i den aktuella kommu
-­
 nen har gett upphov till är otillräckligt. Vänsterpartiet har länge förordat en produktions
-­
 baserad ersättning för att återföra en del av vinsten till de människor som påverkas av utbyggnaden av vindkraft. Det skulle dels öka acceptansen, dels innebära en mer rättvis fördelning, där de delar av landet som står för en stor del av energiförsörjningen också i högre utsträckning gynnas av den.
 Vänsterpartiets förslag:
 Avsätt 1 miljard kronor 2026 som ett första steg för att säkra statligt ägande vid byggande av havsvindkraftsparker.
@@ -1137,26 +926,21 @@ Detta kommer vi att driva inom ramen för fortsatta energisamtal.
 Inför en produktionsbaserad ersättning till de lokalsamhällen där vindkraft byggs.
 Stärkt elöverföringskapacitet
 Under lång tid har investeringar i elnätet varit eftersatta. Det är uppenbart att marknaden inte har lyckats lösa det efter avregleringen på 1990-talet. Vi vill bygga elnätet robust igen med kraftiga investeringar såväl i överföringskapaciteten mellan norra och södra Sverige som i utbyggnad av elnätet för klimatomställningen. Elnätet behöver ses som en del av samhällets infrastruktur, som vi gemensamt bygger upp utifrån samhälleliga mål, som annan infrastruktur i form av exempelvis vägar och järnvägar. För oss är det väsentligt att elnätet är ägt av samhället genom exempelvis stat, region eller kommun. Förslaget är en del av Vänsterpartiets klimatinvesteringsprogram och innebär investeringar på 50 miljarder kronor över tio år i utbyggnaden av transmissionsnätet för elöverföring. Vänsterpartiet kommer i de fortsatta samtalen inom ramen för försvars
-­
 uppgörelsen om civil infrastruktur driva att medel ska avsättas till utbyggnaden av transmissionsnätet för elöverföring.
 Vänsterpartiets förslag:
 Investera 2 miljarder kronor 2026 i utbyggnaden av transmissionsnätet för elöver
-­
 föring inom ramen för försvarsuppgörelsen och pengarna till civil infrastruktur.
 Nya beredskapsjobb
 Sveriges kommuner och regioner står inför stora investeringsbehov. Många offentliga byggnader har liksom vatten- och avloppsledningar runtom i landet nått slutet på sin tekniska livslängd. Enligt branschorganisationen Svenskt Vatten har va-branschen ett årligt investeringsbehov på minst 31 miljarder kronor fram till 2040.
 [69]
 Det riskerar i sin tur att leda till mångdubblade va-avgifter för hushåll och företag. Det krävs också ett omfattande underhåll av t.ex. gator, broar och belysning. Den underhålls- och investeringsskuld vi nu står inför kommer att få stora effekter på samhällets funk
-­
 tionalitet om den inte möts med långsiktiga åtgärder som påbörjas här och nu.
 Kommuner och regioner står dessutom inför stora behov av klimatanpassningar. Det visar inte minst de stora skyfall i Västernorrland i september 2025 som orsakade tågurspårningar och ledde till att ett 40-tal vägar fick stängas av. Anpassningarna kan t.ex. handla om att klimatsäkra äldreboenden så att de boende inte drabbas av värme
-­
 böljor, bygga skyddsvallar mot översvämningar eller rusta vatten- och avloppssystem mot stora vattenmängder. Sverige behöver fungera i vardagen såväl som vid kris.
 Vänsterpartiet föreslår en satsning på
 nya beredskapsjobb
 i lågkonjunkturen. Vår modell för nya beredskapsjobb består av två delar. Dels står staten för hälften av investeringskostnaden för planerade projekt i kommuner och regioner som påbörjas under 2026, dels bidrar staten genom en arbetsmarknadspolitisk åtgärd med statligt anställningsstöd.
 Projekten ska bidra till att stärka samhällets robusthet och resiliens. Det kan t.ex. handla om att bygga ut och förstärka infrastruktur, rusta va-system, renovera skyddsrum eller stärka energisystemet eller annan samhällskritisk verksamhet. Det handlar också om att möjliggöra för kommuner och regioner att bygga ut och bibehålla vårdinfra
-­
 struktur, dvs. den infrastruktur som utgörs av sjukhusfastigheter och andra typer av vårdbyggnader tillsammans med teknik och utrustning. Där ingår också transporter som ambulanser, sjuktransporter, luftburen ambulanssjukvård och liknande. För att projektet ska omfattas krävs att verksamheten ska ägas och drivas i offentlig regi.
 Modellen innebär ett anställningsstöd inom de aktuella projekten, där staten tar 80
 procent av kostnaderna. Villkoret för detta ska vara 100 dagar i arbetslöshet och en utbildning inom bygg och anläggning eller motsvarande kvalifikationer. Befinner man sig i arbetslöshet har man företräde till anställning. Givetvis ska de i likhet med andra subventionerade anställningar ha fulla rättigheter och lön som andra anställda. Vi avsätter 2 miljarder kronor under 2026 med intentionen att skala upp modellen under kommande år.
@@ -1166,103 +950,79 @@ Klimatsmarta och trygga boenden
 Sverige behöver en ny bostadspolitik med betydligt högre ambitioner än vad som varit fallet de senaste decennierna, inte minst sedan den sittande regeringen tillträdde. Det behövs en hållbar, långsiktig politik som kan möta de utmaningar vi står inför i form av bostadsbrist, hemlöshet, bostadssegregation och klimatomställning. Antalet påbörjade bostäder har störtdykt under regeringens mandatperiod.
 Bostadsbristen måste byggas bort. Några andra åtgärder kan inte lösa grundproblemet:
 nämligen bristen på bostäder. Alla fakta visar att det är fler miljövänliga hyresrätter med rimliga hyror som främst behöver byggas, något marknaden visat sig inkapabel att klara av. Läs mer om våra bostadspolitiska förslag i motionen Bostadspolitik, planering och byggande (mot. 2025/26:2821).
-9.6.1
 Klimatsäkra bostadsbeståndet
 I en bransch som ensam står för en så betydande del av samhällets klimatpåverkan är satsningar på klimatanpassningar av det befintliga bostadsbeståndet helt grundläggande. Bara av miljonprogrammets bostäder beräknas flera hundra tusen bostäder vara i stort behov av renovering och kostnaderna beräknas bli mycket höga. Om dessa för samhället så nödvändiga energieffektiviseringar inte ensamt ska betalas av nuvarande hyresgäster måste staten vara med och ta en del av det finansiella ansvaret. Problemen med chock
-­
 höjningar av hyror efter fastighetsupprustningar är välkända.
 Ett statligt stöd för renovering och energieffektivisering av flerbostadshus med hyresrätter kan på ett effektivt sätt avhjälpa båda dessa stora samhällsproblem. Som stödgivare har staten stora möjligheter att ställa höga krav på klimatsmarta ombyggna
-­
 tioner, liksom på rimliga hyresnivåer efter renoveringarna.
 Vänsterpartiet vill införa ett renoverings- och energieffektiviseringsstöd för fler
-­
 bostads
-­
 hus med hyresrätter. Stödet ska lätta den ekonomiska bördan för den enskilda hyresgästen vid större renoveringar i fastigheten.
 Under lång tid har det ägda beståndet fått statligt bidrag för renovering, ombyggnad och tillbyggnad via rotavdraget. Något som, till ett mycket högt pris för skattebetalarna, inte har bidragit till någon samhällsnytta i stort utan enkom gynnat enskilda bostads
-­
 ägare. Det är nu dags för ett omfattande upprustningsprogram för hyresfastigheter. Medel ska kunna sökas av såväl allmännyttiga som privata fastighetsägare. De ska täcka en del av omkostnaderna för att göra nödvändiga renoveringar med tydligt satta klimat- och miljökrav. Detaljerade krav för att kunna ta del av stödet ska tas fram av Boverket och stödet ska kunna sökas från andra halvan av 2026.
 Vänsterpartiets förslag:
 Investera 750 miljoner kronor 2026 i renoverings- och effektiviseringsstöd till flerbostadshus med hyresrätt.
 Fler klimatsmarta hyresrätter till en överkomlig hyra
 Det tidigare investeringsstödet för byggande av hyresrätter, som avvecklades av riks
-­
 dagens högerkonservativa partier, var en viktig anledning till att det under några år faktiskt byggdes hyresrätter med hyror som även genomsnittliga löntagare hade råd med. Stödet bidrog också till att fler bostäder de facto byggdes, något som flertalet rapporter visat. Att i ett skede där antalet nybyggnationer störtdyker plötsligt avveckla investeringsstöden tedde sig därför häpnadsväckande okunnigt. Ideologin, kombinerad med ett väl rotat förakt för hyresrätten, tycks viktigare för högern än att även människor som saknar ekonomiska resurser faktiskt får ett eget långsiktigt och tryggt hem.
 Vänsterpartiet vill återinföra ett statligt stöd för byggande av hyresbostäder. Ett nytt stöd kan utformas på många sätt och vi föreslår att stödet delas upp i ett stöd för vanliga hyresrätter och ett separat stöd för byggande av studentbostäder. Utöver detta måste stödet mycket tydligare än vad som tidigare varit fallet knytas till klimatmålen. Högre krav på klimatsmarta bostäder ska ställas när stöd ska beviljas. För att ytterligare stödja klimatsmart byggande avsätter vi 500 miljoner kronor till industriellt byggande av flerbostadshus i trä.
 Vänsterpartiets förslag:
 Avsätt 2,3 miljarder kronor 2026 till stöd för anordnande av klimatsmarta hyres
-­
 bostäder och studentbostäder.
 Investera 500 miljoner kronor 2026 för uppförande av klimatsmarta flerbostadshus i trä.
 Klimatklivet
 Vi ser ett ökande behov av klimatinvesteringar inom transportsektorn, industrin och jordbruket. Enligt Naturvårdsverket gör konjunkturläget att tillgången på investerings
-­
 villigt privat kapital minskar, och därmed ökar kostnaden för investeringarna. Det ställs då ökade krav på tillgång till offentligt kapital för en omställning av både nya och befintliga strukturer som till stor del är uppbyggda kring fossila bränslen och råvaror.
 Klimatklivet är ett investeringsstöd i syfte att minska utsläppen och kan t.ex. handla om ökad användning av biogas, laddinfrastruktur och elektrifiering, cirkulära flöden och jordbruk. En förutsättning för att kunna använda anslaget på ett effektivt sätt är att det finns möjlighet att teckna avtal om fleråriga projekt. På så sätt kan fler stora, långsiktiga och effektiva klimatinvesteringar komma till stånd.
 Klimatklivet bör förstärkas och förlängas för att staten ska möjliggöra företagens behov av stöd för en grön omställning. Näringslivet behöver långsiktiga och förutsäg
-­
 bara förutsättningar och omställningen kräver stora investeringar.
 Vänsterpartiets förslag:
 Öka statliga insatser för att stärka den gröna omställningen inom industrin, jord
-­
 bruket och transporter och för cirkulär ekonomi med 2,5 miljarder kronor 2026.
 Värnet för naturen/skydda miljön
 En fungerande natur med rik biologisk mångfald och ett ekosystem i balans är grunden för liv på jorden och framtida välfärd. Fler arter än någonsin i människans historia är på väg att försvinna. Även i Sverige är läget för den biologiska mångfalden allvarlig, vilket bekräftas i den senaste utvärderingen (2023) av våra miljömål.
 [70]
 Behovet av åtgärder för att vända utvecklingen är stort. Skydd av värdefull natur är en förutsättning för att uppnå krav inom EU och globala åtaganden för biologisk mångfald. Klimatkrisen och artkrisen måste mötas gemensamt.
 FN:s klimatpanel konstaterar att åtgärder för att bevara ekosystem är ett förhållande
-­
 vis billigt sätt att minska utsläppen.
 [71]
 Skydd och restaurering av naturliga ekosystem erbjuder stora möjligheter genom att ta upp och låsa in koldioxid från atmosfären. EU har satt upp ett mål om att rättsligt skydda minst 30 procent av landytan samt 30 procent av havsområdet till 2030.
 Om inte ytterliga resurser tillförs för att stärka skyddet av värdefull natur riskerar höga naturvärden i Sverige att förloras genom avverkning. Markägare riskerar dessutom att komma i kläm då de inte kan få ersättning för att skogen skyddas. Besöksnäringen är den snabbast växande näringen i världen, och potentialen i framtiden för friluftsliv och naturturism, inte minst i den fjällnära regionen, bedöms som stor.
 Att restaurera våtmarker och återväta torvmarker ger många vinster för miljön och klimatet. Genom att binda kol i våtmarker kan man minska utsläppen av växthusgaser. Att anlägga våtmarker har även stor betydelse för den biologiska mångfalden då stora delar av landet tidigare dikats ut. Våtmarker stärker även landskapets skydd mot torka, översvämning och brand, vilket är av stor betydelse ur klimatanpassningsperspektiv. Vänsterpartiet vill därför öka satsningar på återskapande av våtmarker och genomföra dessa långsiktigt.
 All markanvändning har påverkan på miljö och klimat. Sverige har goda förutsätt
-­
 ningar att utveckla ett hållbart jordbruk som i framtiden både bidrar till den globala livsmedelsförsörjningen och stärker vår nationella självförsörjning av livsmedel. För att uppnå ett ekologiskt hållbart och fossilfritt jordbruk måste stöd och styrmedel utformas inom jordbrukssektorn så att de bidrar till att vi når våra miljö- och klimatmål och de globala hållbarhetsmålen. Vänsterpartiet vill bl.a. se ett stärkt stöd för produktion och förädling av växtbaserad mat, ett investeringsstöd för klimatanpassning i jordbruket, ökat stöd för anläggande och skötsel av våtmarker i jordbrukslandskapet och ett omställningsstöd för övergång till ett kalhyggesfritt skogsbruk.
 Vänsterpartiets förslag:
 Satsa mer på åtgärder för värdefull natur och öka takten i återskapandet av våtmarker. Vi avsätter 1,4 miljarder kronor för detta 2026.
 Stärk skyddet av värdefull natur och skyddet av fjällnära skogar med 1,8 miljarder kronor vardera och öka skyddet av mindre skogsområden med 1,1 miljarder kronor 2026.
-9.9
 Vänsterpartiets klimatinvesteringar 2026
 Tabell 4 Vänsterpartiets klimatinvesteringar
 Avvikelse från regeringen, miljoner kronor
 * Vänsterpartiet kommer att driva att detta finansieras inom ramen för försvarsuppgörelsen och pengarna till civil infrastruktur.
 ** Vänsterpartiet kommer att driva detta inom ramen för fortsatta energisamtal.
-9.10
 En aktiv arbetsmarknadspolitik
 Vänsterpartiets politik strävar mot full sysselsättning. Med full sysselsättning menar vi att alla som vill och kan arbeta ska ha ett arbete som det går att försörja sig på. Ingen ska behöva gå arbetslös annat än under korta perioder och sysselsättningsgraden ska vara tillräckligt hög för att finansiera en generös offentlig välfärd.
 Vänsterpartiet vill återupprätta den aktiva arbetsmarknadspolitiken. Det kräver större satsningar på aktiva åtgärder som rustar och höjer de arbetssökandes kompetens, liksom att de myndigheter som berörs kan fokusera på det område de är bäst på. Regeringens insatser på området är i stort sett obefintliga samtidigt som massarbetslösheten biter sig fast. Vi föreslår istället en förändring av Arbetsförmedlingens verksamhetsområde liksom en ny arbetsmarknadspolitisk insats som kombinerar arbetslöshet inom bygg och anläggning med de stora kommunala investeringsbehov som finns inom samma område – s.k. nya beredskapsjobb.
-9.10.1
 Investera för ökad sysselsättning
 Vänsterpartiet söker mandat för att genomföra ett historiskt omfattande investerings
-­
 paket för klimatet. Genom nämnda investeringar på 700 miljarder kronor vill vi de
 kommande tio åren se till att klimatomställningen accelereras. Vi föreslår en investerings
-­
 ledd
 klimatpolitik för att främja utvecklingen inom tre områden: transporter, energi och bostäder. Ett sådant omfattande investeringspaket får också positiva effekter på svensk ekonomi och arbetsmarknad.
 Olika typer av offentliga satsningar får olika effekter på ekonomin och på de offent
-­
 liga finanserna. En satsning som till stor del ökar efterfrågan på inhemskt producerade
 varor och tjänster ger en positiv effekt på den svenska produktionen och sysselsätt
-­
 ningen.
 Det ger i sin tur s.k. multiplikatoreffekter eftersom en högre sysselsättning och lägre arbetslöshet ger högre hushållsinkomster när människor går från arbetslöshet till arbete. Många av investeringsbehoven relaterade till klimatomställningen är tydligt arbets
-­
 krafts
-­
 intensiva. Ett exempel är energieffektivisering av bostadssektorn. Ett annat exempel är vår föreslagna satsning på nya beredskapsjobb. Den typen av investeringar ger större effekt på sysselsättningen än investeringar som har stor kapitalintensitet.
 Offentliga investeringar kan få mycket stora återverkningar i ekonomin –
 mång
-­
 dubbelt större än exempelvis skattesänkningar. Vänsterpartiet har presenterat beräkningar
 av hur stora effekter vårt klimatinvesteringspaket kan ge på BNP och arbetslöshet i vår ekonomisk-politiska plattform ”Ny start för Sverige”.
 De ekonomiska effekterna av offentliga investeringar är självklart inte bara beroende av hur mycket som investeras, utan även av under vilka former de investeras. Om allt arbete utförs av gästarbetare med låga löner som efter avslutat arbete återvänder till sitt hemland blir följdverkningarna i den svenska ekonomin av de extra investeringarna
 mindre. Krav på arbetstillstånd, kollektivavtalsenliga löner eller skattskyldighet i Sverige liksom kontroller och kraftfulla sanktioner mot fuskande arbetsgivare är inte bara viktiga
 för att skydda arbetstagarnas villkor och svenska skatteintäkter. De är också viktiga för att ge svenska företag och arbetare en schysst möjlighet att konkurrera på lika villkor och på så sätt säkerställa att en större del av det välstånd som skapas i arbetet med att bygga ny infrastruktur kommer den svenska ekonomin till del.
 För att dessa investeringar ska få fullt genomslag i form av ökad sysselsättning och minskad arbetslöshet är det nödvändigt att det samtidigt görs omfattande satsningar på utbildnings- och arbetsmarknadspolitiken. Samtidigt som arbetslösheten är hög så råder det i dag brist på yrkesutbildade personer i flera branscher.
-9.10.2
 En fungerande arbetsförmedling
 Arbetslösheten är hög och fortsätter att öka. Den är nu nästan nio procent och ännu högre bland unga, 24 procent. Sedan valet 2022 har arbetslösheten ökat med 100
 000 personer. För att rusta de arbetslösa för att ta de jobb som finns och de nya jobb som växer fram krävs en aktiv arbetsmarknadspolitik. Det förutsätter i sin tur en fungerande arbetsförmedling. Idag präglas Arbetsförmedlingen av stora brister.
@@ -1274,7 +1034,6 @@ En stor del av den svenska arbetsmarknadspolitiken bedrivs i praktiken av privat
 Det nuvarande systemet är upplagt för oseriösa aktörer som ser en möjlighet att tjäna pengar på arbetslösa. Det finns också en uppenbar risk att arbetssökande som står långt ifrån arbetsmarknaden får sämre möjligheter till stöd. Sveriges Kommuner och Regioner (SKR) har gjort en kartläggning av tjänsten Rusta och matcha som visar att de som står längre ifrån arbete varken får mer eller annat stöd än övriga. Individer med funktionsnedsättning som medför nedsatt arbetsförmåga får till och med mindre stöd än andra.
 [73]
 Dessutom är det sannolikt att fristående aktörer väljer att enbart etablera sig på orter med ett tillräckligt befolkningsunderlag. Det finns också exempel på hur myndighetens stöd utnyttjas av organiserad brottslighet. Vänster
-­
 partiet vill se ett stopp för privata aktörer i arbetsmarknadspolitiken.
 Arbetsförmedlingen ska finnas i hela landet för att garantera att alla medborgare ges ett likvärdigt stöd oavsett var man bor. Mellan slutet av 2018 och 2024 minskade antalet kommuner med fast bemannade kontor från 172 till 81.
 [74]
@@ -1283,17 +1042,14 @@ Mellan 2018 och 2024 minskade antalet arbetsförmedlare på myndigheten med ca 3
 320 personer.
 [75]
 Vänsterpartiet är starkt kritiskt till Arbetsförmedlingens utveckling de senaste åren. Arbetsförmedlingen ska finnas i hela landet för att garantera att alla med
-­
 borgare ges ett likvärdigt stöd oavsett var man bor. Det kräver mer personal och fler AF-kontor. Därför höjer vi myndighetens förvaltningsanslag.
 Vänsterpartiets förslag:
 Stoppa kaosprivatiseringen av Arbetsförmedlingen.
 Höj Arbetsförmedlingens förvaltningsanslag med 1 miljard kronor 2026.
 Fler i arbetsmarknadsutbildning
 Många av dem som är arbetslösa idag saknar den utbildning och kompetens som efter
-­
 frågas på arbetsmarknaden. Samtidigt råder det brist på arbetskraft i många branscher. Behoven av utbildning, och andra former av arbetsmarknadspolitiska program och insatser som rustar de arbetslösa att ta de jobb som finns och de nya som växer fram, är omfattande. Trots detta har regeringen skurit ner på anslaget. Idag satsar regeringen omkring 6 miljarder på arbetsmarknadspolitiska program och insatser. Detta kan jämföras med 2018, då den dåvarande S-MP-regeringen satsade 13 miljarder kronor.
 Givet de omfattande behoven av aktiv arbetsmarknadspolitik (med fokus på utbildnings
-­
 insatser)
 bör anslaget höjas.
 Arbetsmarknadsutbildning leder i hög utsträckning till arbete och ger långsiktigt positiva effekter på deltagarnas arbetsinkomster. Fler arbetslösa ska ges möjlighet att delta i arbetsmarknadsutbildning. Samtidigt bör kvaliteten på utbildningarna förbättras och i högre grad än i dag riktas mot bristyrken.
@@ -1301,7 +1057,6 @@ Vänsterpartiets förslag:
 Öka anslaget för arbetsmarknadspolitiska program och insatser med 2 miljarder kronor 2026.
 Höj och indexera lönetaken för subventionerade anställningar
 Studier visar att subventionerade anställningar generellt sett ger goda resultat, både för de individer som omfattas och för de anställande företagen. Personer som haft en sub
-­
 ventionerad anställning får i allmänhet snabbare ett jobb utan stöd jämfört med dem
 som varit öppet arbetslösa. Vänsterpartiet vill satsa mer på subventionerade anställningar,
 såväl för personer med kort tid i arbetslöshet som för långtidsarbetslösa.
@@ -1310,36 +1065,27 @@ förslag:
 Vänsterpartiet avsätter 700 miljoner kronor för höjda lönetak i de subventionerade anställningarna 2026.
 Höj och stärk arbetslöshetsförsäkringen
 Vänsterpartiet är starkt kritiskt till den reform av arbetslöshetsförsäkringen som regeringen genomdrivit genom prop. 2023/24:128 En arbetslöshetsförsäkring baserad på inkomster, och som genomförs från och med den 1 oktober 2025. Den innebär en kraftig försämring av a-kassan och en kraftig försämring kommer inte att pressa ned arbets
-­
 lösheten.
 Arbetslöshet bekämpas genom en ekonomisk politik för full sysselsättning, genom investeringar som ger jobb och genom en aktiv arbetsmarknadspolitik som rustar de arbetslösa att ta de jobb som finns och de nya jobb som växer fram. Regeringens förslag på försämringar i arbetslöshetsförsäkringen blir därför inte bara ett slag i luften utan leder till onödigt lidande för många grupper – i synnerhet för långtidsarbetslösa som kommer att få kraftigt sänkt ersättning med regeringens förslag.
 Det faktum att regeringen inte bedriver en ekonomisk politik för full sysselsättning, inte genomför några investeringar som ger jobb och inte heller bedriver någon aktiv arbetsmarknadspolitik värd namnet innebär att regeringen frånhänder sig ansvaret för att pressa ned arbetslösheten. Det ansvaret läggs i stället på individen. Det är djupt cyniskt och ovärdigt ett välfärdsland som Sverige.
 För att den som förlorar jobbet ska kunna få goda möjligheter att antingen ställa om eller hitta ett jobb som motsvarar dennes kompetens behöver arbetslöshetsförsäkringen ge en rimlig ersättning.
 Vänsterpartiets mål är att 80 procent av löntagarna ska få 80 procent av sin tidigare lön vid arbetslöshet. Det vill vi åstadkomma genom att höja den högsta dagpenningen och grundbeloppet (tak och golv), indexera ersättningsbeloppen till löneutvecklingen, höja ersättningsnivån till 80 procent för hela ersättningsperioden samt för tid med
 aktivitetsstöd, förbättra kvalificerings- och ersättningsvillkoren och återinföra studerande
-­
 villkoret.
 Vänsterpartiets föreslår att taket i arbetslöshetsförsäkringen ska uppgå till en nivå som innebär att 80 procent av löntagarna har inkomster under det. Till följd av våra förslag skulle deltagarna i de arbetsmarknadsåtgärder vi satsar på få en högre ersättning. Vi underlättar därmed omställningen.
 Vänsterpartiets förslag:
 Reformera a-kassan! Vänsterpartiet avvisar regeringens försämrade a-kassa som träder ikraft den 1 oktober 2025 samt avser att påbörja en reform där 80 procent av löntagarna ska få 80 procent av sin tidigare lön vid arbetslöshet. Vi avsätter 1 miljard kronor för ändamålet 2026.
-10
 Rättvisa skatter
-10.1
 Målen för skattepolitiken
 En politik för hållbar tillväxt, ökad jämlikhet och full sysselsättning behöver understödjas av en hög kvalitet i välfärdstjänster samt trygga och kostnadseffektiva försäkringssystem.
 Skatterna fyller i detta hänseende flera viktiga funktioner. De ska vara en stabil finan
-­
 siering av offentliga investeringar, utbildning och en aktiv arbetsmarknads- och närings
-­
 politik. Därtill bör de jämna ut inkomster, konsumtion och sparande mellan olika inkomstgrupper och vara styrande i klimat- och miljöpolitiken. Det finns ett samband
 mellan ett relativt högt skatteuttag och hög sysselsättning. Skattefinansierad äldre
-­
 omsorg,
 förskola och fritids gör det möjligt för flera att kombinera yrkes- och familjeliv.
 Skatternas huvudsakliga uppgift är att finansiera välfärden och övriga delar av det offentliga åtagandet. För att skattesystemet ska uppfattas som legitimt är det viktigt att skattereglerna är generella och enkla med breda skattebaser. Detta var också utgångs
-­
 punkten för den stora skattereformen i början av 1990-talet. Denna resulterade i lägre skatter på arbete, skärpt beskattning av kapital och minskade möjligheter till skatte
-­
 planering. Sedan dess har det gjorts många avsteg från dessa principer. Skattesystemet
 har utvecklats till att bli ett sammelsurium av olika avdrag, reduktioner och nedsättningar
 av olika skatter. Skatterna har också sänkts kraftigt sedan skattereformen. Bara under 2000-talet har skattekvoten sänkts från 48,6 procent av BNP till 41,4 procent (se figur 22), vilket motsvarar 470 miljarder kronor i mindre skatteinkomster varje år.
@@ -1347,31 +1093,24 @@ Figur 22 Skattekvoten 1980–2025
 Procent av BNP
 Källa: Konjunkturinstitutet och BP26.
 Skattesänkningarna har satt press på de offentliga välfärdstjänsterna och ökat den ekonomiska ojämlikheten. Sverige behöver en ny stor skattereform, som ökar skatte
-­
 intäkterna och stärker likformigheten i skattesystemet.
-10.2
 Skatt på kapital och egendom
 Sverige är ett av få OECD-länder som varken har en förmögenhetsskatt, en arvs- och gåvoskatt eller en fastighetsskatt som är kopplad till bostadens (fulla) värde. För några år sedan studerade Konjunkturinstitutet, på SNS (Studieförbundet Näringsliv och Samhälle) uppdrag, de svenska skatterna i en internationell jämförelse.
 Egendomsskatter utgörs, enligt OECD:s klassificering, av fastighetsskatter (och avgifter), förmögenhets
-­
 skatt,
 arvs- och gåvoskatt samt skatt på transaktioner av ägande (främst stämpelskatt).
 De svenska egendomsskatterna ligger klart under genomsnittet jämfört med såväl OECD
 som EU-15. Sverige egendomsskatter motsvarar 1 procent av BNP, medan inkomsterna från egendomsbeskattningen inom OECD och EU-15 motsvarar ca 2 respektive 2,25 procent av BNP.
 [76]
 Arv är ett tydligt exempel på hur kapital påverkar en individs livschanser. Arvs
-­
 flödena har dessutom ökat i betydelse i Sverige, framför allt under de senaste 25–30 åren. Sedan 1990-talets mitt har de mer än fördubblats. Som vi visade i avsnitt 4.2.2 har bristen på kapital- och egendomsskatter starkt bidragit till att Sverige i ett internationellt perspektiv har en extremt skev förmögenhetsfördelning. Vänsterpartiet föreslår att regeringen tillsätter en utredning som ser över egendomsskatterna.
-10.3
 Enhetliga kapitalskatter
 En central tanke bakom 1990-talets skattereform var en förstärkt horisontell rättvisa, där lika inkomster skulle beskattas lika. Denna likformighetsprincip skulle så långt som möjligt tillämpas konsekvent. Genom reformen infördes en separat och proportionell beskattning av kapitalinkomster – räntor, utdelningar och reavinster – med en enhetlig skattesats på 30 procent. Sedan reformens genomförande har en rad undantag gjorts. Utdelning från fåmansbolag beskattas endast med 20 procent. Utdelning från onoterade aktier med 25 procent.
 Ett annat exempel är sparande inom ramen för investeringssparkonto (ISK). ISK är en sparform för privatpersoner som infördes i Sverige 2012. Skillnaden mellan konven
-­
 tionell beskattning av sparande och beskattning av sparande i ISK består i vad som ska tas upp och vad som får dras av. Konventionell beskattning innebär att utdelning och kapitalvinst tas upp till beskattning. Kapitalvinster får kvittas mot kapitalförluster. Beskattningen av ISK sker i form av s.k.
 schablonbeskattning
 på kontots värde i stället för på den vinst man gör. Normalt sett är detta en mycket gynnsam beskattning. Regeringen har dessutom gjort denna sparform än mer gynnsam genom att införa en skattefri grundnivå på 300
 000 kronor. Vänsterpartiet föreslår att den skattefria grund
-­
 nivån sänks till 50
 000 kronor och att ett tak på ISK-konton sätts till 2
 miljoner kronor. Förslaget beräknas stärka de offentliga finanserna med 12,8 miljarder kronor 2026.
@@ -1382,13 +1121,10 @@ I sammanhanget bör det noteras att tillgångarna inom ISK är mycket ojämnt f�
 Vidare finns de s.k. 3:12-reglerna som ger arbetande ägare i fåmansbolag betydligt lägre skatt på sina inkomster än vanliga löntagare. Det beror på att skatten på utdelning från dessa bolag endast är 20 procent. Området regleras av en lagstiftning för att förhindra att ägare av fåmansägda företag fritt ska kunna välja om de ska ta ut vinst som lågbeskattade kapitalinkomster eller högre beskattad lön – i form av ett gränsbelopp för hur mycket delägare till fåmansbolag maximalt får ta ut i utdelning. Dessa regelverk blev dock väsentligt generösare efter en reform 2006, där skatten på utdelning sänktes från 30 procent till 20 procent, samtidigt som gränsbeloppen för utdelningen höjdes.
 [79]
 Reformen syftade till att förbättra den skattemässiga behandlingen av riskfyllda inve
-­
 steringar. Empiriska undersökningar visar dock att de ökade utdelningar som följde
 av förändringarna inte kan tolkas komma från ökade företagsvinster och mer entreprenör
-­
 skap.
 De nya reglerna ledde heller inte till ökad sysselsättning (även om lönerna bland anställda ökade). Den huvudsakliga effekten har i stället blivit en omfattande inkomst
-­
 omvandling bland höginkomsttagare samt ökade möjligheter till skatteplanering för de som tjänar mest. I budgetpropositionen går regeringen vidare och gör detta regelverk än mer gynnsamt, till en kostnad av cirka 1 miljard. Vänsterpartiet avvisar det förslaget och vill istället se en reformerad kapitalinkomstbeskattning, präglad av likformighet och rättvisa.
 Vänsterpartiets förslag:
 Inför ett tak på 2 miljoner kronor på sparande inom ISK. Sparande utöver taket ska beskattas med den vanliga skatten på kapitalinkomster. Sänk gränsen för skattefrihet till 50
@@ -1396,16 +1132,12 @@ Inför ett tak på 2 miljoner kronor på sparande inom ISK. Sparande utöver tak
 Utred beskattningen av fåmansbolag och onoterade bolag i syfte att åstadkomma en enhetlig kapitalbeskattning.
 Oligopolskatt på bankernas övervinster
 Bankerna har gjort rekordvinster de senaste åren. Den främsta anledningen till att de lyckats med detta beror på den bristande konkurrensen på bankmarknaden. Den svenska bankmarknaden är ett oligopol som domineras av de fyra storbankerna. Detta har resulterat i att de svenska bankerna under lång tid har tjänat mer än sina europeiska mot
-­
 svarigheter. För att komma till rätta med detta har Vänsterpartiet föreslagit att statens bank (SBAB) ska användas för att sätta press på de övriga bankerna. Detta kan uppnås
 genom att SBAB:s avkastningskrav sänks från tio till fem procent, utöver stats
-­
 obligations
-­
 räntan.
 Det är samma nivå som gällde fram till 2013.
 Så länge det inte finns ett regelverk på plats som skapar en mer pressad konkurrens på bankmarknaden anser Vänsterpartiet att bankernas övervinster ska beskattas. Vänsterpartiet föreslår därför att en tillfällig bankskatt införs. Förslaget innebär att en skatt på 50 procent av bankernas övervinster införs under perioden 2026–2028, som kan förlängas om den bristande konkurrensen kvarstår. Med övervinster avses här den över
-­
 skjutande vinst som ligger över ett genomsnitt av vinsterna 2018–2022.
 En väldigt försiktig bedömning är att en sådan skatt kommer att öka skatteintäkterna med cirka 10 miljarder kronor.
 Vänsterpartiets förslag:
@@ -1418,24 +1150,18 @@ och av det faktum att bostaden också kan stiga i värde. År 2007 avskaffades d
 Den tas ut som en avgift på 0,75 procent av taxeringsvärdet, med ett tak (för 2025) på 10
 074 kronor. Dagens fastighetsavgift har ingen synlig koppling till avkastning, övriga kapitalskatter eller ränteavdragen. Taket innebär att man betalar ”full” fastighetsavgift upp till ett taxeringsvärde på drygt 1,3 miljoner kronor. På taxeringsvärden därutöver betalas ingen avgift. Detta leder till att den genomsnittliga skatten blir lägre ju mer värdet på en fastighet överstiger 1,3 miljoner kronor. Fastighetsavgiften är därmed starkt regressiv.
 Vänsterpartiet vill därför komplettera den kommunala fastighetsavgiften med en statlig fastighetsskatt. Hur denna ska utformas får en utredning titta på. Men några principer kan vi slå fast redan nu. Dagens begränsningsregel, som innebär att pensionärer inte ska behöva betala mer än fyra procent av sin inkomst i avgift, utökas till att omfatta alla inkomster. Vänsterpartiet har inte får avsikt att beskatta vanliga villaägare hårdare; det är de riktigt dyra villorna som borde beskattas hårdare.
-10.6
 Skatt på förvärvsinkomster
 Beskattningen av arbetsinkomster innehåller i dag mer än tio olika former av skatte
-­
 reduktioner – däribland rutavdrag, rotavdrag och olika former av jobbskatteavdrag. Ingen av dem med tydligt påvisbara positiva effekter. Enbart jobbskatteavdraget innebär en skattereduktion med cirka 200 miljarder kronor per år.
 [82]
 I årets budgetproposition går regeringen fram med ännu ett jobbskatteavdrag, det tionde i ordningen, vilket försvagar de offentliga finanserna med ytterligare 17,3 miljarder kronor.
 En viktig skatteprincip bör vara att lika inkomster ska beskattas lika. Denna princip slogs sönder av den borgerliga regeringen i och med införandet av de olika jobbskatte
-­
 avdragen. Detta eftersom jobbskatteavdragen endast omfattar arbetsinkomster. Detta innebär att den som är arbetslös och får 25
 000 kronor i månaden från a-kassan betalar ca 2
 400 kronor mer i skatt varje månad än den som har en arbetsinkomst på 25
-000
 kronor i månaden. Den föregående regeringen har sedan tidigare i praktiken slutit skatte
-­
 klyftan
 för ålderspensionärer. Vänsterpartiet föreslår att skatteklyftan sluts för alla inkomster, såsom sjuk- och rehabiliteringspenning, a-kassan, sjuk- och aktivitetsersätt
-­
 ning och föräldraförsäkringen. Det innebär sänkt skatt för grupper med små ekonomiska marginaler.
 Som en delfinansiering av de ökade försvarsanslagen föreslår Vänsterpartiet att en beredskapsskatt på 5 procentenheter införs på månadsinkomster över 65
 000 kronor.
@@ -1451,99 +1177,77 @@ Procentuell effekt på genomsnittlig individuell disponibel inkomst. Effekt mot 
 Källa: RUT, dnr 2025:1254.
 De som tjänar under 50
 000 kronor i månaden får inga skattehöjningar med Vänster
-­
 partiets förslag. En person med en arbetsinkomst på 55
 000 kronor i månaden får en skattehöjning på 440 kronor/månad och en person som tjänar 70
 000 kronor i månaden får en skattehöjning på 2
 000 kronor/månad.
 [84]
 Vänsterpartiet noterar att riksdagen har tagit till sig vårt krav om att införa en skatte
-­
 reduktion för a-kasseavgifter. Vänsterpartiet föreslår också att
 en skattereduktion på 25 procent av fackföreningsavgifter införs
 . En skattereduktion för fackföreningsavgift sänker kostnaden för fackligt medlemskap och möjliggör för fler att gå med i
 facket, vilket kan leda till högre organisationsgrad och en högre facklig närvaro. Därmed
 kan den svenska arbetsmarknadsmodellen stärkas, som historiskt tjänat såväl löntagar
-­
 kollektivet som samhällsekonomin väl.
 Vänsterpartiets förslag:
 Beredskapsskatt på 5 procent på inkomster över 65
-000
 kr/månad.
 Ingen som tjänar under 50
-000
 kr/månad får höjd skatt.
 Lika skatt på lika inkomst, vilket innebär sänkt skatt för sjuka och arbetslösa m.fl.
 Skattereduktion för avgift till fackförening.
 Nej till rutavdraget
 Avdragen för s.k. rut- och rottjänster är ytterligare exempel på skattereduktioner på inkomstskatteområdet. Skattereduktion för hushållsnära tjänster, det s.k. rotavdraget, innebär att den som köper hushållsnära tjänster kan göra avdrag från sin skatt för 50 procent av arbetskostnaden för ett antal tjänster utförda i en bostad. Vänsterpartiet har inget emot hushållsnära tjänster. Det vi vänder oss emot är att dessa ska skattesubven
-­
 tioneras. Riksrevisionen visar att 40 procent av det totala rutavdragsbeloppet 2017 gick till den tiondel av befolkningen som har de högsta inkomsterna.
 [85]
 Det innebär i praktiken att låg- och medelinkomsttagare subventionerar höginkomsttagares städhjälp. Detta är inte bara orimligt och orättfärdigt, utan det är också ett slöseri med skatte
-­
 betalarnas pengar. Vänsterpartiet föreslår därför att rutavdraget avskaffas. Detta beräknas stärka de offentliga finanserna med ca 8,3 miljarder kronor under 2025
 [86]
 , vilket motsvarar den totala lönekostnaden för ca 14
 500 undersköterskor inom äldre
-­
 omsorgen.
 [87]
-10.8
 Grönt rotavdrag
 Vänsterpartiet är emot rotavdraget i dess nuvarande utformning. Rotavdraget har en liknande fördelningsprofil som rutavdraget, vilket innebär att låg- och medelinkomst
-­
 tagare subventionerar höginkomsttagares altanbyggen och köksrenoveringar. Rot
-­
 avdraget brukar motiveras med att det omvandlar svartarbete till vita skatteinkomster. Riksrevisionen har granskat om rotavdraget uppfyller dess syfte. I rapporten ”Svart på vitt – rotavdragets kostnader och effekter” konstaterar författarna att rotavdraget ”inte skapar tillräckligt stora skatteintäkter genom minskat svartarbete och ökat arbetsutbud för att motivera statens kostnader”.
 Gemensamma medel bör gå till sådant som har en samhällsnytta. Vänsterpartiet föreslår därför att dagens rotavdrag görs om till ett grönt rotavdrag. Det nya gröna rotavdraget ska beviljas till åtgärder som minskar energiförbrukningen i bostäder samt till att stimulera återanvändning av byggmaterial och användningen av hållbara materialprodukter. På så vis kan ett grönt rotavdrag bidra till lägre energiförbrukning och en mer cirkulär ekonomi i bygg- och fastighetssektorn. Det gröna rotavdraget skapar incitament för privata fastighetsägare att renovera hållbart och klimatsmart. Kraven på tillåtna åtgärder ska kopplas till miljö- och klimatnytta, vilket gör avdraget relevant för hela samhället – inte bara för enskilda fastighetsägare. Det är omöjligt att veta hur många som skulle använda ett grönt rotavdrag och i vilken omfattning. I den här budgeten gör vi antagandet att nyttjandegraden uppgår till hälften av det nuvarande rotavdraget. Det nuvarande rotavdraget beräknas nästa år kosta 12,45 miljarder.
 [88]
 Vänsterpartiets gröna rotavdrag innebär således en besparing på 6,2 miljarder.
-10.9
 Sociala avgifter
 I budgetpropositionen för 2026 föreslår regeringen sänkta arbetsgivaravgifter för unga mellan 19 och 23 år. Nedsättningen föreslås gälla mellan den 1 april 2026 och den 1
 oktober 2027 och beräknas kosta 6 miljarder kronor. Sänkta arbetsgivaravgifter har prövats många gånger tidigare. Utvärderingar av nedsatta arbetsgivaravgifter visar att effekterna på sysselsättningen är små eller obefintliga. Som exempel kan nämnas den nedsättning av arbetsgivaravgifterna med drygt 10 procentenheter för personer i åldern 19–25 år som regeringen Reinfeldt genomförde. Institutet för arbetsmarknads- och utbildningspolitisk utvärdering (IFAU) kom i sin utvärdering av reformen fram till att intäktsbortfallet per jobb av sänkningen uppgick till mellan 1 och 1,6 miljoner kronor, vilket då var omkring fyra gånger högre än den genomsnittliga anställningskostnaden för 19–25-åringar.
 [89]
 Den största effekten av skattesänkningen blev ökade vinster för företag med en stor andel unga arbetstagare.
 Vänsterpartiet avvisar förslaget och föreslår att hela området ses över då det finns en mängd olika nedsättningar med oklara effekter.
-10.10
 Miljöskatter
 Klimatförändringarna är ett akut hot mot människans framtida livsmöjligheter. I kapitel
 9 redovisar vi vår politik för den gröna omställning av ekonomin som snabbt måste komma på plats. Reformeringen av miljö- och klimatskatter bör ske inom ramen för en samlad och genomtänkt miljöpolitik. Sveriges territoriella klimatutsläpp är med ca 1/3 vardera koncentrerade till industrin och inrikes transporter. Det är således dessa två områden som behöver stå i centrum om Sverige ska klara av att nå sina höga klimatmål. För att klimat- och miljöpolitiken ska få ett brett folkligt stöd måste den också ha en god fördelningsprofil, som tar hänsyn till människors olika ekonomiska förmåga och alternativ för att ställa om. Vänsterpartiet ser behov av en genomgripande skattereform som utjämnar de ekonomiska och regionala klyftorna och främjar hållbart resursutnyttjande med låg miljö- och klimatpåverkan i enlighet med våra klimat- och miljömål.
 I budgetpropositionen för 2025 genomförde regeringen en rad förändringar som försvårar miljö- och klimatarbetet. De slopade skattereduktionen för mikroproduktion av förnybar el, de gjorde det billigare att köpa husbilar med stora klimatutsläpp samtidigt som de gjorde det dyrare att installera solceller. Dessa förslag försämrar Sveriges möjligheter att nå våra nationella klimatmål samt vårt klimatåtagande gentemot EU till 2030. I denna motion lägger Vänsterpartiet förslag på att omvandla dagens rotavdrag, som mest går till dyra köksrenoveringar, till ett grönt rotavdrag. Vi föreslår att tidigare och befintliga gröna skattereduktioner inkluderas i det gröna rotavdraget
-.
 Vänsterpartiet föreslår att dagens regelverk för reseavdragen ersätts med ett färd
-­
 medelsneutralt och avståndsbaserat reseavdrag. Till skillnad från dagens system, som gynnar bilresor i storstadsregioner, skulle ett färdmedelsneutralt och avståndsbaserat reseavdrag behandla alla reseslag neutralt och utjämna regionala skillnader. Ett avståndsbaserat och färdmedelsneutralt reseavdrag är ett effektivt styrmedel för att sänka växthusgasutsläppen vid arbetspendling. Ett sådant regelverk skulle också minska det utbredda fusk som finns i dagens system. I budgetpropositionen föreslår regeringen att beloppsgränsen för reseavdraget höjs från tidigare aviserat 13
 000 kronor till 15
 000 kronor. Vänsterpartiet avvisar förslaget då det försämrar hushållens ekonomi och försvårar arbetspendling.
 Klimatomställningen kommer att kräva stora investeringar i infrastruktur, förnybar energi, energieffektivisering och andra utsläppsminskande åtgärder. Principen om att förorenaren betalar för sin miljöpåverkan har länge varit och bör fortsatt vara ett riktmärke i den svenska miljö- och klimatpolitiken.
 Därför föreslår vi skärpt fordons
-­
 beskattning på nyregistrerade bilar med stora koldioxidutsläpp (den s.k. malus
-­
 beskattningen).
 [90]
 Beskattning av drivmedel är ett viktigt verktyg för att minska transportsektorns klimatpåverkan. Men den är också ett exempel på ett trubbigt verktyg som inte gör skillnad på höginkomsttagare med god tillgång till kollektivtrafik och en låginkomst
-­
 tagare i glesbygd utan tillgång till alternativ till bilen. Vänsterpartiet anser att det är angeläget att styrmedel utformas för att minska klyftor mellan stad och landsbygd och att det vid behov införs kompensatoriska åtgärder för att beakta rättviseperspektivet när exempelvis skatter ger negativa fördelningseffekter. För att möta en ökad elektrifiering av vägtrafiken med stärkt regional rättvisa anser vi att det är angeläget att arbetet med en reform av vägtrafikbeskattning redan nu inleds. En differentierad vägbeskattning ger förutsättningar för låg/slopad vägskatt på landsbygd där alternativ till bil saknas och hög vägskatt i storstäder med tillgång till kollektivtrafik.
 Den tunga lastbilstrafiken betalar i dag inte för den påverkan den har genom sina externa kostnader för samhället i form av exempelvis miljö- och klimatpåverkan och slitage på vägarna. Vänsterpartiet har under lång tid förespråkat en avståndsbaserad skatt på tunga lastbilar som ska vara möjlig att differentiera. Förutom klimatnyttan med en sådan beskattning ser vi stora vinster med att svenska och utländska lastbilar skulle kunna beskattas på lika villkor och att myndigheter skulle ges bättre möjligheter, genom ett automatiserat avläsningsbart system, att upptäcka den illegala lastbilstrafiken. Även utredningen Godstransporter på väg – vissa frågeställningar kring ett nytt miljöstyrande
 system
 (SOU 2022:13) förordar ett avståndsbaserat system med geografisk differen
-­
 tiering
 för en mer rättvisande prissättning.
 Vänsterpartiet anser att de klimatskadliga subventionerna bör fasas ut och avvecklas skyndsamt. Vi avvisar därför regeringens förslag om sänkt skatt på jordbruksdiesel.
 [91]
 Regeringen bör istället presentera en handlingsplan för hur denna och övriga klimat
-­
 skadliga subventioner kan avvecklas i närtid.
 Resandet med flyget behöver kraftigt minska för att vi ska klara av våra klimatmål.
 Med Vänsterpartiets investeringspolitik för klimatet skulle behovet av inrikesflyg minska
 i betydande utsträckning. Men även utrikesflyget behöver minska i omfattning. Vänster
-­
 partiet föreslår därför att flygskatten återinförs. Den beräknas stärka de offentliga finan
-­
 serna med knappt 2 miljarder kronor.
 [92]
 Vänsterpartiet anser att det är mycket angeläget att Sverige får en bättre beskattning av bekämpningsmedel då dagens beskattning har liten miljöeffekt. Danmark, Norge och Frankrike har en betydligt starkare lagstiftning där skatten ökar med medlets giftighet, vilket lett till att lantbrukare byter till mindre giftiga medel. Vänsterpartiet ser ett stort behov av att en differentierad beskattning av växtskyddsmedel införs i Sverige, som i likhet med den som finns i Danmark ökar med medlets giftighet. Intäkterna från skatten bör återföras till lantbruket för att utveckla hållbara växtskyddsmetoder. Vänsterpartiet anser att regeringen bör återkomma med förslag på en ny bekämpningsmedelsskatt differentierad utifrån bekämpningsmedlens olika miljö- och hälsorisker.
@@ -1561,178 +1265,120 @@ Inför en ny bekämpningsmedelsskatt differentierad utifrån bekämpningsmedlens
 [94]
 Återinför den avskaffade avfallsförbränningsskatten.
 [95]
-11
 Utgiftsramar och fördelning av utgifter i statsbudgeten
 Tabell 5 Förslag till utgiftsramar
-2026
 Tusental kronor
 Tabell 6 Förslag till utgiftsramar
-2027–2028
 Miljoner kronor
 Tabell 7 Fördelning av utgifter i statsbudgeten 2026
 Anslagsförslag
-2026
 för utgiftsområde
-1
 Rikets styrelse
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-2
 Samhällsekonomi och finansförvaltning
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-3
 Skatt, tull och exekution
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-4
 Rättsväsendet
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-5
 Internationell samverkan
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-6
 Försvar och samhällets krisberedskap
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-7
 Internationellt bistånd
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-8
 Migration
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-9
 Hälsovård, sjukvård och social omsorg
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-10
 Ekonomisk trygghet vid sjukdom och funktionsnedsättning
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-11
 Ekonomisk trygghet vid ålderdom
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-12
 Ekonomisk trygghet för familjer och barn
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-13
 Integration och jämställdhet
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-14
 Arbetsmarknad och arbetsliv
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-15
 Studiestöd
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-16
 Utbildning och universitetsforskning
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-17
 Kultur, medier, trossamfund och fritid
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-18
 Samhällsplanering, bostadsförsörjning och byggande samt konsumentpolitik
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-19
 Regional utveckling
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-20
 Klimat, miljö och natur
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-21
 Energi
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-22
 Kommunikationer
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-23
 Areella näringar, landsbygd och livsmedel
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-24
 Näringsliv
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-25
 Allmänna bidrag till kommuner
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-26
 Statsskuldsräntor m.m.
 Tusental kronor
 Anslagsförslag
-2026
 för utgiftsområde
-27
 Avgiften till Europeiska unionen
 Tusental kronor
-12
 Den offentliga sektorns finanser m.m.
 Tabell 8 Den offentliga sektorns finanser
 Miljoner kronor
@@ -1749,12 +1395,10 @@ Miljoner kronor
 Tabell 12 Utgiftstak för staten
 Miljoner kronor
 – avvikelse från regeringen
-13
 Beräkning av statens inkomster
 Tabell 13 Beräkning av statens inkomster 2026
 Tusental kronor
 Tabell 14 Beräkning av statens inkomster
-2027–2028
 Miljoner kronor
 [1]
 Swedbank Economic Outlook, augusti 2025.
