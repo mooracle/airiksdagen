@@ -159,8 +159,12 @@ PILOT_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6"]
 # p1 = pilot (motivering <=200 words); p2 = short motivering (2-4 sentences);
 # p3 = p2 + decisive-first citations with "princip" labels;
 # p4 = p3 + per-date worldstate context with structured omvarld references
-# p4 is FINAL for the full run (see docs/orchestration-full-run.md).
-PROMPT_VERSION = "p4"
+# p5 = p4 + each party's OWN long-form documents, date-gated: partiprogram (all
+#      parties, version rolls over mid-term) and budgetmotion (S/V/C/MP only).
+#      p4 starved the opposition — MP reasoned from 3,681 words and returned
+#      not_covered on 29% of its votes. See docs/orchestration-full-v3.md.
+# p5 is CURRENT. p4 is kept only so the older committed runs still verify.
+PROMPT_VERSION = "p5"
 BATCH_CHUNK_SIZE = 300
 
 RIKSDAG_ATTRIBUTION = "Källa: Sveriges riksdag"

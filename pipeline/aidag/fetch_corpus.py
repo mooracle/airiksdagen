@@ -86,6 +86,13 @@ def pdf_to_text(pdf_bytes: bytes) -> str:
 
 
 def fetch_tido(client: httpx.Client, force: bool) -> None:
+    """Tidöavtalet.
+
+    NOTE: the .txt on disk is the FROZEN p4 extraction (pypdf) — full-v2's
+    committed decisions were generated from those exact bytes and their citations
+    verify against them, so it is never re-extracted. p5 serves this file through
+    corpus.normalize(), which strips its page furniture at read time.
+    """
     pdf_path = CORPUS_DIR / "tidoavtalet-2022.pdf"
     txt_path = CORPUS_DIR / "tidoavtalet-2022.txt"
     if txt_path.exists() and not force:

@@ -24,6 +24,8 @@ bytes are the exact inputs the committed decisions were generated from.
 from __future__ import annotations
 
 import json
+import re
+import unicodedata
 from functools import lru_cache
 from pathlib import Path
 
@@ -101,9 +103,36 @@ def budget_excluded(code: str, rm: str, votering_id: str, datum: str) -> bool:
     return b["dok_id"] in _references_by_case().get(votering_id, set())
 
 
-@lru_cache(maxsize=64)
-def _text(filename: str) -> str:
-    return (CORPUS_DIR / filename).read_text().lstrip("﻿").strip()
+def normalize(text: str) -> str:
+    """Serve-time cleanup applied to every p5 document.
+
+    Done here, not in the files, for two reasons. The p4 corpus is frozen — its
+    bytes are the exact inputs full-v2's committed decisions came from — and
+    everything that needs to know what an agent saw (the prompt builder, the
+    citation repairer, the verify gate) already routes through documents_for(),
+    so normalizing here means they cannot disagree about it.
+
+    Strips the header comment, the source's page furniture, and the artifacts
+    that break verbatim citation: an agent quotes what it is shown, and
+    repair-citations requires the quote to be an exact substring of it.
+    """
+    text = re.sub(r"^<!--.*?-->\n", "", text, flags=re.S)
+    text = unicodedata.normalize("NFC", text)
+    text = text.replace("­", "").replace("​", "").replace(" ", " ")
+    text = re.sub(r"(\w)-\s*\n\s*(?=[a-zåäö])", r"\1", text)   # hyphenation across a line break
+    text = re.sub(r"\.{4,}\s*\d*", " ", text)                  # table-of-contents dot leaders
+    text = re.sub(r"[ \t]+", " ", text)
+    text = "\n".join(
+        s for line in text.splitlines()
+        if (s := line.strip()) and not re.fullmatch(r"[\d\s.,%‑‒–—•·|-]+", s)
+    )
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
+@lru_cache(maxsize=128)
+def _text(filename: str, clean: bool = False) -> str:
+    raw = (CORPUS_DIR / filename).read_text().lstrip("﻿").strip()
+    return normalize(raw) if clean else raw
 
 
 def documents_for(
@@ -116,27 +145,30 @@ def documents_for(
     """
     from aidag.fetch_corpus import budget_filename, program_filename
 
-    docs: list[tuple[str, str, str]] = [
-        ("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt"))
-    ]
     if prompt_version < "p5":
+        docs = [("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt"))]
         if tido_applies(code, datum):
             docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt")))
         return docs
+
+    # p5: every document is normalized on the way out (see normalize()).
+    docs: list[tuple[str, str, str]] = [
+        ("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt", True))
+    ]
 
     if prog := program_at(code, datum):
         docs.append((
             "partiprogram",
             f'partiprogram antaget="{prog["from"]}"',
-            _text(program_filename(code, prog)),
+            _text(program_filename(code, prog), True),
         ))
     if tido_applies(code, datum):
-        docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt")))
+        docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt", True)))
     if (b := budget_at(code, rm, datum)) and not budget_excluded(code, rm, votering_id, datum):
         docs.append((
             "budgetmotion",
             f'budgetmotion beteckning="{b["bet"]}"',
-            _text(budget_filename(code, rm)),
+            _text(budget_filename(code, rm), True),
         ))
     return docs
 
