@@ -20,7 +20,7 @@ concurrency:
 
 env:
   # The published run; change when promoting a new simulation run.
-  RUN_ID: ''
+  RUN_ID: 'full-v3'
 
 jobs:
   build:

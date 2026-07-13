@@ -1,7 +1,0 @@
-{
- "n_probed": 10,
- "recall_rate": 0.1,
- "mean_exact_matches": 0.8,
- "agreement_when_memorized": 1.0,
- "agreement_when_not_memorized": 0.7778
-}
