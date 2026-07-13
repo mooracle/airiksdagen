@@ -12,8 +12,8 @@ Checkpoint model — no separate state file:
 partial/failed/limit-interrupted batch automatically resumes.
 
 Layout under data/interim/agentrun/{run_id}/:
-  system/{party}-{base|tido}.txt   party corpus + role (12 files, written once)
-  cases/{vid}.json                 {"user": <case message>} (shared by parties)
+  system/{context}.txt             party corpus + role, one per distinct context
+  groups/g-NNNN.json               every case for one agent (1 read, not N)
   probes/{vid}.json                {"prompt": <probe prompt>}
   batches/batch-{NNN}.json         manifest for one workflow invocation
 """
@@ -73,15 +73,13 @@ def plan_groups(
     members: list[tuple[str, dict]],
     context_limit: int,
 ) -> list[list[tuple[str, dict]]]:
-    """Split one party-month into the FEWEST agents that each fit the window.
+    """Split one (party, context) bucket into the FEWEST agents that each fit.
 
-    Group size is decided by context, not by a fixed number: a party's corpus
-    runs 53k-126k tokens under p5, and a month holds 1 to 208 cases. So a whole
-    month goes to one agent when it fits, and is split into EQUAL parallel groups
-    when it does not — rather than packing full agents and leaving a stub.
-
-    This is what makes p5 affordable: the corpus is read once per agent, so at
-    group 8 it would cost ~19k tokens/decision, and at month scale ~8k.
+    Group size is decided by size, not by a fixed number: a party's corpus runs
+    53k-126k tokens under p5 and is read once per agent, so group size IS the
+    cost lever — a 2-case agent costs ~25k tokens per decision, a 51-case agent
+    ~7.5k. Cases are split into EQUAL parallel groups rather than packing full
+    agents and leaving a stub.
     """
     budget = context_limit * CONTEXT_HEADROOM - _tokens(system_text) - TOOL_SLACK
     # a case costs its user message plus the decision the agent must write back
@@ -165,8 +163,9 @@ def prepare(
 ) -> None:
     """Write the NEXT batch manifest from whatever is still pending.
 
-    group > 1 packs same-party, same-month(+same-system-file) cases into
-    'simgroup' manifest items — one agent decides several cases, reading the
+    group > 1 packs N cases per agent; group == 0 packs by size, filling each
+    agent up to --context-limit (and the output cap). Cases are bucketed by
+    (party, context) — one agent then decides several cases while reading the
     party corpus once (see scripts/grouped_batch_workflow.js)."""
     base = run_dir(run_id)
     cases = _load_cases()
@@ -195,9 +194,9 @@ def prepare(
             path.write_text("\n\n".join(b["text"] for b in blocks))
         return name
 
-    # take the next slice; probes (cheap) fill whatever room decisions leave,
-    # so probe batches naturally run once all decisions are collected
     batch_sims = sims[:batch_size]
+    # probes (cheap) fill whatever room decisions leave, so probe batches naturally
+    # run once all decisions are collected
     room = max(0, batch_size - len(batch_sims))
     batch_probes = probes[:room]
 
@@ -211,16 +210,23 @@ def prepare(
 
     items = []
     if group != 1:
-        # pack same-party cases (same Tidö-era system file, same month, in
-        # chronological order) into groups of <= `group` for one agent each
+        # Grouped by (party, context) — NOT by month. The system file already
+        # encodes every date-dependent difference (which programme version stands,
+        # whether Tidöavtalet applies, which shadow budget is live), so any two
+        # cases sharing a context can share an agent whatever month they fall in,
+        # and each case carries its own date and worldstate in its own text.
+        #
+        # Adding month to the key only fragments the work: it produced 2-case
+        # agents paying the full ~50k corpus prefix — ~25k tokens per decision,
+        # against ~7.5k for a 21-case agent. Group size is the whole cost lever.
         buckets: dict[tuple, list] = {}
         for cid, party, case in batch_sims:
-            key = (party, _system_file(party, case), case["datum"][:7])
+            key = (party, _system_file(party, case))
             buckets.setdefault(key, []).append((cid, case))
         # compact on purpose: party/vid/case_file derive from the cid + the
         # manifest-level dirs, so the workflow's loader agent can transcribe
         # a large manifest within its output-token limit
-        for (party, system_name, _month), members in sorted(buckets.items()):
+        for (party, system_name), members in sorted(buckets.items()):
             if group > 0:
                 chunks = [members[i : i + group] for i in range(0, len(members), group)]
             else:
