@@ -55,7 +55,10 @@ class PartyPosition(BaseModel):
 
 
 class Citation(BaseModel):
-    document: Literal["valmanifest", "partiprogram", "tidoavtalet"]
+    # every document any prompt version can serve (see corpus.DOCS_P4/DOCS_P5).
+    # Whether a given decision's agent was ACTUALLY served the document it cites
+    # is enforced separately, per party and per date, by the verify gate.
+    document: Literal["valmanifest", "partiprogram", "tidoavtalet", "budgetmotion"]
     quote: str
     # Short label (2-6 words) of the commitment the quote expresses, e.g.
     # "minskad asylinvandring". Empty in pre-p3 runs. The FIRST citation in a
