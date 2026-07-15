@@ -1,0 +1,11 @@
+{
+  "name": "AI Riksdag",
+  "short_name": "AI Riksdag",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "theme_color": "#17222c",
+  "background_color": "#f7f6f1",
+  "display": "standalone"
+}

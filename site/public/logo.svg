@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" font-family="Georgia, 'Times New Roman', serif">
+  <rect x="4" y="4" width="64" height="64" rx="14" fill="#17222c"/>
+  <path d="M 14 46 A 22 22 0 0 1 58 46 Z" fill="#f2c744"/><path d="M 21.92 46 A 14.08 14.08 0 0 1 50.08 46" fill="none" stroke="#17222c" stroke-width="3.19" stroke-linecap="round"/><path d="M 28.52 46 A 7.48 7.48 0 0 1 43.480000000000004 46" fill="none" stroke="#17222c" stroke-width="3.19" stroke-linecap="round"/>
+  <text x="84" y="47" font-size="38" font-weight="700" letter-spacing="-0.3" fill="#17222c">AI Riksdag</text>
+</svg>
