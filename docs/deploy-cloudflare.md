@@ -11,17 +11,22 @@ Two clean halves:
   is the npm registry.
 
 Cloudflare connected the repo as a **Workers Build** (static assets): `wrangler
-deploy` runs the `[build]` command, then uploads `site/dist` as an assets-only
-Worker (no server code). There is no GitHub Actions deploy — the old one was
-removed. (`.github/workflows/ci.yml` still runs tests only.)
+deploy` runs the `[build]` command, then uploads `dist` as an assets-only Worker
+(no server code). There is no GitHub Actions deploy — the old one was removed.
+(`.github/workflows/ci.yml` still runs tests only.)
+
+**Cloudflare's Root directory is `site/` on purpose.** The repo root holds the
+research pipeline's `pyproject.toml` + `uv.lock`; pointing Cloudflare at `site/`
+keeps its build context Node-only, so it never detects or installs Python/uv.
+`wrangler.toml` and `.node-version` live in `site/` for the same reason.
 
 ## Pieces
 
 | File | Role |
 |------|------|
 | `site/src/data/` | **Committed** site data (from `export-site`); Astro reads it directly |
-| `.node-version` | Pins Node 22 for Cloudflare's build image |
-| `wrangler.toml` | `[build]` = `cd site && npm ci && npm run build`; `[assets]` = `./site/dist` |
+| `site/.node-version` | Pins Node 22 for Cloudflare's build image |
+| `site/wrangler.toml` | `[build]` = `npm ci && npm run build`; `[assets]` = `./dist` |
 | `site/public/_headers` | Security headers + long cache on `/_astro/*` (honored by Workers assets) |
 
 ## One-time setup (Cloudflare dashboard)
@@ -35,15 +40,16 @@ removed. (`.github/workflows/ci.yml` still runs tests only.)
 - Select `mooracle/aidag`, production branch **`main`**.
 
 ### 2. Build configuration
-- **Build command:** leave **empty**. The build runs via `wrangler.toml`'s
-  `[build] command = cd site && npm ci && npm run build`, which `wrangler deploy`
-  executes before uploading. (A dashboard build command would just double-run it.)
+- **Root directory:** **`site`** — REQUIRED. This is what keeps the build Node-only
+  (no `pyproject.toml`/`uv.lock` in scope → Cloudflare never installs Python).
+- **Build command:** leave **empty**. The build runs via `site/wrangler.toml`'s
+  `[build] command = npm ci && npm run build`, which `wrangler deploy` executes
+  before uploading. (A dashboard build command would just double-run it.)
 - **Deploy command:** `npx wrangler deploy` (the Workers Build default). It runs
-  `[build]` → then uploads `[assets] directory = ./site/dist`.
-- **Root directory:** repo root (default).
+  `[build]` → then uploads `[assets] directory = ./dist` (i.e. `site/dist`).
 - Worker **name** must be **`airiksdagen`** to match `wrangler.toml`.
 
-Node comes from `.node-version`; no API token or secrets, no Python.
+Node comes from `site/.node-version`; no API token or secrets, no Python.
 
 > **Why the build lives in `wrangler.toml` (not the dashboard):** a Workers Build
 > only runs the *deploy* command by default, so if `site/dist` isn't built first
@@ -73,8 +79,8 @@ To publish a different run, pass a different `--run-id` to `export-site` (and se
 ## Deploying by hand (fallback, no Git build)
 ```bash
 npx wrangler login
-cd site && npm ci && npm run build && cd ..
-npx wrangler deploy              # reads [assets] directory from wrangler.toml
+cd site
+npx wrangler deploy         # runs [build] (npm ci && npm run build), then uploads dist
 # validate without deploying:  npx wrangler deploy --dry-run
 ```
 
