@@ -1,0 +1,61 @@
+{
+ "run_id": "full-v3",
+ "n_decisions": 2396,
+ "overall_agreement": 0.7755,
+ "per_party": {
+  "S": {
+   "n": 300,
+   "agreement": 0.7167,
+   "kappa": 0.4888,
+   "avstar_recall": 0.0
+  },
+  "M": {
+   "n": 300,
+   "agreement": 0.99,
+   "kappa": 0.0,
+   "avstar_recall": null
+  },
+  "SD": {
+   "n": 300,
+   "agreement": 0.78,
+   "kappa": 0.4782,
+   "avstar_recall": 0.0541
+  },
+  "C": {
+   "n": 300,
+   "agreement": 0.6767,
+   "kappa": 0.5014,
+   "avstar_recall": 0.175
+  },
+  "V": {
+   "n": 299,
+   "agreement": 0.5719,
+   "kappa": 0.3121,
+   "avstar_recall": 0.1026
+  },
+  "KD": {
+   "n": 299,
+   "agreement": 0.99,
+   "kappa": 0.0,
+   "avstar_recall": null
+  },
+  "MP": {
+   "n": 299,
+   "agreement": 0.4883,
+   "kappa": 0.2178,
+   "avstar_recall": 0.0312
+  },
+  "L": {
+   "n": 299,
+   "agreement": 0.99,
+   "kappa": 0.0,
+   "avstar_recall": null
+  }
+ },
+ "models": [
+  "claude-opus-4-8"
+ ],
+ "arms": [
+  "anonymous"
+ ]
+}

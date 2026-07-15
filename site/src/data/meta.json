@@ -1,0 +1,65 @@
+{
+ "run_id": "full-v3",
+ "n_cases": 2539,
+ "parties": {
+  "S": {
+   "name": "Socialdemokraterna",
+   "color": "#E8112d",
+   "bloc": "opposition",
+   "seats_order": 1
+  },
+  "M": {
+   "name": "Moderaterna",
+   "color": "#52BDEC",
+   "bloc": "government",
+   "seats_order": 6
+  },
+  "SD": {
+   "name": "Sverigedemokraterna",
+   "color": "#DDDD00",
+   "bloc": "support",
+   "seats_order": 7
+  },
+  "C": {
+   "name": "Centerpartiet",
+   "color": "#009933",
+   "bloc": "opposition",
+   "seats_order": 3
+  },
+  "V": {
+   "name": "Vänsterpartiet",
+   "color": "#DA291C",
+   "bloc": "opposition",
+   "seats_order": 0
+  },
+  "KD": {
+   "name": "Kristdemokraterna",
+   "color": "#000077",
+   "bloc": "government",
+   "seats_order": 5
+  },
+  "MP": {
+   "name": "Miljöpartiet",
+   "color": "#83CF39",
+   "bloc": "opposition",
+   "seats_order": 2
+  },
+  "L": {
+   "name": "Liberalerna",
+   "color": "#006AB3",
+   "bloc": "government",
+   "seats_order": 4
+  }
+ },
+ "hemicycle_order": [
+  "V",
+  "S",
+  "MP",
+  "C",
+  "L",
+  "KD",
+  "M",
+  "SD"
+ ],
+ "attribution": "Källa: Sveriges riksdag"
+}
