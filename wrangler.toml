@@ -1,8 +1,13 @@
-# Cloudflare Pages project config for airiksdagen.se
+# Cloudflare Workers static-assets config for airiksdagen.se.
 #
-# `wrangler pages deploy` (CI and local) reads the project name and the built
-# output directory from here, so neither needs to be passed on the command line.
-# The static build is produced by:  cd site && npx astro build  ->  site/dist
+# Cloudflare connected this repo as a Workers Build, so the deploy step runs
+# `npx wrangler deploy` (not `wrangler pages deploy`). This deploys an
+# assets-only Worker — no server code — serving the built static site.
+#
+# Flow: build command `bash scripts/cf_pages_build.sh` produces site/dist,
+# then `npx wrangler deploy` uploads it (_headers in site/dist is honored).
 name = "airiksdagen"
-pages_build_output_dir = "site/dist"
 compatibility_date = "2026-07-15"
+
+[assets]
+directory = "./site/dist"
