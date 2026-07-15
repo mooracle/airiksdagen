@@ -1,0 +1,18 @@
+# Cloudflare Workers static-assets config for airiksdagen.se.
+#
+# Cloudflare's Git build runs everything from the REPO ROOT (its dependency
+# step and `npx wrangler deploy` both run here — the build logs show
+# file:///opt/buildhome/repo). So this config lives at the root: `wrangler
+# deploy` finds it, runs [build] to produce site/dist, then uploads it as an
+# assets-only Worker (no server code).
+#
+# The Python pipeline is research-only and runs LOCALLY; the site builds from
+# committed data (site/src/data/) — the [build] here is pure Node, no fetch.
+name = "airiksdagen"
+compatibility_date = "2026-07-15"
+
+[build]
+command = "cd site && npm ci && npm run build"
+
+[assets]
+directory = "./site/dist"

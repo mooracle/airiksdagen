@@ -15,18 +15,24 @@ deploy` runs the `[build]` command, then uploads `dist` as an assets-only Worker
 (no server code). There is no GitHub Actions deploy — the old one was removed.
 (`.github/workflows/ci.yml` still runs tests only.)
 
-**Cloudflare's Root directory is `site/` on purpose.** The repo root holds the
-research pipeline's `pyproject.toml` + `uv.lock`; pointing Cloudflare at `site/`
-keeps its build context Node-only, so it never detects or installs Python/uv.
-`wrangler.toml` and `.node-version` live in `site/` for the same reason.
+**Cloudflare runs the build from the REPO ROOT** (its dependency step and
+`npx wrangler deploy` both run at `/opt/buildhome/repo` — see the build logs). So
+`wrangler.toml` and `.node-version` live at the repo root; `wrangler deploy` finds
+`wrangler.toml`, runs `[build]` (`cd site && npm ci && npm run build`) to produce
+`site/dist`, and uploads it. **Caveat:** because it runs at the root, Cloudflare's
+dependency step detects the root `pyproject.toml`/`uv.lock` and runs `uv sync`
+first — install only (~4s), it does NOT run the pipeline or fetch data. To
+suppress it, set **Root directory = `site`** in the dashboard (scopes detection to
+the Node-only `site/`); if you do, move `wrangler.toml`+`.node-version` back into
+`site/` and drop the `cd site` / `./site/dist` prefixes.
 
 ## Pieces
 
 | File | Role |
 |------|------|
 | `site/src/data/` | **Committed** site data (from `export-site`); Astro reads it directly |
-| `site/.node-version` | Pins Node 22 for Cloudflare's build image |
-| `site/wrangler.toml` | `[build]` = `npm ci && npm run build`; `[assets]` = `./dist` |
+| `.node-version` | Pins Node 22 for Cloudflare's build image |
+| `wrangler.toml` | `[build]` = `cd site && npm ci && npm run build`; `[assets]` = `./site/dist` |
 | `site/public/_headers` | Security headers + long cache on `/_astro/*` (honored by Workers assets) |
 
 ## One-time setup (Cloudflare dashboard)
@@ -40,16 +46,16 @@ keeps its build context Node-only, so it never detects or installs Python/uv.
 - Select `mooracle/aidag`, production branch **`main`**.
 
 ### 2. Build configuration
-- **Root directory:** **`site`** — REQUIRED. This is what keeps the build Node-only
-  (no `pyproject.toml`/`uv.lock` in scope → Cloudflare never installs Python).
-- **Build command:** leave **empty**. The build runs via `site/wrangler.toml`'s
-  `[build] command = npm ci && npm run build`, which `wrangler deploy` executes
-  before uploading. (A dashboard build command would just double-run it.)
+- **Root directory:** leave as the repo root (default) — `wrangler.toml` is there.
+- **Build command:** leave **empty**. The build runs via `wrangler.toml`'s
+  `[build] command = cd site && npm ci && npm run build`, which `wrangler deploy`
+  executes before uploading. (A dashboard build command would just double-run it.)
 - **Deploy command:** `npx wrangler deploy` (the Workers Build default). It runs
-  `[build]` → then uploads `[assets] directory = ./dist` (i.e. `site/dist`).
+  `[build]` → then uploads `[assets] directory = ./site/dist`.
 - Worker **name** must be **`airiksdagen`** to match `wrangler.toml`.
 
-Node comes from `site/.node-version`; no API token or secrets, no Python.
+Node comes from `.node-version`; no API token or secrets. (Cloudflare's own
+`uv sync` step is separate — see the caveat above.)
 
 > **Why the build lives in `wrangler.toml` (not the dashboard):** a Workers Build
 > only runs the *deploy* command by default, so if `site/dist` isn't built first
