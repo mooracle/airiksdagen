@@ -24,6 +24,7 @@ uv run aidag fetch-cases
 uv run aidag build-cases
 uv run aidag verify votes
 uv run aidag verify cases
+uv run aidag verify kb
 
 uv run aidag export-site --run-id "$RUN_ID"
 

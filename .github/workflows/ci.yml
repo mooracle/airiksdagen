@@ -13,8 +13,9 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv sync
       - run: uv run pytest -q
-      # verify stages that need only committed data (raw/processed are gitignored)
-      - run: uv run aidag verify kb
+      # hermetic verify only (raw/processed are gitignored). Data-dependent
+      # checks (verify votes/cases/kb) run in the Cloudflare build, which
+      # rebuilds data/processed first — see scripts/cf_pages_build.sh.
       - run: uv run aidag verify prompts
 
   site:
