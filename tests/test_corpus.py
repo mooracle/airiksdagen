@@ -22,8 +22,13 @@ from aidag.config import BUDGET_MOTIONS, PARTY_CODES, PARTY_PROGRAMS, PROCESSED_
 
 @pytest.fixture(scope="module")
 def cases():
+    # data/processed is gitignored and re-fetchable; skip these data-dependent
+    # leak checks when it hasn't been built (e.g. a clean CI checkout).
+    path = PROCESSED_DIR / "cases.parquet"
+    if not path.exists():
+        pytest.skip(f"{path} not built (run: uv run aidag build-cases)")
     return pl.read_parquet(
-        PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum", "rm"]
+        path, columns=["votering_id", "datum", "rm"]
     ).to_dicts()
 
 
