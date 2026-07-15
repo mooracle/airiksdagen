@@ -1,25 +1,25 @@
 {
  "S": {
   "Ja": {
-   "Ja": 111,
-   "Nej": 8,
+   "Ja": 134,
+   "Nej": 10,
    "Avst\u00e5r": 5
   },
   "Nej": {
-   "Ja": 2,
-   "Nej": 45,
-   "Avst\u00e5r": 9
+   "Ja": 32,
+   "Nej": 81,
+   "Avst\u00e5r": 17
   },
   "Avst\u00e5r": {
-   "Ja": 0,
-   "Nej": 0,
+   "Ja": 19,
+   "Nej": 2,
    "Avst\u00e5r": 0
   }
  },
  "M": {
   "Ja": {
-   "Ja": 178,
-   "Nej": 2,
+   "Ja": 297,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
@@ -35,14 +35,14 @@
  },
  "SD": {
   "Ja": {
-   "Ja": 119,
-   "Nej": 8,
-   "Avst\u00e5r": 10
+   "Ja": 195,
+   "Nej": 17,
+   "Avst\u00e5r": 20
   },
   "Nej": {
-   "Ja": 6,
-   "Nej": 23,
-   "Avst\u00e5r": 8
+   "Ja": 10,
+   "Nej": 37,
+   "Avst\u00e5r": 15
   },
   "Avst\u00e5r": {
    "Ja": 4,
@@ -52,42 +52,42 @@
  },
  "C": {
   "Ja": {
-   "Ja": 85,
-   "Nej": 2,
+   "Ja": 121,
+   "Nej": 5,
    "Avst\u00e5r": 2
   },
   "Nej": {
-   "Ja": 8,
-   "Nej": 39,
-   "Avst\u00e5r": 29
+   "Ja": 16,
+   "Nej": 68,
+   "Avst\u00e5r": 64
   },
   "Avst\u00e5r": {
-   "Ja": 1,
+   "Ja": 5,
    "Nej": 5,
-   "Avst\u00e5r": 9
+   "Avst\u00e5r": 14
   }
  },
  "V": {
   "Ja": {
-   "Ja": 55,
-   "Nej": 5,
+   "Ja": 72,
+   "Nej": 6,
    "Avst\u00e5r": 0
   },
   "Nej": {
-   "Ja": 33,
-   "Nej": 65,
-   "Avst\u00e5r": 16
+   "Ja": 66,
+   "Nej": 95,
+   "Avst\u00e5r": 35
   },
   "Avst\u00e5r": {
-   "Ja": 2,
-   "Nej": 1,
-   "Avst\u00e5r": 3
+   "Ja": 16,
+   "Nej": 5,
+   "Avst\u00e5r": 4
   }
  },
  "KD": {
   "Ja": {
-   "Ja": 178,
-   "Nej": 2,
+   "Ja": 296,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
@@ -103,25 +103,25 @@
  },
  "MP": {
   "Ja": {
-   "Ja": 43,
-   "Nej": 7,
+   "Ja": 63,
+   "Nej": 9,
    "Avst\u00e5r": 3
   },
   "Nej": {
-   "Ja": 39,
-   "Nej": 50,
-   "Avst\u00e5r": 36
+   "Ja": 69,
+   "Nej": 81,
+   "Avst\u00e5r": 59
   },
   "Avst\u00e5r": {
-   "Ja": 0,
-   "Nej": 0,
+   "Ja": 11,
+   "Nej": 2,
    "Avst\u00e5r": 2
   }
  },
  "L": {
   "Ja": {
-   "Ja": 178,
-   "Nej": 2,
+   "Ja": 296,
+   "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
