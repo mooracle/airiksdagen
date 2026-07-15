@@ -1,0 +1,8 @@
+# Cloudflare Pages project config for airiksdagen.se
+#
+# `wrangler pages deploy` (CI and local) reads the project name and the built
+# output directory from here, so neither needs to be passed on the command line.
+# The static build is produced by:  cd site && npx astro build  ->  site/dist
+name = "airiksdagen"
+pages_build_output_dir = "site/dist"
+compatibility_date = "2026-07-15"

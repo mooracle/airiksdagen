@@ -1,0 +1,11 @@
+# Cloudflare Pages headers (https://developers.cloudflare.com/pages/configuration/headers/)
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Astro emits content-hashed assets under /_astro/ — safe to cache forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

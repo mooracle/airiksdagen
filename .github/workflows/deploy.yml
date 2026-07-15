@@ -8,14 +8,14 @@ on:
       - 'data/results/**'
       - 'site/**'
       - 'pipeline/**'
+      - 'wrangler.toml'
+      - '.github/workflows/deploy.yml'
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: cloudflare-pages
   cancel-in-progress: true
 
 env:
@@ -23,7 +23,7 @@ env:
   RUN_ID: 'full-v3'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,22 +44,17 @@ jobs:
           else
             uv run aidag export-site
           fi
-      # Custom domain: base stays '/', CNAME in site/public/ points GH Pages at it.
-      - run: npm ci && npx astro build
+      - name: Build site
+        run: npm ci && npx astro build
         working-directory: site
         env:
           SITE_BASE: /
           SITE_URL: https://airiksdagen.se
-      - uses: actions/upload-pages-artifact@v3
+      # Deploy site/dist to Cloudflare Pages. Project name + output dir come from
+      # wrangler.toml; --branch=main marks this a production deployment.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: site/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy --branch=main

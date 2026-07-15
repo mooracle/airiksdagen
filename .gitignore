@@ -19,6 +19,7 @@ site/.astro/
 # Local
 .env
 .DS_Store
+.wrangler/
 data/results/simulations/mock*/
 data/results/probes/mock*/
 data/results/aggregates/mock*/
