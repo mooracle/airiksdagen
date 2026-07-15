@@ -31,14 +31,21 @@ in the Cloudflare dashboard.
 - Select `mooracle/aidag`, production branch **`main`**.
 
 ### 2. Build configuration
-- **Build command:** `bash scripts/cf_pages_build.sh`
-- **Deploy command:** `npx wrangler deploy` (the Workers Build default). It reads
-  `wrangler.toml` → `[assets] directory = ./site/dist` and uploads the built site.
+- **Build command:** leave **empty**. The build runs via `wrangler.toml`'s
+  `[build] command = bash scripts/cf_pages_build.sh`, which `wrangler deploy`
+  executes before uploading. (A dashboard build command would just double-run it.)
+- **Deploy command:** `npx wrangler deploy` (the Workers Build default). It runs
+  `[build]` → then uploads `[assets] directory = ./site/dist`.
 - **Root directory:** repo root (default).
 - Worker **name** must be **`airiksdagen`** to match `wrangler.toml`.
 
 uv fetches Python 3.12 during the build; Node comes from `.node-version`. Nothing
 else needs configuring — no API token or secrets (that was the old Actions path).
+
+> **Why the build lives in `wrangler.toml` (not the dashboard):** a Workers Build
+> only runs the *deploy* command by default, so if `site/dist` isn't built first
+> you get *"assets.directory ... does not exist."* Putting the build in `[build]`
+> makes `wrangler deploy` self-building and independent of dashboard fields.
 
 > If you instead see a Pages-style project, the deploy runs `wrangler pages deploy`
 > and expects `pages_build_output_dir` in `wrangler.toml`. This repo is set up for

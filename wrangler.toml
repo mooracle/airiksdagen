@@ -1,13 +1,16 @@
 # Cloudflare Workers static-assets config for airiksdagen.se.
 #
 # Cloudflare connected this repo as a Workers Build, so the deploy step runs
-# `npx wrangler deploy` (not `wrangler pages deploy`). This deploys an
-# assets-only Worker — no server code — serving the built static site.
-#
-# Flow: build command `bash scripts/cf_pages_build.sh` produces site/dist,
-# then `npx wrangler deploy` uploads it (_headers in site/dist is honored).
+# `npx wrangler deploy`. The [build] command below runs FIRST (as part of
+# `wrangler deploy`), producing site/dist, which the [assets] block then uploads
+# as an assets-only Worker (no server code). This keeps the whole build+deploy
+# self-contained in the repo — leave the dashboard "Build command" EMPTY so the
+# pipeline doesn't run twice.
 name = "airiksdagen"
 compatibility_date = "2026-07-15"
+
+[build]
+command = "bash scripts/cf_pages_build.sh"
 
 [assets]
 directory = "./site/dist"
