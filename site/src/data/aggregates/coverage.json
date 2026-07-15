@@ -1,17 +1,17 @@
 {
  "coverage": {
-  "not_covered": 40,
+  "inferred": 1549,
   "explicit": 807,
-  "inferred": 1549
+  "not_covered": 40
  },
  "confidence": {
-  "low": 538,
+  "medium": 1358,
   "high": 500,
-  "medium": 1358
+  "low": 538
  },
  "agreement_by_coverage": {
-  "explicit": 0.7286,
   "inferred": 0.8012,
+  "explicit": 0.7286,
   "not_covered": 0.725
  }
 }
