@@ -1,0 +1,290 @@
+[
+ {
+  "parti": "C",
+  "month": "2022-10",
+  "agreement": 1.0,
+  "n": 2
+ },
+ {
+  "parti": "C",
+  "month": "2022-11",
+  "agreement": 0.7692307692307693,
+  "n": 26
+ },
+ {
+  "parti": "C",
+  "month": "2022-12",
+  "agreement": 1.0,
+  "n": 10
+ },
+ {
+  "parti": "C",
+  "month": "2023-01",
+  "agreement": 0.8333333333333334,
+  "n": 6
+ },
+ {
+  "parti": "C",
+  "month": "2023-02",
+  "agreement": 0.65625,
+  "n": 32
+ },
+ {
+  "parti": "C",
+  "month": "2023-03",
+  "agreement": 0.7211538461538461,
+  "n": 104
+ },
+ {
+  "parti": "KD",
+  "month": "2022-10",
+  "agreement": 1.0,
+  "n": 2
+ },
+ {
+  "parti": "KD",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 26
+ },
+ {
+  "parti": "KD",
+  "month": "2022-12",
+  "agreement": 0.9,
+  "n": 10
+ },
+ {
+  "parti": "KD",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "KD",
+  "month": "2023-02",
+  "agreement": 1.0,
+  "n": 32
+ },
+ {
+  "parti": "KD",
+  "month": "2023-03",
+  "agreement": 0.9903846153846154,
+  "n": 104
+ },
+ {
+  "parti": "L",
+  "month": "2022-10",
+  "agreement": 1.0,
+  "n": 2
+ },
+ {
+  "parti": "L",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 26
+ },
+ {
+  "parti": "L",
+  "month": "2022-12",
+  "agreement": 0.9,
+  "n": 10
+ },
+ {
+  "parti": "L",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "L",
+  "month": "2023-02",
+  "agreement": 1.0,
+  "n": 32
+ },
+ {
+  "parti": "L",
+  "month": "2023-03",
+  "agreement": 0.9903846153846154,
+  "n": 104
+ },
+ {
+  "parti": "M",
+  "month": "2022-10",
+  "agreement": 1.0,
+  "n": 2
+ },
+ {
+  "parti": "M",
+  "month": "2022-11",
+  "agreement": 1.0,
+  "n": 26
+ },
+ {
+  "parti": "M",
+  "month": "2022-12",
+  "agreement": 0.9,
+  "n": 10
+ },
+ {
+  "parti": "M",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "M",
+  "month": "2023-02",
+  "agreement": 1.0,
+  "n": 32
+ },
+ {
+  "parti": "M",
+  "month": "2023-03",
+  "agreement": 0.9903846153846154,
+  "n": 104
+ },
+ {
+  "parti": "MP",
+  "month": "2022-10",
+  "agreement": 0.5,
+  "n": 2
+ },
+ {
+  "parti": "MP",
+  "month": "2022-11",
+  "agreement": 0.7307692307692307,
+  "n": 26
+ },
+ {
+  "parti": "MP",
+  "month": "2022-12",
+  "agreement": 0.6,
+  "n": 10
+ },
+ {
+  "parti": "MP",
+  "month": "2023-01",
+  "agreement": 0.8333333333333334,
+  "n": 6
+ },
+ {
+  "parti": "MP",
+  "month": "2023-02",
+  "agreement": 0.4375,
+  "n": 32
+ },
+ {
+  "parti": "MP",
+  "month": "2023-03",
+  "agreement": 0.4807692307692308,
+  "n": 104
+ },
+ {
+  "parti": "S",
+  "month": "2022-10",
+  "agreement": 1.0,
+  "n": 2
+ },
+ {
+  "parti": "S",
+  "month": "2022-11",
+  "agreement": 0.9615384615384616,
+  "n": 26
+ },
+ {
+  "parti": "S",
+  "month": "2022-12",
+  "agreement": 1.0,
+  "n": 10
+ },
+ {
+  "parti": "S",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "S",
+  "month": "2023-02",
+  "agreement": 0.6875,
+  "n": 32
+ },
+ {
+  "parti": "S",
+  "month": "2023-03",
+  "agreement": 0.875,
+  "n": 104
+ },
+ {
+  "parti": "SD",
+  "month": "2022-10",
+  "agreement": 0.5,
+  "n": 2
+ },
+ {
+  "parti": "SD",
+  "month": "2022-11",
+  "agreement": 0.8461538461538461,
+  "n": 26
+ },
+ {
+  "parti": "SD",
+  "month": "2022-12",
+  "agreement": 0.9,
+  "n": 10
+ },
+ {
+  "parti": "SD",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "SD",
+  "month": "2023-02",
+  "agreement": 0.84375,
+  "n": 32
+ },
+ {
+  "parti": "SD",
+  "month": "2023-03",
+  "agreement": 0.7596153846153846,
+  "n": 104
+ },
+ {
+  "parti": "V",
+  "month": "2022-10",
+  "agreement": 0.0,
+  "n": 2
+ },
+ {
+  "parti": "V",
+  "month": "2022-11",
+  "agreement": 0.8076923076923077,
+  "n": 26
+ },
+ {
+  "parti": "V",
+  "month": "2022-12",
+  "agreement": 0.8,
+  "n": 10
+ },
+ {
+  "parti": "V",
+  "month": "2023-01",
+  "agreement": 1.0,
+  "n": 6
+ },
+ {
+  "parti": "V",
+  "month": "2023-02",
+  "agreement": 0.625,
+  "n": 32
+ },
+ {
+  "parti": "V",
+  "month": "2023-03",
+  "agreement": 0.6538461538461539,
+  "n": 104
+ }
+]
