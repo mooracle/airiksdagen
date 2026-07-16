@@ -1,55 +1,55 @@
 {
- "n_decisions": 2396,
+ "n_decisions": 2876,
  "per_party": {
   "S": {
-   "n": 300,
+   "n": 360,
    "bloc": "opposition",
-   "coalition_baseline": 0.6167,
-   "programme_accuracy": 0.7167,
-   "programme_lift": 0.1,
-   "authored_reservation_n": 93,
+   "coalition_baseline": 0.5889,
+   "programme_accuracy": 0.7194,
+   "programme_lift": 0.1306,
+   "authored_reservation_n": 118,
    "override": {
     "strict": {
      "all": {
-      "den": 23,
+      "den": 27,
       "num": 1,
-      "rate": 0.0435
+      "rate": 0.037
      },
      "authored": {
-      "den": 18,
+      "den": 21,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 5,
+      "den": 6,
       "num": 1,
-      "rate": 0.2
+      "rate": 0.1667
      }
     },
     "loose": {
      "all": {
-      "den": 48,
-      "num": 5,
-      "rate": 0.1042
+      "den": 60,
+      "num": 6,
+      "rate": 0.1
      },
      "authored": {
-      "den": 36,
+      "den": 44,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 12,
-      "num": 5,
-      "rate": 0.4167
+      "den": 16,
+      "num": 6,
+      "rate": 0.375
      }
     }
    }
   },
   "M": {
-   "n": 300,
+   "n": 360,
    "bloc": "government",
-   "coalition_baseline": 0.99,
-   "programme_accuracy": 0.99,
+   "coalition_baseline": 0.9917,
+   "programme_accuracy": 0.9917,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -90,12 +90,12 @@
    }
   },
   "SD": {
-   "n": 300,
+   "n": 360,
    "bloc": "support",
-   "coalition_baseline": 0.6967,
-   "programme_accuracy": 0.78,
-   "programme_lift": 0.0833,
-   "authored_reservation_n": 54,
+   "coalition_baseline": 0.7056,
+   "programme_accuracy": 0.7722,
+   "programme_lift": 0.0667,
+   "authored_reservation_n": 64,
    "override": {
     "strict": {
      "all": {
@@ -116,39 +116,39 @@
     },
     "loose": {
      "all": {
-      "den": 25,
-      "num": 8,
-      "rate": 0.32
+      "den": 29,
+      "num": 10,
+      "rate": 0.3448
      },
      "authored": {
-      "den": 12,
+      "den": 14,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 13,
-      "num": 8,
-      "rate": 0.6154
+      "den": 15,
+      "num": 10,
+      "rate": 0.6667
      }
     }
    }
   },
   "C": {
-   "n": 300,
+   "n": 360,
    "bloc": "opposition",
-   "coalition_baseline": 0.4733,
-   "programme_accuracy": 0.6767,
-   "programme_lift": 0.2033,
-   "authored_reservation_n": 77,
+   "coalition_baseline": 0.45,
+   "programme_accuracy": 0.6528,
+   "programme_lift": 0.2028,
+   "authored_reservation_n": 92,
    "override": {
     "strict": {
      "all": {
-      "den": 42,
+      "den": 44,
       "num": 1,
-      "rate": 0.0238
+      "rate": 0.0227
      },
      "authored": {
-      "den": 24,
+      "den": 26,
       "num": 0,
       "rate": 0.0
      },
@@ -160,53 +160,9 @@
     },
     "loose": {
      "all": {
-      "den": 107,
-      "num": 7,
-      "rate": 0.0654
-     },
-     "authored": {
-      "den": 44,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 63,
-      "num": 7,
-      "rate": 0.1111
-     }
-    }
-   }
-  },
-  "V": {
-   "n": 299,
-   "bloc": "opposition",
-   "coalition_baseline": 0.5151,
-   "programme_accuracy": 0.5719,
-   "programme_lift": 0.0569,
-   "authored_reservation_n": 104,
-   "override": {
-    "strict": {
-     "all": {
-      "den": 63,
-      "num": 3,
-      "rate": 0.0476
-     },
-     "authored": {
-      "den": 46,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 17,
-      "num": 3,
-      "rate": 0.1765
-     }
-    },
-    "loose": {
-     "all": {
-      "den": 97,
-      "num": 20,
-      "rate": 0.2062
+      "den": 132,
+      "num": 8,
+      "rate": 0.0606
      },
      "authored": {
       "den": 53,
@@ -214,18 +170,62 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 44,
-      "num": 20,
-      "rate": 0.4545
+      "den": 79,
+      "num": 8,
+      "rate": 0.1013
+     }
+    }
+   }
+  },
+  "V": {
+   "n": 359,
+   "bloc": "opposition",
+   "coalition_baseline": 0.5097,
+   "programme_accuracy": 0.5432,
+   "programme_lift": 0.0334,
+   "authored_reservation_n": 120,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 72,
+      "num": 5,
+      "rate": 0.0694
+     },
+     "authored": {
+      "den": 48,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 24,
+      "num": 5,
+      "rate": 0.2083
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 128,
+      "num": 29,
+      "rate": 0.2266
+     },
+     "authored": {
+      "den": 64,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 64,
+      "num": 29,
+      "rate": 0.4531
      }
     }
    }
   },
   "KD": {
-   "n": 299,
+   "n": 359,
    "bloc": "government",
-   "coalition_baseline": 0.99,
-   "programme_accuracy": 0.99,
+   "coalition_baseline": 0.9916,
+   "programme_accuracy": 0.9916,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -266,54 +266,54 @@
    }
   },
   "MP": {
-   "n": 299,
+   "n": 359,
    "bloc": "opposition",
-   "coalition_baseline": 0.4783,
-   "programme_accuracy": 0.4883,
-   "programme_lift": 0.01,
-   "authored_reservation_n": 92,
+   "coalition_baseline": 0.468,
+   "programme_accuracy": 0.4568,
+   "programme_lift": -0.0111,
+   "authored_reservation_n": 109,
    "override": {
     "strict": {
      "all": {
-      "den": 58,
-      "num": 4,
-      "rate": 0.069
+      "den": 73,
+      "num": 6,
+      "rate": 0.0822
      },
      "authored": {
-      "den": 31,
+      "den": 39,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 27,
-      "num": 4,
-      "rate": 0.1481
+      "den": 34,
+      "num": 6,
+      "rate": 0.1765
      }
     },
     "loose": {
      "all": {
-      "den": 118,
-      "num": 23,
-      "rate": 0.1949
+      "den": 141,
+      "num": 28,
+      "rate": 0.1986
      },
      "authored": {
-      "den": 53,
+      "den": 63,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 65,
-      "num": 23,
-      "rate": 0.3538
+      "den": 78,
+      "num": 28,
+      "rate": 0.359
      }
     }
    }
   },
   "L": {
-   "n": 299,
+   "n": 359,
    "bloc": "government",
-   "coalition_baseline": 0.99,
-   "programme_accuracy": 0.99,
+   "coalition_baseline": 0.9916,
+   "programme_accuracy": 0.9916,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -406,10 +406,18 @@
   {
    "parti": "S",
    "month": "2023-04",
-   "n": 109,
-   "coalition_baseline": 0.6055,
-   "programme_accuracy": 0.4587,
-   "programme_lift": -0.1468
+   "n": 144,
+   "coalition_baseline": 0.5486,
+   "programme_accuracy": 0.5139,
+   "programme_lift": -0.0347
+  },
+  {
+   "parti": "S",
+   "month": "2023-05",
+   "n": 25,
+   "coalition_baseline": 0.56,
+   "programme_accuracy": 0.8,
+   "programme_lift": 0.24
   },
   {
    "parti": "M",
@@ -462,7 +470,15 @@
   {
    "parti": "M",
    "month": "2023-04",
-   "n": 109,
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-05",
+   "n": 25,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -518,10 +534,18 @@
   {
    "parti": "SD",
    "month": "2023-04",
-   "n": 109,
-   "coalition_baseline": 0.6697,
-   "programme_accuracy": 0.7615,
-   "programme_lift": 0.0917
+   "n": 144,
+   "coalition_baseline": 0.6875,
+   "programme_accuracy": 0.75,
+   "programme_lift": 0.0625
+  },
+  {
+   "parti": "SD",
+   "month": "2023-05",
+   "n": 25,
+   "coalition_baseline": 0.76,
+   "programme_accuracy": 0.76,
+   "programme_lift": 0.0
   },
   {
    "parti": "C",
@@ -574,10 +598,18 @@
   {
    "parti": "C",
    "month": "2023-04",
-   "n": 109,
-   "coalition_baseline": 0.3853,
-   "programme_accuracy": 0.6055,
-   "programme_lift": 0.2202
+   "n": 144,
+   "coalition_baseline": 0.3681,
+   "programme_accuracy": 0.5903,
+   "programme_lift": 0.2222
+  },
+  {
+   "parti": "C",
+   "month": "2023-05",
+   "n": 25,
+   "coalition_baseline": 0.36,
+   "programme_accuracy": 0.52,
+   "programme_lift": 0.16
   },
   {
    "parti": "V",
@@ -630,10 +662,18 @@
   {
    "parti": "V",
    "month": "2023-04",
-   "n": 108,
-   "coalition_baseline": 0.5556,
-   "programme_accuracy": 0.3796,
-   "programme_lift": -0.1759
+   "n": 144,
+   "coalition_baseline": 0.5625,
+   "programme_accuracy": 0.3958,
+   "programme_lift": -0.1667
+  },
+  {
+   "parti": "V",
+   "month": "2023-05",
+   "n": 24,
+   "coalition_baseline": 0.3333,
+   "programme_accuracy": 0.3333,
+   "programme_lift": 0.0
   },
   {
    "parti": "KD",
@@ -686,7 +726,15 @@
   {
    "parti": "KD",
    "month": "2023-04",
-   "n": 108,
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2023-05",
+   "n": 24,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -742,10 +790,18 @@
   {
    "parti": "MP",
    "month": "2023-04",
-   "n": 108,
-   "coalition_baseline": 0.5,
-   "programme_accuracy": 0.4074,
-   "programme_lift": -0.0926
+   "n": 144,
+   "coalition_baseline": 0.4931,
+   "programme_accuracy": 0.375,
+   "programme_lift": -0.1181
+  },
+  {
+   "parti": "MP",
+   "month": "2023-05",
+   "n": 24,
+   "coalition_baseline": 0.3333,
+   "programme_accuracy": 0.3333,
+   "programme_lift": 0.0
   },
   {
    "parti": "L",
@@ -798,7 +854,15 @@
   {
    "parti": "L",
    "month": "2023-04",
-   "n": 108,
+   "n": 144,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-05",
+   "n": 24,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -1046,6 +1110,100 @@
      "document": "valmanifest",
      "quote": "bygga ut kollektivtrafiken i hela landet, och gör det billigare att åka buss och tåg",
      "princip": "billigare kollektivtrafik"
+    }
+   ]
+  },
+  {
+   "votering_id": "F88CF26E-9019-4A90-8EDE-1BBD4CE39881",
+   "datum": "2023-04-26",
+   "rubrik": "Elektrifiering och industrins gröna omställning",
+   "utskott": "NU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller elektrifiering och industrins gröna omställning – kärnan i MP:s politik med statliga stöd, utbyggd elproduktion och elnät. MP stödjer reservationen mot avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "För att industrin ska kunna ställa om behövs ett långsiktigt politiskt ledarskap och statliga stöd.",
+     "princip": "industrins gröna omställning"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "bygga ut elnäten, investera i energilager och satsa på ett smart energisystem.",
+     "princip": "elektrifiering och elnät"
+    }
+   ]
+  },
+  {
+   "votering_id": "6C693788-F4C6-4139-ADBD-4887CF117B94",
+   "datum": "2023-05-03",
+   "rubrik": "Ekonomiska förutsättningar för fristående skolor",
+   "utskott": "UbU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller ekonomiska förutsättningar för fristående skolor. MP vill stoppa vinstjakten och att vinstutdelande aktiebolag inte ska driva skola. MP stödjer en reservation som begränsar detta mot avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Därför vill vi i Miljöpartiet inte att vinstutdelande aktiebolag ska få driva skola.",
+     "princip": "stopp för vinst i skolan"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "sätta stopp för vinstjakten i skolan.",
+     "princip": "stoppa vinstjakten"
+    }
+   ]
+  },
+  {
+   "votering_id": "8FEEE8FA-2059-4A78-B856-45AE7B6BE0A9",
+   "datum": "2023-05-03",
+   "rubrik": "Elevers hälsa m.m.",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "V vill ha satsningar på elevhälsa, specialpedagoger och socialt stöd mot den utbredda psykiska ohälsan bland unga. En reservation om elevers hälsa ligger i linje med detta, medan utskottets avslag inte gör det. V bör rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det krävs satsningar inte bara på undervisning utan också på elevhälsa, specialpedagoger, fritidsverksamhet och socialt stöd.",
+     "princip": "satsa på elevhälsa"
+    }
+   ]
+  },
+  {
+   "votering_id": "83171E47-27BA-414A-8BE4-7004FBD44065",
+   "datum": "2023-05-03",
+   "rubrik": "Utredning av sexualbrott",
+   "utskott": "JuU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "V vill att sexualbrott mot kvinnor och barn prioriteras av rättsväsendet, med ökad kunskap om samtycke. En reservation om bättre utredning av sexualbrott ligger i linje med detta, medan utskottets avslag inte gör det. V bör rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "det behövs det fler poliser, ökad kunskap inom rättsväsendet om samtycke och om våld mot kvinnor och barn, och straff som gör att brotten prioriteras av rättsvårdande instanser.",
+     "princip": "prioritera sexualbrott"
     }
    ]
   },
@@ -2502,6 +2660,32 @@
    ]
   },
   {
+   "votering_id": "D3C096B5-E425-40D1-AD95-B4DC0E44748A",
+   "datum": "2023-04-26",
+   "rubrik": "Idrottsanläggningar",
+   "utskott": "KrU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "SD:s valmanifest slår uttryckligen fast att samhället i större utsträckning bör tillgodose behovet av idrottsanläggningar och öka idrottandet i hela befolkningen. SD har en egen omfattande motion (Bengtsson) om idrottsanläggningar, och reservationen driver denna linje. Nej till utskottets avslag.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Samhället bör i större utsträckning tillgodose behovet av idrottsanläggningar",
+     "princip": "fler idrottsanläggningar"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "• Öka idrottandet i hela befolkningen",
+     "princip": "öka idrottandet"
+    }
+   ]
+  },
+  {
    "votering_id": "943268D4-B4D5-4E80-BA86-66AD6B1A36A3",
    "datum": "2023-04-26",
    "rubrik": "Genusfrågor i skolan",
@@ -2528,6 +2712,58 @@
    ]
   },
   {
+   "votering_id": "F88CF26E-9019-4A90-8EDE-1BBD4CE39881",
+   "datum": "2023-04-26",
+   "rubrik": "Elektrifiering och industrins gröna omställning",
+   "utskott": "NU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V driver ett massivt grönt investeringsprogram och kraftig elektrifiering för industrins omställning från fossilt till förnybart. En reservation för elektrifiering och industrins gröna omställning stöds → Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet föreslår ett massivt investeringsprogram för den gröna industrin.",
+     "princip": "massivt grönt investeringsprogram"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Industrier ska ställa om från fossilt till förnybart med hjälp av stora statliga investeringar",
+     "princip": "industrins gröna omställning"
+    }
+   ]
+  },
+  {
+   "votering_id": "B606F46E-2884-477E-A6FC-F680308596FE",
+   "datum": "2023-04-26",
+   "rubrik": "Svenska kraftnät och anslutning av havsbaserad vindkraft",
+   "utskott": "NU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill kraftigt bygga ut havsbaserad vindkraft och att staten investerar i ett robust elnät. En reservation för anslutning av havsbaserad vindkraft via Svenska kraftnät ligger i linje → Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Trots att det finns en stor potential för havsbaserad vindkraft i Sverige har byggandet ännu inte tagit fart.",
+     "princip": "bygg ut havsbaserad vindkraft"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det offentliga ska ta över ansvaret för elnätet, vilket kommer leda till minskade avgifter för hushållen.",
+     "princip": "offentligt elnät"
+    }
+   ]
+  },
+  {
    "votering_id": "1B80BC24-E256-4866-9D59-CFF8E8CD3EEB",
    "datum": "2023-04-26",
    "rubrik": "Biografer på mindre orter",
@@ -2550,6 +2786,262 @@
      "document": "valmanifest",
      "quote": "Det är viktigt att kulturen står fri från såväl kommersiell som politisk styrning och finns i hela landet.",
      "princip": "kultur i hela landet"
+    }
+   ]
+  },
+  {
+   "votering_id": "784E534D-840C-4529-B0F1-C8F39E9F577A",
+   "datum": "2023-04-27",
+   "rubrik": "Utveckling av yrkeshögskolan",
+   "utskott": "UbU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill stärka och bygga ut yrkeshögskolan markant och genomföra ett grönt kunskapslyft. En reservation om utveckling av yrkeshögskolan ligger i linje med MP mot avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Regeringens satsning på yrkeshögskolan är långt ifrån tillräcklig och vi ökar därför anslaget markant.",
+     "princip": "stärkt yrkeshögskola"
+    }
+   ]
+  },
+  {
+   "votering_id": "3FF48A65-3397-4C4C-AB8A-6C6413102F21",
+   "datum": "2023-04-27",
+   "rubrik": "Utformningen av sfi",
+   "utskott": "UbU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill stärka sfi kombinerad med praktik och yrkesutbildning, särskilt för utrikesfödda kvinnor. En reservation som förbättrar sfi:s utformning ligger i linje med MP mot avslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "stärk utrikesfödda kvinnors etablering genom SFI kombinerad med praktik och yrkesutbildning och jämställda insatser från arbetsförmedlingen.",
+     "princip": "stärkt sfi med praktik"
+    }
+   ]
+  },
+  {
+   "votering_id": "42B10380-5CBD-45B0-8B25-CAD56BDC0A81",
+   "datum": "2023-04-27",
+   "rubrik": "Arbetsmarknadspolitiska program och insatser",
+   "utskott": "AU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP motsätter sig regeringens neddragningar av arbetsmarknadspolitiska program och vill ha mer personalintensiva insatser för dem långt från arbetsmarknaden. MP stödjer reservationen mot avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Vi säger därför nej till de neddragningar som regeringen gör av arbetsmarknadspolitiska program och insatser.",
+     "princip": "värna arbetsmarknadsprogram"
+    }
+   ]
+  },
+  {
+   "votering_id": "7241B838-7234-4B2E-A123-BDBBB6894236",
+   "datum": "2023-04-27",
+   "rubrik": "Arbetsförmedlingen",
+   "utskott": "AU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill stoppa privatiseringen av Arbetsförmedlingen och att verksamheten drivs i offentlig regi med lokal närvaro i hela landet. En oppositionsreservation mot regeringens privatiseringslinje ligger närmast V → Nej. Osäkert dock om reservationen i stället är C:s privatiseringslinje.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Stoppa den pågående reformeringen. Förmedlingsverksamheten ska bedrivas i offentlig regi.",
+     "princip": "Arbetsförmedlingen i offentlig regi"
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Vänsterpartiet vill återupprätta den aktiva arbetsmarknadspolitiken.",
+     "princip": "aktiv arbetsmarknadspolitik"
+    }
+   ]
+  },
+  {
+   "votering_id": "93A8976A-071D-4FBF-B70A-7AF273849349",
+   "datum": "2023-04-27",
+   "rubrik": "Insatser för personer med funktionsnedsättning som medför nedsatt arbetsförmåga",
+   "utskott": "AU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill bygga upp stödet till arbetssökande med funktionsnedsättning, med specialistkompetens och effektivare handläggning, och att deras rätt inte ifrågasätts. En reservation som stärker insatserna ligger i linje → Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Bygg upp stödet till personer med funktionshinder.",
+     "princip": "stöd vid funktionsnedsättning"
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Säkerställ att arbetssökande med funktionsnedsättning ges tillgång till handläggare med specialistkompetens",
+     "princip": "specialistkompetens hos AF"
+    }
+   ]
+  },
+  {
+   "votering_id": "BD093757-FD1D-40AF-B9B8-E88AE5176303",
+   "datum": "2023-04-27",
+   "rubrik": "Utbildning för omställning och livslångt lärande",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill se massiva satsningar på omställningsstöd och kompetensutveckling och att Komvux och folkhögskolor finns i hela landet. Reservationen driver mer vuxenutbildning för omställning och livslångt lärande, medan utskottets avslag bevarar status quo. Därför bör V rösta Nej och stödja motförslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "för att kunna hantera de nya gröna jobben behövs massiva satsningar på omställningsstöd, kompetensutveckling och utbildning",
+     "princip": "omställningsstöd och utbildning"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Folkhögskolor och Komvux behövs i hela landet.",
+     "princip": "vuxenutbildning i hela landet"
+    }
+   ]
+  },
+  {
+   "votering_id": "6C693788-F4C6-4139-ADBD-4887CF117B94",
+   "datum": "2023-05-03",
+   "rubrik": "Ekonomiska förutsättningar för fristående skolor",
+   "utskott": "UbU",
+   "parti": "C",
+   "ai_rost": "Avstår",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller fristående skolors ekonomiska förutsättningar. Centerpartiet har en egen linje: skolpengen ska reformeras efter huvudmännens ansvar och elevers behov, samtidigt som friskolorna värnas. Den positionen motsvaras varken av utskottets avslag eller av vänstermotförslaget. Partiet avstår för att markera sin egen linje.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Skolpengen ska anpassas efter huvudmännens ansvar och elevernas förutsättningar och behov.",
+     "princip": "egen skolpengsmodell"
+    }
+   ]
+  },
+  {
+   "votering_id": "83171E47-27BA-414A-8BE4-7004FBD44065",
+   "datum": "2023-05-03",
+   "rubrik": "Utredning av sexualbrott",
+   "utskott": "JuU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller utredning av sexualbrott. S vill ta krafttag mot sexualbrott och mäns våld mot kvinnor och har ökat resurserna till kvinnojourer; reservationens inriktning ligger nära S:s linje och partiet bör stödja den.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Krafttag för att stoppa hedersrelaterat våld, sexualbrott och mäns våld mot kvinnor.",
+     "princip": "mot sexualbrott och mäns våld"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "ökat resurserna till kvinno- och tjejjourernas viktiga arbete.",
+     "princip": "resurser mot mäns våld"
+    }
+   ]
+  },
+  {
+   "votering_id": "B1FBAABA-1FD4-4CA3-BEBD-A644657310C4",
+   "datum": "2023-05-03",
+   "rubrik": "Frivilligorganisationerna",
+   "utskott": "FöU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "SD:s valmanifest slår uttryckligen fast att Hemvärnet och frivilligorganisationerna ska stärkas som komponenter för försvarsvilja och civilsamhällets uthållighet. Motförslaget om att stärka frivilligorganisationerna ligger i linje med detta medan utskottet vill avslå. SD bör därför rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna vill också stärka Hemvärnet och frivilligorganisationer som utgör viktiga komponenter för försvarsviljan och civilsamhällets uthållighet.",
+     "princip": "stärka frivilligorganisationerna"
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärka Hemvärnets ställning",
+     "princip": "stärka Hemvärnet"
+    }
+   ]
+  },
+  {
+   "votering_id": "08D98674-C792-4914-99B9-F03EAC644723",
+   "datum": "2023-05-03",
+   "rubrik": "Utveckling av socialtjänstens arbete",
+   "utskott": "SoU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill förstärka socialtjänsten med tillräckliga resurser för förebyggande arbete och barnskydd. Reservationen driver utveckling av socialtjänstens arbete i den riktningen, medan utskottets avslag inte gör det. V bör rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "förstärk socialtjänsten med tillräckliga resurser och kunskap för att arbeta både förebyggande och med barnskydd.",
+     "princip": "stärkt socialtjänst"
+    }
+   ]
+  },
+  {
+   "votering_id": "A8B4D38B-AE45-42DB-A96F-446A663E27FA",
+   "datum": "2023-05-03",
+   "rubrik": "Jämställt försörjningsstöd",
+   "utskott": "SoU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V är feministiskt och betonar kvinnors ekonomiska självständighet, bl.a. för att kunna lämna våldsamma relationer. Ett jämställt (individualiserat) försörjningsstöd ligger i linje med detta. V bör rösta Nej för motförslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Många kvinnor kan inte lämna destruktiva förhållanden för att deras ekonomi är för dålig, därför hänger arbetet med att uppvärdera kvinnors arbete och höja löner i låglöneyrken ihop med arbetet mot våld mot kvinnor.",
+     "princip": "kvinnors ekonomiska självständighet"
     }
    ]
   }
