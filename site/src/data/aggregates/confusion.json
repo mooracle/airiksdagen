@@ -1,24 +1,24 @@
 {
  "S": {
   "Ja": {
-   "Ja": 245,
-   "Nej": 15,
-   "Avst\u00e5r": 7
+   "Ja": 267,
+   "Nej": 16,
+   "Avst\u00e5r": 8
   },
   "Nej": {
-   "Ja": 59,
-   "Nej": 172,
-   "Avst\u00e5r": 39
+   "Ja": 60,
+   "Nej": 194,
+   "Avst\u00e5r": 47
   },
   "Avst\u00e5r": {
-   "Ja": 57,
-   "Nej": 6,
+   "Ja": 58,
+   "Nej": 10,
    "Avst\u00e5r": 0
   }
  },
  "M": {
   "Ja": {
-   "Ja": 597,
+   "Ja": 657,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
@@ -35,9 +35,9 @@
  },
  "SD": {
   "Ja": {
-   "Ja": 389,
-   "Nej": 42,
-   "Avst\u00e5r": 53
+   "Ja": 440,
+   "Nej": 46,
+   "Avst\u00e5r": 58
   },
   "Nej": {
    "Ja": 18,
@@ -52,41 +52,41 @@
  },
  "C": {
   "Ja": {
-   "Ja": 205,
-   "Nej": 12,
+   "Ja": 231,
+   "Nej": 13,
    "Avst\u00e5r": 4
   },
   "Nej": {
-   "Ja": 38,
-   "Nej": 144,
-   "Avst\u00e5r": 148
+   "Ja": 42,
+   "Nej": 148,
+   "Avst\u00e5r": 149
   },
   "Avst\u00e5r": {
-   "Ja": 21,
-   "Nej": 7,
-   "Avst\u00e5r": 21
+   "Ja": 30,
+   "Nej": 14,
+   "Avst\u00e5r": 29
   }
  },
  "V": {
   "Ja": {
-   "Ja": 122,
+   "Ja": 124,
    "Nej": 12,
    "Avst\u00e5r": 3
   },
   "Nej": {
-   "Ja": 137,
-   "Nej": 191,
-   "Avst\u00e5r": 81
+   "Ja": 154,
+   "Nej": 213,
+   "Avst\u00e5r": 92
   },
   "Avst\u00e5r": {
-   "Ja": 36,
-   "Nej": 6,
-   "Avst\u00e5r": 11
+   "Ja": 42,
+   "Nej": 7,
+   "Avst\u00e5r": 12
   }
  },
  "KD": {
   "Ja": {
-   "Ja": 595,
+   "Ja": 655,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
@@ -103,24 +103,24 @@
  },
  "MP": {
   "Ja": {
-   "Ja": 101,
-   "Nej": 15,
+   "Ja": 108,
+   "Nej": 16,
    "Avst\u00e5r": 4
   },
   "Nej": {
-   "Ja": 134,
-   "Nej": 174,
-   "Avst\u00e5r": 119
+   "Ja": 146,
+   "Nej": 198,
+   "Avst\u00e5r": 129
   },
   "Avst\u00e5r": {
-   "Ja": 36,
-   "Nej": 7,
+   "Ja": 41,
+   "Nej": 8,
    "Avst\u00e5r": 9
   }
  },
  "L": {
   "Ja": {
-   "Ja": 596,
+   "Ja": 656,
    "Nej": 3,
    "Avst\u00e5r": 0
   },

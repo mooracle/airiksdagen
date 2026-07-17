@@ -74,8 +74,20 @@
  {
   "parti": "C",
   "month": "2023-12",
-  "agreement": 0.375,
-  "n": 8
+  "agreement": 0.38095238095238093,
+  "n": 21
+ },
+ {
+  "parti": "C",
+  "month": "2024-01",
+  "agreement": 0.7,
+  "n": 20
+ },
+ {
+  "parti": "C",
+  "month": "2024-02",
+  "agreement": 0.7037037037037037,
+  "n": 27
  },
  {
   "parti": "KD",
@@ -153,7 +165,19 @@
   "parti": "KD",
   "month": "2023-12",
   "agreement": 1.0,
-  "n": 7
+  "n": 21
+ },
+ {
+  "parti": "KD",
+  "month": "2024-01",
+  "agreement": 1.0,
+  "n": 20
+ },
+ {
+  "parti": "KD",
+  "month": "2024-02",
+  "agreement": 1.0,
+  "n": 26
  },
  {
   "parti": "L",
@@ -231,7 +255,19 @@
   "parti": "L",
   "month": "2023-12",
   "agreement": 1.0,
-  "n": 7
+  "n": 21
+ },
+ {
+  "parti": "L",
+  "month": "2024-01",
+  "agreement": 1.0,
+  "n": 20
+ },
+ {
+  "parti": "L",
+  "month": "2024-02",
+  "agreement": 1.0,
+  "n": 26
  },
  {
   "parti": "M",
@@ -309,7 +345,19 @@
   "parti": "M",
   "month": "2023-12",
   "agreement": 1.0,
-  "n": 8
+  "n": 21
+ },
+ {
+  "parti": "M",
+  "month": "2024-01",
+  "agreement": 1.0,
+  "n": 20
+ },
+ {
+  "parti": "M",
+  "month": "2024-02",
+  "agreement": 1.0,
+  "n": 27
  },
  {
   "parti": "MP",
@@ -386,8 +434,20 @@
  {
   "parti": "MP",
   "month": "2023-12",
-  "agreement": 0.2857142857142857,
-  "n": 7
+  "agreement": 0.3333333333333333,
+  "n": 21
+ },
+ {
+  "parti": "MP",
+  "month": "2024-01",
+  "agreement": 0.55,
+  "n": 20
+ },
+ {
+  "parti": "MP",
+  "month": "2024-02",
+  "agreement": 0.5769230769230769,
+  "n": 26
  },
  {
   "parti": "S",
@@ -464,8 +524,20 @@
  {
   "parti": "S",
   "month": "2023-12",
-  "agreement": 0.625,
-  "n": 8
+  "agreement": 0.5238095238095238,
+  "n": 21
+ },
+ {
+  "parti": "S",
+  "month": "2024-01",
+  "agreement": 0.85,
+  "n": 20
+ },
+ {
+  "parti": "S",
+  "month": "2024-02",
+  "agreement": 0.7777777777777778,
+  "n": 27
  },
  {
   "parti": "SD",
@@ -542,8 +614,20 @@
  {
   "parti": "SD",
   "month": "2023-12",
-  "agreement": 0.75,
-  "n": 8
+  "agreement": 0.9047619047619048,
+  "n": 21
+ },
+ {
+  "parti": "SD",
+  "month": "2024-01",
+  "agreement": 0.9,
+  "n": 20
+ },
+ {
+  "parti": "SD",
+  "month": "2024-02",
+  "agreement": 0.7407407407407407,
+  "n": 27
  },
  {
   "parti": "V",
@@ -620,7 +704,19 @@
  {
   "parti": "V",
   "month": "2023-12",
-  "agreement": 0.5714285714285714,
-  "n": 7
+  "agreement": 0.47619047619047616,
+  "n": 21
+ },
+ {
+  "parti": "V",
+  "month": "2024-01",
+  "agreement": 0.4,
+  "n": 20
+ },
+ {
+  "parti": "V",
+  "month": "2024-02",
+  "agreement": 0.4230769230769231,
+  "n": 26
  }
 ]
