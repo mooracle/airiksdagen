@@ -50,8 +50,32 @@
  {
   "parti": "C",
   "month": "2023-06",
-  "agreement": 0.5185185185185185,
-  "n": 54
+  "agreement": 0.5303030303030303,
+  "n": 66
+ },
+ {
+  "parti": "C",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "C",
+  "month": "2023-10",
+  "agreement": 0.75,
+  "n": 4
+ },
+ {
+  "parti": "C",
+  "month": "2023-11",
+  "agreement": 0.7419354838709677,
+  "n": 31
+ },
+ {
+  "parti": "C",
+  "month": "2023-12",
+  "agreement": 0.375,
+  "n": 8
  },
  {
   "parti": "KD",
@@ -105,7 +129,31 @@
   "parti": "KD",
   "month": "2023-06",
   "agreement": 1.0,
-  "n": 53
+  "n": 66
+ },
+ {
+  "parti": "KD",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "KD",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "KD",
+  "month": "2023-11",
+  "agreement": 1.0,
+  "n": 31
+ },
+ {
+  "parti": "KD",
+  "month": "2023-12",
+  "agreement": 1.0,
+  "n": 7
  },
  {
   "parti": "L",
@@ -159,7 +207,31 @@
   "parti": "L",
   "month": "2023-06",
   "agreement": 1.0,
-  "n": 53
+  "n": 66
+ },
+ {
+  "parti": "L",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "L",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "L",
+  "month": "2023-11",
+  "agreement": 1.0,
+  "n": 31
+ },
+ {
+  "parti": "L",
+  "month": "2023-12",
+  "agreement": 1.0,
+  "n": 7
  },
  {
   "parti": "M",
@@ -213,7 +285,31 @@
   "parti": "M",
   "month": "2023-06",
   "agreement": 1.0,
-  "n": 54
+  "n": 66
+ },
+ {
+  "parti": "M",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "M",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "M",
+  "month": "2023-11",
+  "agreement": 1.0,
+  "n": 31
+ },
+ {
+  "parti": "M",
+  "month": "2023-12",
+  "agreement": 1.0,
+  "n": 8
  },
  {
   "parti": "MP",
@@ -266,8 +362,32 @@
  {
   "parti": "MP",
   "month": "2023-06",
-  "agreement": 0.4339622641509434,
-  "n": 53
+  "agreement": 0.4090909090909091,
+  "n": 66
+ },
+ {
+  "parti": "MP",
+  "month": "2023-09",
+  "agreement": 0.4,
+  "n": 5
+ },
+ {
+  "parti": "MP",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "MP",
+  "month": "2023-11",
+  "agreement": 0.7419354838709677,
+  "n": 31
+ },
+ {
+  "parti": "MP",
+  "month": "2023-12",
+  "agreement": 0.2857142857142857,
+  "n": 7
  },
  {
   "parti": "S",
@@ -320,8 +440,32 @@
  {
   "parti": "S",
   "month": "2023-06",
-  "agreement": 0.42592592592592593,
-  "n": 54
+  "agreement": 0.5,
+  "n": 66
+ },
+ {
+  "parti": "S",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "S",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "S",
+  "month": "2023-11",
+  "agreement": 0.8064516129032258,
+  "n": 31
+ },
+ {
+  "parti": "S",
+  "month": "2023-12",
+  "agreement": 0.625,
+  "n": 8
  },
  {
   "parti": "SD",
@@ -374,8 +518,32 @@
  {
   "parti": "SD",
   "month": "2023-06",
-  "agreement": 0.6296296296296297,
-  "n": 54
+  "agreement": 0.6666666666666666,
+  "n": 66
+ },
+ {
+  "parti": "SD",
+  "month": "2023-09",
+  "agreement": 1.0,
+  "n": 5
+ },
+ {
+  "parti": "SD",
+  "month": "2023-10",
+  "agreement": 1.0,
+  "n": 4
+ },
+ {
+  "parti": "SD",
+  "month": "2023-11",
+  "agreement": 1.0,
+  "n": 31
+ },
+ {
+  "parti": "SD",
+  "month": "2023-12",
+  "agreement": 0.75,
+  "n": 8
  },
  {
   "parti": "V",
@@ -428,7 +596,31 @@
  {
   "parti": "V",
   "month": "2023-06",
-  "agreement": 0.5471698113207547,
-  "n": 53
+  "agreement": 0.5151515151515151,
+  "n": 66
+ },
+ {
+  "parti": "V",
+  "month": "2023-09",
+  "agreement": 0.8,
+  "n": 5
+ },
+ {
+  "parti": "V",
+  "month": "2023-10",
+  "agreement": 0.75,
+  "n": 4
+ },
+ {
+  "parti": "V",
+  "month": "2023-11",
+  "agreement": 0.7096774193548387,
+  "n": 31
+ },
+ {
+  "parti": "V",
+  "month": "2023-12",
+  "agreement": 0.5714285714285714,
+  "n": 7
  }
 ]
