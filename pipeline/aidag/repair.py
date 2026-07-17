@@ -104,8 +104,10 @@ def run(run_id: str) -> None:
     )
     meta = {r["votering_id"]: (r["datum"], r["rm"]) for r in cases.iter_rows(named=True)}
 
+    from aidag.blocklist import strip_blocked
+
     sim_dir = RESULTS_DIR / "simulations" / run_id
-    n_ok = n_fixed = n_failed = 0
+    n_ok = n_fixed = n_failed = n_blocked = 0
     for path in sorted(sim_dir.glob("*.jsonl")):
         party = path.stem
         out_lines = []
@@ -126,10 +128,17 @@ def run(run_id: str) -> None:
             n_ok += ok
             n_fixed += fixed
             n_failed += failed
+            # after quotes are verbatim, drop generic block-listed citations
+            # (coalition/procedural boilerplate + party self-identity lines):
+            # they don't explain THIS vote, so keep the decision, not the quote
+            n_blocked += strip_blocked(d)
             out_lines.append(json.dumps(d, ensure_ascii=False))
         # atomic replace — these files are the committed scientific record,
         # never leave them truncated on an interrupt
         tmp = path.with_suffix(".jsonl.tmp")
         tmp.write_text("\n".join(out_lines) + "\n")
         tmp.replace(path)
-    print(f"citations: {n_ok} verbatim, {n_fixed} repaired (flagged), {n_failed} unverifiable")
+    print(
+        f"citations: {n_ok} verbatim, {n_fixed} repaired (flagged), "
+        f"{n_failed} unverifiable, {n_blocked} generic dropped"
+    )

@@ -1,24 +1,24 @@
 {
  "S": {
   "Ja": {
-   "Ja": 154,
-   "Nej": 11,
+   "Ja": 177,
+   "Nej": 12,
    "Avst\u00e5r": 6
   },
   "Nej": {
-   "Ja": 39,
-   "Nej": 105,
-   "Avst\u00e5r": 24
+   "Ja": 40,
+   "Nej": 121,
+   "Avst\u00e5r": 30
   },
   "Avst\u00e5r": {
-   "Ja": 19,
-   "Nej": 2,
+   "Ja": 31,
+   "Nej": 3,
    "Avst\u00e5r": 0
   }
  },
  "M": {
   "Ja": {
-   "Ja": 357,
+   "Ja": 417,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
@@ -35,63 +35,63 @@
  },
  "SD": {
   "Ja": {
-   "Ja": 236,
-   "Nej": 23,
-   "Avst\u00e5r": 24
+   "Ja": 267,
+   "Nej": 27,
+   "Avst\u00e5r": 31
   },
   "Nej": {
-   "Ja": 14,
-   "Nej": 40,
-   "Avst\u00e5r": 16
+   "Ja": 18,
+   "Nej": 50,
+   "Avst\u00e5r": 19
   },
   "Avst\u00e5r": {
-   "Ja": 4,
+   "Ja": 5,
    "Nej": 1,
    "Avst\u00e5r": 2
   }
  },
  "C": {
   "Ja": {
-   "Ja": 139,
-   "Nej": 7,
+   "Ja": 152,
+   "Nej": 8,
    "Avst\u00e5r": 2
   },
   "Nej": {
-   "Ja": 17,
-   "Nej": 81,
-   "Avst\u00e5r": 88
+   "Ja": 18,
+   "Nej": 95,
+   "Avst\u00e5r": 114
   },
   "Avst\u00e5r": {
-   "Ja": 6,
+   "Ja": 11,
    "Nej": 5,
    "Avst\u00e5r": 15
   }
  },
  "V": {
   "Ja": {
-   "Ja": 79,
+   "Ja": 88,
    "Nej": 6,
    "Avst\u00e5r": 0
   },
   "Nej": {
-   "Ja": 82,
-   "Nej": 111,
-   "Avst\u00e5r": 49
+   "Ja": 99,
+   "Nej": 128,
+   "Avst\u00e5r": 61
   },
   "Avst\u00e5r": {
-   "Ja": 22,
+   "Ja": 27,
    "Nej": 5,
    "Avst\u00e5r": 5
   }
  },
  "KD": {
   "Ja": {
-   "Ja": 356,
+   "Ja": 415,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
   "Nej": {
-   "Ja": 0,
+   "Ja": 1,
    "Nej": 0,
    "Avst\u00e5r": 0
   },
@@ -103,24 +103,24 @@
  },
  "MP": {
   "Ja": {
-   "Ja": 64,
-   "Nej": 9,
+   "Ja": 74,
+   "Nej": 10,
    "Avst\u00e5r": 3
   },
   "Nej": {
-   "Ja": 87,
-   "Nej": 97,
-   "Avst\u00e5r": 76
+   "Ja": 106,
+   "Nej": 119,
+   "Avst\u00e5r": 83
   },
   "Avst\u00e5r": {
    "Ja": 17,
    "Nej": 3,
-   "Avst\u00e5r": 3
+   "Avst\u00e5r": 4
   }
  },
  "L": {
   "Ja": {
-   "Ja": 356,
+   "Ja": 416,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
