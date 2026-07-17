@@ -1,22 +1,22 @@
 {
- "n_decisions": 3356,
+ "n_decisions": 4316,
  "per_party": {
   "S": {
-   "n": 420,
+   "n": 540,
    "bloc": "opposition",
-   "coalition_baseline": 0.5905,
-   "programme_accuracy": 0.7095,
-   "programme_lift": 0.119,
-   "authored_reservation_n": 136,
+   "coalition_baseline": 0.5963,
+   "programme_accuracy": 0.6815,
+   "programme_lift": 0.0852,
+   "authored_reservation_n": 172,
    "override": {
     "strict": {
      "all": {
-      "den": 29,
+      "den": 34,
       "num": 1,
-      "rate": 0.0345
+      "rate": 0.0294
      },
      "authored": {
-      "den": 23,
+      "den": 28,
       "num": 0,
       "rate": 0.0
      },
@@ -28,28 +28,28 @@
     },
     "loose": {
      "all": {
-      "den": 89,
-      "num": 15,
-      "rate": 0.1685
+      "den": 112,
+      "num": 17,
+      "rate": 0.1518
      },
      "authored": {
-      "den": 58,
+      "den": 73,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 31,
-      "num": 15,
-      "rate": 0.4839
+      "den": 39,
+      "num": 17,
+      "rate": 0.4359
      }
     }
    }
   },
   "M": {
-   "n": 420,
+   "n": 540,
    "bloc": "government",
-   "coalition_baseline": 0.9929,
-   "programme_accuracy": 0.9929,
+   "coalition_baseline": 0.9944,
+   "programme_accuracy": 0.9944,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -90,12 +90,12 @@
    }
   },
   "SD": {
-   "n": 420,
+   "n": 540,
    "bloc": "support",
-   "coalition_baseline": 0.6905,
-   "programme_accuracy": 0.7595,
-   "programme_lift": 0.069,
-   "authored_reservation_n": 78,
+   "coalition_baseline": 0.6648,
+   "programme_accuracy": 0.7389,
+   "programme_lift": 0.0741,
+   "authored_reservation_n": 101,
    "override": {
     "strict": {
      "all": {
@@ -116,117 +116,117 @@
     },
     "loose": {
      "all": {
-      "den": 42,
+      "den": 51,
       "num": 15,
-      "rate": 0.3571
+      "rate": 0.2941
      },
      "authored": {
-      "den": 20,
+      "den": 24,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 22,
+      "den": 27,
       "num": 15,
-      "rate": 0.6818
+      "rate": 0.5556
      }
     }
    }
   },
   "C": {
-   "n": 420,
+   "n": 540,
    "bloc": "opposition",
-   "coalition_baseline": 0.431,
-   "programme_accuracy": 0.6238,
-   "programme_lift": 0.1929,
-   "authored_reservation_n": 107,
+   "coalition_baseline": 0.4278,
+   "programme_accuracy": 0.6093,
+   "programme_lift": 0.1815,
+   "authored_reservation_n": 144,
    "override": {
     "strict": {
      "all": {
-      "den": 49,
+      "den": 60,
       "num": 1,
-      "rate": 0.0204
+      "rate": 0.0167
      },
      "authored": {
-      "den": 28,
+      "den": 32,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 21,
+      "den": 28,
       "num": 1,
-      "rate": 0.0476
+      "rate": 0.0357
      }
     },
     "loose": {
      "all": {
-      "den": 159,
-      "num": 9,
-      "rate": 0.0566
+      "den": 200,
+      "num": 16,
+      "rate": 0.08
      },
      "authored": {
-      "den": 60,
+      "den": 77,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 99,
-      "num": 9,
-      "rate": 0.0909
+      "den": 123,
+      "num": 16,
+      "rate": 0.1301
      }
     }
    }
   },
   "V": {
-   "n": 419,
+   "n": 539,
    "bloc": "opposition",
-   "coalition_baseline": 0.5107,
-   "programme_accuracy": 0.5274,
-   "programme_lift": 0.0167,
-   "authored_reservation_n": 137,
+   "coalition_baseline": 0.5121,
+   "programme_accuracy": 0.5306,
+   "programme_lift": 0.0186,
+   "authored_reservation_n": 176,
    "override": {
     "strict": {
      "all": {
-      "den": 73,
+      "den": 83,
       "num": 5,
-      "rate": 0.0685
+      "rate": 0.0602
      },
      "authored": {
-      "den": 49,
+      "den": 55,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 24,
+      "den": 28,
       "num": 5,
-      "rate": 0.2083
+      "rate": 0.1786
      }
     },
     "loose": {
      "all": {
-      "den": 144,
-      "num": 35,
-      "rate": 0.2431
+      "den": 173,
+      "num": 41,
+      "rate": 0.237
      },
      "authored": {
-      "den": 70,
+      "den": 85,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 74,
-      "num": 35,
-      "rate": 0.473
+      "den": 88,
+      "num": 41,
+      "rate": 0.4659
      }
     }
    }
   },
   "KD": {
-   "n": 419,
+   "n": 539,
    "bloc": "government",
-   "coalition_baseline": 0.9928,
-   "programme_accuracy": 0.9905,
-   "programme_lift": -0.0024,
+   "coalition_baseline": 0.9944,
+   "programme_accuracy": 0.9926,
+   "programme_lift": -0.0019,
    "authored_reservation_n": 3,
    "override": {
     "strict": {
@@ -266,54 +266,54 @@
    }
   },
   "MP": {
-   "n": 419,
+   "n": 539,
    "bloc": "opposition",
-   "coalition_baseline": 0.4702,
-   "programme_accuracy": 0.4702,
-   "programme_lift": 0.0,
-   "authored_reservation_n": 131,
+   "coalition_baseline": 0.4675,
+   "programme_accuracy": 0.462,
+   "programme_lift": -0.0056,
+   "authored_reservation_n": 166,
    "override": {
     "strict": {
      "all": {
-      "den": 88,
+      "den": 104,
       "num": 8,
-      "rate": 0.0909
+      "rate": 0.0769
      },
      "authored": {
-      "den": 48,
+      "den": 59,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 40,
+      "den": 45,
       "num": 8,
-      "rate": 0.2
+      "rate": 0.1778
      }
     },
     "loose": {
      "all": {
-      "den": 165,
-      "num": 35,
-      "rate": 0.2121
+      "den": 212,
+      "num": 42,
+      "rate": 0.1981
      },
      "authored": {
-      "den": 76,
+      "den": 96,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 89,
-      "num": 35,
-      "rate": 0.3933
+      "den": 116,
+      "num": 42,
+      "rate": 0.3621
      }
     }
    }
   },
   "L": {
-   "n": 419,
+   "n": 539,
    "bloc": "government",
-   "coalition_baseline": 0.9928,
-   "programme_accuracy": 0.9928,
+   "coalition_baseline": 0.9944,
+   "programme_accuracy": 0.9944,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -414,10 +414,18 @@
   {
    "parti": "S",
    "month": "2023-05",
-   "n": 85,
-   "coalition_baseline": 0.5882,
-   "programme_accuracy": 0.6941,
-   "programme_lift": 0.1059
+   "n": 151,
+   "coalition_baseline": 0.6026,
+   "programme_accuracy": 0.702,
+   "programme_lift": 0.0993
+  },
+  {
+   "parti": "S",
+   "month": "2023-06",
+   "n": 54,
+   "coalition_baseline": 0.6111,
+   "programme_accuracy": 0.4259,
+   "programme_lift": -0.1852
   },
   {
    "parti": "M",
@@ -478,7 +486,15 @@
   {
    "parti": "M",
    "month": "2023-05",
-   "n": 85,
+   "n": 151,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2023-06",
+   "n": 54,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -542,10 +558,18 @@
   {
    "parti": "SD",
    "month": "2023-05",
-   "n": 85,
-   "coalition_baseline": 0.6471,
-   "programme_accuracy": 0.7059,
-   "programme_lift": 0.0588
+   "n": 151,
+   "coalition_baseline": 0.6093,
+   "programme_accuracy": 0.702,
+   "programme_lift": 0.0927
+  },
+  {
+   "parti": "SD",
+   "month": "2023-06",
+   "n": 54,
+   "coalition_baseline": 0.5926,
+   "programme_accuracy": 0.6296,
+   "programme_lift": 0.037
   },
   {
    "parti": "C",
@@ -606,10 +630,18 @@
   {
    "parti": "C",
    "month": "2023-05",
-   "n": 85,
-   "coalition_baseline": 0.3294,
-   "programme_accuracy": 0.4706,
-   "programme_lift": 0.1412
+   "n": 151,
+   "coalition_baseline": 0.3907,
+   "programme_accuracy": 0.5232,
+   "programme_lift": 0.1325
+  },
+  {
+   "parti": "C",
+   "month": "2023-06",
+   "n": 54,
+   "coalition_baseline": 0.3519,
+   "programme_accuracy": 0.5185,
+   "programme_lift": 0.1667
   },
   {
    "parti": "V",
@@ -670,10 +702,18 @@
   {
    "parti": "V",
    "month": "2023-05",
-   "n": 84,
-   "coalition_baseline": 0.4643,
-   "programme_accuracy": 0.4048,
-   "programme_lift": -0.0595
+   "n": 151,
+   "coalition_baseline": 0.4834,
+   "programme_accuracy": 0.4636,
+   "programme_lift": -0.0199
+  },
+  {
+   "parti": "V",
+   "month": "2023-06",
+   "n": 53,
+   "coalition_baseline": 0.5283,
+   "programme_accuracy": 0.5472,
+   "programme_lift": 0.0189
   },
   {
    "parti": "KD",
@@ -734,10 +774,18 @@
   {
    "parti": "KD",
    "month": "2023-05",
-   "n": 84,
+   "n": 151,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.9881,
-   "programme_lift": -0.0119
+   "programme_accuracy": 0.9934,
+   "programme_lift": -0.0066
+  },
+  {
+   "parti": "KD",
+   "month": "2023-06",
+   "n": 53,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
   },
   {
    "parti": "MP",
@@ -798,10 +846,18 @@
   {
    "parti": "MP",
    "month": "2023-05",
-   "n": 84,
-   "coalition_baseline": 0.4405,
-   "programme_accuracy": 0.4881,
-   "programme_lift": 0.0476
+   "n": 151,
+   "coalition_baseline": 0.4702,
+   "programme_accuracy": 0.4636,
+   "programme_lift": -0.0066
+  },
+  {
+   "parti": "MP",
+   "month": "2023-06",
+   "n": 53,
+   "coalition_baseline": 0.3962,
+   "programme_accuracy": 0.434,
+   "programme_lift": 0.0377
   },
   {
    "parti": "L",
@@ -862,7 +918,15 @@
   {
    "parti": "L",
    "month": "2023-05",
-   "n": 84,
+   "n": 151,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "L",
+   "month": "2023-06",
+   "n": 53,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -886,17 +950,20 @@
     {
      "document": "partiprogram",
      "quote": "För oss är de grundlagsskyddade fri- och rättigheterna, som exempelvis yttrande-, tryck- och meddelarfrihet, självklara och ska garanteras.",
-     "princip": "meddelarfriheten ska garanteras"
+     "princip": "meddelarfriheten ska garanteras",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Pressfriheten ska skyddas och oberoende public service försvaras.",
-     "princip": "skyddad pressfrihet"
+     "princip": "skyddad pressfrihet",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Tillgången till oberoende medier som står fria från såväl politisk kontroll och censur",
-     "princip": "fri granskning av makten"
+     "princip": "fri granskning av makten",
+     "svag": null
     }
    ]
   },
@@ -917,17 +984,20 @@
     {
      "document": "valmanifest",
      "quote": "införa klimattullar på varor från länder utanför EU",
-     "princip": "klimattullar"
+     "princip": "klimattullar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "höja priset på utsläppsrätter i EU, inkludera utsläpp från flyg och sjöfart i systemet",
-     "princip": "skärpt utsläppshandel"
+     "princip": "skärpt utsläppshandel",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Nu ligger vi i täten för att undersöka möjligheterna att införa klimatmål baserade på konsumtion istället för nationsgränser",
-     "princip": "konsumtionsbaserade klimatmål"
+     "princip": "konsumtionsbaserade klimatmål",
+     "svag": null
     }
    ]
   },
@@ -948,12 +1018,14 @@
     {
      "document": "budgetmotion",
      "quote": "Detta har resulterat i att företagen har kunnat hålla uppe sina vinster.",
-     "princip": "vinstdriven prissättning granskas"
+     "princip": "vinstdriven prissättning granskas",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Till skillnad från vad som är fallet i USA är inflationen i Europa och Sverige nästan uteslutande utbudsdriven.",
-     "princip": "inflationen är inte löndriven"
+     "princip": "inflationen är inte löndriven",
+     "svag": null
     }
    ]
   },
@@ -974,17 +1046,20 @@
     {
      "document": "partiprogram",
      "quote": "Offentlig upphandling är ett viktigt verktyg för omställningen.",
-     "princip": "upphandling som klimatverktyg"
+     "princip": "upphandling som klimatverktyg",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "ska premiera effektiv energianvändning och hållbara lösningar",
-     "princip": "miljökrav i offentliga inköp"
+     "princip": "miljökrav i offentliga inköp",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Miljöarbetet ska ta hänsyn till landsbygdens behov.",
-     "princip": "miljöarbete med landsbygdshänsyn"
+     "princip": "miljöarbete med landsbygdshänsyn",
+     "svag": null
     }
    ]
   },
@@ -1005,12 +1080,14 @@
     {
      "document": "budgetmotion",
      "quote": "Vi vill också att staten ska ta ett större ansvar för att driva in skadestånd och brottsskadeersättning, så att brottsoffer kan fokusera på sin rehabilitering.",
-     "princip": "statlig indrivning av skadestånd"
+     "princip": "statlig indrivning av skadestånd",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Miljöpartiet vill se över systemet för ersättning och stöd till brottsoffer för att stärka offrens ställning.",
-     "princip": "stärkt brottsofferstöd"
+     "princip": "stärkt brottsofferstöd",
+     "svag": null
     }
    ]
   },
@@ -1031,12 +1108,14 @@
     {
      "document": "valmanifest",
      "quote": "stoppa renovräkningar. Renovering ska inte vara så lyxig att människor måste vräkas från sina hem. Vi vill stärka hyresgästernas ställning vid renovering.",
-     "princip": "skydd vid renovering"
+     "princip": "skydd vid renovering",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "införa ett rot-stöd för hyresrätter och stimulera hållbar renovering genom statligt långsiktigt stöd.",
-     "princip": "hållbar renovering"
+     "princip": "hållbar renovering",
+     "svag": null
     }
    ]
   },
@@ -1057,12 +1136,14 @@
     {
      "document": "valmanifest",
      "quote": "Vi socialdemokrater står upp för alla kvinnors rätt att bestämma över sin egen kropp.",
-     "princip": "kvinnors kroppsliga rättigheter"
+     "princip": "kvinnors kroppsliga rättigheter",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Säkra aborter måste vara en rättighet för kvinnor i hela världen.",
-     "princip": "säkra aborter"
+     "princip": "säkra aborter",
+     "svag": null
     }
    ]
   },
@@ -1083,7 +1164,8 @@
     {
      "document": "valmanifest",
      "quote": "ökad kunskap inom rättsväsendet om samtycke och om våld mot kvinnor och barn",
-     "princip": "kunskap i rättsväsendet"
+     "princip": "kunskap i rättsväsendet",
+     "svag": null
     }
    ]
   },
@@ -1104,12 +1186,14 @@
     {
      "document": "budgetmotion",
      "quote": "elskatten för elbussar tas bort",
-     "princip": "slopad elskatt elbussar"
+     "princip": "slopad elskatt elbussar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "bygga ut kollektivtrafiken i hela landet, och gör det billigare att åka buss och tåg",
-     "princip": "billigare kollektivtrafik"
+     "princip": "billigare kollektivtrafik",
+     "svag": null
     }
    ]
   },
@@ -1130,12 +1214,14 @@
     {
      "document": "budgetmotion",
      "quote": "För att industrin ska kunna ställa om behövs ett långsiktigt politiskt ledarskap och statliga stöd.",
-     "princip": "industrins gröna omställning"
+     "princip": "industrins gröna omställning",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "bygga ut elnäten, investera i energilager och satsa på ett smart energisystem.",
-     "princip": "elektrifiering och elnät"
+     "princip": "elektrifiering och elnät",
+     "svag": null
     }
    ]
   },
@@ -1156,12 +1242,14 @@
     {
      "document": "budgetmotion",
      "quote": "Därför vill vi i Miljöpartiet inte att vinstutdelande aktiebolag ska få driva skola.",
-     "princip": "stopp för vinst i skolan"
+     "princip": "stopp för vinst i skolan",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "sätta stopp för vinstjakten i skolan.",
-     "princip": "stoppa vinstjakten"
+     "princip": "stoppa vinstjakten",
+     "svag": null
     }
    ]
   },
@@ -1182,7 +1270,8 @@
     {
      "document": "valmanifest",
      "quote": "Det krävs satsningar inte bara på undervisning utan också på elevhälsa, specialpedagoger, fritidsverksamhet och socialt stöd.",
-     "princip": "satsa på elevhälsa"
+     "princip": "satsa på elevhälsa",
+     "svag": null
     }
    ]
   },
@@ -1203,7 +1292,8 @@
     {
      "document": "valmanifest",
      "quote": "det behövs det fler poliser, ökad kunskap inom rättsväsendet om samtycke och om våld mot kvinnor och barn, och straff som gör att brotten prioriteras av rättsvårdande instanser.",
-     "princip": "prioritera sexualbrott"
+     "princip": "prioritera sexualbrott",
+     "svag": null
     }
    ]
   },
@@ -1224,12 +1314,14 @@
     {
      "document": "valmanifest",
      "quote": "skydda 30 procent av Sveriges natur",
-     "princip": "skydd av skogsmark"
+     "princip": "skydd av skogsmark",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "rädda de sista resterna av naturskog i hela landet.",
-     "princip": "skydda naturskog"
+     "princip": "skydda naturskog",
+     "svag": null
     }
    ]
   },
@@ -1250,7 +1342,8 @@
     {
      "document": "budgetmotion",
      "quote": "konventionen för biologisk mångfald",
-     "princip": "internationella naturvårdsavtal"
+     "princip": "internationella naturvårdsavtal",
+     "svag": null
     }
    ]
   },
@@ -1271,17 +1364,20 @@
     {
      "document": "valmanifest",
      "quote": "Rättsstaten och individens rättigheter gentemot staten måste försvaras. Vi säger därför nej till visitationszoner, kollektiv bestraffning, omvänd bevisbörda, anonyma vittnen, preventiv avlyssning och inskränkningar av religionsfriheten.",
-     "princip": "nej till preventiv avlyssning"
+     "princip": "nej till preventiv avlyssning",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "För oss är de grundlagsskyddade fri- och rättigheterna, som exempelvis yttrande-, tryck- och meddelarfrihet, självklara och ska garanteras.",
-     "princip": "meddelarfriheten ska garanteras"
+     "princip": "meddelarfriheten ska garanteras",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "All lagstiftning bör prövas mot dess påverkan på människors personliga integritet.",
-     "princip": "integritetsprövning av lagstiftning"
+     "princip": "integritetsprövning av lagstiftning",
+     "svag": true
     }
    ]
   },
@@ -1302,17 +1398,20 @@
     {
      "document": "valmanifest",
      "quote": "skydda Sveriges grundlag mot snabba förändringar",
-     "princip": "grundlagen skyddas mot inskränkningar"
+     "princip": "grundlagen skyddas mot inskränkningar",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "alla lagar som innebär oproportionerliga ingrepp i",
-     "princip": "nej till oproportionerliga rättighetsingrepp"
+     "princip": "nej till oproportionerliga rättighetsingrepp",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Demokratin måste försvaras med demokratiska",
-     "princip": "demokratin försvaras demokratiskt"
+     "princip": "demokratin försvaras demokratiskt",
+     "svag": null
     }
    ]
   },
@@ -1333,12 +1432,14 @@
     {
      "document": "partiprogram",
      "quote": "förbjudet, liksom reklam för spel och alkohol.",
-     "princip": "förbud mot spelreklam"
+     "princip": "förbud mot spelreklam",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Vi vill begränsa reklamens utbredning, särskilt bland barn och unga.",
-     "princip": "begränsa reklamens utbredning"
+     "princip": "begränsa reklamens utbredning",
+     "svag": null
     }
    ]
   },
@@ -1359,17 +1460,20 @@
     {
      "document": "budgetmotion",
      "quote": "Återinför investeringsstödet",
-     "princip": "återinför investeringsstödet"
+     "princip": "återinför investeringsstödet",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Alla har rätt till en bostad, ett tryggt hem.",
-     "princip": "rätt till bostad"
+     "princip": "rätt till bostad",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "bygga fler klimatsmarta hyresrätter med rimliga hyror",
-     "princip": "fler hyresrätter med rimliga hyror"
+     "princip": "fler hyresrätter med rimliga hyror",
+     "svag": null
     }
    ]
   },
@@ -1390,17 +1494,20 @@
     {
      "document": "valmanifest",
      "quote": "Sverigedemokraterna vill säkerställa långsiktig finansiering av försvaret om minst två procent av BNP inom en tioårsperiod.",
-     "princip": "två procent av BNP"
+     "princip": "två procent av BNP",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Garantera den långsiktiga finansieringen av ett starkt försvar",
-     "princip": "långsiktig försvarsfinansiering"
+     "princip": "långsiktig försvarsfinansiering",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Återupprätta ett totalförsvar som är rustat för krig",
-     "princip": "återupprättat totalförsvar"
+     "princip": "återupprättat totalförsvar",
+     "svag": null
     }
    ]
   },
@@ -1421,12 +1528,14 @@
     {
      "document": "budgetmotion",
      "quote": "Hållbarhetsmålen i Agenda 2030 ska vara vägledande för politiken.",
-     "princip": "Agenda 2030 vägledande"
+     "princip": "Agenda 2030 vägledande",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Miljöpartiet anser att fokus inom den regionala utvecklingspolitiken bör ligga på att ge Sveriges landsbygder goda förutsättningar",
-     "princip": "hållbarhet styr politiken"
+     "princip": "hållbarhet styr politiken",
+     "svag": null
     }
    ]
   },
@@ -1447,17 +1556,20 @@
     {
      "document": "partiprogram",
      "quote": "Vänsterpartiet driver kravet om ett svenskt utträde ur EU.",
-     "princip": "svenskt utträde ur EU"
+     "princip": "svenskt utträde ur EU",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "I det dagliga arbetet motsätter sig Vänsterpartiet generellt förslag som ökar EU:s makt",
-     "princip": "motstånd mot ökad EU-makt"
+     "princip": "motstånd mot ökad EU-makt",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Överstatliga organ som kränker de nationella folkvalda parlamentens suveränitet är ingen hållbar lösning.",
-     "princip": "avvisa överstatlighet"
+     "princip": "avvisa överstatlighet",
+     "svag": null
     }
    ]
   },
@@ -1478,17 +1590,20 @@
     {
      "document": "valmanifest",
      "quote": "Störningar i elektroniska system, betaltjänster eller elnät kan uppstå på grund av naturfenomen, angrepp eller fel",
-     "princip": "sårbarhet i digitala system"
+     "princip": "sårbarhet i digitala system",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Förbättra den centrala krisledningsförmågan",
-     "princip": "stärkt krisledning"
+     "princip": "stärkt krisledning",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Återupprätta ett totalförsvar som är rustat för krig",
-     "princip": "återupprättat totalförsvar"
+     "princip": "återupprättat totalförsvar",
+     "svag": null
     }
    ]
   },
@@ -1509,17 +1624,20 @@
     {
      "document": "valmanifest",
      "quote": "Återupprätta ett totalförsvar som är rustat för krig",
-     "princip": "återupprättat totalförsvar"
+     "princip": "återupprättat totalförsvar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Garantera den långsiktiga finansieringen av ett starkt försvar",
-     "princip": "långsiktig försvarsfinansiering"
+     "princip": "långsiktig försvarsfinansiering",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Verka för ett försvarsförbund med Finland",
-     "princip": "försvarsförbund med Finland"
+     "princip": "försvarsförbund med Finland",
+     "svag": null
     }
    ]
   },
@@ -1540,17 +1658,20 @@
     {
      "document": "valmanifest",
      "quote": "Anslagen till de myndigheter som har övergripande ansvar för civilförsvar, krisledning och beredskap bör öka",
-     "princip": "ökade civilförsvarsanslag"
+     "princip": "ökade civilförsvarsanslag",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Återupprätta allmänna beredskapslager",
-     "princip": "beredskapslager"
+     "princip": "beredskapslager",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Öka den svenska självförsörjningsgraden av kritiska produkter och varor",
-     "princip": "ökad självförsörjning"
+     "princip": "ökad självförsörjning",
+     "svag": null
     }
    ]
   },
@@ -1571,17 +1692,20 @@
     {
      "document": "valmanifest",
      "quote": "Sverigedemokraterna vill säkerställa långsiktig finansiering av försvaret om minst två procent av BNP inom en tioårsperiod.",
-     "princip": "två procent av BNP"
+     "princip": "två procent av BNP",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Satsa på uppgradering, nyanskaffning och vidmakthållande av materiel",
-     "princip": "materielsatsningar"
+     "princip": "materielsatsningar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Stärka Hemvärnets ställning",
-     "princip": "stärkt hemvärn"
+     "princip": "stärkt hemvärn",
+     "svag": null
     }
    ]
   },
@@ -1602,17 +1726,20 @@
     {
      "document": "valmanifest",
      "quote": "Därför är Vänsterpartiet motståndare till Sveriges allt djupare militära samarbete med NATO och EU, och vi är det enda riksdagspartiet som konsekvent värnar och vill återupprätta svensk alliansfrihet.",
-     "princip": "svensk alliansfrihet"
+     "princip": "svensk alliansfrihet",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet vill att Sverige river upp värdlandsavtalet med NATO.",
-     "princip": "riv upp värdlandsavtalet"
+     "princip": "riv upp värdlandsavtalet",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet anser att Sverige ska vara en röst för fred och rättvisa, inte för ökad militarisering.",
-     "princip": "mot ökad militarisering"
+     "princip": "mot ökad militarisering",
+     "svag": null
     }
    ]
   },
@@ -1633,12 +1760,14 @@
     {
      "document": "valmanifest",
      "quote": "Med hjälp av fler vägar in i läraryrket och studiemedelsavskrivning kan vi rekrytera fler behöriga lärare i hela landet.",
-     "princip": "studiemedelsavskrivning för lärare"
+     "princip": "studiemedelsavskrivning för lärare",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Eftersom Centerpartiet värnar hela landets utveckling är det också av största vikt att de resurser som satsas på infrastruktur fördelas över hela landet.",
-     "princip": "likvärdiga villkor i hela landet"
+     "princip": "likvärdiga villkor i hela landet",
+     "svag": null
     }
    ]
   },
@@ -1659,17 +1788,20 @@
     {
      "document": "budgetmotion",
      "quote": "Centerpartiet vill stärka studenthälsan i hela landet och möjliggöra för deltidssjukskrivning för att studenter enklare ska kunna rehabilitera sig och komma tillbaka till studier.",
-     "princip": "deltidssjukskrivning för studenter"
+     "princip": "deltidssjukskrivning för studenter",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "ett mer flexibelt studiemedelssystem, som premierar studenter som avslutar sina studier före utsatt tid men också är anpassat för de med lägre studietakt",
-     "princip": "anpassat studiemedel vid lägre studietakt"
+     "princip": "anpassat studiemedel vid lägre studietakt",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vi vill förbättra rehabiliteringen och göra sjukskrivningen mer flexibel.",
-     "princip": "flexiblare sjukskrivning"
+     "princip": "flexiblare sjukskrivning",
+     "svag": null
     }
    ]
   },
@@ -1690,12 +1822,14 @@
     {
      "document": "valmanifest",
      "quote": "höja studiestödet och förbättra studenters a-kassa och sjukförsäkring",
-     "princip": "höjt studiestöd"
+     "princip": "höjt studiestöd",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Studenter är en grupp med mycket små ekonomiska marginaler",
-     "princip": "studenters ekonomiska trygghet"
+     "princip": "studenters ekonomiska trygghet",
+     "svag": null
     }
    ]
   },
@@ -1716,12 +1850,14 @@
     {
      "document": "budgetmotion",
      "quote": "Arbetsförmedlingen bör göra projektet Jämställd etablering till en del av myndighetens ordinarie verksamhet i hela landet.",
-     "princip": "jämställd etablering i hela landet"
+     "princip": "jämställd etablering i hela landet",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Diskrimineringen och rasismen på arbetsmarknaden måste stoppas.",
-     "princip": "mot diskriminering på arbetsmarknaden"
+     "princip": "mot diskriminering på arbetsmarknaden",
+     "svag": null
     }
    ]
   },
@@ -1742,17 +1878,20 @@
     {
      "document": "budgetmotion",
      "quote": "Vänsterpartiet anser vidare att en större del av studiemedlet bör utgöras av studiebidrag, och att andelen lån bör minska.",
-     "princip": "mer bidrag, mindre lån"
+     "princip": "mer bidrag, mindre lån",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vänsterpartiet är emot denna utveckling och röstade emot den förändring som genomförs 2023.",
-     "princip": "mot ökad ekonomisk risk för studenter"
+     "princip": "mot ökad ekonomisk risk för studenter",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet vill värna universitetens oberoende och finansiering och höja studiestödet så att fler kan välja att vidareutbilda sig.",
-     "princip": "höjt studiestöd"
+     "princip": "höjt studiestöd",
+     "svag": null
     }
    ]
   },
@@ -1773,12 +1912,14 @@
     {
      "document": "valmanifest",
      "quote": "omfördelar resurserna från rika till fattiga människor, från rika områden till fattiga områden och förorter",
-     "princip": "omfördelning till utsatta områden"
+     "princip": "omfördelning till utsatta områden",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "en kamp mot kriminalitetens djupare orsaker – klassamhället, segregationen, rasismen på arbetsmarknaden, trångboddheten och bristen på framtidstro",
-     "princip": "bekämpa segregationens orsaker"
+     "princip": "bekämpa segregationens orsaker",
+     "svag": null
     }
    ]
   },
@@ -1799,17 +1940,20 @@
     {
      "document": "budgetmotion",
      "quote": "Vi vill därför förstärka stödet till civilsamhället med en bred satsning med fokus på folkbildning, idrottsrörelse, integration och kultur.",
-     "princip": "förstärkt civilsamhällesstöd"
+     "princip": "förstärkt civilsamhällesstöd",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Centerpartiet vill skapa bättre förutsättningar för civilsamhället att utveckla sin verksamhet. För att åstadkomma detta bör det vara en högre andel grundstöd i statens bidrag.",
-     "princip": "högre andel grundstöd"
+     "princip": "högre andel grundstöd",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Politikens uppgift är att riva hinder och röja väg för denna utvecklingskraft.",
-     "princip": "riv hinder för civilsamhället"
+     "princip": "riv hinder för civilsamhället",
+     "svag": null
     }
    ]
   },
@@ -1830,12 +1974,14 @@
     {
      "document": "partiprogram",
      "quote": "Barn ska vara med och utforma samhället.",
-     "princip": "barns inflytande och delaktighet"
+     "princip": "barns inflytande och delaktighet",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Flera civilsamhällesorganisationer gör ett oerhört viktigt arbete för att stötta barn i deras relationer och för att motarbeta till exempel psykiskt, fysiskt, sexuellt eller digitalt våld.",
-     "princip": "stärk barns röst och stöd"
+     "princip": "stärk barns röst och stöd",
+     "svag": null
     }
    ]
   },
@@ -1856,17 +2002,20 @@
     {
      "document": "valmanifest",
      "quote": "satsa på mindre barngrupper och mer personal i förskolan.",
-     "princip": "mindre barngrupper, mer personal"
+     "princip": "mindre barngrupper, mer personal",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Miljöpartiet vill inrätta ett likvärdighetsbidrag för förskolan, liknande det som vi redan har drivit igenom för skolan.",
-     "princip": "likvärdighetsbidrag till förskolan"
+     "princip": "likvärdighetsbidrag till förskolan",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "god tillgång till väl utbildade pedagoger i förskolan.",
-     "princip": "utbildade pedagoger i förskolan"
+     "princip": "utbildade pedagoger i förskolan",
+     "svag": null
     }
    ]
   },
@@ -1887,17 +2036,20 @@
     {
      "document": "valmanifest",
      "quote": "Ge barn och ungdomar möjligheter till kommunalt stödda fritidsaktiviteter, ge skolan bättre resurser för att stödja elever som behöver det för att klara betygen och förstärk socialtjänsten med tillräckliga resurser och kunskap för att arbeta både förebyggande och med barnskydd.",
-     "princip": "kommunalt stödda fritidsaktiviteter"
+     "princip": "kommunalt stödda fritidsaktiviteter",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Dessutom vet vi att barn i ekonomiskt utsatta hushåll deltar i mindre utsträckning i organiserade fritidsaktiviteter.",
-     "princip": "jämlik tillgång till fritid"
+     "princip": "jämlik tillgång till fritid",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vänsterpartiet föreslår därför en satsning på 300 miljoner kronor per år för att påbörja arbetet med att göra Kulturskolan avgiftsfri.",
-     "princip": "avgiftsfri fritid för barn"
+     "princip": "avgiftsfri fritid för barn",
+     "svag": null
     }
    ]
   },
@@ -1918,17 +2070,20 @@
     {
      "document": "budgetmotion",
      "quote": "För att fler barn ska få möjlighet att gå i en förskola med hög kvalitet krävs att betydande resurser tillförs förskolan.",
-     "princip": "betydande resurser till förskolan"
+     "princip": "betydande resurser till förskolan",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vänsterpartiet anser att alla barn i Sverige ska erbjudas likvärdig tillgång till förskola.",
-     "princip": "likvärdig tillgång till förskola"
+     "princip": "likvärdig tillgång till förskola",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet vill satsa på hela utbildningssystemet. Från förskola till universitet och yrkeshögskola behöver kvaliteten och tillgängligheten öka.",
-     "princip": "satsa på hela utbildningssystemet"
+     "princip": "satsa på hela utbildningssystemet",
+     "svag": null
     }
    ]
   },
@@ -1949,12 +2104,14 @@
     {
      "document": "valmanifest",
      "quote": "Mer måste göras mot diskriminering. Vi vill stärka myndigheternas arbete mot diskriminering och höja ersättningen till dem som utsatts, samt lägga till kön och funktionsnedsättning som hatbrottsgrunder.",
-     "princip": "utvidgade hatbrottsgrunder"
+     "princip": "utvidgade hatbrottsgrunder",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Diskriminering, strukturell rasism och intolerans, i alla dess former, ska motverkas.",
-     "princip": "motverka all intolerans"
+     "princip": "motverka all intolerans",
+     "svag": null
     }
    ]
   },
@@ -1975,17 +2132,20 @@
     {
      "document": "valmanifest",
      "quote": "I ett tryggt samhälle tar vi krafttag mot våld, hedersförtryck och sexuella kränkningar mot kvinnor, barn och hbtqi-personer.",
-     "princip": "krafttag mot våld"
+     "princip": "krafttag mot våld",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Mäns våld mot kvinnor är ett strukturellt samhällsproblem.",
-     "princip": "strukturellt våld mot kvinnor"
+     "princip": "strukturellt våld mot kvinnor",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Barnperspektivet måste stärkas i vårdnadstvister och det ska inte vara möjligt för våldsutövare att behålla gemensam vårdnad.",
-     "princip": "stärkt barnperspektiv"
+     "princip": "stärkt barnperspektiv",
+     "svag": null
     }
    ]
   },
@@ -2006,12 +2166,14 @@
     {
      "document": "valmanifest",
      "quote": "Vi fördömer allt hot om användning av kärnvapen och fortsätter verka för det enda rimliga slutmålet: en värld fri från kärnvapen.",
-     "princip": "en värld fri från kärnvapen"
+     "princip": "en värld fri från kärnvapen",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Ett svenskt medlemskap i Nato är den bästa vägen för vårt lands säkerhet och Sverige har därför lämnat in sin medlemsansökan.",
-     "princip": "Natomedlemskap ligger fast"
+     "princip": "Natomedlemskap ligger fast",
+     "svag": null
     }
    ]
   },
@@ -2032,17 +2194,20 @@
     {
      "document": "valmanifest",
      "quote": "stärka det svenska jordbruket för ökad självförsörjning med baslivsmedel",
-     "princip": "ökad självförsörjning baslivsmedel"
+     "princip": "ökad självförsörjning baslivsmedel",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Miljöpartiet vill öka självförsörjningen av svenskproducerade livsmedel",
-     "princip": "ökad livsmedelssjälvförsörjning"
+     "princip": "ökad livsmedelssjälvförsörjning",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Miljöpartiet vill se ett levande lantbruk i hela Sverige, som säkrar en hög självförsörjning av livsmedel, foder, energi och råvaror.",
-     "princip": "levande lantbruk i hela landet"
+     "princip": "levande lantbruk i hela landet",
+     "svag": null
     }
    ]
   },
@@ -2063,17 +2228,20 @@
     {
      "document": "valmanifest",
      "quote": "Återanvändning och återvinning av material behöver öka.",
-     "princip": "öka återvinning och återanvändning"
+     "princip": "öka återvinning och återanvändning",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Där inte teknikskiften räcker för att minska utsläppen måste konsumtionen styras bort från det smutsiga",
-     "princip": "styr bort smutsig konsumtion"
+     "princip": "styr bort smutsig konsumtion",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Därför behövs en kraftfull lagstiftning, ekonomiska styrmedel, långsiktig samhällsplanering, klimatinvesteringar",
-     "princip": "kraftfull miljölagstiftning"
+     "princip": "kraftfull miljölagstiftning",
+     "svag": null
     }
    ]
   },
@@ -2094,12 +2262,14 @@
     {
      "document": "valmanifest",
      "quote": "Ställ hårdare krav på arbetsvillkor, miljö och klimat i handelsavtal.",
-     "princip": "hårdare hållbarhetskrav i handelsavtal"
+     "princip": "hårdare hållbarhetskrav i handelsavtal",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Hänsyn måste tas till etiska och miljömässiga perspektiv.",
-     "princip": "etik och miljö i frihandeln"
+     "princip": "etik och miljö i frihandeln",
+     "svag": null
     }
    ]
   },
@@ -2120,17 +2290,20 @@
     {
      "document": "partiprogram",
      "quote": "I upphandlingar ska\nkrav ställas vad gäller miljö, sociala villkor samt\narbetsmiljö.",
-     "princip": "sociala krav i upphandling"
+     "princip": "sociala krav i upphandling",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Vi värnar den svenska modellen där arbetsmarknadens parter gemensamt förhandlar fram vad som\nska gälla på arbetsmarknaden genom kollektivavtal.",
-     "princip": "värna kollektivavtalen"
+     "princip": "värna kollektivavtalen",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "arbetslivskriminalitet, utnyttjande av människor och en bristande socialpolitik är underliggande faktorer",
-     "princip": "mot arbetslivskriminalitet"
+     "princip": "mot arbetslivskriminalitet",
+     "svag": null
     }
    ]
   },
@@ -2151,12 +2324,14 @@
     {
      "document": "valmanifest",
      "quote": "förbättra stödet för personer med funktionsnedsättning och sällsynta diagnoser oavsett var du bor i landet.",
-     "princip": "stöd till funktionsnedsatta"
+     "princip": "stöd till funktionsnedsatta",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "satsa en större andel av försvarets pengar på det civila försvaret, och öka anslagen till krisberedskap.",
-     "princip": "stärkt krisberedskap"
+     "princip": "stärkt krisberedskap",
+     "svag": null
     }
    ]
   },
@@ -2177,12 +2352,14 @@
     {
      "document": "valmanifest",
      "quote": "Ett större lokalt inflytande bör råda över rovdjurspolitiken.",
-     "princip": "lokalt inflytande viltförvaltning"
+     "princip": "lokalt inflytande viltförvaltning",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Minska EU:s inflytande över svensk jaktpolitiken",
-     "princip": "minska EU-inflytande"
+     "princip": "minska EU-inflytande",
+     "svag": null
     }
    ]
   },
@@ -2203,17 +2380,20 @@
     {
      "document": "valmanifest",
      "quote": "Överlag måste det internationella biståndet kraftigt minska och insatserna effektiviseras.",
-     "princip": "minska biståndet"
+     "princip": "minska biståndet",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Fokusera biståndet till humanitärt katastrofbistånd",
-     "princip": "humanitärt katastrofbistånd"
+     "princip": "humanitärt katastrofbistånd",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Effektivisera och utvärdera det svenska biståndet",
-     "princip": "effektivisera biståndet"
+     "princip": "effektivisera biståndet",
+     "svag": null
     }
    ]
   },
@@ -2234,12 +2414,14 @@
     {
      "document": "valmanifest",
      "quote": "förbud mot bly i ammunition är exempel på åtgärder som görs för att försvåra legalt vapenägande",
-     "princip": "motstånd mot blyförbud"
+     "princip": "motstånd mot blyförbud",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Stoppa hetsjakten på jägare och legala vapeninnehavare",
-     "princip": "värna vapenägare"
+     "princip": "värna vapenägare",
+     "svag": null
     }
    ]
   },
@@ -2260,12 +2442,14 @@
     {
      "document": "valmanifest",
      "quote": "för dåliga förberedelser med skyddsutrustning",
-     "princip": "skyddsutrustning för vårdpersonal"
+     "princip": "skyddsutrustning för vårdpersonal",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Sverige behöver rusta upp hela vårdsektorn för att kunna klara de mer normala skiftningarna i vårdbehov men också för att kunna växla upp kapaciteten i kristider.",
-     "princip": "rusta upp vården i kris"
+     "princip": "rusta upp vården i kris",
+     "svag": null
     }
    ]
   },
@@ -2286,12 +2470,14 @@
     {
      "document": "partiprogram",
      "quote": "värna hyresrätten",
-     "princip": "värna hyresrätten"
+     "princip": "värna hyresrätten",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "stärka hyresgästernas ställning vid renovering",
-     "princip": "stärkt hyresgästrött"
+     "princip": "stärkt hyresgästrött",
+     "svag": null
     }
    ]
   },
@@ -2312,12 +2498,14 @@
     {
      "document": "valmanifest",
      "quote": "lätta på sekretessen mellan områdespoliser, skola, socialtjänst",
-     "princip": "samverkan kring unga"
+     "princip": "samverkan kring unga",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Det behövs en ökad samverkan mellan förskolor, barnavårdscentraler (BVC) och socialtjänsten för att tidigt upptäcka behov och sätta in insatser.",
-     "princip": "tidiga samordnade insatser"
+     "princip": "tidiga samordnade insatser",
+     "svag": null
     }
    ]
   },
@@ -2338,12 +2526,14 @@
     {
      "document": "valmanifest",
      "quote": "lätta på sekretessen mellan områdespoliser, skola, socialtjänst och stärka samarbetet med civilsamhälle så att inga barn faller mellan stolarna i det förebyggande arbetet.",
-     "princip": "samverkan kring barn i riskzon"
+     "princip": "samverkan kring barn i riskzon",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vi behöver skapa lokala samarbeten under ledning av kommunen, där bland andra kommunens socialtjänst, skola, polis, civilsamhälle och fritidsverksamhet ingår.",
-     "princip": "lokala samarbeten"
+     "princip": "lokala samarbeten",
+     "svag": null
     }
    ]
   },
@@ -2364,12 +2554,14 @@
     {
      "document": "valmanifest",
      "quote": "gör det lättare att bryta sig fri från deras destruktiva liv.",
-     "princip": "underlätta avhopp"
+     "princip": "underlätta avhopp",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "höja maxtiden för sluten ungdomsvård och förstärka vårdinsatser och utbildning under tiden den unge är frihetsberövad, samt införa en utslussningsverksamhet när straffet är avtjänat.",
-     "princip": "utslussning"
+     "princip": "utslussning",
+     "svag": null
     }
    ]
   },
@@ -2390,12 +2582,14 @@
     {
      "document": "valmanifest",
      "quote": "stoppa renovräkningar. Renovering ska inte vara så lyxig att människor måste vräkas från sina hem. Vi vill stärka hyresgästernas ställning vid renovering.",
-     "princip": "stärkt hyresgästskydd"
+     "princip": "stärkt hyresgästskydd",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "minska hemlösheten, genom en nationell strategi som på riktigt minskar hemlösheten och en bostadsstiftelse som finansierar en bostad för dem som inte har ett tryggt boende.",
-     "princip": "minska hemlöshet"
+     "princip": "minska hemlöshet",
+     "svag": null
     }
    ]
   },
@@ -2416,12 +2610,14 @@
     {
      "document": "valmanifest",
      "quote": "Att socialtjänsten stärks är centralt för att fånga upp unga i tid.",
-     "princip": "stoppa nyrekrytering"
+     "princip": "stoppa nyrekrytering",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Det behövs mer samarbete mellan polis, elevhälsa, socialtjänst och skola.",
-     "princip": "myndighetssamverkan"
+     "princip": "myndighetssamverkan",
+     "svag": null
     }
    ]
   },
@@ -2442,12 +2638,14 @@
     {
      "document": "valmanifest",
      "quote": "I ett tryggt samhälle tar vi krafttag mot våld, hedersförtryck och sexuella kränkningar mot kvinnor, barn och hbtqi-personer.",
-     "princip": "mot mäns våld mot kvinnor"
+     "princip": "mot mäns våld mot kvinnor",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Socialtjänsten måste garanteras ett varaktigt och stabilt stöd för arbetet mot våld i nära relationer.",
-     "princip": "stöd mot våld i nära relationer"
+     "princip": "stöd mot våld i nära relationer",
+     "svag": null
     }
    ]
   },
@@ -2468,12 +2666,14 @@
     {
      "document": "valmanifest",
      "quote": "förstärk socialtjänsten med tillräckliga resurser och kunskap för att arbeta både förebyggande och med barnskydd.",
-     "princip": "förstärkt socialtjänst"
+     "princip": "förstärkt socialtjänst",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "mycket mer fokus måste riktas mot att förhindra rekryteringen av nya barn till gängkriminalitet.",
-     "princip": "förhindra nyrekrytering"
+     "princip": "förhindra nyrekrytering",
+     "svag": null
     }
    ]
   },
@@ -2494,12 +2694,14 @@
     {
      "document": "budgetmotion",
      "quote": "Vi vill använda oss av det kommunala utjämningssystemet för att stärka sjukvården i regioner som har en liten befolkning och stora geografiska avstånd.",
-     "princip": "stärkt utjämningssystem"
+     "princip": "stärkt utjämningssystem",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Omfördelningen från stat till region och kommun måste öka",
-     "princip": "ökad omfördelning"
+     "princip": "ökad omfördelning",
+     "svag": null
     }
    ]
   },
@@ -2520,12 +2722,14 @@
     {
      "document": "budgetmotion",
      "quote": "Stopp för att slås ut på grund av försenad rehabilitering",
-     "princip": "reformera rehabkedjan"
+     "princip": "reformera rehabkedjan",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "förändra sjukförsäkringen så den ger bättre trygghet vid sjukskrivning och se till att människor inte bollas mellan myndigheter",
-     "princip": "tryggare sjukförsäkring"
+     "princip": "tryggare sjukförsäkring",
+     "svag": null
     }
    ]
   },
@@ -2546,12 +2750,14 @@
     {
      "document": "budgetmotion",
      "quote": "Höj den lägsta nivån i både sjuk- och aktivitetsersättningen",
-     "princip": "höjd ersättning"
+     "princip": "höjd ersättning",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Inför förslag för en vidgad rätt till såväl aktivitets- som sjukersättning",
-     "princip": "vidgad rätt"
+     "princip": "vidgad rätt",
+     "svag": null
     }
    ]
   },
@@ -2572,12 +2778,14 @@
     {
      "document": "valmanifest",
      "quote": "arbeta vidare med förslagen om att förbättra sjukersättningen",
-     "princip": "tryggare sjukersättning"
+     "princip": "tryggare sjukersättning",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vi vill att skillnaden i beskattning av sjuk- och aktivitetsersättning i förhållande till arbetsinkomster tas bort i samtliga inkomstintervall.",
-     "princip": "slopa funkisskatt"
+     "princip": "slopa funkisskatt",
+     "svag": null
     }
    ]
   },
@@ -2598,12 +2806,14 @@
     {
      "document": "valmanifest",
      "quote": "försvara asylrätten både i Sverige och internationellt",
-     "princip": "försvara asylrätten"
+     "princip": "försvara asylrätten",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Rätten att söka asyl kan aldrig tummas på",
-     "princip": "human flyktingpolitik"
+     "princip": "human flyktingpolitik",
+     "svag": null
     }
    ]
   },
@@ -2624,12 +2834,14 @@
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet anser att det därutöver måste vara en rättighet att få hjälp med en långsiktig trygg boendelösning för den som behöver det för att lämna våldsutsatthet.",
-     "princip": "skydda våldsutsatta kvinnor"
+     "princip": "skydda våldsutsatta kvinnor",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Rätten att söka asyl kan aldrig tummas på",
-     "princip": "human flyktingpolitik"
+     "princip": "human flyktingpolitik",
+     "svag": null
     }
    ]
   },
@@ -2650,12 +2862,14 @@
     {
      "document": "budgetmotion",
      "quote": "den fria kulturen och livekulturen trycks allt längre bort från städernas centrum eller inte har några spelplatser alls på mindre orter.",
-     "princip": "kultur på mindre orter"
+     "princip": "kultur på mindre orter",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "satsa på en bred återhämtningsplan för kulturlivet i hela landet",
-     "princip": "kultur i hela landet"
+     "princip": "kultur i hela landet",
+     "svag": null
     }
    ]
   },
@@ -2676,12 +2890,14 @@
     {
      "document": "budgetmotion",
      "quote": "Vi vill införa nationella minoritetsspråk i skolan",
-     "princip": "minoritetsspråk i skolan"
+     "princip": "minoritetsspråk i skolan",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "stärka nationella minoriteters och urfolket samernas rättigheter",
-     "princip": "minoriteters rättigheter"
+     "princip": "minoriteters rättigheter",
+     "svag": null
     }
    ]
   },
@@ -2702,7 +2918,8 @@
     {
      "document": "valmanifest",
      "quote": "Lärare och annan personal i skolan ska omedelbart kunna ingripa vid stök och oro.",
-     "princip": "studiero i skolan"
+     "princip": "studiero i skolan",
+     "svag": null
     }
    ]
   },
@@ -2723,12 +2940,14 @@
     {
      "document": "valmanifest",
      "quote": "Samhället bör i större utsträckning tillgodose behovet av idrottsanläggningar",
-     "princip": "fler idrottsanläggningar"
+     "princip": "fler idrottsanläggningar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "• Öka idrottandet i hela befolkningen",
-     "princip": "öka idrottandet"
+     "princip": "öka idrottandet",
+     "svag": null
     }
    ]
   },
@@ -2749,7 +2968,8 @@
     {
      "document": "valmanifest",
      "quote": "Skolor och förskolor behöver arbeta förebyggande mot destruktiva normer för att alla barn, oavsett kön, ska kunna leva fria.",
-     "princip": "motverka destruktiva könsnormer"
+     "princip": "motverka destruktiva könsnormer",
+     "svag": null
     }
    ]
   },
@@ -2770,12 +2990,14 @@
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet föreslår ett massivt investeringsprogram för den gröna industrin.",
-     "princip": "massivt grönt investeringsprogram"
+     "princip": "massivt grönt investeringsprogram",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Industrier ska ställa om från fossilt till förnybart med hjälp av stora statliga investeringar",
-     "princip": "industrins gröna omställning"
+     "princip": "industrins gröna omställning",
+     "svag": null
     }
    ]
   },
@@ -2796,12 +3018,14 @@
     {
      "document": "budgetmotion",
      "quote": "Trots att det finns en stor potential för havsbaserad vindkraft i Sverige har byggandet ännu inte tagit fart.",
-     "princip": "bygg ut havsbaserad vindkraft"
+     "princip": "bygg ut havsbaserad vindkraft",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Det offentliga ska ta över ansvaret för elnätet, vilket kommer leda till minskade avgifter för hushållen.",
-     "princip": "offentligt elnät"
+     "princip": "offentligt elnät",
+     "svag": null
     }
    ]
   },
@@ -2822,12 +3046,14 @@
     {
      "document": "valmanifest",
      "quote": "Även kulturen och idrotten har utarmats när skolbibliotek läggs ned, simskolan blivit dyrare och biografer finns på färre orter.",
-     "princip": "kultur i hela landet"
+     "princip": "kultur i hela landet",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Det är viktigt att kulturen står fri från såväl kommersiell som politisk styrning och finns i hela landet.",
-     "princip": "kultur i hela landet"
+     "princip": "kultur i hela landet",
+     "svag": null
     }
    ]
   },
@@ -2848,7 +3074,8 @@
     {
      "document": "budgetmotion",
      "quote": "Regeringens satsning på yrkeshögskolan är långt ifrån tillräcklig och vi ökar därför anslaget markant.",
-     "princip": "stärkt yrkeshögskola"
+     "princip": "stärkt yrkeshögskola",
+     "svag": null
     }
    ]
   },
@@ -2869,7 +3096,8 @@
     {
      "document": "valmanifest",
      "quote": "stärk utrikesfödda kvinnors etablering genom SFI kombinerad med praktik och yrkesutbildning och jämställda insatser från arbetsförmedlingen.",
-     "princip": "stärkt sfi med praktik"
+     "princip": "stärkt sfi med praktik",
+     "svag": null
     }
    ]
   },
@@ -2890,7 +3118,8 @@
     {
      "document": "budgetmotion",
      "quote": "Vi säger därför nej till de neddragningar som regeringen gör av arbetsmarknadspolitiska program och insatser.",
-     "princip": "värna arbetsmarknadsprogram"
+     "princip": "värna arbetsmarknadsprogram",
+     "svag": null
     }
    ]
   },
@@ -2911,12 +3140,14 @@
     {
      "document": "budgetmotion",
      "quote": "Stoppa den pågående reformeringen. Förmedlingsverksamheten ska bedrivas i offentlig regi.",
-     "princip": "Arbetsförmedlingen i offentlig regi"
+     "princip": "Arbetsförmedlingen i offentlig regi",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Vänsterpartiet vill återupprätta den aktiva arbetsmarknadspolitiken.",
-     "princip": "aktiv arbetsmarknadspolitik"
+     "princip": "aktiv arbetsmarknadspolitik",
+     "svag": null
     }
    ]
   },
@@ -2937,12 +3168,14 @@
     {
      "document": "budgetmotion",
      "quote": "Bygg upp stödet till personer med funktionshinder.",
-     "princip": "stöd vid funktionsnedsättning"
+     "princip": "stöd vid funktionsnedsättning",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Säkerställ att arbetssökande med funktionsnedsättning ges tillgång till handläggare med specialistkompetens",
-     "princip": "specialistkompetens hos AF"
+     "princip": "specialistkompetens hos AF",
+     "svag": null
     }
    ]
   },
@@ -2963,12 +3196,14 @@
     {
      "document": "valmanifest",
      "quote": "för att kunna hantera de nya gröna jobben behövs massiva satsningar på omställningsstöd, kompetensutveckling och utbildning",
-     "princip": "omställningsstöd och utbildning"
+     "princip": "omställningsstöd och utbildning",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Folkhögskolor och Komvux behövs i hela landet.",
-     "princip": "vuxenutbildning i hela landet"
+     "princip": "vuxenutbildning i hela landet",
+     "svag": null
     }
    ]
   },
@@ -2989,7 +3224,8 @@
     {
      "document": "valmanifest",
      "quote": "Skolpengen ska anpassas efter huvudmännens ansvar och elevernas förutsättningar och behov.",
-     "princip": "egen skolpengsmodell"
+     "princip": "egen skolpengsmodell",
+     "svag": null
     }
    ]
   },
@@ -3010,7 +3246,8 @@
     {
      "document": "valmanifest",
      "quote": "förstärka elevhälsan och satsa på fler skolsköterskor, specialpedagoger",
-     "princip": "stöd till elever med behov"
+     "princip": "stöd till elever med behov",
+     "svag": null
     }
    ]
   },
@@ -3031,12 +3268,14 @@
     {
      "document": "valmanifest",
      "quote": "Krafttag för att stoppa hedersrelaterat våld, sexualbrott och mäns våld mot kvinnor.",
-     "princip": "mot sexualbrott och mäns våld"
+     "princip": "mot sexualbrott och mäns våld",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "ökat resurserna till kvinno- och tjejjourernas viktiga arbete.",
-     "princip": "resurser mot mäns våld"
+     "princip": "resurser mot mäns våld",
+     "svag": null
     }
    ]
   },
@@ -3057,12 +3296,14 @@
     {
      "document": "valmanifest",
      "quote": "Sverigedemokraterna vill också stärka Hemvärnet och frivilligorganisationer som utgör viktiga komponenter för försvarsviljan och civilsamhällets uthållighet.",
-     "princip": "stärka frivilligorganisationerna"
+     "princip": "stärka frivilligorganisationerna",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Stärka Hemvärnets ställning",
-     "princip": "stärka Hemvärnet"
+     "princip": "stärka Hemvärnet",
+     "svag": null
     }
    ]
   },
@@ -3083,12 +3324,14 @@
     {
      "document": "partiprogram",
      "quote": "varg, järv och lo.",
-     "princip": "livskraftiga rovdjursstammar"
+     "princip": "livskraftiga rovdjursstammar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Skyddet av skogs- och strandområden är en viktig del för att värna den svenska allemansrätten och den biologiska mångfalden.",
-     "princip": "skydda biologisk mångfald"
+     "princip": "skydda biologisk mångfald",
+     "svag": null
     }
    ]
   },
@@ -3109,12 +3352,14 @@
     {
      "document": "valmanifest",
      "quote": "Svensk förskola och skola ska vara jämlik och jämställd, där alla barn och unga ges samma rätt till utbildning.",
-     "princip": "jämlik och likvärdig skola"
+     "princip": "jämlik och likvärdig skola",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet vill avskaffa marknadsskolan med start nästa mandatperiod.",
-     "princip": "avskaffa marknadsskolan"
+     "princip": "avskaffa marknadsskolan",
+     "svag": null
     }
    ]
   },
@@ -3135,7 +3380,8 @@
     {
      "document": "valmanifest",
      "quote": "förstärk socialtjänsten med tillräckliga resurser och kunskap för att arbeta både förebyggande och med barnskydd.",
-     "princip": "stärkt socialtjänst"
+     "princip": "stärkt socialtjänst",
+     "svag": null
     }
    ]
   },
@@ -3156,7 +3402,8 @@
     {
      "document": "valmanifest",
      "quote": "Många kvinnor kan inte lämna destruktiva förhållanden för att deras ekonomi är för dålig, därför hänger arbetet med att uppvärdera kvinnors arbete och höja löner i låglöneyrken ihop med arbetet mot våld mot kvinnor.",
-     "princip": "kvinnors ekonomiska självständighet"
+     "princip": "kvinnors ekonomiska självständighet",
+     "svag": null
     }
    ]
   },
@@ -3177,12 +3424,14 @@
     {
      "document": "budgetmotion",
      "quote": "Höjt bostadsbidrag för barnfamiljer",
-     "princip": "höjt bostadsbidrag"
+     "princip": "höjt bostadsbidrag",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "höja bostadsbidraget för barnfamiljer",
-     "princip": "stöd till barnfamiljer"
+     "princip": "stöd till barnfamiljer",
+     "svag": null
     }
    ]
   },
@@ -3203,12 +3452,14 @@
     {
      "document": "budgetmotion",
      "quote": "De statliga investeringarna i cykelinfrastruktur bör öka.",
-     "princip": "främja cykling"
+     "princip": "främja cykling",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "fler och bättre cykelvägar",
-     "princip": "cykelinfrastruktur"
+     "princip": "cykelinfrastruktur",
+     "svag": null
     }
    ]
   },
@@ -3229,7 +3480,8 @@
     {
      "document": "partiprogram",
      "quote": "Transportsystemen ska läggas om för mer gång-, cykel- och kollektivtrafik",
-     "princip": "säker cykling"
+     "princip": "säker cykling",
+     "svag": null
     }
    ]
   },
@@ -3250,12 +3502,14 @@
     {
      "document": "valmanifest",
      "quote": "Föräldraförsäkringen ska vara flexibel och familjevänlig och reserverade månader ska bort.",
-     "princip": "avskaffa reserverade dagar"
+     "princip": "avskaffa reserverade dagar",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Skapa en flexibel och familjevänlig föräldraförsäkring",
-     "princip": "flexibel föräldraförsäkring"
+     "princip": "flexibel föräldraförsäkring",
+     "svag": null
     }
    ]
   },
@@ -3276,12 +3530,14 @@
     {
      "document": "budgetmotion",
      "quote": "investeringar i järnväg och utbyggd cykelinfrastruktur.",
-     "princip": "investera i cykling"
+     "princip": "investera i cykling",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "kollektivtrafiken byggas ut och göras billigare och mer tillgänglig i hela landet.",
-     "princip": "hållbara transporter"
+     "princip": "hållbara transporter",
+     "svag": null
     }
    ]
   },
@@ -3302,12 +3558,14 @@
     {
      "document": "budgetmotion",
      "quote": "investeringar i järnväg och utbyggd cykelinfrastruktur.",
-     "princip": "utbyggd cykelinfrastruktur"
+     "princip": "utbyggd cykelinfrastruktur",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "kollektivtrafiken byggas ut och göras billigare och mer tillgänglig i hela landet.",
-     "princip": "hållbara transporter"
+     "princip": "hållbara transporter",
+     "svag": null
     }
    ]
   },
@@ -3328,12 +3586,14 @@
     {
      "document": "budgetmotion",
      "quote": "investeringar i järnväg och utbyggd cykelinfrastruktur.",
-     "princip": "satsa på cykling"
+     "princip": "satsa på cykling",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "kollektivtrafiken byggas ut och göras billigare och mer tillgänglig i hela landet.",
-     "princip": "hållbara transporter"
+     "princip": "hållbara transporter",
+     "svag": null
     }
    ]
   },
@@ -3354,12 +3614,14 @@
     {
      "document": "valmanifest",
      "quote": "Den svenska vargstammen ska minskas till 170 individer.",
-     "princip": "minska vargstammen till 170"
+     "princip": "minska vargstammen till 170",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "måste utformas i samråd med den berörda landsbygdsbefolkningen.",
-     "princip": "rovdjurspolitik med landsbygden"
+     "princip": "rovdjurspolitik med landsbygden",
+     "svag": null
     }
    ]
   },
@@ -3380,12 +3642,14 @@
     {
      "document": "valmanifest",
      "quote": "satsa på primärvården och öka tillgången till vård för psykisk ohälsa.",
-     "princip": "stärkt primärvård"
+     "princip": "stärkt primärvård",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "Primärvården ska utvecklas",
-     "princip": "primärvård som bas"
+     "princip": "primärvård som bas",
+     "svag": null
     }
    ]
   },
@@ -3406,7 +3670,8 @@
     {
      "document": "partiprogram",
      "quote": "reklam riktad mot barn under tolv år ska vara",
-     "princip": "begränsa reklam till barn"
+     "princip": "begränsa reklam till barn",
+     "svag": null
     }
    ]
   },
@@ -3427,7 +3692,8 @@
     {
      "document": "partiprogram",
      "quote": "hävda och stödja nationella minoriteters möjligheter att",
-     "princip": "minoriteters rättigheter"
+     "princip": "minoriteters rättigheter",
+     "svag": null
     }
    ]
   },
@@ -3448,7 +3714,8 @@
     {
      "document": "valmanifest",
      "quote": "öka respekten för de mänskliga rättigheterna",
-     "princip": "mänskliga rättigheter"
+     "princip": "mänskliga rättigheter",
+     "svag": null
     }
    ]
   },
@@ -3469,7 +3736,8 @@
     {
      "document": "partiprogram",
      "quote": "hävda och stödja nationella minoriteters möjligheter att",
-     "princip": "minoritetspolitik"
+     "princip": "minoritetspolitik",
+     "svag": null
     }
    ]
   },
@@ -3490,7 +3758,8 @@
     {
      "document": "valmanifest",
      "quote": "Skattefusk, välfärdsbrottslighet och penningtvätt ska stoppas.",
-     "princip": "skattetransparens"
+     "princip": "skattetransparens",
+     "svag": null
     }
    ]
   },
@@ -3511,12 +3780,14 @@
     {
      "document": "partiprogram",
      "quote": "biologiska mångfalden måste skyddas.",
-     "princip": "biologisk mångfald"
+     "princip": "biologisk mångfald",
+     "svag": null
     },
     {
      "document": "budgetmotion",
      "quote": "Då kan inte de politiska ambitionerna för skogsbruket minska.",
-     "princip": "aktivt skogsbruk"
+     "princip": "aktivt skogsbruk",
+     "svag": null
     }
    ]
   },
@@ -3537,7 +3808,8 @@
     {
      "document": "valmanifest",
      "quote": "Sverige måste i alla lägen stå upp för Ukraina och mot det ryska invasionskriget.",
-     "princip": "mot Rysslands krig"
+     "princip": "mot Rysslands krig",
+     "svag": null
     }
    ]
   },
@@ -3558,7 +3830,8 @@
     {
      "document": "valmanifest",
      "quote": "Nyrekryteringen måste stoppas.",
-     "princip": "bryt nyrekryteringen"
+     "princip": "bryt nyrekryteringen",
+     "svag": null
     }
    ]
   },
@@ -3579,7 +3852,8 @@
     {
      "document": "valmanifest",
      "quote": "Slå hårt mot den organiserade brottslighetens finansiering och organisation.",
-     "princip": "mot organiserad brottslighet"
+     "princip": "mot organiserad brottslighet",
+     "svag": null
     }
    ]
   },
@@ -3600,7 +3874,8 @@
     {
      "document": "valmanifest",
      "quote": "Stärka svensk sjöfart",
-     "princip": "stärka sjöfarten"
+     "princip": "stärka sjöfarten",
+     "svag": null
     }
    ]
   },
@@ -3621,12 +3896,14 @@
     {
      "document": "valmanifest",
      "quote": "Stärka svensk sjöfart",
-     "princip": "stärka svensk sjöfart"
+     "princip": "stärka svensk sjöfart",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vi behöver även stärka den svenska sjöfarten",
-     "princip": "sjöfartens konkurrenskraft"
+     "princip": "sjöfartens konkurrenskraft",
+     "svag": null
     }
    ]
   },
@@ -3647,12 +3924,14 @@
     {
      "document": "valmanifest",
      "quote": "Stärka svensk sjöfart",
-     "princip": "stärka svensk sjöfart"
+     "princip": "stärka svensk sjöfart",
+     "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vi behöver även stärka den svenska sjöfarten",
-     "princip": "sjöfart del av totalförsvaret"
+     "princip": "sjöfart del av totalförsvaret",
+     "svag": null
     }
    ]
   },
@@ -3673,7 +3952,36 @@
     {
      "document": "valmanifest",
      "quote": "försvara asylrätten både i Sverige och internationellt.",
-     "princip": "försvara rättigheter internationellt"
+     "princip": "försvara rättigheter internationellt",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "6D5B77FE-7F0C-4A84-B3B8-2BF0C02A6F2C",
+   "datum": "2023-05-11",
+   "rubrik": "Företagsstöd för klimatomställningen",
+   "utskott": "NU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill förstärka Industriklivet och näringslivets möjligheter att bidra till klimatomställningen och kritiserar att regeringens klimatpolitik inte räcker. En reservation som efterlyser starkare företagsstöd för klimatomställningen ligger i linje med detta. Därför Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Därför vill vi ytterligare stärka Industriklivet",
+     "princip": "företagsstöd för klimatomställning",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Regeringens klimatpolitik räcker inte",
+     "princip": "kritik mot regeringens klimatpolitik",
+     "svag": null
     }
    ]
   },
@@ -3694,12 +4002,42 @@
     {
      "document": "valmanifest",
      "quote": "Skadlig bottentrålning ska inte få förstöra för varken havsmiljön, den småskaliga fiskenäringen eller sportfisket.",
-     "princip": "begränsa skadlig trålning"
+     "princip": "begränsa skadlig trålning",
+     "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "De marina ekosystemen och havens resurser ska",
-     "princip": "skydda marina ekosystem"
+     "princip": "skydda marina ekosystem",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "E7D75131-D558-432E-8A72-CAE33D18B70E",
+   "datum": "2023-05-11",
+   "rubrik": "Övergripande åtgärder för hållbara bestånd, bl.a. bestånden av sill och strömming",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill värna havens hållbara bestånd och stoppa skadlig bottentrålning som förstör havsmiljön och det småskaliga fisket, och har eget yrkande på punkten. En reservation om åtgärder för hållbara bestånd av sill och strömming ligger i linje med detta. Därför Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Skadlig bottentrålning ska inte få förstöra för varken havsmiljön, den småskaliga fiskenäringen eller sportfisket.",
+     "princip": "stopp för skadlig bottentrålning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "De marina ekosystemen och havens resurser ska",
+     "princip": "skydd av havens resurser",
+     "svag": null
     }
    ]
   },
@@ -3720,7 +4058,538 @@
     {
      "document": "valmanifest",
      "quote": "Vår havs- och vattenmiljö måste prioriteras tydligare framför ett allt för intensivt fiske",
-     "princip": "havsmiljö före intensivt fiske"
+     "princip": "havsmiljö före intensivt fiske",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "AABA6692-3368-4E3B-A384-851777527D58",
+   "datum": "2023-05-24",
+   "rubrik": "Nationella minoriteters språk och kultur",
+   "utskott": "KrU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill stärka minoritetsskyddet och minoritetsspråkens ställning. Motförslaget driver ett stärkt stöd till nationella minoriteters språk och kultur i linje med detta. Därför bör C stödja motförslaget och rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "minoritetsskyddet och minoritetsspråkens ställning",
+     "princip": "stärkta minoritetsspråk",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "E9F13062-54EA-48AB-876B-14BE42C5F57E",
+   "datum": "2023-05-24",
+   "rubrik": "Drogtester av barn under 15 år i fler fall",
+   "utskott": "JuU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP motsätter sig oproportionerliga integritetsingrepp och vill flytta fokus från straff till vård för barn. Utökade drogtester av barn under 15 strider mot detta; reservation 1 (V) värnar rättssäkerheten. Nej till utskottets bifall.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Vi motsätter oss alla lagar som innebär oproportionerliga ingrepp i integriteten.",
+     "princip": "skydd av integritet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Den enskildas missbruk är en sjukdom och vi vill se ett ändrat fokus från straff till vård.",
+     "princip": "vård före straff",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0B70FB76-7BE0-418A-B3F5-D95C36E1D102",
+   "datum": "2023-05-24",
+   "rubrik": "Skydd av skogar med höga naturvärden",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill skydda mer värdefull natur och rädda de sista naturskogarna med höga naturvärden. Reservationen driver på ökat skogsskydd, vilket MP stödjer. Därför Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "de sista resterna av naturskog i hela landet",
+     "princip": "rädda naturskogarna",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "skydd av värdefull natur",
+     "princip": "skydda värdefull natur",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "58EB0E51-9BDC-4009-A4DC-2AA8C00F1FC9",
+   "datum": "2023-05-24",
+   "rubrik": "Kulturens oberoende ställning",
+   "utskott": "KrU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiet vill ha ett levande, fritt och obundet kulturliv. En reservation som värnar kulturens oberoende ställning ligger i linje, varför partiet bör stödja motförslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska ha ett levande, fritt och obundet kulturliv som både stärker samhörigheten och utmanar.",
+     "princip": "fritt och obundet kulturliv",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "611511D8-4D80-4FB8-A1C6-EFB70E451AFA",
+   "datum": "2023-05-24",
+   "rubrik": "Utdelning och kapitalvinster till delägare i fåmansföretag",
+   "utskott": "SkU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet vill reformera 3:12-reglerna och höja skatten på utdelning och kapitalvinst från fåmansbolag till 30 procent. En reservation som öppnar för en reform av fåmansbeskattningen ligger närmare V:s linje än utskottets bevarade status quo. Därför nej till avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Vänsterpartiet vill se en reformering av 3:12",
+     "princip": "reformera 3:12",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Utdelning och kapitalvinst från fåmansbolag ska beskattas med 30",
+     "princip": "fåmansbolag beskattas 30%",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "58EB0E51-9BDC-4009-A4DC-2AA8C00F1FC9",
+   "datum": "2023-05-24",
+   "rubrik": "Kulturens oberoende ställning",
+   "utskott": "KrU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet försvarar den oberoende kulturen och ett armlängds avstånd till innehållet. Reservationen värnar kulturens oberoende ställning, vilket är en kärnfråga för partiet. Därför röstar V nej till utskottets avslag.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet försvarar den oberoende kulturen.",
+     "princip": "kulturens oberoende",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "hålla armlängds avstånd till innehållet",
+     "princip": "armlängds avstånd",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "816D505C-56DD-48F6-B164-666DAB03E25D",
+   "datum": "2023-05-31",
+   "rubrik": "Sekretessgenombrott vid utlämnande för teknisk bearbetning eller teknisk lagring av uppgifter",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill värna och stärka meddelarfriheten och skydda visselblåsare. Förslaget begränsar meddelarfriheten vid utkontraktering; reservation 1 (V) värnar den. Nej till utskottets bifall.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Offentlighetsprincipen och meddelarfriheten måste värnas och stärkas.",
+     "princip": "värna meddelarfriheten",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "en lagstiftning som skyddar så kallade whistleblowers",
+     "princip": "skydda visselblåsare",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3176FDCC-5B43-4738-A59B-7396DD8ECC82",
+   "datum": "2023-05-31",
+   "rubrik": "Permanent skattenedsättning på viss dieselanvändning",
+   "utskott": "SkU",
+   "parti": "MP",
+   "ai_rost": "Avstår",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill ta bort dieselnedsättningen och ersätta den med ett jordbruksavdrag; både utskottets förlängning och C:s permanentning behåller fossilsubventionen. Ingen av positionerna motsvarar MP:s linje. Avstår.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Ett jordbruksavdrag bör införas och nedsättningen av dieselskatten för jordbruket bör tas bort.",
+     "princip": "ta bort dieselsubvention",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0767A1FA-54C8-43AC-91E4-0EAA2A10A924",
+   "datum": "2023-06-07",
+   "rubrik": "Ökad ambition i det internationella klimatarbetet",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill se ökad ambition i det internationella klimatarbetet: höjda utsläppsrättspriser, klimattullar och klimatinriktat bistånd. MP stödjer reservationen och röstar mot att motionerna avslås.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "höja priset på utsläppsrätter i EU, inkludera utsläpp från flyg och sjöfart i systemet och införa klimattullar på varor från länder utanför EU.",
+     "princip": "höjd internationell klimatambition",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "att biståndet ska hjälpa till att bygga hållbara, klimatsmarta samhällen, skydda hav, främja biologisk mångfald och ekosystemtjänster.",
+     "princip": "klimatbistånd",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "B18E40DA-3D21-4D74-BAB9-4C1D56C64C6D",
+   "datum": "2023-06-07",
+   "rubrik": "Naturbaserade klimatlösningar",
+   "utskott": "MJU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valplattformen slår fast att torrlagda våtmarker ska återställas, att skogens funktion som kolsänka ska bevaras och att kalhyggesbruket ska fasas ut. En reservation om naturbaserade klimatlösningar motsvarar V:s linje. V röstar Nej mot avslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "torrlagda våtmarker som läcker utsläpp ska återställas",
+     "princip": "återställ våtmarker",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "För att uppnå klimatmålen behöver skogens funktion som kolsänka bevaras de kommande decennierna, därför behöver kalhyggesbruket fasas ut.",
+     "princip": "skogens kolsänka",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "762AABBA-AFFF-452A-B0B8-3F41594A4A22",
+   "datum": "2023-06-08",
+   "rubrik": "Regelverket för krigsmaterielexport",
+   "utskott": "UU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP:s mål är en avvecklad vapenexport och att undantagen för export kraftigt begränsas, med noggrann ISP-prövning av demokratikriteriet. MP stödjer V:s reservation om skärpt exportkontroll framför att lägga skrivelsen till handlingarna.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Dagens möjligheter till undantag för sådan export måste avskaffas eller begränsas mycket kraftigt.",
+     "princip": "skärpt vapenexportkontroll",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige ska bidra till militär nedrustning i världen.",
+     "princip": "militär nedrustning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4A67B0E0-8E19-41A8-B0FA-EB5221040C67",
+   "datum": "2023-06-14",
+   "rubrik": "Tidiga insatser",
+   "utskott": "SoU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller tidiga insatser för barn och unga. C:s manifest slår fast att förebyggande insatser ska genomsyra hela samhället och läggas redan i förskola/skola, vilket ligger i linje med reservationens inriktning framför utskottets avslag. Rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Därför är det viktigt att förebyggande insatser genomsyrar hela samhället",
+     "princip": "tidiga förebyggande insatser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Av största betydelse är då barnens rättigheter och perspektiv",
+     "princip": "barnens perspektiv",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4F50F2C3-7870-456E-BD04-272CB610E8DF",
+   "datum": "2023-06-14",
+   "rubrik": "Forskningens frihet och vetenskaplig kvalitet",
+   "utskott": "UbU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet gäller forskningens frihet och vetenskaplig kvalitet. C värnar fria lärosäten och akademisk frihet på armlängds avstånd från politiken, vilket talar för en reservation som stärker forskningsfriheten framför utskottets avslag. Rösta Nej.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Högre utbildning och fria lärosäten ska självständigt kunna bedriva högkvalitativ forskning och utbildning",
+     "princip": "fria lärosäten",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Den akademiska och konstnärliga friheten liksom den fria kulturen är grundbultar i ett vitalt civilsamhälle",
+     "princip": "akademisk frihet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "DAA6BF7F-D5D3-496E-97F8-6B1189D92507",
+   "datum": "2023-06-14",
+   "rubrik": "Jämställdhet",
+   "utskott": "UbU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Som feministiskt parti anser Miljöpartiet att jämställdheten inom akademin och forskningen måste förbättras, och partiet har en egen motion i ärendet. En reservation för stärkt jämställdhet inom forskningen ligger i linje med detta. Därför Nej.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "jämställdheten måste förbättras",
+     "princip": "jämställdhet i akademin",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "1E0FE71A-97EA-49E3-B1F8-E2BF8028D227",
+   "datum": "2023-06-14",
+   "rubrik": "Samverkan mellan myndigheter",
+   "utskott": "SoU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet rör samverkan mellan myndigheter kring barn och unga. S vill uttryckligen ha mer samarbete mellan polis, elevhälsa, socialtjänst och skola och riva sekretesshinder, vilket sammanfaller med reservationen, därför Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det behövs mer samarbete mellan polis, elevhälsa, socialtjänst och skola.",
+     "princip": "myndighetssamverkan",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sekretesshinder mellan myndigheter ska rivas så att polisen och andra yrkesgrupper kan göra sitt jobb.",
+     "princip": "riva sekretesshinder",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5B3BEC7C-A14E-46A3-9717-04E7343CD3C8",
+   "datum": "2023-06-14",
+   "rubrik": "Barnkonventionen",
+   "utskott": "SoU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V:s politik ska utformas så att barnens bästa kommer i första rummet och barnkonventionens rättigheter värnas. En reservation som stärker barnkonventionens tillämpning stöds. V röstar Nej mot avslaget.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "barns rättigheter i särskild ordning i Barnkonventionen. Vänsterpartiets politik ska utformas så att barnens bästa kommer i första rummet.",
+     "princip": "barnkonventionen och barnets bästa",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "10811D35-78B8-4478-B88E-F4B1BFF369E8",
+   "datum": "2023-06-14",
+   "rubrik": "Tillgång till elektronisk kommunikation",
+   "utskott": "TU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V:s budget kräver fungerande telefoni, bredband och postservice i hela landet med ett tydligt statligt ansvar för samhällsservice. En reservation som stärker tillgången till elektronisk kommunikation i hela landet ligger i linje med detta. V röstar Nej mot avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "en fungerande telefoni och bredband och postservice",
+     "princip": "kommunikation i hela landet",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Statlig service, såsom Skatteverket, Försäkringskassan och Arbetsförmedlingen, måste finnas tillgänglig runt om i landet.",
+     "princip": "service i hela landet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4A67B0E0-8E19-41A8-B0FA-EB5221040C67",
+   "datum": "2023-06-14",
+   "rubrik": "Tidiga insatser",
+   "utskott": "SoU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V vill se tidigare insatser för barn som har det kämpigt och ett förstärkt förebyggande socialt arbete. En reservation om tidiga insatser för barn och unga ligger i linje med detta. V röstar Nej mot avslaget.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet vill se fler lärare, tidigare insatser för barn som har det kämpigt",
+     "princip": "tidiga insatser barn",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "förstärk socialtjänsten med tillräckliga resurser och kunskap för att arbeta både förebyggande och med barnskydd",
+     "princip": "förebyggande arbete",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "204F8DA6-EAF4-4F15-B8A6-B66BB25B9D1E",
+   "datum": "2023-06-20",
+   "rubrik": "Stärkt diskrimineringslag",
+   "utskott": "JuU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet avslår ett yrkande om stärkt diskrimineringslag kopplat till polisens utökade befogenheter i gränsnära områden. C vill stärka arbetet mot diskriminering och är restriktivt mot utökade tvångs- och kontrollbefogenheter, vilket talar för reservationen. Rösta Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill stärka myndigheternas arbete mot diskriminering",
+     "princip": "stärkt diskrimineringsskydd",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi säger därför nej till visitationszoner, kollektiv bestraffning",
+     "princip": "restriktiv mot tvångsbefogenheter",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "8894D724-343F-4268-9486-1ED2AC949101",
+   "datum": "2023-06-20",
+   "rubrik": "Ett energipolitiskt mål om kraftproduktionsutbyggnad",
+   "utskott": "FiU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Ärendet avslår ett yrkande om ett energipolitiskt mål för kraftproduktionsutbyggnad. C vill kraftigt öka elproduktionen och ser en snabb utbyggnad som en av politikens högsta prioriteringar, vilket talar för reservationen framför avslag. Rösta Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Potentialen finns att fördubbla kraftproduktionen till 2030",
+     "princip": "bygg ut elproduktionen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill fördubbla produktionen av utsläppsfri el, och rusta och bygga ut elnätet",
+     "princip": "fördubblad elproduktion",
+     "svag": null
     }
    ]
   }

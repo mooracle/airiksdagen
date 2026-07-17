@@ -1,24 +1,24 @@
 {
  "S": {
   "Ja": {
-   "Ja": 177,
-   "Nej": 12,
-   "Avst\u00e5r": 6
+   "Ja": 215,
+   "Nej": 13,
+   "Avst\u00e5r": 7
   },
   "Nej": {
-   "Ja": 40,
-   "Nej": 121,
-   "Avst\u00e5r": 30
+   "Ja": 53,
+   "Nej": 153,
+   "Avst\u00e5r": 39
   },
   "Avst\u00e5r": {
-   "Ja": 31,
-   "Nej": 3,
+   "Ja": 54,
+   "Nej": 6,
    "Avst\u00e5r": 0
   }
  },
  "M": {
   "Ja": {
-   "Ja": 417,
+   "Ja": 537,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
@@ -35,14 +35,14 @@
  },
  "SD": {
   "Ja": {
-   "Ja": 267,
-   "Nej": 27,
-   "Avst\u00e5r": 31
+   "Ja": 336,
+   "Nej": 39,
+   "Avst\u00e5r": 52
   },
   "Nej": {
    "Ja": 18,
-   "Nej": 50,
-   "Avst\u00e5r": 19
+   "Nej": 61,
+   "Avst\u00e5r": 26
   },
   "Avst\u00e5r": {
    "Ja": 5,
@@ -52,41 +52,41 @@
  },
  "C": {
   "Ja": {
-   "Ja": 152,
-   "Nej": 8,
-   "Avst\u00e5r": 2
+   "Ja": 182,
+   "Nej": 10,
+   "Avst\u00e5r": 4
   },
   "Nej": {
-   "Ja": 18,
-   "Nej": 95,
-   "Avst\u00e5r": 114
+   "Ja": 32,
+   "Nej": 128,
+   "Avst\u00e5r": 141
   },
   "Avst\u00e5r": {
-   "Ja": 11,
-   "Nej": 5,
-   "Avst\u00e5r": 15
+   "Ja": 17,
+   "Nej": 7,
+   "Avst\u00e5r": 19
   }
  },
  "V": {
   "Ja": {
-   "Ja": 88,
-   "Nej": 6,
-   "Avst\u00e5r": 0
+   "Ja": 115,
+   "Nej": 9,
+   "Avst\u00e5r": 2
   },
   "Nej": {
-   "Ja": 99,
-   "Nej": 128,
-   "Avst\u00e5r": 61
+   "Ja": 127,
+   "Nej": 164,
+   "Avst\u00e5r": 76
   },
   "Avst\u00e5r": {
-   "Ja": 27,
+   "Ja": 34,
    "Nej": 5,
-   "Avst\u00e5r": 5
+   "Avst\u00e5r": 7
   }
  },
  "KD": {
   "Ja": {
-   "Ja": 415,
+   "Ja": 535,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
@@ -103,24 +103,24 @@
  },
  "MP": {
   "Ja": {
-   "Ja": 74,
-   "Nej": 10,
+   "Ja": 95,
+   "Nej": 12,
    "Avst\u00e5r": 3
   },
   "Nej": {
-   "Ja": 106,
-   "Nej": 119,
-   "Avst\u00e5r": 83
+   "Ja": 124,
+   "Nej": 148,
+   "Avst\u00e5r": 111
   },
   "Avst\u00e5r": {
-   "Ja": 17,
-   "Nej": 3,
-   "Avst\u00e5r": 4
+   "Ja": 33,
+   "Nej": 7,
+   "Avst\u00e5r": 6
   }
  },
  "L": {
   "Ja": {
-   "Ja": 416,
+   "Ja": 536,
    "Nej": 3,
    "Avst\u00e5r": 0
   },
