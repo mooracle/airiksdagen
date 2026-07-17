@@ -104,10 +104,10 @@ def run(run_id: str) -> None:
     )
     meta = {r["votering_id"]: (r["datum"], r["rm"]) for r in cases.iter_rows(named=True)}
 
-    from aidag.blocklist import strip_blocked
+    from aidag.blocklist import mark_weak, strip_blocked
 
     sim_dir = RESULTS_DIR / "simulations" / run_id
-    n_ok = n_fixed = n_failed = n_blocked = 0
+    n_ok = n_fixed = n_failed = n_blocked = n_weak = 0
     for path in sorted(sim_dir.glob("*.jsonl")):
         party = path.stem
         out_lines = []
@@ -132,6 +132,9 @@ def run(run_id: str) -> None:
             # (coalition/procedural boilerplate + party self-identity lines):
             # they don't explain THIS vote, so keep the decision, not the quote
             n_blocked += strip_blocked(d)
+            # then flag weak-tier broad principles (svag) — kept, but marked so
+            # the site never presents them as the decisive citation
+            n_weak += mark_weak(d)
             out_lines.append(json.dumps(d, ensure_ascii=False))
         # atomic replace — these files are the committed scientific record,
         # never leave them truncated on an interrupt
@@ -140,5 +143,5 @@ def run(run_id: str) -> None:
         tmp.replace(path)
     print(
         f"citations: {n_ok} verbatim, {n_fixed} repaired (flagged), "
-        f"{n_failed} unverifiable, {n_blocked} generic dropped"
+        f"{n_failed} unverifiable, {n_blocked} generic dropped, {n_weak} weak (svag)"
     )

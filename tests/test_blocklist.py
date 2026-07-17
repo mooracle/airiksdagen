@@ -1,7 +1,7 @@
 """Pins the generic-citation block list: it must catch every window-variant of
 the boilerplate sentences, leave real policy quotes alone, and keep the vote."""
 
-from aidag.blocklist import is_blocked, strip_blocked
+from aidag.blocklist import is_blocked, is_weak, mark_weak, strip_blocked
 
 
 class TestIsBlocked:
@@ -81,3 +81,45 @@ class TestStripBlocked:
         }
         assert strip_blocked(d) == 0
         assert d["flags"] == []
+
+
+class TestWeak:
+    def test_weak_phrases_detected(self):
+        assert is_weak("partiprogram", "Svensk utrikespolitik ska värna svenska intressen.")
+        assert is_weak("partiprogram", "Alla människor har rätt till en bred privat sfär")
+        assert is_weak(
+            "partiprogram",
+            "All lagstiftning bör prövas mot dess påverkan på människors personliga integritet.",
+        )
+
+    def test_weak_and_blocked_are_disjoint(self):
+        # a coalition/identity line is blocked, never merely weak
+        assert is_blocked("tidoavtalet", "ta ansvar för Sverige i ett gemensamt samarbete")
+        assert not is_weak("tidoavtalet", "ta ansvar för Sverige i ett gemensamt samarbete")
+        # a concrete policy quote is neither
+        assert not is_weak("valmanifest", "Krafttag för att stoppa hedersrelaterat våld")
+
+    def test_mark_weak_annotates_and_flags(self):
+        d = {
+            "citations": [
+                {"document": "partiprogram", "quote": "Svensk utrikespolitik ska värna svenska intressen.", "princip": "utrikes"},
+                {"document": "valmanifest", "quote": "Krafttag mot brott", "princip": "brott"},
+            ],
+            "flags": [],
+        }
+        assert mark_weak(d) == 1
+        assert d["citations"][0].get("svag") is True
+        assert "svag" not in d["citations"][1]
+        assert "citat_svagt" in d["flags"]
+        # keeps the vote/citation — nothing removed
+        assert len(d["citations"]) == 2
+
+    def test_mark_weak_reconciles_stale_markers(self):
+        # a citation wrongly marked weak is cleared and the flag removed
+        d = {
+            "citations": [{"document": "valmanifest", "quote": "Krafttag mot brott", "princip": "x", "svag": True}],
+            "flags": ["citat_svagt"],
+        }
+        assert mark_weak(d) == 0
+        assert "svag" not in d["citations"][0]
+        assert "citat_svagt" not in d["flags"]

@@ -88,6 +88,39 @@ BLOCKLIST: list[dict[str, str]] = [
     },
 ]
 
+# Weak tier: broad principles / dispositions that DO edge toward policy, so we
+# keep them but mark them `svag` — a supporting-but-generic citation, not the
+# decisive one. These name a value applied across many cases (foreign-policy
+# disposition, evidence-based climate policy, personal-integrity principles)
+# rather than a concrete commitment on the case at hand. Same match rule as the
+# block list; kept in the record and rendered with a "weak support" marker.
+WEAK_LIST: list[dict[str, str]] = [
+    {
+        "document": "partiprogram",
+        "phrase": "Svensk utrikespolitik ska värna svenska intressen",
+        "category": "philosophy",
+        "reason": "broad foreign-policy disposition, not a concrete position",
+    },
+    {
+        "document": "partiprogram",
+        "phrase": "Vetenskap och fakta ska vara ledande",
+        "category": "philosophy",
+        "reason": "evidence-based meta-principle applied across climate cases",
+    },
+    {
+        "document": "partiprogram",
+        "phrase": "Alla människor har rätt till en bred privat sfär",
+        "category": "philosophy",
+        "reason": "personal-integrity principle, applied broadly",
+    },
+    {
+        "document": "partiprogram",
+        "phrase": "All lagstiftning bör prövas mot dess påverkan på människors personliga integritet",
+        "category": "philosophy",
+        "reason": "personal-integrity meta-principle, applied broadly",
+    },
+]
+
 
 def _key(text: str) -> str:
     """NFC-normalize, collapse whitespace, casefold — the matching form."""
@@ -96,6 +129,14 @@ def _key(text: str) -> str:
 
 # Precomputed once: (document, normalized phrase).
 _ENTRIES: list[tuple[str, str]] = [(e["document"], _key(e["phrase"])) for e in BLOCKLIST]
+_WEAK_ENTRIES: list[tuple[str, str]] = [(e["document"], _key(e["phrase"])) for e in WEAK_LIST]
+
+
+def _matches(document: str, quote: str, entries: list[tuple[str, str]]) -> bool:
+    if not quote:
+        return False
+    q = _key(quote)
+    return any(document == doc and (phrase in q or q in phrase) for doc, phrase in entries)
 
 
 def is_blocked(document: str, quote: str) -> bool:
@@ -105,10 +146,12 @@ def is_blocked(document: str, quote: str) -> bool:
     sub-window of — a canonical phrase. Both directions because agents quote
     different slices of the same boilerplate sentence.
     """
-    if not quote:
-        return False
-    q = _key(quote)
-    return any(document == doc and (phrase in q or q in phrase) for doc, phrase in _ENTRIES)
+    return _matches(document, quote, _ENTRIES)
+
+
+def is_weak(document: str, quote: str) -> bool:
+    """True if this citation quotes a weak-tier broad-principle phrase."""
+    return _matches(document, quote, _WEAK_ENTRIES)
 
 
 def strip_blocked(decision: dict) -> int:
@@ -127,3 +170,26 @@ def strip_blocked(decision: dict) -> int:
         if "citat_blockerat" not in flags:
             flags.append("citat_blockerat")
     return removed
+
+
+def mark_weak(decision: dict) -> int:
+    """Annotate weak-tier citations with `svag: true` (else clear the marker).
+
+    Pure annotation — nothing is removed, so the vote and the citation stay.
+    Fully reconciles each run (sets/clears `svag` per citation and the decision
+    `citat_svagt` flag) so editing WEAK_LIST + re-running repair is idempotent.
+    Returns the number of weak citations.
+    """
+    n_weak = 0
+    for c in decision.get("citations") or []:
+        if is_weak(c.get("document", ""), c.get("quote", "")):
+            c["svag"] = True
+            n_weak += 1
+        else:
+            c.pop("svag", None)
+    flags = decision.setdefault("flags", [])
+    if n_weak and "citat_svagt" not in flags:
+        flags.append("citat_svagt")
+    elif not n_weak and "citat_svagt" in flags:
+        flags.remove("citat_svagt")
+    return n_weak

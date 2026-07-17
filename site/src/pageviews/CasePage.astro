@@ -50,13 +50,20 @@ const mismatches = partyOrder
     const a = c.actual[code];
     return d && a && a.position !== 'Frånvarande' && d.rost !== a.position;
   })
-  .map((code) => ({
-    code,
-    decision: c.ai[code],
-    actual: c.actual[code],
-    decisive: c.ai[code].citations[0] ?? null,
-    decisiveEn: aiEn(code)?.citations?.[0] ?? null,
-  }));
+  .map((code) => {
+    // back the deviation with the strongest available quote: the first
+    // non-weak citation, only falling back to a weak one if that's all there is
+    const cits = c.ai[code].citations;
+    const di = cits.findIndex((x) => !x.svag);
+    const idx = di === -1 ? (cits.length ? 0 : -1) : di;
+    return {
+      code,
+      decision: c.ai[code],
+      actual: c.actual[code],
+      decisive: idx === -1 ? null : cits[idx],
+      decisiveEn: idx === -1 ? null : aiEn(code)?.citations?.[idx] ?? null,
+    };
+  });
 
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
@@ -185,6 +192,9 @@ const docRefs = partyOrder
                 {(m.decisiveEn?.princip || m.decisive.princip) && (
                   <span class="chip">{m.decisiveEn?.princip || m.decisive.princip}</span>
                 )}
+                {m.decisive.svag && (
+                  <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>
+                )}
                 {m.decisive.quote && <>»{m.decisive.quote}«</>}
                 {href ? (
                   <a class="muted src" href={href}>({docLabel[m.decisive.document] ?? m.decisive.document} ↗)</a>
@@ -288,6 +298,9 @@ const docRefs = partyOrder
       {partyOrder.filter((p) => c.ai[p]).map((code) => {
         const d = c.ai[code];
         const dEn = aiEn(code);
+        // the decisive citation is the first NON-weak one; a weak (svag) broad
+        // principle is never labelled decisive (-1 if the decision has only weak)
+        const decIdx = d.citations.findIndex((x) => !x.svag);
         return (
           <details class="card">
             <summary>
@@ -307,9 +320,10 @@ const docRefs = partyOrder
                   const href = citationHref(code, cit.document, cit.quote);
                   const citEn = dEn?.citations?.[i] ?? null;
                   return (
-                    <li>
+                    <li class={cit.svag ? 'weakcite' : undefined}>
                       {(citEn?.princip || cit.princip) && <span class="chip">{citEn?.princip || cit.princip}</span>}
-                      {i === 0 && <span class="chip" style="background:#e5efdb">{t('case.decisive')}</span>}
+                      {i === decIdx && <span class="chip" style="background:#e5efdb">{t('case.decisive')}</span>}
+                      {cit.svag && <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>}
                       {cit.quote && <><em>»{cit.quote}«</em>{' '}</>}
                       {href ? (
                         <a class="muted" href={href}>({docLabel[cit.document] ?? cit.document} ↗)</a>
