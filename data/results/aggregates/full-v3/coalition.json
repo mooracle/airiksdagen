@@ -1,55 +1,55 @@
 {
- "n_decisions": 5755,
+ "n_decisions": 6563,
  "per_party": {
   "S": {
-   "n": 720,
+   "n": 820,
    "bloc": "opposition",
-   "coalition_baseline": 0.5736,
-   "programme_accuracy": 0.7014,
-   "programme_lift": 0.1278,
-   "authored_reservation_n": 244,
+   "coalition_baseline": 0.5598,
+   "programme_accuracy": 0.6988,
+   "programme_lift": 0.139,
+   "authored_reservation_n": 280,
    "override": {
     "strict": {
      "all": {
-      "den": 44,
-      "num": 1,
-      "rate": 0.0227
+      "den": 48,
+      "num": 2,
+      "rate": 0.0417
      },
      "authored": {
-      "den": 36,
+      "den": 39,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 8,
-      "num": 1,
-      "rate": 0.125
+      "den": 9,
+      "num": 2,
+      "rate": 0.2222
      }
     },
     "loose": {
      "all": {
-      "den": 141,
-      "num": 21,
-      "rate": 0.1489
+      "den": 158,
+      "num": 24,
+      "rate": 0.1519
      },
      "authored": {
-      "den": 93,
+      "den": 103,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 48,
-      "num": 21,
-      "rate": 0.4375
+      "den": 55,
+      "num": 24,
+      "rate": 0.4364
      }
     }
    }
   },
   "M": {
-   "n": 719,
+   "n": 821,
    "bloc": "government",
-   "coalition_baseline": 0.9958,
-   "programme_accuracy": 0.9958,
+   "coalition_baseline": 0.9963,
+   "programme_accuracy": 0.9963,
    "programme_lift": 0.0,
    "authored_reservation_n": 3,
    "override": {
@@ -90,16 +90,16 @@
    }
   },
   "SD": {
-   "n": 720,
+   "n": 821,
    "bloc": "support",
-   "coalition_baseline": 0.6958,
-   "programme_accuracy": 0.7625,
-   "programme_lift": 0.0667,
-   "authored_reservation_n": 126,
+   "coalition_baseline": 0.6931,
+   "programme_accuracy": 0.7613,
+   "programme_lift": 0.0682,
+   "authored_reservation_n": 143,
    "override": {
     "strict": {
      "all": {
-      "den": 1,
+      "den": 2,
       "num": 0,
       "rate": 0.0
      },
@@ -109,124 +109,124 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 0,
+      "den": 1,
       "num": 0,
-      "rate": null
+      "rate": 0.0
      }
     },
     "loose": {
      "all": {
-      "den": 55,
+      "den": 60,
       "num": 15,
-      "rate": 0.2727
+      "rate": 0.25
      },
      "authored": {
-      "den": 27,
+      "den": 31,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 28,
+      "den": 29,
       "num": 15,
-      "rate": 0.5357
+      "rate": 0.5172
      }
     }
    }
   },
   "C": {
-   "n": 720,
+   "n": 821,
    "bloc": "opposition",
-   "coalition_baseline": 0.475,
-   "programme_accuracy": 0.6319,
-   "programme_lift": 0.1569,
-   "authored_reservation_n": 185,
+   "coalition_baseline": 0.4836,
+   "programme_accuracy": 0.62,
+   "programme_lift": 0.1364,
+   "authored_reservation_n": 212,
    "override": {
     "strict": {
      "all": {
-      "den": 71,
+      "den": 77,
       "num": 1,
-      "rate": 0.0141
+      "rate": 0.013
      },
      "authored": {
-      "den": 40,
+      "den": 45,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 31,
+      "den": 32,
       "num": 1,
-      "rate": 0.0323
+      "rate": 0.0312
      }
     },
     "loose": {
      "all": {
-      "den": 248,
-      "num": 29,
-      "rate": 0.1169
+      "den": 291,
+      "num": 39,
+      "rate": 0.134
      },
      "authored": {
-      "den": 98,
+      "den": 117,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 150,
-      "num": 29,
-      "rate": 0.1933
+      "den": 174,
+      "num": 39,
+      "rate": 0.2241
      }
     }
    }
   },
   "V": {
-   "n": 719,
+   "n": 821,
    "bloc": "opposition",
-   "coalition_baseline": 0.491,
-   "programme_accuracy": 0.5202,
-   "programme_lift": 0.0292,
-   "authored_reservation_n": 250,
+   "coalition_baseline": 0.5018,
+   "programme_accuracy": 0.5091,
+   "programme_lift": 0.0073,
+   "authored_reservation_n": 278,
    "override": {
     "strict": {
      "all": {
-      "den": 115,
-      "num": 8,
-      "rate": 0.0696
+      "den": 125,
+      "num": 10,
+      "rate": 0.08
      },
      "authored": {
-      "den": 77,
+      "den": 81,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 38,
-      "num": 8,
-      "rate": 0.2105
+      "den": 44,
+      "num": 10,
+      "rate": 0.2273
      }
     },
     "loose": {
      "all": {
-      "den": 227,
-      "num": 57,
-      "rate": 0.2511
+      "den": 253,
+      "num": 65,
+      "rate": 0.2569
      },
      "authored": {
-      "den": 113,
+      "den": 122,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 114,
-      "num": 57,
-      "rate": 0.5
+      "den": 131,
+      "num": 65,
+      "rate": 0.4962
      }
     }
    }
   },
   "KD": {
-   "n": 719,
+   "n": 820,
    "bloc": "government",
-   "coalition_baseline": 0.9958,
-   "programme_accuracy": 0.9944,
-   "programme_lift": -0.0014,
+   "coalition_baseline": 0.9963,
+   "programme_accuracy": 0.9951,
+   "programme_lift": -0.0012,
    "authored_reservation_n": 3,
    "override": {
     "strict": {
@@ -266,55 +266,55 @@
    }
   },
   "MP": {
-   "n": 719,
+   "n": 820,
    "bloc": "opposition",
-   "coalition_baseline": 0.459,
-   "programme_accuracy": 0.4757,
-   "programme_lift": 0.0167,
-   "authored_reservation_n": 238,
+   "coalition_baseline": 0.4488,
+   "programme_accuracy": 0.478,
+   "programme_lift": 0.0293,
+   "authored_reservation_n": 274,
    "override": {
     "strict": {
      "all": {
-      "den": 121,
+      "den": 134,
       "num": 11,
-      "rate": 0.0909
+      "rate": 0.0821
      },
      "authored": {
-      "den": 70,
+      "den": 77,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 51,
+      "den": 57,
       "num": 11,
-      "rate": 0.2157
+      "rate": 0.193
      }
     },
     "loose": {
      "all": {
-      "den": 279,
-      "num": 60,
-      "rate": 0.2151
+      "den": 318,
+      "num": 64,
+      "rate": 0.2013
      },
      "authored": {
-      "den": 131,
+      "den": 147,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 148,
-      "num": 60,
-      "rate": 0.4054
+      "den": 171,
+      "num": 64,
+      "rate": 0.3743
      }
     }
    }
   },
   "L": {
-   "n": 719,
+   "n": 819,
    "bloc": "government",
-   "coalition_baseline": 0.9958,
-   "programme_accuracy": 0.9944,
-   "programme_lift": -0.0014,
+   "coalition_baseline": 0.9963,
+   "programme_accuracy": 0.9951,
+   "programme_lift": -0.0012,
    "authored_reservation_n": 3,
    "override": {
     "strict": {
@@ -478,10 +478,18 @@
   {
    "parti": "S",
    "month": "2024-03",
-   "n": 24,
-   "coalition_baseline": 0.4583,
-   "programme_accuracy": 0.5833,
-   "programme_lift": 0.125
+   "n": 67,
+   "coalition_baseline": 0.4925,
+   "programme_accuracy": 0.7015,
+   "programme_lift": 0.209
+  },
+  {
+   "parti": "S",
+   "month": "2024-04",
+   "n": 57,
+   "coalition_baseline": 0.4211,
+   "programme_accuracy": 0.614,
+   "programme_lift": 0.193
   },
   {
    "parti": "M",
@@ -606,7 +614,15 @@
   {
    "parti": "M",
    "month": "2024-03",
-   "n": 23,
+   "n": 68,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "M",
+   "month": "2024-04",
+   "n": 57,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -734,10 +750,18 @@
   {
    "parti": "SD",
    "month": "2024-03",
-   "n": 24,
-   "coalition_baseline": 0.5833,
-   "programme_accuracy": 0.6667,
-   "programme_lift": 0.0833
+   "n": 68,
+   "coalition_baseline": 0.6176,
+   "programme_accuracy": 0.6765,
+   "programme_lift": 0.0588
+  },
+  {
+   "parti": "SD",
+   "month": "2024-04",
+   "n": 57,
+   "coalition_baseline": 0.7018,
+   "programme_accuracy": 0.807,
+   "programme_lift": 0.1053
   },
   {
    "parti": "C",
@@ -862,10 +886,18 @@
   {
    "parti": "C",
    "month": "2024-03",
-   "n": 24,
-   "coalition_baseline": 0.625,
-   "programme_accuracy": 0.625,
-   "programme_lift": 0.0
+   "n": 68,
+   "coalition_baseline": 0.6029,
+   "programme_accuracy": 0.6324,
+   "programme_lift": 0.0294
+  },
+  {
+   "parti": "C",
+   "month": "2024-04",
+   "n": 57,
+   "coalition_baseline": 0.5088,
+   "programme_accuracy": 0.4561,
+   "programme_lift": -0.0526
   },
   {
    "parti": "V",
@@ -990,10 +1022,18 @@
   {
    "parti": "V",
    "month": "2024-03",
-   "n": 23,
-   "coalition_baseline": 0.5652,
-   "programme_accuracy": 0.3478,
-   "programme_lift": -0.2174
+   "n": 68,
+   "coalition_baseline": 0.6029,
+   "programme_accuracy": 0.3382,
+   "programme_lift": -0.2647
+  },
+  {
+   "parti": "V",
+   "month": "2024-04",
+   "n": 57,
+   "coalition_baseline": 0.5439,
+   "programme_accuracy": 0.5088,
+   "programme_lift": -0.0351
   },
   {
    "parti": "KD",
@@ -1118,7 +1158,15 @@
   {
    "parti": "KD",
    "month": "2024-03",
-   "n": 23,
+   "n": 68,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "KD",
+   "month": "2024-04",
+   "n": 56,
    "coalition_baseline": 1.0,
    "programme_accuracy": 1.0,
    "programme_lift": 0.0
@@ -1246,10 +1294,18 @@
   {
    "parti": "MP",
    "month": "2024-03",
-   "n": 23,
-   "coalition_baseline": 0.6957,
-   "programme_accuracy": 0.3043,
-   "programme_lift": -0.3913
+   "n": 68,
+   "coalition_baseline": 0.5294,
+   "programme_accuracy": 0.3824,
+   "programme_lift": -0.1471
+  },
+  {
+   "parti": "MP",
+   "month": "2024-04",
+   "n": 56,
+   "coalition_baseline": 0.3214,
+   "programme_accuracy": 0.5536,
+   "programme_lift": 0.2321
   },
   {
    "parti": "L",
@@ -1374,10 +1430,18 @@
   {
    "parti": "L",
    "month": "2024-03",
-   "n": 23,
+   "n": 68,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.9565,
-   "programme_lift": -0.0435
+   "programme_accuracy": 0.9853,
+   "programme_lift": -0.0147
+  },
+  {
+   "parti": "L",
+   "month": "2024-04",
+   "n": 55,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 1.0,
+   "programme_lift": 0.0
   }
  ],
  "override_cases": [
@@ -1959,6 +2023,90 @@
      "document": "valmanifest",
      "quote": "Det är ett samhällsansvar att stoppa mäns våld mot kvinnor, inte en möjlighet för privata bolag att göra vinst.",
      "princip": "mot vinst i kvinnojourer",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "1D62F67E-53D0-4DF7-B884-800F087C3719",
+   "datum": "2024-03-14",
+   "rubrik": "Värna folkbildningen",
+   "utskott": "KrU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Flera S-motioner om att värna folkbildningen avslås. S budgetmotion avvisar uttryckligen SD-regeringens nedskärning på studieförbunden och valmanifestet lyfter folkbildningens roll för demokratin. S borde rösta Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Socialdemokraterna föreslår därför att SD-regeringens nedskärning på 250 miljoner kronor på studieförbunden avvisas.",
+     "princip": "värna studieförbunden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Folkbildning ger stark demokrati och möjligheter till personlig utveckling vid sidan av den formella utbildningen.",
+     "princip": "värna folkbildningen",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "1D62F67E-53D0-4DF7-B884-800F087C3719",
+   "datum": "2024-03-14",
+   "rubrik": "Värna folkbildningen",
+   "utskott": "KrU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "V beskriver angreppet på folkbildningen och studieförbunden som ett ideologiskt motiverat angrepp och vill värna studieförbundens ställning. Att värna folkbildningen ligger direkt i linje med detta; V bör stödja motförslaget och röstar Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Attacken mot den svenska folkbildningsmodellen där studieförbunden spelar en avgörande roll är ett ideologiskt motiverat angrepp",
+     "princip": "försvara folkbildningen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Därför behöver vi också värna studieförbundens ställning",
+     "princip": "värna studieförbunden",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7B464B03-C68D-4DAC-B3D1-44C79C396F05",
+   "datum": "2024-04-03",
+   "rubrik": "Kulturskolan",
+   "utskott": "KrU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet vill utveckla kulturskolan och göra den avgiftsfri och satsar 300–400 miljoner per år så att fler barn får rätt till kultur. Reservationen driver på för barns och ungas rätt till kultur, i linje med V. Rösten blir Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Vänsterpartiet föreslår därför en satsning med 300 miljoner kronor per år för att påbörja arbetet med att göra kulturskolan avgiftsfri.",
+     "princip": "avgiftsfri kulturskola",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Avsätt medel för att utveckla landets kulturskolor och påbörja arbetet med att göra dem avgiftsfria: 400 miljoner kronor per år med start år 2024.",
+     "princip": "satsning kulturskola",
      "svag": null
     }
    ]
@@ -6433,6 +6581,592 @@
      "document": "valmanifest",
      "quote": "Vänsterpartiet ställer krav på kollektivavtal vid offentliga upphandlingar.",
      "princip": "schysta villkor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3C51A5F3-9DE0-4C35-8892-AA750E185A41",
+   "datum": "2024-03-07",
+   "rubrik": "Korruption",
+   "utskott": "KU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill inrätta en antikorruptionsmyndighet, skärpa reglerna mot korruption och införa lobbyregister. En reservation som driver på för starkare antikorruptionsåtgärder ligger i linje med detta, medan utskottets avslag innebär passivitet. Därför Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill inrätta en antikorruptionsmyndighet, skärpa regler mot korruption och införa ett lobbyregister.",
+     "princip": "antikorruptionsåtgärder",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Öppenhet och transparens är grundförutsättningar för frihet, demokrati och för att förhindra korruption och övergrepp.",
+     "princip": "öppenhet mot korruption",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "C155CDB8-981A-4EED-804F-471A132EEDB7",
+   "datum": "2024-03-07",
+   "rubrik": "En utredning av rasism i offentlig verksamhet",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill kartlägga och bekämpa strukturell rasism och tar fram statistik för att belysa diskriminering. En utredning av rasism i offentlig verksamhet ligger direkt i linje med detta, så MP stödjer reservationen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "ta fram systematisk statistik för att belysa diskriminering och rasism i samhället.",
+     "princip": "kartlägg rasism",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Strukturell diskriminering och rasism ska upphöra.",
+     "princip": "rasism ska upphöra",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3FAF102C-EE5F-45BF-A794-A5E074D006F9",
+   "datum": "2024-03-14",
+   "rubrik": "Uppföljning och konsekvensanalys",
+   "utskott": "KrU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet står upp för folkbildningens värde och avvisar nedmonteringen, samtidigt som varje krona ska användas effektivt. Att kräva uppföljning och konsekvensanalys av förändringarna ligger i linje med detta. Nej stödjer reservationen.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "avvisar i vår budget nedmonteringen av folkbildningen.",
+     "princip": "värna folkbildningen",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Centerpartiet kommer alltid att verka för att varje krona till studieförbunden används effektivt",
+     "princip": "uppföljning av medel",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "35D04CE4-B15D-4F11-A44F-2A42FF218A81",
+   "datum": "2024-03-14",
+   "rubrik": "Nytt frikommunförsök",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP har en decentralistisk grundsyn och vill ge kommuner ökat ansvar och inflytande. Ett nytt frikommunförsök ligger direkt i linje med detta, så MP stödjer reservationen framför utskottets avslag.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Miljöpartiet har en decentralistisk grundsyn som",
+     "princip": "decentralistisk grundsyn",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "politiska beslut som berör regionen och kommunen.",
+     "princip": "ökat kommunalt inflytande",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3FAF102C-EE5F-45BF-A794-A5E074D006F9",
+   "datum": "2024-03-14",
+   "rubrik": "Uppföljning och konsekvensanalys",
+   "utskott": "KrU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "En S-motion (Haraldsson) i folkbildningsbetänkandet avslås. S värnar folkbildningen och avvisar nedskärningarna på studieförbunden. S borde stödja motförslaget och rösta Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Socialdemokraterna föreslår därför att SD-regeringens nedskärning på 250 miljoner kronor på studieförbunden avvisas.",
+     "princip": "värna studieförbunden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Folkbildning ger stark demokrati och möjligheter till personlig utveckling vid sidan av den formella utbildningen.",
+     "princip": "värna folkbildningen",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9781DF49-6147-4DAD-AF8C-E7EE3B4FEEAB",
+   "datum": "2024-03-20",
+   "rubrik": "Minoritetsspråk och minoritetskultur",
+   "utskott": "KrU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill stärka minoritetsskyddet och minoritetsspråkens ställning. En reservation som stärker minoritetsspråk och minoritetskultur ligger i linje med detta, varför Nej. Reservationens exakta härkomst är dock osäker bland flera partiers yrkanden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "minoritetsskyddet och minoritetsspråkens ställning",
+     "princip": "stärka minoritetsspråk",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7FC9C41C-4366-43EC-9FD2-E402021574E2",
+   "datum": "2024-03-20",
+   "rubrik": "Konsekvenser av sänkta reduktionsnivåer",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill maximera inblandningen av biodrivmedel och kritiserar att regeringen ökar den fossila inblandningen. Att belysa konsekvenserna av sänkta reduktionsnivåer ligger i linje med partiets klimatlinje. Nej stödjer reservationen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sänk skatten maximalt på biodrivmedel som blandas in i bensin och diesel.",
+     "princip": "hög biodrivmedelsinblandning",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "öka den fossila inblandningen i reguljär bensin och diesel",
+     "princip": "mot sänkt reduktionsplikt",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "872C8EDA-EE35-4E40-A666-632DFD027690",
+   "datum": "2024-03-20",
+   "rubrik": "Framtidens filmpolitik",
+   "utskott": "KrU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet försvarar oberoende public service och vill ha ett fortsatt brett uppdrag, och har egen motion om filmpolitiken. Nej stödjer reservationen om framtidens filmpolitik och public service.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Pressfriheten ska skyddas och oberoende public service försvaras.",
+     "princip": "försvara public service",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Ett fortsatt brett uppdrag för public service är centralt för att utbudet ska vara fortsatt relevant för många i Sverige.",
+     "princip": "brett public service-uppdrag",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "8A7FA595-659A-4B11-B14B-23906D2A6D38",
+   "datum": "2024-03-20",
+   "rubrik": "Reklam riktad mot barn",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP vill begränsa och förbjuda reklam riktad mot barn. Även om reservationen bygger på ett SD-yrkande sammanfaller sakinnehållet med MP:s uttryckliga linje, så MP stödjer motförslaget framför avslag.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill begränsa reklamens utbredning, särskilt bland barn och unga.",
+     "princip": "begränsa reklam mot barn",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "reklam riktad mot barn under tolv år ska vara",
+     "princip": "förbjud barnreklam",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7FC9C41C-4366-43EC-9FD2-E402021574E2",
+   "datum": "2024-03-20",
+   "rubrik": "Konsekvenser av sänkta reduktionsnivåer",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "MP motsätter sig sänkta reduktionsnivåer som ökar utsläppen och äventyrar klimatmålen. Reservationen lyfter konsekvenserna av sänkt reduktionsplikt, vilket MP delar, därför Nej till att bara lägga skrivelsen till handlingarna.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "utsläppen fram till 2030 kan komma att öka med uppemot 10 miljoner ton koldioxidekvivalenter",
+     "princip": "motsätter sänkt reduktionsplikt",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Utsläppen från inrikes transporter, utom inrikes flyg, ska minska med minst 70 procent år 2030 jämfört med 2010.",
+     "princip": "transporternas klimatmål",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "47B36B64-DA6F-4C3C-BE17-B719968B2AD3",
+   "datum": "2024-03-21",
+   "rubrik": "Hyressättning av bostadslägenheter m.m.",
+   "utskott": "CU",
+   "parti": "C",
+   "ai_rost": "Avstår",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet driver en egen linje om reformerad hyresmarknad med friare hyressättning i nyproduktion. Varken utskottets status quo eller den tabellerade MP-reservationen, som värnar reglerad hyra, motsvarar C:s position. Partiet bör markera egen linje och avstå.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Hyressättningsmodellen, med kollektiva förhandlingar och bruksvärdeshyra",
+     "princip": "reformera hyressättningen",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Reformera hyresmarknaden",
+     "princip": "friare hyressättning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "6798ABE2-25CD-49D7-B084-C1D932A3DE6D",
+   "datum": "2024-03-21",
+   "rubrik": "Strategier för att nå ett jämställt samhälle",
+   "utskott": "AU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet är ett uttalat feministiskt parti som vill bygga ett jämställt Sverige med rättvisa för alla. En reservation som kräver strategier för att nå ett jämställt samhälle ligger i linje med partiets mål. Partiet bör stödja reservationen (Nej).",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi ska bygga ett jämställt Sverige med möjligheter och rättvisa för alla.",
+     "princip": "jämställt samhälle",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "B33749A9-611B-4B00-AB4E-341B830531FE",
+   "datum": "2024-03-21",
+   "rubrik": "Mäns våld mot kvinnor och våld i nära relationer",
+   "utskott": "AU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Att stoppa mäns våld mot kvinnor är ett samhällsansvar enligt partiets dokument. Motförslaget driver skärpta åtgärder mot mäns våld och våld i nära relationer, vilket V stödjer framför avslag. Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det är ett samhällsansvar att stoppa mäns våld mot kvinnor, inte en möjlighet för privata bolag att göra vinst.",
+     "princip": "stoppa våld i nära relationer",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Mäns våld mot kvinnor är ett strukturellt samhällsproblem.",
+     "princip": "strukturellt samhällsproblem",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "47B36B64-DA6F-4C3C-BE17-B719968B2AD3",
+   "datum": "2024-03-21",
+   "rubrik": "Hyressättning av bostadslägenheter m.m.",
+   "utskott": "CU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet stoppade marknadshyrorna och står för reglerad hyressättning och stärkt hyresgästskydd. Partiet stödjer motförslaget om hyressättning framför utskottets avslag. Nej.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet drog upp en gräns och stoppade marknadshyrorna sommaren 2021",
+     "princip": "stoppa marknadshyror",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet vill se ett statligt byggbolag, investeringsstöd för ökat bostadsbyggande och en aktiv markpolitik.",
+     "princip": "reglerad bostadsmarknad",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "95E9CE26-D792-483A-B804-0DBD33E117F6",
+   "datum": "2024-04-03",
+   "rubrik": "Fritidskort",
+   "utskott": "SoU",
+   "parti": "C",
+   "ai_rost": "Avstår",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet anser att regeringens fritidskort är missriktat och vill omfördela medlen till generellt stöd för civilsamhället och ungas fritid. Denna egna linje motsvaras varken av utskottets avslag eller av S:s reservation, varför C avstår.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Vidare anser Centerpartiet att regeringens satsning på s.k. fritidskort är missriktad och prioriterar om medlen till generella stöd för att stärka civilsamhället och ge unga bättre möjligheter till en meningsfull fritid.",
+     "princip": "emot fritidskort, egen linje",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "27429D01-9A87-4ECE-9288-802724D22C04",
+   "datum": "2024-04-03",
+   "rubrik": "Psykisk hälsa",
+   "utskott": "SoU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "low",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet prioriterar att stärka stödet vid psykisk ohälsa, inte minst för unga, och att korta köerna. En reservation som kräver mer på området ligger i linje med partiets dokument. Partiet bör stödja reservationen (Nej).",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Stödet för personer med psykisk ohälsa måste förbättras, inte minst för unga.",
+     "princip": "stärk psykisk hälsa",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "129D0A01-9E4C-4759-AE81-1251AF006504",
+   "datum": "2024-04-03",
+   "rubrik": "Vissa bevarandeåtgärder på svenskt territorialhav",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Centerpartiet vill skydda havsmiljön och stoppa skadlig bottentrålning. En reservation om bevarandeåtgärder på svenskt territorialhav ligger i linje med detta. Partiet bör stödja reservationen (Nej).",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Skadlig bottentrålning ska inte få förstöra för varken havsmiljön",
+     "princip": "skydda havsmiljön",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "41787716-3F11-46D3-9D6A-238FD595321F",
+   "datum": "2024-04-03",
+   "rubrik": "Trossamfunds trygghets- och säkerhetsarbete",
+   "utskott": "KU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "S föreslår i budgetmotionen ekonomiskt stöd till civilsamhällets, inte minst religiösa samfunds, säkerhetsarbete mot hot och våld. En reservation om trossamfunds trygghets- och säkerhetsarbete ligger i linje med detta och bör stödjas.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Inte minst religiösa samfund är utsatta för hot och våld",
+     "princip": "skydd av trossamfund",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Vi ser att ett ekonomiskt tillskott är nödvändigt",
+     "princip": "säkerhetshöjande stöd",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "616FC695-3AFA-42EF-8D98-9BE770165941",
+   "datum": "2024-04-03",
+   "rubrik": "Riskskatt för kreditinstitut m.m.",
+   "utskott": "SkU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet vill beskatta bankernas övervinster hårdare och inför en bankskatt på 50 procent av övervinsterna. Reservationen driver på för ökad beskattning av kreditinstitut, i linje med V. Rösten blir Nej till avslaget.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Inför en bankskatt på 50 procent av bankernas övervinster.",
+     "princip": "beskatta bankernas övervinster",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Det mest prioriterade området att komma till rätta med är den urholkade kapitalbeskattningen och den extremt ojämna förmögenhetsfördelningen i Sverige.",
+     "princip": "rättvis kapitalbeskattning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4F574810-2CAB-4F96-B8A9-85CC03E66C27",
+   "datum": "2024-04-03",
+   "rubrik": "Utdelning och kapitalvinster till delägare i fåmansföretag",
+   "utskott": "SkU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet vill skärpa beskattningen av fåmansbolag så att utdelning och kapitalvinst beskattas med 30 procent och gränsbeloppet sänks. Reservationen driver en skärpning i V:s riktning mot regeringens oförändrade linje. Rösten blir Nej.",
+   "citations": [
+    {
+     "document": "budgetmotion",
+     "quote": "Utdelning och kapitalvinst från fåmansbolag ska beskattas med 30 procent.",
+     "princip": "skärp 3:12",
+     "svag": null
+    },
+    {
+     "document": "budgetmotion",
+     "quote": "Begränsat utdelningsutrymme. Sänk gränsbeloppet och det lönebaserade utrymmet.",
+     "princip": "sänk gränsbeloppet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "33F3E1D7-7BB7-49C2-A094-CF21A7395E3F",
+   "datum": "2024-04-03",
+   "rubrik": "Medlemskapet i EU",
+   "utskott": "KU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Vänsterpartiet driver kravet på svenskt utträde ur EU och är starkt EU-kritiskt. Reservationen om medlemskapet i EU driver en EU-kritisk linje som ligger nära V:s hållning. Rösten blir Nej till att avslå motionerna.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Vänsterpartiet driver kravet om ett svenskt utträde ur EU.",
+     "princip": "utträde ur EU",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "utträda ur EU:s strukturer",
+     "princip": "EU-kritik",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "31C859C1-3633-4C11-AD13-C2777163332F",
+   "datum": "2024-04-04",
+   "rubrik": "Transport av levande djur",
+   "utskott": "MJU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "V:s partiprogram slår fast att långa djurtransporter ska avskaffas och att all djurhållning ska utgå från att djur är kännande varelser med rätt till ett naturligt beteende. En reservation för strängare regler mot djurtransporter stödjer V.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "All djurhållning ska därför utgå från att djur är kännande varelser",
+     "princip": "djur är kännande varelser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "onödiga djurförsök ska avskaffas och så kallade djurfabriker samt",
+     "princip": "avveckla djurfabriker",
      "svag": null
     }
    ]

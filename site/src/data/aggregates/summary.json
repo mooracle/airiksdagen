@@ -1,54 +1,54 @@
 {
  "run_id": "full-v3",
- "n_decisions": 5755,
- "overall_agreement": 0.7595,
+ "n_decisions": 6563,
+ "overall_agreement": 0.7567,
  "per_party": {
   "S": {
-   "n": 720,
-   "agreement": 0.7014,
-   "kappa": 0.4879,
+   "n": 820,
+   "agreement": 0.6988,
+   "kappa": 0.486,
    "avstar_recall": 0.0
   },
   "M": {
-   "n": 719,
-   "agreement": 0.9958,
+   "n": 821,
+   "agreement": 0.9963,
    "kappa": 0.0,
    "avstar_recall": null
   },
   "SD": {
-   "n": 720,
-   "agreement": 0.7625,
-   "kappa": 0.3956,
-   "avstar_recall": 0.0215
+   "n": 821,
+   "agreement": 0.7613,
+   "kappa": 0.4017,
+   "avstar_recall": 0.0183
   },
   "C": {
-   "n": 720,
-   "agreement": 0.6319,
-   "kappa": 0.4384,
-   "avstar_recall": 0.1615
+   "n": 821,
+   "agreement": 0.62,
+   "kappa": 0.4194,
+   "avstar_recall": 0.1469
   },
   "V": {
-   "n": 719,
-   "agreement": 0.5202,
-   "kappa": 0.2536,
-   "avstar_recall": 0.114
+   "n": 821,
+   "agreement": 0.5091,
+   "kappa": 0.2392,
+   "avstar_recall": 0.1008
   },
   "KD": {
-   "n": 719,
-   "agreement": 0.9944,
-   "kappa": -0.0021,
+   "n": 820,
+   "agreement": 0.9951,
+   "kappa": -0.0018,
    "avstar_recall": null
   },
   "MP": {
-   "n": 719,
-   "agreement": 0.4757,
-   "kappa": 0.1982,
-   "avstar_recall": 0.06
+   "n": 820,
+   "agreement": 0.478,
+   "kappa": 0.2007,
+   "avstar_recall": 0.0565
   },
   "L": {
-   "n": 719,
-   "agreement": 0.9944,
-   "kappa": -0.0021,
+   "n": 819,
+   "agreement": 0.9951,
+   "kappa": -0.0018,
    "avstar_recall": null
   }
  },
