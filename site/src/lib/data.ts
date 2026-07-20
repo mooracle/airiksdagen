@@ -153,6 +153,25 @@ export function citationDocSlug(party: string, document: string): string | null 
   return null;
 }
 
+/**
+ * Readable ink for a letter drawn on top of a party's fill color.
+ * Uses WCAG relative luminance so light brand colors (SD yellow, M sky-blue,
+ * MP lime) get dark text and dark ones (KD navy, V crimson) get white.
+ */
+export function partyInk(hex: string): string {
+  const h = hex.replace('#', '');
+  const n = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
+  const toLin = (v: number) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  const r = toLin(parseInt(n.slice(0, 2), 16));
+  const g = toLin(parseInt(n.slice(2, 4), 16));
+  const b = toLin(parseInt(n.slice(4, 6), 16));
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return lum > 0.42 ? '#1a1712' : '#ffffff';
+}
+
 /** URL text-fragment for deep-linking a verbatim quote inside a document page. */
 export function quoteFragment(quote: string): string {
   const words = quote.trim().split(/\s+/);

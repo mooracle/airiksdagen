@@ -45,9 +45,10 @@ export function hemicycleLayout(
   return seats.map((s) => ({ x: Math.round(s.x * 10) / 10, y: Math.round(s.y * 10) / 10, r: seatR }));
 }
 
+// Kept in sync with the --ja/--nej/--avstar/--franvarande tokens in Base.astro.
 export const VOTE_COLORS: Record<string, string> = {
-  Ja: '#2e7d32',
-  Nej: '#c62828',
-  Avstår: '#f9a825',
-  Frånvarande: '#c9c4bb',
+  Ja: '#2f7d43',
+  Nej: '#c0322c',
+  Avstår: '#dc9a1c',
+  Frånvarande: '#cbc6bc',
 };

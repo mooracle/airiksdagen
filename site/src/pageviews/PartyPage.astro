@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import MultiLineChart from '../components/MultiLineChart.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -64,7 +65,7 @@ const cohesionChart = [
 ---
 
 <Base lang={lang} title={party?.name ?? code} path={`/parti/${code.toLowerCase()}/`}>
-  <h1><span class="partydot" style={`background:${party?.color}`} />{party?.name ?? code}</h1>
+  <h1><PartyBadge code={code} parties={meta.parties} size={32} /> {party?.name ?? code}</h1>
 
   {stats ? (
     <div class="card">

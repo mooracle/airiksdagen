@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -19,7 +20,7 @@ const order = meta.hemicycle_order;
       const s = summary?.per_party?.[code];
       return (
         <a class="card" href={localePath(lang, `/parti/${code.toLowerCase()}/`)} style="text-decoration:none;color:inherit">
-          <strong><span class="partydot" style={`background:${p.color}`} />{p.name}</strong>
+          <PartyBadge code={code} parties={meta.parties} label="name" size={26} />
           {s && (
             <p class="muted" style="margin:0.4rem 0 0">
               {(s.agreement * 100).toFixed(1)}% · n = {s.n}

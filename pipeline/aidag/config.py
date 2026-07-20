@@ -33,7 +33,7 @@ PARTIES: dict[str, dict] = {
     "M":  {"name": "Moderaterna",          "color": "#52BDEC", "bloc": "government"},
     "SD": {"name": "Sverigedemokraterna",  "color": "#DDDD00", "bloc": "support"},
     "C":  {"name": "Centerpartiet",        "color": "#009933", "bloc": "opposition"},
-    "V":  {"name": "Vänsterpartiet",       "color": "#DA291C", "bloc": "opposition"},
+    "V":  {"name": "Vänsterpartiet",       "color": "#9B1C2E", "bloc": "opposition"},  # deep crimson — kept distinct from S's bright red (#E8112d) for chart/CVD legibility
     "KD": {"name": "Kristdemokraterna",    "color": "#000077", "bloc": "government"},
     "MP": {"name": "Miljöpartiet",         "color": "#83CF39", "bloc": "opposition"},
     "L":  {"name": "Liberalerna",          "color": "#006AB3", "bloc": "government"},

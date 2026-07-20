@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -35,7 +36,7 @@ function cellColor(v: number | null): string {
         <tbody>
           {order.map((a) => (
             <tr>
-              <td><span class="partydot" style={`background:${meta.parties[a]?.color}`} /><strong>{a}</strong></td>
+              <td><PartyBadge code={a} parties={meta.parties} label="none" /></td>
               {order.map((b) => {
                 const v = a === b ? null : matrix.overall[a]?.[b];
                 return (
@@ -82,7 +83,7 @@ function cellColor(v: number | null): string {
       <tbody>
         {dissenters.slice(0, 20).map((d) => (
           <tr>
-            <td><span class="partydot" style={`background:${meta.parties[d.parti]?.color}`} /><strong>{d.namn}</strong> <span class="muted">({d.parti})</span></td>
+            <td><span class="pbadge-wrap"><PartyBadge code={d.parti} parties={meta.parties} /><strong>{d.namn}</strong></span> <span class="muted">({d.parti})</span></td>
             <td>{d.n_dissent}</td>
             <td class="muted">{d.n_cast}</td>
             <td>{(d.rate * 100).toFixed(1)}%</td>

@@ -6,6 +6,7 @@
  * party's wedge a badge shows the AI decision with a match/mismatch marker.
  */
 import { hemicycleLayout, VOTE_COLORS } from '../lib/hemicycle';
+import { partyInk } from '../lib/data';
 import type { AiDecision, ActualPosition, PartyInfo } from '../lib/data';
 
 interface Props {
@@ -51,7 +52,7 @@ function labelPos(range: { from: number; to: number }) {
           cy={seat.y}
           r={seat.r}
           fill={VOTE_COLORS[rost] ?? '#999'}
-          stroke={dissent ? '#17222c' : 'none'}
+          stroke={dissent ? '#14202b' : 'none'}
           stroke-width={dissent ? 2 : 0}
         >
           <title>{`${namn} (${parti}), ${valkrets}: ${voteLabels[rost] ?? rost}${dissent ? ' ⚠' : ''}`}</title>
@@ -60,17 +61,24 @@ function labelPos(range: { from: number; to: number }) {
     })}
     {partyOrder.map(([code, range]) => {
       const pos = labelPos(range);
+      const color = parties[code]?.color ?? '#444';
+      // a filled disc with the letter, not colored text: light party colors
+      // (SD yellow, M sky-blue) are unreadable as text on the white surface
       return (
-        <text
-          x={pos.x}
-          y={pos.y}
-          text-anchor="middle"
-          font-size="13"
-          font-weight="700"
-          fill={parties[code]?.color ?? '#444'}
-        >
-          {code}
-        </text>
+        <g>
+          <circle cx={pos.x} cy={pos.y} r="11.5" fill={color} stroke="#fff" stroke-width="1.5" />
+          <text
+            x={pos.x}
+            y={pos.y}
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-size={code.length > 1 ? 9.5 : 12}
+            font-weight="700"
+            fill={partyInk(color)}
+          >
+            {code}
+          </text>
+        </g>
       );
     })}
   </svg>
@@ -125,6 +133,7 @@ function labelPos(range: { from: number; to: number }) {
   .swatch {
     display: inline-block; width: 0.75em; height: 0.75em;
     border-radius: 50%; margin-right: 0.3em;
+    box-shadow: inset 0 0 0 1px rgb(23 34 44 / 0.18);
   }
   @media (max-width: 640px) {
     .ai-row { grid-template-columns: repeat(4, 1fr); }

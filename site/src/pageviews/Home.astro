@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import MultiLineChart from '../components/MultiLineChart.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getIndex, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -30,6 +31,7 @@ const months = [...allMonths].sort();
 const partyOrder = meta.hemicycle_order;
 const driftSeries = partyOrder.map((code) => ({
   key: code,
+  label: code,
   color: meta.parties[code].color,
   points: timeseries
     .filter((r) => r.parti === code)
@@ -54,6 +56,7 @@ const overallDrift = {
 
 const pollSeries = partyOrder.map((code) => ({
   key: code,
+  label: code,
   color: meta.parties[code].color,
   width: 2,
   points: supportSeries
@@ -129,7 +132,7 @@ const hasAiData = timeseries.length > 0;
       <p class="legend muted">
         <span><span class="swatch" style="background:#1c1c1a" />{overallDrift.key}</span>
         {partyOrder.map((code) => (
-          <span><span class="swatch" style={`background:${meta.parties[code].color}`} />{code}</span>
+          <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
         ))}
       </p>
       <p class="muted" style="font-size:0.85rem">{t('home.driftNote')}</p>
@@ -149,7 +152,7 @@ const hasAiData = timeseries.length > 0;
     />
     <p class="legend muted">
       {partyOrder.map((code) => (
-        <span><span class="swatch" style={`background:${meta.parties[code].color}`} />{code}</span>
+        <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
       ))}
     </p>
     <p class="muted" style="font-size:0.85rem">{t('home.pollsNote')}</p>
@@ -188,7 +191,7 @@ const hasAiData = timeseries.length > 0;
       <div class="card">
         {Object.entries(summary.per_party).map(([code, s]) => (
           <div class="statbar">
-            <span style="width:2.5rem"><span class="partydot" style={`background:${meta.parties[code]?.color}`} />{code}</span>
+            <span style="width:2.5rem"><PartyBadge code={code} parties={meta.parties} label="none" size={18} /></span>
             <div class="bar"><div style={`width:${(s.agreement * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
             <span style="width:4rem;text-align:right">{(s.agreement * 100).toFixed(1)}%</span>
           </div>

@@ -3,11 +3,19 @@
  * Build-time multi-series SVG line chart over a shared month axis.
  * Series may have gaps (sparse months): available points are connected and
  * also drawn as dots so single-point months stay visible.
+ *
+ * When a series carries a `label`, a small colored disc with that label is
+ * drawn at the end of its line. This is a direct label + secondary encoding:
+ * lines that share a hue family (e.g. S and V red) stay tellable apart without
+ * relying on color, and without hunting the legend.
  */
+import { partyInk } from '../lib/data';
+
 interface Series {
   key: string;
   color: string;
   width?: number;
+  label?: string; // short end-of-line label (e.g. party code)
   points: { month: string; value: number }[];
 }
 
@@ -21,10 +29,11 @@ interface Props {
 }
 
 const { series, months, yMax, yTicks, yFormat = (v) => `${v}`, height = 240 } = Astro.props;
+const hasLabels = series.some((s) => s.label);
 const W = 760;
 const H = height;
 const PAD_L = 44;
-const PAD_R = 14;
+const PAD_R = hasLabels ? 30 : 14;
 const PAD_T = 10;
 const PAD_B = 26;
 
@@ -35,6 +44,25 @@ const y = (v: number) => H - PAD_B - (Math.min(v, yMax) / yMax) * (H - PAD_T - P
 const ticks = yTicks ?? [0, yMax / 4, yMax / 2, (3 * yMax) / 4, yMax];
 // year boundaries for x labels
 const xLabels = months.filter((m) => m.endsWith('-01') || m === months[0]);
+
+// End-of-line labels, vertically de-collided so discs never overlap.
+type EndLabel = { label: string; color: string; ink: string; y: number };
+const endLabels: EndLabel[] = series
+  .filter((s) => s.label)
+  .map((s) => {
+    const pts = s.points.filter((p) => mIndex.has(p.month)).sort((a, b) => a.month.localeCompare(b.month));
+    const last = pts[pts.length - 1];
+    return last ? { label: s.label!, color: s.color, ink: partyInk(s.color), y: y(last.value) } : null;
+  })
+  .filter((e): e is EndLabel => e !== null)
+  .sort((a, b) => a.y - b.y);
+const GAP = 14;
+for (let i = 1; i < endLabels.length; i++) {
+  if (endLabels[i].y - endLabels[i - 1].y < GAP) endLabels[i].y = endLabels[i - 1].y + GAP;
+}
+const overflow = endLabels.length ? endLabels[endLabels.length - 1].y - (H - PAD_B + 6) : 0;
+if (overflow > 0) for (const e of endLabels) e.y -= overflow;
+const labelCx = W - PAD_R + 13;
 ---
 
 <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto" role="img">
@@ -65,4 +93,11 @@ const xLabels = months.filter((m) => m.endsWith('-01') || m === months[0]);
       </>
     );
   })}
+  {endLabels.map((e) => (
+    <g>
+      <circle cx={labelCx} cy={e.y} r="8" fill={e.color} stroke="#fff" stroke-width="1.25" />
+      <text x={labelCx} y={e.y + 0.5} font-size={e.label.length > 1 ? '7.5' : '9'} font-weight="700"
+            text-anchor="middle" dominant-baseline="central" fill={e.ink}>{e.label}</text>
+    </g>
+  ))}
 </svg>

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -75,8 +76,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
               return (
                 <tr>
                   <td>
-                    <span class="partydot" style={`background:${meta.parties[p]?.color}`} />
-                    <strong>{p}</strong>
+                    <PartyBadge code={p} parties={meta.parties} label="none" />
                   </td>
                   <td>{pct(s.coalition_baseline)}</td>
                   <td>{pct(s.programme_accuracy)}</td>
@@ -120,8 +120,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
               return (
                 <tr>
                   <td>
-                    <span class="partydot" style={`background:${meta.parties[p]?.color}`} />
-                    <strong>{p}</strong>
+                    <PartyBadge code={p} parties={meta.parties} label="none" />
                   </td>
                   <td class="zero">{cell(o.strict.authored)} <span class="muted">{pct(o.strict.authored.rate)}</span></td>
                   <td class="zero">{cell(o.loose.authored)} <span class="muted">{pct(o.loose.authored.rate)}</span></td>
@@ -144,8 +143,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
           return (
           <div class="ovcase">
             <p class="ov-head">
-              <span class="partydot" style={`background:${meta.parties[c.parti]?.color}`} />
-              <strong>{c.parti}</strong>
+              <PartyBadge code={c.parti} parties={meta.parties} label="none" />
               <a href={localePath(lang, `/fall/${c.votering_id}/`)}>{c.rubrik}</a>
               <span class="muted date">{c.datum}</span>
             </p>

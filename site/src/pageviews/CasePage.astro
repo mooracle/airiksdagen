@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hemicycle from '../components/Hemicycle.astro';
+import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -144,7 +145,7 @@ const docRefs = partyOrder
         return (
           <tr id={`vote-${code}`}>
             <td>
-              <span class="partydot" style={`background:${meta.parties[code]?.color}`} /><strong>{code}</strong>
+              <PartyBadge code={code} parties={meta.parties} label="none" />
               {a?.authored_reservation && <span class="tag own" title={t('coalition.ownResTip')}>{t('coalition.ownRes')}</span>}
             </td>
             <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
@@ -180,7 +181,7 @@ const docRefs = partyOrder
         return (
           <div class="card mismatchbox" style={`border-left: 4px solid ${meta.parties[m.code]?.color}`}>
             <p class="mm-head">
-              <strong><span class="partydot" style={`background:${meta.parties[m.code]?.color}`} />{meta.parties[m.code]?.name ?? m.code}</strong>
+              <PartyBadge code={m.code} parties={meta.parties} label="name" />
               <span>
                 {t('case.ai')}: <span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
                 <span class="muted"> · </span>
@@ -221,7 +222,7 @@ const docRefs = partyOrder
           <tbody>
             {dissenters.map((d) => (
               <tr>
-                <td><span class="partydot" style={`background:${meta.parties[d.parti]?.color}`} /><strong>{d.namn}</strong> <span class="muted">({d.parti}, {d.valkrets})</span></td>
+                <td><span class="pbadge-wrap"><PartyBadge code={d.parti} parties={meta.parties} size={18} /><strong>{d.namn}</strong></span> <span class="muted">({d.parti}, {d.valkrets})</span></td>
                 <td>
                   <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
                   <span class="muted"> — {t('case.dissentLine')}: </span>
@@ -244,7 +245,7 @@ const docRefs = partyOrder
           <tbody>
             {docRefs.map((r) => (
               <tr>
-                <td style="width:3rem"><span class="partydot" style={`background:${meta.parties[r.party]?.color}`} /><strong>{r.party}</strong></td>
+                <td style="width:3rem"><PartyBadge code={r.party} parties={meta.parties} label="none" /></td>
                 <td>
                   {r.docs.map((d, i) => (
                     <>
@@ -304,7 +305,7 @@ const docRefs = partyOrder
         return (
           <details class="card">
             <summary>
-              <span class="partydot" style={`background:${meta.parties[code]?.color}`} />
+              <PartyBadge code={code} parties={meta.parties} size={20} />
               <strong>{meta.parties[code]?.name ?? code}</strong> — <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
             </summary>
             <p>{dEn?.motivering || d.motivering}</p>

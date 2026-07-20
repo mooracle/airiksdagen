@@ -1,0 +1,36 @@
+---
+/**
+ * Party identity chip: a colored disc with the party's letter(s) set inside it.
+ *
+ * The letter is a *secondary encoding* — identity never rests on hue alone, so
+ * near-neighbour colors (S vs V red, MP vs C green, L vs KD blue) stay legible
+ * for everyone, including colorblind readers and in grayscale/print.
+ */
+import { partyInk, type PartyInfo } from '../lib/data';
+
+interface Props {
+  code: string;
+  parties: Record<string, PartyInfo>;
+  /** trailing text after the disc: nothing, the code again, or the full name */
+  label?: 'none' | 'code' | 'name';
+  /** disc diameter in px */
+  size?: number;
+}
+
+const { code, parties, label = 'none', size = 22 } = Astro.props;
+const info = parties[code];
+const color = info?.color ?? '#888';
+const ink = partyInk(color);
+// two-letter codes (MP, KD, SD) need a smaller glyph to sit inside the disc
+const fontPx = (code.length > 1 ? 0.44 : 0.52) * size;
+const style = `--pb:${color};--pb-ink:${ink};width:${size}px;height:${size}px;font-size:${fontPx}px`;
+---
+<span class="pbadge-wrap">
+  <span
+    class="pbadge"
+    style={style}
+    title={info?.name ?? code}
+    aria-label={info?.name ?? code}
+    role="img"
+  >{code}</span>{label === 'code' && <strong>{code}</strong>}{label === 'name' && <strong>{info?.name ?? code}</strong>}
+</span>
