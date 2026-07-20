@@ -195,10 +195,10 @@ API key), mirroring the existing translation pipeline.
 - [x] `git diff --exit-code pipeline/aidag/promptgen.py` → **UNCHANGED** (decouple invariant holds)
 
 ### Task N: Publish + docs
-- [ ] `export-site --run-id full-v3` → `npm run build` gate → commit `site/src/data data/results/metadata site/public/downloads` and the new pipeline/site code → push to `mooracle/airiksdagen`
-- [ ] add a short `docs/orchestration-metadata.md` runbook (prepare → workflow(haiku) → ingest → verify)
-- [ ] update the aidag memory (new metadata layer, Haiku synthesis, decoupled agent view) and CLAUDE/README if a pattern is worth recording
-- [ ] move this plan to `docs/plans/completed/`
+- [x] `export-site --run-id full-v3` → `npm run build` gate (7,725 pages) → committed `site/src/data data/results/metadata site/public/downloads` + new pipeline/site code (one commit, bundling the concurrent agent-merge tooling per user direction) → pushed to `mooracle/airiksdagen` (`ae47948..2ecb9db`, gh acct alexsergeyev → live CF deploy)
+- [x] added `docs/orchestration-metadata.md` runbook (prepare → workflow(haiku) → ingest → verify → export/publish)
+- [x] updated the aidag memory (metadata layer, Haiku synthesis, de-leak guarantee/tripwire, past-tense outcome gotcha, decoupled agent view)
+- [x] moved this plan to `docs/plans/completed/`
 
 ## Technical Details
 - **Storage:** `data/results/metadata/cases.jsonl`, one JSON object per line keyed by `votering_id`; run-independent (describes the case, not any AI run) so it survives run changes — exactly like `data/results/translations/cases.jsonl`.
