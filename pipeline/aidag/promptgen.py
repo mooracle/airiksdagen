@@ -198,8 +198,15 @@ import re
 DOCREF_RE = re.compile(r"\b\d{4}/\d{2}:\d+[a-z]?\b")
 # "…avslår motion 2022/23:2372 av Jonny Cato och Helena Vilhelmsson (båda C)." —
 # the author clause leaks reservation authorship; strip it in the anonymous arm.
-AUTHOR_RE = re.compile(r"\s+av\s+[^.()]{2,120}?\((?:båda\s+|samtliga\s+)?[A-ZÅÄÖ]{1,3}(?:,\s*[A-ZÅÄÖ]{1,3})*\)")
+# The middle allows any non-paren, non-newline char (so abbreviations like
+# "m.fl." / initials with periods don't break the match) but stays on one line
+# so a clause can't span into the next motion (they are newline-separated).
+AUTHOR_RE = re.compile(r"\s+av\s+[^()\n]{2,200}?\((?:båda\s+|samtliga\s+|bådas\s+)?[A-ZÅÄÖ]{1,3}(?:,\s*[A-ZÅÄÖ]{1,3})*\)")
 ISO_DATE_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
+
+# Party authorship tag "(S)" … "(MP)" — must NEVER survive an anonymous render.
+# `verify prompts` asserts this across the whole corpus; the labeled arm keeps it.
+PARTY_TAG_RE = re.compile(r"\((?:S|M|SD|C|V|KD|MP|L)\)")
 
 
 def scrub_text(text: str, arm: str) -> str:

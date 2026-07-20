@@ -123,6 +123,32 @@ def verify_prompts() -> None:
     r = subprocess.run(["uv", "run", "pytest", "tests/test_promptgen.py", "-q"], capture_output=True, text=True)
     check("prompt golden tests", r.returncode == 0, r.stdout.strip().splitlines()[-1] if r.stdout else "")
 
+    # Corpus-wide anonymization guarantee: NO motion/reservation-authorship party
+    # tag "(S)"…"(MP)" may survive the CASE text of an anonymous render. Hard,
+    # auditable proof (not a model instruction). Scoped to the <arende> block —
+    # the worldstate header deliberately shows the government's composition
+    # ("Regering: Ulf Kristersson (M+KD+L)"), which is intentional context, not a
+    # case authorship leak. Skipped in CI where cases.parquet is absent.
+    try:
+        cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet")
+    except FileNotFoundError:
+        check("no party tag leaks in anonymous case text", True, "cases.parquet absent — run locally")
+        return
+    from aidag.promptgen import PARTY_TAG_RE, render_user_message
+
+    leaks = []
+    for c in cases.iter_rows(named=True):
+        msg = render_user_message(c, arm="anonymous")
+        i, j = msg.find("<arende>"), msg.find("</arende>")
+        arende = msg[i:j] if i != -1 and j != -1 else msg
+        m = PARTY_TAG_RE.search(arende)
+        if m:
+            leaks.append((c["votering_id"], m.group()))
+    detail = f"{cases.height} anonymous case texts scanned, {len(leaks)} leaked"
+    if leaks:
+        detail += f" (e.g. {leaks[0][0]} {leaks[0][1]})"
+    check("no party tag leaks in anonymous case text", not leaks, detail)
+
 
 def verify_simulate(run_id: str | None) -> None:
     print(f"simulate (run_id={run_id}):")

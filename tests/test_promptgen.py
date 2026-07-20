@@ -62,6 +62,40 @@ def test_author_party_stripped_in_anonymous_arm():
     assert "(C)" not in msg
 
 
+# "m.fl." (and initials) contain periods; the author clause must still be
+# stripped in the anonymous arm — the pre-fix AUTHOR_RE stopped at the period
+# and leaked "(MP)"/"(V)" tags for these very common motions.
+MFL_CASE = {
+    **CASE,
+    "forslag_text": (
+        "Riksdagen antar regeringens förslag. Därmed avslår riksdagen motionerna\n\n"
+        "2025/26:1 av Annika Hirvonen m.fl. (MP) yrkandena 1-7 och\n\n"
+        "2025/26:2 av Tony Haddou m.fl. (V) yrkande 1."
+    ),
+}
+
+
+def test_author_clause_with_mfl_stripped():
+    msg = render_user_message(MFL_CASE, arm="anonymous")
+    assert "(MP)" not in msg and "(V)" not in msg
+    assert "Annika Hirvonen" not in msg and "Tony Haddou" not in msg
+
+
+def test_no_party_tag_survives_anonymous_render():
+    from aidag.promptgen import PARTY_TAG_RE
+
+    for case in (CASE, MFL_CASE):
+        msg = render_user_message(case, arm="anonymous")
+        m = PARTY_TAG_RE.search(msg)
+        assert not m, f"party tag {m.group()} leaked into anonymous prompt"
+
+
+def test_labeled_arm_keeps_party_tag_from_prose():
+    # the labeled arm must NOT scrub authorship — it's the measured contrast
+    msg = render_user_message(MFL_CASE, arm="labeled")
+    assert "(MP)" in msg and "Annika Hirvonen" in msg
+
+
 def test_labeled_arm_keeps_reservation_party():
     msg = render_user_message(CASE, arm="labeled")
     assert "Alternativ A (C):" in msg
