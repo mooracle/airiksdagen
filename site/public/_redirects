@@ -1,3 +1,12 @@
 # Cloudflare redirects (https://developers.cloudflare.com/workers/static-assets/redirects/)
 # @astrojs/sitemap emits sitemap-index.xml; alias the common /sitemap.xml guess to it.
 /sitemap.xml  /sitemap-index.xml  301
+
+# Method / Documents-index / Data were merged into one About page (/om/, /en/about/).
+# Exact-path rules only, so the /dokument/[slug] & /documents/[slug] detail pages are untouched.
+/metod/            /om/#metod        301
+/dokument/         /om/#dokument     301
+/data/             /om/#data         301
+/en/methodology/   /en/about/#metod  301
+/en/documents/     /en/about/#dokument 301
+/en/data/          /en/about/#data   301

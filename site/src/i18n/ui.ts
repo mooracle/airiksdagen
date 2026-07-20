@@ -336,6 +336,7 @@ export function useTranslations(lang: Lang) {
 // always passed around in CANONICAL (Swedish) form; localePath translates.
 const SLUG_PAIRS: [string, string][] = [
   ['/fall/', '/cases/'],
+  ['/om/', '/about/'],
   ['/metod/', '/methodology/'],
   ['/dokument/', '/documents/'],
   ['/analys/', '/analysis/'],

@@ -1,0 +1,324 @@
+---
+// Consolidated "Om" / "About" page: Methodology + Source documents + Data & code,
+// each a section under one page. Replaces the former /metod/, /dokument/ (index)
+// and /data/ pages (which 301-redirect here via public/_redirects). The
+// /dokument/[slug] detail pages remain — case-page citations deep-link to them.
+import Base from '../layouts/Base.astro';
+import { getMeta, listCorpusDocs } from '../lib/data';
+import { localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const sv = lang === 'sv';
+const meta = getMeta();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const docs = listCorpusDocs().sort();
+
+const partyName = (code: string): string => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase();
+const rmYears = (y: string): string => (y.length === 6 ? `${y.slice(0, 4)}/${y.slice(4)}` : y); // 202223 → 2022/23
+
+function docLabel(slug: string): string {
+  if (slug === 'tidoavtalet-2022') return 'Tidöavtalet (2022)';
+  let m: RegExpMatchArray | null;
+  if ((m = slug.match(/^valmanifest-2022-(\w+)$/)))
+    return sv ? `Valmanifest 2022 — ${partyName(m[1])}` : `2022 election manifesto — ${partyName(m[1])}`;
+  if ((m = slug.match(/^partiprogram-(\w+)-(\d+)$/)))
+    return sv ? `Partiprogram ${m[2]} — ${partyName(m[1])}` : `Party programme ${m[2]} — ${partyName(m[1])}`;
+  if ((m = slug.match(/^budgetmotion-(\w+)-(\d+)$/)))
+    return sv ? `Budgetmotion ${rmYears(m[2])} — ${partyName(m[1])}` : `Shadow budget ${rmYears(m[2])} — ${partyName(m[1])}`;
+  return slug;
+}
+---
+
+<Base lang={lang} title={sv ? 'Om projektet' : 'About'} path="/om/">
+  <h1>{sv ? 'Om projektet' : 'About the project'}</h1>
+  <p class="lede">
+    {sv
+      ? 'Ett öppet, partipolitiskt obundet forskningsprojekt: för varje votering i riksdagen 2022–2026 låter vi en AI-agent per parti avgöra hur partiet borde rösta enbart utifrån partiets egna dokument, och jämför med hur det faktiskt röstade.'
+      : 'An open, politically unaffiliated research project: for every Riksdag vote 2022–2026, one AI agent per party decides how the party should vote from its own documents alone, compared with how it actually voted.'}
+  </p>
+
+  <nav class="jump" aria-label={sv ? 'På denna sida' : 'On this page'}>
+    <a href="#metod">{sv ? 'Metod' : 'Methodology'}</a>
+    <a href="#dokument">{sv ? 'Källdokument' : 'Source documents'}</a>
+    <a href="#data">{sv ? 'Data & kod' : 'Data & code'}</a>
+  </nav>
+
+  <section id="metod" class="about-sec">
+    <h2>{sv ? 'Metod' : 'Methodology'}</h2>
+    {sv ? (
+      <Fragment>
+        <p><strong>Rekonstruktion, inte prediktion.</strong> Projektet mäter hur väl en AI-agent kan
+        rekonstruera ett partis röstbeteende enbart utifrån partiets egna offentliga dokument.
+        Det mäter <em>inte</em> förmågan att förutsäga röster: modellens träningsdata innehåller
+        med stor sannolikhet de verkliga utfallen.</p>
+
+        <h3>Uppställning</h3>
+        <ul>
+          <li><strong>Enhet:</strong> en votering i sakfrågan (huvudvotering) i kammaren, 2022–2026.
+          Ärendedata från Riksdagens öppna data (dokumentstatus, voteringar).</li>
+          <li><strong>Agent:</strong> en AI-förfrågan per (votering × parti). Agenten får
+          <em>partiets egna dokument och ingen annans</em> — se nedan — samt en månadsvis
+          lägesbild (styrränta, inflation, arbetslöshet, händelser) där varje värde bär sitt
+          publiceringsdatum. <strong>Opinionsmätningar ges medvetet inte till agenterna:</strong>
+          frågan är om partiet följer sin egen plan, inte om det anpassar sig efter opinionen.
+          Väljarstödet visas endast på webbplatsen som kontext.</li>
+          <li><strong>Utfall:</strong> Ja/Nej/Avstår med motivering och ordagranna citat ur
+          dokumenten. Citat verifieras maskinellt mot källtexterna.</li>
+          <li><strong>Jämförelse:</strong> partiets verkliga position = majoriteten av partiets
+          avgivna röster i voteringen. Frånvarande partier utesluts ur jämförelsen.</li>
+        </ul>
+
+        <h3>Vilka dokument agenten ser</h3>
+        <p>Varje parti får <strong>sina egna dokument och ingen annans</strong>. Varje dokument
+        är synligt <strong>först från sitt eget antagandedatum</strong> — samma regel som
+        Tidöavtalet alltid följt.</p>
+        <table class="docs">
+          <thead><tr><th>Dokument</th><th>Vilka partier</th><th>Från</th></tr></thead>
+          <tbody>
+            <tr><td>Valmanifest 2022</td><td>alla åtta</td><td>alltid — väger tyngst när dokumenten säger olika</td></tr>
+            <tr><td>Partiprogram</td><td>alla åtta</td><td>sitt antagandedatum; den gällande versionen byts ut mitt i mandatperioden</td></tr>
+            <tr><td>Tidöavtalet</td><td>M, KD, L (undertecknare), SD (samarbetsparti)</td><td>2022-10-14</td></tr>
+            <tr><td>Budgetmotion</td><td>endast S, V, C, MP</td><td>sitt inlämningsdatum — men <em>aldrig</em> i den votering som avgör den</td></tr>
+          </tbody>
+        </table>
+        <p>Bara S, V, C och MP lägger en egen budgetmotion: M, KD och L lägger regeringens
+        budgetproposition och SD stöder den. De fyra partier som har en skuggbudget är därmed
+        precis de fyra som har de tunnaste valmanifesten.</p>
+
+        <h4>Varför datumstyrning och inte en enda ögonblicksbild</h4>
+        <p>Ingen av ytterligheterna fungerar. <strong>Bara gamla dokument</strong> är blinda:
+        Socialdemokraternas partiprogram från 2013 nämner inte Nato en enda gång, under en
+        mandatperiod som dominerats av medlemskapsfrågan. <strong>Bara aktuella dokument</strong>
+        är kontaminerade: Miljöpartiets partiprogram från 2025 innehåller meningen
+        <em>”När Sverige anslöt sig till Nato valde Miljöpartiet att rösta emot beslutet”</em> —
+        partiet anger alltså <strong>hur det röstade i en votering som ingår i det här
+        materialet</strong>. Ett sådant dokument gör mätningen cirkulär.</p>
+        <p>S, V och MP skrev helt nya partiprogram under perioden (1–4 % textlikhet med de
+        gamla); SD, KD och L gjorde bara ändringar (95–98 % likhet). Totalt ger detta
+        <strong>34 olika dokumentlägen</strong> över åtta partier och fyra år — uppräkneliga,
+        inte flytande.</p>
+
+        <h3>Läckagekontroller</h3>
+        <ul>
+          <li>Inga ärendenummer, beteckningar, voterings-ID eller exakta datum i prompten
+          (tidpunkt anges som månad). Dokumentreferenser i förslagstexten maskeras.</li>
+          <li>Motförslag anonymiseras ("Alternativ A/B") — <strong>vem som skrivit en reservation
+          är nära facit</strong>: ett parti röstar Nej på sin egen reservation i 3 877 fall av
+          3 878. Därför tas den uppgiften bort ur agentens underlag.</li>
+          <li>Av samma skäl får ett parti <strong>aldrig se sin egen budgetmotion i den votering
+          som avgör den</strong> (33 fall).</li>
+          <li>Riksdagens beslutsnotis (som anger utfallet) används aldrig i prompten; endast
+          utskottets förhandssammanfattning.</li>
+          <li>Ett citat till ett dokument som agenten inte fick se underkänns maskinellt —
+          kontrollen frågar samma funktion som byggde prompten.</li>
+        </ul>
+
+        <h3>Kontamineringsmätning</h3>
+        <p>För varje ärende ställs en separat <em>minnesprob</em>: modellen får ärendet
+        <em>med</em> identifierare men <em>utan</em> partidokument och tillfrågas hur partierna
+        faktiskt röstade. Hög träffsäkerhet där betyder att överensstämmelsen i huvudmätningen
+        delvis kan bero på memorering — sambandet redovisas öppet per parti och ärende.</p>
+
+        <h3>Kända begränsningar</h3>
+        <ul>
+          <li>Språkmodeller har dokumenterad politisk slagsida i forskningslitteraturen;
+          fel kan vara asymmetriska mellan partier. Vi publicerar per-parti-fel i stället för
+          att dölja dem.</li>
+          <li>Reservationstexternas fulltext ingår inte i v1 (endast utskottets förslagstext
+          och reservationsmetadata).</li>
+          <li>Wikipedia-händelser är skrivna i efterhand; de är daterade inom månaden men
+          formuleringarna kan innehålla efterhandsperspektiv.</li>
+          <li>Regeringspartier röstar nästan alltid ja till sina egna förslag — hög
+          överensstämmelse där är väntad och föga informativ; Cohens kappa redovisas därför
+          vid sidan av rå överensstämmelse. Detta är inte ett fel i mätningen utan
+          resultatet: se <a href={localePath(lang, '/koalition/')}>Koalitionen eller
+          partiprogrammet?</a>, där koalitionslinjen ställs mot partiets egna dokument
+          som två konkurrerande förklaringar.</li>
+          <li>En markering ”mot eget program” säger att en dokumentgrundad läsning pekade
+          åt annat håll än partiets röst. Den kan inte i sig skilja koalitionsdisciplin
+          från att AI-agenten läst programmet fel. Vem som skrivit en reservation är
+          medvetet borttaget ur agentens underlag — det är nästan en facit-uppgift
+          (partier röstar praktiskt taget aldrig ned sin egen reservation) och skulle
+          göra mätningen meningslös.</li>
+        </ul>
+
+        <h3>Reproducerbarhet</h3>
+        <p>All kod, alla prompter, alla rådata-referenser och alla modellsvar är öppna.
+        Datakällor: Sveriges riksdag (öppna data), SND Vivill, Sveriges riksbank, SCB,
+        Wikipedia (CC BY-SA). Koden är MIT-licensierad. Projektet är inte anslutet till
+        något parti eller riksdagen.</p>
+      </Fragment>
+    ) : (
+      <Fragment>
+        <p><strong>Reconstruction, not prediction.</strong> The project measures how well an AI
+        agent can reconstruct a party's voting behaviour from the party's own public documents
+        alone. It does <em>not</em> measure forecasting ability: the model's training data most
+        likely contains the real outcomes.</p>
+
+        <h3>Setup</h3>
+        <ul>
+          <li><strong>Unit:</strong> one main chamber vote on the substantive question
+          (sakfrågan), 2022–2026. Case data from the Riksdag's open data.</li>
+          <li><strong>Agent:</strong> one AI request per (vote × party). The agent receives
+          <em>that party's own documents and no one else's</em> — see below — plus a monthly
+          country snapshot (policy rate, inflation, unemployment, events) where every value
+          carries its publication vintage.
+          <strong>Opinion polls are deliberately withheld from the agents:</strong> the question
+          is whether a party follows its own plan, not whether it adjusts to public opinion.
+          Polling support is shown on the website as context only.</li>
+          <li><strong>Output:</strong> Ja/Nej/Avstår with reasoning and verbatim citations,
+          machine-verified against the source texts.</li>
+          <li><strong>Comparison:</strong> the party's actual position = the majority of its
+          cast votes. Absent parties are excluded.</li>
+        </ul>
+
+        <h3>Which documents the agent sees</h3>
+        <p>Every party gets <strong>its own documents and no one else's</strong>. Each document
+        becomes visible <strong>only from its own adoption date onward</strong> — the rule the
+        Tidö agreement always followed.</p>
+        <table class="docs">
+          <thead><tr><th>Document</th><th>Which parties</th><th>From</th></tr></thead>
+          <tbody>
+            <tr><td>2022 election manifesto</td><td>all eight</td><td>always — and it wins where the documents conflict</td></tr>
+            <tr><td>Party programme</td><td>all eight</td><td>its adoption date; the standing version rolls over mid-term</td></tr>
+            <tr><td>Tidö agreement</td><td>M, KD, L (signatories), SD (support party)</td><td>2022-10-14</td></tr>
+            <tr><td>Shadow budget</td><td>S, V, C, MP only</td><td>its submission date — but <em>never</em> on the division that votes on it</td></tr>
+          </tbody>
+        </table>
+        <p>Only S, V, C and MP file a shadow budget: M, KD and L present the actual government
+        budget and SD backs it. So the four parties with a shadow budget are exactly the four
+        with the thinnest election manifestos.</p>
+
+        <h4>Why date-gating rather than a single snapshot</h4>
+        <p>Neither extreme works. <strong>Old documents alone</strong> are blind: the Social
+        Democrats' 2013 party programme does not mention NATO once, across a term dominated by
+        accession. <strong>Current documents alone</strong> are contaminated: the Green Party's
+        2025 programme contains the sentence <em>"When Sweden joined NATO, the Green Party chose
+        to vote against the decision"</em> — the party stating <strong>how it voted on a division
+        in this very dataset</strong>. Such a document makes the measurement circular.</p>
+        <p>S, V and MP wrote entirely new programmes mid-term (1–4% textual similarity to the
+        old ones); SD, KD and L only amended theirs (95–98%). Together this yields
+        <strong>34 distinct document states</strong> across eight parties and four years —
+        enumerable, not fluid.</p>
+
+        <h3>Leakage controls</h3>
+        <ul>
+          <li>No case numbers, designations, vote IDs or exact dates in the prompt (time given
+          as month). Document references inside proposal texts are masked.</li>
+          <li>Counter-proposals are anonymized ("Alternative A/B") — <strong>reservation
+          authorship is close to an answer key</strong>: a party votes Nej on its own reservation
+          in 3,877 of 3,878 cases. That fact is therefore removed from the agent's context.</li>
+          <li>For the same reason, a party is <strong>never shown its own shadow budget on the
+          division that votes on it</strong> (33 cases).</li>
+          <li>The Riksdag's post-decision summary (which states the outcome) is never used in
+          prompts; only the committee's pre-decision summary.</li>
+          <li>A citation to a document the agent was not served fails machine verification — the
+          check asks the same function that built the prompt.</li>
+        </ul>
+
+        <h3>Contamination measurement</h3>
+        <p>Each case also gets a separate <em>memorization probe</em>: the model is shown the
+        case <em>with</em> identifiers but <em>without</em> party documents and asked how the
+        parties actually voted. High recall there means agreement in the main measurement may
+        partly reflect memorization — the relationship is published per party and per case.</p>
+
+        <h3>Known limitations</h3>
+        <ul>
+          <li>Language models have documented political bias; errors may be asymmetric across
+          parties. Per-party errors are published rather than hidden.</li>
+          <li>Full reservation texts are not included in v1.</li>
+          <li>Wikipedia events are written retrospectively; dated within the month but phrasing
+          may carry hindsight.</li>
+          <li>Government parties nearly always support their own proposals — high agreement
+          there is expected and uninformative; Cohen's kappa is reported alongside raw
+          agreement. This is not a flaw in the measurement but the result of it: see
+          <a href={localePath(lang, '/koalition/')}>The coalition, or the party
+          programme?</a>, which sets the coalition line against a party's own documents as
+          two competing explanations.</li>
+          <li>An "against own programme" flag says a document-grounded reading pointed the
+          other way from the party's vote. It cannot by itself separate coalition discipline
+          from the AI agent misreading the programme. Who authored a reservation is
+          deliberately withheld from the agent's context — it is close to an answer key
+          (parties practically never vote down their own reservation) and would render the
+          measurement meaningless.</li>
+        </ul>
+
+        <h3>Reproducibility</h3>
+        <p>All code, prompts, raw-data references and model responses are open. Data sources:
+        the Swedish Parliament (open data), SND Vivill, Sveriges Riksbank, Statistics Sweden,
+        Wikipedia (CC BY-SA). Code is MIT-licensed. The project is not affiliated with any
+        party or with the Riksdag.</p>
+      </Fragment>
+    )}
+  </section>
+
+  <section id="dokument" class="about-sec">
+    <h2>{sv ? 'Källdokument' : 'Source documents'}</h2>
+    <p class="muted">
+      {sv ? (
+        <Fragment>
+          De exakta texter AI-agenterna får som underlag. Valmanifest från
+          <a href="https://snd.se/sv/vivill"> SND Vivill</a> (Public Domain Mark);
+          Tidöavtalet från de fyra samarbetspartierna. Citat på ärendesidorna länkar hit.
+        </Fragment>
+      ) : (
+        <Fragment>
+          The exact texts the AI agents receive as their basis, in the original Swedish.
+          Election manifestos from <a href="https://snd.se/sv/vivill">SND Vivill</a> (Public
+          Domain Mark); the Tidö agreement from the four cooperating parties. Quotes on the
+          case pages link here.
+        </Fragment>
+      )}
+    </p>
+    <ul>
+      {docs.map((slug) => (
+        <li><a href={localePath(lang, `/dokument/${slug}/`)}>{docLabel(slug)}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="data" class="about-sec">
+    <h2>{sv ? 'Data & kod' : 'Data & code'}</h2>
+    <p>
+      {sv
+        ? 'Allt underlag är öppet: pipeline-kod, prompter, simuleringsresultat och aggregat.'
+        : 'Everything is open: pipeline code, prompts, simulation results and aggregates.'}
+    </p>
+    <ul>
+      <li><a href="https://github.com/mooracle/airiksdagen">GitHub</a> — {sv ? 'kod, prompter, resultat (JSONL)' : 'code, prompts, results (JSONL)'}</li>
+      <li><a href={`${base}/data/cases-index.json`}>cases-index.json</a> — {sv ? `index över ${meta.n_cases} ärenden` : `index of ${meta.n_cases} cases`}</li>
+      <li><a href={`${base}/downloads/cases.csv`}>cases.csv</a> — {sv ? 'alla ärenden' : 'all cases'}</li>
+      <li><a href={`${base}/downloads/party_positions.csv`}>party_positions.csv</a> — {sv ? 'partiernas verkliga positioner per votering' : 'actual party positions per division'}</li>
+      {meta.run_id && (
+        <li><a href={`${base}/downloads/decisions-${meta.run_id}.jsonl.gz`}>decisions-{meta.run_id}.jsonl.gz</a> — {sv ? 'AI-beslut med citat (JSONL)' : 'AI decisions with citations (JSONL)'}</li>
+      )}
+    </ul>
+    <h3>{sv ? 'Källor' : 'Sources'}</h3>
+    <ul>
+      <li><a href="https://data.riksdagen.se">data.riksdagen.se</a> — {meta.attribution}</li>
+      <li><a href="https://snd.se/sv/vivill">SND Vivill</a> — {sv ? 'valmanifest (Public Domain Mark)' : 'election manifestos (Public Domain Mark)'}</li>
+      <li><a href="https://api.riksbank.se">Sveriges riksbank</a>, <a href="https://www.scb.se">SCB</a></li>
+      <li>Wikipedia (CC BY-SA 4.0)</li>
+    </ul>
+  </section>
+
+  <style>
+    .lede { font-size: 1.05rem; color: var(--ink-2); max-width: 46rem; }
+    .jump {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0.5rem;
+      padding-bottom: 1.2rem; border-bottom: 1px solid var(--line);
+    }
+    .jump a {
+      font-size: 0.85rem; padding: 0.35rem 0.8rem; border: 1px solid var(--line);
+      border-radius: 999px; background: var(--panel); text-decoration: none; color: var(--ink-2);
+    }
+    .jump a:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); color: var(--accent-ink); }
+    .about-sec { scroll-margin-top: 5rem; }
+    .about-sec + .about-sec { margin-top: 2.6rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    table.docs { width: 100%; border-collapse: collapse; margin: 0.9rem 0 1.1rem; font-size: 0.9rem; }
+    table.docs th, table.docs td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+    table.docs th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+    table.docs td:first-child { font-weight: 600; white-space: nowrap; }
+  </style>
+</Base>
