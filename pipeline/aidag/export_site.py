@@ -198,7 +198,17 @@ def run(run_id: str | None = None) -> None:
             "riksdagen_url": f"https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/_{case['dok_id']}/",
         }
         (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))
-        index.append({
+        # parties whose AI vote differed from the actual (compared) vote,
+        # ordered left→right on the hemicycle so the badges read spatially
+        miss = sorted(
+            (
+                p for p, d in case_decisions.items()
+                if actual.get(p, {}).get("position") not in (None, "Frånvarande")
+                and actual.get(p, {}).get("position") != d["rost"]
+            ),
+            key=lambda p: HEMICYCLE_ORDER.index(p) if p in HEMICYCLE_ORDER else 99,
+        )
+        entry = {
             "id": vid,
             "datum": case["datum"],
             "rm": case["rm"],
@@ -211,7 +221,10 @@ def run(run_id: str | None = None) -> None:
             "agree": n_agree,
             "compared": n_compared,
             "hasAi": bool(case_decisions),
-        })
+        }
+        if miss:  # omitted when empty to keep the client index lean
+            entry["miss"] = miss
+        index.append(entry)
 
     index_json = json.dumps(index, ensure_ascii=False)
     (SITE_DATA_DIR / "index" / "cases-index.json").write_text(index_json)

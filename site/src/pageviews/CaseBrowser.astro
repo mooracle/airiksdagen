@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getMeta } from '../lib/data';
+import { getMeta, partyInk } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
@@ -9,41 +9,155 @@ const t = useTranslations(lang);
 const meta = getMeta();
 const indexUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/data/cases-index.json`;
 const caseBase = localePath(lang, '/fall/');
+
+// Party color + readable ink + name, passed to the client island so it can draw
+// the same identity discs (<PartyBadge>) that the rest of the site uses.
+const PARTY = Object.fromEntries(
+  Object.entries(meta.parties).map(([code, info]) => [
+    code,
+    { color: info.color, ink: partyInk(info.color), name: info.name },
+  ]),
+);
+
+// Strings the inline island needs (column headers are rendered server-side below).
+const TR = {
+  showing: t('browser.showing'), of: t('browser.of'), cases: t('browser.cases'),
+  prev: t('browser.prev'), next: t('browser.next'), noResults: t('browser.noResults'),
+  allMatch: t('browser.allMatch'), missTip: t('browser.missTip'), noAi: t('browser.noAi'),
+};
 ---
 
 <Base lang={lang} title={t('browser.title')} path="/fall/">
   <h1>{t('browser.title')} <span class="muted">({meta.n_cases})</span></h1>
+
   <div class="controls">
-    <input id="q" type="search" placeholder={t('browser.search')} autocomplete="off" />
-    <select id="rm">
+    <input id="q" type="search" placeholder={t('browser.search')} aria-label={t('browser.search')} autocomplete="off" />
+    <select id="rm" aria-label="riksmöte">
       <option value="">{t('browser.filter.all')} riksmöten</option>
       <option>2022/23</option><option>2023/24</option><option>2024/25</option><option>2025/26</option>
     </select>
-    <select id="month"><option value="">{t('browser.filter.allMonths')}</option></select>
-    <select id="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
-    <label><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
+    <select id="month" aria-label={t('browser.filter.allMonths')}><option value="">{t('browser.filter.allMonths')}</option></select>
+    <select id="utskott" aria-label="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
+    <label class="chk"><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
   </div>
-  <p class="muted" id="count"></p>
-  <table class="compare" id="results">
-    <tbody></tbody>
-  </table>
-  <p><button id="more" hidden>+ 100</button></p>
+  <p class="hint muted">{t('browser.hint')}</p>
 
-  <script is:inline define:vars={{ indexUrl, caseBase, lang }}>
+  <div class="resbar">
+    <p class="muted" id="summary" aria-live="polite"></p>
+  </div>
+
+  <div class="table-wrap">
+    <table class="compare browser-table">
+      <thead>
+        <tr>
+          <th class="c-date">{t('browser.col.date')}</th>
+          <th class="c-title">{t('browser.col.case')}</th>
+          <th class="c-ref">{t('browser.col.ref')}</th>
+          <th class="c-ai">{t('browser.col.ai')}</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <nav class="pager" id="pager" aria-label="Sidnavigering" hidden></nav>
+
+  <script is:inline define:vars={{ indexUrl, caseBase, lang, PARTY, TR }}>
+    const PAGE = 50;
     let rows = [];
     let filtered = [];
-    let shown = 0;
-    const PAGE = 100;
+    let page = 1;
+
     const q = document.getElementById('q');
     const rm = document.getElementById('rm');
     const month = document.getElementById('month');
     const utskott = document.getElementById('utskott');
     const disagree = document.getElementById('disagree');
-    const tbody = document.querySelector('#results tbody');
-    const count = document.getElementById('count');
-    const more = document.getElementById('more');
+    const tbody = document.getElementById('rows');
+    const summary = document.getElementById('summary');
+    const pager = document.getElementById('pager');
+    const controls = document.querySelector('.controls');
 
     const norm = (s) => s.toLowerCase();
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    function badge(code) {
+      const p = PARTY[code] || { color: '#888', ink: '#fff', name: code };
+      const size = 18;
+      const font = ((code.length > 1 ? 0.44 : 0.52) * size).toFixed(1);
+      const name = esc(p.name);
+      return `<span class="pbadge" style="--pb:${p.color};--pb-ink:${p.ink};width:${size}px;height:${size}px;font-size:${font}px" title="${name}" role="img" aria-label="${name}">${code}</span>`;
+    }
+
+    function aiCell(r) {
+      if (!r.hasAi) return `<span class="ai-cell"><span class="muted na" title="${esc(TR.noAi)}">—</span></span>`;
+      const miss = r.miss || [];
+      const score = `<span class="score">${r.agree}/${r.compared}</span>`;
+      if (!miss.length)
+        return `<span class="ai-cell allmatch" title="${esc(TR.allMatch)}"><span class="ok" aria-hidden="true">✓</span>${score}</span>`;
+      const badges = `<span class="misses" title="${esc(TR.missTip)}">${miss.map(badge).join('')}</span>`;
+      return `<span class="ai-cell">${score}${badges}</span>`;
+    }
+
+    function rowHTML(r) {
+      const title = esc((lang === 'en' && r.rubrik_en) || r.rubrik || r.titel);
+      return (
+        `<tr>` +
+        `<td class="c-date muted">${r.datum}</td>` +
+        `<td class="c-title"><a href="${caseBase}${r.id}/">${title}</a></td>` +
+        `<td class="c-ref muted">${esc(r.bet)} <span class="pt">p.${r.punkt}</span></td>` +
+        `<td class="c-ai">${aiCell(r)}</td>` +
+        `</tr>`
+      );
+    }
+
+    function pageList(cur, total) {
+      const keep = new Set([1, total, cur - 1, cur, cur + 1]);
+      const arr = [...keep].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b);
+      const out = [];
+      let prev = 0;
+      for (const n of arr) {
+        if (n - prev > 1) out.push('…');
+        out.push(n);
+        prev = n;
+      }
+      return out;
+    }
+
+    function renderPager(total) {
+      if (total <= 1) { pager.hidden = true; pager.innerHTML = ''; return; }
+      pager.hidden = false;
+      const parts = [
+        `<button class="pg nav" data-go="${page - 1}" ${page === 1 ? 'disabled' : ''} aria-label="${esc(TR.prev)}">‹</button>`,
+      ];
+      for (const n of pageList(page, total)) {
+        parts.push(
+          n === '…'
+            ? `<span class="pg gap" aria-hidden="true">…</span>`
+            : `<button class="pg num${n === page ? ' cur' : ''}" data-go="${n}" ${n === page ? 'aria-current="page"' : ''}>${n}</button>`,
+        );
+      }
+      parts.push(
+        `<button class="pg nav" data-go="${page + 1}" ${page === total ? 'disabled' : ''} aria-label="${esc(TR.next)}">›</button>`,
+      );
+      pager.innerHTML = parts.join('');
+    }
+
+    function render() {
+      const total = Math.max(1, Math.ceil(filtered.length / PAGE));
+      if (page > total) page = total;
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td class="empty muted" colspan="4">${esc(TR.noResults)}</td></tr>`;
+        summary.textContent = `0 ${TR.cases}`;
+        renderPager(1);
+        return;
+      }
+      const start = (page - 1) * PAGE;
+      const slice = filtered.slice(start, start + PAGE);
+      tbody.innerHTML = slice.map(rowHTML).join('');
+      summary.textContent = `${TR.showing} ${start + 1}–${start + slice.length} ${TR.of} ${filtered.length} ${TR.cases}`;
+      renderPager(total);
+    }
 
     function apply() {
       const term = norm(q.value.trim());
@@ -56,38 +170,27 @@ const caseBase = localePath(lang, '/fall/');
         return true;
       });
       filtered.sort((a, b) => b.datum.localeCompare(a.datum));
-      shown = 0;
-      tbody.innerHTML = '';
-      count.textContent = `${filtered.length}`;
-      renderMore();
+      page = 1;
+      render();
     }
 
-    function renderMore() {
-      const slice = filtered.slice(shown, shown + PAGE);
-      shown += slice.length;
-      const frag = document.createDocumentFragment();
-      for (const r of slice) {
-        const tr = document.createElement('tr');
-        const ai = r.hasAi ? `${r.agree}/${r.compared} ✓` : '';
-        tr.innerHTML =
-          `<td class="muted" style="white-space:nowrap">${r.datum}</td>` +
-          `<td><a href="${caseBase}${r.id}/"></a></td>` +
-          `<td class="muted">${r.bet} p.${r.punkt}</td>` +
-          `<td>${ai}</td>`;
-        tr.querySelector('a').textContent =
-          (lang === 'en' && r.rubrik_en) || r.rubrik || r.titel;
-        frag.appendChild(tr);
+    pager.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-go]');
+      if (!b || b.disabled) return;
+      const n = Number(b.dataset.go);
+      const total = Math.max(1, Math.ceil(filtered.length / PAGE));
+      if (n >= 1 && n <= total) {
+        page = n;
+        render();
+        controls.scrollIntoView({ block: 'start' });
       }
-      tbody.appendChild(frag);
-      more.hidden = shown >= filtered.length;
-    }
+    });
 
     fetch(indexUrl)
       .then((r) => r.json())
       .then((data) => {
         rows = data;
-        const organs = [...new Set(rows.map((r) => r.utskott))].sort();
-        for (const o of organs) {
+        for (const o of [...new Set(rows.map((r) => r.utskott))].sort()) {
           const opt = document.createElement('option');
           opt.textContent = o;
           utskott.appendChild(opt);
@@ -99,7 +202,7 @@ const caseBase = localePath(lang, '/fall/');
           opt.textContent = m;
           month.appendChild(opt);
         }
-        // deep links from the homepage: /fall/?q=...&m=YYYY-MM
+        // deep links from the homepage: /fall/?q=...&m=YYYY-MM&d=1
         const params = new URLSearchParams(location.search);
         if (params.get('q')) q.value = params.get('q');
         if (params.get('m') && monthsAvail.includes(params.get('m'))) month.value = params.get('m');
@@ -108,13 +211,50 @@ const caseBase = localePath(lang, '/fall/');
       });
 
     for (const el of [q, rm, month, utskott, disagree]) el.addEventListener('input', apply);
-    more.addEventListener('click', renderMore);
   </script>
 
   <style>
-    .controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
-    .controls input[type='search'] { flex: 1; min-width: 200px; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 6px; }
-    .controls select { padding: 0.4rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
-    #more { padding: 0.4rem 1rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer; }
+    .controls { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
+    .controls input[type='search'] { flex: 1 1 220px; min-width: 180px; height: 2.3rem; padding: 0 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; font-size: 0.95rem; }
+    .controls select { height: 2.3rem; padding: 0 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; font-size: 0.9rem; color: var(--ink-2); }
+    .controls .chk { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--ink-2); white-space: nowrap; }
+    .hint { margin: 0.5rem 0 0; font-size: 0.82rem; }
+
+    .resbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 1rem 0 0.35rem; }
+    .resbar #summary { margin: 0; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+
+    .table-wrap { overflow-x: auto; }
+    /* nowrap + width:1% collapses date/ref/ai to content width; title takes the rest */
+    .browser-table { table-layout: auto; }
+    .browser-table th, .browser-table td { vertical-align: middle; }
+    .c-date { white-space: nowrap; width: 1%; font-size: 0.86rem; }
+    .c-title { width: 100%; }
+    .c-title a { font-weight: 500; }
+    .c-ref { white-space: nowrap; width: 1%; font-size: 0.85rem; text-align: right; }
+    .c-ref .pt { opacity: 0.65; }
+    th.c-ref { text-align: right; }
+    .c-ai { white-space: nowrap; width: 1%; text-align: right; }
+    th.c-ai { text-align: right; }
+    td.empty { text-align: center; padding: 2.2rem 0.65rem; font-style: italic; }
+
+    .ai-cell { display: inline-flex; align-items: center; gap: 0.45rem; justify-content: flex-end; }
+    .ai-cell .score { font-variant-numeric: tabular-nums; font-size: 0.88rem; font-weight: 600; color: var(--muted); }
+    .ai-cell.allmatch .score { color: #2f7d43; }
+    .ai-cell.allmatch .ok { color: #2f7d43; font-weight: 700; }
+    .ai-cell .na { font-size: 0.95rem; }
+    .misses { display: inline-flex; align-items: center; gap: 0.22rem; }
+
+    .pager { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; margin: 1.1rem 0 0.5rem; }
+    .pg { min-width: 2.15rem; height: 2.15rem; padding: 0 0.55rem; border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .pg:hover:not(:disabled):not(.cur) { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); color: var(--accent-ink); }
+    .pg.cur { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; cursor: default; }
+    .pg:disabled { opacity: 0.4; cursor: default; }
+    .pg.gap { border: none; background: none; cursor: default; min-width: 1.2rem; color: var(--muted); }
+
+    @media (max-width: 560px) {
+      .controls input[type='search'] { flex-basis: 100%; }
+      .c-ref { display: none; }
+      th.c-ref { display: none; }
+    }
   </style>
 </Base>

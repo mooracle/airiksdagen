@@ -30,6 +30,9 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
   const active = canonicalPath === '/' ? cur === target : cur === target || cur.startsWith(target + '/');
   return active ? 'page' : undefined;
 }
+// Documents / Method / Data are grouped under one nav dropdown ("Om" / "About").
+const aboutPaths = ['/dokument/', '/metod/', '/data/'];
+const aboutActive = aboutPaths.some((p) => navCurrent(p) === 'page');
 ---
 
 <!doctype html>
@@ -75,9 +78,16 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
           <a href={localePath(lang, '/analys/')} aria-current={navCurrent('/analys/')}>{t('nav.analysis')}</a>
           <a href={localePath(lang, '/koalition/')} aria-current={navCurrent('/koalition/')}>{t('coalition.nav')}</a>
           <a href={localePath(lang, '/parti/')} aria-current={navCurrent('/parti/')}>{t('nav.parties')}</a>
-          <a href={localePath(lang, '/dokument/')} aria-current={navCurrent('/dokument/')}>{t('nav.documents')}</a>
-          <a href={localePath(lang, '/metod/')} aria-current={navCurrent('/metod/')}>{t('nav.method')}</a>
-          <a href={localePath(lang, '/data/')} aria-current={navCurrent('/data/')}>{t('nav.data')}</a>
+          <div class="nav-group" data-current={aboutActive ? 'page' : undefined}>
+            <button type="button" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-current={aboutActive ? 'page' : undefined}>
+              {t('nav.about')} <span class="caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" role="menu">
+              <a role="menuitem" href={localePath(lang, '/dokument/')} aria-current={navCurrent('/dokument/')}>{t('nav.documents')}</a>
+              <a role="menuitem" href={localePath(lang, '/metod/')} aria-current={navCurrent('/metod/')}>{t('nav.method')}</a>
+              <a role="menuitem" href={localePath(lang, '/data/')} aria-current={navCurrent('/data/')}>{t('nav.data')}</a>
+            </div>
+          </div>
           <a class="lang" href={localePath(otherLang, path)}>{otherLang.toUpperCase()}</a>
         </div>
       </nav>
@@ -105,6 +115,21 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
         </div>
       </div>
     </footer>
+    <script is:inline>
+      // nav dropdown: click toggles, outside-click / Escape closes (hover + focus handled in CSS)
+      for (const group of document.querySelectorAll('.nav-group')) {
+        const btn = group.querySelector('.nav-trigger');
+        const close = () => { group.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const open = group.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        group.querySelector('.nav-menu').addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+      }
+    </script>
   </body>
 </html>
 
@@ -194,6 +219,39 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     color: #c2ccd3; transition: border-color 0.15s ease, color 0.15s ease;
   }
   nav .lang:hover { border-color: #728089; color: #fff; }
+
+  /* Documents / Method / Data dropdown */
+  .nav-group { position: relative; display: inline-flex; }
+  .nav-trigger {
+    color: #c2ccd3; background: none; border: 0; cursor: pointer; font: inherit;
+    font-size: 0.94rem; padding: 0.15rem 0; display: inline-flex; align-items: center;
+    gap: 0.3em; position: relative; transition: color 0.15s ease;
+  }
+  .nav-trigger:hover { color: #fff; }
+  .nav-group[data-current] .nav-trigger { color: #fff; }
+  .nav-group[data-current] .nav-trigger::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -0.18rem;
+    height: 2px; border-radius: 2px; background: var(--gold);
+  }
+  .nav-trigger .caret { font-size: 0.66em; transition: transform 0.15s ease; }
+  .nav-group.open .nav-trigger .caret { transform: rotate(180deg); }
+  .nav-menu {
+    position: absolute; top: calc(100% + 0.55rem); right: 0; min-width: 12rem;
+    background: var(--ink); border: 1px solid #2c3945; border-radius: var(--radius-sm);
+    box-shadow: 0 16px 34px -14px rgb(0 0 0 / 0.72); padding: 0.4rem;
+    display: none; flex-direction: column; gap: 0.1rem; z-index: 30;
+  }
+  .nav-group.open .nav-menu,
+  .nav-group:focus-within .nav-menu { display: flex; }
+  @media (hover: hover) { .nav-group:hover .nav-menu { display: flex; } }
+  .nav-menu a {
+    color: #c2ccd3; text-decoration: none; font-size: 0.92rem;
+    padding: 0.5rem 0.7rem; border-radius: 6px; white-space: nowrap;
+  }
+  .nav-menu a:hover { background: #22303c; color: #fff; }
+  .nav-menu a[aria-current] { color: #fff; background: #22303c; }
+  /* menu items never get the underline bar the top-level links use */
+  nav .links .nav-menu a[aria-current]::after { content: none; }
 
   main { max-width: 1120px; margin: 0 auto; padding: 1.8rem 1.3rem 4.5rem; }
 
