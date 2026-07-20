@@ -111,7 +111,9 @@ const docRefs = partyOrder
     {topicLabel && <span class="chip topic">{topicLabel}</span>}
   </p>
   <h1>{rubrik}</h1>
-  {c.dok_titel !== c.rubrik && <p class="muted">{dokTitel}</p>}
+  {/* the metadata subject supersedes the raw betänkande title as the deck;
+      only show the muted dok_titel line when there's no subject (fallback) */}
+  {!subject && c.dok_titel !== c.rubrik && <p class="muted">{dokTitel}</p>}
   {lead && <p class="summary">{lead}</p>}
   {atStake && (
     <p class="atstake"><strong>{t('case.atStake')}:</strong> {atStake}</p>
