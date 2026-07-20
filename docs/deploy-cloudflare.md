@@ -5,7 +5,7 @@ Two clean halves:
 - **Research (local, Python):** the `uv run aidag …` pipeline fetches votes, runs
   simulations, aggregates, and `export-site`. Its output — `site/src/data/` and
   `data/results/` — is **committed to the repo**.
-- **Publish (cloud, Node only):** Cloudflare clones `mooracle/aidag` and builds the
+- **Publish (cloud, Node only):** Cloudflare clones `mooracle/airiksdagen` and builds the
   Astro site straight from that committed data. **No Python, no uv, no data fetch**
   at build time — just `npm ci && astro build`. The only network the build touches
   is the npm registry.
@@ -43,7 +43,7 @@ the Node-only `site/`); if you do, move `wrangler.toml`+`.node-version` back int
   org, grant it the **aidag** repo. Because it's an org private repo, an org owner
   may need to approve the app under
   `github.com/organizations/mooracle/settings/installations`.
-- Select `mooracle/aidag`, production branch **`main`**.
+- Select `mooracle/airiksdagen`, production branch **`main`**.
 
 ### 2. Build configuration
 - **Root directory:** leave as the repo root (default) — `wrangler.toml` is there.
