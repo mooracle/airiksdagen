@@ -19,6 +19,12 @@ const PARTY = Object.fromEntries(
   ]),
 );
 
+// policy_area code -> localized label, for the topic filter (value stays the
+// language-independent code; only the label is localized).
+const POLICY: Record<string, string> = Object.fromEntries(
+  Object.entries(meta.policy_areas || {}).map(([code, l]) => [code, l[lang]]),
+);
+
 // Strings the inline island needs (column headers are rendered server-side below).
 const TR = {
   showing: t('browser.showing'), of: t('browser.of'), cases: t('browser.cases'),
@@ -39,6 +45,7 @@ const TR = {
       </select>
       <select id="month" aria-label={t('browser.filter.allMonths')}><option value="">{t('browser.filter.allMonths')}</option></select>
       <select id="utskott" aria-label="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
+      <select id="area" aria-label={t('browser.filter.allAreas')}><option value="">{t('browser.filter.allAreas')}</option></select>
       <label class="chk"><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
     </div>
     <p class="hint muted">{t('browser.hint')}</p>
@@ -64,7 +71,7 @@ const TR = {
     <nav class="pager" id="pager" aria-label="Sidnavigering" hidden></nav>
   </div>
 
-  <script is:inline define:vars={{ indexUrl, caseBase, lang, PARTY, TR }}>
+  <script is:inline define:vars={{ indexUrl, caseBase, lang, PARTY, POLICY, TR }}>
     const PAGE = 50;
     let rows = [];
     let filtered = [];
@@ -74,6 +81,7 @@ const TR = {
     const rm = document.getElementById('rm');
     const month = document.getElementById('month');
     const utskott = document.getElementById('utskott');
+    const area = document.getElementById('area');
     const disagree = document.getElementById('disagree');
     const tbody = document.getElementById('rows');
     const summary = document.getElementById('summary');
@@ -167,8 +175,16 @@ const TR = {
         if (rm.value && r.rm !== rm.value) return false;
         if (month.value && !r.datum.startsWith(month.value)) return false;
         if (utskott.value && r.utskott !== utskott.value) return false;
+        if (area.value && r.policy_area !== area.value) return false;
         if (disagree.checked && !(r.hasAi && r.agree < r.compared)) return false;
-        if (term && !norm(r.rubrik + ' ' + (r.rubrik_en || '') + ' ' + r.titel + ' ' + r.bet).includes(term)) return false;
+        // display fields (already on the row) OR the precomputed lowercased
+        // r.search blob (subject sv/en + subtopics) — so subject/subtopic terms
+        // match without duplicating rubrik/bet into every index row.
+        if (term) {
+          const hay = norm(r.rubrik + ' ' + (r.rubrik_en || '') + ' ' + r.titel + ' ' + r.bet) +
+            (r.search ? ' ' + r.search : '');
+          if (!hay.includes(term)) return false;
+        }
         return true;
       });
       filtered.sort((a, b) => b.datum.localeCompare(a.datum));
@@ -197,6 +213,17 @@ const TR = {
           opt.textContent = o;
           utskott.appendChild(opt);
         }
+        // topic filter: option value = stable policy_area code, label = localized
+        const areaCodes = [...new Set(rows.map((r) => r.policy_area).filter(Boolean))];
+        areaCodes
+          .map((code) => ({ code, label: POLICY[code] || code }))
+          .sort((a, b) => a.label.localeCompare(b.label, lang))
+          .forEach(({ code, label }) => {
+            const opt = document.createElement('option');
+            opt.value = code;
+            opt.textContent = label;
+            area.appendChild(opt);
+          });
         const monthsAvail = [...new Set(rows.map((r) => r.datum.slice(0, 7)))].sort().reverse();
         for (const m of monthsAvail) {
           const opt = document.createElement('option');
@@ -212,7 +239,7 @@ const TR = {
         apply();
       });
 
-    for (const el of [q, rm, month, utskott, disagree]) el.addEventListener('input', apply);
+    for (const el of [q, rm, month, utskott, area, disagree]) el.addEventListener('input', apply);
   </script>
 
   <!--

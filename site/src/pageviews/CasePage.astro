@@ -27,6 +27,14 @@ const forslagText = en?.forslag_text || c.forslag_text;
 const notis = (en && c.notis ? en.notis : '') || c.notis;
 // neutral, pre-decision "what this is about" lead (Swedish source — not yet translated)
 const sammanfattning = c.sammanfattning;
+// case-metadata layer: a specific, bilingual subject lead (replaces the generic
+// utsknotis blurb for bundle votes) + a why-it-matters block + a topic chip.
+// Everything falls back cleanly when a case has no metadata record yet.
+const cmeta = c.meta;
+const subject = cmeta ? (lang === 'sv' ? cmeta.subject.sv : cmeta.subject.en) : null;
+const lead = subject || sammanfattning;
+const atStake = cmeta ? (lang === 'sv' ? cmeta.at_stake.sv : cmeta.at_stake.en) : null;
+const topicLabel = cmeta ? (meta.policy_areas?.[cmeta.policy_area]?.[lang] ?? null) : null;
 const altTexts = c.alternatives.map((a, i) => (en?.alternatives?.[i] || a.text));
 const aiEn = (code: string) => (lang === 'en' ? c.ai[code]?.en ?? null : null);
 
@@ -100,10 +108,14 @@ const docRefs = partyOrder
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
     <span class="chip">{c.utskott}</span>
+    {topicLabel && <span class="chip topic">{topicLabel}</span>}
   </p>
   <h1>{rubrik}</h1>
   {c.dok_titel !== c.rubrik && <p class="muted">{dokTitel}</p>}
-  {sammanfattning && <p class="summary">{sammanfattning}</p>}
+  {lead && <p class="summary">{lead}</p>}
+  {atStake && (
+    <p class="atstake"><strong>{t('case.atStake')}:</strong> {atStake}</p>
+  )}
   {lang === 'en' && (
     <p class="muted mtnote">{c.en ? t('case.mtNote') : t('case.notTranslated')}</p>
   )}
@@ -451,6 +463,8 @@ const docRefs = partyOrder
     .tag.override { background: #f3e2c7; color: #7a4b12; }
     .omvarld { background: #eef3f8; border-radius: 6px; padding: 0.5rem 0.8rem; font-size: 0.88rem; }
     .summary { font-size: 1.05rem; line-height: 1.6; color: var(--ink-2); max-width: 46rem; margin: 0.55rem 0 0.2rem; }
+    .atstake { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 46rem; margin: 0.4rem 0 0.2rem; padding: 0.5rem 0.8rem; background: #eef3f8; border-radius: 6px; }
+    .chip.topic { background: #e5efdb; color: #3f5a2a; font-weight: 600; }
     .mtnote { font-size: 0.8rem; font-style: italic; }
     .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }
     details.original { margin-top: 0.5rem; font-size: 0.88rem; }

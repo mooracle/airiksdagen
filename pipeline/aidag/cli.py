@@ -210,12 +210,56 @@ def translate_status(run_id: str = typer.Option(..., "--run-id")) -> None:
     status(run_id=run_id)
 
 
+@app.command("metadata-prepare")
+def metadata_prepare(
+    batch_size: int = typer.Option(400, help="Synthesis agents per batch (default covers all pending)"),
+    per_request: int = typer.Option(12, help="Cases bundled into one agent's request file"),
+) -> None:
+    """Emit the next case-metadata batch manifest (run-independent, checkpoint-aware)."""
+    from aidag.metadata import prepare
+
+    prepare(batch_size=batch_size, per_request=per_request)
+
+
+@app.command("metadata-ingest")
+def metadata_ingest(
+    input: str = typer.Option(..., "--input", help="Workflow result JSON ({cases: [...]})"),
+    model: str = typer.Option("claude-haiku-4-5", help="Model the agents ran on"),
+) -> None:
+    """Ingest a metadata workflow batch result (validated, de-leaked, idempotent)."""
+    from aidag.metadata import ingest
+
+    ingest(input_path=input, model=model)
+
+
+@app.command("metadata-status")
+def metadata_status() -> None:
+    """Case-metadata progress report."""
+    from aidag.metadata import status
+
+    status()
+
+
 @app.command("repair-citations")
 def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     """Align paraphrased citation quotes to the true document span (flagged)."""
     from aidag.repair import run as repair
 
     repair(run_id=run_id)
+
+
+@app.command("agent-merge")
+def agent_merge(
+    run_id: str = typer.Option(..., "--run-id"),
+    manifest: str = typer.Option(None, "--manifest", help="Batch manifest (default: latest)"),
+    probes: str = typer.Option(None, "--probes", help="Workflow result JSON to take probes from"),
+    out: str = typer.Option(None, "--out", help="Merged output path (default: <batch>-merged.json)"),
+) -> None:
+    """Merge the per-group decision files a file-writing workflow wrote into one
+    {sims, probes} payload for agent-ingest. Print the merged file's path."""
+    from aidag.agent_run import merge
+
+    merge(run_id=run_id, manifest_path=manifest, probes_path=probes, out_path=out)
 
 
 @app.command("agent-ingest")
@@ -235,7 +279,7 @@ def agent_ingest(
 
 @app.command()
 def verify(
-    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|site|all"),
+    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|site|all"),
     run_id: str = typer.Option(None, "--run-id"),
 ) -> None:
     """Read-only integrity checks; exits nonzero on failure (CI gate)."""

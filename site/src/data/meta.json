@@ -61,5 +61,71 @@
   "M",
   "SD"
  ],
+ "policy_areas": {
+  "labor": {
+   "sv": "Arbetsmarknad",
+   "en": "Labour market"
+  },
+  "civil": {
+   "sv": "Civilrätt och bostäder",
+   "en": "Civil law & housing"
+  },
+  "finance": {
+   "sv": "Ekonomi och finans",
+   "en": "Economy & finance"
+  },
+  "defense": {
+   "sv": "Försvar",
+   "en": "Defence"
+  },
+  "justice": {
+   "sv": "Rättsväsende",
+   "en": "Justice"
+  },
+  "culture": {
+   "sv": "Kultur",
+   "en": "Culture"
+  },
+  "constitution": {
+   "sv": "Konstitution",
+   "en": "Constitution"
+  },
+  "environment": {
+   "sv": "Miljö och jordbruk",
+   "en": "Environment & agriculture"
+  },
+  "business": {
+   "sv": "Näringsliv och energi",
+   "en": "Business & energy"
+  },
+  "migration": {
+   "sv": "Migration och socialförsäkring",
+   "en": "Migration & social insurance"
+  },
+  "tax": {
+   "sv": "Skatter",
+   "en": "Taxation"
+  },
+  "health": {
+   "sv": "Hälsa och socialtjänst",
+   "en": "Health & social services"
+  },
+  "transport": {
+   "sv": "Transport och infrastruktur",
+   "en": "Transport & infrastructure"
+  },
+  "education": {
+   "sv": "Utbildning",
+   "en": "Education"
+  },
+  "foreign": {
+   "sv": "Utrikes",
+   "en": "Foreign affairs"
+  },
+  "ovrigt": {
+   "sv": "Övrigt",
+   "en": "Other"
+  }
+ },
  "attribution": "Källa: Sveriges riksdag"
 }

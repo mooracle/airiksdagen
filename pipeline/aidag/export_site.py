@@ -25,6 +25,38 @@ from aidag.config import (
 )
 
 
+def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -> None:
+    """Merge a case-metadata record into the per-case payload and the lean index row.
+
+    Hermetic (mutates the two dicts, no I/O) so it is unit-testable without the
+    monolithic run(). The per-case JSON gets the full display metadata under a
+    namespaced `meta`; the client-fetched index row gets ONLY the filter keys
+    (`policy_area` code + `type`) and a lowercased `search` blob holding just the
+    NEW searchable text — `subject.sv + subject.en + subtopics`. It deliberately
+    does NOT duplicate rubrik/rubrik_en/titel/bet (already on the row — the client
+    ORs those in) and never carries the full subject fields or `at_stake`. No-op
+    when `meta_rec` is None: the page falls back to `sammanfattning` (utsknotis)
+    and the row keeps only its display fields for search.
+    """
+    if not meta_rec:
+        return
+    subtopics = meta_rec.get("subtopics") or []
+    payload["meta"] = {
+        "type": meta_rec.get("type"),
+        "policy_area": meta_rec.get("policy_area"),
+        "subject": meta_rec.get("subject"),
+        "at_stake": meta_rec.get("at_stake"),
+        "subtopics": subtopics,
+        "parties_involved": meta_rec.get("parties_involved") or [],
+    }
+    index_row["policy_area"] = meta_rec.get("policy_area")
+    index_row["type"] = meta_rec.get("type")
+    subject = meta_rec.get("subject") or {}
+    index_row["search"] = " ".join(
+        s for s in (subject.get("sv") or "", subject.get("en") or "", " ".join(subtopics)) if s
+    ).lower()
+
+
 def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
     if run_id is None:
         return {}
@@ -128,6 +160,9 @@ def run(run_id: str | None = None) -> None:
     from aidag.translate import load_case_translations
 
     case_translations = load_case_translations()
+    from aidag.metadata import load_metadata
+
+    metadata_by_vid = load_metadata()
 
     cases_dir = SITE_DATA_DIR / "cases"
     if cases_dir.exists():
@@ -200,7 +235,6 @@ def run(run_id: str | None = None) -> None:
             "votering_url": f"https://data.riksdagen.se/votering/{vid}/json",
             "riksdagen_url": f"https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/_{case['dok_id']}/",
         }
-        (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))
         # parties whose AI vote differed from the actual (compared) vote,
         # ordered left→right on the hemicycle so the badges read spatially
         miss = sorted(
@@ -227,6 +261,10 @@ def run(run_id: str | None = None) -> None:
         }
         if miss:  # omitted when empty to keep the client index lean
             entry["miss"] = miss
+        # merge case metadata into BOTH the full payload and the lean index row,
+        # then write the payload (after the merge, so `meta` is included)
+        merge_case_metadata(payload, entry, metadata_by_vid.get(vid))
+        (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))
         index.append(entry)
 
     index_json = json.dumps(index, ensure_ascii=False)
@@ -287,6 +325,13 @@ def run(run_id: str | None = None) -> None:
     downloads.mkdir(parents=True, exist_ok=True)
     positions.write_csv(downloads / "party_positions.csv")
     cases.drop("alternatives", "references").write_csv(downloads / "cases.csv")
+    # Open-data case-metadata export: full records (incl. at_stake + the de-leaked
+    # agent view), one JSONL row per exported case that has a metadata record.
+    with open(downloads / "case-metadata.jsonl", "w") as f:
+        for row in index:
+            rec = metadata_by_vid.get(row["id"])
+            if rec:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     if run_id:
         sim_dir = RESULTS_DIR / "simulations" / run_id
         lines = []
@@ -294,6 +339,8 @@ def run(run_id: str | None = None) -> None:
             lines.append(f.read_text())
         with gzip.open(downloads / f"decisions-{run_id}.jsonl.gz", "wt") as gz:
             gz.write("".join(lines))
+
+    from aidag.metadata import policy_area_labels
 
     meta = {
         "run_id": run_id,
@@ -303,6 +350,8 @@ def run(run_id: str | None = None) -> None:
             for code, info in PARTIES.items()
         },
         "hemicycle_order": HEMICYCLE_ORDER,
+        # policy_area code -> {sv, en} localized filter/chip labels (run-independent)
+        "policy_areas": policy_area_labels(),
         "attribution": RIKSDAG_ATTRIBUTION,
     }
     (SITE_DATA_DIR / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))

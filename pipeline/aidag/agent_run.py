@@ -21,6 +21,7 @@ Layout under data/interim/agentrun/{run_id}/:
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import polars as pl
 
@@ -55,12 +56,15 @@ def _system_filename(party: str, case: dict, prompt_version: str) -> str:
 CONTEXT_HEADROOM = 0.85     # leave room for the agent's reasoning turns
 TOOL_SLACK = 10_000         # file reads, retries
 OUTPUT_PER_CASE = 400       # motivering + citations, in tokens
-# The group agent emits every decision in ONE structured response, so the output
-# cap binds independently of the context window — a 1M window does not buy a 1M
-# response. A truncated response loses the whole group, and this project has
-# already lost an agent to a 32k output limit once (the manifest loader).
-MAX_OUTPUT_TOKENS = 24_000
-MAX_GROUP = MAX_OUTPUT_TOKENS // OUTPUT_PER_CASE   # 60 cases
+# Group agents no longer return every decision in ONE structured response; they
+# WRITE decisions to JSONL files in chunks (see scripts/grouped_batch_workflow.js),
+# so the 24k single-response cap that pinned a group to 60 cases no longer binds —
+# a chunk is a fresh Write per turn, and a merge script (aidag agent-merge) reads
+# the files back. Group size is now bounded by CONTEXT (plan_groups: the corpus +
+# every case + the agent's reasoning must fit the window) and by MAX_GROUP, a
+# sanity ceiling so one agent never owns an unreviewably large group. OUTPUT_PER_CASE
+# still enters the context budget: the agent holds what it has written so far.
+MAX_GROUP = 150
 
 
 def _tokens(text: str) -> int:
@@ -182,6 +186,14 @@ def prepare(
     (base / "batches").mkdir(exist_ok=True)
     (base / "groups").mkdir(exist_ok=True)
 
+    # Batch number is derived up front so the group agents' output directory can be
+    # scoped to this batch. Group filenames (g-NNNN) restart at 0 every prepare, so
+    # an un-scoped out dir would let a later batch's merge pick up stale files.
+    existing = sorted((base / "batches").glob("batch-*.json"))
+    n = int(existing[-1].stem.split("-")[1]) + 1 if existing else 1
+    out_dir = base / "out" / f"batch-{n:03d}"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
     def _system_file(party: str, case: dict) -> str:
         """One file per distinct context (12 under p4; 34 under p5, since the
         programme and the shadow budget roll over on their adoption dates)."""
@@ -278,8 +290,6 @@ def prepare(
             )
         items.append({"kind": "probe", "vid": case["votering_id"]})
 
-    existing = sorted((base / "batches").glob("batch-*.json"))
-    n = int(existing[-1].stem.split("-")[1]) + 1 if existing else 1
     manifest_path = base / "batches" / f"batch-{n:03d}.json"
     n_sims = sum(
         len(i["cids"]) if i["kind"] == "simgroup" else 1
@@ -300,6 +310,7 @@ def prepare(
                 "groups_dir": str(base / "groups"),
                 "probes_dir": str(base / "probes"),
                 "system_dir": str(base / "system"),
+                "out_dir": str(out_dir),
                 "items": items,
             },
             ensure_ascii=False,
@@ -324,3 +335,111 @@ def status(run_id: str) -> None:
         print(f"  next pending case date: {sims[0][2]['datum']}")
     batches = sorted((run_dir(run_id) / "batches").glob("batch-*.json"))
     print(f"  batch manifests issued: {len(batches)}")
+
+
+def _load_decisions(path: Path) -> list[dict]:
+    """Parse one out-file into a list of decision dicts. Liberal in what it
+    accepts — a group agent may have written JSONL (one object per line), a JSON
+    array, or a single object — and tolerant of a truncated final line, so a
+    partial write still yields every complete decision it holds."""
+    text = path.read_text()
+    try:
+        obj = json.loads(text)
+        if isinstance(obj, list):
+            return [d for d in obj if isinstance(d, dict)]
+        if isinstance(obj, dict) and isinstance(obj.get("decisions"), list):
+            return [d for d in obj["decisions"] if isinstance(d, dict)]
+        if isinstance(obj, dict) and "cid" in obj:
+            return [obj]
+    except json.JSONDecodeError:
+        pass
+    out: list[dict] = []
+    for line in text.splitlines():
+        s = line.strip().rstrip(",")
+        if not s or s in "[]{}":
+            continue
+        try:
+            d = json.loads(s)
+        except json.JSONDecodeError:
+            continue  # truncated / malformed line — the cid re-issues next prepare
+        if isinstance(d, dict):
+            out.append(d)
+    return out
+
+
+def merge(
+    run_id: str,
+    manifest_path: str | None = None,
+    probes_path: str | None = None,
+    out_path: str | None = None,
+) -> str:
+    """Collect the JSONL/JSON decision files the group agents wrote for a batch
+    into the single {run_id, sims, probes} payload `agent-ingest` consumes.
+
+    Files live under manifest['out_dir'] (scoped per batch). Each group's files
+    are named g-NNNN-*.jsonl. A decision keeps only cids the manifest issued to
+    that group (a stray/hallucinated cid is dropped and stays pending); dedupes
+    on cid. Whatever an agent failed to write is simply absent — the next
+    `agent-prepare` re-issues exactly those cids, so a partial batch is safe."""
+    base = run_dir(run_id)
+    if manifest_path:
+        mpath = Path(manifest_path)
+    else:
+        batches = sorted((base / "batches").glob("batch-*.json"))
+        if not batches:
+            raise FileNotFoundError(f"no batch manifests for run {run_id}")
+        mpath = batches[-1]
+    manifest = json.loads(mpath.read_text())
+    out_dir = Path(manifest["out_dir"])
+
+    groups = [i for i in manifest["items"] if i.get("kind") == "simgroup"]
+    sims: list[dict] = []
+    seen: set[str] = set()
+    n_expected = n_unknown = n_dup = 0
+    missing_by_group: list[tuple[str, int]] = []
+    for item in groups:
+        allowed = set(item["cids"])
+        n_expected += len(allowed)
+        stem = item["gf"][:-5] if item["gf"].endswith(".json") else item["gf"]
+        got: set[str] = set()
+        parts = sorted(out_dir.glob(f"{stem}-*.jsonl")) + sorted(out_dir.glob(f"{stem}-*.json"))
+        for p in parts:
+            for dec in _load_decisions(p):
+                cid = dec.get("cid")
+                if cid not in allowed:
+                    n_unknown += 1
+                    continue
+                if cid in seen:
+                    n_dup += 1
+                    continue
+                seen.add(cid)
+                got.add(cid)
+                party, vid = cid.split(":")[0], cid.split(":")[1]
+                sims.append({
+                    "cid": cid,
+                    "party": party,
+                    "vid": vid,
+                    "decision": {k: v for k, v in dec.items() if k != "cid"},
+                })
+        if allowed - got:
+            missing_by_group.append((stem, len(allowed - got)))
+
+    probes: list[dict] = []
+    if probes_path:
+        probes = json.loads(Path(probes_path).read_text()).get("probes", [])
+
+    out = Path(out_path) if out_path else base / f"{mpath.stem}-merged.json"
+    out.write_text(
+        json.dumps({"run_id": manifest["run_id"], "sims": sims, "probes": probes}, ensure_ascii=False)
+    )
+    print(f"merged {len(sims)}/{n_expected} decisions from {len(groups)} groups -> {out}")
+    if n_unknown:
+        print(f"  {n_unknown} decisions with cids not in this batch (dropped, stay pending)")
+    if n_dup:
+        print(f"  {n_dup} duplicate cids (dropped)")
+    if n_expected - len(sims):
+        head = ", ".join(f"{s}:{m}" for s, m in missing_by_group[:10])
+        print(f"  {n_expected - len(sims)} missing (re-issue on next prepare): {head}")
+    if probes:
+        print(f"  + {len(probes)} probes")
+    return str(out)

@@ -290,6 +290,7 @@ function docLabel(slug: string): string {
       <li><a href={`${base}/data/cases-index.json`}>cases-index.json</a> — {sv ? `index över ${meta.n_cases} ärenden` : `index of ${meta.n_cases} cases`}</li>
       <li><a href={`${base}/downloads/cases.csv`}>cases.csv</a> — {sv ? 'alla ärenden' : 'all cases'}</li>
       <li><a href={`${base}/downloads/party_positions.csv`}>party_positions.csv</a> — {sv ? 'partiernas verkliga positioner per votering' : 'actual party positions per division'}</li>
+      <li><a href={`${base}/downloads/case-metadata.jsonl`}>case-metadata.jsonl</a> — {sv ? 'ämne, vad som står på spel, delämnen och partiblind agentvy per ärende' : 'subject, what’s at stake, subtopics and a party-blind agent view per case'}</li>
       {meta.run_id && (
         <li><a href={`${base}/downloads/decisions-${meta.run_id}.jsonl.gz`}>decisions-{meta.run_id}.jsonl.gz</a> — {sv ? 'AI-beslut med citat (JSONL)' : 'AI decisions with citations (JSONL)'}</li>
       )}

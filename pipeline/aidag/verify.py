@@ -143,6 +143,14 @@ def verify_translate(run_id: str | None) -> None:
         check(name, ok, detail)
 
 
+def verify_metadata() -> None:
+    print("metadata:")
+    from aidag.metadata import verify_metadata as checks
+
+    for name, ok, detail in checks():
+        check(name, ok, detail)
+
+
 def verify_site() -> None:
     print("site:")
     from aidag.config import SITE_DATA_DIR
@@ -163,6 +171,7 @@ def run(stage: str, run_id: str | None = None) -> int:
         "kb": verify_kb,
         "worldstate": verify_worldstate,
         "prompts": verify_prompts,
+        "metadata": verify_metadata,
         "site": verify_site,
     }
     if stage == "simulate":

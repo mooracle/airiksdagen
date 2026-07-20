@@ -18,6 +18,8 @@ export interface Meta {
   n_cases: number;
   parties: Record<string, PartyInfo>;
   hemicycle_order: string[];
+  /** policy_area code -> localized filter/chip labels (from the utskott map) */
+  policy_areas: Record<string, { sv: string; en: string }>;
   attribution: string;
 }
 
@@ -72,8 +74,21 @@ export interface CompactMeanings {
   avstar_en: string;
 }
 
+/** Case metadata (deterministic facts + grounded synthesis); null until generated. */
+export interface CaseMeta {
+  type: string;
+  /** stable policy-area code (language-independent filter key) */
+  policy_area: string;
+  subject: { sv: string; en: string };
+  /** what is materially at stake / why it matters — NOT the literal Ja/Nej meanings */
+  at_stake: { sv: string; en: string };
+  subtopics: string[];
+  parties_involved: string[];
+}
+
 export interface CaseData {
   compact?: CompactMeanings;
+  meta?: CaseMeta;
   en?: CaseEn | null;
   votering_id: string;
   rm: string;
@@ -113,6 +128,13 @@ export interface IndexRow {
   agree: number;
   compared: number;
   hasAi: boolean;
+  /** stable policy-area code for the browser filter (present once metadata generated) */
+  policy_area?: string;
+  /** case type: budget|proposition|motion|other */
+  type?: string;
+  /** precomputed lowercased search blob: rubrik + rubrik_en + titel + bet + subject sv/en + subtopics */
+  search?: string;
+  miss?: string[];
 }
 
 function readJson<T>(rel: string): T {
