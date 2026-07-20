@@ -84,6 +84,8 @@ export interface CaseData {
   utskott: string;
   rubrik: string;
   dok_titel: string;
+  /** committee's pre-decision summary (utsknotis) — the neutral "what this is about" lead */
+  sammanfattning?: string;
   forslag_text: string;
   notis: string;
   alternatives: { alt_id: string; text: string; source_partier: string[] }[];

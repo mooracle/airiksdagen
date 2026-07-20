@@ -184,6 +184,9 @@ def run(run_id: str | None = None) -> None:
             "utskott": case["utskott"],
             "rubrik": case["rubrik"],
             "dok_titel": case["dok_titel"],
+            # utsknotis = committee's PRE-decision summary (what the agents read);
+            # surfaced as the case page's lead. notis (post-decision) stays at the bottom.
+            "sammanfattning": case["utsknotis"],
             "forslag_text": case["forslag_text"],
             "notis": case["notis"],
             "alternatives": alternatives,
