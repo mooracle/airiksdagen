@@ -1,12 +1,13 @@
 # AI Riksdag — vad partierna *borde* ha röstat enligt sina egna dokument
 
-> **English summary below.**
+**Live:** [airiksdagen.se](https://airiksdagen.se) · Built by [mooracle.io](https://mooracle.io) · Open research data & code (MIT)
 
 Ett öppet forskningsprojekt: för varje votering i Sveriges riksdag under mandatperioden
 2022–2026 låter vi en AI-agent per parti (S, M, SD, C, V, KD, MP, L) avgöra hur partiet
-*borde* rösta — **enbart** utifrån partiets egna dokument före valet 2022 (valmanifest,
-partiprogram, samt Tidöavtalet för regeringssidan) och en tidsbunden lägesbild av landet.
-Agenten får ingen information daterad efter beslutsdagen.
+*borde* rösta — **enbart** utifrån partiets egna dokument (valmanifest, partiprogram,
+budgetmotion, samt Tidöavtalet för regeringssidan), där varje dokument bara är synligt från
+sitt antagningsdatum, plus en tidsbunden lägesbild av landet. Agenten får ingen information
+daterad efter beslutsdagen.
 
 Resultatet jämförs med hur partiet faktiskt röstade och publiceras som en statisk webbplats
 med full statistik, källhänvisningar och en visualisering av kammarens 349 platser per ärende.
@@ -15,39 +16,104 @@ med full statistik, källhänvisningar och en visualisering av kammarens 349 pla
 verkliga utfallen. Vi mäter denna kontaminering med minnesprober och publicerar resultaten
 öppet. Projektet är partipolitiskt obundet; metodik, prompts, kod och rådata är öppna.
 
-## English summary
+> **English:** For every chamber vote in the Swedish Riksdag 2022–2026, one AI agent per party
+> decides how that party *should* vote based solely on the party's own documents — each visible
+> only from its adoption date — plus a point-in-time snapshot of the country, with no information
+> after the decision date. AI decisions are compared against actual party votes and published as a
+> static site. Framed as **reconstruction, not prediction**: training-data contamination is
+> measured with memorization probes and reported. Not affiliated with any party.
 
-An open research project: for every chamber vote in the Swedish Riksdag 2022–2026, one AI
-agent per party decides how that party *should* vote based solely on the party's own
-pre-election documents plus a point-in-time snapshot of the country — no information after
-the decision date. AI decisions are compared against actual party votes and published as a
-static website with full statistics, per-case 349-seat chamber visualizations, and source
-references. Framed as **reconstruction, not prediction** — training-data contamination is
-acknowledged, measured with memorization probes, and reported. Not affiliated with any party.
+---
 
-## Pipeline
+## Where to start
+
+| I want to… | Do this |
+|---|---|
+| **Just see the results** | Open [airiksdagen.se](https://airiksdagen.se) |
+| **Run the site locally** | `cd site && npm install && npm run dev` — reads committed JSON in `site/src/data/`, no Python needed |
+| **Explore the research pipeline** | `uv sync && uv run aidag --help` (Python 3.12+, [uv](https://docs.astral.sh/uv/)) |
+| **Understand the method** | [`docs/methodology.sv.md`](docs/methodology.sv.md) / the site's `/metod` page, and [`docs/data-sources.md`](docs/data-sources.md) |
+| **Reproduce a full run** | [`docs/orchestration-full-v3.md`](docs/orchestration-full-v3.md) (agent loop) + [`docs/deploy-cloudflare.md`](docs/deploy-cloudflare.md) (publish) |
+
+## Repository layout
 
 ```
-aidag fetch-votes    # bulk vote dumps → votes.parquet          (data.riksdagen.se)
-aidag fetch-cases    # dokumentstatus per case                  (data.riksdagen.se)
-aidag build-cases    # cases + actual party positions
-aidag fetch-corpus   # 2022 manifestos, partiprogram, Tidöavtalet (snd.se, liberalerna.se)
-aidag build-kb       # monthly point-in-time country snapshots  (Riksbanken, SCB, Wikipedia)
-aidag select-pilot   # stratified pilot sample
-aidag simulate       # AI party agents via Anthropic Batch API (--dry-run is free)
-aidag collect        # gather batch results
-aidag probe          # memorization probe (contamination measurement)
-aidag aggregate      # agreement stats, confusion matrices
-aidag export-site    # JSON for the Astro site
-aidag verify <stage> # integrity checks (CI gate)
+pipeline/aidag/     Python research pipeline — the `aidag` CLI (fetch → build → simulate → aggregate → export)
+site/               Astro static site (this is what gets deployed); reads only site/src/data/
+data/               Inputs and results (see table below)
+docs/               Methodology, data sources, run/deploy runbooks
+scripts/            Batch-workflow drivers (grouped_batch_workflow.js, run_batch.sh, …)
+tests/              pytest suite (leakage/citation golden tests, coalition metric, …)
+wrangler.toml       Cloudflare Workers Build config (deploy)
 ```
 
-Setup: `uv sync`, then `uv run aidag --help`. Site: `cd site && npm install && npm run dev`.
+## Where the data lives
+
+The site is fully reproducible from committed data — the Cloudflare build runs **no Python** and
+fetches nothing. Raw/intermediate artifacts are gitignored because they are re-fetchable from
+public APIs (see [`docs/data-sources.md`](docs/data-sources.md)).
+
+| Path | In git? | What it holds |
+|---|---|---|
+| `data/raw/` | gitignored | Raw API dumps from data.riksdagen.se (re-fetchable) |
+| `data/processed/` | gitignored | `votes.parquet`, `cases.parquet`, `party_positions.parquet` |
+| `data/interim/` | gitignored | Per-run agent system prompts + batch manifests |
+| `data/corpus/` | **committed** | Party documents: valmanifest, partiprogram, budgetmotion, Tidöavtalet |
+| `data/kb/`, `data/worldstate/` | **committed** | Point-in-time country snapshots (economy + events, publication-vintage gated) |
+| `data/results/simulations/full-v3/` | **committed** | AI decisions — one JSONL per party (`S.jsonl`, `M.jsonl`, …) |
+| `data/results/aggregates/full-v3/` | **committed** | `summary.json`, `confusion.json`, `coalition.json`, `coverage.json`, `party_timeseries.json` |
+| `site/src/data/` | **committed** | Exported per-case JSON + indexes the site reads (regenerated by `aidag export-site`) |
+| `site/public/data/`, `site/public/downloads/` | **committed** | Client-fetched case index + downloadable decision dumps |
+
+The current run is **`full-v3`** (prompt p5). Everything is keyed on `run_id`; `deploy.yml`/the site
+point at `full-v3`. `mock-v1` is a synthetic run kept only so tests and `npm run dev` work without
+the real data build.
+
+## The pipeline
+
+`uv run aidag <command>` — `--help` on any command for details.
+
+**A. Build the inputs** (run once; re-fetchable, needs `data/raw`):
+
+```
+fetch-votes        bulk votering dumps → votes.parquet          (data.riksdagen.se)
+fetch-cases        dokumentstatus per case                      (data.riksdagen.se)
+build-cases        cases + actual party positions
+fetch-corpus       manifestos, party programmes, budget motions, Tidöavtalet
+build-kb           monthly point-in-time country snapshots      (Riksbanken, SCB, Wikipedia)
+build-worldstate   per-date economy + events blocks (point-in-time)
+```
+
+**B. Run the agents and publish** (the full-v3 loop, see `docs/orchestration-full-v3.md`):
+
+```
+agent-prepare      emit the next subagent batch manifest (checkpoint-aware)
+   → run scripts/grouped_batch_workflow.js  (Opus agents via Claude Code subscription — no API key)
+agent-ingest       ingest a workflow batch result into the results layout
+repair-citations   align paraphrased quotes to the verbatim source span (+ block-list / weak-tier)
+verify simulate    integrity gate — no hallucinated or out-of-context citations
+aggregate          agreement stats, confusion matrices, coalition-vs-programme metric
+export-site        write per-case JSON + indexes → site/src/data/
+probe              memorization probe (contamination measurement)
+translate-*        English translations (checkpoint-aware); compare-runs, agent-status
+```
+
+> Decisions are produced by Claude Code subagents on a Claude subscription (no Anthropic API key
+> required). The legacy `select-pilot` / `simulate` / `collect` commands drive the Anthropic Batch
+> API path and are kept for reference; the published `full-v3` run uses the subagent workflow.
+
+**Publish a refresh:** `aggregate` → `export-site` → `cd site && npm run build` (gate) → commit
+`site/src/data data/results` → `git push` (Cloudflare rebuilds the site). See
+[`docs/deploy-cloudflare.md`](docs/deploy-cloudflare.md).
 
 ## Data sources & attribution
 
 - Voteringar och dokument: **Källa: Sveriges riksdag** ([data.riksdagen.se](https://data.riksdagen.se))
-- Valmanifest och partiprogram: [SND Vivill](https://snd.se/sv/vivill) (Public Domain Mark)
+- Valmanifest, partiprogram: [SND Vivill](https://snd.se/sv/vivill) (Public Domain Mark)
 - Makrodata: Sveriges riksbank, SCB. Händelser: Wikipedia (CC BY-SA 4.0)
 
-See `docs/data-sources.md` for every endpoint and license. Code is MIT-licensed.
+Every endpoint and license is listed in [`docs/data-sources.md`](docs/data-sources.md). Code is MIT-licensed.
+
+---
+
+Built by **[mooracle.io](https://mooracle.io)** · Live at **[airiksdagen.se](https://airiksdagen.se)**

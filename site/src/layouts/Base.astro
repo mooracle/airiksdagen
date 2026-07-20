@@ -100,7 +100,8 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
         </div>
         <div>
           <strong>{t('footer.open')}</strong>
-          <p>{t('footer.license')} <a href="https://github.com/OWNER/aidag">GitHub</a></p>
+          <p>{t('footer.license')} <a href="https://github.com/mooracle/aidag">GitHub</a></p>
+          <p class="builtby">{t('footer.builtby')} <a href="https://mooracle.io">mooracle.io</a></p>
         </div>
       </div>
     </footer>
@@ -198,6 +199,7 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
 
   footer { background: var(--ink); color: #b7c1c9; margin-top: 3rem; border-top: 2px solid var(--gold); }
   footer a { color: #dbe4ea; }
+  footer .builtby { margin-top: 0.4rem; font-size: 0.85em; opacity: 0.75; }
   .foot {
     max-width: 1120px; margin: 0 auto; padding: 2.4rem 1.3rem;
     display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

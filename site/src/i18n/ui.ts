@@ -146,6 +146,7 @@ export const ui = {
     'coverage.inferred': 'härlett',
     'coverage.not_covered': 'täcks ej',
     'footer.license': 'Öppen forskningsdata och kod (MIT).',
+    'footer.builtby': 'Byggt av',
   },
   en: {
     'site.title': 'AI Riksdag',
@@ -291,6 +292,7 @@ export const ui = {
     'coverage.inferred': 'inferred',
     'coverage.not_covered': 'not covered',
     'footer.license': 'Open research data and code (MIT).',
+    'footer.builtby': 'Built by',
   },
 } as const;
 
