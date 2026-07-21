@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import re
+from html import unescape
 
 import polars as pl
 
@@ -34,7 +35,16 @@ def _clean_html(text: str | None) -> str:
     if not text:
         return ""
     text = text.replace("<br />", "\n").replace("<BR/>", "\n").replace("<br>", "\n")
-    return TAG_RE.sub("", text).strip()
+    text = TAG_RE.sub("", text)
+    # Riksdag HTML fields arrive entity-encoded ('f&ouml;rslag', '&sect;', '&#173;').
+    # Tags are stripped above but entities are not, so the full case text reaches
+    # the agent prompt (and the site) mangled. Decode them; drop the soft hyphens
+    # &#173; injects mid-word (as the corpus normalizer does) and fold nbsp to a
+    # real space so downstream whitespace collapsing works.
+    text = unescape(text)
+    text = text.replace("­", "").replace(" ", " ")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.strip()
 
 
 def _parse_partier(raw: str | None) -> list[str]:

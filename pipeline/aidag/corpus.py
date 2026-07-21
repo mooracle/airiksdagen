@@ -103,6 +103,34 @@ def budget_excluded(code: str, rm: str, votering_id: str, datum: str) -> bool:
     return b["dok_id"] in _references_by_case().get(votering_id, set())
 
 
+# PDF display fonts encode fi/fl/ff as single ligature glyphs (U+FB00-06). NFC is
+# canonical and leaves them, so an agent quoting "uppfinningsrikedom" would fail
+# verify against a corpus that stores "uppﬁnningsrikedom". Folded explicitly, and
+# BEFORE the hyphenation join below, so a word broken right after a ligature
+# ("upp-\nﬁnning") still rejoins to one word.
+_LIGATURES = str.maketrans(
+    {"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "ft", "ﬆ": "st"}
+)
+
+
+def _broken_font_line(s: str) -> bool:
+    """A line dominated by control or Latin-Extended-A/B glyphs.
+
+    The residue of a heading set in a display font with no ToUnicode map: PyMuPDF
+    reads its glyph ids as gibberish codepoints ('ƞřƞÒĲÒĉéù@'). mp-2013's 50
+    section headings are the only case in the corpus; the body prose is intact.
+    These character ranges never occur in the clean Swedish/English of these
+    documents, so >=2 on one line is a reliable, prose-safe signal.
+    """
+    return (
+        sum(
+            (c < " " and c != "\t") or "\x7f" <= c <= "\x9f" or "Ā" <= c <= "ɏ"
+            for c in s
+        )
+        >= 2
+    )
+
+
 def normalize(text: str) -> str:
     """Serve-time cleanup applied to every p5 document.
 
@@ -119,12 +147,16 @@ def normalize(text: str) -> str:
     text = re.sub(r"^<!--.*?-->\n", "", text, flags=re.S)
     text = unicodedata.normalize("NFC", text)
     text = text.replace("­", "").replace("​", "").replace(" ", " ")
+    text = text.translate(_LIGATURES)                         # fi/fl/ff ligature glyphs
+    text = re.sub(r"(?<=\w)¬(?=\w)", "", text)                # stray NOT SIGN inside a word
     text = re.sub(r"(\w)-\s*\n\s*(?=[a-zåäö])", r"\1", text)   # hyphenation across a line break
     text = re.sub(r"\.{4,}\s*\d*", " ", text)                  # table-of-contents dot leaders
     text = re.sub(r"[ \t]+", " ", text)
     text = "\n".join(
         s for line in text.splitlines()
-        if (s := line.strip()) and not re.fullmatch(r"[\d\s.,%‑‒–—•·|-]+", s)
+        if (s := line.strip())
+        and not re.fullmatch(r"[\d\s.,%‑‒–—•·|-]+", s)
+        and not _broken_font_line(s)
     )
     return re.sub(r"\n{3,}", "\n\n", text).strip()
 
