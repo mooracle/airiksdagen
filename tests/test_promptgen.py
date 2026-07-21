@@ -58,7 +58,7 @@ def test_author_party_stripped_in_anonymous_arm():
     msg = render_user_message(CASE, arm="anonymous")
     assert "Jonny Cato" not in msg
     assert "(båda C)" not in msg
-    assert "Alternativ A: Reservation 1" in msg
+    assert "Alternativ A:" in msg  # the counter-proposal renders (label or substance)
     assert "(C)" not in msg
 
 
@@ -99,6 +99,58 @@ def test_labeled_arm_keeps_party_tag_from_prose():
 def test_labeled_arm_keeps_reservation_party():
     msg = render_user_message(CASE, arm="labeled")
     assert "Alternativ A (C):" in msg
+
+
+# The reservation-substance layer feeds the party-blind argument of each
+# counter-proposal into the prompt, so the agent can weigh a Nej on substance
+# rather than an opaque "Reservation N". Attached to the alt here so the test is
+# hermetic (no dependency on the results JSONL).
+SUBST_CASE = {
+    **CASE,
+    "alternatives": [
+        {"alt_id": "utskottet", "text": "Bifall till propositionen", "source_partier": []},
+        {
+            "alt_id": "res-1",
+            "text": "Reservation 1",
+            "source_partier": ["C"],
+            "substance": {
+                "sv": "Motförslaget vill att arbetslöshetsförsäkringen ska omfatta fler egenföretagare.",
+                "en": "The counter-proposal wants unemployment insurance to cover more self-employed people.",
+            },
+        },
+    ],
+}
+
+
+def test_reservation_substance_rendered_anonymous():
+    msg = render_user_message(SUBST_CASE, arm="anonymous")
+    assert "Alternativ A: Motförslaget vill att arbetslöshetsförsäkringen" in msg
+    assert "Reservation 1" not in msg  # opaque label replaced by the substance
+
+
+def test_reservation_substance_is_leak_free():
+    msg = render_user_message(SUBST_CASE, arm="anonymous")
+    for pattern in FORBIDDEN_PATTERNS:
+        assert not re.search(pattern, msg), f"leaked pattern {pattern} via substance"
+    from aidag.promptgen import PARTY_TAG_RE
+
+    i, j = msg.find("<arende>"), msg.find("</arende>")
+    assert not PARTY_TAG_RE.search(msg[i:j])
+
+
+def test_labeled_arm_keeps_party_and_substance():
+    msg = render_user_message(SUBST_CASE, arm="labeled")
+    assert "Alternativ A (C): Motförslaget vill att arbetslöshetsförsäkringen" in msg
+
+
+def test_reservation_falls_back_to_label_without_substance(monkeypatch):
+    # With the substance layer empty (CI, or a case it hasn't covered), the opaque
+    # label is kept, never dropped.
+    from aidag import promptgen
+
+    monkeypatch.setattr(promptgen, "_reservations_layer", lambda: {})
+    msg = render_user_message(CASE, arm="anonymous")
+    assert "Alternativ A: Reservation 1" in msg
 
 
 def test_coarse_time():

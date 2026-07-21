@@ -6,6 +6,7 @@
 import Base from '../layouts/Base.astro';
 import { getMeta, listCorpusDocs } from '../lib/data';
 import { localePath, type Lang } from '../i18n/ui';
+import example from '../data/example-request.json';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -28,6 +29,36 @@ function docLabel(slug: string): string {
     return sv ? `Budgetmotion ${rmYears(m[2])} — ${partyName(m[1])}` : `Shadow budget ${rmYears(m[2])} — ${partyName(m[1])}`;
   return slug;
 }
+
+// --- Worked example: the exact request sent to the M and S agents for one case.
+// Data (byte-accurate role/user text + the two verified decisions) lives in
+// src/data/example-request.json; here we only add display labels.
+const ex = example as any;
+const voteEn: Record<string, string> = { Ja: 'Yes', Nej: 'No', 'Avstår': 'Abstain' };
+const voteLabel = (v: string) => (sv ? v : voteEn[v] ?? v);
+const confSv: Record<string, string> = { low: 'låg', medium: 'medel', high: 'hög' };
+const confLabel = (c: string) => (sv ? confSv[c] ?? c : c);
+const casePath = localePath(lang, `/fall/${ex.votering_id}/`);
+const dokPath = (slug: string) => localePath(lang, `/dokument/${slug}/`);
+const slugByKind = (list: { slug: string; kind: string }[], kind: string) =>
+  list.find((d) => d.kind === kind)?.slug ?? null;
+const answers = [
+  { code: 'M', dec: ex.decM, docs: ex.docsM },
+  { code: 'S', dec: ex.decS, docs: ex.docsS },
+];
+const schemaSummary = `{
+  "rost":       "Ja" | "Nej" | "Avstår",
+  "confidence": "low" | "medium" | "high",
+  "coverage":   "explicit" | "inferred" | "not_covered",
+  "motivering": "kort motivering på svenska (2–4 meningar)",
+  "citations": [
+    { "document": "valmanifest | partiprogram | tidoavtalet | budgetmotion",
+      "quote":    "ordagrant utdrag ur dokumentet",
+      "princip":  "2–6 ord som namnger åtagandet" }
+  ],
+  "omvarld": { "paverkar": false, "faktorer": [] },
+  "flags":   []
+}`;
 ---
 
 <Base lang={lang} title={sv ? 'Om projektet' : 'About'} path="/om/">
@@ -40,6 +71,7 @@ function docLabel(slug: string): string {
 
   <nav class="jump" aria-label={sv ? 'På denna sida' : 'On this page'}>
     <a href="#metod">{sv ? 'Metod' : 'Methodology'}</a>
+    <a href="#exempel">{sv ? 'Exempel' : 'Worked example'}</a>
     <a href="#dokument">{sv ? 'Källdokument' : 'Source documents'}</a>
     <a href="#data">{sv ? 'Data & kod' : 'Data & code'}</a>
   </nav>
@@ -251,6 +283,134 @@ function docLabel(slug: string): string {
         party or with the Riksdag.</p>
       </Fragment>
     )}
+
+    <div id="exempel" class="worked">
+      <h3>{sv ? 'Ett exempel: vad agenten får se' : 'A worked example: what the agent receives'}</h3>
+      <p>
+        {sv
+          ? 'Så här ser en enda förfrågan ut — samma votering, för Moderaterna och Socialdemokraterna. Varje agent får partiets egna dokument, lägesbilden vid tidpunkten och ärendet, och inget mer. Rösten, motiveringen och citaten längst ned är AI-agenternas faktiska svar, ordagrant verifierade mot dokumenten.'
+          : 'This is what a single request looks like — the same division, for the Moderates and the Social Democrats. Each agent receives that party’s own documents, the country snapshot at the time and the case, and nothing else. The vote, reasoning and quotes at the bottom are the agents’ actual answers, verified verbatim against the documents.'}
+      </p>
+
+      <p class="wx-notice">
+        {sv
+          ? 'Detta exempel visar nästa version av metoden: motförslaget beskrivs nu med sitt sakinnehåll i stället för bara ”Reservation 7”. Den versionen håller på att köras om för hela materialet — tills omkörningen är klar visar övriga ärendesidor den föregående körningen, och svaren där kan därför skilja sig från exemplet.'
+          : 'This example shows the next version of the method: the counter-proposal is now described by its substance rather than just “Reservation 7”. That version is being re-run across the whole dataset — until the rebuild finishes, the other case pages show the previous run, so the answers there may differ from this example.'}
+      </p>
+
+      <h4>{sv ? '1. Ärendet' : '1. The case'}</h4>
+      <div class="card wx-case">
+        <p class="wx-chips">
+          <span class="chip">{sv ? ex.case.when_sv : ex.case.when_en}</span>
+          <span class="chip">{ex.case.utskott}</span>
+          <span class="chip topic">{sv ? 'skatt' : 'tax'}</span>
+        </p>
+        <strong>{sv ? ex.case.rubrik_sv : ex.case.rubrik_en}</strong>
+        <p class="muted">{sv ? ex.case.subject_sv : ex.case.subject_en}</p>
+        <ul class="wx-alts">
+          <li><span class="votechip" data-v="Ja">{voteLabel('Ja')}</span> {sv ? ex.case.ja_sv : ex.case.ja_en}</li>
+          <li><span class="votechip" data-v="Nej">{voteLabel('Nej')}</span> {sv ? ex.case.nej_sv : ex.case.nej_en}</li>
+          <li><span class="votechip" data-v="Avstår">{voteLabel('Avstår')}</span> {sv ? ex.case.avstar_sv : ex.case.avstar_en}</li>
+        </ul>
+        <p class="wx-morelink"><a href={casePath}>{sv ? 'Hela ärendesidan' : 'Full case page'} →</a></p>
+      </div>
+
+      <h4>{sv ? '2. Dokumenten varje agent får' : '2. The documents each agent gets'}</h4>
+      <div class="wx-docs">
+        {answers.map((a) => (
+          <div class="card">
+            <p class="wx-party"><span class="pdot" style={`background:${meta.parties[a.code]?.color}`} /><strong>{a.code} — {partyName(a.code)}</strong></p>
+            <ul class="wx-doclist">
+              {a.docs.map((d: any) => (
+                <li>
+                  <a href={dokPath(d.slug)}>{docLabel(d.slug).split(' — ')[0]}</a>
+                  <span class="muted"> · {d.words.toLocaleString(sv ? 'sv' : 'en')} {sv ? 'ord' : 'words'}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="muted wx-small">
+              {a.code === 'M'
+                ? (sv ? 'M har undertecknat Tidöavtalet, som därför ingår.' : 'M has signed the Tidö agreement, so it is included.')
+                : (sv ? 'S lägger en egen budgetmotion; partiprogrammet är från 2013.' : 'S files its own shadow budget; the party programme is from 2013.')}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p class="muted wx-small">
+        {sv
+          ? 'Bara S, V, C och MP lägger en egen budgetmotion, och M/KD/L/SD (men inte S) får Tidöavtalet — därför skiljer sig dokumentlistan mellan partierna.'
+          : 'Only S, V, C and MP file a shadow budget, and M/KD/L/SD (but not S) receive the Tidö agreement — which is why the document list differs between parties.'}
+      </p>
+
+      <h4>{sv ? '3. Systeminstruktionen' : '3. The system instruction'}</h4>
+      <details class="card wx-details">
+        <summary>{sv ? 'Roll och regler (ordagrant)' : 'Role and rules (verbatim)'}</summary>
+        <p class="muted wx-small">
+          {sv
+            ? 'M-agentens version. S-agentens är identisk så när som på partinamnet och den extra raden om Tidöavtalet.'
+            : 'The M agent’s version. The S agent’s is identical apart from the party name and the extra line about the Tidö agreement.'}
+        </p>
+        <pre class="wx-pre">{ex.roleM_sv}</pre>
+      </details>
+
+      <h4>{sv ? '4. Förfrågan' : '4. The request'}</h4>
+      <div class="card">
+        <p class="muted wx-small">
+          {sv
+            ? 'Identisk för båda partierna. Notera: inga datum, diarienummer eller partinamn — och motförslaget beskrivs med sin sakinnebörd, inte som ”Reservation 7”.'
+            : 'Identical for both parties. Note: no dates, document numbers or party names — and the counter-proposal is described by its substance, not as “Reservation 7”.'}
+        </p>
+        <pre class="wx-pre">{ex.user_sv}</pre>
+      </div>
+
+      <details class="card wx-details">
+        <summary>{sv ? '5. Svarsschemat agenten måste följa' : '5. The response schema the agent must return'}</summary>
+        <pre class="wx-pre">{schemaSummary}</pre>
+      </details>
+
+      <h4>{sv ? '6. Vad agenterna svarade' : '6. What the agents answered'}</h4>
+      <div class="wx-answers">
+        {answers.map((a) => (
+          <div class="card wx-ans">
+            <p class="wx-ans-head">
+              <span class="pdot" style={`background:${meta.parties[a.code]?.color}`} />
+              <strong>{a.code} — {partyName(a.code)}</strong>
+              <span class="votechip" data-v={a.dec.rost}>{voteLabel(a.dec.rost)}</span>
+            </p>
+            <p class="wx-meta muted">
+              {sv ? 'säkerhet' : 'confidence'}: {confLabel(a.dec.confidence)}
+              {a.dec.flags?.includes('regeringslinje') && (
+                <> · <span class="chip">{sv ? 'regeringslinje' : 'government line'}</span></>
+              )}
+            </p>
+            <p class="wx-motiv">{sv ? a.dec.motivering : a.dec.motiveringEn}</p>
+            <ul class="wx-cites">
+              {a.dec.citations.map((c: any) => {
+                const slug = slugByKind(a.docs, c.document);
+                return (
+                  <li>
+                    <span class="chip">{sv ? c.princip : c.principEn}</span>
+                    <blockquote>
+                      »{c.quote}«
+                      {slug && <> <a class="wx-src" href={dokPath(slug)}>{sv ? 'källa' : 'source'}</a></>}
+                      {!sv && c.quoteEn && <span class="wx-gloss muted"> “{c.quoteEn}”</span>}
+                    </blockquote>
+                  </li>
+                );
+              })}
+            </ul>
+            <p class="wx-actual">
+              {sv ? 'Faktisk röst' : 'Actual vote'}:{' '}
+              <span class="votechip" data-v={a.dec.actual}>{voteLabel(a.dec.actual)}</span>{' '}
+              <span class={a.dec.match ? 'match' : 'mismatch'}>
+                {a.dec.match ? (sv ? '✓ stämmer' : '✓ matches') : (sv ? '✗ avviker' : '✗ differs')}
+              </span>
+            </p>
+            {a.dec.noteSv && <p class="muted wx-note">{sv ? a.dec.noteSv : a.dec.noteEn}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
   </section>
 
   <section id="dokument" class="about-sec">
@@ -321,5 +481,45 @@ function docLabel(slug: string): string {
     table.docs th, table.docs td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
     table.docs th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
     table.docs td:first-child { font-weight: 600; white-space: nowrap; }
+
+    /* --- Worked example --- */
+    .worked { scroll-margin-top: 5rem; margin-top: 2rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+    .worked h4 { margin: 1.5rem 0 0.5rem; font-size: 1rem; }
+    .wx-notice {
+      font-size: 0.88rem; color: var(--ink-2); background: var(--accent-wash, #f4f1e8);
+      border-left: 3px solid var(--gold, #c8a24a); border-radius: 0 6px 6px 0;
+      padding: 0.65rem 0.9rem; margin: 0.6rem 0 0;
+    }
+    .wx-chips { margin: 0 0 0.5rem; }
+    .wx-case strong { font-size: 1.05rem; }
+    .wx-alts { list-style: none; padding: 0; margin: 0.7rem 0 0.3rem; display: grid; gap: 0.45rem; }
+    .wx-alts li { font-size: 0.92rem; }
+    .wx-morelink { margin: 0.6rem 0 0; }
+    .wx-docs { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 0.3rem 0; }
+    .wx-party { margin: 0 0 0.4rem; display: flex; align-items: center; gap: 0.45rem; }
+    .pdot { width: 0.75em; height: 0.75em; border-radius: 50%; display: inline-block; flex: none; }
+    .wx-doclist { margin: 0; padding-left: 1.1rem; font-size: 0.9rem; }
+    .wx-doclist li { margin: 0.2rem 0; }
+    .wx-small { font-size: 0.82rem; }
+    .wx-details summary { cursor: pointer; font-weight: 600; }
+    .wx-pre {
+      white-space: pre-wrap; word-break: break-word; overflow-x: auto;
+      background: var(--panel-2, #f3f1ea); border: 1px solid var(--line-soft);
+      border-radius: 6px; padding: 0.8rem 0.9rem; margin: 0.7rem 0 0;
+      font-size: 0.8rem; line-height: 1.5; max-height: 30rem; overflow-y: auto;
+    }
+    .wx-answers { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .wx-ans-head { margin: 0 0 0.35rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .wx-meta { margin: 0 0 0.5rem; font-size: 0.82rem; }
+    .wx-motiv { margin: 0 0 0.6rem; font-size: 0.92rem; }
+    .wx-cites { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+    .wx-cites blockquote {
+      margin: 0.25rem 0 0; padding-left: 0.7rem; border-left: 2px solid var(--line);
+      font-size: 0.86rem; color: var(--ink-2);
+    }
+    .wx-src { font-size: 0.78rem; white-space: nowrap; }
+    .wx-gloss { display: block; font-style: italic; font-size: 0.82rem; margin-top: 0.15rem; }
+    .wx-actual { margin: 0.7rem 0 0; font-size: 0.9rem; }
+    .wx-note { margin: 0.4rem 0 0; font-size: 0.82rem; }
   </style>
 </Base>

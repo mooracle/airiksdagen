@@ -308,9 +308,11 @@ class TestValidateMetadata:
             validate_metadata(rec)
 
     def test_rejects_beteckning_in_agent(self):
-        # a beteckning WITH letters is caught by FORBIDDEN_PATTERNS
+        # a beteckning WITH letters ("…:AU10") is now caught by the broadened
+        # DOCREF_RE (alpha-prefixed betänkande refs), before the FORBIDDEN_PATTERNS
+        # fallback — still rejected either way.
         rec = synth_record(agent={"subject": "Betänkande 2023/24:AU10.", "at_stake": "x"})
-        with pytest.raises(ValueError, match="forbidden pattern"):
+        with pytest.raises(ValueError, match="document ref"):
             validate_metadata(rec)
 
     def test_rejects_empty_subject(self):

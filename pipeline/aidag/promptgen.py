@@ -195,7 +195,11 @@ def build_system_blocks(
 
 import re
 
-DOCREF_RE = re.compile(r"\b\d{4}/\d{2}:\d+[a-z]?\b")
+# Riksdag document references: numeric motion refs ("2023/24:78", "…:78a") AND
+# alpha-prefixed betänkande/committee refs ("2025/26:RS5", "2023/24:AU10"). Both
+# are memorization keys and must be masked; the earlier numeric-only pattern let
+# the alpha-prefixed form slip into the case text uncaught.
+DOCREF_RE = re.compile(r"\b\d{4}/\d{2}:(?:[A-Za-zÅÄÖ]{1,5})?\d+[a-z]?\b")
 # "…avslår motion 2022/23:2372 av Jonny Cato och Helena Vilhelmsson (båda C)." —
 # the author clause leaks reservation authorship; strip it in the anonymous arm.
 # The middle allows any non-paren, non-newline char (so abbreviations like
@@ -288,6 +292,34 @@ def coarse_time(datum: str) -> str:
     return f"{SV_MONTH_NAMES[int(datum[5:7]) - 1]} {datum[:4]}"
 
 
+@lru_cache(maxsize=1)
+def _reservations_layer() -> dict:
+    """Party-blind reservation substance keyed 'votering_id:alt_id'.
+
+    Cached for the process: batch renderers (simulate/agent-run/verify/dump) are
+    separate processes from the reservations CLI, so the JSONL is stable while a
+    run renders. The layer is optional — if it is absent the prompt falls back to
+    the opaque "Reservation N" label.
+    """
+    try:
+        from aidag.reservations import load_reservations
+
+        return load_reservations()
+    except Exception:  # noqa: BLE001 — layer is optional; degrade to raw label
+        return {}
+
+
+def _reservation_substance_sv(case: dict, alt: dict) -> str | None:
+    """Swedish substance of one counter-proposal — what it actually argues, with
+    authorship/party scrubbed. Taken from the alt itself (site export attaches it)
+    or from the reservation-substance layer (parquet path). None if not recovered."""
+    sub = alt.get("substance")
+    if not sub:
+        rec = _reservations_layer().get(f"{case.get('votering_id', '')}:{alt.get('alt_id')}")
+        sub = rec.get("subject") if rec else None
+    return (sub or {}).get("sv") or None
+
+
 def render_user_message(case: dict, arm: str = "anonymous") -> str:
     parts = [f"Tidpunkt: {coarse_time(case['datum'])}."]
     # p4: per-date worldstate; monthly KB only as fallback if not built
@@ -314,11 +346,17 @@ def render_user_message(case: dict, arm: str = "anonymous") -> str:
         parts.append("Motförslag i voteringen:")
         for i, alt in enumerate(reservations):
             label = chr(ord("A") + i)
+            # Show what the counter-proposal actually argues (party-blind, recovered
+            # by the reservation-substance layer) instead of the opaque "Reservation N",
+            # so the agent can reason about a Nej on substance. Already de-leaked at
+            # ingest; scrubbed again here as defence-in-depth. Falls back to the raw
+            # label for cases the layer has not covered yet.
+            body = scrub_text(_reservation_substance_sv(case, alt) or alt["text"], arm)
             if arm == "labeled" and alt.get("source_partier"):
                 who = ", ".join(alt["source_partier"])
-                parts.append(f"- Alternativ {label} ({who}): {scrub_text(alt['text'], arm)}")
+                parts.append(f"- Alternativ {label} ({who}): {body}")
             else:
-                parts.append(f"- Alternativ {label}: {scrub_text(alt['text'], arm)}")
+                parts.append(f"- Alternativ {label}: {body}")
     parts.append("</arende>")
     parts.append(
         "Hur borde partiet rösta i sakfrågan (Ja/Nej/Avstår), enligt sina egna dokument?"

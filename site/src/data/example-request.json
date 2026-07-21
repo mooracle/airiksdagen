@@ -1,0 +1,134 @@
+{
+ "votering_id": "0C008E7E-5063-43A5-A7D9-BC18635C0883",
+ "roleM_sv": "Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: avgör hur partiet Moderaterna (M) BORDE rösta i en votering i Sveriges riksdag — uteslutande utifrån partiets egna dokument som återges nedan, och lägesbilden av landet vid tidpunkten. Detta är en rekonstruktion av dokumenttrohet, inte en förutsägelse.\n\nRegler:\n- Grunda beslutet ENBART på dokumenten nedan. Använd inte kunskap om hur partiet faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunkten.\n- Om dokumenten inte täcker frågan: härled från dokumentens principer och ange coverage=\"inferred\", eller ange coverage=\"not_covered\" och rösta utifrån närmast liggande princip.\n- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. Välj det STÄLLE i dokumenten som faktiskt bär beslutet — inte en allmän formulering. Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat en kort \"princip\" (2–6 ord) som namnger åtagandet, t.ex. \"minskad asylinvandring\" eller \"höjda försvarsanslag\".\n\nSå fungerar voteringen (voteringsordning i kammaren):\n- Ja = du stödjer utskottets förslag (beslutsförslaget).\n- Nej = du stödjer motförslaget i den slutliga propositionen, eller avvisar förslaget.\n- Avstår = partiet hade en egen linje (t.ex. en egen reservation) som inte står i det slutliga propositionsparet; att avstå markerar den egna linjen. Använd Avstår när dokumenten pekar på en tydligt egen position som varken utskottsförslaget eller motförslaget motsvarar.\n\nOmvärldsläget (\"Läget i landet och omvärlden\" nedan) är inkommande läge som partiet inte kunde planera för. Regler för omvärlden:\n- Dokumenten är alltid grunden för rösten. Omvärlden får vägas in ENDAST när den väsentligt påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen aldrig förutsåg).\n- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med kort effekt. Annars omvarld.paverkar=false och tom lista.\n- Om dokumenten saknar svar och omvärlden avgör: sätt coverage=\"not_covered\" OCH omvarld.paverkar=true.\n\nSvara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: 2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur det leder till Ja/Nej/Avstår.\nSärskild kontext: Moderaterna ingår i regeringsunderlaget och har undertecknat Tidöavtalet (återges nedan). Avtalet är en gemensam överenskommelse som partiet förbundit sig att genomföra; väg det mot partiets egna dokument där de skiljer sig.\nDokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst.",
+ "user_sv": "Tidpunkt: april 2024.\n<laget_i_landet_och_omvarlden>\nRegering: Ulf Kristersson (M+KD+L), stödparti: SD\nRiksbankens styrränta: 4.0 % (avser 2024-04)\nInflation (KPI, årstakt): 4.5 % (avser 2024-02)\nArbetslöshet (säsongrensad): 8.1 % (avser 2024-02)\nBNP-indikator (årstakt): 0.9 % (avser 2024-01)\nKonjunkturbarometern (100 = normalläge): 93.1 index (avser 2024-03)\nVäxelkurs EUR/SEK: 11.4555 SEK (avser 2024-04)\nElpris SE3 (30-dagarssnitt): 0.53 kr/kWh (avser 2024-04)\nAsylansökningar (månad): 1050.0 st (avser 2024-01)\nSenaste tidens händelser och frågor (urval):\n- Skriftlig fråga i riksdagen: Kinesisk hackerattack\n- Interpellation i riksdagen: Jämställda löner\n- Skriftlig fråga i riksdagen: Tågförseningar och inställda tåg på Södra stambanan\n- Interpellation i riksdagen: Småskalig djurhållning för livsmedelsproduktion\n- Total solförmörkelse i Nordamerika.\n- Ecuadoriansk polis stormar Mexikos ambassad i Ecuadors huvudstad Quito och griper den tidigare ecuadorianske vicepresidenten Jorge Glas, som flytt till ambassaden efter att ha beviljats politisk asyl i Mexiko. Räden fördöms av flera länder, och leder till att Mexiko bryter sina diplomatiska förbindelser med Ecuador.\n- En person dödas och två andra skadas allvarligt i en skolskjutning i Vanda i Finland. Såväl gärningspersonen som offret är omkring 12 år gamla.\n- Gränskontrollerna vid de inre luft- och sjögränserna mellan Bulgarien, Rumänien och Schengenområdet upphävs.\n- FN:s säkerhetsråd godkänner en resolution som manar till omedelbar vapenvila i Gaza efter att USA, som tidigare lagt in sitt veto mot liknande resolutioner, lägger ner sin röst.\n- Minst 133 personer dödas och 152 skadas i ett attentat mot en konsertlokal utanför Rysslands huvudstad Moskva.\n</laget_i_landet_och_omvarlden>\n<arende>\nUtskott: SkU\nÄrende: F-skatt och näringsverksamhet\nBetänkande: Skatteförfarande och folkbokföring\nSammanfattning: Skatteutskottet föreslår att riksdagen säger nej till cirka 90 förslag i motioner om skatteförfarande och folkbokföring från den allmänna motionstiden 2023. Utskottet hänvisar bland annat till pågående arbete inom området.\nMotionerna handlar bland annat om synliga skatter och avgifter, F-skatt och näringsverksamhet samt skyddade uppgifter.\nUtskottets förslag: Riksdagen avslår motionerna \n\n[nr] yrkande 3, \n\n[nr] yrkandena 6 och 7, \n\n[nr], \n\n[nr], \n\n[nr], \n\n[nr] yrkande 1 och \n\n[nr] yrkande 11.\nMotförslag i voteringen:\n- Alternativ A: Motförslaget vill att reglerna för F-skattgodkännande skärps för att förhindra falsk egenföretagande och villkorsdumpning.\n</arende>\nHur borde partiet rösta i sakfrågan (Ja/Nej/Avstår), enligt sina egna dokument?",
+ "docsM": [
+  {
+   "slug": "valmanifest-2022-m",
+   "kind": "valmanifest",
+   "words": 11276
+  },
+  {
+   "slug": "partiprogram-m-2021",
+   "kind": "partiprogram",
+   "words": 10454
+  },
+  {
+   "slug": "tidoavtalet-2022",
+   "kind": "tidoavtalet",
+   "words": 19453
+  }
+ ],
+ "docsS": [
+  {
+   "slug": "valmanifest-2022-s",
+   "kind": "valmanifest",
+   "words": 4556
+  },
+  {
+   "slug": "partiprogram-s-2013",
+   "kind": "partiprogram",
+   "words": 12906
+  },
+  {
+   "slug": "budgetmotion-s-202324",
+   "kind": "budgetmotion",
+   "words": 10890
+  }
+ ],
+ "decM": {
+  "rost": "Ja",
+  "confidence": "high",
+  "coverage": "inferred",
+  "motivering": "Motförslaget (Alternativ A) vill skärpa reglerna för F-skattgodkännande, vilket innebär mer byråkrati och regelkrångel för företagande. Moderaternas valmanifest binder partiet vid att ta bort en tredjedel av företagens regelkrångel och avvisar att byråkrati sätter käppar i hjulet för näringslivet – att skärpa F-skattereglerna strider mot den linjen. Moderaterna, som ingår i regeringen, stödjer därför utskottets förslag att avslå motionerna med hänvisning till pågående arbete och röstar Ja.",
+  "citations": [
+   {
+    "document": "valmanifest",
+    "quote": "Ta bort en tredjedel av företagens administrationskostnader och en tredjedel av regelkrånglet",
+    "princip": "minskat regelkrångel för företag",
+    "principEn": "less red tape for business",
+    "quoteEn": "Remove a third of firms' administrative costs and a third of the red tape"
+   },
+   {
+    "document": "valmanifest",
+    "quote": "höga skatter, krångliga tillståndsprocesser och byråkrati sätter käppar i hjulet för innovation och tillväxt",
+    "princip": "byråkrati hindrar näringslivet",
+    "principEn": "bureaucracy hinders enterprise",
+    "quoteEn": "high taxes, cumbersome permit processes and bureaucracy put obstacles in the way of innovation and growth"
+   },
+   {
+    "document": "partiprogram",
+    "quote": "Alltför höga skatter och en överreglerad ekonomi har hämmat tillväxt och jobbskapande",
+    "princip": "överreglering hämmar tillväxt",
+    "principEn": "over-regulation curbs growth",
+    "quoteEn": "Excessively high taxes and an over-regulated economy have held back growth and job creation"
+   }
+  ],
+  "omvarld": {
+   "paverkar": false,
+   "faktorer": []
+  },
+  "flags": [
+   "regeringslinje"
+  ],
+  "motiveringEn": "The counter-proposal (Alternative A) wants to tighten the rules for F-tax approval, which means more bureaucracy and red tape for business. The Moderate manifesto commits the party to removing a third of firms' red tape and rejects bureaucracy that obstructs enterprise — tightening the F-tax rules runs against that line. The Moderates, being in government, therefore back the committee's proposal to reject the motions, citing ongoing work, and vote Yes.",
+  "actual": "Ja",
+  "match": true
+ },
+ "decS": {
+  "rost": "Nej",
+  "confidence": "high",
+  "coverage": "inferred",
+  "motivering": "Motförslaget vill skärpa F-skattereglerna för att stoppa falskt egenföretagande och villkorsdumpning, vilket direkt förverkligar valmanifestets krafttag mot arbetslivskriminaliteten och kravet på sund konkurrens på svensk arbetsmarknad. Budgetmotionen fördömer uttryckligen att arbetstagare utnyttjas och att seriösa företagare konkurreras ut av oseriösa upplägg. Att avslå motionerna, som utskottet föreslår, skulle bevara de luckor som möjliggör detta. Därför bör partiet stödja motförslaget och rösta Nej.",
+  "citations": [
+   {
+    "document": "valmanifest",
+    "quote": "Arbetslivskriminalitet ska inte finnas på svensk arbetsmarknad och offentliga arbetsgivare och upphandlare ska vara föredömen i att verka för en sund konkurrens.",
+    "princip": "krafttag mot arbetslivskriminalitet",
+    "principEn": "crackdown on labour-market crime",
+    "quoteEn": "Labour-market crime must not exist in the Swedish labour market, and public employers and procurers should be role models in working for fair competition."
+   },
+   {
+    "document": "budgetmotion",
+    "quote": "Arbetstagare utnyttjas under horribla förhållanden, seriösa företagare konkurreras ut av oseriösa och rent kriminella affärsupplägg.",
+    "princip": "stoppa villkorsdumpning",
+    "principEn": "stop undercutting of terms",
+    "quoteEn": "Workers are exploited under horrific conditions; legitimate businesses are outcompeted by rogue and outright criminal business setups."
+   },
+   {
+    "document": "partiprogram",
+    "quote": "löntagarnas rättigheter och förhindrar social dumping.",
+    "princip": "förhindra social dumping",
+    "principEn": "prevent social dumping",
+    "quoteEn": "wage-earners' rights and prevents social dumping."
+   }
+  ],
+  "omvarld": {
+   "paverkar": false,
+   "faktorer": []
+  },
+  "flags": [
+   "F-skatt inte explicit nämnd i dokumenten"
+  ],
+  "motiveringEn": "The counter-proposal wants to tighten the F-tax rules to stop bogus self-employment and the undercutting of terms, which directly delivers the manifesto's crackdown on labour-market crime and its demand for fair competition in the Swedish labour market. The shadow budget explicitly condemns workers being exploited and legitimate firms being outcompeted by rogue operators. Rejecting the motions, as the committee proposes, would preserve the loopholes that allow this. The party should therefore back the counter-proposal and vote No.",
+  "actual": "Avstår",
+  "match": false,
+  "noteSv": "AI:n läser S:s dokument som stöd för motförslaget; i praktiken avstod S. AI-agenterna underskattar systematiskt Avstår-röster.",
+  "noteEn": "The AI reads S's documents as backing the counter-proposal; in practice S abstained. The agents systematically under-predict abstentions."
+ },
+ "case": {
+  "rubrik_sv": "F-skatt och näringsverksamhet",
+  "rubrik_en": "F-tax and business operations",
+  "when_sv": "april 2024",
+  "when_en": "April 2024",
+  "utskott": "SkU",
+  "subject_sv": "Förenkling av skatteregler för småföretagare och egenföretagare",
+  "subject_en": "Simplification of tax rules for small business and self-employed operators",
+  "ja_sv": "Stödja utskottet: avslå de ~90 motionerna (nuvarande ordning behålls).",
+  "ja_en": "Back the committee: reject the ~90 motions (keep things as they are).",
+  "nej_sv": "Stödja motförslaget: skärp reglerna för F-skattgodkännande mot falskt egenföretagande och villkorsdumpning.",
+  "nej_en": "Back the counter-proposal: tighten F-tax approval rules against bogus self-employment and undercutting of terms.",
+  "avstar_sv": "Markera en egen linje som inte är något av de två alternativen.",
+  "avstar_en": "Mark a position of one's own that is neither of the two alternatives."
+ }
+}

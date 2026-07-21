@@ -134,20 +134,28 @@ def verify_prompts() -> None:
     except FileNotFoundError:
         check("no party tag leaks in anonymous case text", True, "cases.parquet absent — run locally")
         return
-    from aidag.promptgen import PARTY_TAG_RE, render_user_message
+    import re as _re
 
+    from aidag.promptgen import FORBIDDEN_PATTERNS, PARTY_TAG_RE, render_user_message
+
+    # party authorship tag + every memorization-key pattern (doc ids, doc refs,
+    # exact dates, vote UUIDs). Scanning the whole rendered <arende> also covers
+    # the reservation-substance now injected into it.
+    patterns = [PARTY_TAG_RE, *[_re.compile(p) for p in FORBIDDEN_PATTERNS]]
     leaks = []
     for c in cases.iter_rows(named=True):
         msg = render_user_message(c, arm="anonymous")
         i, j = msg.find("<arende>"), msg.find("</arende>")
         arende = msg[i:j] if i != -1 and j != -1 else msg
-        m = PARTY_TAG_RE.search(arende)
-        if m:
-            leaks.append((c["votering_id"], m.group()))
+        for pat in patterns:
+            m = pat.search(arende)
+            if m:
+                leaks.append((c["votering_id"], m.group()))
+                break
     detail = f"{cases.height} anonymous case texts scanned, {len(leaks)} leaked"
     if leaks:
         detail += f" (e.g. {leaks[0][0]} {leaks[0][1]})"
-    check("no party tag leaks in anonymous case text", not leaks, detail)
+    check("no identifier/party-tag leaks in anonymous case text", not leaks, detail)
 
 
 def verify_simulate(run_id: str | None) -> None:
