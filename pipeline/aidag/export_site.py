@@ -163,6 +163,9 @@ def run(run_id: str | None = None) -> None:
     from aidag.metadata import load_metadata
 
     metadata_by_vid = load_metadata()
+    from aidag.reservations import load_reservations
+
+    reservations_by_key = load_reservations()  # keyed 'votering_id:alt_id'
 
     cases_dir = SITE_DATA_DIR / "cases"
     if cases_dir.exists():
@@ -197,6 +200,12 @@ def run(run_id: str | None = None) -> None:
             if actual.get(p, {}).get("position") not in (None, "Frånvarande")
         )
         alternatives = json.loads(case["alternatives"]) if isinstance(case["alternatives"], str) else case["alternatives"]
+        # attach recovered reservation substance (party-blind {sv,en}) so the site
+        # can show what each Nej alternative proposes instead of just "Reservation N"
+        for a in alternatives:
+            r = reservations_by_key.get(f"{vid}:{a.get('alt_id')}")
+            if r:
+                a["substance"] = r["subject"]
         from aidag.compact import compact_meanings
 
         annotate_coalition(alternatives, actual, case_decisions)

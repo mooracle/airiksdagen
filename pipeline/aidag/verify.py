@@ -177,6 +177,14 @@ def verify_metadata() -> None:
         check(name, ok, detail)
 
 
+def verify_reservations() -> None:
+    print("reservations:")
+    from aidag.reservations import verify_reservations as checks
+
+    for name, ok, detail in checks():
+        check(name, ok, detail)
+
+
 def verify_site() -> None:
     print("site:")
     from aidag.config import SITE_DATA_DIR
@@ -198,6 +206,7 @@ def run(stage: str, run_id: str | None = None) -> int:
         "worldstate": verify_worldstate,
         "prompts": verify_prompts,
         "metadata": verify_metadata,
+        "reservations": verify_reservations,
         "site": verify_site,
     }
     if stage == "simulate":

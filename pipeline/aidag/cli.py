@@ -240,6 +240,48 @@ def metadata_status() -> None:
     status()
 
 
+@app.command("fetch-reservations")
+def fetch_reservations(
+    force: bool = typer.Option(False, help="Re-extract even cases already extracted"),
+    limit: int = typer.Option(None, help="Stop after N cases (for spot runs)"),
+) -> None:
+    """Fetch betänkande fulltexts + parse/scrub each reservation's argument
+    into data/interim (network + deterministic)."""
+    from aidag.reservations import fetch_and_extract
+
+    fetch_and_extract(force=force, limit=limit)
+
+
+@app.command("reservations-prepare")
+def reservations_prepare(
+    batch_size: int = typer.Option(400, help="Summary agents per batch (default covers all pending)"),
+    per_request: int = typer.Option(12, help="Reservations bundled into one agent's request file"),
+) -> None:
+    """Emit the next reservation-summary batch manifest (run-independent, checkpoint-aware)."""
+    from aidag.reservations import prepare
+
+    prepare(batch_size=batch_size, per_request=per_request)
+
+
+@app.command("reservations-ingest")
+def reservations_ingest(
+    input: str = typer.Option(..., "--input", help="Workflow result JSON ({reservations: [...]})"),
+    model: str = typer.Option("claude-haiku-4-5", help="Model the agents ran on"),
+) -> None:
+    """Ingest a reservations workflow batch result (validated, de-leaked, idempotent)."""
+    from aidag.reservations import ingest
+
+    ingest(input_path=input, model=model)
+
+
+@app.command("reservations-status")
+def reservations_status() -> None:
+    """Reservation-substance progress report."""
+    from aidag.reservations import status
+
+    status()
+
+
 @app.command("repair-citations")
 def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     """Align paraphrased citation quotes to the true document span (flagged)."""
@@ -279,7 +321,7 @@ def agent_ingest(
 
 @app.command()
 def verify(
-    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|site|all"),
+    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|reservations|site|all"),
     run_id: str = typer.Option(None, "--run-id"),
 ) -> None:
     """Read-only integrity checks; exits nonzero on failure (CI gate)."""
