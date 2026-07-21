@@ -103,7 +103,13 @@ export interface CaseData {
   sammanfattning?: string;
   forslag_text: string;
   notis: string;
-  alternatives: { alt_id: string; text: string; source_partier: string[] }[];
+  alternatives: {
+    alt_id: string;
+    text: string;
+    source_partier: string[];
+    /** recovered, party-blind summary of what this reservation proposes; null until fetched */
+    substance?: { sv: string; en: string };
+  }[];
   actual: Record<string, ActualPosition>;
   ai: Record<string, AiDecision>;
   probe: { recalls_case: boolean; exact_match_count: number } | null;

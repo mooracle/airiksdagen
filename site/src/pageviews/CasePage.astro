@@ -303,9 +303,16 @@ const docRefs = partyOrder
     <>
       <h2>{t('case.alternatives')}</h2>
       <ul>
-        {c.alternatives.map((a, i) => ({ ...a, shownText: altTexts[i] })).filter((a) => a.alt_id !== 'utskottet').map((a) => (
-          <li>{a.shownText}{a.source_partier.length > 0 && <span class="muted"> ({a.source_partier.join(', ')})</span>}</li>
-        ))}
+        {c.alternatives.map((a, i) => ({ ...a, shownText: altTexts[i] })).filter((a) => a.alt_id !== 'utskottet').map((a) => {
+          const sub = a.substance ? (lang === 'sv' ? a.substance.sv : a.substance.en) : null;
+          return (
+            <li>
+              {sub ? <span>{sub}</span> : a.shownText}
+              {a.source_partier.length > 0 && <span class="muted"> ({a.source_partier.join(', ')})</span>}
+              {sub && <span class="muted altlabel"> — {a.shownText}</span>}
+            </li>
+          );
+        })}
       </ul>
     </>
   )}
