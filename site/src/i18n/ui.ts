@@ -5,6 +5,14 @@ export const ui = {
   sv: {
     'site.title': 'AI Riksdag',
     'site.tagline': 'Hur borde partierna ha röstat — enligt sina egna dokument?',
+    // Meta descriptions. Pages with an existing intro/lede reuse it instead.
+    'meta.desc.browser': 'Sök och filtrera alla voteringar i riksdagen: vad varje beslut gällde, hur partierna röstade och hur en AI som bara läst partiernas egna dokument hade röstat.',
+    'meta.desc.parties': 'Parti för parti: överensstämmelsen mellan hur partiet faktiskt röstade och hur dess egna valmanifest och partiprogram säger att det borde ha röstat.',
+    'meta.desc.partySuffix': '— verkliga röster mot partiets egna dokument, sammanhållning, frånvaro och väljarstöd över mandatperioden.',
+    'meta.desc.documentSuffix': '— fulltext i det korpus AI-agenterna läser. Citat i besluten länkar direkt hit.',
+    'meta.desc.about': 'Så fungerar projektet: källor, metod, prompten som agenterna får, kända begränsningar och hela datamängden som öppen data.',
+    'nav.langLabel': 'Språk',
+    'nav.langSwitch': 'Byt språk till',
     'nav.cases': 'Ärenden',
     'nav.parties': 'Partier',
     'nav.documents': 'Dokument',
@@ -172,6 +180,14 @@ export const ui = {
   en: {
     'site.title': 'AI Riksdag',
     'site.tagline': 'How should the parties have voted — according to their own documents?',
+    // Meta descriptions. Pages with an existing intro/lede reuse it instead.
+    'meta.desc.browser': 'Search and filter every vote in the Swedish Riksdag: what each decision turned on, how the parties voted, and how an AI reading only their own documents would have voted.',
+    'meta.desc.parties': 'Party by party: how closely each one’s actual votes match what its own election manifesto and party programme say it should have done.',
+    'meta.desc.partySuffix': '— actual votes against the party’s own documents, cohesion, absence and polling support across the term.',
+    'meta.desc.documentSuffix': '— full text in the corpus the AI agents read. Citations in the decisions link straight here.',
+    'meta.desc.about': 'How the project works: sources, method, the prompt the agents receive, known limitations, and the full dataset as open data.',
+    'nav.langLabel': 'Language',
+    'nav.langSwitch': 'Switch language to',
     'nav.cases': 'Cases',
     'nav.parties': 'Parties',
     'nav.documents': 'Documents',
@@ -363,6 +379,19 @@ export function localizedSlugs(lang: Lang, canonicalPath: string): string {
     if (canonicalPath.startsWith(sv)) return en + canonicalPath.slice(sv.length);
   }
   return canonicalPath;
+}
+
+/** First non-empty candidate, collapsed and cut to a meta-description length.
+ * Cuts on a word boundary and adds an ellipsis only when text was dropped, so
+ * every page gets a distinct, readable snippet instead of the site tagline. */
+export function metaDescription(candidates: (string | null | undefined)[], max = 155): string | undefined {
+  const raw = candidates.find((c) => c && c.trim());
+  if (!raw) return undefined;
+  const text = raw.replace(/\s+/g, ' ').trim();
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const sp = cut.lastIndexOf(' ');
+  return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:.–—-]+$/, '') + '…';
 }
 
 /** Full site path for a canonical (Swedish) path: translates slugs for EN and

@@ -5,11 +5,12 @@
 // /dokument/[slug] detail pages remain — case-page citations deep-link to them.
 import Base from '../layouts/Base.astro';
 import { getMeta, listCorpusDocs } from '../lib/data';
-import { localePath, type Lang } from '../i18n/ui';
+import { localePath, useTranslations, type Lang } from '../i18n/ui';
 import example from '../data/example-request.json';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const t = useTranslations(lang);
 const sv = lang === 'sv';
 const meta = getMeta();
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -61,7 +62,7 @@ const schemaSummary = `{
 }`;
 ---
 
-<Base lang={lang} title={sv ? 'Om projektet' : 'About'} path="/om/">
+<Base lang={lang} title={sv ? 'Om projektet' : 'About'} description={t('meta.desc.about')} path="/om/">
   <h1>{sv ? 'Om projektet' : 'About the project'}</h1>
   <p class="lede">
     {sv

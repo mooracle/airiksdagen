@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Hemicycle from '../components/Hemicycle.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
-import { useTranslations, localePath, type Lang } from '../i18n/ui';
+import { useTranslations, localePath, metaDescription, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; caseData: CaseData }
 const { lang, caseData: c } = Astro.props;
@@ -57,6 +57,17 @@ const nejItems = (cmeta?.nej ?? [])
   })
   .filter((n: { text: string | null }) => n.text);
 const hasBrief = Boolean(decisionText || jaText || nejItems.length);
+// Meta description: prefer the contested axis, then why-it-matters, then the
+// subject — the utsknotis blurb is the last resort because it describes the
+// whole betänkande rather than this vote, and repeats across bundled cases.
+const metaDesc = metaDescription([decisionText, atStake, subject, sammanfattning]);
+// Page title: `rubrik` is often a boilerplate committee heading reused across
+// many unrelated votes ("Regeringens lagförslag" covers 71 of them), which made
+// those titles indistinguishable in search results. The casemeta subject names
+// THIS vote; the betänkande point disambiguates the few topics voted repeatedly.
+// rm is part of the ref because committee codes recur every riksmöte (FiU26
+// exists in several years), so beteckning+punkt alone still collided.
+const pageTitle = `${subject || rubrik} · ${c.rm}:${c.beteckning} p.${c.punkt}`;
 const aiEn = (code: string) => (lang === 'en' ? c.ai[code]?.en ?? null : null);
 
 const docLabel: Record<string, string> = {
@@ -124,7 +135,7 @@ const docRefs = partyOrder
   .filter((r) => r.docs.length > 0);
 ---
 
-<Base lang={lang} title={rubrik} path={pagePath}>
+<Base lang={lang} title={pageTitle} description={metaDesc} path={pagePath}>
   <p>
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>

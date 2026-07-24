@@ -64,7 +64,7 @@ const cohesionChart = [
 ];
 ---
 
-<Base lang={lang} title={party?.name ?? code} path={`/parti/${code.toLowerCase()}/`}>
+<Base lang={lang} title={party?.name ?? code} description={`${party?.name ?? code} ${t('meta.desc.partySuffix')}`} path={`/parti/${code.toLowerCase()}/`}>
   <h1><PartyBadge code={code} parties={meta.parties} size={32} /> {party?.name ?? code}</h1>
 
   {stats ? (
