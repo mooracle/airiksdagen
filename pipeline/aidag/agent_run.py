@@ -76,19 +76,26 @@ def plan_groups(
     system_text: str,
     members: list[tuple[str, dict]],
     context_limit: int,
+    prompt_version: str = PROMPT_VERSION,
 ) -> list[list[tuple[str, dict]]]:
     """Split one (party, context) bucket into the FEWEST agents that each fit.
 
     Group size is decided by size, not by a fixed number: a party's corpus runs
-    53k-126k tokens under p5 and is read once per agent, so group size IS the
-    cost lever — a 2-case agent costs ~25k tokens per decision, a 51-case agent
-    ~7.5k. Cases are split into EQUAL parallel groups rather than packing full
-    agents and leaving a stub.
+    53k-126k tokens under p5 (17-32k words under p6) and is read once per agent,
+    so group size IS the cost lever — a 2-case agent costs ~25k tokens per
+    decision, a 90-case agent ~1.7k. Cases are split into EQUAL parallel groups
+    rather than packing full agents and leaving a stub.
+
+    `prompt_version` must match the version the batch will actually run: the
+    per-case cost is the rendered user message, and p6 renders a different
+    <arende> block than p5. Defaulting it silently sized p6 groups with p5
+    lengths.
     """
     budget = context_limit * CONTEXT_HEADROOM - _tokens(system_text) - TOOL_SLACK
     # a case costs its user message plus the decision the agent must write back
     costs = [
-        _tokens(render_user_message(case, arm=ARM)) + OUTPUT_PER_CASE
+        _tokens(render_user_message(case, arm=ARM, prompt_version=prompt_version))
+        + OUTPUT_PER_CASE
         for _cid, case in members
     ]
     total = sum(costs)
@@ -213,10 +220,16 @@ def prepare(
     batch_probes = probes[:room]
 
     def _case_file(case: dict):
-        path = base / "cases" / f"{case['votering_id']}.json"
+        # version-scoped like the system file: the rendered <arende> differs
+        # between p5 and p6, so an unversioned name would serve stale case text
+        # if a run were re-prepared at a different prompt version.
+        path = base / "cases" / f"{case['votering_id']}-{prompt_version}.json"
         if not path.exists():
             path.write_text(
-                json.dumps({"user": render_user_message(case, arm=ARM)}, ensure_ascii=False)
+                json.dumps(
+                    {"user": render_user_message(case, arm=ARM, prompt_version=prompt_version)},
+                    ensure_ascii=False,
+                )
             )
         return path
 
@@ -245,7 +258,7 @@ def prepare(
                 # group=0: size-driven. Fit the whole party-month in one agent if
                 # it fits the window; otherwise split into equal parallel groups.
                 system_text = (base / "system" / system_name).read_text()
-                chunks = plan_groups(system_text, members, context_limit)
+                chunks = plan_groups(system_text, members, context_limit, prompt_version)
             for chunk in chunks:
                 # One file per group, not one per case: the agent reads its
                 # corpus once and its cases once, so a 30-case agent makes 2 tool
@@ -257,7 +270,9 @@ def prepare(
                     json.dumps(
                         {
                             "cases": [
-                                {"cid": cid, "user": render_user_message(case, arm=ARM)}
+                                {"cid": cid,
+                                 "user": render_user_message(
+                                     case, arm=ARM, prompt_version=prompt_version)}
                                 for cid, case in chunk
                             ]
                         },

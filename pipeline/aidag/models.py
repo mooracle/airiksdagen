@@ -8,6 +8,10 @@ from pydantic import BaseModel, Field
 
 Rost = Literal["Ja", "Nej", "Avstår", "Frånvarande"]
 SimRost = Literal["Ja", "Nej", "Avstår"]
+# p6: the plan's stance on what the MOTFÖRSLAG demands. Two values, not three —
+# a 55-decision gate showed an "ingendera" option fired 0/55, including on all
+# 15 real abstentions: principled abstention is not something party plans express.
+Hallning = Literal["stodjer", "avvisar"]
 
 
 class Alternative(BaseModel):
@@ -90,7 +94,14 @@ class Decision(BaseModel):
     prompt_version: str
     model: str
     arm: str = "anonymous"  # "anonymous" (default) or "labeled" pilot arm
+    # p6 splits policy stance from parliamentary behaviour. `hallning` is what
+    # the agent actually decides; `rost` is DERIVED from it at ingest
+    # (promptgen.derive_rost) and kept as a stored field so every existing
+    # reader — aggregate, export_site, compare_runs, the site — keeps working
+    # unchanged. p4/p5 runs supply `rost` directly and leave `hallning` None.
     rost: SimRost
+    hallning: Hallning | None = None
+    plan_tacker_utskottets_skal: Literal["ja", "nej"] | None = None
     confidence: Literal["high", "medium", "low"]
     coverage: Literal["explicit", "inferred", "not_covered"]
     motivering: str
