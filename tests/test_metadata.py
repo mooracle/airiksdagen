@@ -477,6 +477,35 @@ class TestMergeCaseMetadata:
         assert m["at_stake"]["sv"] and m["subtopics"] == ["skatt", "kemikalier", "elektronik"]
         assert "MP" in m["parties_involved"]
 
+    def test_carries_the_casemeta_brief(self):
+        """decision/ja/nej reach the payload; agent.* deliberately does not."""
+        from aidag.export_site import merge_case_metadata
+
+        rec = {**self._meta_rec(),
+               "decision": {"sv": "Frågan gäller X eller Y.", "en": "Whether X or Y."},
+               "ja": {"sv": "Utskottet avstyrker.", "en": "The committee rejects."},
+               "nej": [{"alt_id": "res-1", "sv": "Reservationen vill Z.", "en": "The reservation wants Z."}]}
+        payload, row = {"votering_id": VID_MOTION}, self._row()
+        merge_case_metadata(payload, row, rec)
+        m = payload["meta"]
+        assert m["decision"]["en"] == "Whether X or Y."
+        assert m["ja"]["sv"] == "Utskottet avstyrker."
+        assert [n["alt_id"] for n in m["nej"]] == ["res-1"]
+        # the party-blind prompt slice is not a site field
+        assert "agent" not in m
+        # the brief must not bloat the client-fetched index row
+        for k in ("decision", "ja", "nej"):
+            assert k not in row
+
+    def test_brief_absent_on_pre_casemeta_records(self):
+        """A record predating the casemeta layer still merges, with empty brief fields."""
+        from aidag.export_site import merge_case_metadata
+
+        payload, row = {"votering_id": VID_MOTION}, self._row()
+        merge_case_metadata(payload, row, self._meta_rec())
+        m = payload["meta"]
+        assert m["decision"] is None and m["ja"] is None and m["nej"] == []
+
     def test_index_row_is_lean(self):
         from aidag.export_site import merge_case_metadata
 

@@ -1,6 +1,6 @@
 """Export cases, votes, decisions and aggregates as JSON for the Astro build.
 
-Writes site/src/data/ (gitignored — regenerated in CI):
+Writes site/src/data/ (committed — regenerated locally by `aidag export-site`):
   cases/{votering_id}.json   full case + per-seat votes + 8 AI decisions
   index/cases-index.json     one compact row per case for the search island
   aggregates/*.json          copied from results/aggregates/{run_id}/
@@ -37,6 +37,11 @@ def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -
     ORs those in) and never carries the full subject fields or `at_stake`. No-op
     when `meta_rec` is None: the page falls back to `sammanfattning` (utsknotis)
     and the row keeps only its display fields for search.
+
+    `decision`/`ja`/`nej` are the casemeta brief — the contested axis, the committee
+    position, and each reservation's demand. Display-side only: they stay off the
+    index row, which must remain lean. `agent.*` is deliberately NOT exported here;
+    it is the party-blind prompt slice, not a site field.
     """
     if not meta_rec:
         return
@@ -48,6 +53,10 @@ def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -
         "at_stake": meta_rec.get("at_stake"),
         "subtopics": subtopics,
         "parties_involved": meta_rec.get("parties_involved") or [],
+        # casemeta brief; absent on pre-casemeta records, so keep each optional
+        "decision": meta_rec.get("decision"),
+        "ja": meta_rec.get("ja"),
+        "nej": meta_rec.get("nej") or [],
     }
     index_row["policy_area"] = meta_rec.get("policy_area")
     index_row["type"] = meta_rec.get("type")
@@ -160,9 +169,11 @@ def run(run_id: str | None = None) -> None:
     from aidag.translate import load_case_translations
 
     case_translations = load_case_translations()
-    from aidag.metadata import load_metadata
+    # casemeta supersedes the older `metadata` layer: same per-vote keys plus the
+    # brief (decision / ja / nej) and a populated party-blind `agent.*`.
+    from aidag.casemeta import load_casemeta
 
-    metadata_by_vid = load_metadata()
+    metadata_by_vid = load_casemeta()
     from aidag.reservations import load_reservations
 
     reservations_by_key = load_reservations()  # keyed 'votering_id:alt_id'
@@ -334,8 +345,9 @@ def run(run_id: str | None = None) -> None:
     downloads.mkdir(parents=True, exist_ok=True)
     positions.write_csv(downloads / "party_positions.csv")
     cases.drop("alternatives", "references").write_csv(downloads / "cases.csv")
-    # Open-data case-metadata export: full records (incl. at_stake + the de-leaked
-    # agent view), one JSONL row per exported case that has a metadata record.
+    # Open-data case-metadata export: full casemeta records (incl. at_stake, the
+    # decision/ja/nej brief and the de-leaked agent view), one JSONL row per
+    # exported case that has a record.
     with open(downloads / "case-metadata.jsonl", "w") as f:
         for row in index:
             rec = metadata_by_vid.get(row["id"])
@@ -346,8 +358,11 @@ def run(run_id: str | None = None) -> None:
         lines = []
         for f in sorted(sim_dir.glob("*.jsonl")):
             lines.append(f.read_text())
-        with gzip.open(downloads / f"decisions-{run_id}.jsonl.gz", "wt") as gz:
-            gz.write("".join(lines))
+        # mtime=0: gzip stamps the current time into the header by default, so an
+        # unchanged simulation still produced a byte-different 1 MB blob on every
+        # export. Pinning it keeps the committed artifact reproducible.
+        with gzip.GzipFile(downloads / f"decisions-{run_id}.jsonl.gz", "wb", mtime=0) as gz:
+            gz.write("".join(lines).encode())
 
     from aidag.metadata import policy_area_labels
 

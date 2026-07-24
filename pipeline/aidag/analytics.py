@@ -140,7 +140,11 @@ def dissenter_league(top: int = 30) -> list[dict]:
         )
         .filter(pl.col("n_dissent") > 0)
         .with_columns((pl.col("n_dissent") / pl.col("n_cast")).round(4).alias("rate"))
-        .sort("n_dissent", descending=True)
+        # group_by row order is not deterministic, so a single-key sort left the
+        # top-N cutoff to chance whenever MPs tied on n_dissent — the file churned
+        # on every export. Rate breaks ties meaningfully (same dissents, fewer
+        # votes cast = dissents more often); namn makes the result reproducible.
+        .sort(["n_dissent", "rate", "namn"], descending=[True, True, False])
         .head(top)
     )
     return per_mp.to_dicts()
