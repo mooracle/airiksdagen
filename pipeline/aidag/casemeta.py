@@ -25,6 +25,7 @@ import re
 import polars as pl
 
 from datetime import datetime, timezone
+from functools import lru_cache
 
 from aidag.committee import parse_committee_blocks, rank_candidates
 from aidag.config import INTERIM_DIR, PROCESSED_DIR, RESULTS_DIR
@@ -95,6 +96,28 @@ def match_reservation(entries: list[dict], punkt: int, partier: list[str] | None
     return same[0]
 
 
+@lru_cache(maxsize=1)
+def _reservation_summaries() -> dict[str, str]:
+    """`votering_id:alt_id` -> the reservation's demand, in Swedish.
+
+    The reservations layer's own parse succeeds on betänkanden where
+    `parse_reservations_indexed` returns nothing, so it is the grounding source of
+    last resort in `build_packet`. Already scrubbed and party-blind.
+    """
+    from aidag.reservations import load_reservations
+
+    out: dict[str, str] = {}
+    for key, rec in load_reservations().items():
+        subj = rec.get("subject") or {}
+        if sv := (subj.get("sv") if isinstance(subj, dict) else subj):
+            out[key] = str(sv).strip()
+    return out
+
+
+def _reservation_summary(votering_id: str, alt_id: str) -> str | None:
+    return _reservation_summaries().get(f"{votering_id}:{alt_id}")
+
+
 def _reservations_of(case: dict) -> list[dict]:
     alts = case["alternatives"]
     if isinstance(alts, str):
@@ -118,7 +141,26 @@ def build_packet(case: dict, blocks: list[dict], entries: list[dict]) -> dict:
     for a in _reservations_of(case):
         e = match_reservation(entries, case["punkt"], a.get("source_partier"))
         if not e:
-            flags.append(f"{a['alt_id']}: no entry on punkt {case['punkt']}")
+            # `parse_reservations_indexed` is a second, narrower parser than the one
+            # behind the reservations layer, and on some betänkanden (notably
+            # single-reservation ones headed without an explicit punkt) it finds
+            # nothing at all. That used to produce a silently EMPTY Nej side: the
+            # committee candidates still parsed, so `fallback` stayed False and no
+            # instruction covered the case. 42 votes were affected — every one of
+            # them with a real counter-proposal, and 31 with an already-summarized
+            # reservation sitting in the reservations layer.
+            #
+            # Fall back to that summary. It is derived from the same fulltext, is
+            # already scrubbed and party-blind (`verify reservations` gates it), and
+            # is strictly better grounding than nothing. Flagged so the substitution
+            # stays visible rather than silently changing what the agent read.
+            if sub := _reservation_summary(case["votering_id"], a["alt_id"]):
+                flags.append(f"{a['alt_id']}: grounded on reservations-layer summary")
+                nej_display.append({"alt_id": a["alt_id"],
+                                    "party": a.get("source_partier") or [], "body": sub})
+                nej_agent.append({"alt_id": a["alt_id"], "body": sub})
+            else:
+                flags.append(f"{a['alt_id']}: no entry on punkt {case['punkt']}")
             continue
         if a.get("source_partier") and not (set(e["party"]) & set(a["source_partier"])):
             flags.append(f"{a['alt_id']}: party {e['party']}!={a['source_partier']}")
@@ -299,3 +341,30 @@ def verify_casemeta(run_id: str | None = None):
             bad += 1
     yield ("casemeta records valid + party-blind", bad == 0, f"{len(recs)} records, {bad} invalid/leaky")
     yield ("every casemeta id is a real votering", unknown == 0, f"{unknown} unknown ids")
+
+    # Completeness, not just validity. A record can be perfectly valid and still
+    # carry an EMPTY Nej side, which is invisible here but silently degrades the
+    # p6 agent prompt: `promptgen._render_p6_arende` returns None when
+    # `agent.alternatives` is empty and falls back to the p5 block — a ~92-char
+    # hollow Ja-only brief. That fallback is correct for a votering with no
+    # counter-proposal and WRONG for one that has them, so the check is scoped to
+    # cases whose source record actually lists alternatives.
+    cases = {
+        c["votering_id"]: c
+        for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True)
+    }
+    degraded = []
+    for vid, case in cases.items():
+        # `_reservations_of` is the right filter, not "alternatives is non-empty":
+        # a votering whose only alternative is `utskottet` has no counter-proposal
+        # at all, so an empty Nej side is correct and the p5 fallback is right.
+        if not _reservations_of(case):
+            continue
+        ag = (recs.get(vid) or {}).get("agent") or {}
+        if not [a for a in (ag.get("alternatives") or []) if (a.get("sv") or "").strip()]:
+            degraded.append(vid)
+    yield (
+        "contested cases have a Nej side (agent.alternatives)",
+        not degraded,
+        f"{len(degraded)} contested cases would fall back to the p5 hollow brief",
+    )
