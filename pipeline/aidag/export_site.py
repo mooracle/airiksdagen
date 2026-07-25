@@ -15,6 +15,7 @@ import shutil
 import polars as pl
 
 from aidag import coalition
+from aidag.promptgen import evidence_tier
 from aidag.config import (
     HEMICYCLE_ORDER,
     PARTIES,
@@ -85,6 +86,16 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
             tr = translations.get(cid)
             out.setdefault(d["votering_id"], {})[d["parti"]] = {
                 "rost": d["rost"],
+                # p6: the plan's stance on what the counter-proposal demands, and
+                # how far the plan actually reached this vote. `rost` above is
+                # DERIVED from `hallning`, so on a p6 run the stance is the
+                # primary field and the vote is its consequence. Both None on
+                # p4/p5 runs, where the agent supplied `rost` directly.
+                "hallning": d.get("hallning"),
+                "plan_tacker_utskottets_skal": d.get("plan_tacker_utskottets_skal"),
+                # explicit | extrapolated | off_axis — only `explicit` can carry a
+                # "the party voted against its own stated commitment" claim.
+                "tier": evidence_tier(d) if d.get("hallning") else None,
                 "confidence": d["confidence"],
                 "coverage": d["coverage"],
                 "motivering": d["motivering"],
@@ -281,6 +292,17 @@ def run(run_id: str | None = None) -> None:
         }
         if miss:  # omitted when empty to keep the client index lean
             entry["miss"] = miss
+        # The subset of `miss` that can carry a documented-commitment claim: the
+        # plan stated it outright (evidence tier `explicit`) and the party still
+        # voted the other way. Real abstentions are excluded — an abstention is a
+        # floor tactic the plan was never asked to express. Empty on p4/p5 runs.
+        missx = [
+            p for p in miss
+            if case_decisions[p].get("tier") == "explicit"
+            and actual.get(p, {}).get("position") in ("Ja", "Nej")
+        ]
+        if missx:
+            entry["missx"] = missx
         # merge case metadata into BOTH the full payload and the lean index row,
         # then write the payload (after the merge, so `meta` is included)
         merge_case_metadata(payload, entry, metadata_by_vid.get(vid))
