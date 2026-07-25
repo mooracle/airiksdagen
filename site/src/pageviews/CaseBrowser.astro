@@ -30,6 +30,7 @@ const TR = {
   showing: t('browser.showing'), of: t('browser.of'), cases: t('browser.cases'),
   prev: t('browser.prev'), next: t('browser.next'), noResults: t('browser.noResults'),
   allMatch: t('browser.allMatch'), missTip: t('browser.missTip'), noAi: t('browser.noAi'),
+  missTipX: t('browser.missTipX'),
 };
 ---
 
@@ -47,6 +48,7 @@ const TR = {
       <select id="utskott" aria-label="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
       <select id="area" aria-label={t('browser.filter.allAreas')}><option value="">{t('browser.filter.allAreas')}</option></select>
       <label class="chk"><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
+      <label class="chk"><input type="checkbox" id="disagreex" /> {t('browser.filter.disagreeX')}</label>
     </div>
     <p class="hint muted">{t('browser.hint')}</p>
 
@@ -83,6 +85,7 @@ const TR = {
     const utskott = document.getElementById('utskott');
     const area = document.getElementById('area');
     const disagree = document.getElementById('disagree');
+    const disagreex = document.getElementById('disagreex');
     const tbody = document.getElementById('rows');
     const summary = document.getElementById('summary');
     const pager = document.getElementById('pager');
@@ -91,22 +94,28 @@ const TR = {
     const norm = (s) => s.toLowerCase();
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-    function badge(code) {
+    // `strong` marks an explicit-tier divergence: the plan stated the commitment
+    // outright and the party still voted the other way. Drawn with a dark ring so
+    // the graded evidence is visible at a glance without a second column.
+    function badge(code, strong) {
       const p = PARTY[code] || { color: '#888', ink: '#fff', name: code };
       const size = 20;
       const font = ((code.length > 1 ? 0.44 : 0.52) * size).toFixed(1);
       const name = esc(p.name);
-      return `<span class="pbadge" style="--pb:${p.color};--pb-ink:${p.ink};width:${size}px;height:${size}px;font-size:${font}px" title="${name}" role="img" aria-label="${name}">${code}</span>`;
+      const cls = strong ? 'pbadge strong' : 'pbadge';
+      const tip = strong ? `${name} — ${esc(TR.missTipX)}` : name;
+      return `<span class="${cls}" style="--pb:${p.color};--pb-ink:${p.ink};width:${size}px;height:${size}px;font-size:${font}px" title="${tip}" role="img" aria-label="${tip}">${code}</span>`;
     }
 
     // The party discs make the count self-evident, so no N/N score is shown:
-    // mismatch rows list the diverging parties; a full match shows a check.
+    // divergence rows list the diverging parties; a full match shows a check.
     function aiCell(r) {
       if (!r.hasAi) return `<span class="ai-cell"><span class="muted na" title="${esc(TR.noAi)}">—</span></span>`;
       const miss = r.miss || [];
       if (!miss.length)
         return `<span class="ai-cell allmatch" title="${esc(TR.allMatch)}"><span class="ok" aria-hidden="true">✓</span></span>`;
-      return `<span class="ai-cell"><span class="misses" title="${esc(TR.missTip)}">${miss.map(badge).join('')}</span></span>`;
+      const strong = new Set(r.missx || []);
+      return `<span class="ai-cell"><span class="misses" title="${esc(TR.missTip)}">${miss.map((c) => badge(c, strong.has(c))).join('')}</span></span>`;
     }
 
     function rowHTML(r) {
@@ -177,6 +186,9 @@ const TR = {
         if (utskott.value && r.utskott !== utskott.value) return false;
         if (area.value && r.policy_area !== area.value) return false;
         if (disagree.checked && !(r.hasAi && r.agree < r.compared)) return false;
+        // explicit-tier only: the plan stated the commitment and the party still
+        // voted against it — the subset that can carry that claim.
+        if (disagreex.checked && !(r.missx && r.missx.length)) return false;
         // display fields (already on the row) OR the precomputed lowercased
         // r.search blob (subject sv/en + subtopics) — so subject/subtopic terms
         // match without duplicating rubrik/bet into every index row.
@@ -236,10 +248,11 @@ const TR = {
         if (params.get('q')) q.value = params.get('q');
         if (params.get('m') && monthsAvail.includes(params.get('m'))) month.value = params.get('m');
         if (params.get('d') === '1') disagree.checked = true;
+        if (params.get('dx') === '1') disagreex.checked = true;
         apply();
       });
 
-    for (const el of [q, rm, month, utskott, area, disagree]) el.addEventListener('input', apply);
+    for (const el of [q, rm, month, utskott, area, disagree, disagreex]) el.addEventListener('input', apply);
   </script>
 
   <!--
@@ -277,6 +290,9 @@ const TR = {
     .cb .misses { display: inline-flex; align-items: center; gap: 0.28rem; }
     /* thin surface ring so same-hue neighbours (S/V red, MP/C green) stay separable */
     .cb .misses .pbadge { box-shadow: 0 0 0 1.5px var(--paper); }
+    /* explicit-tier divergence: dark ring, so the strong claims stand out from
+       the derived ones without needing a separate column */
+    .cb .misses .pbadge.strong { box-shadow: 0 0 0 1.5px var(--paper), 0 0 0 3px #3c3a34; }
 
     .cb .pager { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; margin: 1.1rem 0 0.5rem; }
     .cb .pg { min-width: 2.15rem; height: 2.15rem; padding: 0 0.55rem; border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }

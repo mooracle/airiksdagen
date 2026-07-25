@@ -85,6 +85,12 @@ function citationHref(party: string, document: string, quote: string): string | 
   return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
+// Evidence tiers, strongest first. Anything without a tier (p4/p5 runs) sorts
+// with the middle group rather than being promoted above graded evidence.
+const TIER_ORDER = ['explicit', 'extrapolated', 'off_axis'];
+const tierRank = (tier?: string | null) =>
+  tier ? TIER_ORDER.indexOf(tier) : 1;
+
 // parties where the AI's plan-faithful vote differs from the actual vote —
 // each shown with the decisive plan quote so the deviation claim is verifiable
 const mismatches = partyOrder
@@ -106,7 +112,12 @@ const mismatches = partyOrder
       decisive: idx === -1 ? null : cits[idx],
       decisiveEn: idx === -1 ? null : aiEn(code)?.citations?.[idx] ?? null,
     };
-  });
+  })
+  // Strongest evidence first: a divergence the plan states outright is a
+  // different kind of claim from one derived off a procedural committee reason,
+  // and the reader should meet them in that order. Stable within a tier, so the
+  // hemicycle ordering above survives.
+  .sort((x, y) => tierRank(x.decision.tier) - tierRank(y.decision.tier));
 
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
@@ -210,7 +221,7 @@ const docRefs = partyOrder
         <th>{t('case.actual')}</th>
         <th></th>
         <th>{t('case.confidence')}</th>
-        <th>{t('case.coverage')}</th>
+        <th>{t('tier.label')}</th>
       </tr>
     </thead>
     <tbody>
@@ -225,7 +236,21 @@ const docRefs = partyOrder
               <PartyBadge code={code} parties={meta.parties} label="none" />
               {a?.authored_reservation && <span class="tag own" title={t('coalition.ownResTip')}>{t('coalition.ownRes')}</span>}
             </td>
-            <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
+            {/* p6: the stance is what the agent decided; the vote chip beside it is
+                DERIVED from it. On p4/p5 runs `hallning` is null and only the vote
+                is shown, exactly as before. */}
+            <td>
+              {d ? (
+                <>
+                  {d.hallning && (
+                    <span class="stance" title={t(`stance.${d.hallning}` as any)}>
+                      {t(`stance.short.${d.hallning}` as any)}
+                    </span>
+                  )}
+                  <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
+                </>
+              ) : <span class="muted">–</span>}
+            </td>
             <td>
               {a ? (
                 <>
@@ -243,7 +268,11 @@ const docRefs = partyOrder
               )}
             </td>
             <td class="muted">{d?.confidence ?? ''}</td>
-            <td class="muted">{d ? t(`coverage.${d.coverage}` as any) : ''}</td>
+            <td class="muted">
+              {d?.tier
+                ? <span class="tier" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>{t(`tier.${d.tier}` as any)}</span>
+                : d ? t(`coverage.${d.coverage}` as any) : ''}
+            </td>
           </tr>
         );
       })}
@@ -260,9 +289,18 @@ const docRefs = partyOrder
             <p class="mm-head">
               <PartyBadge code={m.code} parties={meta.parties} label="name" />
               <span>
-                {t('case.ai')}: <span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
+                {t('case.ai')}: {m.decision.hallning && (
+                  <span class="stance" title={t(`stance.${m.decision.hallning}` as any)}>
+                    {t(`stance.short.${m.decision.hallning}` as any)}
+                  </span>
+                )}<span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
                 <span class="muted"> · </span>
                 {t('case.actual')}: <span class="votechip" data-v={m.actual.position}>{voteLabels[m.actual.position]}</span>
+                {m.decision.tier && (
+                  <span class="tier" data-tier={m.decision.tier} title={t(`tier.${m.decision.tier}Tip` as any)}>
+                    {t(`tier.${m.decision.tier}` as any)}
+                  </span>
+                )}
               </span>
             </p>
             {m.decisive && (
@@ -284,7 +322,13 @@ const docRefs = partyOrder
                 )}
               </blockquote>
             )}
-            <p class="muted mm-note">{t('case.planVsRealNote')}</p>
+            {/* Only an explicit-tier divergence supports "the party voted against
+                its own stated commitment". Anything weaker gets the honest note. */}
+            <p class="muted mm-note">
+              {m.decision.tier && m.decision.tier !== 'explicit'
+                ? t('case.planVsRealNoteWeak')
+                : t('case.planVsRealNote')}
+            </p>
           </div>
         );
       })}
@@ -523,6 +567,20 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    /* The plan's stance — the p6 product. Sits immediately before the vote chip
+       it implies, so the derivation reads left to right. */
+    .stance {
+      display: inline-block; margin-right: 0.4rem; font-size: 0.78rem;
+      color: var(--ink-2); white-space: nowrap; cursor: help;
+    }
+    /* Evidence tier. Only `explicit` is emphasised — the weaker tiers must not
+       look like a verdict, so they stay grey and quiet. */
+    .tier {
+      display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
+      border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
+      vertical-align: middle; cursor: help; background: #ecebe6; color: #5d5a52;
+    }
+    .tier[data-tier='explicit'] { background: #d8e8d2; color: #2f5326; }
     .tag {
       display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
       border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
