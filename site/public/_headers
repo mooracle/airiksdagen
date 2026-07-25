@@ -6,6 +6,14 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
 
+# /embed/* exists to be iframed by third parties, so the site-wide DENY above
+# has to come back off. Rules here ACCUMULATE rather than override — two rules
+# setting X-Frame-Options yield "DENY, ALLOWALL", which browsers read as deny —
+# so the header must be unset with `!` and framing re-granted via CSP.
+/embed/*
+  ! X-Frame-Options
+  Content-Security-Policy: frame-ancestors *
+
 # Astro emits content-hashed assets under /_astro/ — safe to cache forever.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

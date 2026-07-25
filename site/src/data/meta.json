@@ -127,5 +127,83 @@
    "en": "Other"
   }
  },
+ "party_programs": {
+  "S": [
+   {
+    "slug": "partiprogram-s-2013",
+    "from": "2013-04-07"
+   },
+   {
+    "slug": "partiprogram-s-2025",
+    "from": "2025-06-01"
+   }
+  ],
+  "M": [
+   {
+    "slug": "partiprogram-m-2021",
+    "from": "2021-10-01"
+   }
+  ],
+  "SD": [
+   {
+    "slug": "partiprogram-sd-2019",
+    "from": "2019-11-01"
+   },
+   {
+    "slug": "partiprogram-sd-2023",
+    "from": "2023-11-26"
+   }
+  ],
+  "C": [
+   {
+    "slug": "partiprogram-c-2013",
+    "from": "2013-03-01"
+   }
+  ],
+  "V": [
+   {
+    "slug": "partiprogram-v-2016",
+    "from": "2016-05-08"
+   },
+   {
+    "slug": "partiprogram-v-2024",
+    "from": "2024-05-12"
+   }
+  ],
+  "KD": [
+   {
+    "slug": "partiprogram-kd-2015",
+    "from": "2015-10-01"
+   },
+   {
+    "slug": "partiprogram-kd-2025",
+    "from": "2025-11-16"
+   }
+  ],
+  "MP": [
+   {
+    "slug": "partiprogram-mp-2013",
+    "from": "2013-01-01"
+   },
+   {
+    "slug": "partiprogram-mp-2025",
+    "from": "2025-10-19"
+   }
+  ],
+  "L": [
+   {
+    "slug": "partiprogram-l-2021",
+    "from": "2021-11-21"
+   },
+   {
+    "slug": "partiprogram-l-2023",
+    "from": "2023-11-19"
+   },
+   {
+    "slug": "partiprogram-l-2025",
+    "from": "2025-11-23"
+   }
+  ]
+ },
  "attribution": "Källa: Sveriges riksdag"
 }

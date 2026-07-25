@@ -20,6 +20,10 @@ export interface Meta {
   hemicycle_order: string[];
   /** policy_area code -> localized filter/chip labels (from the utskott map) */
   policy_areas: Record<string, { sv: string; en: string }>;
+  /** party -> programme versions, oldest-first, each visible from its adoption
+   * date. Mirrors PARTY_PROGRAMS so a citation can be resolved to the version
+   * in force on the vote date. Absent on exports predating the registry. */
+  party_programs?: Record<string, { slug: string; from: string }[]>;
   attribution: string;
 }
 
@@ -190,10 +194,36 @@ export function getCorpusDoc(slug: string): string {
   return fs.readFileSync(path.join(DATA_DIR, 'corpus', `${slug}.txt`), 'utf-8');
 }
 
-/** Slug of the corpus document a citation points at, or null if not published. */
-export function citationDocSlug(party: string, document: string): string | null {
+/** Slug of the corpus document a citation points at, or null if not published.
+ *
+ * `valmanifest` and `tidoavtalet` have exactly one version each, so party alone
+ * resolves them. `partiprogram` does not: most parties replaced theirs mid-term
+ * (KD 2015→2025, L 2021→2023→2025, S/MP/SD/V likewise), and a citation records
+ * only the document class. The version the agent read is the last one adopted on
+ * or before the vote — the same date gate that built its context — so resolving
+ * needs `voteDate`. Callers without one get null rather than a link to the wrong
+ * edition, which is what a year-granular guess would produce for votes falling
+ * between January and an autumn congress.
+ */
+export function citationDocSlug(
+  party: string,
+  document: string,
+  voteDate?: string,
+): string | null {
   if (document === 'valmanifest') return `valmanifest-2022-${party.toLowerCase()}`;
   if (document === 'tidoavtalet') return 'tidoavtalet-2022';
+  if (document === 'partiprogram') {
+    if (!voteDate) return null;
+    const versions = getMeta().party_programs?.[party.toUpperCase()];
+    if (!versions?.length) return null;
+    // oldest-first, so the last one already adopted is the applicable edition
+    let hit: string | null = null;
+    for (const v of versions) {
+      if (v.from <= voteDate) hit = v.slug;
+      else break;
+    }
+    return hit;
+  }
   return null;
 }
 
