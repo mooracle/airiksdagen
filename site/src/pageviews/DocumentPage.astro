@@ -19,7 +19,7 @@ if (m) {
 }
 ---
 
-<Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`}>
+<Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`} ogType="article">
   <p class="muted">
     <a href={`${localePath(lang, '/om/')}#dokument`}>
       ← {lang === 'sv' ? 'Partidokument' : 'Party documents'}

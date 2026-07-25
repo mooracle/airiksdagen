@@ -19,6 +19,7 @@ from aidag.promptgen import evidence_tier
 from aidag.config import (
     HEMICYCLE_ORDER,
     PARTIES,
+    PARTY_PROGRAMS,
     PROCESSED_DIR,
     RESULTS_DIR,
     RIKSDAG_ATTRIBUTION,
@@ -398,6 +399,20 @@ def run(run_id: str | None = None) -> None:
         "hemicycle_order": HEMICYCLE_ORDER,
         # policy_area code -> {sv, en} localized filter/chip labels (run-independent)
         "policy_areas": policy_area_labels(),
+        # Date-gated party-programme versions, oldest-first, mirroring
+        # PARTY_PROGRAMS. A citation records only document="partiprogram", and
+        # most parties have replaced theirs mid-term, so the site cannot tell
+        # which file a quote came from without the adoption dates: the applicable
+        # version is the last one whose `from` <= the vote date, the same rule the
+        # agent's context was built with. Without this the site simply dropped the
+        # link, leaving partiprogram quotes unverifiable.
+        "party_programs": {
+            code: [
+                {"slug": f"partiprogram-{code.lower()}-{v['from'][:4]}", "from": v["from"]}
+                for v in versions
+            ]
+            for code, versions in PARTY_PROGRAMS.items()
+        },
         "attribution": RIKSDAG_ATTRIBUTION,
     }
     (SITE_DATA_DIR / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ConfidenceMeter from '../components/ConfidenceMeter.astro';
 import Hemicycle from '../components/Hemicycle.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
@@ -80,44 +81,10 @@ const docsBase = localePath(lang, '/dokument/');
 
 function citationHref(party: string, document: string, quote: string): string | null {
   if (!quote?.trim()) return null;  // unverifiable quotes are blanked — no text fragment to deep-link
-  const slug = citationDocSlug(party, document);
+  const slug = citationDocSlug(party, document, c.datum);
   if (!slug) return null;
   return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
 }
-
-// Evidence tiers, strongest first. Anything without a tier (p4/p5 runs) sorts
-// with the middle group rather than being promoted above graded evidence.
-const TIER_ORDER = ['explicit', 'extrapolated', 'off_axis'];
-const tierRank = (tier?: string | null) =>
-  tier ? TIER_ORDER.indexOf(tier) : 1;
-
-// parties where the AI's plan-faithful vote differs from the actual vote —
-// each shown with the decisive plan quote so the deviation claim is verifiable
-const mismatches = partyOrder
-  .filter((code) => {
-    const d = c.ai[code];
-    const a = c.actual[code];
-    return d && a && a.position !== 'Frånvarande' && d.rost !== a.position;
-  })
-  .map((code) => {
-    // back the deviation with the strongest available quote: the first
-    // non-weak citation, only falling back to a weak one if that's all there is
-    const cits = c.ai[code].citations;
-    const di = cits.findIndex((x) => !x.svag);
-    const idx = di === -1 ? (cits.length ? 0 : -1) : di;
-    return {
-      code,
-      decision: c.ai[code],
-      actual: c.actual[code],
-      decisive: idx === -1 ? null : cits[idx],
-      decisiveEn: idx === -1 ? null : aiEn(code)?.citations?.[idx] ?? null,
-    };
-  })
-  // Strongest evidence first: a divergence the plan states outright is a
-  // different kind of claim from one derived off a procedural committee reason,
-  // and the reader should meet them in that order. Stable within a tier, so the
-  // hemicycle ordering above survives.
-  .sort((x, y) => tierRank(x.decision.tier) - tierRank(y.decision.tier));
 
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
@@ -140,13 +107,69 @@ const docRefs = partyOrder
     party: p,
     docs: [...new Set(c.ai[p].citations.map((cit) => cit.document))].map((d) => ({
       document: d,
-      slug: citationDocSlug(p, d),
+      slug: citationDocSlug(p, d, c.datum),
     })),
   }))
   .filter((r) => r.docs.length > 0);
+
+// Structured data for this case. Base fills in context, publisher, canonical
+// @id and the build dates; everything here is case-specific.
+// `headline` is clipped to 110 characters because Google ignores longer ones —
+// the subject leads, so the clip only ever loses the betänkande reference.
+// The vote itself is modelled as the `about` Event rather than folded into the
+// article dates: `datum` is when the chamber voted, which is a different fact
+// from when this analysis was published, and conflating them would misdate
+// every page by up to four years.
+const caseJsonLd = {
+  '@type': 'Article',
+  headline: metaDescription([pageTitle], 110),
+  ...(metaDesc ? { description: metaDesc } : {}),
+  about: {
+    '@type': 'Event',
+    name: subject || rubrik,
+    startDate: c.datum,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: {
+      '@type': 'Place',
+      name: lang === 'sv' ? 'Sveriges riksdag' : 'The Swedish Riksdag',
+      address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
+    },
+    ...(atStake ? { description: atStake } : {}),
+  },
+  ...(topicLabel ? { articleSection: topicLabel } : {}),
+  ...(cmeta?.subtopics?.length ? { keywords: cmeta.subtopics.join(', ') } : {}),
+  // the primary sources this page is derived from
+  isBasedOn: [c.riksdagen_url, c.fulltext_url, c.votering_url].filter(Boolean),
+  // What the analysis actually cites: the party documents the agents quoted.
+  // Deliberately NOT c.references — those are every motion bundled into the
+  // betänkande (~50 of them, on unrelated subjects), so listing them here would
+  // claim a climate-adaptation page cites "Sveriges 13 sämsta lagar".
+  ...(docRefs.length
+    ? {
+        // `url` only where the corpus page exists — citationDocSlug returns null
+        // for documents we cite but don't host (partiprogram), and pointing at
+        // /dokument/null/ would put a dead link in the structured data.
+        citation: docRefs.flatMap((r) =>
+          r.docs.map((d) => ({
+            '@type': 'CreativeWork',
+            name: `${meta.parties[r.party]?.name ?? r.party}: ${docLabel[d.document] ?? d.document}`,
+            ...(d.slug ? { url: `${site}${docsBase}${d.slug}/` } : {}),
+          })),
+        ),
+      }
+    : {}),
+};
 ---
 
-<Base lang={lang} title={pageTitle} description={metaDesc} path={pagePath}>
+<Base
+  lang={lang}
+  title={pageTitle}
+  description={metaDesc}
+  path={pagePath}
+  ogType="article"
+  jsonLd={caseJsonLd}
+>
   <p>
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
@@ -213,15 +236,16 @@ const docRefs = partyOrder
   )}
 
   <h2>{t('case.ai')} / {t('case.actual')}</h2>
-  <table class="compare">
+  <div class="tablewrap">
+  <table class="compare tight">
     <thead>
       <tr>
         <th></th>
-        <th>{t('case.ai')}</th>
-        <th>{t('case.actual')}</th>
+        <th>{t('col.plan')}</th>
+        <th>{t('col.vote')}</th>
         <th></th>
-        <th>{t('case.confidence')}</th>
-        <th>{t('tier.label')}</th>
+        <th>{t('col.conf')}</th>
+        <th>{t('col.tier')}</th>
       </tr>
     </thead>
     <tbody>
@@ -234,43 +258,79 @@ const docRefs = partyOrder
           <tr id={`vote-${code}`}>
             <td>
               <PartyBadge code={code} parties={meta.parties} label="none" />
-              {a?.authored_reservation && <span class="tag own" title={t('coalition.ownResTip')}>{t('coalition.ownRes')}</span>}
+              {a?.authored_reservation && (
+                <span
+                  class="authored"
+                  style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}
+                  title={`${t('coalition.ownRes')} — ${t('coalition.ownResTip')}`}
+                >
+                  <svg viewBox="0 0 12 14" aria-hidden="true" focusable="false">
+                    <path d="M1.9 0.8h5L10.1 4v9.2H1.9z" fill="currentColor" opacity="0.18" />
+                    <path
+                      d="M1.9 0.8h5L10.1 4v9.2H1.9zM6.9 0.9V4h3.1"
+                      fill="none" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round"
+                    />
+                    <path d="M4 7.3h4M4 9.7h4" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" />
+                  </svg>
+                  <span class="srtext">{t('coalition.ownRes')}</span>
+                </span>
+              )}
             </td>
-            {/* p6: the stance is what the agent decided; the vote chip beside it is
-                DERIVED from it. On p4/p5 runs `hallning` is null and only the vote
-                is shown, exactly as before. */}
+            {/* p6: the stance is what the agent decided and the vote chip is
+                DERIVED from it — strictly 1:1 across the whole corpus (avvisar→Ja,
+                stodjer→Nej), so spelling the stance out beside the chip restated
+                the same fact in words on every single row. The chip alone carries
+                it; the full sentence lives in the tooltip. On p4/p5 runs `hallning`
+                is null and the chip is simply the vote, exactly as before. */}
             <td>
               {d ? (
-                <>
-                  {d.hallning && (
-                    <span class="stance" title={t(`stance.${d.hallning}` as any)}>
-                      {t(`stance.short.${d.hallning}` as any)}
-                    </span>
-                  )}
-                  <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
-                </>
+                <span
+                  class="votechip"
+                  data-v={d.rost}
+                  title={d.hallning ? t(`stance.${d.hallning}` as any) : undefined}
+                >{voteLabels[d.rost]}</span>
               ) : <span class="muted">–</span>}
             </td>
             <td>
               {a ? (
                 <>
                   <span class="votechip" data-v={a.position}>{voteLabels[a.position]}</span>
-                  <span class="muted" style="font-size:0.8rem"> {a.n_ja}/{a.n_nej}/{a.n_avstar}/{a.n_franvarande}</span>
+                  <span class="counts muted" title={t('case.countsTip')}> {a.n_ja}/{a.n_nej}/{a.n_avstar}/{a.n_franvarande}</span>
                 </>
               ) : <span class="muted">–</span>}
             </td>
-            <td>
-              {d && comparable && <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? `✓ ${t('case.match')}` : `✕ ${t('case.mismatch')}`}</span>}
+            {/* Verdict and the override flag are glyph-only: both repeat down the
+                column, and the word added nothing the ✓/✕ did not already say.
+                Each keeps its meaning in `title` and in .srtext for screen
+                readers, which read no glyph at all otherwise. */}
+            <td class="c-verdict">
+              {d && comparable && (
+                <span
+                  class={isMatch ? 'match' : 'mismatch'}
+                  title={isMatch ? t('case.match') : t('case.mismatch')}
+                >
+                  <span aria-hidden="true">{isMatch ? '✓' : '✕'}</span>
+                  <span class="srtext">{isMatch ? t('case.match') : t('case.mismatch')}</span>
+                </span>
+              )}
               {d?.program_override && (
-                <span class="tag override" title={t('coalition.overrideTip')}>
-                  {t('coalition.override')}{d.program_override === 'strict' ? '' : '*'}
+                <span class="flag" title={`${t('coalition.override')}${d.program_override === 'strict' ? '' : '*'} — ${t('coalition.overrideTip')}`}>
+                  <span aria-hidden="true">⚑{d.program_override === 'strict' ? '' : '*'}</span>
+                  <span class="srtext">{t('coalition.override')}</span>
                 </span>
               )}
             </td>
-            <td class="muted">{d?.confidence ?? ''}</td>
+            {/* Confidence as a three-dot meter: low/medium/high is ordinal, so a
+                filled-dot scale is read at a glance where the word had to be
+                actually read. It also fixes the raw English "low"/"medium"/"high"
+                that leaked onto the Swedish page — the level is now localized in
+                the tooltip and the screen-reader text. */}
+            <td class="c-conf">
+              {d?.confidence && <ConfidenceMeter lang={lang} level={d.confidence} />}
+            </td>
             <td class="muted">
               {d?.tier
-                ? <span class="tier" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>{t(`tier.${d.tier}` as any)}</span>
+                ? <span class="tier" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>{t(`tier.${d.tier}Short` as any)}</span>
                 : d ? t(`coverage.${d.coverage}` as any) : ''}
             </td>
           </tr>
@@ -278,62 +338,7 @@ const docRefs = partyOrder
       })}
     </tbody>
   </table>
-
-  {mismatches.length > 0 && (
-    <>
-      <h2>{t('case.planVsReal')}</h2>
-      {mismatches.map((m) => {
-        const href = m.decisive ? citationHref(m.code, m.decisive.document, m.decisive.quote) : null;
-        return (
-          <div class="card mismatchbox" style={`border-left: 4px solid ${meta.parties[m.code]?.color}`}>
-            <p class="mm-head">
-              <PartyBadge code={m.code} parties={meta.parties} label="name" />
-              <span>
-                {t('case.ai')}: {m.decision.hallning && (
-                  <span class="stance" title={t(`stance.${m.decision.hallning}` as any)}>
-                    {t(`stance.short.${m.decision.hallning}` as any)}
-                  </span>
-                )}<span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
-                <span class="muted"> · </span>
-                {t('case.actual')}: <span class="votechip" data-v={m.actual.position}>{voteLabels[m.actual.position]}</span>
-                {m.decision.tier && (
-                  <span class="tier" data-tier={m.decision.tier} title={t(`tier.${m.decision.tier}Tip` as any)}>
-                    {t(`tier.${m.decision.tier}` as any)}
-                  </span>
-                )}
-              </span>
-            </p>
-            {m.decisive && (
-              <blockquote>
-                {(m.decisiveEn?.princip || m.decisive.princip) && (
-                  <span class="chip">{m.decisiveEn?.princip || m.decisive.princip}</span>
-                )}
-                {m.decisive.svag && (
-                  <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>
-                )}
-                {m.decisive.quote && <>»{m.decisive.quote}«</>}
-                {href ? (
-                  <a class="muted src" href={href}>({docLabel[m.decisive.document] ?? m.decisive.document} ↗)</a>
-                ) : (
-                  <span class="muted src">({docLabel[m.decisive.document] ?? m.decisive.document})</span>
-                )}
-                {m.decisiveEn?.quote && (
-                  <span class="qtrans">“{m.decisiveEn.quote}”</span>
-                )}
-              </blockquote>
-            )}
-            {/* Only an explicit-tier divergence supports "the party voted against
-                its own stated commitment". Anything weaker gets the honest note. */}
-            <p class="muted mm-note">
-              {m.decision.tier && m.decision.tier !== 'explicit'
-                ? t('case.planVsRealNoteWeak')
-                : t('case.planVsRealNote')}
-            </p>
-          </div>
-        );
-      })}
-    </>
-  )}
+  </div>
 
   {dissenters.length > 0 && (
     <>
@@ -354,36 +359,6 @@ const docRefs = partyOrder
           </tbody>
         </table>
         <p class="muted" style="font-size:0.82rem;margin:0.5rem 0 0">{t('case.dissentersNote')}</p>
-      </div>
-    </>
-  )}
-
-  {docRefs.length > 0 && (
-    <>
-      <h2>{t('case.docrefs')}</h2>
-      <div class="card">
-        <table class="compare">
-          <tbody>
-            {docRefs.map((r) => (
-              <tr>
-                <td style="width:3rem"><PartyBadge code={r.party} parties={meta.parties} label="none" /></td>
-                <td>
-                  {r.docs.map((d, i) => (
-                    <>
-                      {i > 0 && ' · '}
-                      {d.slug ? (
-                        <a href={`${docsBase}${d.slug}/`}>{docLabel[d.document] ?? d.document}</a>
-                      ) : (
-                        <span>{docLabel[d.document] ?? d.document}</span>
-                      )}
-                    </>
-                  ))}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p class="muted" style="font-size:0.82rem;margin:0.5rem 0 0">{t('case.docrefsNote')}</p>
       </div>
     </>
   )}
@@ -423,19 +398,85 @@ const docRefs = partyOrder
 
   {Object.keys(c.ai).length > 0 && (
     <>
-      <h2>{t('case.motivering')}</h2>
+      <h2>{t('case.planVsReal')}</h2>
+      <p class="muted mapnote">{t('case.planVsRealIntro')}</p>
+      {/* One card per party, in hemicycle order so this reads as the same map as
+          the table above. Divergences are highlighted rather than split into
+          their own section: a party that voted WITH a well-cited plan is as much
+          a result as one that voted against it, and giving only the deviations a
+          heading framed the page around them. Every party's reasoning is the
+          same one click away; the summary line carries the comparison so the map
+          is complete unopened. */}
       {partyOrder.filter((p) => c.ai[p]).map((code) => {
         const d = c.ai[code];
         const dEn = aiEn(code);
+        const a = c.actual[code];
+        const comparable = a && a.position !== 'Frånvarande';
+        const isMatch = comparable && d.rost === a.position;
+        const diverges = comparable && !isMatch;
         // the decisive citation is the first NON-weak one; a weak (svag) broad
         // principle is never labelled decisive (-1 if the decision has only weak)
         const decIdx = d.citations.findIndex((x) => !x.svag);
+        // The plan documents this party's decision rests on — formerly its own
+        // table further down the page, which meant scrolling away from the
+        // reasoning to find out what the reasoning was reading. One deduped list
+        // per party, next to that party's answer.
+        const partyDocs = [...new Set(d.citations.map((cit) => cit.document))].map((doc) => ({
+          doc,
+          slug: citationDocSlug(code, doc, c.datum),
+        }));
+        // Always-visible gist: the first sentence of the reasoning, so the
+        // collapsed card says WHY, not just what. Falls back to a clipped
+        // snippet when the text has no sentence break.
+        const full = dEn?.motivering || d.motivering || '';
+        const firstStop = full.search(/[.!?](\s|$)/);
+        const gist = firstStop > 40 ? full.slice(0, firstStop + 1) : metaDescription([full], 150);
         return (
-          <details class="card">
-            <summary>
-              <PartyBadge code={code} parties={meta.parties} size={20} />
-              <strong>{meta.parties[code]?.name ?? code}</strong> — <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
-            </summary>
+          <div
+            class="card partycard"
+            data-diverges={diverges ? 'true' : undefined}
+            style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}
+          >
+            <div class="pc-head">
+              <span class="pc-who">
+                <PartyBadge code={code} parties={meta.parties} size={20} />
+                <strong>{meta.parties[code]?.name ?? code}</strong>
+              </span>
+              <span class="pc-cmp">
+                <span class="votechip" data-v={d.rost} title={d.hallning ? t(`stance.${d.hallning}` as any) : undefined}>{voteLabels[d.rost]}</span>
+                <span class="pc-arrow" aria-hidden="true">→</span>
+                {a
+                  ? <span class="votechip" data-v={a.position}>{voteLabels[a.position]}</span>
+                  : <span class="muted">–</span>}
+                {comparable && (
+                  <span class={isMatch ? 'match' : 'mismatch'} title={isMatch ? t('case.match') : t('case.mismatch')}>
+                    <span aria-hidden="true">{isMatch ? '✓' : '✕'}</span>
+                    <span class="srtext">{isMatch ? t('case.match') : t('case.mismatch')}</span>
+                  </span>
+                )}
+                {d.tier && (
+                  <span class="tier" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>
+                    {t(`tier.${d.tier}Short` as any)}
+                  </span>
+                )}
+              </span>
+            </div>
+            {gist && <p class="pc-gist">{gist}</p>}
+            {partyDocs.length > 0 && (
+              <p class="pc-docs">
+                <span class="muted">{t('case.docrefs')}:</span>{' '}
+                {partyDocs.map((pd, i) => (
+                  <>
+                    {i > 0 && <span class="muted"> · </span>}
+                    {pd.slug
+                      ? <a href={`${docsBase}${pd.slug}/`}>{docLabel[pd.doc] ?? pd.doc}</a>
+                      : <span class="muted">{docLabel[pd.doc] ?? pd.doc}</span>}
+                  </>
+                ))}
+              </p>
+            )}
+            <details class="pc-more">
+            <summary>{t('case.showReasoning')}</summary>
             <p>{dEn?.motivering || d.motivering}</p>
             {dEn?.motivering && (
               <details class="original">
@@ -475,7 +516,21 @@ const docRefs = partyOrder
               </p>
             )}
             {d.flags.length > 0 && <p class="muted">flags: {d.flags.join(', ')}</p>}
-          </details>
+            {/* Only an explicit-tier divergence supports "the party voted against
+                its own stated commitment"; anything weaker gets the honest note.
+                It lives inside the disclosure because it is the same two
+                sentences on every diverging card — printed always-visible it
+                became wallpaper and stopped being read at all. The tier chip
+                carries the short version in its tooltip. */}
+            {diverges && (
+              <p class="mm-note">
+                {d.tier && d.tier !== 'explicit'
+                  ? t('case.planVsRealNoteWeak')
+                  : t('case.planVsRealNote')}
+              </p>
+            )}
+            </details>
+          </div>
         );
       })}
     </>
@@ -581,13 +636,62 @@ const docRefs = partyOrder
       vertical-align: middle; cursor: help; background: #ecebe6; color: #5d5a52;
     }
     .tier[data-tier='explicit'] { background: #d8e8d2; color: #2f5326; }
+    /* Glyph-only cells need a text equivalent: a screen reader announces nothing
+       for ✓/✕/⚑ and cannot reach a `title`, so the label is kept in the DOM and
+       hidden visually rather than dropped. */
+    .srtext {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+    }
+    .compare.tight th, .compare.tight td { padding: 0.42rem 0.55rem; }
+    /* Phone: six columns cannot all keep full width at 390px. The per-vote
+       breakdown is the one cell that is reference detail rather than the
+       comparison itself, so it collapses first (still in the DOM, still in the
+       chip's tooltip). .tablewrap is the safety net — if a long tier label or a
+       large font still overflows, the table scrolls inside its own box instead
+       of forcing the whole page sideways. */
+    .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    @media (max-width: 640px) {
+      .compare.tight th, .compare.tight td { padding: 0.4rem 0.3rem; }
+      .compare.tight .counts { display: none; }
+      /* The last two columns are sized by their label, not their data — a 30px
+         dot meter under a 95px "CONFIDENCE", and a tier chip held on one line.
+         Shrinking the header and letting the chip wrap costs nothing a reader
+         needs, and is better than abbreviating both to something cryptic. */
+      .compare.tight th { font-size: 0.66rem; letter-spacing: 0.03em; }
+      .compare.tight .tier { white-space: normal; }
+    }
+    /* Small phones (SE/mini). Past this the table would scroll inside .tablewrap
+       — which is fine, but a slightly smaller header buys the last ~15px and
+       keeps all six columns on screen instead. */
+    @media (max-width: 430px) {
+      .compare.tight th { font-size: 0.6rem; }
+      .compare.tight .votechip { padding: 0.1rem 0.45rem; }
+    }
+    .c-verdict { white-space: nowrap; }
+    .c-verdict .match, .c-verdict .mismatch { font-size: 1.02rem; cursor: help; }
+    .flag { margin-left: 0.3rem; color: #7a4b12; font-size: 0.88rem; cursor: help; }
+    /* "Authored the reservation": a document in the party's own colour — it is
+       the party's own paper being voted down. Mixed toward ink because the raw
+       brand colours are not all legible on the warm paper (SD yellow, MP lime
+       and M sky-blue vanish otherwise), which is the same problem .pbadge
+       solves with a hairline ring. */
+    .authored {
+      display: inline-flex; vertical-align: middle; margin-left: 0.35rem; cursor: help;
+      color: color-mix(in srgb, var(--pc) 72%, var(--ink));
+    }
+    .authored svg { display: block; width: 11px; height: 13px; }
+    /* Header/content alignment: .tier and .tag carry a left margin so they can
+       sit after a chip inline in the cards below, but in the table they are the
+       cell's only content and that margin pushed them off their <th>. */
+    .compare .tier { margin-left: 0; }
+    .c-conf { width: 3.2rem; }
     .tag {
       display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
       border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
       vertical-align: middle; cursor: help;
     }
     .tag.own { background: #eceae2; color: #55524a; }
-    .tag.override { background: #f3e2c7; color: #7a4b12; }
     .omvarld { background: #eef3f8; border-radius: 6px; padding: 0.5rem 0.8rem; font-size: 0.88rem; }
     .summary { font-size: 1.05rem; line-height: 1.6; color: var(--ink-2); max-width: 46rem; margin: 0.55rem 0 0.2rem; }
     .atstake { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 46rem; margin: 0.4rem 0 0.2rem; padding: 0.5rem 0.8rem; background: #eef3f8; border-radius: 6px; }
@@ -608,13 +712,62 @@ const docRefs = partyOrder
     .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }
     details.original { margin-top: 0.5rem; font-size: 0.88rem; }
     details.original summary { color: var(--muted); cursor: pointer; }
-    .mismatchbox blockquote {
-      margin: 0.6rem 0; padding: 0.6rem 0.9rem; background: #fbfaf5;
-      border-radius: 6px; font-family: Georgia, serif; font-size: 1.02rem;
+    .mm-note { font-size: 0.8rem; margin: 0.5rem 0 0; }
+    .mapnote { font-size: 0.86rem; margin: -0.4rem 0 0.9rem; max-width: 46rem; }
+    /* Per-party card. Every party gets the same shape; a divergence is marked by
+       the party's own colour on the left edge and a tinted surface, not by being
+       moved somewhere else. */
+    .partycard { border-left: 3px solid transparent; }
+    .partycard[data-diverges] {
+      border-left-color: var(--pc);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--pc) 6%, var(--panel)), var(--panel) 22rem);
     }
-    .mismatchbox .src { font-size: 0.82rem; margin-left: 0.4rem; font-family: inherit; }
-    .mm-head { display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; margin: 0; }
-    .mm-note { font-size: 0.8rem; margin: 0.2rem 0 0; }
+    .pc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 0.6rem 0.9rem; flex-wrap: wrap;
+    }
+    .pc-who { display: inline-flex; align-items: center; gap: 0.45rem; min-width: 0; }
+    /* Always visible, so a closed card still answers "why" and "on what" —
+       the disclosure below holds the full reasoning and every quote. */
+    .pc-gist { margin: 0.5rem 0 0; font-size: 0.94rem; line-height: 1.55; color: var(--ink-2); }
+    .pc-docs { margin: 0.4rem 0 0; font-size: 0.84rem; }
+    /* The "more info" affordance: a real button-ish target rather than a bare
+       word, with a chevron that turns on open so the state is visible. */
+    .pc-more { margin-top: 0.6rem; }
+    .pc-more > summary {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.22rem 0.7rem 0.22rem 0.55rem; border: 1px solid var(--line);
+      border-radius: 999px; background: var(--panel-2);
+      font-size: 0.82rem; font-weight: 600; color: var(--accent);
+      cursor: pointer; list-style: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .pc-more > summary::-webkit-details-marker { display: none; }
+    .pc-more > summary::before {
+      content: ''; flex: none;
+      border-left: 5px solid currentColor;
+      border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+      transition: transform 0.15s ease;
+    }
+    .pc-more[open] > summary::before { transform: rotate(90deg); }
+    .pc-more > summary:hover {
+      background: var(--accent-wash); border-color: var(--accent); color: var(--accent-ink);
+    }
+    .pc-more > p:first-of-type { margin-top: 0.7rem; }
+    /* the tier caveat, closing the disclosure — set apart from the reasoning */
+    .pc-more .mm-note {
+      margin: 0.8rem 0 0; padding-top: 0.6rem; border-top: 1px solid var(--line-soft);
+      color: var(--muted);
+    }
+    .pc-cmp { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    /* plan → actual, so the summary reads as the same comparison as the table */
+    .pc-arrow { color: var(--muted); font-size: 0.9rem; }
+    .pc-cmp .match, .pc-cmp .mismatch { font-size: 1rem; cursor: help; }
+    .pc-cmp .tier { margin-left: 0; }
+    @media (max-width: 560px) {
+      .partycard > summary { gap: 0.35rem 0.6rem; }
+      .pc-cmp { font-size: 0.94rem; }
+    }
     .srclist { margin: 0.2rem 0; padding-left: 1.2rem; }
     .srclist li { margin: 0.25rem 0; }
     .meanings p { margin: 0.45rem 0; }

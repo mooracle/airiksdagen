@@ -1,0 +1,61 @@
+---
+/** "Who votes with whom" — the party co-voting matrix.
+ *
+ * Lives on the Parties page rather than Analysis: it is a party-by-party
+ * comparison and reads as one story with the coalition tables beneath it
+ * (who votes together, then what explains each party's vote). Analysis keeps
+ * the chamber-level material — government defeats and individual dissenters. */
+import PartyBadge from '../components/PartyBadge.astro';
+import { getMeta, getAggregate } from '../lib/data';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+
+const matrix = getAggregate<{
+  overall: Record<string, Record<string, number | null>>;
+  per_rm: Record<string, any>;
+}>('pairs_matrix');
+const order = meta.hemicycle_order;
+
+function cellColor(v: number | null): string {
+  if (v == null) return '#f0efe9';
+  const hue = Math.round(v * 120); // red 0% -> green 100%
+  return `hsl(${hue} 52% ${88 - v * 26}%)`;
+}
+---
+
+{matrix && (
+  <>
+    <h2 id="vem-med-vem">{t('analysis.matrix')}</h2>
+    <div class="card" style="overflow-x:auto">
+      <table class="compare matrix">
+        <thead>
+          <tr><th></th>{order.map((p) => <th style="text-align:center">{p}</th>)}</tr>
+        </thead>
+        <tbody>
+          {order.map((a) => (
+            <tr>
+              <td><PartyBadge code={a} parties={meta.parties} label="none" /></td>
+              {order.map((b) => {
+                const v = a === b ? null : matrix.overall[a]?.[b];
+                return (
+                  <td style={`text-align:center;background:${a === b ? '#fff' : cellColor(v)}`}>
+                    {a === b ? '–' : v != null ? `${(v * 100).toFixed(0)}%` : ''}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="muted" style="font-size:0.83rem">{t('analysis.matrixNote')}</p>
+    </div>
+  </>
+)}
+
+<style>
+  .matrix td, .matrix th { font-variant-numeric: tabular-nums; }
+</style>

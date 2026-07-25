@@ -1,5 +1,6 @@
 ---
 import { useTranslations, localePath, languages, metaDescription, type Lang } from '../i18n/ui';
+import { siteLastmod } from '../lib/lastmod';
 
 interface Props {
   lang: Lang;
@@ -8,9 +9,17 @@ interface Props {
   /** CANONICAL (Swedish) path without base/locale prefix — localePath
    * translates slugs, so the switcher and hreflang always pair correctly */
   path?: string;
+  /** 'article' for the one-subject pages (a case, a source document); the
+   * landing/index pages are 'website'. Previously every page claimed
+   * 'article', which mislabels the home page and the listings. */
+  ogType?: 'website' | 'article';
+  /** Page-specific schema.org properties (`@type` and up). Boilerplate every
+   * page shares — context, publisher, canonical @id, language, dates — is
+   * filled in below, and anything passed here wins over it. */
+  jsonLd?: Record<string, unknown> | null;
 }
 
-const { lang, title, description, path = '/' } = Astro.props;
+const { lang, title, description, path = '/', ogType = 'website', jsonLd = null } = Astro.props;
 const t = useTranslations(lang);
 const pageTitle = title ? `${title} — ${t('site.title')}` : `${t('site.title')} — ${t('site.tagline')}`;
 // Normalise centrally: pages may pass a full lede, so collapse and clip it to a
@@ -22,6 +31,32 @@ const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/
 const urlSv = `${site}${localePath('sv', path)}`;
 const urlEn = `${site}${localePath('en', path)}`;
 const canonical = lang === 'sv' ? urlSv : urlEn;
+
+// Structured data. The publisher/organisation is the project itself: the
+// analysis on these pages is machine-generated, so naming a human author would
+// be a false claim. Dates come from the same build-time stamp as the sitemap's
+// <lastmod>, and are dropped together with it when it can't be established.
+const lastmod = siteLastmod();
+const publisher = {
+  '@type': 'Organization',
+  name: t('site.title'),
+  url: `${site}/`,
+  logo: { '@type': 'ImageObject', url: `${site}/logo.svg` },
+};
+const graph = jsonLd && {
+  '@context': 'https://schema.org',
+  inLanguage: lang === 'sv' ? 'sv-SE' : 'en',
+  isPartOf: { '@type': 'WebSite', name: t('site.title'), url: `${site}/` },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  author: publisher,
+  publisher,
+  image: `${site}/og-image.png`,
+  ...(lastmod ? { datePublished: lastmod, dateModified: lastmod } : {}),
+  ...jsonLd,
+};
+// JSON.stringify leaves `<` intact, so a "</script>" inside any case text would
+// close the block early and spill the rest into the document as markup.
+const graphJson = graph && JSON.stringify(graph).replace(/</g, '\\u003c');
 
 // active nav: mark the link whose section contains the current URL, so the
 // gold underline tracks where you are (Home matches only exactly).
@@ -47,7 +82,8 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     <link rel="sitemap" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/sitemap-index.xml`} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={desc} />
-    <meta property="og:type" content="article" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={t('site.title')} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'sv' ? 'sv_SE' : 'en_US'} />
     <meta property="og:locale:alternate" content={lang === 'sv' ? 'en_US' : 'sv_SE'} />
@@ -60,6 +96,7 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.ico`} sizes="32x32" />
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/apple-touch-icon.png`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/site.webmanifest`} />
+    {graphJson && <script type="application/ld+json" is:inline set:html={graphJson} />}
   </head>
   <body>
     <header>
@@ -74,7 +111,7 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
         <div class="links">
           <a href={localePath(lang, '/fall/')} aria-current={navCurrent('/fall/')}>{t('nav.cases')}</a>
           <a href={localePath(lang, '/analys/')} aria-current={navCurrent('/analys/')}>{t('nav.analysis')}</a>
-          <a href={localePath(lang, '/koalition/')} aria-current={navCurrent('/koalition/')}>{t('coalition.nav')}</a>
+          {/* Koalition folded into Parties — same question, one entry. */}
           <a href={localePath(lang, '/parti/')} aria-current={navCurrent('/parti/')}>{t('nav.parties')}</a>
           <a href={localePath(lang, '/om/')} aria-current={navCurrent('/om/')}>{t('nav.about')}</a>
           <div class="langswitch" role="group" aria-label={t('nav.langLabel')}>

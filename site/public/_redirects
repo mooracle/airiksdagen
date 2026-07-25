@@ -1,12 +1,13 @@
 # Cloudflare redirects (https://developers.cloudflare.com/workers/static-assets/redirects/)
-# @astrojs/sitemap emits sitemap-index.xml; alias the common /sitemap.xml guess to it.
+#
+# Legacy-route redirects were dropped deliberately: the site is new enough that
+# nothing external links to the retired paths (/metod/, /dokument/, /data/,
+# /koalition/ and their EN counterparts), so they 404 rather than carrying a
+# permanent redirect table forward. Note this only retires the bare index paths
+# — /dokument/[slug]/ and /en/documents/[slug]/ are live pages, and the
+# /dokument/ ↔ /documents/ pair must stay in SLUG_PAIRS for them to localize.
+#
+# @astrojs/sitemap emits sitemap-index.xml; alias the common /sitemap.xml guess
+# to it. This one is not legacy routing — it is a convenience alias for a URL
+# people and crawlers guess — so it stays.
 /sitemap.xml  /sitemap-index.xml  301
-
-# Method / Documents-index / Data were merged into one About page (/om/, /en/about/).
-# Exact-path rules only, so the /dokument/[slug] & /documents/[slug] detail pages are untouched.
-/metod/            /om/#metod        301
-/dokument/         /om/#dokument     301
-/data/             /om/#data         301
-/en/methodology/   /en/about/#metod  301
-/en/documents/     /en/about/#dokument 301
-/en/data/          /en/about/#data   301

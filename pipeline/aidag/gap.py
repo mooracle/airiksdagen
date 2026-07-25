@@ -78,6 +78,29 @@ def _gap_block(rows: list[dict]) -> dict:
     }
 
 
+VALIDITY_FIELDS = ("coverage", "confidence", "plan_tacker_utskottets_skal")
+
+
+def _validity(rows: list[dict]) -> dict:
+    """Gap rate split by the model's own self-reported read strength.
+
+    A coherent detector is monotone (explicit < inferred, high < low, plan
+    reaches the committee's reason < does not); a flat table means the "gap" is
+    not tracking the strength of the plan-reading. Computed over an
+    already-filtered set so it can be run for the whole corpus or one party.
+    """
+    out = {}
+    for field in VALIDITY_FIELDS:
+        levels = defaultdict(list)
+        for r in rows:
+            levels[str(r.get(field))].append(r)
+        out[field] = {
+            lv: {"n": len(rs), "gap_rate": _rate(sum(1 for r in rs if _is_gap(r)), len(rs))}
+            for lv, rs in sorted(levels.items())
+        }
+    return out
+
+
 def compute(df: pl.DataFrame) -> dict | None:
     """Gap statistics for a p6 run, or None for a run without `hallning`.
 
@@ -119,21 +142,14 @@ def compute(df: pl.DataFrame) -> dict | None:
             "all_tiers": _gap_block(p_dec),
             "tiers": {t: sum(1 for r in p_all if r["tier"] == t) for t in TIERS},
             "stodjer_rate": _rate(sum(1 for r in p_all if r["hallning"] == "stodjer"), len(p_all)),
+            # the same internal-validity split as the corpus-wide one below, so a
+            # party's gap can be judged against its own read strength rather than
+            # only against the other parties'
+            "validity": _validity(p_dec),
         }
 
-    # --- internal validity: does the gap concentrate where the model itself
-    # flagged a weak read? A coherent detector is monotone (explicit < inferred,
-    # high < low, plan reaches the committee's reason < does not). A flat table
-    # means the "gap" is not tracking the strength of the plan-reading.
-    validity = {}
-    for field in ("coverage", "confidence", "plan_tacker_utskottets_skal"):
-        levels = defaultdict(list)
-        for r in decided:
-            levels[str(r.get(field))].append(r)
-        validity[field] = {
-            lv: {"n": len(rs), "gap_rate": _rate(sum(1 for r in rs if _is_gap(r)), len(rs))}
-            for lv, rs in sorted(levels.items())
-        }
+    # --- internal validity, corpus-wide (see _validity) -------------------
+    validity = _validity(decided)
 
     # --- stance skew: the caveat, quantified ------------------------------
     by_case = defaultdict(dict)

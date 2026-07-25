@@ -5,7 +5,6 @@ Outputs data/results/aggregates/{run_id}/:
   summary.json           vote agreement + Cohen's kappa — CALIBRATION, not a score
   party_timeseries.json  per party x month agreement %
   confusion.json         3x3 (AI rost x actual position) per party
-  coverage.json          coverage/confidence/flag distributions
   probe.json             contamination: recall rates, probe-agreement relation
   coalition.json         coalition baseline vs party programme (see coalition.py)
 
@@ -119,17 +118,6 @@ def run(run_id: str) -> None:
         confusion[p] = matrix
     (out_dir / "confusion.json").write_text(json.dumps(confusion, indent=1))
 
-    # --- coverage / confidence / flags ---
-    coverage = {
-        "coverage": _dist(df, "coverage"),
-        "confidence": _dist(df, "confidence"),
-        "agreement_by_coverage": {
-            row["coverage"]: round(row["agreement"], 4)
-            for row in df.group_by("coverage").agg(pl.col("agree").mean().alias("agreement")).to_dicts()
-        },
-    }
-    (out_dir / "coverage.json").write_text(json.dumps(coverage, indent=1))
-
     # --- plan-vs-behaviour gap (p6 product; None on p4/p5 runs) ---
     gap_out = gap.compute(df)
     if gap_out is not None:
@@ -188,10 +176,6 @@ def _avstar_recall(sub: pl.DataFrame) -> float | None:
     if len(avstar) == 0:
         return None
     return round(float((avstar["rost"] == "Avstår").mean()), 4)
-
-
-def _dist(df: pl.DataFrame, col: str) -> dict:
-    return {row[col]: row["len"] for row in df.group_by(col).len().to_dicts()}
 
 
 def _mean(values) -> float | None:
