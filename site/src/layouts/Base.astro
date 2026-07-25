@@ -1,5 +1,5 @@
 ---
-import { useTranslations, localePath, type Lang } from '../i18n/ui';
+import { useTranslations, localePath, languages, metaDescription, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -13,8 +13,9 @@ interface Props {
 const { lang, title, description, path = '/' } = Astro.props;
 const t = useTranslations(lang);
 const pageTitle = title ? `${title} — ${t('site.title')}` : `${t('site.title')} — ${t('site.tagline')}`;
-const otherLang: Lang = lang === 'sv' ? 'en' : 'sv';
-const desc = description ?? t('site.tagline');
+// Normalise centrally: pages may pass a full lede, so collapse and clip it to a
+// snippet length here rather than trusting every caller to keep it short.
+const desc = metaDescription([description, t('site.tagline')]) ?? t('site.tagline');
 
 // SEO: absolute canonical + hreflang alternates for both language versions.
 const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/, '');
@@ -76,7 +77,24 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
           <a href={localePath(lang, '/koalition/')} aria-current={navCurrent('/koalition/')}>{t('coalition.nav')}</a>
           <a href={localePath(lang, '/parti/')} aria-current={navCurrent('/parti/')}>{t('nav.parties')}</a>
           <a href={localePath(lang, '/om/')} aria-current={navCurrent('/om/')}>{t('nav.about')}</a>
-          <a class="lang" href={localePath(otherLang, path)}>{otherLang.toUpperCase()}</a>
+          <div class="langswitch" role="group" aria-label={t('nav.langLabel')}>
+            {(['sv', 'en'] as Lang[]).map((l) => (
+              l === lang ? (
+                <span aria-current="true" title={languages[l]}>{l.toUpperCase()}</span>
+              ) : (
+                /* hreflang (not lang) marks the TARGET language: the accessible
+                   name below is written in the CURRENT page's language, so lang
+                   here would make a screen reader mispronounce it. */
+                <a
+                  href={localePath(l, path)}
+                  hreflang={l}
+                  rel="alternate"
+                  aria-label={`${t('nav.langSwitch')} ${languages[l]}`}
+                  title={languages[l]}
+                >{l.toUpperCase()}</a>
+              )
+            ))}
+          </div>
         </div>
       </nav>
     </header>
@@ -187,11 +205,33 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     content: ''; position: absolute; left: 0; right: 0; bottom: -0.18rem;
     height: 2px; border-radius: 2px; background: var(--gold);
   }
-  nav .lang {
-    border: 1px solid #45535e; border-radius: 5px; padding: 0.1rem 0.55rem; font-size: 0.8rem;
-    color: #c2ccd3; transition: border-color 0.15s ease, color 0.15s ease;
+  /* Language switcher: a segmented control showing BOTH languages with the
+     current one marked, rather than a lone link to "the other" one — which
+     never revealed what you were currently reading. */
+  /* Scoped under .links deliberately: `nav .links a` (0,1,2) outranks a plain
+     `nav .langswitch > *` (0,1,1), so the link half alone inherited the nav's
+     0.94rem font and zero side padding while the current half kept these —
+     the two segments rendered at different sizes. Two classes wins the cascade
+     for both children, so the control is styled as one unit. */
+  nav .links .langswitch {
+    display: inline-flex; align-items: stretch; margin-left: 0.25rem;
+    border: 1px solid #45535e; border-radius: 6px; overflow: hidden;
+    font-weight: 600; letter-spacing: 0.03em;
   }
-  nav .lang:hover { border-color: #728089; color: #fff; }
+  nav .links .langswitch > * {
+    display: flex; align-items: center; padding: 0.18rem 0.62rem;
+    font-size: 0.78rem; line-height: 1.5; text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  nav .links .langswitch > * + * { border-left: 1px solid #45535e; }
+  /* current language: filled, not a link */
+  nav .links .langswitch > [aria-current] { background: var(--gold); color: #2b2205; cursor: default; }
+  /* the other language: a real link, so it is crawlable and obviously clickable */
+  nav .links .langswitch > a { color: #c2ccd3; }
+  nav .links .langswitch > a:hover { background: #263340; color: #fff; }
+  nav .links .langswitch > a:focus-visible { outline: 2.5px solid var(--gold); outline-offset: -3px; }
+  /* the nav's active-page underline must not bleed into the switcher */
+  nav .links .langswitch > a[aria-current]::after { content: none; }
 
   main { max-width: 1120px; margin: 0 auto; padding: 1.8rem 1.3rem 4.5rem; }
 

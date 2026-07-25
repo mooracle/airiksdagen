@@ -1,12 +1,19 @@
 """Aggregate simulation results vs actual positions into site-ready statistics.
 
 Outputs data/results/aggregates/{run_id}/:
-  summary.json           headline agreement, per-party agreement + Cohen's kappa
+  gap.json               plan-vs-behaviour gap, tiered (p6 runs only; see gap.py)
+  summary.json           vote agreement + Cohen's kappa — CALIBRATION, not a score
   party_timeseries.json  per party x month agreement %
   confusion.json         3x3 (AI rost x actual position) per party
   coverage.json          coverage/confidence/flag distributions
   probe.json             contamination: recall rates, probe-agreement relation
   coalition.json         coalition baseline vs party programme (see coalition.py)
+
+On a p6 run the product is `gap.json`. `rost` is DERIVED from the plan's stance
+(promptgen.derive_rost) and the party's real vote is out-of-sample context, so
+"agreement" here measures how often a party voted its own plan — not how well
+the model predicted. Read summary.json as calibration and gap.json as the
+result. On p4/p5 runs there is no `hallning` and gap.json is not written.
 """
 
 from __future__ import annotations
@@ -16,7 +23,7 @@ from collections import Counter, defaultdict
 
 import polars as pl
 
-from aidag import coalition
+from aidag import coalition, gap
 from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
 
 SIM_LABELS = ["Ja", "Nej", "Avstår"]
@@ -123,6 +130,12 @@ def run(run_id: str) -> None:
     }
     (out_dir / "coverage.json").write_text(json.dumps(coverage, indent=1))
 
+    # --- plan-vs-behaviour gap (p6 product; None on p4/p5 runs) ---
+    gap_out = gap.compute(df)
+    if gap_out is not None:
+        gap_out["run_id"] = run_id
+        (out_dir / "gap.json").write_text(json.dumps(gap_out, indent=1, ensure_ascii=False))
+
     # --- coalition discipline vs party programme ---
     coal = coalition.compute(df)
     coal["run_id"] = run_id
@@ -151,6 +164,10 @@ def run(run_id: str) -> None:
         (out_dir / "probe.json").write_text(json.dumps(probe_out, indent=1))
 
     print(f"aggregates written to {out_dir}")
+    if gap_out is not None:
+        print("\n  PLAN-vs-BEHAVIOUR GAP (the product):")
+        print(gap.report(gap_out))
+        print("\n  vote agreement below is CALIBRATION ONLY — not a score:")
     print(f"  overall agreement: {summary['overall_agreement']:.1%} over {summary['n_decisions']} decisions")
     for p, s in per_party.items():
         print(f"  {p}: {s['agreement']:.1%} (kappa {s['kappa']}, n={s['n']})")

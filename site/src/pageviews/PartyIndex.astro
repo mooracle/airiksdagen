@@ -12,7 +12,7 @@ const summary = getAggregate<{ per_party: Record<string, { agreement: number; n:
 const order = meta.hemicycle_order;
 ---
 
-<Base lang={lang} title={t('party.title')} path="/parti/">
+<Base lang={lang} title={t('party.title')} description={t('meta.desc.parties')} path="/parti/">
   <h1>{t('party.title')}</h1>
   <div class="grid">
     {order.map((code) => {

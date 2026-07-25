@@ -36,10 +36,11 @@ SV_MONTH_NAMES = [
 def decision_schema(prompt_version: str = PROMPT_VERSION) -> dict:
     """The schema for one decision. The citable-document enum is exactly the set
     of documents that prompt version can ever put in context — p5 adds the party
-    programme and the shadow budget."""
+    programme and the shadow budget; p6 narrows it to the party's own plan."""
     import copy
 
-    schema = copy.deepcopy(DECISION_SCHEMA)
+    base = DECISION_SCHEMA_P6 if prompt_version >= "p6" else DECISION_SCHEMA
+    schema = copy.deepcopy(base)
     schema["properties"]["citations"]["items"]["properties"]["document"]["enum"] = list(
         docs_for_version(prompt_version)
     )
@@ -96,6 +97,156 @@ DECISION_SCHEMA = {
     "required": ["rost", "confidence", "coverage", "motivering", "citations", "omvarld", "flags"],
     "additionalProperties": False,
 }
+
+def _p6_schema() -> dict:
+    """p6 splits policy stance from parliamentary behaviour.
+
+    `rost` is gone: the vote is DERIVED from hallning in code (utskottet→Ja,
+    motforslaget→Nej, ingendera→Avstår), never predicted. In full-v3, 40.8% of
+    all disagreements with the real vote were cases where the party abstained
+    tactically, and the agent under-predicted Avstår 2.3x — asking party plans
+    to forecast floor tactics is a category error. The gap between the derived
+    vote and the real one is the product, computed at analysis time.
+
+    Two values, not three. A 55-decision Opus gate ran a three-valued version
+    with an `ingendera` ("the plan backs neither side") option: it fired 0/55,
+    including on all 15 real abstentions. Principled abstention is not something
+    party plans express, so the third value was dead weight.
+
+    `hallning` is a stance on the reservation's DEMAND, not on "which side".
+    The same gate showed the two sides are not the same kind of claim: the
+    committee's position is often procedural ("an inquiry is ongoing, do not
+    preempt it") while the reservation is substantive ("do X now"). Plans speak
+    to substance and are silent on procedure, so asking which side the plan
+    backed sent 62% of stances to the reservation against a real 44% Nej rate.
+    `plan_tacker_utskottets_skal` measures that asymmetry directly instead of
+    leaving it to sit inside the stance as an unmeasured bias.
+    """
+    import copy
+
+    s = copy.deepcopy(DECISION_SCHEMA)
+    p = s["properties"]
+    p.pop("rost")
+    # dict ordering is the field order the model sees — stance first
+    s["properties"] = {
+        "hallning": {"type": "string", "enum": ["stodjer", "avvisar"]},
+        **p,
+        "plan_tacker_utskottets_skal": {"type": "string", "enum": ["ja", "nej"]},
+    }
+    # Extrapolation is allowed — the actor may reason from a nearby principle —
+    # but it must always stay traceable: every decision cites at least one
+    # verbatim passage, so a reader can see what it reasoned FROM even when the
+    # plan does not address the case directly. p5 let `not_covered` return no
+    # citation at all; across 135 gate decisions the model never used that
+    # escape, so making it structural costs nothing and removes the hole.
+    s["properties"]["citations"]["minItems"] = 1
+    s["required"] = [
+        "hallning", "confidence", "coverage", "motivering", "citations",
+        "omvarld", "flags", "plan_tacker_utskottets_skal",
+    ]
+    return s
+
+
+DECISION_SCHEMA_P6 = _p6_schema()
+
+# stödjer the demand => you are backing the reservation => Nej on the floor
+HALLNING_TO_ROST = {"stodjer": "Nej", "avvisar": "Ja"}
+
+
+def derive_rost(hallning: str) -> str:
+    """The vote the party's own targets imply.
+
+    This is the separate actor's vote, not a forecast of the party. The actor
+    decides on party targets alone and has no access to parliamentary tactics,
+    so it never abstains — abstention is something only the real party does.
+    """
+    return HALLNING_TO_ROST[hallning]
+
+
+# How much weight a target-vs-vote difference can carry. Derived in code from
+# fields the model already produces, so the label is consistent and cannot be
+# hallucinated. Extrapolation is publishable — mislabelled extrapolation is not.
+EVIDENCE_TIERS = {
+    "explicit": "the plan states this commitment outright",
+    "extrapolated": "derived from a nearby principle in the plan",
+    "off_axis": "the plan does not speak to what this vote turned on",
+}
+
+
+def evidence_tier(decision: dict) -> str:
+    """Label one actor decision by how well the party's plan reaches the case.
+
+    `off_axis` is the honest majority case: across 135 gate decisions the plan
+    was silent on the committee's actual reason 54-69% of the time, because
+    committee positions are often procedural ("an inquiry is ongoing") while
+    plans speak to substance. Such a decision is still a real actor vote and
+    still fully cited — it just cannot carry a claim that the party broke a
+    specific promise.
+    """
+    off_axis = decision.get("plan_tacker_utskottets_skal") == "nej"
+    explicit = decision.get("coverage") == "explicit"
+    if explicit and decision.get("confidence") in ("high", "medium"):
+        return "explicit"
+    return "off_axis" if off_axis else "extrapolated"
+
+
+ROLE_PROMPT_P6 = """\
+Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: \
+avgör vilken av två ståndpunkter i en riksdagsvotering som partiet {party_name} ({code}) \
+BORDE stå bakom — uteslutande utifrån partiets egna plandokument som återges nedan, och \
+lägesbilden av landet vid tidpunkten. Detta är en rekonstruktion av plantrohet, inte en \
+förutsägelse av partiets agerande i kammaren.
+
+Regler:
+- Grunda ställningstagandet ENBART på dokumenten nedan. Använd inte kunskap om hur partiet \
+faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunkten.
+- Väg INTE in partitaktik: regeringsunderlag, koalitionslojalitet, uppgörelser, \
+utskottsdiscipline eller hur andra partier väntas rösta. Frågan är vad partiets EGEN plan \
+säger i sakfrågan — inget annat.
+- Om dokumenten inte täcker frågan: härled från dokumentens principer och ange \
+coverage="inferred", eller ange coverage="not_covered" och utgå från närmast liggande princip.
+- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. \
+Välj det STÄLLE i dokumenten som faktiskt bär ställningstagandet — inte en allmän \
+formulering. Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat \
+en kort "princip" (2–6 ord) som namnger åtagandet, t.ex. "minskad asylinvandring" eller \
+"höjda försvarsanslag".
+
+Fältet hallning — partiets plan i förhållande till motförslagets KRAV (inte till \
+vilken sida som helst):
+- "stodjer" = planen stöder det som motförslaget kräver i sak.
+- "avvisar" = planen talar emot det som motförslaget kräver i sak.
+
+Fältet plan_tacker_utskottets_skal — utskottets ställningstagande och motförslaget är \
+ofta inte samma sorts påstående. Motförslaget kräver något i sak; utskottets skäl är \
+ofta procedurella ("en utredning pågår, arbetet bör inte föregripas", "frågan bereds"). \
+Partiplaner uttalar sig om sak, sällan om beredningsordning.
+- "ja" = planen säger något om just det skäl utskottet anför.
+- "nej" = planen är tyst om utskottets skäl (t.ex. planen kräver X i sak, medan \
+utskottet enbart invänder att arbete redan pågår). Sätt då "nej" ÄVEN om du satt \
+hallning="stodjer" — de två frågorna är olika.
+
+Osäkerhet är ett giltigt och förväntat svar:
+- Sätt confidence="low" när planen bara ger allmänna principer att härleda ur.
+- Sätt coverage="not_covered" när planen inte alls behandlar sakfrågan; välj då ändå \
+hallning utifrån närmast liggande princip och sätt confidence="low".
+- Pressa inte fram ett säkert svar ur ett svagt underlag.
+- Ange ALLTID minst ett citat, även när du härleder eller när coverage="not_covered": \
+citera då den närmast liggande princip du faktiskt utgått från. Att härleda är tillåtet \
+— att göra det utan att visa vad du utgått från är det inte.
+
+Omvärldsläget ("Läget i landet och omvärlden" nedan) är inkommande läge som partiet \
+inte kunde planera för. Regler för omvärlden:
+- Dokumenten är alltid grunden. Omvärlden får vägas in ENDAST när den väsentligt \
+påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen aldrig förutsåg).
+- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med \
+kort effekt. Annars omvarld.paverkar=false och tom lista.
+- Om dokumenten saknar svar och omvärlden avgör: sätt coverage="not_covered" OCH \
+omvarld.paverkar=true.
+
+Svara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: \
+2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur \
+det leder till ställningstagandet."""
+
 
 ROLE_PROMPT = """\
 Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: \
@@ -178,12 +329,18 @@ def build_system_blocks(
     it never saw.
     """
     party_name = PARTIES[code]["name"]
-    role = ROLE_PROMPT.format(party_name=party_name, code=code)
-    if tido_applies(code, datum):
-        extra = TIDO_ROLE_SIGNATORY if code in TIDO_SIGNATORIES else TIDO_ROLE_SUPPORT
-        role += extra.format(party_name=party_name)
-    if prompt_version >= "p5":
-        role += P5_ROLE_DOCS
+    if prompt_version >= "p6":
+        # No Tidöavtalet block in p6, so no Tidö role addendum either — it would
+        # tell a governing party about a document it is no longer shown, and the
+        # run is measuring fidelity to the party's own plan, not to the coalition.
+        role = ROLE_PROMPT_P6.format(party_name=party_name, code=code) + P5_ROLE_DOCS
+    else:
+        role = ROLE_PROMPT.format(party_name=party_name, code=code)
+        if tido_applies(code, datum):
+            extra = TIDO_ROLE_SIGNATORY if code in TIDO_SIGNATORIES else TIDO_ROLE_SUPPORT
+            role += extra.format(party_name=party_name)
+        if prompt_version >= "p5":
+            role += P5_ROLE_DOCS
 
     blocks = [{"type": "text", "text": role}]
     for _kind, tag, text in documents_for(code, datum, rm, votering_id, prompt_version):
@@ -320,7 +477,60 @@ def _reservation_substance_sv(case: dict, alt: dict) -> str | None:
     return (sub or {}).get("sv") or None
 
 
-def render_user_message(case: dict, arm: str = "anonymous") -> str:
+@lru_cache(maxsize=1)
+def _casemeta_agent() -> dict:
+    """The party-blind agent slice of the casemeta layer, keyed by votering_id."""
+    try:
+        from aidag.casemeta import load_casemeta
+
+        return {v: (r.get("agent") or {}) for v, r in load_casemeta().items()}
+    except Exception:  # noqa: BLE001 — layer absent: p6 falls back to p5 rendering
+        return {}
+
+
+def _render_p6_arende(case: dict, arm: str) -> list[str] | None:
+    """p6 case block, built from the casemeta brief.
+
+    p5 gave the agent a betänkande-wide `utsknotis` and a hollow
+    `Utskottets förslag: Riksdagen avslår motionerna [nr], [nr]…` — a median of
+    92 characters, mostly masked document numbers, for the Ja side. The casemeta
+    agent view carries the committee's actual reasoning (~287 chars) and each
+    reservation's demand (~336 chars), both already de-leaked. Returns None when
+    a case has no record, so the caller falls back to the p5 block.
+    """
+    ag = _casemeta_agent().get(case["votering_id"]) or {}
+    committee = (ag.get("committee") or {}).get("sv", "").strip()
+    alts = [a for a in (ag.get("alternatives") or []) if (a.get("sv") or "").strip()]
+    if not committee or not alts:
+        return None
+    parts = ["<arende>", f"Utskott: {case['utskott']}", f"Ärende: {case['rubrik']}"]
+    parts.append(f"Utskottets ställningstagande: {scrub_text(committee, arm)}")
+    parts.append("Motförslag i voteringen:")
+    for i, alt in enumerate(alts):
+        label = chr(ord("A") + i)
+        body = scrub_text(alt["sv"].strip(), arm)
+        if arm == "labeled" and alt.get("source_partier"):
+            parts.append(f"- Alternativ {label} ({', '.join(alt['source_partier'])}): {body}")
+        else:
+            parts.append(f"- Alternativ {label}: {body}")
+    parts.append("</arende>")
+    return parts
+
+
+def render_user_message(case: dict, arm: str = "anonymous", prompt_version: str = PROMPT_VERSION) -> str:
+    if prompt_version >= "p6":
+        head = [f"Tidpunkt: {coarse_time(case['datum'])}."]
+        if ctx := (render_worldstate_block(case["datum"]) or render_kb_block(case["kb_month"])):
+            head.append(ctx)
+        if block := _render_p6_arende(case, arm):
+            head += block
+            head.append(
+                "Stödjer eller avvisar partiets egen plan det som motförslaget kräver "
+                "i sak (stodjer/avvisar)? Ange också om planen alls berör utskottets skäl."
+            )
+            return "\n".join(head)
+        # no casemeta record — fall through to the p5 rendering below
+
     parts = [f"Tidpunkt: {coarse_time(case['datum'])}."]
     # p4: per-date worldstate; monthly KB only as fallback if not built
     context = render_worldstate_block(case["datum"]) or render_kb_block(case["kb_month"])

@@ -43,9 +43,17 @@ from aidag.config import (
 # enum is built from this — an agent can only name a document it was given.
 DOCS_P4 = ("valmanifest", "tidoavtalet")
 DOCS_P5 = ("valmanifest", "tidoavtalet", "partiprogram", "budgetmotion")
+# p6: the party's OWN durable plan only, and the same KIND of source for every
+# party. The shadow budget is an annual tactical reply to the government's
+# budget and only opposition parties write one; Tidöavtalet is the coalition
+# bargain, so giving it to M/KD/L/SD pre-loads the governing line for exactly
+# the parties whose plan-vs-behaviour gap the run is meant to measure.
+DOCS_P6 = ("valmanifest", "partiprogram")
 
 
 def docs_for_version(prompt_version: str) -> tuple[str, ...]:
+    if prompt_version >= "p6":
+        return DOCS_P6
     return DOCS_P5 if prompt_version >= "p5" else DOCS_P4
 
 
@@ -183,10 +191,20 @@ def documents_for(
             docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt")))
         return docs
 
-    # p5: every document is normalized on the way out (see normalize()).
+    # p5+: every document is normalized on the way out (see normalize()).
     docs: list[tuple[str, str, str]] = [
         ("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt", True))
     ]
+
+    if prompt_version >= "p6":
+        # own durable plan only — symmetric across all eight parties
+        if prog := program_at(code, datum):
+            docs.append((
+                "partiprogram",
+                f'partiprogram antaget="{prog["from"]}"',
+                _text(program_filename(code, prog), True),
+            ))
+        return docs
 
     if prog := program_at(code, datum):
         docs.append((

@@ -46,7 +46,7 @@ const pct = (v: number | null) => (v == null ? '–' : `${(v * 100).toFixed(0)}%
 const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
 ---
 
-<Base lang={lang} title={t('coalition.title')} path="/koalition/">
+<Base lang={lang} title={t('coalition.title')} description={t('coalition.intro')} path="/koalition/">
   <h1>{t('coalition.title')}</h1>
   <p class="muted">{t('coalition.intro')}</p>
 

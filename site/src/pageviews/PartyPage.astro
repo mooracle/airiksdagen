@@ -16,6 +16,14 @@ const summary = getAggregate<{
 }>('summary');
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 const confusion = getAggregate<Record<string, Record<string, Record<string, number>>>>('confusion');
+/** p6 gap, per party; null on the older vote-matching runs. */
+const gap = getAggregate<{
+  per_party: Record<string, {
+    explicit: { n: number; gap: number; gap_rate: number | null };
+    tiers: Record<string, number>;
+  }>;
+}>('gap');
+const pgap = gap?.per_party?.[code];
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
@@ -64,15 +72,23 @@ const cohesionChart = [
 ];
 ---
 
-<Base lang={lang} title={party?.name ?? code} path={`/parti/${code.toLowerCase()}/`}>
+<Base lang={lang} title={party?.name ?? code} description={`${party?.name ?? code} ${t('meta.desc.partySuffix')}`} path={`/parti/${code.toLowerCase()}/`}>
   <h1><PartyBadge code={code} parties={meta.parties} size={32} /> {party?.name ?? code}</h1>
 
   {stats ? (
     <div class="card">
-      <p style="margin:0">
-        <strong style="font-size:1.5rem">{(stats.agreement * 100).toFixed(1)}%</strong>
-        <span class="muted"> {t('home.agreement').toLowerCase()} · n = {stats.n} · κ = {stats.kappa ?? '–'}
-        {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}</span>
+      {/* Lead with the documented gap (explicit tier); vote agreement follows as
+          calibration, since the derived vote is a consequence of the stance and
+          never a prediction of floor tactics. */}
+      {pgap && pgap.explicit.gap_rate !== null && (
+        <p style="margin:0 0 0.35rem">
+          <strong style="font-size:1.5rem">{(pgap.explicit.gap_rate * 100).toFixed(0)}%</strong>
+          <span class="muted"> {t('home.gapHeadline')} · n = {pgap.explicit.n}</span>
+        </p>
+      )}
+      <p class="muted" style="margin:0;font-size:0.9rem">
+        {t('party.calibration')}: {(stats.agreement * 100).toFixed(1)}% · n = {stats.n} · κ = {stats.kappa ?? '–'}
+        {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}
       </p>
     </div>
   ) : (
@@ -139,7 +155,7 @@ const cohesionChart = [
       <h2>{t('party.confusion')}</h2>
       <table class="compare" style="max-width:420px">
         <thead>
-          <tr><th>AI ↓ / {lang === 'sv' ? 'verklig' : 'actual'} →</th>{LABELS.map((l) => <th>{voteLabel[l]}</th>)}</tr>
+          <tr><th>{lang === 'sv' ? 'plan ↓ / verklig' : 'plan ↓ / actual'} →</th>{LABELS.map((l) => <th>{voteLabel[l]}</th>)}</tr>
         </thead>
         <tbody>
           {LABELS.map((ai) => (

@@ -17,6 +17,7 @@ import polars as pl
 from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
 from aidag.models import Decision, Probe
 from aidag.probe import probe_results_path
+from aidag.promptgen import derive_rost
 from aidag.simulate import collected_ids, results_path
 
 
@@ -43,6 +44,15 @@ def parse_sim(
         raise ValueError(f"votering_id {vid!r} not in cases")
     if sim.get("party") not in (None, parti) or sim.get("vid") not in (None, vid):
         raise ValueError(f"cid disagrees with item fields {sim.get('party')}/{sim.get('vid')}")
+    decision = dict(sim["decision"])
+    # p6 agents decide a STANCE (`hallning`); the vote is derived here in code and
+    # never predicted by the model — that separation is the whole point of the
+    # policy-first rebuild. Storing the derived `rost` alongside it keeps every
+    # downstream reader (aggregate, export_site, compare_runs) working unchanged,
+    # while the gap — derived vote vs the real one — stays computable at analysis
+    # time. p4/p5 decisions carry `rost` directly and are passed through untouched.
+    if "rost" not in decision and "hallning" in decision:
+        decision["rost"] = derive_rost(decision["hallning"])
     return Decision(
         votering_id=vid,
         parti=parti,
@@ -52,7 +62,7 @@ def parse_sim(
         arm=arm,
         batch_id=batch_id,
         collected_at=datetime.now(timezone.utc).isoformat(),
-        **sim["decision"],
+        **decision,
     )
 
 

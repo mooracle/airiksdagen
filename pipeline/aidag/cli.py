@@ -166,11 +166,16 @@ def compare_runs(
 
 
 @app.command("agent-status")
-def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
+def agent_status(
+    run_id: str = typer.Option(..., "--run-id"),
+    prompt_version: str = typer.Option(
+        PROMPT_VERSION, help="Must match the run's — it is part of the cid"
+    ),
+) -> None:
     """Progress report for a subagent-based run."""
     from aidag.agent_run import status
 
-    status(run_id=run_id)
+    status(run_id=run_id, prompt_version=prompt_version)
 
 
 @app.command("translate-prepare")
@@ -282,6 +287,36 @@ def reservations_status() -> None:
     status()
 
 
+@app.command("casemeta-prepare")
+def casemeta_prepare(
+    batch_size: int = typer.Option(500, help="Agents per batch (default covers all pending)"),
+    per_request: int = typer.Option(6, help="Case packets bundled into one agent's request file"),
+) -> None:
+    """Emit the next unified case-metadata batch manifest (run-independent, checkpoint-aware)."""
+    from aidag.casemeta import prepare
+
+    prepare(batch_size=batch_size, per_request=per_request)
+
+
+@app.command("casemeta-ingest")
+def casemeta_ingest(
+    input: str = typer.Option(..., "--input", help="Workflow output dir or merged {cases:[...]} JSON"),
+    model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
+) -> None:
+    """Ingest unified case-metadata records (validated, de-leaked, deterministic-merged, idempotent)."""
+    from aidag.casemeta import ingest
+
+    ingest(input_path=input, model=model)
+
+
+@app.command("casemeta-status")
+def casemeta_status() -> None:
+    """Unified case-metadata progress report."""
+    from aidag.casemeta import status
+
+    status()
+
+
 @app.command("repair-citations")
 def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     """Align paraphrased citation quotes to the true document span (flagged)."""
@@ -321,7 +356,7 @@ def agent_ingest(
 
 @app.command()
 def verify(
-    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|reservations|site|all"),
+    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|reservations|casemeta|site|all"),
     run_id: str = typer.Option(None, "--run-id"),
 ) -> None:
     """Read-only integrity checks; exits nonzero on failure (CI gate)."""

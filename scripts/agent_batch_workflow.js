@@ -139,7 +139,9 @@ const simItems = manifest.items
       party,
       vid,
       system_file: `${manifest.system_dir}/${i.sys}`,
-      case_file: `${manifest.cases_dir}/${vid}.json`,
+      // case files are version-scoped (the rendered <arende> differs between
+      // prompt versions), so the name carries the manifest's prompt_version
+      case_file: `${manifest.cases_dir}/${vid}-${manifest.prompt_version}.json`,
     }
   })
 const probeItems = manifest.items

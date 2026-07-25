@@ -35,7 +35,21 @@ export interface ActualPosition {
 }
 
 export interface AiDecision {
+  /** On p6 runs this is DERIVED from `hallning`, never predicted directly. */
   rost: string;
+  /**
+   * p6: the plan's stance on what the counter-proposal DEMANDS — the field the
+   * agent actually decides. Null on the older p4/p5 runs, which supplied `rost`.
+   */
+  hallning?: 'stodjer' | 'avvisar' | null;
+  /** p6: did the plan reach the committee's actual reason for its position? */
+  plan_tacker_utskottets_skal?: 'ja' | 'nej' | null;
+  /**
+   * How far the plan reaches into what this vote turned on. Only 'explicit' can
+   * carry a "the party voted against its own stated commitment" claim; 'off_axis'
+   * means the committee's reason was procedural and the plan is silent on it.
+   */
+  tier?: 'explicit' | 'extrapolated' | 'off_axis' | null;
   confidence: string;
   coverage: string;
   motivering: string;

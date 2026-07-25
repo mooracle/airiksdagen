@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Hemicycle from '../components/Hemicycle.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
-import { useTranslations, localePath, type Lang } from '../i18n/ui';
+import { useTranslations, localePath, metaDescription, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; caseData: CaseData }
 const { lang, caseData: c } = Astro.props;
@@ -36,6 +36,38 @@ const lead = subject || sammanfattning;
 const atStake = cmeta ? (lang === 'sv' ? cmeta.at_stake.sv : cmeta.at_stake.en) : null;
 const topicLabel = cmeta ? (meta.policy_areas?.[cmeta.policy_area]?.[lang] ?? null) : null;
 const altTexts = c.alternatives.map((a, i) => (en?.alternatives?.[i] || a.text));
+// casemeta brief: the contested axis + both sides' substance. Each part is optional
+// so cases exported before the casemeta layer still render (the block is skipped).
+const pick = (v: { sv: string; en: string } | null | undefined) =>
+  v ? (lang === 'sv' ? v.sv : v.en) || null : null;
+const decisionText = pick(cmeta?.decision);
+const jaText = pick(cmeta?.ja);
+// join each Nej to its alternative so the brief can label it the same way the
+// Motförslag list does (raw "Reservation N" label + the parties behind it)
+const altById = new Map(c.alternatives.map((a, i) => [a.alt_id, { ...a, shownText: altTexts[i] }]));
+const nejItems = (cmeta?.nej ?? [])
+  .map((n: { alt_id: string; sv: string; en: string }) => {
+    const alt = altById.get(n.alt_id);
+    return {
+      alt_id: n.alt_id,
+      text: pick(n),
+      label: alt?.shownText ?? n.alt_id,
+      partier: alt?.source_partier ?? [],
+    };
+  })
+  .filter((n: { text: string | null }) => n.text);
+const hasBrief = Boolean(decisionText || jaText || nejItems.length);
+// Meta description: prefer the contested axis, then why-it-matters, then the
+// subject — the utsknotis blurb is the last resort because it describes the
+// whole betänkande rather than this vote, and repeats across bundled cases.
+const metaDesc = metaDescription([decisionText, atStake, subject, sammanfattning]);
+// Page title: `rubrik` is often a boilerplate committee heading reused across
+// many unrelated votes ("Regeringens lagförslag" covers 71 of them), which made
+// those titles indistinguishable in search results. The casemeta subject names
+// THIS vote; the betänkande point disambiguates the few topics voted repeatedly.
+// rm is part of the ref because committee codes recur every riksmöte (FiU26
+// exists in several years), so beteckning+punkt alone still collided.
+const pageTitle = `${subject || rubrik} · ${c.rm}:${c.beteckning} p.${c.punkt}`;
 const aiEn = (code: string) => (lang === 'en' ? c.ai[code]?.en ?? null : null);
 
 const docLabel: Record<string, string> = {
@@ -52,6 +84,12 @@ function citationHref(party: string, document: string, quote: string): string | 
   if (!slug) return null;
   return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
 }
+
+// Evidence tiers, strongest first. Anything without a tier (p4/p5 runs) sorts
+// with the middle group rather than being promoted above graded evidence.
+const TIER_ORDER = ['explicit', 'extrapolated', 'off_axis'];
+const tierRank = (tier?: string | null) =>
+  tier ? TIER_ORDER.indexOf(tier) : 1;
 
 // parties where the AI's plan-faithful vote differs from the actual vote —
 // each shown with the decisive plan quote so the deviation claim is verifiable
@@ -74,7 +112,12 @@ const mismatches = partyOrder
       decisive: idx === -1 ? null : cits[idx],
       decisiveEn: idx === -1 ? null : aiEn(code)?.citations?.[idx] ?? null,
     };
-  });
+  })
+  // Strongest evidence first: a divergence the plan states outright is a
+  // different kind of claim from one derived off a procedural committee reason,
+  // and the reader should meet them in that order. Stable within a tier, so the
+  // hemicycle ordering above survives.
+  .sort((x, y) => tierRank(x.decision.tier) - tierRank(y.decision.tier));
 
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
@@ -103,7 +146,7 @@ const docRefs = partyOrder
   .filter((r) => r.docs.length > 0);
 ---
 
-<Base lang={lang} title={rubrik} path={pagePath}>
+<Base lang={lang} title={pageTitle} description={metaDesc} path={pagePath}>
   <p>
     <span class="chip">{c.datum}</span>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
@@ -120,6 +163,34 @@ const docRefs = partyOrder
   )}
   {lang === 'en' && (
     <p class="muted mtnote">{c.en ? t('case.mtNote') : t('case.notTranslated')}</p>
+  )}
+
+  {hasBrief && (
+    <section class="brief">
+      <h2>{t('case.brief')}</h2>
+      {decisionText && <p class="brief-decision">{decisionText}</p>}
+      {jaText && (
+        <div class="card brief-side" data-side="Ja">
+          <p class="brief-head"><span class="votechip" data-v="Ja">{voteLabels.Ja}</span> {t('case.briefJa')}</p>
+          <p class="brief-body">{jaText}</p>
+        </div>
+      )}
+      {nejItems.length > 0 && (
+        <div class="card brief-side" data-side="Nej">
+          <p class="brief-head"><span class="votechip" data-v="Nej">{voteLabels.Nej}</span> {t('case.briefNej')}</p>
+          {nejItems.map((n) => (
+            <div class="brief-alt">
+              <p class="brief-altlabel">
+                {n.label}
+                {n.partier.length > 0 && <span class="muted"> ({n.partier.join(', ')})</span>}
+              </p>
+              <p class="brief-body">{n.text}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      <p class="muted briefnote">{t('case.briefNote')}</p>
+    </section>
   )}
 
   <Hemicycle
@@ -150,7 +221,7 @@ const docRefs = partyOrder
         <th>{t('case.actual')}</th>
         <th></th>
         <th>{t('case.confidence')}</th>
-        <th>{t('case.coverage')}</th>
+        <th>{t('tier.label')}</th>
       </tr>
     </thead>
     <tbody>
@@ -165,7 +236,21 @@ const docRefs = partyOrder
               <PartyBadge code={code} parties={meta.parties} label="none" />
               {a?.authored_reservation && <span class="tag own" title={t('coalition.ownResTip')}>{t('coalition.ownRes')}</span>}
             </td>
-            <td>{d ? <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span> : <span class="muted">–</span>}</td>
+            {/* p6: the stance is what the agent decided; the vote chip beside it is
+                DERIVED from it. On p4/p5 runs `hallning` is null and only the vote
+                is shown, exactly as before. */}
+            <td>
+              {d ? (
+                <>
+                  {d.hallning && (
+                    <span class="stance" title={t(`stance.${d.hallning}` as any)}>
+                      {t(`stance.short.${d.hallning}` as any)}
+                    </span>
+                  )}
+                  <span class="votechip" data-v={d.rost}>{voteLabels[d.rost]}</span>
+                </>
+              ) : <span class="muted">–</span>}
+            </td>
             <td>
               {a ? (
                 <>
@@ -183,7 +268,11 @@ const docRefs = partyOrder
               )}
             </td>
             <td class="muted">{d?.confidence ?? ''}</td>
-            <td class="muted">{d ? t(`coverage.${d.coverage}` as any) : ''}</td>
+            <td class="muted">
+              {d?.tier
+                ? <span class="tier" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>{t(`tier.${d.tier}` as any)}</span>
+                : d ? t(`coverage.${d.coverage}` as any) : ''}
+            </td>
           </tr>
         );
       })}
@@ -200,9 +289,18 @@ const docRefs = partyOrder
             <p class="mm-head">
               <PartyBadge code={m.code} parties={meta.parties} label="name" />
               <span>
-                {t('case.ai')}: <span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
+                {t('case.ai')}: {m.decision.hallning && (
+                  <span class="stance" title={t(`stance.${m.decision.hallning}` as any)}>
+                    {t(`stance.short.${m.decision.hallning}` as any)}
+                  </span>
+                )}<span class="votechip" data-v={m.decision.rost}>{voteLabels[m.decision.rost]}</span>
                 <span class="muted"> · </span>
                 {t('case.actual')}: <span class="votechip" data-v={m.actual.position}>{voteLabels[m.actual.position]}</span>
+                {m.decision.tier && (
+                  <span class="tier" data-tier={m.decision.tier} title={t(`tier.${m.decision.tier}Tip` as any)}>
+                    {t(`tier.${m.decision.tier}` as any)}
+                  </span>
+                )}
               </span>
             </p>
             {m.decisive && (
@@ -224,7 +322,13 @@ const docRefs = partyOrder
                 )}
               </blockquote>
             )}
-            <p class="muted mm-note">{t('case.planVsRealNote')}</p>
+            {/* Only an explicit-tier divergence supports "the party voted against
+                its own stated commitment". Anything weaker gets the honest note. */}
+            <p class="muted mm-note">
+              {m.decision.tier && m.decision.tier !== 'explicit'
+                ? t('case.planVsRealNoteWeak')
+                : t('case.planVsRealNote')}
+            </p>
           </div>
         );
       })}
@@ -463,6 +567,20 @@ const docRefs = partyOrder
   </script>
 
   <style>
+    /* The plan's stance — the p6 product. Sits immediately before the vote chip
+       it implies, so the derivation reads left to right. */
+    .stance {
+      display: inline-block; margin-right: 0.4rem; font-size: 0.78rem;
+      color: var(--ink-2); white-space: nowrap; cursor: help;
+    }
+    /* Evidence tier. Only `explicit` is emphasised — the weaker tiers must not
+       look like a verdict, so they stay grey and quiet. */
+    .tier {
+      display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
+      border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
+      vertical-align: middle; cursor: help; background: #ecebe6; color: #5d5a52;
+    }
+    .tier[data-tier='explicit'] { background: #d8e8d2; color: #2f5326; }
     .tag {
       display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem;
       border-radius: 4px; font-size: 0.7rem; font-weight: 600; white-space: nowrap;
@@ -474,6 +592,18 @@ const docRefs = partyOrder
     .summary { font-size: 1.05rem; line-height: 1.6; color: var(--ink-2); max-width: 46rem; margin: 0.55rem 0 0.2rem; }
     .atstake { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); max-width: 46rem; margin: 0.4rem 0 0.2rem; padding: 0.5rem 0.8rem; background: #eef3f8; border-radius: 6px; }
     .chip.topic { background: #e5efdb; color: #3f5a2a; font-weight: 600; }
+    /* casemeta brief — the contested axis, then the Ja and Nej substance side by side */
+    .brief { max-width: 46rem; }
+    .brief-decision { font-size: 0.98rem; line-height: 1.6; color: var(--ink-2); margin: 0 0 0.8rem; }
+    .brief-side { margin-bottom: 0.7rem; border-left: 4px solid var(--muted); }
+    .brief-side[data-side='Ja'] { border-left-color: #2f7d4f; }
+    .brief-side[data-side='Nej'] { border-left-color: #a8452f; }
+    .brief-head { margin: 0 0 0.5rem; font-weight: 600; font-size: 0.92rem; }
+    .brief-head .votechip { min-width: 4.2rem; text-align: center; margin-right: 0.5rem; }
+    .brief-body { margin: 0; font-size: 0.94rem; line-height: 1.55; color: var(--ink-2); }
+    .brief-alt + .brief-alt { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--rule, #e3e3e3); }
+    .brief-altlabel { margin: 0 0 0.2rem; font-size: 0.85rem; font-weight: 600; }
+    .briefnote { font-size: 0.78rem; font-style: italic; margin: 0.3rem 0 0; }
     .mtnote { font-size: 0.8rem; font-style: italic; }
     .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }
     details.original { margin-top: 0.5rem; font-size: 0.88rem; }

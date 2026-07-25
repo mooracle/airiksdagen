@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getMeta, getCorpusDoc } from '../lib/data';
-import { localePath, type Lang } from '../i18n/ui';
+import { localePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; slug: string }
 const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
 const meta = getMeta();
 const text = getCorpusDoc(slug);
 
@@ -18,7 +19,7 @@ if (m) {
 }
 ---
 
-<Base lang={lang} title={title} path={`/dokument/${slug}/`}>
+<Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`}>
   <p class="muted">
     <a href={`${localePath(lang, '/om/')}#dokument`}>
       ← {lang === 'sv' ? 'Partidokument' : 'Party documents'}

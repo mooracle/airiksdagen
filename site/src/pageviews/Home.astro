@@ -15,6 +15,20 @@ const summary = getAggregate<{
   n_decisions: number;
   per_party: Record<string, { n: number; agreement: number; kappa: number | null }>;
 }>('summary');
+/**
+ * Plan-vs-behaviour gap (p6 runs only; null on the older vote-matching runs).
+ * `headline` is deliberately the EXPLICIT evidence tier alone — the subset where
+ * the party's plan spoke to what the vote turned on. The wider tiers are shown
+ * beside it as context and never folded into the headline number.
+ */
+interface GapData {
+  n_decisions: number;
+  tiers: Record<string, number>;
+  headline: { n: number; gap: number; gap_rate: number | null };
+  per_party: Record<string, { explicit: { n: number; gap: number; gap_rate: number | null } }>;
+  stance_skew: { unanimous_stodjer: number; n_cases_all_parties: number };
+}
+const gap = getAggregate<GapData>('gap');
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 
@@ -89,7 +103,7 @@ function monthColor(m: string): string {
 const hasAiData = timeseries.length > 0;
 ---
 
-<Base lang={lang} path="/">
+<Base lang={lang} description={t('home.intro')} path="/">
   <section class="hero">
     <h1>{t('site.tagline')}</h1>
     <p class="lede">{t('home.intro')}</p>
@@ -114,10 +128,24 @@ const hasAiData = timeseries.length > 0;
     </a>
   </div>
 
-  <h2>{t('home.drift')}</h2>
+  <h2>{gap ? t('home.gapTitle') : t('home.drift')}</h2>
   {hasAiData ? (
     <div class="card">
-      {summary && (
+      {gap && gap.headline.gap_rate !== null ? (
+        <>
+          <p style="margin:0 0 0.4rem">
+            <strong style="font-size:1.5rem">{(gap.headline.gap_rate * 100).toFixed(0)}%</strong>
+            <span class="muted"> {t('home.gapHeadline')} · n = {gap.headline.n}</span>
+          </p>
+          <p class="tiers muted">
+            <span class="tierkey">{t('home.tiers')}:</span>
+            <span title={t('tier.explicitTip')}><b>{gap.tiers.explicit}</b> {t('tier.explicit')}</span>
+            <span title={t('tier.extrapolatedTip')}><b>{gap.tiers.extrapolated}</b> {t('tier.extrapolated')}</span>
+            <span title={t('tier.off_axisTip')}><b>{gap.tiers.off_axis}</b> {t('tier.off_axis')}</span>
+          </p>
+          <p class="muted" style="font-size:0.85rem;margin:0 0 0.7rem">{t('home.gapNote')}</p>
+        </>
+      ) : summary && (
         <p style="margin:0 0 0.5rem">
           <strong style="font-size:1.5rem">{((1 - summary.overall_agreement) * 100).toFixed(1)}%</strong>
           <span class="muted"> {t('home.driftHeadline')} · n = {summary.n_decisions}</span>
@@ -185,17 +213,29 @@ const hasAiData = timeseries.length > 0;
     <button type="submit">{t('home.searchBtn')}</button>
   </form>
 
-  {summary && (
+  {/* p6 only: the divergence that the plan actually documents, party by party.
+      Ordered left→right on the hemicycle so the government/opposition split in
+      the numbers reads spatially rather than needing to be spelled out. */}
+  {gap && (
     <>
-      <h2>{t('home.agreement')}</h2>
+      <h2>{t('home.gapByParty')}</h2>
       <div class="card">
-        {Object.entries(summary.per_party).map(([code, s]) => (
-          <div class="statbar">
-            <span style="width:2.5rem"><PartyBadge code={code} parties={meta.parties} label="none" size={18} /></span>
-            <div class="bar"><div style={`width:${(s.agreement * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
-            <span style="width:4rem;text-align:right">{(s.agreement * 100).toFixed(1)}%</span>
-          </div>
-        ))}
+        {partyOrder
+          .filter((code) => gap.per_party[code]?.explicit.gap_rate !== null)
+          .map((code) => {
+            const e = gap.per_party[code].explicit;
+            return (
+              <div class="statbar">
+                <span style="width:2.5rem"><PartyBadge code={code} parties={meta.parties} label="none" size={18} /></span>
+                <div class="bar"><div style={`width:${(e.gap_rate! * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
+                <span style="width:7.5rem;text-align:right">
+                  {(e.gap_rate! * 100).toFixed(0)}%
+                  <span class="muted" style="font-size:0.8rem"> ({e.gap}/{e.n})</span>
+                </span>
+              </div>
+            );
+          })}
+        <p class="muted" style="font-size:0.85rem;margin:0.6rem 0 0">{t('home.gapByPartyNote')}</p>
       </div>
     </>
   )}
@@ -211,6 +251,9 @@ const hasAiData = timeseries.length > 0;
     .apath:hover { border-color: var(--accent); }
     .apath strong { display: block; margin: 0.5rem 0 0.25rem; font-size: 1.05rem; }
     .apath p { margin: 0; font-size: 0.88rem; }
+    .tiers { font-size: 0.82rem; margin: 0 0 0.5rem; display: flex; flex-wrap: wrap; gap: 0 0.9rem; }
+    .tiers .tierkey { font-weight: 600; }
+    .tiers b { font-variant-numeric: tabular-nums; }
     .legend { font-size: 0.8rem; margin: 0.3rem 0 0; }
     .legend span { margin-right: 0.7rem; white-space: nowrap; }
     .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.3em; }
