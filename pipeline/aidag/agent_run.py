@@ -336,9 +336,13 @@ def prepare(
     print(f"  remaining after this batch: {len(sims) - n_sims} decisions, {len(probes) - n_probes} probes")
 
 
-def status(run_id: str) -> None:
+def status(run_id: str, prompt_version: str = PROMPT_VERSION) -> None:
+    # `prompt_version` is part of the cid, so it MUST match the run's — a p6 run
+    # reported against the p5 default shows 0/20312 done after a perfectly good
+    # batch, which invites re-running work that is already paid for and ingested.
     cases = _load_cases()
-    sims, probes = _pending(run_id, cases, include_probes=True)
+    sims, probes = _pending(run_id, cases, include_probes=True,
+                            prompt_version=prompt_version)
     total_sims = len(cases) * len(PARTY_CODES)
     done_sims = total_sims - len(sims)
     done_probes = len(cases) - len(probes)

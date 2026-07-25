@@ -38,8 +38,10 @@ Every value above was measured, not chosen — see
 - **3–4 citations, decisive-first.** Lifted citation density 2.47 → 3.95 per
   decision at *identical* cost — the expense is the corpus search, not the citing.
 
-Expected: **~$2,200** and **~180 h serial** ≈ **~18 h wall** at 10-way
-concurrency, across **358 agents** in ~7 batches.
+Expected: **~$2,465** and ~150 h serial ≈ **~20 h wall**, across **358 agents**
+in ~7 batches. (Batch 1 measured $0.121/decision — 15% above the $0.105
+single-agent point; see the production section of the study for why. The
+pre-run projection of ~$2,200 was optimistic.)
 
 ## Prerequisites (verify once per session)
 
@@ -80,6 +82,10 @@ ignore gates.
    wrong corpus *and* sizes groups with p5 case lengths.
 3. **`agent-ingest --model` defaults to `claude-sonnet-4-6`.** Pass
    `--model claude-opus-5` or the run's provenance is wrong for every decision.
+4. **`agent-status` also defaults to `p5`.** `prompt_version` is part of the cid,
+   so `agent-status --run-id full-v4` *without* `--prompt-version p6` reports
+   **0/20312 done** even when a batch ingested perfectly — which invites
+   re-running work that is already paid for. Always pass it.
 
 The workflow itself refuses to infer a model on p6 rather than falling back to
 Sonnet — a wrong-model full run is a ~$2k, 18-hour mistake that only shows up at

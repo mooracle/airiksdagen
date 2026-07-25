@@ -379,6 +379,30 @@ Two-point fit from the Opus 5 arms (n=20 party M, n=60 party V):
 Applied to the real bucket structure this gives **~$2,170**, against ~$2,133 for
 the naive `20,312 × $0.105` — i.e. bucket fragmentation costs under 2%.
 
+### Measured in production (full-v4 batch 1, 2026-07-25)
+
+The first real batch — 60 agents, 3,000 decisions, all 8 parties, Opus 5 `high`:
+
+| | $/dec | tokens/dec | median wall | agents |
+|---|---|---|---|---|
+| full groups (n=60) | 0.116 | 88.2k | 24m | 48 |
+| remainder groups (<60) | **0.240** | 120.3k | 8m | 12 |
+| **whole batch** | **0.121** | 89.5k | 23m | 60 |
+
+Batch wall 2h58m (serial 22h, so ~7.5× effective concurrency). **11,454/11,454
+citations verbatim (100%)**, 3.82 citations/decision, and only the two p6-legal
+documents cited — no p5 corpus leakage.
+
+$0.121/dec is **15% above the $0.105 single-agent V60 point**, which projects the
+full run to **~$2,465** (still under Opus 4.8's ~$2,600). Two contributors, in
+order of size: production agents took ~27 turns against V60's 23, and each turn
+re-reads a growing written-context, so tokens/dec rose 51k → 88k; and remainder
+groups cost 2× per decision. Corpus size is *not* the cause — production corpora
+run 32–60k tokens against V2024's 42k.
+
+Remainders are only 4% of decisions here (~$15/batch, ~$90 over the run), so
+they are worth reducing with a larger `--batch-size` but are not the main gap.
+
 **Operational trap:** `agent-prepare --batch-size` caps the batch *before*
 grouping, so a small batch leaves only a handful of cases per bucket and
 `--group 60` silently yields groups of 7–15 — roughly double the per-decision

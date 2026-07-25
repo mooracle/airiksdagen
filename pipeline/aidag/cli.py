@@ -166,11 +166,16 @@ def compare_runs(
 
 
 @app.command("agent-status")
-def agent_status(run_id: str = typer.Option(..., "--run-id")) -> None:
+def agent_status(
+    run_id: str = typer.Option(..., "--run-id"),
+    prompt_version: str = typer.Option(
+        PROMPT_VERSION, help="Must match the run's — it is part of the cid"
+    ),
+) -> None:
     """Progress report for a subagent-based run."""
     from aidag.agent_run import status
 
-    status(run_id=run_id)
+    status(run_id=run_id, prompt_version=prompt_version)
 
 
 @app.command("translate-prepare")
