@@ -1,5 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
@@ -31,9 +30,6 @@ const coalition = getAggregate<{
   override_cases: OverrideCase[];
 }>('coalition');
 
-const voteLabels: Record<string, string> = {
-  Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår'), 'Frånvarande': t('vote.Frånvarande'),
-};
 
 // Ordered by how much the programme adds: coalition-explained parties first.
 const parties = coalition
@@ -46,15 +42,14 @@ const pct = (v: number | null) => (v == null ? '–' : `${(v * 100).toFixed(0)}%
 const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
 ---
 
-<Base lang={lang} title={t('coalition.title')} description={t('coalition.intro')} path="/koalition/">
-  <h1>{t('coalition.title')}</h1>
+<h2 id="koalition" class="cosec">{t('coalition.title')}</h2>
   <p class="muted">{t('coalition.intro')}</p>
 
   {!coalition ? (
     <div class="card"><p class="muted">–</p></div>
   ) : (
     <>
-      <h2>{t('coalition.tableTitle')}</h2>
+      <h3>{t('coalition.tableTitle')}</h3>
       <div class="card" style="overflow-x:auto">
         <table class="compare nums">
           <thead>
@@ -96,7 +91,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
         <p class="muted note"><strong>M · KD · L —</strong> {t('coalition.govNote')}</p>
       </div>
 
-      <h2>{t('coalition.overrideTitle')}</h2>
+      <h3>{t('coalition.overrideTitle')}</h3>
       <p class="muted">{t('coalition.overrideIntro')}</p>
       <div class="card" style="overflow-x:auto">
         <table class="compare nums">
@@ -134,40 +129,30 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
         <p class="muted note">{t('coalition.authoredZero')}</p>
       </div>
 
-      <h2>{t('coalition.casesTitle')} <span class="muted">({cases.length})</span></h2>
-      <p class="muted">{t('coalition.casesIntro')}</p>
+      {/* The 471 individual votes used to be listed here, and were 98% of the
+          page (~151 screens). They now live on each party's own page, where the
+          reader already has that party's context and only sees its own subset —
+          the table above links straight through. */}
+      <h3>{t('coalition.casesTitle')} <span class="muted">({cases.length})</span></h3>
+      <p class="muted">{t('coalition.casesByParty')}</p>
       <div class="card">
-        {cases.map((c) => {
-          // show the strongest quote: first non-weak citation, else the first
-          const dc = c.citations.find((x) => !x.svag) ?? c.citations[0];
-          return (
-          <div class="ovcase">
-            <p class="ov-head">
-              <PartyBadge code={c.parti} parties={meta.parties} label="none" />
-              <a href={localePath(lang, `/fall/${c.votering_id}/`)}>{c.rubrik}</a>
-              <span class="muted date">{c.datum}</span>
-            </p>
-            <p class="ov-votes">
-              <span class="muted">{t('coalition.aiSaid')}</span>
-              <span class="votechip" data-v={c.ai_rost}>{voteLabels[c.ai_rost]}</span>
-              <span class="muted">{t('coalition.voted')}</span>
-              <span class="votechip" data-v={c.actual}>{voteLabels[c.actual]}</span>
-              {!c.strict && <span class="muted small">({c.confidence})</span>}
-            </p>
-            <p class="ov-mot">{c.motivering}</p>
-            {dc && (
-              <blockquote class={dc.svag ? 'weakcite' : undefined}>
-                {dc.svag && <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>}{' '}
-                »{dc.quote}«
-                {dc.princip && <span class="muted small"> — {dc.princip}</span>}
-              </blockquote>
-            )}
-          </div>
-          );
-        })}
+        <ul class="ovlinks">
+          {parties
+            .map((p) => ({ code: p, n: cases.filter((c) => c.parti === p).length }))
+            .filter((x) => x.n > 0)
+            .sort((a, b) => b.n - a.n)
+            .map((x) => (
+              <li>
+                <a href={localePath(lang, `/parti/${x.code.toLowerCase()}/`)}>
+                  <PartyBadge code={x.code} parties={meta.parties} label="name" />
+                </a>
+                <span class="muted">{x.n}</span>
+              </li>
+            ))}
+        </ul>
       </div>
 
-      <h2>{t('coalition.caveatTitle')}</h2>
+      <h3>{t('coalition.caveatTitle')}</h3>
       <div class="card caveat">
         <p>{t('coalition.caveat')}</p>
       </div>
@@ -184,17 +169,16 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
     .bar { display: block; height: 9px; border-radius: 4px; min-width: 1px; }
     .zero { color: var(--muted); }
     .hot { background: #fdf5e8; }
-    .ovcase { padding: 0.9rem 0; border-bottom: 1px solid #ece9df; }
-    .ovcase:last-child { border-bottom: 0; }
-    .ov-head { margin: 0 0 0.3rem; display: flex; gap: 0.45rem; align-items: baseline; flex-wrap: wrap; }
-    .ov-head .date { margin-left: auto; font-size: 0.82rem; white-space: nowrap; }
-    .ov-votes { margin: 0 0 0.4rem; display: flex; gap: 0.4rem; align-items: center; font-size: 0.85rem; flex-wrap: wrap; }
-    .ov-mot { margin: 0 0 0.4rem; font-size: 0.92rem; }
     .small { font-size: 0.8rem; }
-    .ovcase blockquote {
-      margin: 0; padding: 0.5rem 0.85rem; background: #fbfaf5; border-radius: 6px;
-      font-family: Georgia, serif; font-size: 0.98rem;
+    /* where the individual votes went: one row per party, count on the right */
+    .ovlinks { list-style: none; margin: 0; padding: 0; }
+    .ovlinks li {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+      padding: 0.5rem 0; border-bottom: 1px solid var(--line-soft);
     }
+    .ovlinks li:last-child { border-bottom: 0; }
+    .ovlinks a { text-decoration: none; }
+    .ovlinks a:hover { text-decoration: underline; }
+    .ovlinks .muted { font-variant-numeric: tabular-nums; }
     .caveat p { margin: 0; }
   </style>
-</Base>

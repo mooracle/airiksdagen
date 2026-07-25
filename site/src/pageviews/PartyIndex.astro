@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import CoalitionSection from './CoalitionSection.astro';
+import PairsMatrix from './PairsMatrix.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
@@ -30,4 +32,15 @@ const order = meta.hemicycle_order;
       );
     })}
   </div>
+
+  {/* "Who votes with whom" moved here from Analysis: it is a party-by-party
+      comparison, and it sets up the coalition tables below it — who votes
+      together, then what explains each party's vote. */}
+  <PairsMatrix lang={lang} />
+
+  {/* Coalition analysis, formerly its own /koalition/ page and nav item. It is
+      party-comparative content and was only ~3 screens once the individual votes
+      moved to the party pages, so it belongs here rather than behind a second
+      nav entry answering the same question. */}
+  <CoalitionSection lang={lang} />
 </Base>

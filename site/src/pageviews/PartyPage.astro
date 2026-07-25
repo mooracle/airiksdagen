@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ConfidenceMeter from '../components/ConfidenceMeter.astro';
 import MultiLineChart from '../components/MultiLineChart.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
@@ -17,15 +18,63 @@ const summary = getAggregate<{
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 const confusion = getAggregate<Record<string, Record<string, Record<string, number>>>>('confusion');
 /** p6 gap, per party; null on the older vote-matching runs. */
+interface ValidityLevel { n: number; gap_rate: number | null }
 const gap = getAggregate<{
   per_party: Record<string, {
     explicit: { n: number; gap: number; gap_rate: number | null };
     tiers: Record<string, number>;
+    /** gap split by the model's own read strength; absent on pre-p6 exports */
+    validity?: Record<string, Record<string, ValidityLevel>>;
   }>;
 }>('gap');
 const pgap = gap?.per_party?.[code];
+/** Fixed level order per field — sorted alphabetically in the JSON, but these
+ * are ordinal: the whole point is reading strongest → weakest down the table. */
+const VALIDITY_ORDER: Record<string, string[]> = {
+  coverage: ['explicit', 'inferred', 'not_covered'],
+  confidence: ['high', 'medium', 'low'],
+  plan_tacker_utskottets_skal: ['ja', 'nej'],
+};
+/** 95% CI half-width on a proportion. A 57% built on 28 decisions carries ±18pp
+ * and must not be drawn as confidently as a 75% built on 493 (±4pp) — without
+ * this the thinnest slice looks like the strongest evidence. */
+const ciHalf = (p: number | null, n: number) =>
+  p == null || n === 0 ? null : 1.96 * Math.sqrt((p * (1 - p)) / n);
+
+const validity = Object.entries(pgap?.validity ?? {})
+  .map(([field, levels]) => {
+    const rows = (VALIDITY_ORDER[field] ?? Object.keys(levels))
+      .filter((lv) => levels[lv])
+      .map((lv) => {
+        const ci = ciHalf(levels[lv].gap_rate, levels[lv].n);
+        return { lv, ...levels[lv], ci, thin: ci !== null && ci > 0.1 };
+      });
+    // Verdict per field, from strongest read (first) vs weakest (last). This is
+    // the question the section asks, so answer it per block instead of leaving
+    // the reader to derive it from three bars and a paragraph.
+    const strong = rows[0]?.gap_rate;
+    const weak = rows[rows.length - 1]?.gap_rate;
+    const delta = strong != null && weak != null ? strong - weak : null;
+    const verdict = delta == null ? null : delta > 0.05 ? 'holds' : delta < -0.05 ? 'weak' : 'flat';
+    return { field, rows, delta, verdict };
+  })
+  .filter((f) => f.rows.length > 0);
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
+
+/** This party's votes against its own programme. Previously all 471 were listed
+ * together on /koalition/, where they were 98% of that page; split by party each
+ * page carries only its own (16–131), and the reader already has the context. */
+interface OverrideCase {
+  votering_id: string; datum: string; rubrik: string; utskott: string; parti: string;
+  ai_rost: string; actual: string; confidence: string; coverage: string;
+  strict: boolean; authored_reservation: boolean; motivering: string;
+  citations: { document: string; quote: string; princip?: string; svag?: boolean }[];
+}
+const coalition = getAggregate<{ override_cases: OverrideCase[] }>('coalition');
+const overrideCases = (coalition?.override_cases ?? [])
+  .filter((c) => c.parti === code)
+  .sort((a, b) => b.datum.localeCompare(a.datum));
 
 const stats = summary?.per_party?.[code];
 const ts = timeseries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
@@ -172,5 +221,176 @@ const cohesionChart = [
     </>
   )}
 
+  {validity.length > 0 && (
+    <>
+      <h2>{t('party.validity')}</h2>
+      <div class="card">
+        <div class="vgrid">
+          {validity.map((f) => (
+            <div class="vblock">
+              <div class="vhead">
+                <h3>{t(`party.validityBy.${f.field}` as any)}</h3>
+                <span class="vscale muted">{t('party.validityScale')}</span>
+              </div>
+              {f.rows.map((l) => (
+                <div class="vrow" data-thin={l.thin ? 'true' : undefined}>
+                  <span class="vlabel">{t(`party.validityLevel.${l.lv}` as any)}</span>
+                  <span class="vbar">
+                    <span style={`width:${((l.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
+                  </span>
+                  <span class="vpct">{l.gap_rate == null ? '–' : `${(l.gap_rate * 100).toFixed(0)}%`}</span>
+                  <span class="vn muted">
+                    {l.n}
+                    {l.thin && l.ci != null && (
+                      <span class="vci" title={t('party.validityThin')}> ±{(l.ci * 100).toFixed(0)}</span>
+                    )}
+                  </span>
+                </div>
+              ))}
+              {f.verdict && (
+                <p class="vverdict" data-v={f.verdict}>
+                  {t(`party.validityVerdict.${f.verdict}` as any)}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+        <details class="vmore">
+          <summary>{t('party.validityHow')}</summary>
+          <p class="muted vnote">{t('party.validityNote')}</p>
+        </details>
+      </div>
+    </>
+  )}
+
+  {overrideCases.length > 0 && (
+    <>
+      <h2>{t('coalition.overrideTitle')} <span class="muted">({overrideCases.length})</span></h2>
+      <p class="muted ovintro">{t('coalition.casesIntro')}</p>
+      <div class="card">
+        {/* Compact row per vote — title, date, plan→actual. The reasoning and the
+            decisive quote sit behind the row's own disclosure: at 131 votes for L
+            the old always-open card would have run to ~40 screens on one party. */}
+        {overrideCases.map((c) => {
+          // show the strongest quote: first non-weak citation, else the first
+          const dc = c.citations.find((x) => !x.svag) ?? c.citations[0];
+          return (
+            <details class="ovcase">
+              <summary>
+                <span class="ov-title">
+                  <span class="ov-date muted">{c.datum}</span>
+                  <span class="ov-name" title={c.rubrik}>{c.rubrik}</span>
+                </span>
+                {/* Meter first, at a fixed width, so the chips land in the same
+                    column on every row — the old "(medium)" text appeared only on
+                    non-strict rows and shoved those rows' chips out of line. */}
+                <span class="ov-votes">
+                  <ConfidenceMeter lang={lang} level={c.confidence} />
+                  <span class="votechip" data-v={c.ai_rost}>{voteLabel[c.ai_rost] ?? c.ai_rost}</span>
+                  <span class="muted" aria-hidden="true">→</span>
+                  <span class="votechip" data-v={c.actual}>{voteLabel[c.actual] ?? c.actual}</span>
+                </span>
+              </summary>
+              <p class="ov-mot">{c.motivering}</p>
+              {dc && (
+                <blockquote class={dc.svag ? 'weakcite' : undefined}>
+                  {dc.svag && <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>}{' '}
+                  »{dc.quote}«
+                  {dc.princip && <span class="muted small"> — {dc.princip}</span>}
+                </blockquote>
+              )}
+              <p class="ov-link">
+                <a href={localePath(lang, `/fall/${c.votering_id}/`)}>{t('case.open')} →</a>
+              </p>
+            </details>
+          );
+        })}
+      </div>
+    </>
+  )}
+
   <p><a href={localePath(lang, '/parti/')}>← {t('party.title')}</a></p>
+
+  <style>
+    /* Validity: the gap re-cut by the model's own read strength. Three small
+       blocks side by side rather than one wide table — each field is its own
+       ordinal scale and they are read down, not across. */
+    .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .vhead {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem;
+      margin-bottom: 0.45rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--line-soft);
+    }
+    .vblock h3 { margin: 0; font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--ink-2); font-weight: 700; font-family: inherit; }
+    /* names the axis, so "explicit first" reads as an ordering and not a list */
+    .vscale { font-size: 0.68rem; white-space: nowrap; }
+    /* One line per level: label, bar, %, n. Previously n wrapped to its own row,
+       which doubled the block height and broke the vertical rhythm. */
+    .vrow {
+      display: grid; grid-template-columns: 4.9rem 1fr 2.4rem 2.6rem;
+      align-items: center; gap: 0.5rem; padding: 0.28rem 0; font-size: 0.85rem;
+    }
+    .vlabel { color: var(--ink-2); }
+    .vbar { display: block; height: 9px; border-radius: 5px; background: #ebe8df; overflow: hidden; }
+    .vbar > span { display: block; height: 100%; border-radius: 5px; min-width: 2px; }
+    .vpct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+    .vn { text-align: right; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
+    /* Thin slice: a 57% on n=28 must not read as firmly as a 75% on n=493, so the
+       bar is dimmed and the interval is shown rather than only the point estimate. */
+    .vrow[data-thin] .vbar > span { opacity: 0.42; }
+    .vrow[data-thin] .vpct { font-weight: 600; color: var(--muted); }
+    .vci { cursor: help; }
+    /* The block's answer to the section's question, in place of leaving the
+       reader to compare three bars against a paragraph. */
+    .vverdict {
+      margin: 0.55rem 0 0; font-size: 0.76rem; font-weight: 600; line-height: 1.4;
+      padding-left: 0.6rem; border-left: 3px solid var(--muted); color: var(--ink-2);
+    }
+    .vverdict[data-v='holds'] { border-left-color: var(--ja); color: #2f5326; }
+    .vverdict[data-v='weak'] { border-left-color: var(--avstar); color: #7a4b12; }
+    .vmore { margin-top: 1.1rem; }
+    .vmore > summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; }
+    .vnote { font-size: 0.85rem; margin: 0.5rem 0 0; max-width: 46rem; }
+    .ovintro { font-size: 0.88rem; max-width: 46rem; }
+    .ovcase { padding: 0.55rem 0; border-bottom: 1px solid var(--line-soft); }
+    .ovcase:last-child { border-bottom: 0; }
+    .ovcase > summary {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 0.5rem 0.9rem; flex-wrap: wrap; cursor: pointer; list-style: none;
+    }
+    .ovcase > summary::-webkit-details-marker { display: none; }
+    /* Title takes the slack and clips; the votes column keeps its width so the
+       chips stay in one column however long the case heading is. */
+    /* flex-basis 0, not auto: wrapping is decided from each item's hypothetical
+       size, and with basis:auto that is the untruncated heading (up to ~850px),
+       so long rows wrapped their chips to a second line before any shrinking
+       could happen. A zero basis lets the heading clip and keeps one line. */
+    .ov-title { display: inline-flex; align-items: baseline; gap: 0.55rem; min-width: 0; flex: 1 1 0; }
+    /* min-width:0 is load-bearing: a flex item defaults to min-width:auto, so
+       .ov-title's min-content stayed as wide as the full heading and the chips
+       wrapped to a second line instead of the heading clipping. */
+    .ov-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ov-title::before {
+      content: ''; flex: none; align-self: center;
+      border-left: 5px solid var(--muted);
+      border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+      transition: transform 0.15s ease;
+    }
+    .ovcase[open] > summary .ov-title::before { transform: rotate(90deg); }
+    .ov-date { font-size: 0.82rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .ov-votes { display: inline-flex; align-items: center; gap: 0.4rem; flex: none; }
+    .ov-mot { margin: 0.6rem 0 0.4rem; font-size: 0.92rem; }
+    .small { font-size: 0.8rem; }
+    .ov-link { margin: 0.45rem 0 0; font-size: 0.85rem; }
+    .ovcase blockquote {
+      margin: 0; padding: 0.5rem 0.85rem; background: #fbfaf5; border-radius: 6px;
+      font-family: Georgia, serif; font-size: 0.98rem;
+    }
+    /* Phone: a clipped heading plus chips on one 340px line leaves room for
+       neither, so give the heading the full line and drop the chips below it. */
+    @media (max-width: 560px) {
+      .ov-title { flex-basis: 100%; }
+      .ov-votes { margin-left: 1.05rem; }
+    }
+  </style>
 </Base>

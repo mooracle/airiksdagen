@@ -1,0 +1,41 @@
+---
+/** How sure the agent was of its own read, as a three-dot meter.
+ *
+ * Ordinal, so the count of filled dots carries it and the word does not have to
+ * be read. Deliberately monochrome: colour here would say good/bad, and a
+ * low-confidence stance is not a worse one, only a less certain one.
+ *
+ * Shared by the case table and the per-party vote list so the two stay in sync,
+ * and so the meter occupies the same fixed width on every row — a text marker
+ * that appeared on only some rows shifted the vote chips out of column.
+ */
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** 'low' | 'medium' | 'high'; anything falsy renders an empty, same-width slot */
+  level?: string | null;
+}
+const { lang, level } = Astro.props;
+const t = useTranslations(lang);
+const label = level ? `${t('case.confidence')}: ${t(`conf.${level}` as any)}` : null;
+---
+
+<span class="meter" data-level={level ?? undefined} title={label ?? undefined}>
+  <span aria-hidden="true"><i></i><i></i><i></i></span>
+  {label && <span class="srtext">{label}</span>}
+</span>
+
+<style>
+  .meter { display: inline-flex; flex: none; cursor: help; }
+  .meter:not([data-level]) { cursor: default; }
+  .meter > span[aria-hidden] { display: inline-flex; gap: 3px; align-items: center; }
+  .meter i { display: block; width: 6px; height: 6px; border-radius: 50%; background: #d9d5cb; }
+  .meter[data-level='low'] i:nth-child(1),
+  .meter[data-level='medium'] i:nth-child(-n + 2),
+  .meter[data-level='high'] i { background: var(--ink-2); }
+  .srtext {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+</style>

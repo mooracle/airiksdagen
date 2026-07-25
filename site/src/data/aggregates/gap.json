@@ -86,7 +86,47 @@
     "extrapolated": 131,
     "off_axis": 444
    },
-   "stodjer_rate": 0.8148
+   "stodjer_rate": 0.8148,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 81,
+      "gap_rate": 0.2222
+     },
+     "inferred": {
+      "n": 504,
+      "gap_rate": 0.5139
+     },
+     "not_covered": {
+      "n": 34,
+      "gap_rate": 0.5294
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 109,
+      "gap_rate": 0.2661
+     },
+     "low": {
+      "n": 143,
+      "gap_rate": 0.5734
+     },
+     "medium": {
+      "n": 367,
+      "gap_rate": 0.5014
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 170,
+      "gap_rate": 0.3353
+     },
+     "nej": {
+      "n": 449,
+      "gap_rate": 0.5301
+     }
+    }
+   }
   },
   "M": {
    "n_decisions": 675,
@@ -115,7 +155,47 @@
     "extrapolated": 176,
     "off_axis": 385
    },
-   "stodjer_rate": 0.5793
+   "stodjer_rate": 0.5793,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 114,
+      "gap_rate": 0.6404
+     },
+     "inferred": {
+      "n": 504,
+      "gap_rate": 0.623
+     },
+     "not_covered": {
+      "n": 57,
+      "gap_rate": 0.0877
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 109,
+      "gap_rate": 0.6239
+     },
+     "low": {
+      "n": 225,
+      "gap_rate": 0.4533
+     },
+     "medium": {
+      "n": 341,
+      "gap_rate": 0.651
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 251,
+      "gap_rate": 0.4741
+     },
+     "nej": {
+      "n": 424,
+      "gap_rate": 0.6439
+     }
+    }
+   }
   },
   "SD": {
    "n_decisions": 675,
@@ -144,7 +224,47 @@
     "extrapolated": 171,
     "off_axis": 349
    },
-   "stodjer_rate": 0.717
+   "stodjer_rate": 0.717,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 129,
+      "gap_rate": 0.4264
+     },
+     "inferred": {
+      "n": 439,
+      "gap_rate": 0.5695
+     },
+     "not_covered": {
+      "n": 20,
+      "gap_rate": 0.3
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 161,
+      "gap_rate": 0.3975
+     },
+     "low": {
+      "n": 136,
+      "gap_rate": 0.5882
+     },
+     "medium": {
+      "n": 291,
+      "gap_rate": 0.5739
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 238,
+      "gap_rate": 0.4412
+     },
+     "nej": {
+      "n": 350,
+      "gap_rate": 0.5886
+     }
+    }
+   }
   },
   "C": {
    "n_decisions": 675,
@@ -173,7 +293,47 @@
     "extrapolated": 165,
     "off_axis": 380
    },
-   "stodjer_rate": 0.8252
+   "stodjer_rate": 0.8252,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 83,
+      "gap_rate": 0.2289
+     },
+     "inferred": {
+      "n": 389,
+      "gap_rate": 0.5424
+     },
+     "not_covered": {
+      "n": 20,
+      "gap_rate": 0.45
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 119,
+      "gap_rate": 0.3277
+     },
+     "low": {
+      "n": 89,
+      "gap_rate": 0.5169
+     },
+     "medium": {
+      "n": 284,
+      "gap_rate": 0.5423
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 173,
+      "gap_rate": 0.4335
+     },
+     "nej": {
+      "n": 319,
+      "gap_rate": 0.5141
+     }
+    }
+   }
   },
   "V": {
    "n_decisions": 675,
@@ -202,7 +362,47 @@
     "extrapolated": 134,
     "off_axis": 369
    },
-   "stodjer_rate": 0.8119
+   "stodjer_rate": 0.8119,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 138,
+      "gap_rate": 0.3551
+     },
+     "inferred": {
+      "n": 401,
+      "gap_rate": 0.4364
+     },
+     "not_covered": {
+      "n": 28,
+      "gap_rate": 0.4286
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 206,
+      "gap_rate": 0.3495
+     },
+     "low": {
+      "n": 93,
+      "gap_rate": 0.4839
+     },
+     "medium": {
+      "n": 268,
+      "gap_rate": 0.444
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 188,
+      "gap_rate": 0.3032
+     },
+     "nej": {
+      "n": 379,
+      "gap_rate": 0.4723
+     }
+    }
+   }
   },
   "KD": {
    "n_decisions": 675,
@@ -231,7 +431,47 @@
     "extrapolated": 229,
     "off_axis": 337
    },
-   "stodjer_rate": 0.7793
+   "stodjer_rate": 0.7793,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 109,
+      "gap_rate": 0.844
+     },
+     "inferred": {
+      "n": 553,
+      "gap_rate": 0.7758
+     },
+     "not_covered": {
+      "n": 13,
+      "gap_rate": 0.6154
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 112,
+      "gap_rate": 0.8036
+     },
+     "low": {
+      "n": 113,
+      "gap_rate": 0.6903
+     },
+     "medium": {
+      "n": 450,
+      "gap_rate": 0.8022
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 290,
+      "gap_rate": 0.6862
+     },
+     "nej": {
+      "n": 385,
+      "gap_rate": 0.8571
+     }
+    }
+   }
   },
   "MP": {
    "n_decisions": 675,
@@ -260,7 +500,47 @@
     "extrapolated": 137,
     "off_axis": 357
    },
-   "stodjer_rate": 0.8504
+   "stodjer_rate": 0.8504,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 131,
+      "gap_rate": 0.2901
+     },
+     "inferred": {
+      "n": 377,
+      "gap_rate": 0.4668
+     },
+     "not_covered": {
+      "n": 24,
+      "gap_rate": 0.5
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 202,
+      "gap_rate": 0.2772
+     },
+     "low": {
+      "n": 86,
+      "gap_rate": 0.5
+     },
+     "medium": {
+      "n": 244,
+      "gap_rate": 0.5205
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 182,
+      "gap_rate": 0.3242
+     },
+     "nej": {
+      "n": 350,
+      "gap_rate": 0.4771
+     }
+    }
+   }
   },
   "L": {
    "n_decisions": 675,
@@ -289,7 +569,47 @@
     "extrapolated": 241,
     "off_axis": 280
    },
-   "stodjer_rate": 0.7644
+   "stodjer_rate": 0.7644,
+   "validity": {
+    "coverage": {
+     "explicit": {
+      "n": 154,
+      "gap_rate": 0.8571
+     },
+     "inferred": {
+      "n": 493,
+      "gap_rate": 0.7485
+     },
+     "not_covered": {
+      "n": 28,
+      "gap_rate": 0.5714
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 142,
+      "gap_rate": 0.8592
+     },
+     "low": {
+      "n": 141,
+      "gap_rate": 0.695
+     },
+     "medium": {
+      "n": 392,
+      "gap_rate": 0.7577
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 334,
+      "gap_rate": 0.7036
+     },
+     "nej": {
+      "n": 341,
+      "gap_rate": 0.827
+     }
+    }
+   }
   }
  },
  "validity": {
