@@ -1,8 +1,9 @@
 // Workflow script for one translation batch (see docs/orchestration-full-run.md).
 // Invoke from the orchestrator session with:
 //   Workflow({ scriptPath: "scripts/translate_batch_workflow.js",
-//              args: { manifestPath: "<abs path to translate batch-NNN.json>" } })
-// One Sonnet agent per request file; each file is self-contained (instructions
+//              args: { manifestPath: "<abs path to translate batch-NNN.json>",
+//                      model: "haiku" } })   // model optional, default sonnet
+// One agent per request file; each file is self-contained (instructions
 // + Swedish source units). Agents that die return null and stay pending — the
 // next `aidag translate-prepare` re-issues them.
 
@@ -11,7 +12,7 @@ export const meta = {
   description: 'One checkpointed batch of English translations (case texts + AI decisions)',
   phases: [
     { title: 'Load', detail: 'read the batch manifest' },
-    { title: 'Translate', detail: 'one Sonnet agent per request file', model: 'sonnet' },
+    { title: 'Translate', detail: 'one agent per request file (args.model, default sonnet)' },
   ],
 }
 
@@ -109,6 +110,18 @@ if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.include
   throw new Error(`translate_batch_workflow: args.manifestPath missing or invalid: ${JSON.stringify(args)}`)
 }
 
+// Translation model, `args.model`. Default stays 'sonnet' so an unchanged launch
+// behaves as before; pass 'haiku' for ~3x cheaper agents — that is what the
+// completed case-text pass used, and the per-request glossary in translate.py
+// carries the terminology that would otherwise depend on model strength.
+// The manifest loader below is deliberately NOT switched: it is a single agent
+// that has to emit 135 items as exact structured output, and that reliability
+// is worth more than one agent's cost.
+const MODEL = args.model ?? 'sonnet'
+if (!['haiku', 'sonnet', 'opus'].includes(MODEL)) {
+  throw new Error(`translate_batch_workflow: args.model must be haiku|sonnet|opus, got ${JSON.stringify(MODEL)}`)
+}
+
 phase('Load')
 const manifest = await agent(
   `Read the file ${args.manifestPath} and return its exact contents as structured output. Do not modify anything.`,
@@ -149,7 +162,7 @@ const results = (
       agent(prompt(item), {
         label: `${item.kind}:${item.path.split('/').pop()}`,
         phase: 'Translate',
-        model: 'sonnet',
+        model: MODEL,
         schema: item.kind === 'cases' ? CASE_UNITS_SCHEMA : DECISION_UNITS_SCHEMA,
       }).then((r) => (r ? { kind: item.kind, units: r.units } : null))),
   )

@@ -31,17 +31,61 @@ from aidag.config import INTERIM_DIR, PROCESSED_DIR, RESULTS_DIR
 
 TRANSLATIONS_DIR = RESULTS_DIR / "translations"
 CASES_PER_REQUEST = 6  # units bundled into one translation agent's file
-DECISIONS_PER_REQUEST = 12
+# 40, not 12: the preamble below is re-sent with every request, so larger groups
+# amortize it — 5,400 decisions go from 450 requests to 135, and the repeated
+# preamble from ~0.68 MTok to ~0.20 MTok. Past ~40 the saving flattens while the
+# cost of a lost agent keeps rising (a death re-issues the whole group), and the
+# structured output approaches 10k tokens.
+#
+# Deliberately NOT solved by giving one agent many groups in sequence: the agent's
+# own prior source and output accumulate in its context and are re-read on every
+# later turn. Even at the 0.1x cache-read rate that overhead passes the ~1.5k-token
+# preamble it saves within a few turns, and grows from there — measured ~12% more
+# expensive at 100 units/agent, ~27% at 200.
+DECISIONS_PER_REQUEST = 40
+
+# Locked renderings for the project's own analytical vocabulary. These are not
+# parliamentary procedure — procedure barely occurs in agent text (`utskottet`
+# appears in 31 of 2,539 cases) — they are the handful of terms the agents use
+# constantly (`planen` 7.5k occurrences, `motförslaget` 2.2k, `uttryckligen` 1k).
+# Each request is translated by a different agent with no shared context, so
+# without this the same term renders differently from one page to the next; the
+# right-hand column is what the site's own English UI already says, so the prose
+# and the labels around it have to agree.
+GLOSSARY = (
+    "Terminology — use exactly these renderings, they match the site's English UI:\n"
+    "- planen / planens -> the plan / the plan's (the party's own manifesto + "
+    "programme, read as one document; never 'the policy', 'the document', 'the platform')\n"
+    "- motförslaget / motförslagets -> the counter-proposal / the counter-proposal's "
+    "(the reservation put against the committee proposal; never 'the counter-motion' "
+    "or 'the alternative proposal')\n"
+    "- partiprogram(met) -> party programme (British spelling, not 'program')\n"
+    "- valmanifest(et) -> election manifesto\n"
+    "- Tidöavtalet -> the Tidö Agreement\n"
+    "- uttryckligen -> explicitly; ett uttryckligt åtagande -> an explicit commitment\n"
+    "- åtagande(n) -> commitment(s) (never 'undertaking' or 'obligation')\n"
+    "- ståndpunkt -> stance;  planen stödjer/avvisar -> the plan supports/rejects\n"
+    "- reservation -> reservation (a formal counter-proposal in a committee report; "
+    "keep the Swedish-derived term, do not translate as 'reservation' in the sense "
+    "of a doubt)\n"
+    "- betänkande -> committee report;  utskottet -> the committee;  "
+    "riksdagen -> the Riksdag;  kammaren -> the chamber\n"
+    "- yrkande -> motion point;  motion -> motion;  proposition -> government bill\n"
+    "- tillkännagivande -> formal request to the government\n"
+    "- avslå / bifalla -> reject / approve\n"
+)
 
 INSTRUCTIONS = (
     "Translate every Swedish text in `units` to natural, precise English for a "
     "public research site about Riksdag votes. Rules: translate faithfully — no "
     "summarizing, no commentary, no added facts; keep numbers, party names and "
-    "codes exactly; keep established Swedish terms with a short English gloss on "
-    "first use in a unit where helpful (e.g. 'tillkännagivande (formal request)', "
-    "'Tidöavtalet (the Tidö agreement)'); citation quotes are verbatim evidence — "
+    "codes exactly; citation quotes are verbatim evidence — "
     "translate them accurately and completely; keep every output array exactly "
-    "parallel to its input array (same length, same order)."
+    "parallel to its input array (same length, same order).\n\n"
+    + GLOSSARY
+    + "\nFor any other established Swedish term not listed above, keep the Swedish "
+    "and add a short English gloss on first use in a unit, e.g. "
+    "'utskottsinitiativ (a committee's own initiative)'."
 )
 
 
