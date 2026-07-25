@@ -1,7 +1,12 @@
 {
- "votering_id": "0C008E7E-5063-43A5-A7D9-BC18635C0883",
- "roleM_sv": "Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: avgör hur partiet Moderaterna (M) BORDE rösta i en votering i Sveriges riksdag — uteslutande utifrån partiets egna dokument som återges nedan, och lägesbilden av landet vid tidpunkten. Detta är en rekonstruktion av dokumenttrohet, inte en förutsägelse.\n\nRegler:\n- Grunda beslutet ENBART på dokumenten nedan. Använd inte kunskap om hur partiet faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunkten.\n- Om dokumenten inte täcker frågan: härled från dokumentens principer och ange coverage=\"inferred\", eller ange coverage=\"not_covered\" och rösta utifrån närmast liggande princip.\n- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. Välj det STÄLLE i dokumenten som faktiskt bär beslutet — inte en allmän formulering. Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat en kort \"princip\" (2–6 ord) som namnger åtagandet, t.ex. \"minskad asylinvandring\" eller \"höjda försvarsanslag\".\n\nSå fungerar voteringen (voteringsordning i kammaren):\n- Ja = du stödjer utskottets förslag (beslutsförslaget).\n- Nej = du stödjer motförslaget i den slutliga propositionen, eller avvisar förslaget.\n- Avstår = partiet hade en egen linje (t.ex. en egen reservation) som inte står i det slutliga propositionsparet; att avstå markerar den egna linjen. Använd Avstår när dokumenten pekar på en tydligt egen position som varken utskottsförslaget eller motförslaget motsvarar.\n\nOmvärldsläget (\"Läget i landet och omvärlden\" nedan) är inkommande läge som partiet inte kunde planera för. Regler för omvärlden:\n- Dokumenten är alltid grunden för rösten. Omvärlden får vägas in ENDAST när den väsentligt påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen aldrig förutsåg).\n- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med kort effekt. Annars omvarld.paverkar=false och tom lista.\n- Om dokumenten saknar svar och omvärlden avgör: sätt coverage=\"not_covered\" OCH omvarld.paverkar=true.\n\nSvara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: 2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur det leder till Ja/Nej/Avstår.\nSärskild kontext: Moderaterna ingår i regeringsunderlaget och har undertecknat Tidöavtalet (återges nedan). Avtalet är en gemensam överenskommelse som partiet förbundit sig att genomföra; väg det mot partiets egna dokument där de skiljer sig.\nDokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst.",
- "user_sv": "Tidpunkt: april 2024.\n<laget_i_landet_och_omvarlden>\nRegering: Ulf Kristersson (M+KD+L), stödparti: SD\nRiksbankens styrränta: 4.0 % (avser 2024-04)\nInflation (KPI, årstakt): 4.5 % (avser 2024-02)\nArbetslöshet (säsongrensad): 8.1 % (avser 2024-02)\nBNP-indikator (årstakt): 0.9 % (avser 2024-01)\nKonjunkturbarometern (100 = normalläge): 93.1 index (avser 2024-03)\nVäxelkurs EUR/SEK: 11.4555 SEK (avser 2024-04)\nElpris SE3 (30-dagarssnitt): 0.53 kr/kWh (avser 2024-04)\nAsylansökningar (månad): 1050.0 st (avser 2024-01)\nSenaste tidens händelser och frågor (urval):\n- Skriftlig fråga i riksdagen: Kinesisk hackerattack\n- Interpellation i riksdagen: Jämställda löner\n- Skriftlig fråga i riksdagen: Tågförseningar och inställda tåg på Södra stambanan\n- Interpellation i riksdagen: Småskalig djurhållning för livsmedelsproduktion\n- Total solförmörkelse i Nordamerika.\n- Ecuadoriansk polis stormar Mexikos ambassad i Ecuadors huvudstad Quito och griper den tidigare ecuadorianske vicepresidenten Jorge Glas, som flytt till ambassaden efter att ha beviljats politisk asyl i Mexiko. Räden fördöms av flera länder, och leder till att Mexiko bryter sina diplomatiska förbindelser med Ecuador.\n- En person dödas och två andra skadas allvarligt i en skolskjutning i Vanda i Finland. Såväl gärningspersonen som offret är omkring 12 år gamla.\n- Gränskontrollerna vid de inre luft- och sjögränserna mellan Bulgarien, Rumänien och Schengenområdet upphävs.\n- FN:s säkerhetsråd godkänner en resolution som manar till omedelbar vapenvila i Gaza efter att USA, som tidigare lagt in sitt veto mot liknande resolutioner, lägger ner sin röst.\n- Minst 133 personer dödas och 152 skadas i ett attentat mot en konsertlokal utanför Rysslands huvudstad Moskva.\n</laget_i_landet_och_omvarlden>\n<arende>\nUtskott: SkU\nÄrende: F-skatt och näringsverksamhet\nBetänkande: Skatteförfarande och folkbokföring\nSammanfattning: Skatteutskottet föreslår att riksdagen säger nej till cirka 90 förslag i motioner om skatteförfarande och folkbokföring från den allmänna motionstiden 2023. Utskottet hänvisar bland annat till pågående arbete inom området.\nMotionerna handlar bland annat om synliga skatter och avgifter, F-skatt och näringsverksamhet samt skyddade uppgifter.\nUtskottets förslag: Riksdagen avslår motionerna \n\n[nr] yrkande 3, \n\n[nr] yrkandena 6 och 7, \n\n[nr], \n\n[nr], \n\n[nr], \n\n[nr] yrkande 1 och \n\n[nr] yrkande 11.\nMotförslag i voteringen:\n- Alternativ A: Motförslaget vill att reglerna för F-skattgodkännande skärps för att förhindra falsk egenföretagande och villkorsdumpning.\n</arende>\nHur borde partiet rösta i sakfrågan (Ja/Nej/Avstår), enligt sina egna dokument?",
+ "run_id": "full-v4",
+ "prompt_version": "p6",
+ "votering_id": "CCD60A0B-5D0A-40A7-BEB6-C0159C503184",
+ "party_a": "M",
+ "party_b": "C",
+ "decisions_translated": false,
+ "roleM_sv": "Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: avgör vilken av två ståndpunkter i en riksdagsvotering som partiet Moderaterna (M) BORDE stå bakom — uteslutande utifrån partiets egna plandokument som återges nedan, och lägesbilden av landet vid tidpunkten. Detta är en rekonstruktion av plantrohet, inte en förutsägelse av partiets agerande i kammaren.\n\nRegler:\n- Grunda ställningstagandet ENBART på dokumenten nedan. Använd inte kunskap om hur partiet faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunkten.\n- Väg INTE in partitaktik: regeringsunderlag, koalitionslojalitet, uppgörelser, utskottsdiscipline eller hur andra partier väntas rösta. Frågan är vad partiets EGEN plan säger i sakfrågan — inget annat.\n- Om dokumenten inte täcker frågan: härled från dokumentens principer och ange coverage=\"inferred\", eller ange coverage=\"not_covered\" och utgå från närmast liggande princip.\n- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. Välj det STÄLLE i dokumenten som faktiskt bär ställningstagandet — inte en allmän formulering. Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat en kort \"princip\" (2–6 ord) som namnger åtagandet, t.ex. \"minskad asylinvandring\" eller \"höjda försvarsanslag\".\n\nFältet hallning — partiets plan i förhållande till motförslagets KRAV (inte till vilken sida som helst):\n- \"stodjer\" = planen stöder det som motförslaget kräver i sak.\n- \"avvisar\" = planen talar emot det som motförslaget kräver i sak.\n\nFältet plan_tacker_utskottets_skal — utskottets ställningstagande och motförslaget är ofta inte samma sorts påstående. Motförslaget kräver något i sak; utskottets skäl är ofta procedurella (\"en utredning pågår, arbetet bör inte föregripas\", \"frågan bereds\"). Partiplaner uttalar sig om sak, sällan om beredningsordning.\n- \"ja\" = planen säger något om just det skäl utskottet anför.\n- \"nej\" = planen är tyst om utskottets skäl (t.ex. planen kräver X i sak, medan utskottet enbart invänder att arbete redan pågår). Sätt då \"nej\" ÄVEN om du satt hallning=\"stodjer\" — de två frågorna är olika.\n\nOsäkerhet är ett giltigt och förväntat svar:\n- Sätt confidence=\"low\" när planen bara ger allmänna principer att härleda ur.\n- Sätt coverage=\"not_covered\" när planen inte alls behandlar sakfrågan; välj då ändå hallning utifrån närmast liggande princip och sätt confidence=\"low\".\n- Pressa inte fram ett säkert svar ur ett svagt underlag.\n- Ange ALLTID minst ett citat, även när du härleder eller när coverage=\"not_covered\": citera då den närmast liggande princip du faktiskt utgått från. Att härleda är tillåtet — att göra det utan att visa vad du utgått från är det inte.\n\nOmvärldsläget (\"Läget i landet och omvärlden\" nedan) är inkommande läge som partiet inte kunde planera för. Regler för omvärlden:\n- Dokumenten är alltid grunden. Omvärlden får vägas in ENDAST när den väsentligt påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen aldrig förutsåg).\n- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med kort effekt. Annars omvarld.paverkar=false och tom lista.\n- Om dokumenten saknar svar och omvärlden avgör: sätt coverage=\"not_covered\" OCH omvarld.paverkar=true.\n\nSvara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: 2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur det leder till ställningstagandet.\nDokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst.",
+ "user_sv": "Tidpunkt: september 2023.\n<laget_i_landet_och_omvarlden>\nRegering: Ulf Kristersson (M+KD+L), stödparti: SD\nRiksbankens styrränta: 3.75 % (avser 2023-09)\nInflation (KPI, årstakt): 9.3 % (avser 2023-07)\nArbetslöshet (säsongrensad): 7.1 % (avser 2023-07)\nBNP-indikator (årstakt): -2.2 % (avser 2023-06)\nKonjunkturbarometern (100 = normalläge): 87.3 index (avser 2023-08)\nVäxelkurs EUR/SEK: 11.9008 SEK (avser 2023-09)\nElpris SE3 (30-dagarssnitt): 0.46 kr/kWh (avser 2023-09)\nAsylansökningar (månad): 1400.0 st (avser 2023-06)\nSenaste tidens händelser och frågor (urval):\n- Krisinformation: Terrorhotnivån höjs från förhöjt till ett högt hot, meddelar Säkerhetspolisen. Bakgrunden är ett försämrat läge avseende attentatshot mot Sverige. Myndigheten bedömer att hotet kommer att bestå under en längre tid.\n- Skriftlig fråga i riksdagen: Skillnader i försörjningsstöd\n- Interpellation i riksdagen: Anmälningsplikt för skolpersonal\n- Skriftlig fråga i riksdagen: Val i ockuperade ukrainska områden\n- Skriftlig fråga i riksdagen: Svartlistade företag på statsministerns sociala medier\n- Lokalval genomförs i Norge, där högerpartierna Høyre och Fremskrittspartiet går framåt.\n- Fler än 11 300 människor omkommer och över 10 000 saknas i omfattande översvämningar i nordöstra Libyen, efter att två dammar brister vid staden Darnah i samband med kraftiga skyfall.\n- Fler än 2 600 människor omkommer, omkring 2 500 skadas och flera historiska byggnader förstörs då en jordbävning med magnituden 6,8 på Richterskalan inträffar mellan städerna Marrakech och Agadir i Marocko.\n- Antti Lindtman efterträder Sanna Marin som partiledare för finländska Socialdemokraterna.\n- I Gabon avsätts den sittande presidenten Ali Bongo i en militärkupp, kort efter att ha blivit omvald i ett omstritt val. Kuppen innebär slutet på familjen Bongos 55-åriga styre i landet.\n</laget_i_landet_och_omvarlden>\n<arende>\nUtskott: JuU\nÄrende: Hemliga tvångsmedel - effektiva verktyg för att förhindra och utreda allvarliga brott\nUtskottets ställningstagande: En ståndpunkt stödjer lagförslaget om utökade möjligheter att använda hemliga tvångsmedel, bland annat i förebyggande syfte, och konstaterar att förslagen sammantaget innebär en ökad risk för den personliga integriteten men samtidigt förbättrar möjligheterna att förhindra, utreda och lagföra allvarlig brottslighet på ett sätt som utgör en rimlig avvägning.\nMotförslag i voteringen:\n- Alternativ A: En annan ståndpunkt varnar för en pågående utveckling mot ett övervakningssamhälle och anser att förslagen inte är tillräckligt utredda, att det är oproportionerligt att utvidga preventiva åtgärder på en så oprecis grund som gängtillhörighet, och att föreslagna straffvärdeventiler urholkar skyddet för integritet och rättssäkerhet på ett sätt som strider mot kravet att hemliga tvångsmedel ska förbehållas brott med högre straffvärden.\n</arende>\nStödjer eller avvisar partiets egen plan det som motförslaget kräver i sak (stodjer/avvisar)? Ange också om planen alls berör utskottets skäl.",
  "docsM": [
   {
    "slug": "valmanifest-2022-m",
@@ -12,95 +17,91 @@
    "slug": "partiprogram-m-2021",
    "kind": "partiprogram",
    "words": 10454
-  },
-  {
-   "slug": "tidoavtalet-2022",
-   "kind": "tidoavtalet",
-   "words": 19453
   }
  ],
  "docsS": [
   {
-   "slug": "valmanifest-2022-s",
+   "slug": "valmanifest-2022-c",
    "kind": "valmanifest",
-   "words": 4556
+   "words": 8566
   },
   {
-   "slug": "partiprogram-s-2013",
+   "slug": "partiprogram-c-2013",
    "kind": "partiprogram",
-   "words": 12906
-  },
-  {
-   "slug": "budgetmotion-s-202324",
-   "kind": "budgetmotion",
-   "words": 10890
+   "words": 9188
   }
  ],
  "decM": {
+  "hallning": "avvisar",
   "rost": "Ja",
+  "tier": "explicit",
+  "plan_tacker_utskottets_skal": "ja",
   "confidence": "high",
-  "coverage": "inferred",
-  "motivering": "Motförslaget (Alternativ A) vill skärpa reglerna för F-skattgodkännande, vilket innebär mer byråkrati och regelkrångel för företagande. Moderaternas valmanifest binder partiet vid att ta bort en tredjedel av företagens regelkrångel och avvisar att byråkrati sätter käppar i hjulet för näringslivet – att skärpa F-skattereglerna strider mot den linjen. Moderaterna, som ingår i regeringen, stödjer därför utskottets förslag att avslå motionerna med hänvisning till pågående arbete och röstar Ja.",
+  "coverage": "explicit",
+  "motivering": "Planen slår fast att gängen är att betrakta som inhemska terrorister och att lagstiftningen måste anpassas därefter, och gör uttryckligen gängtillhörighet till rättslig grund för både straff och utvisning. Motförslagets invändning att gängtillhörighet är en alltför oprecis grund för preventiva åtgärder står därmed i direkt strid med planen. Att hemliga tvångsmedel utvidgas i förebyggande syfte ligger i linje med planens krav på att fler ska stoppas innan de begår fler brott.",
   "citations": [
    {
     "document": "valmanifest",
-    "quote": "Ta bort en tredjedel av företagens administrationskostnader och en tredjedel av regelkrånglet",
-    "princip": "minskat regelkrångel för företag",
-    "principEn": "less red tape for business",
-    "quoteEn": "Remove a third of firms' administrative costs and a third of the red tape"
+    "quote": "Gängen är Sveriges inhemska terrorister – och lagstiftningen måste anpassas därefter så att fler ställs till svars och försvinner från gatan.",
+    "princip": "anpassa lagstiftningen mot gäng"
    },
    {
     "document": "valmanifest",
-    "quote": "höga skatter, krångliga tillståndsprocesser och byråkrati sätter käppar i hjulet för innovation och tillväxt",
-    "princip": "byråkrati hindrar näringslivet",
-    "principEn": "bureaucracy hinders enterprise",
-    "quoteEn": "high taxes, cumbersome permit processes and bureaucracy put obstacles in the way of innovation and growth"
+    "quote": "Göra det straffbart att vara med i ett kriminellt gäng",
+    "princip": "gängtillhörighet som rättslig grund"
    },
    {
-    "document": "partiprogram",
-    "quote": "Alltför höga skatter och en överreglerad ekonomi har hämmat tillväxt och jobbskapande",
-    "princip": "överreglering hämmar tillväxt",
-    "principEn": "over-regulation curbs growth",
-    "quoteEn": "Excessively high taxes and an over-regulated economy have held back growth and job creation"
+    "document": "valmanifest",
+    "quote": "Utvisa gängmedlemmar, som inte är svenska medborgare, oavsett om de dömts för brott",
+    "princip": "preventiva åtgärder mot gängmedlemmar"
+   },
+   {
+    "document": "valmanifest",
+    "quote": "Stärka Säkerhetspolisen för att öka deras förmåga att skydda den liberala demokratin och landets alla medborgare",
+    "princip": "starkare säkerhetspolis"
    }
   ],
   "omvarld": {
-   "paverkar": false,
-   "faktorer": []
+   "paverkar": true,
+   "faktorer": [
+    {
+     "faktor": "Terrorhotnivån höjd till högt hot",
+     "effekt": "förstärker planens krav på preventiva verktyg mot allvarliga brott"
+    }
+   ]
   },
-  "flags": [
-   "regeringslinje"
-  ],
-  "motiveringEn": "The counter-proposal (Alternative A) wants to tighten the rules for F-tax approval, which means more bureaucracy and red tape for business. The Moderate manifesto commits the party to removing a third of firms' red tape and rejects bureaucracy that obstructs enterprise — tightening the F-tax rules runs against that line. The Moderates, being in government, therefore back the committee's proposal to reject the motions, citing ongoing work, and vote Yes.",
+  "flags": [],
   "actual": "Ja",
   "match": true
  },
  "decS": {
+  "hallning": "stodjer",
   "rost": "Nej",
+  "tier": "explicit",
+  "plan_tacker_utskottets_skal": "ja",
   "confidence": "high",
-  "coverage": "inferred",
-  "motivering": "Motförslaget vill skärpa F-skattereglerna för att stoppa falskt egenföretagande och villkorsdumpning, vilket direkt förverkligar valmanifestets krafttag mot arbetslivskriminaliteten och kravet på sund konkurrens på svensk arbetsmarknad. Budgetmotionen fördömer uttryckligen att arbetstagare utnyttjas och att seriösa företagare konkurreras ut av oseriösa upplägg. Att avslå motionerna, som utskottet föreslår, skulle bevara de luckor som möjliggör detta. Därför bör partiet stödja motförslaget och rösta Nej.",
+  "coverage": "explicit",
+  "motivering": "Valmanifestet säger uttryckligen nej till preventiv avlyssning, som ett led i att försvara rättsstaten och individens rättigheter gentemot staten. Motförslagets invändning mot att utvidga hemliga tvångsmedel i förebyggande syfte på en så oprecis grund som gängtillhörighet ligger direkt i linje med detta. Partiprogrammets krav på proportionalitet mellan integritetsinskränkning och lagens syfte förstärker slutsatsen, trots partiets samtidiga krav på krafttag mot gängen.",
   "citations": [
    {
     "document": "valmanifest",
-    "quote": "Arbetslivskriminalitet ska inte finnas på svensk arbetsmarknad och offentliga arbetsgivare och upphandlare ska vara föredömen i att verka för en sund konkurrens.",
-    "princip": "krafttag mot arbetslivskriminalitet",
-    "principEn": "crackdown on labour-market crime",
-    "quoteEn": "Labour-market crime must not exist in the Swedish labour market, and public employers and procurers should be role models in working for fair competition."
-   },
-   {
-    "document": "budgetmotion",
-    "quote": "Arbetstagare utnyttjas under horribla förhållanden, seriösa företagare konkurreras ut av oseriösa och rent kriminella affärsupplägg.",
-    "princip": "stoppa villkorsdumpning",
-    "principEn": "stop undercutting of terms",
-    "quoteEn": "Workers are exploited under horrific conditions; legitimate businesses are outcompeted by rogue and outright criminal business setups."
+    "quote": "Rättsstaten och individens rättigheter gentemot staten måste försvaras. Vi säger därför nej till visitationszoner, kollektiv bestraffning, omvänd bevisbörda, anonyma vittnen, preventiv avlyssning och inskränkningar av religionsfriheten.",
+    "princip": "nej till preventiv avlyssning"
    },
    {
     "document": "partiprogram",
-    "quote": "löntagarnas rättigheter och förhindrar social dumping.",
-    "princip": "förhindra social dumping",
-    "principEn": "prevent social dumping",
-    "quoteEn": "wage-earners' rights and prevents social dumping."
+    "quote": "All lagstiftning bör prövas mot dess påverkan på människors personliga integritet. Det måste finnas en proportionalitet mellan lagstiftningens inskränkning av medborgarnas integritet och lagarnas syfte.",
+    "princip": "proportionalitet mot integritetsintrång"
+   },
+   {
+    "document": "partiprogram",
+    "quote": "Respekten för den enskildes personliga integritet är en grundsten i varje demokrati.",
+    "princip": "integritet som demokratisk grundsten"
+   },
+   {
+    "document": "partiprogram",
+    "quote": "Staten är den enda enheten i samhället som får utöva tvång och våld.",
+    "princip": "kontroll av statens tvångsmakt"
    }
   ],
   "omvarld": {
@@ -108,27 +109,25 @@
    "faktorer": []
   },
   "flags": [
-   "F-skatt inte explicit nämnd i dokumenten"
+   "citat_svagt"
   ],
-  "motiveringEn": "The counter-proposal wants to tighten the F-tax rules to stop bogus self-employment and the undercutting of terms, which directly delivers the manifesto's crackdown on labour-market crime and its demand for fair competition in the Swedish labour market. The shadow budget explicitly condemns workers being exploited and legitimate firms being outcompeted by rogue operators. Rejecting the motions, as the committee proposes, would preserve the loopholes that allow this. The party should therefore back the counter-proposal and vote No.",
-  "actual": "Avstår",
-  "match": false,
-  "noteSv": "AI:n läser S:s dokument som stöd för motförslaget; i praktiken avstod S. AI-agenterna underskattar systematiskt Avstår-röster.",
-  "noteEn": "The AI reads S's documents as backing the counter-proposal; in practice S abstained. The agents systematically under-predict abstentions."
+  "actual": "Ja",
+  "match": false
  },
  "case": {
-  "rubrik_sv": "F-skatt och näringsverksamhet",
-  "rubrik_en": "F-tax and business operations",
-  "when_sv": "april 2024",
-  "when_en": "April 2024",
-  "utskott": "SkU",
-  "subject_sv": "Skärpta krav på F-skattegodkännande för att motverka falska egenanställningar",
-  "subject_en": "Stricter F-tax approval requirements to prevent false self-employment arrangements",
-  "ja_sv": "Stödja utskottet: avslå de ~90 motionerna (nuvarande ordning behålls).",
-  "ja_en": "Back the committee: reject the ~90 motions (keep things as they are).",
-  "nej_sv": "Stödja motförslaget: skärp reglerna för F-skattgodkännande mot falskt egenföretagande och villkorsdumpning.",
-  "nej_en": "Back the counter-proposal: tighten F-tax approval rules against bogus self-employment and undercutting of terms.",
-  "avstar_sv": "Markera en egen linje som inte är något av de två alternativen.",
-  "avstar_en": "Mark a position of one's own that is neither of the two alternatives."
+  "rubrik_sv": "Hemliga tvångsmedel - effektiva verktyg för att förhindra och utreda allvarliga brott",
+  "rubrik_en": "Secret coercive measures - effective tools to prevent and investigate serious crimes",
+  "when_sv": "2023-09-13",
+  "when_en": "2023-09-13",
+  "utskott": "JuU",
+  "subject_sv": "Nya lagar om utökade hemliga tvångsmedel mot allvarlig brottslighet",
+  "subject_en": "New laws expanding secret coercive measures against serious crime",
+  "policy_area": "justice",
+  "ja_sv": "Utskottets förslag: att anta regeringens lagförslag samt att avslå motionsyrkandena (nuvarande ordning behålls).",
+  "ja_en": "The committee proposal: adopting the government's legislative proposal and rejecting the motions (keeping things as they are).",
+  "nej_sv": "Stöd för motförslaget: reservation 1 från V.",
+  "nej_en": "Backing the counter-proposal: reservation 1 by V.",
+  "avstar_sv": "Partiet markerar en egen linje som inte finns med i slutomröstningens två alternativ.",
+  "avstar_en": "The party marks a position of its own that is not one of the two final alternatives."
  }
 }

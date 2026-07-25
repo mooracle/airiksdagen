@@ -1,0 +1,344 @@
+{
+ "n_decisions": 5400,
+ "n_decided": 4823,
+ "tiers": {
+  "explicit": 1115,
+  "extrapolated": 1384,
+  "off_axis": 2901
+ },
+ "headline": {
+  "n": 939,
+  "gap": 476,
+  "aligned": 463,
+  "gap_rate": 0.5069,
+  "direction": {
+   "plan_nej_voted_ja": 471,
+   "plan_ja_voted_nej": 5
+  }
+ },
+ "by_tier": {
+  "explicit": {
+   "n": 939,
+   "gap": 476,
+   "aligned": 463,
+   "gap_rate": 0.5069,
+   "direction": {
+    "plan_nej_voted_ja": 471,
+    "plan_ja_voted_nej": 5
+   }
+  },
+  "extrapolated": {
+   "n": 1259,
+   "gap": 650,
+   "aligned": 609,
+   "gap_rate": 0.5163,
+   "direction": {
+    "plan_nej_voted_ja": 628,
+    "plan_ja_voted_nej": 22
+   }
+  },
+  "off_axis": {
+   "n": 2625,
+   "gap": 1619,
+   "aligned": 1006,
+   "gap_rate": 0.6168,
+   "direction": {
+    "plan_nej_voted_ja": 1606,
+    "plan_ja_voted_nej": 13
+   }
+  },
+  "all": {
+   "n": 4823,
+   "gap": 2745,
+   "aligned": 2078,
+   "gap_rate": 0.5691,
+   "direction": {
+    "plan_nej_voted_ja": 2705,
+    "plan_ja_voted_nej": 40
+   }
+  }
+ },
+ "per_party": {
+  "S": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 81,
+    "gap": 18,
+    "aligned": 63,
+    "gap_rate": 0.2222,
+    "direction": {
+     "plan_nej_voted_ja": 16,
+     "plan_ja_voted_nej": 2
+    }
+   },
+   "all_tiers": {
+    "n": 619,
+    "gap": 295,
+    "aligned": 324,
+    "gap_rate": 0.4766,
+    "direction": {
+     "plan_nej_voted_ja": 284,
+     "plan_ja_voted_nej": 11
+    }
+   },
+   "tiers": {
+    "explicit": 100,
+    "extrapolated": 131,
+    "off_axis": 444
+   },
+   "stodjer_rate": 0.8148
+  },
+  "M": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 114,
+    "gap": 73,
+    "aligned": 41,
+    "gap_rate": 0.6404,
+    "direction": {
+     "plan_nej_voted_ja": 73,
+     "plan_ja_voted_nej": 0
+    }
+   },
+   "all_tiers": {
+    "n": 675,
+    "gap": 392,
+    "aligned": 283,
+    "gap_rate": 0.5807,
+    "direction": {
+     "plan_nej_voted_ja": 390,
+     "plan_ja_voted_nej": 2
+    }
+   },
+   "tiers": {
+    "explicit": 114,
+    "extrapolated": 176,
+    "off_axis": 385
+   },
+   "stodjer_rate": 0.5793
+  },
+  "SD": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 129,
+    "gap": 55,
+    "aligned": 74,
+    "gap_rate": 0.4264,
+    "direction": {
+     "plan_nej_voted_ja": 55,
+     "plan_ja_voted_nej": 0
+    }
+   },
+   "all_tiers": {
+    "n": 588,
+    "gap": 311,
+    "aligned": 277,
+    "gap_rate": 0.5289,
+    "direction": {
+     "plan_nej_voted_ja": 308,
+     "plan_ja_voted_nej": 3
+    }
+   },
+   "tiers": {
+    "explicit": 155,
+    "extrapolated": 171,
+    "off_axis": 349
+   },
+   "stodjer_rate": 0.717
+  },
+  "C": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 83,
+    "gap": 19,
+    "aligned": 64,
+    "gap_rate": 0.2289,
+    "direction": {
+     "plan_nej_voted_ja": 19,
+     "plan_ja_voted_nej": 0
+    }
+   },
+   "all_tiers": {
+    "n": 492,
+    "gap": 239,
+    "aligned": 253,
+    "gap_rate": 0.4858,
+    "direction": {
+     "plan_nej_voted_ja": 232,
+     "plan_ja_voted_nej": 7
+    }
+   },
+   "tiers": {
+    "explicit": 130,
+    "extrapolated": 165,
+    "off_axis": 380
+   },
+   "stodjer_rate": 0.8252
+  },
+  "V": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 138,
+    "gap": 49,
+    "aligned": 89,
+    "gap_rate": 0.3551,
+    "direction": {
+     "plan_nej_voted_ja": 48,
+     "plan_ja_voted_nej": 1
+    }
+   },
+   "all_tiers": {
+    "n": 567,
+    "gap": 236,
+    "aligned": 331,
+    "gap_rate": 0.4162,
+    "direction": {
+     "plan_nej_voted_ja": 228,
+     "plan_ja_voted_nej": 8
+    }
+   },
+   "tiers": {
+    "explicit": 172,
+    "extrapolated": 134,
+    "off_axis": 369
+   },
+   "stodjer_rate": 0.8119
+  },
+  "KD": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 109,
+    "gap": 92,
+    "aligned": 17,
+    "gap_rate": 0.844,
+    "direction": {
+     "plan_nej_voted_ja": 91,
+     "plan_ja_voted_nej": 1
+    }
+   },
+   "all_tiers": {
+    "n": 675,
+    "gap": 529,
+    "aligned": 146,
+    "gap_rate": 0.7837,
+    "direction": {
+     "plan_nej_voted_ja": 526,
+     "plan_ja_voted_nej": 3
+    }
+   },
+   "tiers": {
+    "explicit": 109,
+    "extrapolated": 229,
+    "off_axis": 337
+   },
+   "stodjer_rate": 0.7793
+  },
+  "MP": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 131,
+    "gap": 38,
+    "aligned": 93,
+    "gap_rate": 0.2901,
+    "direction": {
+     "plan_nej_voted_ja": 38,
+     "plan_ja_voted_nej": 0
+    }
+   },
+   "all_tiers": {
+    "n": 532,
+    "gap": 226,
+    "aligned": 306,
+    "gap_rate": 0.4248,
+    "direction": {
+     "plan_nej_voted_ja": 222,
+     "plan_ja_voted_nej": 4
+    }
+   },
+   "tiers": {
+    "explicit": 181,
+    "extrapolated": 137,
+    "off_axis": 357
+   },
+   "stodjer_rate": 0.8504
+  },
+  "L": {
+   "n_decisions": 675,
+   "explicit": {
+    "n": 154,
+    "gap": 132,
+    "aligned": 22,
+    "gap_rate": 0.8571,
+    "direction": {
+     "plan_nej_voted_ja": 131,
+     "plan_ja_voted_nej": 1
+    }
+   },
+   "all_tiers": {
+    "n": 675,
+    "gap": 517,
+    "aligned": 158,
+    "gap_rate": 0.7659,
+    "direction": {
+     "plan_nej_voted_ja": 515,
+     "plan_ja_voted_nej": 2
+    }
+   },
+   "tiers": {
+    "explicit": 154,
+    "extrapolated": 241,
+    "off_axis": 280
+   },
+   "stodjer_rate": 0.7644
+  }
+ },
+ "validity": {
+  "coverage": {
+   "explicit": {
+    "n": 939,
+    "gap_rate": 0.5069
+   },
+   "inferred": {
+    "n": 3660,
+    "gap_rate": 0.5964
+   },
+   "not_covered": {
+    "n": 224,
+    "gap_rate": 0.3839
+   }
+  },
+  "confidence": {
+   "high": {
+    "n": 1160,
+    "gap_rate": 0.4655
+   },
+   "low": {
+    "n": 1026,
+    "gap_rate": 0.5595
+   },
+   "medium": {
+    "n": 2637,
+    "gap_rate": 0.6185
+   }
+  },
+  "plan_tacker_utskottets_skal": {
+   "ja": {
+    "n": 1826,
+    "gap_rate": 0.4962
+   },
+   "nej": {
+    "n": 2997,
+    "gap_rate": 0.6136
+   }
+  }
+ },
+ "stance_skew": {
+  "stodjer_rate": 0.7678,
+  "n_cases_all_parties": 675,
+  "unanimous_stodjer": 227,
+  "unanimous_avvisar": 2,
+  "unanimous_rate": 0.3393,
+  "n_real_abstentions_excluded": 577
+ },
+ "run_id": "full-v4"
+}
