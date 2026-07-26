@@ -7,8 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "set -o pipefail; astro build | sed -e '/├─/d' -e '/^[[:space:]]*(+.*)[[:space:]]*$/d'",
-    "build:verbose": "astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
