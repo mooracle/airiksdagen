@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import MultiLineChart from '../components/MultiLineChart.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getIndex, getAggregate } from '../lib/data';
+import { agreementColor } from '../lib/scale';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
@@ -92,22 +93,81 @@ for (const row of index) {
   monthStats.set(m, acc);
 }
 const timelineMonths = months.filter((m) => monthStats.has(m));
-function monthColor(m: string): string {
+// Same diverging scale as the co-voting matrix, so the two heatmaps on the site
+// read against one another. Months with no AI coverage yet get no fill at all
+// rather than a grey one: on the old vivid ramp a flat grey was obviously "not a
+// value", but against a scale whose midpoint is deliberately a pale neutral, a
+// grey cell would read as "middling" instead of "nothing here".
+const monthColor = (m: string) => {
   const s = monthStats.get(m)!;
-  if (!s.compared) return '#e3e1da';
-  const ratio = s.agree / s.compared;
-  // red (drift) -> green (agreement)
-  const hue = Math.round(ratio * 120);
-  return `hsl(${hue} 55% 55%)`;
-}
+  return s.compared ? agreementColor(s.agree / s.compared) : null;
+};
 const hasAiData = timeseries.length > 0;
+
+/**
+ * Evidence tiers, strongest first. These were three bare numbers in a row of
+ * running text; as parts of one whole they belong in a proportional bar, so the
+ * shape of the corpus (a minority explicit, a large majority off-axis) is
+ * visible rather than something the reader has to compute.
+ * Ramped from gold — strength of evidence, not category.
+ */
+const TIERS = [
+  { key: 'explicit', color: '#c8961f', label: 'tier.explicit', tip: 'tier.explicitTip' },
+  { key: 'extrapolated', color: '#e2c079', label: 'tier.extrapolated', tip: 'tier.extrapolatedTip' },
+  { key: 'off_axis', color: '#e6e1d2', label: 'tier.off_axis', tip: 'tier.off_axisTip' },
+] as const;
+const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier.key], 0)) : 1;
 ---
 
 <Base lang={lang} description={t('home.intro')} path="/">
-  <section class="hero">
-    <h1>{t('site.tagline')}</h1>
-    <p class="lede">{t('home.intro')}</p>
-    <p class="muted disclaimer">⚠︎ {t('home.disclaimer')}</p>
+  {/* Opening band: the claim on the left, the headline figure on the right, and
+      the chamber bled off the corner behind them. */}
+  <section slot="hero" class="masthead">
+    <img class="mh-mark" src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logomark.svg`}
+         alt="" aria-hidden="true" width="100" height="52" />
+    <div class="mh-wrap">
+      <div>
+        <p class="eyebrow">{t('home.kicker')}</p>
+        <h1>{t('site.tagline')}</h1>
+        <p class="lede">{t('home.intro')}</p>
+        <p class="disclaimer">{t('home.disclaimer')}</p>
+      </div>
+      {gap && gap.headline.gap_rate !== null ? (
+        <div class="mh-stat">
+          <div class="stat">
+            <span class="num">{(gap.headline.gap_rate * 100).toFixed(0)}%</span>
+            <span class="lbl">{t('home.gapHeadline')}</span>
+            <span class="meta">n = {gap.headline.n}</span>
+          </div>
+          <hr />
+          <p class="eyebrow" style="margin:0 0 0.5rem">{t('home.tiers')}</p>
+          <div class="tierbar">
+            {TIERS.map((tier) => (
+              <span
+                style={`width:${((gap.tiers[tier.key] / tierTotal) * 100).toFixed(2)}%;background:${tier.color}`}
+                title={`${t(tier.label)}: ${gap.tiers[tier.key]}`}
+              />
+            ))}
+          </div>
+          <ul class="tierkeys">
+            {TIERS.map((tier) => (
+              <li title={t(tier.tip)}>
+                <span class="sw" style={`background:${tier.color}`} />
+                <span><b>{gap.tiers[tier.key]}</b> {t(tier.label)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : summary && (
+        <div class="mh-stat">
+          <div class="stat">
+            <span class="num">{((1 - summary.overall_agreement) * 100).toFixed(1)}%</span>
+            <span class="lbl">{t('home.driftHeadline')}</span>
+            <span class="meta">n = {summary.n_decisions}</span>
+          </div>
+        </div>
+      )}
+    </div>
   </section>
 
   <div class="audience">
@@ -128,29 +188,10 @@ const hasAiData = timeseries.length > 0;
     </a>
   </div>
 
+  <p class="eyebrow">{t('home.secTrend')}</p>
   <h2>{gap ? t('home.gapTitle') : t('home.drift')}</h2>
   {hasAiData ? (
-    <div class="card">
-      {gap && gap.headline.gap_rate !== null ? (
-        <>
-          <p style="margin:0 0 0.4rem">
-            <strong style="font-size:1.5rem">{(gap.headline.gap_rate * 100).toFixed(0)}%</strong>
-            <span class="muted"> {t('home.gapHeadline')} · n = {gap.headline.n}</span>
-          </p>
-          <p class="tiers muted">
-            <span class="tierkey">{t('home.tiers')}:</span>
-            <span title={t('tier.explicitTip')}><b>{gap.tiers.explicit}</b> {t('tier.explicit')}</span>
-            <span title={t('tier.extrapolatedTip')}><b>{gap.tiers.extrapolated}</b> {t('tier.extrapolated')}</span>
-            <span title={t('tier.off_axisTip')}><b>{gap.tiers.off_axis}</b> {t('tier.off_axis')}</span>
-          </p>
-          <p class="muted" style="font-size:0.85rem;margin:0 0 0.7rem">{t('home.gapNote')}</p>
-        </>
-      ) : summary && (
-        <p style="margin:0 0 0.5rem">
-          <strong style="font-size:1.5rem">{((1 - summary.overall_agreement) * 100).toFixed(1)}%</strong>
-          <span class="muted"> {t('home.driftHeadline')} · n = {summary.n_decisions}</span>
-        </p>
-      )}
+    <figure class="fig card">
       <MultiLineChart
         series={[...driftSeries, overallDrift]}
         months={months}
@@ -163,14 +204,15 @@ const hasAiData = timeseries.length > 0;
           <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
         ))}
       </p>
-      <p class="muted" style="font-size:0.85rem">{t('home.driftNote')}</p>
-    </div>
+      <figcaption>{t('home.driftNote')}{gap ? ` ${t('home.gapNote')}` : ''}</figcaption>
+    </figure>
   ) : (
     <p class="muted">{t('home.noai')}</p>
   )}
 
+  <p class="eyebrow">{t('home.secContext')}</p>
   <h2>{t('home.polls')}</h2>
-  <div class="card">
+  <figure class="fig card">
     <MultiLineChart
       series={pollSeries}
       months={months}
@@ -183,19 +225,22 @@ const hasAiData = timeseries.length > 0;
         <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
       ))}
     </p>
-    <p class="muted" style="font-size:0.85rem">{t('home.pollsNote')}</p>
-  </div>
+    <figcaption>{t('home.pollsNote')}</figcaption>
+  </figure>
 
+  <p class="eyebrow">{t('home.secBrowse')}</p>
   <h2>{t('home.timeline')}</h2>
   <div class="card">
     <div class="timeline">
       {timelineMonths.map((m) => {
         const s = monthStats.get(m)!;
+        const fill = monthColor(m);
         return (
           <a
             class="tcell"
             href={`${browserBase}?m=${m}`}
-            style={`background:${monthColor(m)}`}
+            data-empty={fill ? undefined : 'true'}
+            style={fill ? `background:${fill}` : undefined}
             title={`${m}: ${s.n} ${t('home.cases')}${s.compared ? ` · ${s.agree}/${s.compared} ✓` : ''}`}
           >
             <span class="tm">{m.slice(2).replace('-', '/')}</span>
@@ -207,10 +252,13 @@ const hasAiData = timeseries.length > 0;
     <p class="muted" style="font-size:0.85rem;margin-bottom:0">{t('home.timelineNote')}</p>
   </div>
 
-  <h2>{t('home.search')}</h2>
   <form class="searchrow" action={browserBase} method="get">
-    <input type="search" name="q" placeholder={t('browser.search')} />
-    <button type="submit">{t('home.searchBtn')}</button>
+    <label class="srch-lbl" for="home-q">{t('home.search')}</label>
+    <div class="srch-row">
+      <input id="home-q" type="search" name="q" placeholder={t('browser.search')} />
+      <button class="btn" type="submit">{t('home.searchBtn')}</button>
+    </div>
+    <a class="srch-all" href={browserBase}>{t('browser.title')} ({meta.n_cases}) →</a>
   </form>
 
   {/* p6 only: the divergence that the plan actually documents, party by party.
@@ -218,42 +266,54 @@ const hasAiData = timeseries.length > 0;
       the numbers reads spatially rather than needing to be spelled out. */}
   {gap && (
     <>
+      <p class="eyebrow">{t('home.secParties')}</p>
       <h2>{t('home.gapByParty')}</h2>
-      <div class="card">
+      <figure class="fig card">
         {partyOrder
           .filter((code) => gap.per_party[code]?.explicit.gap_rate !== null)
           .map((code) => {
             const e = gap.per_party[code].explicit;
             return (
-              <div class="statbar">
-                <span style="width:2.5rem"><PartyBadge code={code} parties={meta.parties} label="none" size={18} /></span>
-                <div class="bar"><div style={`width:${(e.gap_rate! * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></div>
-                <span style="width:7.5rem;text-align:right">
-                  {(e.gap_rate! * 100).toFixed(0)}%
-                  <span class="muted" style="font-size:0.8rem"> ({e.gap}/{e.n})</span>
-                </span>
-              </div>
+              <a class="prow" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}>
+                <span class="pr-badge"><PartyBadge code={code} parties={meta.parties} label="none" size={19} /></span>
+                <span class="bar"><span style={`width:${(e.gap_rate! * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></span>
+                <span class="pr-pct">{(e.gap_rate! * 100).toFixed(0)}%</span>
+                <span class="pr-n muted">{e.gap}/{e.n}</span>
+              </a>
             );
           })}
-        <p class="muted" style="font-size:0.85rem;margin:0.6rem 0 0">{t('home.gapByPartyNote')}</p>
-      </div>
+        <figcaption>{t('home.gapByPartyNote')}</figcaption>
+      </figure>
     </>
   )}
 
-  <p><a href={browserBase}>{t('browser.title')} ({meta.n_cases}) →</a></p>
-
   <style>
-    .hero { max-width: 60rem; }
-    .hero .lede { font-size: 1.12rem; color: var(--ink-2); }
-    .hero .disclaimer { font-size: 0.9rem; border-left: 3px solid var(--avstar); padding-left: 0.8rem; }
-    .audience { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: 1.4rem 0 0.5rem; }
-    .apath { text-decoration: none; color: inherit; display: block; }
+    /* The three audience doors sit half-overlapping the masthead, so the band
+       and the page below read as one composition rather than two stacked slabs. */
+    .audience {
+      display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      margin: -2.2rem 0 0.5rem; position: relative; z-index: 2;
+    }
+    .apath {
+      text-decoration: none; color: inherit; display: block; margin: 0;
+      box-shadow: var(--shadow);
+    }
     .apath:hover { border-color: var(--accent); }
     .apath strong { display: block; margin: 0.5rem 0 0.25rem; font-size: 1.05rem; }
     .apath p { margin: 0; font-size: 0.88rem; }
-    .tiers { font-size: 0.82rem; margin: 0 0 0.5rem; display: flex; flex-wrap: wrap; gap: 0 0.9rem; }
-    .tiers .tierkey { font-weight: 600; }
-    .tiers b { font-variant-numeric: tabular-nums; }
+    @media (max-width: 860px) { .audience { margin-top: 1.2rem; } }
+
+    /* per-party divergence: a row is a link to that party's page */
+    .prow {
+      display: grid; grid-template-columns: 2.2rem minmax(0, 34rem) 3.2rem 4rem;
+      align-items: center; gap: 0.7rem; padding: 0.42rem 0.3rem;
+      text-decoration: none; color: inherit; border-radius: 6px;
+    }
+    .prow:hover { background: var(--panel-2); }
+    .prow .bar { display: block; height: 9px; border-radius: 999px; background: #ebe8df; overflow: hidden; }
+    .prow .bar > span { display: block; height: 100%; border-radius: 999px; }
+    .prow .pr-pct { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .prow .pr-n { text-align: right; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
     .legend { font-size: 0.8rem; margin: 0.3rem 0 0; }
     .legend span { margin-right: 0.7rem; white-space: nowrap; }
     .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.3em; }
@@ -265,13 +325,18 @@ const hasAiData = timeseries.length > 0;
     }
     .tcell:hover { outline: 2px solid var(--accent); }
     .tcell .tn { font-weight: 700; font-size: 0.75rem; }
-    .searchrow { display: flex; gap: 0.5rem; }
-    .searchrow input {
-      flex: 1; padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 6px; font-size: 1rem;
+    /* no AI coverage for this month: an outlined empty slot, not a filled cell */
+    .tcell[data-empty] { box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+    /* search: a keyed panel rather than a bare h2 with a loose input under it */
+    .searchrow {
+      margin: 2.6rem 0 0.5rem; padding: 1.3rem 1.5rem;
+      background: var(--accent-wash); border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+      border-radius: var(--radius);
+      display: grid; gap: 0.7rem;
     }
-    .searchrow button {
-      padding: 0.55rem 1.1rem; border: none; border-radius: 6px;
-      background: var(--accent); color: #fff; font-size: 1rem; cursor: pointer;
-    }
+    .srch-lbl { font-family: var(--display); font-size: 1.24rem; font-weight: 700; }
+    .srch-row { display: flex; gap: 0.5rem; }
+    .srch-row input { flex: 1; font-size: 1rem; background: #fff; }
+    .srch-all { font-size: 0.88rem; justify-self: start; }
   </style>
 </Base>

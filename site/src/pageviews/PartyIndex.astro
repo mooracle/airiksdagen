@@ -15,23 +15,44 @@ const order = meta.hemicycle_order;
 ---
 
 <Base lang={lang} title={t('party.title')} description={t('meta.desc.parties')} path="/parti/">
+  <p class="eyebrow">{t('party.kicker')}</p>
   <h1>{t('party.title')}</h1>
-  <div class="grid">
+  <p class="lede">{t('meta.desc.parties')}</p>
+
+  <div class="pgrid">
     {order.map((code) => {
-      const p = meta.parties[code];
       const s = summary?.per_party?.[code];
       return (
-        <a class="card" href={localePath(lang, `/parti/${code.toLowerCase()}/`)} style="text-decoration:none;color:inherit">
+        <a class="card pcard" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}
+           style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
           <PartyBadge code={code} parties={meta.parties} label="name" size={26} />
           {s && (
-            <p class="muted" style="margin:0.4rem 0 0">
-              {(s.agreement * 100).toFixed(1)}% · n = {s.n}
-            </p>
+            <span class="stat">
+              <span class="num">{(s.agreement * 100).toFixed(0)}<small>%</small></span>
+              <span class="meta">n = {s.n}</span>
+            </span>
           )}
         </a>
       );
     })}
   </div>
+
+  <style>
+    .pgrid { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+    /* the party's own colour as a top edge, so the card is identifiable before
+       the badge is read */
+    .pcard {
+      text-decoration: none; color: inherit; margin: 0;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      border-top: 3px solid var(--pc); border-radius: 3px 3px var(--radius) var(--radius);
+      background-image: none;
+    }
+    .pcard .num { font-size: 2.1rem; }
+    /* the unit rides on the numeral's baseline rather than floating at cap height */
+    .pcard .num small {
+      font-size: 0.42em; font-weight: 700; margin-left: 0.1em; vertical-align: baseline;
+    }
+  </style>
 
   {/* "Who votes with whom" moved here from Analysis: it is a party-by-party
       comparison, and it sets up the coalition tables below it — who votes

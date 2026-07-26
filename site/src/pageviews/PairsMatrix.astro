@@ -7,6 +7,7 @@
  * the chamber-level material — government defeats and individual dissenters. */
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
+import { agreementColor, EMPTY_FILL } from '../lib/scale';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
@@ -20,15 +21,12 @@ const matrix = getAggregate<{
 }>('pairs_matrix');
 const order = meta.hemicycle_order;
 
-function cellColor(v: number | null): string {
-  if (v == null) return '#f0efe9';
-  const hue = Math.round(v * 120); // red 0% -> green 100%
-  return `hsl(${hue} 52% ${88 - v * 26}%)`;
-}
+const cellColor = (v: number | null | undefined) => (v == null ? EMPTY_FILL : agreementColor(v));
 ---
 
 {matrix && (
   <>
+    <p class="eyebrow">{t('analysis.secTogether')}</p>
     <h2 id="vem-med-vem">{t('analysis.matrix')}</h2>
     <div class="card" style="overflow-x:auto">
       <table class="compare matrix">

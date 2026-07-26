@@ -102,11 +102,14 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     <header>
       <nav>
         <a class="brand" href={localePath(lang, '/')}>
-          <svg class="brand-mark" viewBox="0 0 24 13" aria-hidden="true" focusable="false">
-            <path d="M1 12 A11 11 0 0 1 23 12 Z" fill="#f2c744"/>
-            <path d="M4.5 12 A7.5 7.5 0 0 1 19.5 12" fill="none" stroke="#17222c" stroke-width="1.5"/>
-            <path d="M8 12 A4 4 0 0 1 16 12" fill="none" stroke="#17222c" stroke-width="1.5"/>
-          </svg> {t('site.title')}
+          {/* The mark is the 349-seat chamber, one dot per seat, in party order
+              (scripts/gen_brand_assets.mjs). Transparent and background-agnostic:
+              its palette is the party hues remapped into a luminance band that
+              clears 3:1 on both ink and white, so it needs no plate behind it
+              here. Referenced as a file, not inlined — 349 circles would add
+              ~14KB to every one of the 2,500+ case pages. */}
+          <img class="brand-mark" src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logomark.svg`}
+               alt="" width="100" height="52" aria-hidden="true" /> {t('site.title')}
         </a>
         <div class="links">
           <a href={localePath(lang, '/fall/')} aria-current={navCurrent('/fall/')}>{t('nav.cases')}</a>
@@ -135,6 +138,11 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
         </div>
       </nav>
     </header>
+    {/* Full-bleed band above the measure-constrained column. A named slot rather
+        than a `100vw` margin trick inside <main>: 100vw includes the scrollbar,
+        so that approach hands you a horizontal scrollbar on every page that
+        scrolls vertically. */}
+    <slot name="hero" />
     <main>
       <slot />
     </main>
@@ -169,15 +177,28 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     --panel-2: #faf8f2;      /* raised/alt surface: table hover, insets */
     --ink: #14202b;
     --ink-2: #3d4a56;
-    --muted: #6c7883;
+    /* 4.66:1 on --paper, 5.13:1 on --panel. Was #6c7883, which measured 4.10:1
+       on paper — under AA. `.muted` carries body-size explanatory prose all over
+       the site (chart notes, ledes, table footnotes), so it has to clear 4.5. */
+    --muted: #646f7a;
     --line: #e5e1d6;
     --line-soft: #efece3;    /* lighter hairline for inner rows */
     /* brand: editorial blue + civic gold (ties in the gold logomark) */
     --accent: #175d92;
     --accent-ink: #103f61;
     --accent-wash: #eaf1f7;
+    /* One gold, shared with the generated brand assets (GOLD in
+       scripts/gen_brand_assets.mjs). The chrome rules were #e3ad39 while the
+       logomark was #f2c744 — near enough to look like a printing error where the
+       two met at the header edge. Gold is now purely chrome (rules, the language
+       pill, the active-nav underline) since the mark carries party colours, so
+       the deeper editorial value wins over the brighter one. */
     --gold: #e3ad39;
     --gold-soft: #f6e9c8;
+    /* gold is a fill, never legible as text on paper (1.85:1). This is the same
+       hue taken down until it clears AA for the small uppercase .eyebrow —
+       4.77:1 on paper, 5.25:1 on a white panel. */
+    --gold-deep: #8f6412;
     /* vote semantics (kept in sync with VOTE_COLORS in lib/hemicycle.ts) */
     --ja: #2f7d43;
     --nej: #c0322c;
@@ -185,15 +206,38 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     --franvarande: #cbc6bc;
     --radius: 12px;
     --radius-sm: 8px;
+    --radius-lg: 18px;
     --shadow-sm: 0 1px 2px rgb(20 32 43 / 0.05);
     --shadow: 0 1px 2px rgb(20 32 43 / 0.05), 0 10px 28px -12px rgb(20 32 43 / 0.14);
+    --shadow-lg: 0 1px 2px rgb(20 32 43 / 0.06), 0 24px 60px -22px rgb(20 32 43 / 0.28);
+    /* type: one display serif for headings and figures, system sans for prose */
+    --display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia,
+               'Times New Roman', serif;
+    /* Page gutter — shared by the header, the hero band, main and the footer so
+       every left edge on the site lines up. Widened from 1120px: tables, the
+       co-voting matrix and the time-series charts all wanted more room. */
+    --measure: 1280px;
+    /* Reading measure for running text. Prose is NOT allowed to use the full
+       page width — at 1280px a paragraph runs to ~150 characters a line, roughly
+       twice a comfortable measure, and the eye loses its place on the return
+       sweep. Components (tables, figures, charts, stat grids) opt out and take
+       the whole gutter. */
+    --text: 72ch;
+    /* on the ink band: text tiers that hold 4.5:1+ against --ink */
+    --on-ink: #eef2f5;
+    --on-ink-2: #b9c5cf;
+    --on-ink-3: #8d9aa6;
+    --rule-ink: #2c3b49;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--paper);
+    /* warm vertical wash rather than one flat fill, so long pages have some
+       depth behind the panels instead of reading as a single grey sheet */
+    background: var(--paper) linear-gradient(180deg, #fbf9f4 0%, var(--paper) 34rem);
+    background-attachment: fixed;
     color: var(--ink);
     line-height: 1.65;
     font-size: 16px;
@@ -201,14 +245,81 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     text-rendering: optimizeLegibility;
   }
   h1, h2, h3, .brand {
-    font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Times New Roman', serif;
+    font-family: var(--display);
     letter-spacing: -0.012em;
     color: var(--ink);
   }
-  h1 { font-size: clamp(1.85rem, 4.2vw, 2.55rem); line-height: 1.14; margin: 0.6rem 0 1rem; font-weight: 700; }
-  h2 { font-size: 1.42rem; margin: 2.4rem 0 0.9rem; font-weight: 700; }
-  h3 { font-size: 1.12rem; margin: 1.6rem 0 0.5rem; font-weight: 700; }
+  h1 { font-size: clamp(2rem, 4.6vw, 2.9rem); line-height: 1.1; margin: 0.5rem 0 1rem; font-weight: 700; }
+  h2 { font-size: clamp(1.5rem, 2.4vw, 1.8rem); margin: 3rem 0 1rem; font-weight: 700; line-height: 1.2; }
+  h3 { font-size: 1.16rem; margin: 1.8rem 0 0.5rem; font-weight: 700; }
   p { margin: 0.7rem 0; }
+
+  /* ── section structure ────────────────────────────────────────────────
+     Pages used to be a flat run of h2 + card, h2 + card, with nothing to mark
+     where one subject ended and the next began. An h2 now carries a hairline
+     and can take an .eyebrow kicker above it. */
+  .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.11em; color: var(--gold-deep);
+    margin: 2.8rem 0 0.15rem; display: flex; align-items: center; gap: 0.55rem;
+  }
+  .eyebrow::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+  .eyebrow + h2 { margin-top: 0.1rem; }
+  h2.rule { padding-bottom: 0.55rem; border-bottom: 2px solid var(--ink); }
+  .lede { font-size: 1.14rem; line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+
+  /* ── stat display ─────────────────────────────────────────────────────
+     The headline figures were set as bold spans inside running text, which
+     made the most important number on the site look like an emphasised word. */
+  .stat { display: flex; flex-direction: column; gap: 0.1rem; }
+  .stat .num {
+    font-family: var(--display); font-weight: 700; line-height: 0.92;
+    font-size: clamp(2.6rem, 6vw, 4rem); letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums; font-feature-settings: 'tnum';
+  }
+  .stat .lbl { font-size: 0.97rem; color: var(--ink-2); max-width: 34ch; }
+  .stat .meta {
+    font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  /* Tiles sit left at a fixed width rather than each stretching to an equal share
+     of the page — two tiles on a 1280px gutter otherwise spread a two-digit
+     number across half a screen.
+     Flex, not `grid` + `width: fit-content`: fit-content resolves the container
+     to its minimum, which starves `auto-fit` into placing a single column. */
+  .statgrid {
+    display: flex; flex-wrap: wrap; gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    width: fit-content; max-width: 100%;
+  }
+  .statgrid > * { background: var(--panel); padding: 1.1rem 1.25rem; flex: 0 0 auto; min-width: 11rem; }
+  .statgrid .num { font-size: clamp(1.7rem, 3vw, 2.2rem); }
+  .statgrid .lbl { font-size: 0.85rem; }
+
+  /* proportional stacked bar — for parts of a whole that were previously just
+     three numbers separated by spaces */
+  .tierbar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: var(--line); }
+  .tierbar > span { display: block; height: 100%; }
+  .tierkeys {
+    display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; margin: 0.6rem 0 0;
+    font-size: 0.8rem; list-style: none; padding: 0;
+  }
+  .tierkeys li { display: flex; align-items: baseline; gap: 0.4rem; }
+  .tierkeys .sw { width: 0.62em; height: 0.62em; border-radius: 2px; flex: none; transform: translateY(-0.05em); }
+  .tierkeys b { font-variant-numeric: tabular-nums; }
+
+  /* ── figures ──────────────────────────────────────────────────────────
+     A chart is a figure with a caption, not a bare div. */
+  figure.fig { margin: 0; }
+  figure.fig > figcaption {
+    font-size: 0.84rem; color: var(--muted); margin-top: 0.7rem;
+    padding-top: 0.6rem; border-top: 1px solid var(--line-soft);
+  }
+  /* trailing explanatory line under a table or figure */
+  .note { font-size: 0.84rem; color: var(--muted); }
   a {
     color: var(--accent); text-underline-offset: 2px;
     text-decoration-color: color-mix(in srgb, currentColor 32%, transparent);
@@ -222,23 +333,25 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     border-bottom: 2px solid var(--gold);
     box-shadow: 0 8px 22px -18px rgb(0 0 0 / 0.75);
   }
-  nav {
+  header nav {
     max-width: 1120px; margin: 0 auto; padding: 0.7rem 1.3rem;
     display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   }
-  nav .brand {
+  header nav .brand {
     font-weight: 700; font-size: 1.24rem; color: #fff; text-decoration: none;
     display: inline-flex; align-items: center; letter-spacing: -0.015em;
   }
-  nav .brand-mark { height: 0.98em; width: auto; vertical-align: -0.1em; margin-right: 0.28em; }
-  nav .links { display: flex; gap: 1.15rem; flex-wrap: wrap; align-items: center; }
-  nav .links a {
+  /* Taller than the old glyph mark: the chamber is a wide, detailed drawing and
+     needs the height to stay readable rather than becoming a coloured smear. */
+  header nav .brand-mark { height: 1.4em; width: auto; vertical-align: -0.2em; margin-right: 0.4em; }
+  header nav .links { display: flex; gap: 1.15rem; flex-wrap: wrap; align-items: center; }
+  header nav .links a {
     color: #c2ccd3; text-decoration: none; font-size: 0.94rem; position: relative;
     padding: 0.15rem 0; transition: color 0.15s ease;
   }
-  nav .links a:hover { color: #fff; }
-  nav .links a[aria-current] { color: #fff; }
-  nav .links a[aria-current]::after {
+  header nav .links a:hover { color: #fff; }
+  header nav .links a[aria-current] { color: #fff; }
+  header nav .links a[aria-current]::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -0.18rem;
     height: 2px; border-radius: 2px; background: var(--gold);
   }
@@ -250,27 +363,100 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
      0.94rem font and zero side padding while the current half kept these —
      the two segments rendered at different sizes. Two classes wins the cascade
      for both children, so the control is styled as one unit. */
-  nav .links .langswitch {
+  header nav .links .langswitch {
     display: inline-flex; align-items: stretch; margin-left: 0.25rem;
     border: 1px solid #45535e; border-radius: 6px; overflow: hidden;
     font-weight: 600; letter-spacing: 0.03em;
   }
-  nav .links .langswitch > * {
+  header nav .links .langswitch > * {
     display: flex; align-items: center; padding: 0.18rem 0.62rem;
     font-size: 0.78rem; line-height: 1.5; text-decoration: none;
     transition: background 0.15s ease, color 0.15s ease;
   }
-  nav .links .langswitch > * + * { border-left: 1px solid #45535e; }
+  header nav .links .langswitch > * + * { border-left: 1px solid #45535e; }
   /* current language: filled, not a link */
-  nav .links .langswitch > [aria-current] { background: var(--gold); color: #2b2205; cursor: default; }
+  header nav .links .langswitch > [aria-current] { background: var(--gold); color: #2b2205; cursor: default; }
   /* the other language: a real link, so it is crawlable and obviously clickable */
-  nav .links .langswitch > a { color: #c2ccd3; }
-  nav .links .langswitch > a:hover { background: #263340; color: #fff; }
-  nav .links .langswitch > a:focus-visible { outline: 2.5px solid var(--gold); outline-offset: -3px; }
+  header nav .links .langswitch > a { color: #c2ccd3; }
+  header nav .links .langswitch > a:hover { background: #263340; color: #fff; }
+  header nav .links .langswitch > a:focus-visible { outline: 2.5px solid var(--gold); outline-offset: -3px; }
   /* the nav's active-page underline must not bleed into the switcher */
-  nav .links .langswitch > a[aria-current]::after { content: none; }
+  header nav .links .langswitch > a[aria-current]::after { content: none; }
 
-  main { max-width: 1120px; margin: 0 auto; padding: 1.8rem 1.3rem 4.5rem; }
+  main { max-width: var(--measure); margin: 0 auto; padding: 1.8rem 1.3rem 4.5rem; }
+
+  /* ── measure ──────────────────────────────────────────────────────────
+     Running text is capped at --text and stays flush left, so it shares its
+     left edge with the full-width components below it. Everything structural —
+     tables, figures, charts, stat grids, card grids — opts out and uses the
+     whole gutter. Matching at any depth, so prose inside a section or a card is
+     covered too, then narrowing the exceptions. */
+  main :is(h1, h2, h3, h4, p, ul, ol, dl, blockquote, figcaption, .lede, .note) {
+    max-width: var(--text);
+  }
+  /* table cells size to the table, never to a reading measure */
+  main :is(td, th) :is(p, ul, ol, dl) { max-width: none; }
+  /* these are laid-out rows that happen to use text tags, not prose. .eyebrow is
+     here because its trailing hairline frames the whole section — stopping it at
+     the reading measure left it short of the full-width table beneath it. */
+  main :is(.eyebrow, .tierkeys, .ovlinks, .legend, .jump, .statgrid, .stat, .searchrow, .tiers) {
+    max-width: none;
+  }
+  main :is(.statgrid, .stat, .legend, .tierkeys) :is(p, ul, ol) { max-width: none; }
+  /* opt-out hook for one-off wide blocks */
+  main .wide { max-width: none; }
+  /* a hero band already supplies the opening space */
+  body:has(.masthead) main { padding-top: 0.4rem; }
+
+  /* ── masthead ─────────────────────────────────────────────────────────
+     The dark opening band. Every page previously began with an unadorned h1 on
+     paper, so the site had no front door and the chamber motif — the whole
+     identity of the project — appeared nowhere except a 20px nav glyph. */
+  .masthead {
+    position: relative; overflow: hidden;
+    background: var(--ink);
+    color: var(--on-ink);
+    border-bottom: 1px solid var(--rule-ink);
+  }
+  /* The chamber as a watermark: a wide, shallow dome rising from the bottom edge.
+     Anchored to the band's own bottom and mostly clipped, so what shows is a
+     horizon rather than a floating cut-off arc. */
+  .masthead .mh-mark {
+    position: absolute; left: 50%; bottom: -58%;
+    width: min(78%, 1000px); height: auto;
+    transform: translateX(-32%);
+    opacity: 0.2; pointer-events: none; user-select: none;
+  }
+  .mh-wrap {
+    position: relative; z-index: 1;
+    max-width: var(--measure); margin: 0 auto; padding: 2.9rem 1.3rem 3.1rem;
+    display: grid; gap: 2rem 3rem; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .masthead h1 { color: #fff; margin: 0.3rem 0 0.9rem; max-width: 24ch; }
+  .masthead .eyebrow { color: var(--gold); margin: 0; }
+  .masthead .eyebrow::after { background: var(--rule-ink); }
+  .masthead .lede { color: var(--on-ink-2); font-size: 1.06rem; max-width: 52ch; }
+  .masthead .disclaimer {
+    margin: 1.2rem 0 0; font-size: 0.87rem; color: var(--on-ink-3);
+    border-left: 2px solid var(--avstar); padding-left: 0.85rem; max-width: 60ch;
+  }
+  /* headline figure, sat on the ink rather than in a white box */
+  .mh-stat {
+    border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
+    background: rgb(255 255 255 / 0.035); padding: 1.4rem 1.5rem;
+    backdrop-filter: blur(2px);
+  }
+  .mh-stat .num { color: #fff; }
+  .mh-stat .lbl { color: var(--on-ink-2); }
+  .mh-stat .meta { color: var(--on-ink-3); }
+  .mh-stat .tierbar { background: var(--rule-ink); margin-top: 1.2rem; }
+  .mh-stat .tierkeys { color: var(--on-ink-2); }
+  .mh-stat hr { border: 0; border-top: 1px solid var(--rule-ink); margin: 1.2rem 0; }
+  @media (max-width: 860px) {
+    .mh-wrap { grid-template-columns: 1fr; padding-top: 2.1rem; }
+    .masthead .mh-mark { width: 130%; bottom: -34%; transform: translateX(-50%); opacity: 0.16; }
+  }
 
   footer { background: var(--ink); color: #b7c1c9; margin-top: 3rem; border-top: 2px solid var(--gold); }
   footer a { color: #dbe4ea; }
@@ -286,12 +472,34 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
   .muted { color: var(--muted); }
   .card {
     background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 1.2rem 1.4rem; margin: 0.9rem 0; box-shadow: var(--shadow-sm);
+    padding: 1.3rem 1.5rem; margin: 0.9rem 0; box-shadow: var(--shadow-sm);
+    /* hairline top highlight — lifts the panel off the paper instead of leaving
+       it as a flat rectangle with a border */
+    background-image: linear-gradient(180deg, #fff 0 1px, transparent 1px);
   }
   a.card { transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease; }
   a.card:hover {
     border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
     box-shadow: var(--shadow); transform: translateY(-1px);
+  }
+  /* table host: the table draws its own edges, so the panel gives up its padding
+     rather than insetting a full-bleed grid inside a rounded box */
+  .card.flush { padding: 0; overflow: hidden; }
+  .card.flush > table { margin: 0; }
+  .card.flush > table.compare th:first-child,
+  .card.flush > table.compare td:first-child { padding-left: 1.5rem; }
+  .card.flush > table.compare th:last-child,
+  .card.flush > table.compare td:last-child { padding-right: 1.5rem; }
+  .card.flush > .note { padding: 0.85rem 1.5rem; margin: 0; border-top: 1px solid var(--line-soft); }
+  /* quiet variant for prose and caveats — recessed, not raised */
+  .card.quiet {
+    background: var(--panel-2); box-shadow: none; background-image: none;
+    border-color: var(--line-soft);
+  }
+  /* accent variant for the one thing on a page that matters most */
+  .card.keyed {
+    border-left: 3px solid var(--gold);
+    border-radius: 3px var(--radius) var(--radius) 3px;
   }
   .chip {
     display: inline-block; background: #eeebe0; color: var(--ink-2);

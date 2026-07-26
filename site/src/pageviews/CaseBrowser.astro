@@ -36,27 +36,50 @@ const TR = {
 
 <Base lang={lang} title={t('browser.title')} description={t('meta.desc.browser')} path="/fall/">
   <div class="cb">
-    <h1>{t('browser.title')} <span class="muted">({meta.n_cases})</span></h1>
+    <p class="eyebrow">{t('home.kicker')}</p>
+    {/* The count is the live, post-filter total — it was a static 2,539 in the
+        heading plus a separate "showing 1–50 of 2,539" line, so the number you
+        actually cared about (how many matched) was the one not in the title.
+        Server-rendered with the full total so it is correct before the island
+        boots and for crawlers. */}
+    <h1>{t('browser.title')} <span class="muted count" id="count">({meta.n_cases})</span></h1>
 
-    <div class="controls">
-      <input id="q" type="search" placeholder={t('browser.search')} aria-label={t('browser.search')} autocomplete="off" />
-      <select id="rm" aria-label="riksmöte">
-        <option value="">{t('browser.filter.all')} riksmöten</option>
-        <option>2022/23</option><option>2023/24</option><option>2024/25</option><option>2025/26</option>
-      </select>
-      <select id="month" aria-label={t('browser.filter.allMonths')}><option value="">{t('browser.filter.allMonths')}</option></select>
-      <select id="utskott" aria-label="utskott"><option value="">{t('browser.filter.all')} utskott</option></select>
-      <select id="area" aria-label={t('browser.filter.allAreas')}><option value="">{t('browser.filter.allAreas')}</option></select>
-      <label class="chk"><input type="checkbox" id="disagree" /> {t('browser.filter.disagree')}</label>
-      <label class="chk"><input type="checkbox" id="disagreex" /> {t('browser.filter.disagreeX')}</label>
+    {/* Toolbar: search on its own line, then the narrowing controls. The
+        riksmöte select is gone — it partitioned the same axis as the month
+        select (a riksmöte is just a span of months), so the two could be set to
+        contradict each other and return nothing. Months alone cover it. */}
+    <div class="toolbar">
+      <div class="searchline">
+        <svg class="s-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M12.8 12.8 L17.5 17.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <input id="q" type="search" placeholder={t('browser.search')} aria-label={t('browser.search')} autocomplete="off" />
+      </div>
+      <div class="filterline">
+        <select id="month" aria-label={t('browser.filter.allMonths')}><option value="">{t('browser.filter.allMonths')}</option></select>
+        <select id="utskott" aria-label={t('browser.filter.committee')}><option value="">{t('browser.filter.committee')}</option></select>
+        <select id="area" aria-label={t('browser.filter.allAreas')}><option value="">{t('browser.filter.allAreas')}</option></select>
+        {/* Flags as on/off pills: a bare checkbox next to a long sentence read as
+            body text, so it was never obvious these were controls or which were
+            active. The explanation moved to the tooltip. */}
+        <label class="tog" title={t('browser.filter.disagreeTip')}>
+          <input type="checkbox" id="disagree" />
+          <span>{t('browser.filter.disagree')}</span>
+        </label>
+        <label class="tog" title={t('browser.filter.disagreeXTip')}>
+          <input type="checkbox" id="disagreex" />
+          <span>{t('browser.filter.disagreeX')}</span>
+        </label>
+        <button type="button" id="clear" class="clearbtn" hidden>{t('browser.clear')}</button>
+      </div>
     </div>
-    <p class="hint muted">{t('browser.hint')}</p>
 
-    <div class="resbar">
-      <p class="muted" id="summary" aria-live="polite"></p>
-    </div>
+    {/* Screen readers still need the change announced; sighted users read it off
+        the heading, so the sentence lives in an off-screen live region. */}
+    <p class="sr-only" id="summary" aria-live="polite"></p>
 
-    <div class="table-wrap">
+    <div class="table-wrap card flush">
       <table class="compare browser-table">
         <thead>
           <tr>
@@ -68,6 +91,9 @@ const TR = {
         </thead>
         <tbody id="rows"></tbody>
       </table>
+      {/* Legend sits under the rows it explains, where a table legend belongs —
+          it was competing with the result count for space above the table. */}
+      <p class="note hint">{t('browser.hint')}</p>
     </div>
 
     <nav class="pager" id="pager" aria-label="Sidnavigering" hidden></nav>
@@ -80,16 +106,27 @@ const TR = {
     let page = 1;
 
     const q = document.getElementById('q');
-    const rm = document.getElementById('rm');
     const month = document.getElementById('month');
     const utskott = document.getElementById('utskott');
     const area = document.getElementById('area');
     const disagree = document.getElementById('disagree');
     const disagreex = document.getElementById('disagreex');
+    const clearBtn = document.getElementById('clear');
     const tbody = document.getElementById('rows');
     const summary = document.getElementById('summary');
+    const count = document.getElementById('count');
     const pager = document.getElementById('pager');
-    const controls = document.querySelector('.controls');
+    const controls = document.querySelector('.toolbar');
+
+    // "2026-06" -> "juni 2026" in the page's own language. The raw ISO stamps in
+    // the month dropdown were the least readable thing in the toolbar.
+    const monthFmt = new Intl.DateTimeFormat(lang === 'sv' ? 'sv-SE' : 'en-GB', {
+      month: 'long', year: 'numeric', timeZone: 'UTC',
+    });
+    const monthLabel = (m) => {
+      const label = monthFmt.format(new Date(`${m}-01T00:00:00Z`));
+      return label.charAt(0).toUpperCase() + label.slice(1);
+    };
 
     const norm = (s) => s.toLowerCase();
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -165,6 +202,7 @@ const TR = {
     function render() {
       const total = Math.max(1, Math.ceil(filtered.length / PAGE));
       if (page > total) page = total;
+      count.textContent = `(${filtered.length.toLocaleString(lang === 'sv' ? 'sv-SE' : 'en-GB')})`;
       if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td class="empty muted" colspan="4">${esc(TR.noResults)}</td></tr>`;
         summary.textContent = `0 ${TR.cases}`;
@@ -180,8 +218,10 @@ const TR = {
 
     function apply() {
       const term = norm(q.value.trim());
+      const active = !!(term || month.value || utskott.value || area.value
+        || disagree.checked || disagreex.checked);
+      clearBtn.hidden = !active;
       filtered = rows.filter((r) => {
-        if (rm.value && r.rm !== rm.value) return false;
         if (month.value && !r.datum.startsWith(month.value)) return false;
         if (utskott.value && r.utskott !== utskott.value) return false;
         if (area.value && r.policy_area !== area.value) return false;
@@ -240,7 +280,7 @@ const TR = {
         for (const m of monthsAvail) {
           const opt = document.createElement('option');
           opt.value = m;
-          opt.textContent = m;
+          opt.textContent = monthLabel(m);
           month.appendChild(opt);
         }
         // deep links from the homepage: /fall/?q=...&m=YYYY-MM&d=1
@@ -252,7 +292,18 @@ const TR = {
         apply();
       });
 
-    for (const el of [q, rm, month, utskott, area, disagree, disagreex]) el.addEventListener('input', apply);
+    for (const el of [q, month, utskott, area, disagree, disagreex]) el.addEventListener('input', apply);
+
+    clearBtn.addEventListener('click', () => {
+      q.value = '';
+      month.value = '';
+      utskott.value = '';
+      area.value = '';
+      disagree.checked = false;
+      disagreex.checked = false;
+      apply();
+      q.focus();
+    });
   </script>
 
   <!--
@@ -261,28 +312,108 @@ const TR = {
     rule is anchored under .cb (unique to this page) so nothing leaks.
   -->
   <style is:global>
-    .cb .controls { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
-    .cb .controls input[type='search'] { flex: 1 1 220px; min-width: 180px; height: 2.3rem; padding: 0 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; font-size: 0.95rem; }
-    .cb .controls select { height: 2.3rem; padding: 0 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; font-size: 0.9rem; color: var(--ink-2); }
-    .cb .controls .chk { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--ink-2); white-space: nowrap; }
-    .cb .hint { margin: 0.5rem 0 0; font-size: 0.82rem; }
+    /* ── toolbar ────────────────────────────────────────────────────────── */
+    .cb .toolbar {
+      margin: 1.1rem 0 0; padding: 1rem 1.1rem;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow-sm);
+      display: grid; gap: 0.7rem; max-width: none;
+    }
+    /* search sits in its own row, with the icon inside the field */
+    .cb .searchline { position: relative; display: flex; }
+    .cb .searchline .s-icon {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      width: 1.05rem; height: 1.05rem; color: var(--muted); pointer-events: none;
+    }
+    .cb .searchline input[type='search'] {
+      flex: 1; height: 2.75rem; padding: 0 0.85rem 0 2.5rem;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: #fff; font-size: 1rem;
+    }
+    .cb .filterline { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .cb .filterline select {
+      height: 2.3rem; padding: 0 0.55rem; border: 1px solid var(--line);
+      border-radius: var(--radius-sm); background: #fff; font-size: 0.9rem; color: var(--ink-2);
+      max-width: 15rem;
+    }
+    /* on/off pill. The checkbox stays in the DOM for keyboard and screen readers
+       and is visually replaced by the pill it labels. */
+    .cb .tog { display: inline-flex; cursor: pointer; }
+    .cb .tog input {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .cb .tog > span {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      height: 2.3rem; padding: 0 0.85rem;
+      border: 1px solid var(--line); border-radius: 999px; background: #fff;
+      font-size: 0.88rem; font-weight: 600; color: var(--ink-2); white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    /* the dot doubles as the on/off indicator */
+    .cb .tog > span::before {
+      content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%;
+      background: var(--line); box-shadow: inset 0 0 0 1px rgb(20 32 43 / 0.12);
+    }
+    .cb .tog:hover > span { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .cb .tog input:checked + span {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    .cb .tog input:checked + span::before { background: var(--gold); box-shadow: none; }
+    .cb .tog input:focus-visible + span { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+    .cb .clearbtn {
+      height: 2.3rem; padding: 0 0.8rem; border: 0; background: none; cursor: pointer;
+      font-size: 0.86rem; color: var(--accent); text-decoration: underline;
+      text-underline-offset: 2px; margin-left: auto;
+    }
+    .cb .clearbtn:hover { color: var(--accent-ink); }
 
-    .cb .resbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 1rem 0 0.35rem; }
-    .cb .resbar #summary { margin: 0; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+    .cb .count { font-variant-numeric: tabular-nums; }
+    .cb .sr-only {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .cb .table-wrap .hint { font-size: 0.8rem; }
 
-    .cb .table-wrap { overflow-x: auto; }
+    /* ── table ──────────────────────────────────────────────────────────── */
+    /* `overflow: visible` is load-bearing. `.card.flush` sets `overflow: hidden`
+       to clip its corners, and ANY non-visible overflow makes this element the
+       nearest scroll container — at which point the sticky `thead` offsets itself
+       inside the card instead of against the viewport, opening a gap at the top
+       and hiding the first row behind it. Corners are rounded on the header cells
+       instead, and the columns collapse rather than scroll sideways. */
+    .cb .table-wrap { overflow: visible; margin: 0; }
+    .cb .browser-table thead th:first-child { border-top-left-radius: var(--radius); }
+    .cb .browser-table thead th:last-child { border-top-right-radius: var(--radius); }
     /* nowrap + width:1% collapses date/ref/ai to content width; title takes the rest */
-    .cb .browser-table { table-layout: auto; }
+    .cb .browser-table { table-layout: auto; font-size: 0.95rem; }
     .cb .browser-table th, .cb .browser-table td { vertical-align: middle; }
-    .cb .c-date { white-space: nowrap; width: 1%; font-size: 0.86rem; }
+    .cb .browser-table tbody td { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+    /* header rides just under the sticky site header while the 50-row page scrolls */
+    .cb .browser-table thead th {
+      position: sticky; top: 3.6rem; z-index: 3;
+      background: var(--panel-2);
+      box-shadow: inset 0 -2px 0 var(--line);
+      border-bottom: 0;
+    }
+    .cb .browser-table tbody tr { transition: background 0.12s ease; }
+    .cb .browser-table tbody tr:hover td { background: var(--accent-wash); }
+    .cb .c-date {
+      white-space: nowrap; width: 1%; font-size: 0.85rem;
+      font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+    }
     .cb .c-title { width: 100%; }
-    .cb .c-title a { font-weight: 500; }
-    .cb .c-ref { white-space: nowrap; width: 1%; font-size: 0.85rem; text-align: right; }
+    .cb .c-title a { font-weight: 500; text-decoration: none; }
+    .cb .c-title a:hover { text-decoration: underline; }
+    .cb .c-ref {
+      white-space: nowrap; width: 1%; font-size: 0.83rem; text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
     .cb .c-ref .pt { opacity: 0.6; }
     .cb th.c-ref { text-align: right; }
     .cb .c-ai { white-space: nowrap; width: 1%; text-align: right; }
     .cb th.c-ai { text-align: right; }
-    .cb td.empty { text-align: center; padding: 2.2rem 0.65rem; font-style: italic; }
+    .cb td.empty { text-align: center; padding: 2.6rem 0.65rem; font-style: italic; }
 
     .cb .ai-cell { display: inline-flex; align-items: center; gap: 0.3rem; justify-content: flex-end; min-height: 20px; }
     .cb .ai-cell.allmatch .ok { color: #2f7d43; font-weight: 700; font-size: 1rem; }
@@ -302,7 +433,8 @@ const TR = {
     .cb .pg.gap { border: none; background: none; cursor: default; min-width: 1.2rem; color: var(--muted); }
 
     @media (max-width: 560px) {
-      .cb .controls input[type='search'] { flex-basis: 100%; }
+      .cb .filterline select { flex: 1 1 100%; max-width: none; }
+      .cb .clearbtn { margin-left: 0; }
       .cb .c-ref, .cb th.c-ref { display: none; }
     }
   </style>

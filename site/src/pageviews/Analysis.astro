@@ -16,11 +16,28 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
 ---
 
 <Base lang={lang} title={t('analysis.title')} description={t('analysis.intro')} path="/analys/">
+  <p class="eyebrow">{t('analysis.kicker')}</p>
   <h1>{t('analysis.title')}</h1>
-  <p class="muted">{t('analysis.intro')}</p>
+  <p class="lede">{t('analysis.intro')}</p>
 
+  {/* Only figures that are genuinely totals. `dissenters` deliberately has no
+      tile here: analytics.dissenter_league() takes `top=30`, so its length is the
+      export cap, not a count of anything — presenting it as a stat would state a
+      limit as a fact. gov_defeats() is uncapped, so that one is a real total. */}
+  <div class="statgrid">
+    <div class="stat">
+      <span class="num">{defeats.length}</span>
+      <span class="lbl">{t('analysis.defeats')}</span>
+    </div>
+    <div class="stat">
+      <span class="num">{meta.n_cases}</span>
+      <span class="lbl">{t('browser.title')}</span>
+    </div>
+  </div>
+
+  <p class="eyebrow">{t('analysis.secChamber')}</p>
   <h2>{t('analysis.defeats')} <span class="muted">({defeats.length})</span></h2>
-  <div class="card">
+  <div class="card flush">
     <table class="compare">
       <tbody>
         {defeats.slice(0, 25).map((d) => (
@@ -37,17 +54,21 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
         ))}
       </tbody>
     </table>
-    <p class="muted" style="font-size:0.83rem">{t('analysis.defeatsNote')}</p>
+    <p class="muted note">{t('analysis.defeatsNote')}</p>
   </div>
 
+  <p class="eyebrow">{t('analysis.secMembers')}</p>
   <h2>{t('analysis.dissenters')}</h2>
-  <div class="card">
+  <div class="card flush">
     <table class="compare">
       <thead>
         <tr><th></th><th>{t('analysis.dissents')}</th><th>{t('analysis.votesCast')}</th><th>%</th></tr>
       </thead>
       <tbody>
-        {dissenters.slice(0, 20).map((d) => (
+        {/* No .slice() here: the aggregate is already the top 30 and nothing
+            downstream can widen it, so cutting to 20 in the template only hid
+            10 rows that had been exported. The caption states the cap. */}
+        {dissenters.map((d) => (
           <tr>
             <td><span class="pbadge-wrap"><PartyBadge code={d.parti} parties={meta.parties} /><strong>{d.namn}</strong></span> <span class="muted">({d.parti})</span></td>
             <td>{d.n_dissent}</td>
@@ -57,6 +78,7 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
         ))}
       </tbody>
     </table>
+    <p class="muted note">{t('analysis.dissentersNote').replace('{n}', String(dissenters.length))}</p>
   </div>
 
 </Base>

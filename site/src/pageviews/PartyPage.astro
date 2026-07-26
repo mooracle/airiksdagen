@@ -119,23 +119,40 @@ const cohesionChart = [
     points: coh.map((r) => ({ month: r.month, value: r.absence * 100 })),
   },
 ];
+
+const BLOC_KEY = {
+  government: 'bloc.government',
+  support: 'bloc.support',
+  opposition: 'bloc.opposition',
+} as const;
+const blocLabel = party?.bloc && party.bloc in BLOC_KEY
+  ? t(BLOC_KEY[party.bloc as keyof typeof BLOC_KEY])
+  : null;
 ---
 
 <Base lang={lang} title={party?.name ?? code} description={`${party?.name ?? code} ${t('meta.desc.partySuffix')}`} path={`/parti/${code.toLowerCase()}/`}>
-  <h1><PartyBadge code={code} parties={meta.parties} size={32} /> {party?.name ?? code}</h1>
+  {/* Explicit map rather than t(`bloc.${...}`): the key type is a union of the
+      literal keys, so a template string is not assignable and `astro check`
+      rejects it. This also keeps an unexpected bloc value from rendering the raw
+      key on the page. */}
+  <p class="eyebrow">{blocLabel ?? t('party.kicker')}</p>
+  <h1 class="ptitle">
+    <PartyBadge code={code} parties={meta.parties} size={34} /> {party?.name ?? code}
+  </h1>
 
   {stats ? (
-    <div class="card">
+    <div class="card keyed phead" style={`--pc:${party?.color ?? 'var(--gold)'}`}>
       {/* Lead with the documented gap (explicit tier); vote agreement follows as
           calibration, since the derived vote is a consequence of the stance and
           never a prediction of floor tactics. */}
       {pgap && pgap.explicit.gap_rate !== null && (
-        <p style="margin:0 0 0.35rem">
-          <strong style="font-size:1.5rem">{(pgap.explicit.gap_rate * 100).toFixed(0)}%</strong>
-          <span class="muted"> {t('home.gapHeadline')} · n = {pgap.explicit.n}</span>
-        </p>
+        <div class="stat">
+          <span class="num">{(pgap.explicit.gap_rate * 100).toFixed(0)}%</span>
+          <span class="lbl">{t('home.gapHeadline')}</span>
+          <span class="meta">n = {pgap.explicit.n}</span>
+        </div>
       )}
-      <p class="muted" style="margin:0;font-size:0.9rem">
+      <p class="muted calib">
         {t('party.calibration')}: {(stats.agreement * 100).toFixed(1)}% · n = {stats.n} · κ = {stats.kappa ?? '–'}
         {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}
       </p>
@@ -315,6 +332,13 @@ const cohesionChart = [
     /* Validity: the gap re-cut by the model's own read strength. Three small
        blocks side by side rather than one wide table — each field is its own
        ordinal scale and they are read down, not across. */
+    .ptitle { display: flex; align-items: center; gap: 0.55rem; }
+    /* the party's own colour keys its headline panel */
+    .phead { border-left-color: var(--pc, var(--gold)); }
+    .phead .calib {
+      margin: 0.9rem 0 0; font-size: 0.88rem;
+      padding-top: 0.8rem; border-top: 1px solid var(--line-soft);
+    }
     .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
     .vhead {
       display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem;
