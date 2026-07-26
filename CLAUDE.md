@@ -7,6 +7,13 @@ repo root via `wrangler.toml`; the Python pipeline never runs in the cloud build
 - Python: `uv run aidag <command>` (never bare `pytest` — the venv is uv-managed;
   `uv run pytest tests -q`).
 - Site: `cd site && npm run build`. Preview with `npx astro preview --port 4322`.
+  `build` filters Astro's per-page route lines — one per page, so ~7,700 lines of
+  the log — and keeps everything else. It is a `sed` filter on stdout rather than
+  `--silent` because `logLevel` is not a config key (only the `--verbose`/`--silent`
+  CLI flags set it) and `--silent` also drops warnings. Fatal errors go to stderr
+  via `console.error` in Astro's `throwAndExit`, so they bypass the filter
+  entirely, and `set -o pipefail` keeps the real exit code. `npm run build:verbose`
+  for the full per-page trace.
 
 ---
 
