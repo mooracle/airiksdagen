@@ -24,8 +24,11 @@ The English site shows translated case texts **and** translated AI reasoning.
 Missing translations fall back to Swedish silently, so a partial run looks like a
 half-Swedish page rather than an error.
 
-State as of the last check: **case texts 2539/2539 done**, **AI decisions
-0/5400** — the decision pass has never been run. Check before starting:
+State as of the last check (full-v4 batch 16): **case texts 2539/2539 done**,
+**AI decisions 0/9460** — the decision pass has never been run. The decision
+total is not fixed: it is however many decisions full-v4 has collected so far,
+rising to 20,312 when the run completes. Always read it off the tool rather than
+from this page:
 
 ```sh
 uv run aidag translate-status --run-id full-v4
@@ -41,9 +44,10 @@ not a downgrade:
 - `INSTRUCTIONS` in `pipeline/aidag/translate.py` carries an explicit terminology
   glossary, so the consistency that would otherwise depend on model strength is
   pinned in the prompt instead.
-- ~3x cheaper than Sonnet (~$8 vs ~$24 in shadow API terms for the 5,400
-  decisions; the real cost is Claude Code usage, since these run as subagents
-  with no API key).
+- ~3x cheaper than Sonnet (~$1.5 vs ~$4.5 per 1,000 decisions in shadow API
+  terms — so ~$14 vs ~$42 at the current 9,460, and ~$31 vs ~$91 for the full
+  20,312; the real cost is Claude Code usage, since these run as subagents with
+  no API key).
 
 The workflow's own default is still `sonnet` so an unchanged launch behaves as it
 always did — **pass `model: "haiku"` explicitly.**
@@ -60,11 +64,16 @@ uv run aidag translate-prepare --run-id full-v4 --kind decisions --batch-size 24
 
 Writes `data/interim/translate/full-v4/batches/batch-NNN.json` plus one
 self-contained request file per agent under `reqs/`. At
-`DECISIONS_PER_REQUEST = 40` the 5,400 decisions pack into **135 agents**, which
-fits in a single batch (`--batch-size 240` caps groups per manifest, not units).
+`DECISIONS_PER_REQUEST = 40` the agent count is `ceil(pending / 40)` — **237** at
+the current 9,460 (`--batch-size 240` caps groups per manifest, not units).
 
-**2. Run the workflow** — 135 agents against a concurrency cap of
-`min(16, cores-2)`, so roughly **1–2.5 h** wall clock.
+Note that 240 cap: it is only just above 237, so today's corpus still fits one
+manifest but a completed full-v4 (20,312 → **508 agents**) will not. Expect
+`translate-prepare` to emit several manifests then, and run each in turn — one
+`Workflow` call per `batch-NNN.json`.
+
+**2. Run the workflow** — ~237 agents against a concurrency cap of
+`min(16, cores-2)`, so roughly **2–4 h** wall clock per full manifest.
 
 ```
 Workflow({
@@ -77,7 +86,7 @@ Workflow({
 ```
 
 `args.model` accepts `haiku|sonnet|opus`. The manifest-loader agent stays on
-Sonnet regardless — it has to emit 135 items as exact structured output, and that
+Sonnet regardless — it has to emit every item as exact structured output, and that
 reliability is worth one agent's cost.
 
 **3. Ingest**, then rebuild the site. Pass the model you actually ran on; it is
@@ -86,7 +95,7 @@ recorded per row.
 ```sh
 uv run aidag translate-ingest --run-id full-v4 --input <workflow-result.json> \
     --model claude-haiku-4-5
-uv run aidag translate-status --run-id full-v4     # expect 5400/5400
+uv run aidag translate-status --run-id full-v4     # expect N/N, 0 pending
 ```
 
 ### Checkpointing — what a failure costs
@@ -97,11 +106,11 @@ An agent that dies returns `null`, its 40 units stay pending, and the next
 run mid-flight; you lose only in-flight work.
 
 The corollary: **do not trust the workflow's own completion count.** Re-run
-`translate-status` and confirm 5400/5400 — a dead agent is silent.
+`translate-status` and confirm 0 pending — a dead agent is silent.
 
 ### After ingesting, verify the glossary held
 
-The glossary exists because 135 independent agents share no context, and their
+The glossary exists because hundreds of independent agents share no context, and their
 prose has to agree with the site's English UI labels. Spot-check the output:
 
 | Swedish | must render as | UI label it has to match |
