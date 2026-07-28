@@ -5,6 +5,7 @@
 // /dokument/[slug] detail pages remain — case-page citations deep-link to them.
 import Base from '../layouts/Base.astro';
 import { getMeta, listCorpusDocs } from '../lib/data';
+import { docTitle } from '../lib/doctext';
 import { localePath, useTranslations, type Lang } from '../i18n/ui';
 import example from '../data/example-request.json';
 
@@ -17,19 +18,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const docs = listCorpusDocs().sort();
 
 const partyName = (code: string): string => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase();
-const rmYears = (y: string): string => (y.length === 6 ? `${y.slice(0, 4)}/${y.slice(4)}` : y); // 202223 → 2022/23
 
-function docLabel(slug: string): string {
-  if (slug === 'tidoavtalet-2022') return 'Tidöavtalet (2022)';
-  let m: RegExpMatchArray | null;
-  if ((m = slug.match(/^valmanifest-2022-(\w+)$/)))
-    return sv ? `Valmanifest 2022 — ${partyName(m[1])}` : `2022 election manifesto — ${partyName(m[1])}`;
-  if ((m = slug.match(/^partiprogram-(\w+)-(\d+)$/)))
-    return sv ? `Partiprogram ${m[2]} — ${partyName(m[1])}` : `Party programme ${m[2]} — ${partyName(m[1])}`;
-  if ((m = slug.match(/^budgetmotion-(\w+)-(\d+)$/)))
-    return sv ? `Budgetmotion ${rmYears(m[2])} — ${partyName(m[1])}` : `Shadow budget ${rmYears(m[2])} — ${partyName(m[1])}`;
-  return slug;
-}
+// Shared with DocumentPage — see lib/doctext.ts.
+const docLabel = (slug: string): string => docTitle(slug, { sv, partyName });
 
 // --- Worked example: the exact request sent to two party agents for one case.
 // Data (byte-accurate role/user text + the two verified decisions) lives in

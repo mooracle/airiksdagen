@@ -105,3 +105,47 @@ class TestP4Frozen:
             for p in PARTY_CODES:
                 served = {k for k, _t, _x in corpus.documents_for(p, c["datum"], c["rm"], c["votering_id"], "p4")}
                 assert not (served - {"valmanifest", "tidoavtalet"})
+
+
+class TestSiteCorpusMatchesWhatAgentsRead:
+    """The /dokument/ pages tell the reader "this is what the AI agents read".
+
+    That is only true of `normalize()` output. The raw file still holds the
+    artifacts it strips, and one of them — an undecodable display-font heading in
+    mp-2013's PDF — sits mid-sentence, splitting a real citation in two so its
+    deep-link could not resolve. export_site.export_corpus() therefore exports the
+    normalized text, and this pins that.
+    """
+
+    def _pairs(self):
+        from aidag.config import CORPUS_DIR, SITE_DATA_DIR
+
+        out = SITE_DATA_DIR / "corpus"
+        if not out.exists():
+            pytest.skip(f"{out} not exported (run: uv run aidag export-site)")
+        for raw_path in sorted(CORPUS_DIR.glob("*.txt")):
+            site_path = out / raw_path.name
+            if site_path.exists():
+                yield raw_path, site_path
+
+    def test_every_exported_document_is_normalized(self):
+        import re
+
+        seen = 0
+        for raw_path, site_path in self._pairs():
+            raw = raw_path.read_text(encoding="utf-8").lstrip("﻿")
+            served = site_path.read_text(encoding="utf-8")
+            # the provenance comment is re-attached for the page's source credit
+            body = re.sub(r"^<!--.*?-->\n", "", served, flags=re.S).strip()
+            assert body == corpus.normalize(raw), f"{site_path.name} is not normalize() output"
+            seen += 1
+        assert seen >= 40, f"expected the full corpus, exported only {seen}"
+
+    def test_no_broken_font_or_ligature_residue_reaches_the_site(self):
+        for _raw_path, site_path in self._pairs():
+            served = site_path.read_text(encoding="utf-8")
+            body = served.split("\n", 1)[1] if served.startswith("<!--") else served
+            assert not any(c in body for c in "ﬀﬁﬂﬃﬄ"), site_path.name
+            assert "­" not in body and "﻿" not in body, site_path.name
+            for line in body.splitlines():
+                assert not corpus._broken_font_line(line), f"{site_path.name}: {line!r}"

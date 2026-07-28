@@ -27,6 +27,39 @@ from aidag.config import (
 )
 
 
+def export_corpus() -> None:
+    """Write the corpus documents the /dokument/ pages render.
+
+    Serves `corpus.normalize()` output, NOT the raw file. The page states that this
+    is what the AI agents read, and that is only true of the normalized text:
+    `documents_for()` routes every prompt through `normalize()`, so the raw file
+    still carries the artifacts it strips — the f-ligatures, the soft hyphens, the
+    page furniture, and mp-2013's undecodable display-font headings, one of which
+    sits mid-sentence and split a real citation in two.
+
+    Consequence for citation deep-links: quotes verify against the NORMALIZED text
+    (that is what `repair-citations` and `verify simulate` compare to), so serving
+    it is also what makes every `#:~:text=` fragment resolvable.
+
+    The provenance comment is re-attached because `normalize()` strips it and the
+    page renders it as a source credit.
+    """
+    import re
+
+    from aidag.config import CORPUS_DIR
+    from aidag.corpus import normalize
+
+    corpus_out = SITE_DATA_DIR / "corpus"
+    corpus_out.mkdir(parents=True, exist_ok=True)
+    for txt in sorted(CORPUS_DIR.glob("*.txt")):
+        raw = txt.read_text(encoding="utf-8").lstrip("﻿")
+        header = re.match(r"^<!--.*?-->\n", raw, flags=re.S)
+        body = normalize(raw)
+        (corpus_out / txt.name).write_text(
+            (header.group(0) if header else "") + body + "\n", encoding="utf-8"
+        )
+
+
 def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -> None:
     """Merge a case-metadata record into the per-case payload and the lean index row.
 
@@ -323,12 +356,7 @@ def run(run_id: str | None = None) -> None:
             shutil.copy(f, SITE_DATA_DIR / "aggregates" / f.name)
 
     # Corpus documents for the /dokument/ pages (citation deep links).
-    from aidag.config import CORPUS_DIR
-
-    corpus_out = SITE_DATA_DIR / "corpus"
-    corpus_out.mkdir(parents=True, exist_ok=True)
-    for txt in CORPUS_DIR.glob("*.txt"):
-        shutil.copy(txt, corpus_out / txt.name)
+    export_corpus()
 
     # Party polling support per month, from the KB snapshots (run-independent).
     from aidag.config import KB_DIR

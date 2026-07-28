@@ -1,48 +1,166 @@
 ---
+// One corpus document, formatted for reading.
+//
+// The source .txt is PDF/HTML-extracted and is never edited: it is the exact byte
+// sequence the AI agents read, and `aidag verify simulate` checks every citation
+// quote against it. All cleanup is render-time, in lib/doctext.ts — see the header
+// there for what is repaired and what is deliberately left alone.
+//
+// Citation deep-links (#:~:text=) keep working across this change: quoteFragment()
+// in lib/data.ts already collapses each quote to single-spaced words, and the
+// browser's text-fragment matcher normalises whitespace too, so a quote that
+// spanned a hard wrap in the source still matches the reflowed paragraph.
 import Base from '../layouts/Base.astro';
 import { getMeta, getCorpusDoc } from '../lib/data';
+import { formatCorpusDoc, docTitle, type DocBlock } from '../lib/doctext';
 import { localePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; slug: string }
 const { lang, slug } = Astro.props;
 const t = useTranslations(lang);
 const meta = getMeta();
-const text = getCorpusDoc(slug);
+const sv = lang === 'sv';
 
-let title = slug;
-if (slug === 'tidoavtalet-2022') title = 'Tidöavtalet (2022)';
-const m = slug.match(/^valmanifest-2022-(\w+)$/);
-if (m) {
-  const code = m[1].toUpperCase();
-  const name = meta.parties[code]?.name ?? code;
-  title = lang === 'sv' ? `Valmanifest 2022 — ${name}` : `2022 election manifesto — ${name}`;
+const doc = formatCorpusDoc(getCorpusDoc(slug));
+const title = docTitle(slug, {
+  sv,
+  partyName: (code) => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase(),
+});
+
+// Consecutive bullets (and consecutive table-of-contents entries) become one list
+// instead of N sibling elements.
+type Run = { kind: DocBlock['kind']; items: string[] };
+const runs: Run[] = [];
+for (const b of doc.blocks) {
+  const last = runs[runs.length - 1];
+  if (last && last.kind === b.kind && (b.kind === 'bullet' || b.kind === 'toc')) {
+    last.items.push(b.text);
+  } else {
+    runs.push({ kind: b.kind, items: [b.text] });
+  }
 }
+// The bullet glyph is NOT stripped. Agents cite verbatim spans and some quotes
+// begin with "• ", so removing it would stop those citations' #:~:text= links from
+// resolving (caught by two real failures in the deep-link regression check). The
+// list is rendered without its own marker instead, so the source character stands
+// in for it and the text on the page stays byte-faithful.
 ---
 
 <Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`} ogType="article">
   <p class="muted">
     <a href={`${localePath(lang, '/om/')}#dokument`}>
-      ← {lang === 'sv' ? 'Partidokument' : 'Party documents'}
+      ← {sv ? 'Partidokument' : 'Party documents'}
     </a>
   </p>
   <h1>{title}</h1>
-  {lang === 'en' && (
-    <p class="muted" style="font-size:0.85rem; font-style:italic">
-      Source document in the original Swedish — this is exactly what the AI agents read,
-      and what the citation links on the case pages point into.
+
+  {doc.provenance && (
+    <p class="prov">
+      <span>{doc.provenance.title}</span>
+      {doc.provenance.note && <> · <span>{doc.provenance.note}</span></>}
+      {doc.provenance.href && (
+        <> · <a href={doc.provenance.href} rel="nofollow noopener">
+          {doc.provenance.hrefLabel === 'källa' ? (sv ? 'källa' : 'source') : doc.provenance.hrefLabel}
+        </a></>
+      )}
     </p>
   )}
-  <article class="doc">{text}</article>
+
+  <p class="muted note">
+    {sv
+      ? 'Texten är maskinextraherad ur källdokumentet och visas med återställda radbrytningar; ordalydelsen är oförändrad.'
+      : 'Machine-extracted from the source document and shown with its line wrapping undone; the wording is unchanged. This is the Swedish text the AI agents read, and what the citation links on the case pages point into.'}
+  </p>
+
+  <article class="doc">
+    {runs.map((run) => {
+      if (run.kind === 'bullet')
+        return <ul class="marked">{run.items.map((s) => <li>{s}</li>)}</ul>;
+      if (run.kind === 'toc')
+        return <ul class="toc">{run.items.map((s) => <li>{s}</li>)}</ul>;
+      if (run.kind === 'heading') return <h2>{run.items[0]}</h2>;
+      if (run.kind === 'subheading') return <h3>{run.items[0]}</h3>;
+      if (run.kind === 'unreadable')
+        return (
+          <p class="unreadable" title={sv
+            ? 'Rubrik satt i ett dekorativt teckensnitt som inte kunde avkodas ur PDF:en'
+            : 'Heading set in a decorative font that could not be decoded from the PDF'}>
+            {sv ? '[oläsbar rubrik i källdokumentet]' : '[unreadable heading in the source document]'}
+          </p>
+        );
+      return <p>{run.items[0]}</p>;
+    })}
+  </article>
 
   <style>
+    .prov {
+      font-size: 0.85rem;
+      color: var(--muted, #555);
+      margin: -0.25rem 0 0.75rem;
+    }
+    .note {
+      font-size: 0.85rem;
+      font-style: italic;
+      margin-bottom: 1.25rem;
+    }
     .doc {
-      white-space: pre-wrap;
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.65;
+      padding: 1.5rem clamp(1.5rem, 4vw, 2.75rem);
+      font-size: 1rem;
+      line-height: 1.7;
+      /* Long-form prose: cap the measure for readability, but let the box fill
+         the column so the page layout is unchanged. */
+      overflow-wrap: break-word;
+    }
+    .doc > * {
+      max-width: 68ch;
+    }
+    .doc > :first-child { margin-top: 0; }
+    .doc > :last-child { margin-bottom: 0; }
+    .doc p { margin: 0 0 1em; }
+    .doc h2 {
+      font-size: 1.25rem;
+      margin: 2rem 0 0.6rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .doc h3 {
+      font-size: 1.05rem;
+      margin: 1.6rem 0 0.4rem;
+    }
+    .doc ul { margin: 0 0 1em; padding-left: 1.4rem; }
+    .doc li { margin: 0 0 0.35em; }
+    /* The source's own bullet character is kept in the text, so suppress the
+       list's marker and hang the indent on it instead. */
+    .doc ul.marked {
+      list-style: none;
+      padding-left: 0;
+    }
+    .doc ul.marked li {
+      padding-left: 1.3rem;
+      text-indent: -1.3rem;
+    }
+    /* A table of contents is navigation, not prose — keep it compact and quiet
+       so it never competes with the body text. */
+    .doc ul.toc {
+      list-style: none;
+      padding-left: 0;
+      font-size: 0.9rem;
+      color: var(--muted, #555);
+      columns: 2;
+      column-gap: 2rem;
+    }
+    .doc ul.toc li { margin: 0 0 0.2em; break-inside: avoid; }
+    .unreadable {
+      font-size: 0.85rem;
+      color: var(--muted, #777);
+      font-style: italic;
+    }
+    @media (max-width: 640px) {
+      .doc { padding: 1.15rem; font-size: 0.97rem; }
+      .doc ul.toc { columns: 1; }
     }
   </style>
 </Base>
