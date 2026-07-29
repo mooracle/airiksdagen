@@ -1,62 +1,62 @@
 {
- "n_decisions": 9460,
+ "n_decisions": 10050,
  "per_party": {
   "S": {
-   "n": 1183,
+   "n": 1257,
    "bloc": "opposition",
-   "coalition_baseline": 0.5486,
-   "programme_accuracy": 0.4666,
-   "programme_lift": -0.082,
-   "authored_reservation_n": 405,
+   "coalition_baseline": 0.5497,
+   "programme_accuracy": 0.4694,
+   "programme_lift": -0.0804,
+   "authored_reservation_n": 432,
    "override": {
     "strict": {
      "all": {
-      "den": 140,
-      "num": 26,
-      "rate": 0.1857
+      "den": 145,
+      "num": 27,
+      "rate": 0.1862
      },
      "authored": {
-      "den": 93,
+      "den": 96,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 47,
-      "num": 26,
-      "rate": 0.5532
+      "den": 49,
+      "num": 27,
+      "rate": 0.551
      }
     },
     "loose": {
      "all": {
-      "den": 157,
-      "num": 33,
-      "rate": 0.2102
+      "den": 166,
+      "num": 36,
+      "rate": 0.2169
      },
      "authored": {
-      "den": 99,
+      "den": 104,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 58,
-      "num": 33,
-      "rate": 0.569
+      "den": 62,
+      "num": 36,
+      "rate": 0.5806
      }
     }
    }
   },
   "M": {
-   "n": 1183,
+   "n": 1257,
    "bloc": "government",
-   "coalition_baseline": 0.9949,
-   "programme_accuracy": 0.4235,
-   "programme_lift": -0.5714,
+   "coalition_baseline": 0.9944,
+   "programme_accuracy": 0.432,
+   "programme_lift": -0.5625,
    "authored_reservation_n": 6,
    "override": {
     "strict": {
      "all": {
-      "den": 101,
-      "num": 101,
+      "den": 105,
+      "num": 105,
       "rate": 1.0
      },
      "authored": {
@@ -65,15 +65,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 101,
-      "num": 101,
+      "den": 105,
+      "num": 105,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 136,
-      "num": 136,
+      "den": 141,
+      "num": 141,
       "rate": 1.0
      },
      "authored": {
@@ -82,157 +82,157 @@
       "rate": null
      },
      "not_authored": {
-      "den": 136,
-      "num": 136,
+      "den": 141,
+      "num": 141,
       "rate": 1.0
      }
     }
    }
   },
   "SD": {
-   "n": 1183,
+   "n": 1256,
    "bloc": "support",
-   "coalition_baseline": 0.7092,
-   "programme_accuracy": 0.4167,
-   "programme_lift": -0.2925,
-   "authored_reservation_n": 194,
+   "coalition_baseline": 0.7174,
+   "programme_accuracy": 0.4212,
+   "programme_lift": -0.2962,
+   "authored_reservation_n": 202,
    "override": {
     "strict": {
      "all": {
-      "den": 174,
-      "num": 90,
-      "rate": 0.5172
+      "den": 176,
+      "num": 92,
+      "rate": 0.5227
      },
      "authored": {
       "den": 54,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 120,
-      "num": 90,
-      "rate": 0.75
-     }
-    },
-    "loose": {
-     "all": {
-      "den": 191,
-      "num": 102,
-      "rate": 0.534
-     },
-     "authored": {
-      "den": 54,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 137,
-      "num": 102,
-      "rate": 0.7445
-     }
-    }
-   }
-  },
-  "C": {
-   "n": 1183,
-   "bloc": "opposition",
-   "coalition_baseline": 0.4979,
-   "programme_accuracy": 0.3736,
-   "programme_lift": -0.1243,
-   "authored_reservation_n": 302,
-   "override": {
-    "strict": {
-     "all": {
-      "den": 182,
-      "num": 42,
-      "rate": 0.2308
-     },
-     "authored": {
-      "den": 81,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 101,
-      "num": 42,
-      "rate": 0.4158
-     }
-    },
-    "loose": {
-     "all": {
-      "den": 203,
-      "num": 49,
-      "rate": 0.2414
-     },
-     "authored": {
-      "den": 90,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 113,
-      "num": 49,
-      "rate": 0.4336
-     }
-    }
-   }
-  },
-  "V": {
-   "n": 1182,
-   "bloc": "opposition",
-   "coalition_baseline": 0.4856,
-   "programme_accuracy": 0.4772,
-   "programme_lift": -0.0085,
-   "authored_reservation_n": 410,
-   "override": {
-    "strict": {
-     "all": {
-      "den": 227,
-      "num": 78,
-      "rate": 0.3436
-     },
-     "authored": {
-      "den": 105,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
       "den": 122,
-      "num": 78,
-      "rate": 0.6393
+      "num": 92,
+      "rate": 0.7541
      }
     },
     "loose": {
      "all": {
-      "den": 239,
-      "num": 82,
-      "rate": 0.3431
+      "den": 193,
+      "num": 104,
+      "rate": 0.5389
      },
      "authored": {
-      "den": 110,
+      "den": 54,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 129,
-      "num": 82,
-      "rate": 0.6357
+      "den": 139,
+      "num": 104,
+      "rate": 0.7482
+     }
+    }
+   }
+  },
+  "C": {
+   "n": 1256,
+   "bloc": "opposition",
+   "coalition_baseline": 0.5056,
+   "programme_accuracy": 0.3774,
+   "programme_lift": -0.1282,
+   "authored_reservation_n": 320,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 187,
+      "num": 45,
+      "rate": 0.2406
+     },
+     "authored": {
+      "den": 83,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 104,
+      "num": 45,
+      "rate": 0.4327
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 209,
+      "num": 52,
+      "rate": 0.2488
+     },
+     "authored": {
+      "den": 92,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 117,
+      "num": 52,
+      "rate": 0.4444
+     }
+    }
+   }
+  },
+  "V": {
+   "n": 1256,
+   "bloc": "opposition",
+   "coalition_baseline": 0.4817,
+   "programme_accuracy": 0.4825,
+   "programme_lift": 0.0008,
+   "authored_reservation_n": 436,
+   "override": {
+    "strict": {
+     "all": {
+      "den": 235,
+      "num": 79,
+      "rate": 0.3362
+     },
+     "authored": {
+      "den": 109,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 126,
+      "num": 79,
+      "rate": 0.627
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 247,
+      "num": 83,
+      "rate": 0.336
+     },
+     "authored": {
+      "den": 114,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 133,
+      "num": 83,
+      "rate": 0.6241
      }
     }
    }
   },
   "KD": {
-   "n": 1182,
+   "n": 1256,
    "bloc": "government",
-   "coalition_baseline": 0.9941,
-   "programme_accuracy": 0.2115,
-   "programme_lift": -0.7826,
+   "coalition_baseline": 0.9936,
+   "programme_accuracy": 0.2118,
+   "programme_lift": -0.7818,
    "authored_reservation_n": 7,
    "override": {
     "strict": {
      "all": {
-      "den": 101,
-      "num": 101,
+      "den": 106,
+      "num": 106,
       "rate": 1.0
      },
      "authored": {
@@ -241,15 +241,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 101,
-      "num": 101,
+      "den": 106,
+      "num": 106,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 150,
-      "num": 150,
+      "den": 155,
+      "num": 155,
       "rate": 1.0
      },
      "authored": {
@@ -258,69 +258,69 @@
       "rate": null
      },
      "not_authored": {
-      "den": 150,
-      "num": 150,
+      "den": 155,
+      "num": 155,
       "rate": 1.0
      }
     }
    }
   },
   "MP": {
-   "n": 1182,
+   "n": 1256,
    "bloc": "opposition",
-   "coalition_baseline": 0.412,
-   "programme_accuracy": 0.4442,
-   "programme_lift": 0.0321,
-   "authored_reservation_n": 404,
+   "coalition_baseline": 0.414,
+   "programme_accuracy": 0.4467,
+   "programme_lift": 0.0326,
+   "authored_reservation_n": 430,
    "override": {
     "strict": {
      "all": {
-      "den": 267,
-      "num": 55,
-      "rate": 0.206
+      "den": 284,
+      "num": 59,
+      "rate": 0.2077
      },
      "authored": {
-      "den": 132,
+      "den": 141,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 135,
-      "num": 55,
-      "rate": 0.4074
+      "den": 143,
+      "num": 59,
+      "rate": 0.4126
      }
     },
     "loose": {
      "all": {
-      "den": 282,
-      "num": 60,
-      "rate": 0.2128
+      "den": 301,
+      "num": 65,
+      "rate": 0.2159
      },
      "authored": {
-      "den": 137,
+      "den": 147,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 145,
-      "num": 60,
-      "rate": 0.4138
+      "den": 154,
+      "num": 65,
+      "rate": 0.4221
      }
     }
    }
   },
   "L": {
-   "n": 1182,
+   "n": 1256,
    "bloc": "government",
-   "coalition_baseline": 0.9949,
-   "programme_accuracy": 0.2318,
-   "programme_lift": -0.7631,
+   "coalition_baseline": 0.9944,
+   "programme_accuracy": 0.2357,
+   "programme_lift": -0.7588,
    "authored_reservation_n": 6,
    "override": {
     "strict": {
      "all": {
-      "den": 182,
-      "num": 182,
+      "den": 191,
+      "num": 191,
       "rate": 1.0
      },
      "authored": {
@@ -329,15 +329,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 182,
-      "num": 182,
+      "den": 191,
+      "num": 191,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 230,
-      "num": 230,
+      "den": 240,
+      "num": 240,
       "rate": 1.0
      },
      "authored": {
@@ -346,8 +346,8 @@
       "rate": null
      },
      "not_authored": {
-      "den": 230,
-      "num": 230,
+      "den": 240,
+      "num": 240,
       "rate": 1.0
      }
     }
@@ -534,10 +534,26 @@
   {
    "parti": "S",
    "month": "2024-12",
-   "n": 1,
-   "coalition_baseline": 1.0,
-   "programme_accuracy": 1.0,
-   "programme_lift": 0.0
+   "n": 37,
+   "coalition_baseline": 0.4595,
+   "programme_accuracy": 0.5946,
+   "programme_lift": 0.1351
+  },
+  {
+   "parti": "S",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.6364,
+   "programme_accuracy": 0.5909,
+   "programme_lift": -0.0455
+  },
+  {
+   "parti": "S",
+   "month": "2025-02",
+   "n": 16,
+   "coalition_baseline": 0.75,
+   "programme_accuracy": 0.25,
+   "programme_lift": -0.5
   },
   {
    "parti": "M",
@@ -718,10 +734,26 @@
   {
    "parti": "M",
    "month": "2024-12",
-   "n": 1,
+   "n": 37,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 1.0,
-   "programme_lift": 0.0
+   "programme_accuracy": 0.5676,
+   "programme_lift": -0.4324
+  },
+  {
+   "parti": "M",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.9545,
+   "programme_accuracy": 0.5455,
+   "programme_lift": -0.4091
+  },
+  {
+   "parti": "M",
+   "month": "2025-02",
+   "n": 16,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.625,
+   "programme_lift": -0.375
   },
   {
    "parti": "SD",
@@ -902,10 +934,26 @@
   {
    "parti": "SD",
    "month": "2024-12",
-   "n": 1,
-   "coalition_baseline": 1.0,
-   "programme_accuracy": 1.0,
-   "programme_lift": 0.0
+   "n": 37,
+   "coalition_baseline": 0.9459,
+   "programme_accuracy": 0.6216,
+   "programme_lift": -0.3243
+  },
+  {
+   "parti": "SD",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.7273,
+   "programme_accuracy": 0.3182,
+   "programme_lift": -0.4091
+  },
+  {
+   "parti": "SD",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 0.8,
+   "programme_accuracy": 0.4667,
+   "programme_lift": -0.3333
   },
   {
    "parti": "C",
@@ -1086,10 +1134,26 @@
   {
    "parti": "C",
    "month": "2024-12",
-   "n": 1,
-   "coalition_baseline": 0.0,
-   "programme_accuracy": 1.0,
-   "programme_lift": 1.0
+   "n": 37,
+   "coalition_baseline": 0.5676,
+   "programme_accuracy": 0.4595,
+   "programme_lift": -0.1081
+  },
+  {
+   "parti": "C",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.6364,
+   "programme_accuracy": 0.4091,
+   "programme_lift": -0.2273
+  },
+  {
+   "parti": "C",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 0.7333,
+   "programme_accuracy": 0.4667,
+   "programme_lift": -0.2667
   },
   {
    "parti": "V",
@@ -1268,6 +1332,30 @@
    "programme_lift": 0.375
   },
   {
+   "parti": "V",
+   "month": "2024-12",
+   "n": 37,
+   "coalition_baseline": 0.3784,
+   "programme_accuracy": 0.5946,
+   "programme_lift": 0.2162
+  },
+  {
+   "parti": "V",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.3636,
+   "programme_accuracy": 0.6818,
+   "programme_lift": 0.3182
+  },
+  {
+   "parti": "V",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 0.6,
+   "programme_accuracy": 0.3333,
+   "programme_lift": -0.2667
+  },
+  {
    "parti": "KD",
    "month": "2022-10",
    "n": 2,
@@ -1442,6 +1530,30 @@
    "coalition_baseline": 0.9583,
    "programme_accuracy": 0.25,
    "programme_lift": -0.7083
+  },
+  {
+   "parti": "KD",
+   "month": "2024-12",
+   "n": 37,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.2432,
+   "programme_lift": -0.7568
+  },
+  {
+   "parti": "KD",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.9545,
+   "programme_accuracy": 0.1818,
+   "programme_lift": -0.7727
+  },
+  {
+   "parti": "KD",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.2,
+   "programme_lift": -0.8
   },
   {
    "parti": "MP",
@@ -1620,6 +1732,30 @@
    "programme_lift": -0.0417
   },
   {
+   "parti": "MP",
+   "month": "2024-12",
+   "n": 37,
+   "coalition_baseline": 0.3784,
+   "programme_accuracy": 0.5135,
+   "programme_lift": 0.1351
+  },
+  {
+   "parti": "MP",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.5,
+   "programme_accuracy": 0.4091,
+   "programme_lift": -0.0909
+  },
+  {
+   "parti": "MP",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 0.5333,
+   "programme_accuracy": 0.5333,
+   "programme_lift": 0.0
+  },
+  {
    "parti": "L",
    "month": "2022-10",
    "n": 2,
@@ -1794,6 +1930,30 @@
    "coalition_baseline": 0.9583,
    "programme_accuracy": 0.375,
    "programme_lift": -0.5833
+  },
+  {
+   "parti": "L",
+   "month": "2024-12",
+   "n": 37,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.3243,
+   "programme_lift": -0.6757
+  },
+  {
+   "parti": "L",
+   "month": "2025-01",
+   "n": 22,
+   "coalition_baseline": 0.9545,
+   "programme_accuracy": 0.3636,
+   "programme_lift": -0.5909
+  },
+  {
+   "parti": "L",
+   "month": "2025-02",
+   "n": 15,
+   "coalition_baseline": 1.0,
+   "programme_accuracy": 0.1333,
+   "programme_lift": -0.8667
   }
  ],
  "override_cases": [
@@ -28498,6 +28658,1160 @@
    ]
   },
   {
+   "votering_id": "8FE92C8F-233D-438A-AA52-F2B74A8A6185",
+   "datum": "2024-12-11",
+   "rubrik": "Mål för utgiftsområde 10",
+   "utskott": "SfU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen anger uttryckligen att ett solidariskt finansierat socialförsäkringssystem ska ge ekonomisk trygghet och att ersättningsnivåerna ska utformas så att den enskilde stimuleras att delta i åtgärder som leder till god hälsa och återgång till arbetslivet. Socialpolitikens mål är egen försörjning. Motförslagets mål om trygghet vid sjukdom kombinerat med effektivt stöd för återgång i arbete är därmed just planens formulering.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "olika skeenden. Nivåerna på ersättningarna ska utformas så att den enskilde stimuleras att delta i åtgärder",
+     "princip": "ersättning som främjar återgång",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Ett solidariskt finansierat socialförsäkringssystem",
+     "princip": "solidarisk socialförsäkring",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "en rimlig trygghet vid sjukdom, arbetslöshet, arbetsskada och pension.",
+     "princip": "trygghet vid sjukdom",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Målet för socialpolitiken är att stödja gemenskaperna och de enskilda människorna till egen försörjning",
+     "princip": "egen försörjning som mål",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "50145C31-70DE-4A8C-860C-C098CD8E3940",
+   "datum": "2024-12-11",
+   "rubrik": "Svenskt deltagande i internationella insatser",
+   "utskott": "UFöU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet säger uttryckligen att Sverige bör kunna delta efter beslut i FN:s säkerhetsråd eller utifrån folkrättsligt godtagbara kriterier, även utanför Europa, och att Sverige efter förmåga ska vara delaktigt i att lösa säkerhetsproblem. Det är precis motförslagets krav på fortsatt bidrag inom FN, EU, Nato och OSSE med tydligt folkrättsligt mandat. Planen anger också en förpliktelse att ställa upp för utsatta medmänniskor när stater sviker.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Dessutom bör Sverige kunna delta, efter beslut i FN:s säkerhetsråd eller utifrån folkrättsligt godtagbara kriterier, även utanför Europa.",
+     "princip": "deltagande med folkrättsligt mandat",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "i att lösa säkerhetsproblem i Europa och närområdet, och efter förmåga även i övriga delar av världen",
+     "princip": "globalt fredsengagemang efter förmåga",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "för all sådan samverkan är att folkrätten och de mänskliga fri- och rättigheterna respekteras",
+     "princip": "folkrätten som villkor",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "människors säkerhet, eller systematiskt bryter mot mänskliga rättigheter finns det en förpliktelse att ställa upp för utsatta medmänniskor",
+     "princip": "skyldighet att skydda utsatta",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "8FE92C8F-233D-438A-AA52-F2B74A8A6185",
+   "datum": "2024-12-11",
+   "rubrik": "Mål för utgiftsområde 10",
+   "utskott": "SfU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet säger uttryckligen att sjukförsäkringen ska ge ekonomisk trygghet vid både kortvarig och kronisk sjukdom och vara kopplad till stöd och rehabilitering för att underlätta återgång till arbete. Det är i sak just den målformulering motförslaget vill skriva in. Planens arbetslinje, att det alltid ska löna sig att arbeta, pekar i samma riktning.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Sjukförsäkringen ska ge ekonomisk trygghet vid både kortvarig och kronisk sjukdom",
+     "princip": "trygghet vid sjukdom",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "stöd och rehabilitering för att underlätta återgång till arbete",
+     "princip": "återgång i arbete",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Socialförsäkringarna ska erbjuda trygghet när individen inte kan försörja sig själv vid sjukdom,",
+     "princip": "generella socialförsäkringar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska alltid löna sig att arbeta.",
+     "princip": "arbetslinjen",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "63795241-880C-490A-BFF9-8300FD2E7191",
+   "datum": "2024-12-11",
+   "rubrik": "Stöd till Ukraina",
+   "utskott": "UFöU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet lovar uttryckligen att Ukraina ska ges ökat ekonomiskt, politiskt och militärt stöd och att Sverige helhjärtat ska stödja att det ryska anfallskriget slutar i fullständig rysk militär reträtt. Motförslagets krav på fortsatt och ökande stöd i samverkan med EU och Nato är därmed just det planen åtar sig. Planen driver dessutom på för breda sanktionskoalitioner och ett snabbspår för ukrainskt EU-medlemskap.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "En ny regering ska vara garanten för att Ukraina ges ökat ekonomiskt, politiskt och militärt stöd.",
+     "princip": "ökat stöd till Ukraina",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska helhjärtat stödja Ukraina i att Rysslands oprovocerade anfallskrig måste sluta i fullständig rysk militär reträtt.",
+     "princip": "rysk reträtt ur Ukraina",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska vara pådrivande för att så breda globala koalitioner som möjligt bygger ut en så heltäckande sanktionsregim mot Ryssland som möjligt.",
+     "princip": "breda sanktioner mot Ryssland",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska verka för ett snabbspår för ukrainskt EU-medlemskap och ge landet stöd i att nå de villkor som då måste uppfyllas.",
+     "princip": "snabbspår för ukrainskt EU-medlemskap",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "8FE92C8F-233D-438A-AA52-F2B74A8A6185",
+   "datum": "2024-12-11",
+   "rubrik": "Mål för utgiftsområde 10",
+   "utskott": "SfU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet beskriver uttryckligen att välfärdsuppdraget sträckts långt utanför sin kärna och att det som skulle värna tryggheten vid sjukdom och utgöra stödet för återgången till arbetsmarknaden trängs undan av andra åtaganden. Motförslagets mål – ekonomisk trygghet vid sjukdom och effektivt stöd för återgång i arbete – är precis den återgång till kärnuppdraget planen efterlyser. Arbetslinjen ska enligt planen vara utgångspunkt för skatte- och bidragssystem.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "utsträckts långt utanför välfärdens grundläggande uppdrag,",
+     "princip": "välfärdens kärnuppdrag urholkas",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Skatter och bidragssystem ska utgå från arbetslinjen.",
+     "princip": "arbetslinjen i trygghetssystemen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Där bidragslinjen ersätts av arbetslinjen så att fler kan komma till sin rätt.",
+     "princip": "bidragslinje ersätts av arbetslinje",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Politiken har en viktig uppgift att prioritera och välja bort,",
+     "princip": "prioritera kärnuppgifter",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "63795241-880C-490A-BFF9-8300FD2E7191",
+   "datum": "2024-12-11",
+   "rubrik": "Stöd till Ukraina",
+   "utskott": "UFöU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att Sverige helhjärtat ska stå upp för Ukraina, även med fortsatta vapenleveranser, och beskriver Rysslands invasion som den allvarligaste säkerhetspolitiska krisen i Europa sedan andra världskriget. Motförslagets krav på fortsatt och ökande politiskt, ekonomiskt, humanitärt och militärt stöd ligger direkt i linje med detta åtagande. Att stödet ska ges gemensamt med EU och Nato stämmer också med planens syn på EU och Nato som Sveriges viktigaste internationella samarbeten.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska helhjärtat stå upp för Ukraina, även med fortsatta vapenleveranser.",
+     "princip": "fortsatt stöd till Ukraina",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rysslands invasion av Ukraina har skapat den allvarligaste säkerhetspolitiska krisen i Europa sedan andra världskriget.",
+     "princip": "allvarligt säkerhetsläge",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "EU är tillsammans med Nato vårt allra viktigaste internationella samarbete.",
+     "princip": "EU och Nato som ramar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Stora auktoritära länder ska inte kunna spela ut enskilda små västerländska demokratier mot varandra.",
+     "princip": "motstå auktoritärt maktspråk",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7BCBBEB0-646C-429E-BEC5-2159838FF658",
+   "datum": "2024-12-11",
+   "rubrik": "Bostadspolitiskt mål",
+   "utskott": "CU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att alla har rätt till en bostad och att bostadspolitiken ska motverka segregation och främja lika rättigheter, vilket är just den innebörd motförslagets nya mål ger bostaden. Valmanifestet preciserar målet i samma riktning: klimatsmarta bostäder till låga kostnader och hyresrätter med rimliga hyror, oberoende av föräldrars ekonomi. Kravet på ekologiskt och socialt hållbara ramar sammanfaller därmed med planens egen målformulering.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Alla har rätt till en bostad.",
+     "princip": "bostad som rättighet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det nya gröna folkhemmet ska byggas med klimatsmarta bostäder till låga kostnader, så alla får möjlighet att skapa sig ett eget hem, på egen hand eller tillsammans med andra.",
+     "princip": "rimliga boendekostnader",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Miljöpartiets bostadspolitik ska motverka segregation och främja lika rättigheter.",
+     "princip": "jämlika boendevillkor",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska inte krävas rika föräldrar eller ett stort arv för att kunna få en bostad.",
+     "princip": "barn och ungas uppväxtvillkor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "24091110-C626-4D2A-9396-723BE32A359F",
+   "datum": "2024-12-12",
+   "rubrik": "Det svenska bidraget och agendan för kvinnor, fred och säkerhet",
+   "utskott": "UFöU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet säger uttryckligen att kvinnors situation i krig och betydelse för fred ska synliggöras, och att ett jämställdhetsperspektiv ska integreras i alla relevanta offentliga beslut. Motförslagets krav att agendan för kvinnor, fred och säkerhet ska genomsyra det svenska bidraget är i sak just detta åtagande. Partiet beskriver sig som feministiskt och driver jämställdhet också som en del av utrikespolitiken.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Kvinnors situation i krig och betydelse för fred ska synliggöras.",
+     "princip": "kvinnor, fred och säkerhet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "jämställdhetsperspektiv ska integreras i alla relevanta offentliga beslut.",
+     "princip": "jämställdhet i alla beslut",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Jämställdheten måste fortsätta gå framåt.",
+     "princip": "jämställdheten framåt",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Här i Sverige och globalt ska dessa rättigheter värnas.",
+     "princip": "rättigheter värnas globalt",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "2CD1B34A-7DFC-47AA-AB1B-57F70C4A8101",
+   "datum": "2024-12-12",
+   "rubrik": "Svenskt bidrag till Natos avskräckning och försvar under 2025",
+   "utskott": "UFöU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Motförslagets två krav motsvaras var för sig av uttryckliga åtaganden i planen: kärnvapen ska förbjudas på svensk mark och konventionen om kärnvapenförbud ratificeras, och deltagande i det militära försvarets verksamheter ska bygga på frivillighet snarare än värnplikt. Att svenska förband hålls utanför övningar med kärnvapenmoment följer av linjen att kärnvapen ska avvecklas, inte användas som skydd.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "införa en lag som förbjuder kärnvapen på svensk mark.",
+     "princip": "kärnvapenfritt Sverige",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill se en avveckling av kärnvapen och andra massförstörelsevapen.",
+     "princip": "avveckling av kärnvapen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Deltagande i det militära försvarets verksamheter ska bygga på frivillighet.",
+     "princip": "frivillighet i militär tjänst",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "ratificera konventionen om kärnvapenförbud och arbeta för ett totalförbud mot att använda autonoma vapensystem.",
+     "princip": "ratificera kärnvapenförbudet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3317397F-D718-4493-BA7E-D72B777FA3D7",
+   "datum": "2024-12-17",
+   "rubrik": "Mål för det civila försvaret",
+   "utskott": "FöU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet åtar sig uttryckligen att rusta civilförsvaret och samhällets beredskap inför krig och kris, alltså inte enbart inför väpnat angrepp, och partiprogrammet vill att Sverige bistår i internationella fredsinsatser. Det är precis de två mål motförslaget vill behålla. Klimatet är dessutom partiets främsta prioritering, vilket stödjer att klimatrisker vägs in i beredskapen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Även det civila försvaret är livsviktigt. Vi måste rusta civilförsvaret och samhällets beredskap inför krig och kris.",
+     "princip": "beredskap för krig och kris",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Centerpartiet vill att Sverige ska bistå i internationella fredsinsatser, gärna i ökad utsträckning under direkt FN-ledning.",
+     "princip": "internationella fredsinsatser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Centerpartiet sätter klimatet först, för att framtiden måste vara grön.",
+     "princip": "klimatet först",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi behöver rusta Sveriges totalförsvar, stärka hela rättskedjan, satsa på förebyggande insatser och en likvärdig skola.",
+     "princip": "rustat totalförsvar",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3317397F-D718-4493-BA7E-D72B777FA3D7",
+   "datum": "2024-12-17",
+   "rubrik": "Mål för det civila försvaret",
+   "utskott": "FöU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver uttryckligen att totalförsvaret upprätthåller beredskap för att delta i hanteringen av katastrofer och andra svåra påfrestningar i samhället samt i förebyggande åtgärder, och att Sverige ska kunna delta i insatser även utanför Europa. Den kräver också att totalförsvaret har tillräckliga resurser för att ge befolkningen ett gott skydd. De två mål som motförslaget vill behålla är alltså planens egna åtaganden.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "delta i hanteringen av katastrofer och andra svåra påfrestningar i samhället samt att delta i förebyggande åtgärder för att begränsa riskerna för sådana.",
+     "princip": "beredskap för fredstida kriser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "bör Sverige kunna delta, efter beslut i FN:s säkerhetsråd",
+     "princip": "internationella insatser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det samlade totalförsvaret måste ha tillräckliga re",
+     "princip": "skydd av befolkningen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Kriser måste mötas med politikens alla preventiva",
+     "princip": "preventiv krishantering",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "97D5A462-4A88-4427-B398-B1660EF6316D",
+   "datum": "2024-12-17",
+   "rubrik": "Breddad hotbild",
+   "utskott": "FöU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet säger uttryckligen att Sverige måste kunna försvara sig inte bara militärt utan också mot hybridattacker, spionage och cyberangrepp, och att beredskapen mot extremväder ska stärkas med fortsatta investeringar i lokal klimatanpassning. Det är precis motförslagets krav på förmåga under gränsen för väpnat angrepp och på ett civilt försvar dimensionerat även för ett förändrat klimat. Planen stöder därför motförslagets breddade hotbild.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi måste kunna försvara oss militärt, men också mot hybridattacker, spionage och cyberangrepp.",
+     "princip": "bred hotbild under krigströskeln",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärk beredskapen mot extremväder.",
+     "princip": "beredskap mot extremväder",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill fortsätta de stora investeringarna så att kommunerna kan klimatanpassa lokalt.",
+     "princip": "klimatanpassning i kommunerna",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Arbetet att förstärka det civila försvaret och krisberedskapen måste fortsätta",
+     "princip": "krisberedskap även i fred",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9237405C-BA67-4C0A-969A-443DD68B2229",
+   "datum": "2024-12-17",
+   "rubrik": "Mål för Utrikeshandel, export- och investeringsfrämjande",
+   "utskott": "NU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet kräver att Sverige verkar för rättvisa handelsvillkor och är kritiskt mot handelsavtal som inskränker utrymmet för demokratiska beslut. Ett handelspolitiskt mål om fri, hållbar och rättvis handel svarar direkt mot det åtagandet, liksom mot kravet att alla länder ska kunna kontrollera sin produktion och sina naturresurser. Planen kräver också att den globala ojämlikheten kraftigt minskas.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "solidariskt bistånd och rättvisa handelsvillkor.",
+     "princip": "rättvisa handelsvillkor",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "mot handelsavtal som inskränker utrymmet för",
+     "princip": "kritik mot handelsavtal",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "I en rättvis värld måste den globala ojämlikheten kraftigt minskas.",
+     "princip": "minskad global ojämlikhet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "regioner ska ges möjlighet att kontrollera sin produktion, sina finansiella flöden och sina naturresurser.",
+     "princip": "nationellt självbestämmande",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1F3B815-54BC-4BAB-A984-38021882CCD6",
+   "datum": "2025-01-22",
+   "rubrik": "Informationsutbyte mellan myndigheter och kommuner",
+   "utskott": "KU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen en total översyn av sekretessreglerna så att myndigheter kan dela uppgifter mellan sig för att förebygga och klara upp brott. Partiprogrammet kräver nära samverkan mellan socialtjänst, polis och skola och att sekretessmöjligheten nyttjas restriktivt. Motförslagets krav på en grundläggande sekretessöversyn och ändrad offentlighets- och sekretesslag är därmed planens egen linje.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Total översyn av sekretessreglerna, så att myndigheter kan dela uppgifter mellan sig för att förebygga och klara upp brott.",
+     "princip": "total översyn av sekretessreglerna",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Socialtjänsten, polisen och skolan har en stor uppgift i detta avseende",
+     "princip": "nära myndighetssamverkan",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sekretessmöjligheten ska nyttjas restriktivt.",
+     "princip": "restriktiv sekretess",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärk sociala insatser och socialtjänstens möjligheter till tvingande åtgärder gentemot barn och unga som begår brott.",
+     "princip": "stärkta sociala insatser",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "CE911030-7939-431B-B489-7B51622F5750",
+   "datum": "2025-01-22",
+   "rubrik": "Personlig integritet och digital marknadsföring",
+   "utskott": "KU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att skyddet för den enskildes integritet ska stärkas och att den enskilde ska ha vidsträckta möjligheter att få insyn i hur de egna personuppgifterna hanteras av privata företag, med uttalat behov av ökad medvetenhet om företags lagring av personuppgifter på nätet och i kunddatabaser. Det är i sak just det motförslaget kräver om digital marknadsföring. Planen kräver också att lagar med stark påverkan på integriteten regelbundet utvärderas, vilket talar mot att nöja sig med befintlig reglering.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Den enskilde ska ha vidsträckta möjligheter att få insyn i hur de egna personuppgifterna hanteras",
+     "princip": "insyn i personuppgiftshantering",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Skyddet för den enskildes integritet ska stärkas.",
+     "princip": "stärkt integritetsskydd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det behövs en ökad medvetenhet om företags lagring av personuppgifter",
+     "princip": "medvetenhet om företags datalagring",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla nya lagförslag ska analyseras ur integritetssynpunkt.",
+     "princip": "integritetsanalys av lagstiftning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "59C93140-5A55-4BE8-AD6D-5EEAD8A46C1D",
+   "datum": "2025-01-22",
+   "rubrik": "Översyn av statens företagsägande",
+   "utskott": "NU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att det offentliga endast ska driva affärsverksamhet om det finns ett starkt samhällsintresse, att staten inte ska äga flygbolag, banker och telebolag och att offentlig verksamhet inte ska tränga ut fungerande privata alternativ. En genomlysning av bolagsportföljen i syfte att identifiera bolag som kan avyttras är just den prövning planen förutsätter. Planen ger inget stöd för att behålla statligt ägande som inte vilar på ett starkt samhällsintresse.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Det offentliga ska endast driva affärsverksamhet om det finns ett starkt samhällsintresse.",
+     "princip": "endast vid starkt samhällsintresse",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Staten ska inte äga flygbolag, banker och telebolag.",
+     "princip": "statligt ägande ska begränsas",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "inte driva verksamheter som tränger ut fungerande privata alternativ",
+     "princip": "inte tränga ut privata alternativ",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1F3B815-54BC-4BAB-A984-38021882CCD6",
+   "datum": "2025-01-22",
+   "rubrik": "Informationsutbyte mellan myndigheter och kommuner",
+   "utskott": "KU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att polis och socialtjänst som huvudregel alltid ska kunna utbyta information sinsemellan, och partiprogrammet att sekretesshinder ska undanröjas så att information smidigare kan delas mellan myndigheter. Motförslagets krav på en grundlig översyn av sekretesslagstiftningen och ändringar i offentlighets- och sekretesslagen är i sak just detta. Planen betonar också att brottsförebyggande arbete förutsätter att myndigheter effektivt kan dela information.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Polis och socialtjänst ska som huvudregel alltid kunna utbyta information sinsemellan och ska oftare dela lokaler.",
+     "princip": "informationsutbyte polis och socialtjänst",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "information smidigare kan delas mellan myndigheter",
+     "princip": "undanröjda sekretesshinder",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "myndigheter effektivt kan dela information med varandra.",
+     "princip": "effektivt informationsutbyte",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "För att polis och socialtjänst alltid ska få kännedom om barn som är på fel väg i livet ska huvudregeln bli att skolan alltid gör polisanmälan och orosanmälan vid misstänkt brottslighet.",
+     "princip": "anmälningsplikt vid misstänkt brottslighet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1F3B815-54BC-4BAB-A984-38021882CCD6",
+   "datum": "2025-01-22",
+   "rubrik": "Informationsutbyte mellan myndigheter och kommuner",
+   "utskott": "KU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet åtar sig uttryckligen att undanröja alla sekretesshinder mellan socialtjänst och polis, och upprepar detta i avsnittet om ungdomsbrott. Motförslagets krav på en grundlig översyn av sekretesslagstiftningen för att öka informationsutbytet mellan socialtjänst, sjukvård och polis är precis det planen kräver. Planens mål att halvera bidragsbrotten förstärker slutsatsen, eftersom informationsutbyte är ett centralt verktyg mot välfärdsbrott.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Undanröja alla sekretesshinder mellan socialtjänst och polis",
+     "princip": "ta bort sekretesshinder",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ta bort sekretesshindren mellan polis och socialtjänst samt inrätta ett nationellt no entry-program för unga i riskzonen i syfte att snabbt stoppa en påbörjad kriminell karriär",
+     "princip": "informationsutbyte mot ungdomsbrott",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "I ett första steg är målet att halvera bidragsbrotten under nästa mandatperiod.",
+     "princip": "halvera bidragsbrotten",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Genomföra en nationell folkräkning för att stoppa bidragsbrotten",
+     "princip": "kontroll mot bidragsbrott",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "CE911030-7939-431B-B489-7B51622F5750",
+   "datum": "2025-01-22",
+   "rubrik": "Personlig integritet och digital marknadsföring",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen säger uttryckligen att rätten till integritet och privatliv i dag hotas av både statliga och kommersiella aktörer och att individen lätt ska kunna få veta vad företag registrerat om hen. Motförslagets krav på stärkt integritetsskydd i digital marknadsföring och en utredning om spårning och profilering svarar direkt mot detta. Planen vill dessutom begränsa reklamens utbredning, särskilt mot barn och unga.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill värna människors rätt till integritet och privatliv. I dag är den rätten hotad av både statliga och kommersiella aktörer.",
+     "princip": "integritet mot kommersiella aktörer",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Som individ ska det vara lätt att få reda på vilken information myndigheter eller företag har registrerat om ens person.",
+     "princip": "insyn i registrerade uppgifter",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill begränsa reklamens utbredning, särskilt bland barn och unga.",
+     "princip": "begränsad reklam",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Konsumenter ska ha möjligheter att göra fria och upplysta val.",
+     "princip": "upplysta konsumentval",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1F3B815-54BC-4BAB-A984-38021882CCD6",
+   "datum": "2025-01-22",
+   "rubrik": "Informationsutbyte mellan myndigheter och kommuner",
+   "utskott": "KU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver att rättsväsendets samverkan mellan myndigheter förbättras och att processuella hinder för ökad lagföring undanröjs. Det bär direkt motförslagets krav på ändrad sekretesslagstiftning för informationsutbyte mellan socialtjänst, hälso- och sjukvård och polis. Planen vill dessutom stoppa välfärdsbrottsligheten och ge socialtjänst, skola och rättsväsende möjlighet att ingripa tidigt, vilket förutsätter just sådant informationsutbyte.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Rättsväsendets samverkan mellan myndigheter och verktyg för att upptäcka och lagföra kriminella ska förbättras.",
+     "princip": "förbättrad myndighetssamverkan",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Processuella hinder för att möjliggöra en ökad lagföring måste också undanröjas.",
+     "princip": "undanröj processuella hinder",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ge socialtjänst, skola och rättsväsende möjlighet att ingripa med tuffare tag i ett tidigt skede",
+     "princip": "tidiga ingripanden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stoppa välfärdsbrottsligheten inom socialförsäkringen",
+     "princip": "stoppa välfärdsbrottslighet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "03D14FA3-128F-4AA2-845C-59B0EB88ED8A",
+   "datum": "2025-01-29",
+   "rubrik": "Eget boende",
+   "utskott": "SfU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår uttryckligen fast att asylsökandes möjlighet till eget boende ska avskaffas för att motverka trångboddhet och segregation. Motförslagets krav på ett tydligare avskaffande med undantag endast i särskilda fall är därmed just planens linje, medan en förändring som i praktiken låter hälften bo kvar i eget boende inte når planens mål. Planen binder sig också vid att Sverige år 2030 inte ska ha ett enda utsatt område och att alla kommuner ska kunna ta emot nyanlända.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "För att motverka trångboddhet och segregation ska asylsökandes möjlighet till eget boende (EBO)",
+     "princip": "EBO ska avskaffas",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vårt viktigaste mål är detta: Sverige ska år 2030 inte ha ett enda utsatt område.",
+     "princip": "inga utsatta områden 2030",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla kommuner ska kunna ta emot nyanlända.",
+     "princip": "jämnare kommunmottagande",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ska integrationen lyckas måste Sverige få en migrationspolitik med en lagstiftning i linje med andra EU-länder.",
+     "princip": "stramare migrationspolitik",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F9A751BC-1CD2-49E7-BCD9-06A3557E7911",
+   "datum": "2025-01-29",
+   "rubrik": "Företags rapportering om hållbarhet och mångfald",
+   "utskott": "CU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig att ta bort en tredjedel av företagens administrationskostnader och en tredjedel av regelkrånglet och att motverka överimplementering av EU-beslut, där direktiv som huvudregel ska genomföras på miniminivå. Motförslagets krav på konsekvensanalys av hållbarhetsrapporteringens effekter för små och medelstora företag och agerande mot ökade EU-krav är just detta. Kritiken mot mångfaldsredovisning stämmer också med planens princip att människor ska bedömas utifrån sin person och sina handlingar, inte utifrån bakgrund.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Ta bort en tredjedel av företagens administrationskostnader och en tredjedel av regelkrånglet",
+     "princip": "minska företagens administration",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Minska regelkrånglet och onödig byråkrati, bland annat genom att motverka överimplementering i Sverige av EU-beslut - som huvudregel ska EU-direktiv genomföras på miniminivå",
+     "princip": "EU-direktiv på miniminivå",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "men också för allas rätt att bli bedömda utifrån sin person",
+     "princip": "bedömas efter person och handlingar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Denna identitetspolitikens kollektivism strider mot",
+     "princip": "avvisar identitetspolitik",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "831BBF58-03C0-494C-BA05-820F7034086F",
+   "datum": "2025-01-29",
+   "rubrik": "Kötid och förtur",
+   "utskott": "CU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill uttryckligen stoppa den positiva särbehandlingen av nyanlända vad gäller jobb och lägenheter och kritiserar att nyanlända ges förtur i bostadskön. Att huvudprincipen om förmedling i turordning efter kötid ska bestå är just den ordning planen försvarar, medan en bred användning av förtur är det planen vänder sig mot. Planen vill dessutom förbättra ungas möjligheter att skaffa sin första bostad, vilket en transparent och legitim kö tjänar.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Stoppa den positiva särbehandlingen av nyanlända vad gäller jobb och lägenheter",
+     "princip": "ingen förtur för nyanlända",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Detta på grund av att staten subventionerar invandrares anställningar och låter nyanlända få förtur i bostadskön.",
+     "princip": "mot förtur i bostadskön",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Många grupper, däribland svenska ungdomar, har idag svårt att skaffa bostad.",
+     "princip": "svenska ungdomars bostadsbrist",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förbättra möjligheterna för unga att skaffa sin första bostad",
+     "princip": "unga in på bostadsmarknaden",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "2D20620C-F53E-45A0-96C0-2026F04451FB",
+   "datum": "2025-02-13",
+   "rubrik": "Strategi mot stressrelaterad ohälsa",
+   "utskott": "SoU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet åtar sig uttryckligen att göra mer för att förebygga, motverka och rehabilitera stressrelaterad psykisk ohälsa, som beskrivs som mycket betungande för individ och samhälle, och pekar på arbetsgivarnas förebyggande ansvar samt på fler grönområden nära människor. Motförslagets krav på att orsakerna utreds och att en strategi med åtgärder tas fram följer direkt av dessa åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Gör mer för att förebygga, motverka och rehabilitera stressrelaterad psykisk ohälsa.",
+     "princip": "förebygg stressrelaterad ohälsa",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stressrelaterad psykisk ohälsa drabbar den enskilda människan och samhället mycket hårt.",
+     "princip": "stress som samhällsproblem",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Arbetsgivare bör ta ett större ansvar för förebyggande insatser och rehabilitering.",
+     "princip": "arbetsgivares förebyggande ansvar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill se fler grönområden nära där människor bor, renare vatten och mer biologisk mångfald.",
+     "princip": "grönska nära människor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "635D252F-023F-43B8-B32C-1E92A182F6A9",
+   "datum": "2025-02-13",
+   "rubrik": "Lobbyism",
+   "utskott": "KU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet åtar sig uttryckligen att införa ett lobbyregister, skärpa reglerna mot korruption och göra Sverige mer transparent, och att partiernas motståndskraft mot yttre påverkan ska rustas. Motförslagets krav på ökad transparens och ansvarstagande i hanteringen av lobbykontakter, här mot tobaksindustrins inflytande, är just det åtagandet.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska bli ännu mer transparent. Vi vill inrätta en antikorruptionsmyndighet, skärpa regler mot korruption och införa ett lobbyregister.",
+     "princip": "lobbyregister och transparens",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "De politiska partierna är sårbara mot påverkan och infiltration. Reglerna för finansiering av politiska partier bör skärpas och deras motståndskraft mot yttre påverkan och infiltration rustas.",
+     "princip": "motståndskraft mot påverkan",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Öppenhet och transparens är grundförutsättningar för frihet, demokrati och för att förhindra korruption och övergrepp.",
+     "princip": "öppenhet mot korruption",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "God folkhälsa är en grundsten i en hållbar välfärd.",
+     "princip": "folkhälsa som grundsten",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "2D20620C-F53E-45A0-96C0-2026F04451FB",
+   "datum": "2025-02-13",
+   "rubrik": "Strategi mot stressrelaterad ohälsa",
+   "utskott": "SoU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen slår uttryckligen fast att ohälsa relaterad till psykosociala faktorer och stress är allvarliga problem som kräver insatser från vården, medmänniskor, arbetsgivare och andra samhällsaktörer, och att hälsofrämjande arbete ska stimuleras. Den lyfter också närmiljöns och grönytornas betydelse för hälsan. En utredning av stressens orsaker och en strategi med åtgärder på dessa områden är därmed planens egen linje.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Ohälsa relaterad till psykosociala faktorer och",
+     "princip": "stress ett allvarligt hälsoproblem",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Hälsofrämjande arbete ska stimuleras.",
+     "princip": "hälsofrämjande arbete",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Människans närmiljö är av stor vikt för vårt psykiska och fysiska välbefinnande.",
+     "princip": "närmiljön påverkar hälsan",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Även små grönytor i städerna fyller en viktig",
+     "princip": "grönytor för hälsa och rekreation",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "276946B2-56B4-4073-999D-2CC16BCC14B7",
+   "datum": "2025-02-13",
+   "rubrik": "Avskrivning av studielån och examenspremie",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet säger uttryckligen att det ska finnas drivkrafter för studenter att ta examen med normal eller högre studietakt, exempelvis genom införandet av en examensbonus. Motförslagets krav på att utreda ett examenspremiesystem är i sak just detta åtagande. Planen vill också underlätta snabbare fullföljande genom treterminssystem och intensivkurser.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "normal eller högre studietakt, exempelvis genom införandet av en examensbonus.",
+     "princip": "examensbonus",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Treterminssystem och intensivkurser är viktiga för att möjliggöra att utbildningen kan fullföljas",
+     "princip": "snabbare genomströmning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Studiemedelssystemet ska skapa förutsättningar för alla oavsett ekonomisk bakgrund",
+     "princip": "studiestöd oavsett bakgrund",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "För dig som studerat och tagit studielån vill vi dessutom införa en femårig CSN-paus, så att du när du vill ska kunna ta ett uppehåll från din återbetalning.",
+     "princip": "flexibel återbetalning av studielån",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "237C8EBD-15E0-4B4C-93D3-D7A78B02ED6C",
+   "datum": "2025-02-13",
+   "rubrik": "Narkotikapolitiken",
+   "utskott": "SoU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår uttryckligen fast att den svenska narkotikapolitiken ska utredas i sin helhet, med hänvisning till Sveriges höga narkotikadödlighet, och att politiken ska utgå från en skadelindringsprincip. Motförslagets krav på en grundläggande översyn med fokus på skademinimering är därmed just planens linje, liksom kravet på vetenskapligt grundade insatser. Planens nolltolerans mot narkotika i hanteringsleden står inte i vägen för detta.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "den svenska narkotikapolitiken utreds i sin helhet.",
+     "princip": "helhetsutredning av narkotikapolitiken",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Politiken ska utgå från en skadelindringsprincip.",
+     "princip": "skadelindringsprincipen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Missbruks- och beroendevården ska vara vetenskapligt grundad.",
+     "princip": "vetenskapligt grundad beroendevård",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Nolltolerans ska råda mot narkotika i alla led av hanteringen.",
+     "princip": "nolltolerans mot narkotika",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "1020D2DF-8D40-48AD-84BE-430E4E720BCE",
+   "datum": "2025-02-13",
+   "rubrik": "Ungdomsmottagningarnas uppdrag",
+   "utskott": "SoU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen ger ungdomsmottagningarna en uttalad roll i vårdkedjan för unga och kräver att de är tillgängliga och samverkar med elevhälsa, primärvård och psykiatri. Motförslagets krav på en översyn som förtydligar uppdraget och uttryckligen omfattar beroende och psykisk ohälsa svarar mot detta, liksom mot åtagandet att behandling ska erbjudas i ett tidigt skede. Valmanifestet vill dessutom öka tillgången till vård för psykisk ohälsa.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "För barn och unga krävs det en aktiv samverkan mellan elevhälsa, föräldrar, primärvård, ungdomsmottagning och psykiatri.",
+     "princip": "samverkan kring unga",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "satsa på primärvården och öka tillgången till vård för psykisk ohälsa.",
+     "princip": "vård för psykisk ohälsa",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "God sexualundervisning i skolan, tillgängliga ungdomsmottagningar och tillgång till preventivmedel ska säkra en god sexuell och reproduktiv hälsa.",
+     "princip": "tillgängliga ungdomsmottagningar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla som har behov av det ska i ett tidigt skede erbjudas verksam behandling för att kunna bryta sitt missbruk.",
+     "princip": "tidig beroendebehandling",
+     "svag": null
+    }
+   ]
+  },
+  {
    "votering_id": "929F8FAB-4918-4952-A0FD-996109D29816",
    "datum": "2022-11-16",
    "rubrik": "Vilande förslag",
@@ -35095,6 +36409,206 @@
      "document": "valmanifest",
      "quote": "Sverigedemokraterna vill satsa på en stark välfärd och samhällsservice i hela landet.",
      "princip": "stark välfärd",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "50145C31-70DE-4A8C-860C-C098CD8E3940",
+   "datum": "2024-12-11",
+   "rubrik": "Svenskt deltagande i internationella insatser",
+   "utskott": "UFöU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att fler civila och militära fredsinsatser behövs och att fler svenskar bör ställas till förfogande för insatser i FN:s, EU:s eller Natos regi. Det är precis vad motförslaget vill fastställa. Planens värderingsstyrda utrikespolitik pekar i samma riktning; kravet på folkrättsligt mandat berörs mer indirekt.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "svenskar bör ställas till förfogande för internationella insatser i FN:s, EU:s eller Natos regi.",
+     "princip": "svenskt deltagande i fredsinsatser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det finns ett stort behov av internationella kris- och konflikthanteringsförmågor.",
+     "princip": "behov av krishanteringsförmåga",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Därför vill vi att Sverige gör mycket mer, både som enskilt land och inom internationella samarbeten, för fri- och rättigheter, frihandel, fria val och samarbete i den fria världen.",
+     "princip": "värderingsstyrd utrikespolitik",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sveriges nationella försvarsförmåga måste öka.",
+     "princip": "ökad nationell försvarsförmåga",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3317397F-D718-4493-BA7E-D72B777FA3D7",
+   "datum": "2024-12-17",
+   "rubrik": "Mål för det civila försvaret",
+   "utskott": "FöU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen säger uttryckligen att det civila försvaret inte bara behövs för krig utan är en avgörande resurs även i händelse av kris, och partiprogrammet kopplar tryggheten till ett starkt civilförsvar och god krisberedskap efter erfarenheterna från skogsbränder och pandemi. Det talar för motförslagets krav att målet om att hantera svåra fredstida påfrestningar behålls. Delen om internationella fredsfrämjande insatser har däremot inget tydligt stöd i dokumenten, vilket sänker säkerheten.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det civila försvaret är även en avgörande resurs i händelse av kris.",
+     "princip": "civilt försvar även i fredskris",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Tryggheten i Sverige förutsätter också ett starkt civilförsvar",
+     "princip": "starkt civilförsvar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "omfattande skogsbränder och Corona-pandemin har blottat",
+     "princip": "brister i krisberedskapen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Säkra en långsiktig planering för det civila försvaret",
+     "princip": "långsiktig civil planering",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "DA60D23A-E480-4DBF-8ED5-5872B8C5FEC8",
+   "datum": "2024-12-17",
+   "rubrik": "Totalförsvarets inriktning och förmåga",
+   "utskott": "FöU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet binder partiet till Natomedlemskap, till anslag på två procent av BNP och till att ökningen omsätts i förstärkt militär närvaro över hela landet. Motförslagets krav att försvaret dimensioneras även för avskräckning och försvar i en kollektiv Natokontext, med förmåga att försvara hela landet, är just den inriktningen. Planen understryker dessutom fortsatta internationella samarbeten.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill att ökningen ska omsättas i bland annat fler värnpliktiga, modern materiel samt förstärkt militär närvaro över hela landet.",
+     "princip": "militär närvaro i hela landet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska gå med i Nato.",
+     "princip": "Natomedlemskap",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Anslagen till det militära försvaret ska öka till motsvarande två procent av BNP.",
+     "princip": "höjda försvarsanslag",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill fortsätta internationella samarbeten och utveckla cyberförsvaret och underrättelseförmågan.",
+     "princip": "internationella försvarssamarbeten",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1F3B815-54BC-4BAB-A984-38021882CCD6",
+   "datum": "2025-01-22",
+   "rubrik": "Informationsutbyte mellan myndigheter och kommuner",
+   "utskott": "KU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill uttryckligen lätta på sekretessen mellan polis, skola och socialtjänst och stärka samverkan, och partiprogrammet vill att hinder för sådan samverkan arbetas bort. Det bär motförslagets krav på en översyn av offentlighets- och sekretesslagen för ökat informationsutbyte. Planen sätter samtidigt en gräns: brottsbekämpning får inte ske på bekostnad av mänskliga rättigheter, vilket gör stödet villkorat.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "lätta på sekretessen mellan områdespoliser, skola, socialtjänst och stärka samarbetet med civilsamhälle så att inga barn faller mellan stolarna i det förebyggande arbetet.",
+     "princip": "lättad sekretess mellan myndigheter",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Hinder för denna samverkan bör arbetas bort.",
+     "princip": "undanröj samverkanshinder",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Samverkan mellan olika aktörer som kommer i kontakt med barn och unga i riskzonen, och som kan bidra till att relevanta åtgärder sätts in, bör stärkas.",
+     "princip": "stärkt myndighetssamverkan",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Brotts- och terrorbekämpning är viktigt men ska inte ske på bekostnad av mänskliga rättigheter.",
+     "princip": "rättigheter som gräns",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "CE911030-7939-431B-B489-7B51622F5750",
+   "datum": "2025-01-22",
+   "rubrik": "Personlig integritet och digital marknadsföring",
+   "utskott": "KU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att det är samhällets absoluta skyldighet att skydda friheten och den personliga integriteten, och pekar särskilt ut att integriteten hotas när kommersiella aktörer använder tekniken för att kartlägga enskildas intressen och vanor. Det är precis den övervakningsbaserade marknadsföring motförslaget vill utreda och begränsa. Programmets krav på att motverka maktkoncentration i medieledet pekar i samma riktning.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Det är samhällets absoluta skyldighet att skydda friheten och den personliga integriteten",
+     "princip": "skydd av personlig integritet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "kommersiella och andra aktörer använder tekniken för att kartlägga den enskildes intressen",
+     "princip": "kommersiell kartläggning som hot",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Att motverka maktkoncentration och att upprätthålla mångfald ska vara centrala delar av",
+     "princip": "motverka maktkoncentration",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Demokratin har därför företräde före marknaden.",
+     "princip": "demokratin före marknaden",
      "svag": null
     }
    ]
