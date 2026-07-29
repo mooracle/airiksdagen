@@ -163,8 +163,19 @@ PILOT_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6"]
 #      parties, version rolls over mid-term) and budgetmotion (S/V/C/MP only).
 #      p4 starved the opposition — MP reasoned from 3,681 words and returned
 #      not_covered on 29% of its votes. See docs/orchestration-full-v3.md.
-# p5 is CURRENT. p4 is kept only so the older committed runs still verify.
-PROMPT_VERSION = "p5"
+# p6 = policy-first. Asks only for a stance on the reservation's demand
+#      (`hallning`) and derives the vote from it in code; `rost` is gone, because
+#      asking a party programme to forecast floor tactics is a category error.
+#      Narrows the citable set to the party's own plan (valmanifest +
+#      partiprogram — no Tidöavtalet, no budgetmotion), adds
+#      `plan_tacker_utskottets_skal`, requires >=1 citation on every decision,
+#      and renders the case block from the casemeta brief.
+#      See docs/orchestration-full-v4.md.
+# p6 is CURRENT. p4/p5 are kept only so the older committed runs still verify —
+# pass --prompt-version explicitly when touching full-v3 or earlier. The version
+# is part of the cid, so a stale default here makes `agent-status` report 0 done
+# and makes `agent-prepare` build manifests for the wrong schema.
+PROMPT_VERSION = "p6"
 BATCH_CHUNK_SIZE = 300
 
 RIKSDAG_ATTRIBUTION = "Källa: Sveriges riksdag"

@@ -17,6 +17,14 @@ from aidag.promptgen import (
     tido_applies,
 )
 
+# Some checks below assert the p5 rendering specifically and must pin the version
+# rather than ride the PROMPT_VERSION default, which is now p6. Two reasons: p6
+# builds <arende> from the committed casemeta brief instead of the case dict, so
+# these fixtures stop being hermetic; and p6 serves the party's own plan only, so
+# there is no Tidöavtalet block to gate. The leakage guards that hold for every
+# version are deliberately left on the default so they cover the current one.
+P5 = "p5"
+
 CASE = {
     "votering_id": "91110125-72B3-4C4F-8B1A-584C5616EF08",
     "rm": "2022/23",
@@ -92,12 +100,12 @@ def test_no_party_tag_survives_anonymous_render():
 
 def test_labeled_arm_keeps_party_tag_from_prose():
     # the labeled arm must NOT scrub authorship — it's the measured contrast
-    msg = render_user_message(MFL_CASE, arm="labeled")
+    msg = render_user_message(MFL_CASE, arm="labeled", prompt_version=P5)
     assert "(MP)" in msg and "Annika Hirvonen" in msg
 
 
 def test_labeled_arm_keeps_reservation_party():
-    msg = render_user_message(CASE, arm="labeled")
+    msg = render_user_message(CASE, arm="labeled", prompt_version=P5)
     assert "Alternativ A (C):" in msg
 
 
@@ -123,7 +131,7 @@ SUBST_CASE = {
 
 
 def test_reservation_substance_rendered_anonymous():
-    msg = render_user_message(SUBST_CASE, arm="anonymous")
+    msg = render_user_message(SUBST_CASE, arm="anonymous", prompt_version=P5)
     assert "Alternativ A: Motförslaget vill att arbetslöshetsförsäkringen" in msg
     assert "Reservation 1" not in msg  # opaque label replaced by the substance
 
@@ -139,7 +147,7 @@ def test_reservation_substance_is_leak_free():
 
 
 def test_labeled_arm_keeps_party_and_substance():
-    msg = render_user_message(SUBST_CASE, arm="labeled")
+    msg = render_user_message(SUBST_CASE, arm="labeled", prompt_version=P5)
     assert "Alternativ A (C): Motförslaget vill att arbetslöshetsförsäkringen" in msg
 
 
@@ -149,7 +157,7 @@ def test_reservation_falls_back_to_label_without_substance(monkeypatch):
     from aidag import promptgen
 
     monkeypatch.setattr(promptgen, "_reservations_layer", lambda: {})
-    msg = render_user_message(CASE, arm="anonymous")
+    msg = render_user_message(CASE, arm="anonymous", prompt_version=P5)
     assert "Alternativ A: Reservation 1" in msg
 
 
@@ -204,7 +212,7 @@ def test_tido_gating():
 
 @pytest.mark.parametrize("code", ["S", "M", "SD", "V"])
 def test_system_blocks_contain_manifesto_and_cache_marker(code):
-    blocks = build_system_blocks(code, "2023-06-07")
+    blocks = build_system_blocks(code, "2023-06-07", prompt_version=P5)
     assert any("<valmanifest_2022>" in b["text"] for b in blocks)
     assert blocks[-1].get("cache_control") == {"type": "ephemeral", "ttl": "1h"}
     has_tido = any("<tidoavtalet>" in b["text"] for b in blocks)

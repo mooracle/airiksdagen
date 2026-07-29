@@ -137,7 +137,9 @@ def agent_prepare(
     ),
     mirror_run: str = typer.Option(None, help="Restrict to decisions already collected in this run"),
     prompt_version: str = typer.Option(
-        PROMPT_VERSION, help="p4 = valmanifest+Tidö; p5 = + date-gated partiprogram & budgetmotion"
+        PROMPT_VERSION,
+        help="p4 = valmanifest+Tidö; p5 = + date-gated partiprogram & budgetmotion; "
+        "p6 = policy-first (stance only, vote derived; own plan only)",
     ),
 ) -> None:
     """Emit the next subagent batch manifest from pending work (checkpoint-aware)."""

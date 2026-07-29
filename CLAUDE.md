@@ -15,6 +15,14 @@ repo root via `wrangler.toml`; the Python pipeline never runs in the cloud build
   stop it: `logLevel` is absent from its schema and comes only from the
   `--verbose`/`--silent` flags. If the log ever needs quieting, filter at the
   call site (`npm run build | sed '/├─/d'`) rather than inside the script.
+- `PROMPT_VERSION` in `pipeline/aidag/config.py` is the current prompt version and
+  is **`p6`** (the policy-first stance schema the live run uses). It is part of the
+  cid, so a default that lags the run makes `agent-status` report `0/20312 done`
+  against a full results file and `agent-prepare` emit manifests for the wrong
+  schema. Bump it with the run, and pass `--prompt-version p5` when working on
+  full-v3 or earlier. Tests that assert version-specific *rendering* must pin their
+  version rather than ride the default (see `P5` in `tests/test_promptgen.py`); the
+  leakage guards deliberately ride the default so they always cover the live one.
 
 ---
 

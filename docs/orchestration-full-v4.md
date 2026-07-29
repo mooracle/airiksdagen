@@ -77,15 +77,15 @@ ignore gates.
    cases per bucket and `--group 60` silently yields groups of 7–15. At that size
    the fixed corpus read dominates and cost roughly doubles. **Verify the size
    distribution after every prepare** (command below); expect a median of 60.
-2. **`PROMPT_VERSION` in `config.py` is still `p5`.** `agent-prepare` defaults to
-   it. Always pass `--prompt-version p6` explicitly — a p5 manifest builds the
-   wrong corpus *and* sizes groups with p5 case lengths.
+2. **`PROMPT_VERSION` in `config.py` is now `p6`** (it was `p5` through batch 18).
+   `agent-prepare` and `agent-status` both default to it, so the bare commands are
+   finally correct for this run and the `--prompt-version p6` in the examples below
+   is redundant — harmless, and kept because it is explicit. The flag still matters
+   in reverse: pass `--prompt-version p5` when touching full-v3 or earlier, or a p6
+   manifest builds the wrong corpus *and* sizes groups with p6 case lengths.
 3. **`agent-ingest --model` defaults to `claude-sonnet-4-6`.** Pass
    `--model claude-opus-5` or the run's provenance is wrong for every decision.
-4. **`agent-status` also defaults to `p5`.** `prompt_version` is part of the cid,
-   so `agent-status --run-id full-v4` *without* `--prompt-version p6` reports
-   **0/20312 done** even when a batch ingested perfectly — which invites
-   re-running work that is already paid for. Always pass it.
+   This one is still live — it is the remaining default that does not match the run.
 
 The workflow itself refuses to infer a model on p6 rather than falling back to
 Sonnet — a wrong-model full run is a ~$2k, 18-hour mistake that only shows up at
