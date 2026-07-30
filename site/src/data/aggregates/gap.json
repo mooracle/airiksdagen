@@ -1,612 +1,612 @@
 {
- "n_decisions": 10500,
- "n_decided": 9332,
+ "n_decisions": 13250,
+ "n_decided": 11701,
  "tiers": {
-  "explicit": 2064,
-  "extrapolated": 2791,
-  "off_axis": 5645
+  "explicit": 2663,
+  "extrapolated": 3474,
+  "off_axis": 7113
  },
  "headline": {
-  "n": 1739,
-  "gap": 914,
-  "aligned": 825,
-  "gap_rate": 0.5256,
+  "n": 2226,
+  "gap": 1179,
+  "aligned": 1047,
+  "gap_rate": 0.5296,
   "direction": {
-   "plan_nej_voted_ja": 906,
-   "plan_ja_voted_nej": 8
+   "plan_nej_voted_ja": 1169,
+   "plan_ja_voted_nej": 10
   }
  },
  "by_tier": {
   "explicit": {
-   "n": 1739,
-   "gap": 914,
-   "aligned": 825,
-   "gap_rate": 0.5256,
+   "n": 2226,
+   "gap": 1179,
+   "aligned": 1047,
+   "gap_rate": 0.5296,
    "direction": {
-    "plan_nej_voted_ja": 906,
-    "plan_ja_voted_nej": 8
+    "plan_nej_voted_ja": 1169,
+    "plan_ja_voted_nej": 10
    }
   },
   "extrapolated": {
-   "n": 2486,
-   "gap": 1237,
-   "aligned": 1249,
-   "gap_rate": 0.4976,
+   "n": 3073,
+   "gap": 1562,
+   "aligned": 1511,
+   "gap_rate": 0.5083,
    "direction": {
-    "plan_nej_voted_ja": 1197,
-    "plan_ja_voted_nej": 40
+    "plan_nej_voted_ja": 1511,
+    "plan_ja_voted_nej": 51
    }
   },
   "off_axis": {
-   "n": 5107,
-   "gap": 3139,
-   "aligned": 1968,
-   "gap_rate": 0.6146,
+   "n": 6402,
+   "gap": 3881,
+   "aligned": 2521,
+   "gap_rate": 0.6062,
    "direction": {
-    "plan_nej_voted_ja": 3100,
-    "plan_ja_voted_nej": 39
+    "plan_nej_voted_ja": 3839,
+    "plan_ja_voted_nej": 42
    }
   },
   "all": {
-   "n": 9332,
-   "gap": 5290,
-   "aligned": 4042,
-   "gap_rate": 0.5669,
+   "n": 11701,
+   "gap": 6622,
+   "aligned": 5079,
+   "gap_rate": 0.5659,
    "direction": {
-    "plan_nej_voted_ja": 5203,
-    "plan_ja_voted_nej": 87
+    "plan_nej_voted_ja": 6519,
+    "plan_ja_voted_nej": 103
    }
   }
  },
  "per_party": {
   "S": {
-   "n_decisions": 1317,
+   "n_decisions": 1657,
    "explicit": {
-    "n": 157,
-    "gap": 39,
-    "aligned": 118,
-    "gap_rate": 0.2484,
+    "n": 200,
+    "gap": 51,
+    "aligned": 149,
+    "gap_rate": 0.255,
     "direction": {
-     "plan_nej_voted_ja": 37,
+     "plan_nej_voted_ja": 49,
      "plan_ja_voted_nej": 2
     }
    },
    "all_tiers": {
-    "n": 1171,
-    "gap": 550,
-    "aligned": 621,
-    "gap_rate": 0.4697,
+    "n": 1450,
+    "gap": 671,
+    "aligned": 779,
+    "gap_rate": 0.4628,
     "direction": {
-     "plan_nej_voted_ja": 529,
-     "plan_ja_voted_nej": 21
+     "plan_nej_voted_ja": 648,
+     "plan_ja_voted_nej": 23
     }
    },
    "tiers": {
-    "explicit": 188,
-    "extrapolated": 286,
-    "off_axis": 843
+    "explicit": 247,
+    "extrapolated": 361,
+    "off_axis": 1049
    },
-   "stodjer_rate": 0.8307,
+   "stodjer_rate": 0.8358,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 157,
-      "gap_rate": 0.2484
+      "n": 200,
+      "gap_rate": 0.255
      },
      "inferred": {
-      "n": 947,
-      "gap_rate": 0.5016
+      "n": 1173,
+      "gap_rate": 0.4945
      },
      "not_covered": {
-      "n": 67,
-      "gap_rate": 0.5373
+      "n": 77,
+      "gap_rate": 0.5195
      }
     },
     "confidence": {
      "high": {
-      "n": 186,
-      "gap_rate": 0.2527
+      "n": 244,
+      "gap_rate": 0.2459
      },
      "low": {
-      "n": 296,
-      "gap_rate": 0.5743
+      "n": 361,
+      "gap_rate": 0.5568
      },
      "medium": {
-      "n": 689,
-      "gap_rate": 0.4833
+      "n": 845,
+      "gap_rate": 0.4852
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 345,
-      "gap_rate": 0.3507
+      "n": 427,
+      "gap_rate": 0.3607
      },
      "nej": {
-      "n": 826,
-      "gap_rate": 0.5194
+      "n": 1023,
+      "gap_rate": 0.5054
      }
     }
    }
   },
   "M": {
-   "n_decisions": 1317,
+   "n_decisions": 1657,
    "explicit": {
-    "n": 208,
-    "gap": 144,
-    "aligned": 64,
-    "gap_rate": 0.6923,
+    "n": 261,
+    "gap": 184,
+    "aligned": 77,
+    "gap_rate": 0.705,
     "direction": {
-     "plan_nej_voted_ja": 144,
+     "plan_nej_voted_ja": 184,
      "plan_ja_voted_nej": 0
     }
    },
    "all_tiers": {
-    "n": 1316,
-    "gap": 748,
-    "aligned": 568,
-    "gap_rate": 0.5684,
+    "n": 1656,
+    "gap": 943,
+    "aligned": 713,
+    "gap_rate": 0.5694,
     "direction": {
-     "plan_nej_voted_ja": 744,
-     "plan_ja_voted_nej": 4
+     "plan_nej_voted_ja": 938,
+     "plan_ja_voted_nej": 5
     }
    },
    "tiers": {
-    "explicit": 208,
-    "extrapolated": 347,
-    "off_axis": 762
+    "explicit": 261,
+    "extrapolated": 434,
+    "off_axis": 962
    },
-   "stodjer_rate": 0.5672,
+   "stodjer_rate": 0.5679,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 208,
-      "gap_rate": 0.6923
+      "n": 261,
+      "gap_rate": 0.705
      },
      "inferred": {
-      "n": 973,
-      "gap_rate": 0.591
+      "n": 1218,
+      "gap_rate": 0.5862
      },
      "not_covered": {
-      "n": 135,
-      "gap_rate": 0.2148
+      "n": 177,
+      "gap_rate": 0.2542
      }
     },
     "confidence": {
      "high": {
-      "n": 214,
-      "gap_rate": 0.6262
+      "n": 286,
+      "gap_rate": 0.6364
      },
      "low": {
-      "n": 448,
-      "gap_rate": 0.471
+      "n": 555,
+      "gap_rate": 0.4757
      },
      "medium": {
-      "n": 654,
-      "gap_rate": 0.6162
+      "n": 815,
+      "gap_rate": 0.6098
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 478,
-      "gap_rate": 0.4686
+      "n": 602,
+      "gap_rate": 0.49
      },
      "nej": {
-      "n": 838,
-      "gap_rate": 0.6253
+      "n": 1054,
+      "gap_rate": 0.6148
      }
     }
    }
   },
   "SD": {
-   "n_decisions": 1316,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 238,
-    "gap": 108,
-    "aligned": 130,
-    "gap_rate": 0.4538,
+    "n": 307,
+    "gap": 138,
+    "aligned": 169,
+    "gap_rate": 0.4495,
     "direction": {
-     "plan_nej_voted_ja": 108,
+     "plan_nej_voted_ja": 138,
      "plan_ja_voted_nej": 0
     }
    },
    "all_tiers": {
-    "n": 1151,
-    "gap": 598,
-    "aligned": 553,
-    "gap_rate": 0.5195,
+    "n": 1447,
+    "gap": 737,
+    "aligned": 710,
+    "gap_rate": 0.5093,
     "direction": {
-     "plan_nej_voted_ja": 590,
-     "plan_ja_voted_nej": 8
+     "plan_nej_voted_ja": 728,
+     "plan_ja_voted_nej": 9
     }
    },
    "tiers": {
-    "explicit": 283,
-    "extrapolated": 369,
-    "off_axis": 664
+    "explicit": 359,
+    "extrapolated": 434,
+    "off_axis": 863
    },
-   "stodjer_rate": 0.696,
+   "stodjer_rate": 0.6938,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 238,
-      "gap_rate": 0.4538
+      "n": 307,
+      "gap_rate": 0.4495
      },
      "inferred": {
-      "n": 868,
-      "gap_rate": 0.5392
+      "n": 1088,
+      "gap_rate": 0.5257
      },
      "not_covered": {
-      "n": 45,
-      "gap_rate": 0.4889
+      "n": 52,
+      "gap_rate": 0.5192
      }
     },
     "confidence": {
      "high": {
-      "n": 321,
-      "gap_rate": 0.4112
+      "n": 402,
+      "gap_rate": 0.4179
      },
      "low": {
-      "n": 250,
-      "gap_rate": 0.572
+      "n": 303,
+      "gap_rate": 0.5743
      },
      "medium": {
-      "n": 580,
-      "gap_rate": 0.5569
+      "n": 742,
+      "gap_rate": 0.5323
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 492,
-      "gap_rate": 0.4167
+      "n": 585,
+      "gap_rate": 0.4068
      },
      "nej": {
-      "n": 659,
-      "gap_rate": 0.5964
+      "n": 862,
+      "gap_rate": 0.5789
      }
     }
    }
   },
   "C": {
-   "n_decisions": 1316,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 173,
-    "gap": 58,
-    "aligned": 115,
-    "gap_rate": 0.3353,
+    "n": 218,
+    "gap": 75,
+    "aligned": 143,
+    "gap_rate": 0.344,
     "direction": {
-     "plan_nej_voted_ja": 55,
-     "plan_ja_voted_nej": 3
+     "plan_nej_voted_ja": 70,
+     "plan_ja_voted_nej": 5
     }
    },
    "all_tiers": {
-    "n": 1005,
-    "gap": 511,
-    "aligned": 494,
-    "gap_rate": 0.5085,
+    "n": 1245,
+    "gap": 637,
+    "aligned": 608,
+    "gap_rate": 0.5116,
     "direction": {
-     "plan_nej_voted_ja": 492,
-     "plan_ja_voted_nej": 19
+     "plan_nej_voted_ja": 612,
+     "plan_ja_voted_nej": 25
     }
    },
    "tiers": {
-    "explicit": 249,
-    "extrapolated": 311,
-    "off_axis": 756
+    "explicit": 323,
+    "extrapolated": 396,
+    "off_axis": 937
    },
-   "stodjer_rate": 0.8017,
+   "stodjer_rate": 0.7989,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 173,
-      "gap_rate": 0.3353
+      "n": 218,
+      "gap_rate": 0.344
      },
      "inferred": {
-      "n": 780,
-      "gap_rate": 0.5436
+      "n": 967,
+      "gap_rate": 0.5481
      },
      "not_covered": {
-      "n": 52,
-      "gap_rate": 0.5577
+      "n": 60,
+      "gap_rate": 0.5333
      }
     },
     "confidence": {
      "high": {
-      "n": 219,
-      "gap_rate": 0.3881
+      "n": 266,
+      "gap_rate": 0.3872
      },
      "low": {
-      "n": 226,
-      "gap_rate": 0.5133
+      "n": 284,
+      "gap_rate": 0.5211
      },
      "medium": {
-      "n": 560,
-      "gap_rate": 0.5536
+      "n": 695,
+      "gap_rate": 0.5554
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 329,
-      "gap_rate": 0.4438
+      "n": 414,
+      "gap_rate": 0.4589
      },
      "nej": {
-      "n": 676,
-      "gap_rate": 0.5399
+      "n": 831,
+      "gap_rate": 0.5379
      }
     }
    }
   },
   "V": {
-   "n_decisions": 1316,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 225,
-    "gap": 86,
-    "aligned": 139,
-    "gap_rate": 0.3822,
+    "n": 295,
+    "gap": 117,
+    "aligned": 178,
+    "gap_rate": 0.3966,
     "direction": {
-     "plan_nej_voted_ja": 85,
+     "plan_nej_voted_ja": 116,
      "plan_ja_voted_nej": 1
     }
    },
    "all_tiers": {
-    "n": 1095,
-    "gap": 460,
-    "aligned": 635,
-    "gap_rate": 0.4201,
+    "n": 1363,
+    "gap": 574,
+    "aligned": 789,
+    "gap_rate": 0.4211,
     "direction": {
-     "plan_nej_voted_ja": 446,
-     "plan_ja_voted_nej": 14
+     "plan_nej_voted_ja": 558,
+     "plan_ja_voted_nej": 16
     }
    },
    "tiers": {
-    "explicit": 286,
-    "extrapolated": 331,
-    "off_axis": 699
+    "explicit": 383,
+    "extrapolated": 405,
+    "off_axis": 868
    },
-   "stodjer_rate": 0.8153,
+   "stodjer_rate": 0.8158,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 225,
-      "gap_rate": 0.3822
+      "n": 295,
+      "gap_rate": 0.3966
      },
      "inferred": {
-      "n": 813,
-      "gap_rate": 0.4268
+      "n": 1002,
+      "gap_rate": 0.4271
      },
      "not_covered": {
-      "n": 57,
-      "gap_rate": 0.4737
+      "n": 66,
+      "gap_rate": 0.4394
      }
     },
     "confidence": {
      "high": {
-      "n": 389,
-      "gap_rate": 0.3599
+      "n": 499,
+      "gap_rate": 0.3747
      },
      "low": {
-      "n": 189,
-      "gap_rate": 0.4974
+      "n": 231,
+      "gap_rate": 0.4978
      },
      "medium": {
-      "n": 517,
-      "gap_rate": 0.4371
+      "n": 633,
+      "gap_rate": 0.4297
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 385,
-      "gap_rate": 0.3221
+      "n": 472,
+      "gap_rate": 0.3369
      },
      "nej": {
-      "n": 710,
-      "gap_rate": 0.4732
+      "n": 891,
+      "gap_rate": 0.4658
      }
     }
    }
   },
   "KD": {
-   "n_decisions": 1286,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 187,
-    "gap": 157,
-    "aligned": 30,
-    "gap_rate": 0.8396,
+    "n": 237,
+    "gap": 201,
+    "aligned": 36,
+    "gap_rate": 0.8481,
     "direction": {
-     "plan_nej_voted_ja": 156,
+     "plan_nej_voted_ja": 200,
      "plan_ja_voted_nej": 1
     }
    },
    "all_tiers": {
-    "n": 1285,
-    "gap": 1013,
-    "aligned": 272,
-    "gap_rate": 0.7883,
+    "n": 1655,
+    "gap": 1295,
+    "aligned": 360,
+    "gap_rate": 0.7825,
     "direction": {
-     "plan_nej_voted_ja": 1008,
-     "plan_ja_voted_nej": 5
+     "plan_nej_voted_ja": 1289,
+     "plan_ja_voted_nej": 6
     }
    },
    "tiers": {
-    "explicit": 187,
-    "extrapolated": 426,
-    "off_axis": 673
+    "explicit": 237,
+    "extrapolated": 555,
+    "off_axis": 864
    },
-   "stodjer_rate": 0.7862,
+   "stodjer_rate": 0.7808,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 187,
-      "gap_rate": 0.8396
+      "n": 237,
+      "gap_rate": 0.8481
      },
      "inferred": {
-      "n": 1075,
-      "gap_rate": 0.7823
+      "n": 1392,
+      "gap_rate": 0.7744
      },
      "not_covered": {
-      "n": 23,
-      "gap_rate": 0.6522
+      "n": 26,
+      "gap_rate": 0.6154
      }
     },
     "confidence": {
      "high": {
-      "n": 198,
-      "gap_rate": 0.8333
+      "n": 253,
+      "gap_rate": 0.8379
      },
      "low": {
-      "n": 234,
-      "gap_rate": 0.7479
+      "n": 321,
+      "gap_rate": 0.7165
      },
      "medium": {
-      "n": 853,
-      "gap_rate": 0.789
+      "n": 1081,
+      "gap_rate": 0.7891
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 523,
-      "gap_rate": 0.6769
+      "n": 676,
+      "gap_rate": 0.6731
      },
      "nej": {
-      "n": 762,
-      "gap_rate": 0.8648
+      "n": 979,
+      "gap_rate": 0.858
      }
     }
    }
   },
   "MP": {
-   "n_decisions": 1316,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 247,
-    "gap": 71,
-    "aligned": 176,
-    "gap_rate": 0.2874,
+    "n": 312,
+    "gap": 90,
+    "aligned": 222,
+    "gap_rate": 0.2885,
     "direction": {
-     "plan_nej_voted_ja": 71,
+     "plan_nej_voted_ja": 90,
      "plan_ja_voted_nej": 0
     }
    },
    "all_tiers": {
-    "n": 994,
-    "gap": 410,
-    "aligned": 584,
-    "gap_rate": 0.4125,
+    "n": 1230,
+    "gap": 499,
+    "aligned": 731,
+    "gap_rate": 0.4057,
     "direction": {
-     "plan_nej_voted_ja": 398,
-     "plan_ja_voted_nej": 12
+     "plan_nej_voted_ja": 485,
+     "plan_ja_voted_nej": 14
     }
    },
    "tiers": {
-    "explicit": 359,
-    "extrapolated": 280,
-    "off_axis": 677
+    "explicit": 457,
+    "extrapolated": 340,
+    "off_axis": 859
    },
-   "stodjer_rate": 0.848,
+   "stodjer_rate": 0.846,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 247,
-      "gap_rate": 0.2874
+      "n": 312,
+      "gap_rate": 0.2885
      },
      "inferred": {
-      "n": 701,
-      "gap_rate": 0.4508
+      "n": 867,
+      "gap_rate": 0.4429
      },
      "not_covered": {
-      "n": 46,
-      "gap_rate": 0.5
+      "n": 51,
+      "gap_rate": 0.4902
      }
     },
     "confidence": {
      "high": {
-      "n": 365,
-      "gap_rate": 0.2795
+      "n": 460,
+      "gap_rate": 0.2717
      },
      "low": {
-      "n": 164,
-      "gap_rate": 0.5244
+      "n": 194,
+      "gap_rate": 0.5258
      },
      "medium": {
-      "n": 465,
-      "gap_rate": 0.4774
+      "n": 576,
+      "gap_rate": 0.4722
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 348,
-      "gap_rate": 0.3075
+      "n": 425,
+      "gap_rate": 0.3153
      },
      "nej": {
-      "n": 646,
-      "gap_rate": 0.469
+      "n": 805,
+      "gap_rate": 0.4534
      }
     }
    }
   },
   "L": {
-   "n_decisions": 1316,
+   "n_decisions": 1656,
    "explicit": {
-    "n": 304,
-    "gap": 251,
-    "aligned": 53,
-    "gap_rate": 0.8257,
+    "n": 396,
+    "gap": 323,
+    "aligned": 73,
+    "gap_rate": 0.8157,
     "direction": {
-     "plan_nej_voted_ja": 250,
+     "plan_nej_voted_ja": 322,
      "plan_ja_voted_nej": 1
     }
    },
    "all_tiers": {
-    "n": 1315,
-    "gap": 1000,
-    "aligned": 315,
-    "gap_rate": 0.7605,
+    "n": 1655,
+    "gap": 1266,
+    "aligned": 389,
+    "gap_rate": 0.765,
     "direction": {
-     "plan_nej_voted_ja": 996,
-     "plan_ja_voted_nej": 4
+     "plan_nej_voted_ja": 1261,
+     "plan_ja_voted_nej": 5
     }
    },
    "tiers": {
-    "explicit": 304,
-    "extrapolated": 441,
-    "off_axis": 571
+    "explicit": 396,
+    "extrapolated": 549,
+    "off_axis": 711
    },
-   "stodjer_rate": 0.7584,
+   "stodjer_rate": 0.7627,
    "validity": {
     "coverage": {
      "explicit": {
-      "n": 304,
-      "gap_rate": 0.8257
+      "n": 396,
+      "gap_rate": 0.8157
      },
      "inferred": {
-      "n": 949,
-      "gap_rate": 0.7524
+      "n": 1187,
+      "gap_rate": 0.7616
      },
      "not_covered": {
-      "n": 62,
-      "gap_rate": 0.5645
+      "n": 72,
+      "gap_rate": 0.5417
      }
     },
     "confidence": {
      "high": {
-      "n": 278,
-      "gap_rate": 0.8094
+      "n": 365,
+      "gap_rate": 0.8027
      },
      "low": {
-      "n": 305,
-      "gap_rate": 0.682
+      "n": 374,
+      "gap_rate": 0.6979
      },
      "medium": {
-      "n": 732,
-      "gap_rate": 0.7746
+      "n": 916,
+      "gap_rate": 0.7773
      }
     },
     "plan_tacker_utskottets_skal": {
      "ja": {
-      "n": 623,
-      "gap_rate": 0.6934
+      "n": 793,
+      "gap_rate": 0.6961
      },
      "nej": {
-      "n": 692,
-      "gap_rate": 0.8208
+      "n": 862,
+      "gap_rate": 0.8283
      }
     }
    }
@@ -615,50 +615,50 @@
  "validity": {
   "coverage": {
    "explicit": {
-    "n": 1739,
-    "gap_rate": 0.5256
+    "n": 2226,
+    "gap_rate": 0.5296
    },
    "inferred": {
-    "n": 7106,
-    "gap_rate": 0.5854
+    "n": 8894,
+    "gap_rate": 0.5835
    },
    "not_covered": {
-    "n": 487,
-    "gap_rate": 0.4435
+    "n": 581,
+    "gap_rate": 0.4355
    }
   },
   "confidence": {
    "high": {
-    "n": 2170,
-    "gap_rate": 0.4747
+    "n": 2775,
+    "gap_rate": 0.4793
    },
    "low": {
-    "n": 2112,
-    "gap_rate": 0.5696
+    "n": 2623,
+    "gap_rate": 0.57
    },
    "medium": {
-    "n": 5050,
-    "gap_rate": 0.6053
+    "n": 6303,
+    "gap_rate": 0.6024
    }
   },
   "plan_tacker_utskottets_skal": {
    "ja": {
-    "n": 3523,
-    "gap_rate": 0.4862
+    "n": 4394,
+    "gap_rate": 0.4954
    },
    "nej": {
-    "n": 5809,
-    "gap_rate": 0.6158
+    "n": 7307,
+    "gap_rate": 0.6083
    }
   }
  },
  "stance_skew": {
-  "stodjer_rate": 0.7629,
-  "n_cases_all_parties": 1286,
-  "unanimous_stodjer": 426,
-  "unanimous_avvisar": 2,
-  "unanimous_rate": 0.3328,
-  "n_real_abstentions_excluded": 1168
+  "stodjer_rate": 0.7627,
+  "n_cases_all_parties": 1656,
+  "unanimous_stodjer": 549,
+  "unanimous_avvisar": 3,
+  "unanimous_rate": 0.3333,
+  "n_real_abstentions_excluded": 1549
  },
  "run_id": "full-v4"
 }
