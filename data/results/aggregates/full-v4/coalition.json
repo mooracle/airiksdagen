@@ -1,62 +1,62 @@
 {
- "n_decisions": 13250,
+ "n_decisions": 14210,
  "per_party": {
   "S": {
-   "n": 1657,
+   "n": 1777,
    "bloc": "opposition",
-   "coalition_baseline": 0.5269,
-   "programme_accuracy": 0.4701,
-   "programme_lift": -0.0567,
-   "authored_reservation_n": 577,
+   "coalition_baseline": 0.5284,
+   "programme_accuracy": 0.4671,
+   "programme_lift": -0.0613,
+   "authored_reservation_n": 617,
    "override": {
     "strict": {
      "all": {
-      "den": 203,
-      "num": 38,
-      "rate": 0.1872
+      "den": 214,
+      "num": 43,
+      "rate": 0.2009
      },
      "authored": {
-      "den": 129,
+      "den": 134,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 74,
-      "num": 38,
-      "rate": 0.5135
+      "den": 80,
+      "num": 43,
+      "rate": 0.5375
      }
     },
     "loose": {
      "all": {
-      "den": 232,
-      "num": 49,
-      "rate": 0.2112
+      "den": 246,
+      "num": 56,
+      "rate": 0.2276
      },
      "authored": {
-      "den": 139,
+      "den": 145,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 93,
-      "num": 49,
-      "rate": 0.5269
+      "den": 101,
+      "num": 56,
+      "rate": 0.5545
      }
     }
    }
   },
   "M": {
-   "n": 1657,
+   "n": 1777,
    "bloc": "government",
-   "coalition_baseline": 0.9952,
-   "programme_accuracy": 0.4303,
-   "programme_lift": -0.5649,
-   "authored_reservation_n": 7,
+   "coalition_baseline": 0.9949,
+   "programme_accuracy": 0.4299,
+   "programme_lift": -0.565,
+   "authored_reservation_n": 8,
    "override": {
     "strict": {
      "all": {
-      "den": 145,
-      "num": 145,
+      "den": 153,
+      "num": 153,
       "rate": 1.0
      },
      "authored": {
@@ -65,15 +65,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 145,
-      "num": 145,
+      "den": 153,
+      "num": 153,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 184,
-      "num": 184,
+      "den": 195,
+      "num": 195,
       "rate": 1.0
      },
      "authored": {
@@ -82,131 +82,114 @@
       "rate": null
      },
      "not_authored": {
-      "den": 184,
-      "num": 184,
+      "den": 195,
+      "num": 195,
       "rate": 1.0
      }
     }
    }
   },
   "SD": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "support",
-   "coalition_baseline": 0.7083,
-   "programme_accuracy": 0.4287,
-   "programme_lift": -0.2796,
-   "authored_reservation_n": 274,
+   "coalition_baseline": 0.7128,
+   "programme_accuracy": 0.433,
+   "programme_lift": -0.2798,
+   "authored_reservation_n": 291,
    "override": {
     "strict": {
      "all": {
-      "den": 241,
-      "num": 125,
-      "rate": 0.5187
+      "den": 261,
+      "num": 134,
+      "rate": 0.5134
      },
      "authored": {
-      "den": 79,
+      "den": 87,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 162,
-      "num": 125,
-      "rate": 0.7716
+      "den": 174,
+      "num": 134,
+      "rate": 0.7701
      }
     },
     "loose": {
      "all": {
-      "den": 262,
-      "num": 138,
-      "rate": 0.5267
+      "den": 285,
+      "num": 149,
+      "rate": 0.5228
      },
      "authored": {
-      "den": 81,
+      "den": 90,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 181,
-      "num": 138,
-      "rate": 0.7624
+      "den": 195,
+      "num": 149,
+      "rate": 0.7641
      }
     }
    }
   },
   "C": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "opposition",
-   "coalition_baseline": 0.506,
-   "programme_accuracy": 0.3671,
-   "programme_lift": -0.1389,
-   "authored_reservation_n": 406,
+   "coalition_baseline": 0.5051,
+   "programme_accuracy": 0.3666,
+   "programme_lift": -0.1385,
+   "authored_reservation_n": 440,
    "override": {
     "strict": {
      "all": {
-      "den": 251,
-      "num": 62,
-      "rate": 0.247
+      "den": 270,
+      "num": 68,
+      "rate": 0.2519
      },
      "authored": {
-      "den": 107,
+      "den": 114,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 144,
-      "num": 62,
-      "rate": 0.4306
+      "den": 156,
+      "num": 68,
+      "rate": 0.4359
      }
     },
     "loose": {
      "all": {
-      "den": 279,
-      "num": 70,
-      "rate": 0.2509
+      "den": 298,
+      "num": 76,
+      "rate": 0.255
      },
      "authored": {
-      "den": 117,
+      "den": 124,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 162,
-      "num": 70,
-      "rate": 0.4321
+      "den": 174,
+      "num": 76,
+      "rate": 0.4368
      }
     }
    }
   },
   "V": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "opposition",
-   "coalition_baseline": 0.4758,
-   "programme_accuracy": 0.4764,
-   "programme_lift": 0.0006,
-   "authored_reservation_n": 566,
+   "coalition_baseline": 0.4724,
+   "programme_accuracy": 0.4696,
+   "programme_lift": -0.0028,
+   "authored_reservation_n": 605,
    "override": {
     "strict": {
      "all": {
-      "den": 319,
-      "num": 107,
-      "rate": 0.3354
-     },
-     "authored": {
-      "den": 144,
-      "num": 0,
-      "rate": 0.0
-     },
-     "not_authored": {
-      "den": 175,
-      "num": 107,
-      "rate": 0.6114
-     }
-    },
-    "loose": {
-     "all": {
-      "den": 338,
-      "num": 116,
-      "rate": 0.3432
+      "den": 335,
+      "num": 114,
+      "rate": 0.3403
      },
      "authored": {
       "den": 149,
@@ -214,25 +197,42 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 189,
-      "num": 116,
-      "rate": 0.6138
+      "den": 186,
+      "num": 114,
+      "rate": 0.6129
+     }
+    },
+    "loose": {
+     "all": {
+      "den": 354,
+      "num": 123,
+      "rate": 0.3475
+     },
+     "authored": {
+      "den": 154,
+      "num": 0,
+      "rate": 0.0
+     },
+     "not_authored": {
+      "den": 200,
+      "num": 123,
+      "rate": 0.615
      }
     }
    }
   },
   "KD": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "government",
-   "coalition_baseline": 0.994,
-   "programme_accuracy": 0.2174,
-   "programme_lift": -0.7766,
-   "authored_reservation_n": 9,
+   "coalition_baseline": 0.9938,
+   "programme_accuracy": 0.2168,
+   "programme_lift": -0.777,
+   "authored_reservation_n": 10,
    "override": {
     "strict": {
      "all": {
-      "den": 141,
-      "num": 141,
+      "den": 150,
+      "num": 150,
       "rate": 1.0
      },
      "authored": {
@@ -241,15 +241,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 141,
-      "num": 141,
+      "den": 150,
+      "num": 150,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 200,
-      "num": 200,
+      "den": 210,
+      "num": 210,
       "rate": 1.0
      },
      "authored": {
@@ -258,96 +258,96 @@
       "rate": null
      },
      "not_authored": {
-      "den": 200,
-      "num": 200,
+      "den": 210,
+      "num": 210,
       "rate": 1.0
      }
     }
    }
   },
   "MP": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "opposition",
-   "coalition_baseline": 0.4034,
-   "programme_accuracy": 0.4414,
-   "programme_lift": 0.038,
-   "authored_reservation_n": 559,
+   "coalition_baseline": 0.4003,
+   "programme_accuracy": 0.4386,
+   "programme_lift": 0.0383,
+   "authored_reservation_n": 600,
    "override": {
     "strict": {
      "all": {
-      "den": 385,
-      "num": 80,
-      "rate": 0.2078
+      "den": 415,
+      "num": 84,
+      "rate": 0.2024
      },
      "authored": {
-      "den": 186,
+      "den": 200,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 199,
-      "num": 80,
-      "rate": 0.402
+      "den": 215,
+      "num": 84,
+      "rate": 0.3907
      }
     },
     "loose": {
      "all": {
-      "den": 409,
-      "num": 90,
-      "rate": 0.22
+      "den": 439,
+      "num": 94,
+      "rate": 0.2141
      },
      "authored": {
-      "den": 192,
+      "den": 206,
       "num": 0,
       "rate": 0.0
      },
      "not_authored": {
-      "den": 217,
-      "num": 90,
-      "rate": 0.4147
+      "den": 233,
+      "num": 94,
+      "rate": 0.4034
      }
     }
    }
   },
   "L": {
-   "n": 1656,
+   "n": 1776,
    "bloc": "government",
-   "coalition_baseline": 0.9952,
-   "programme_accuracy": 0.2349,
-   "programme_lift": -0.7603,
-   "authored_reservation_n": 7,
+   "coalition_baseline": 0.9949,
+   "programme_accuracy": 0.2348,
+   "programme_lift": -0.7601,
+   "authored_reservation_n": 8,
    "override": {
     "strict": {
      "all": {
-      "den": 261,
-      "num": 261,
-      "rate": 1.0
+      "den": 274,
+      "num": 273,
+      "rate": 0.9964
      },
      "authored": {
-      "den": 0,
+      "den": 1,
       "num": 0,
-      "rate": null
+      "rate": 0.0
      },
      "not_authored": {
-      "den": 261,
-      "num": 261,
+      "den": 273,
+      "num": 273,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 322,
-      "num": 322,
-      "rate": 1.0
+      "den": 343,
+      "num": 342,
+      "rate": 0.9971
      },
      "authored": {
-      "den": 0,
+      "den": 1,
       "num": 0,
-      "rate": null
+      "rate": 0.0
      },
      "not_authored": {
-      "den": 322,
-      "num": 322,
+      "den": 342,
+      "num": 342,
       "rate": 1.0
      }
     }
@@ -574,10 +574,18 @@
   {
    "parti": "S",
    "month": "2025-05",
-   "n": 89,
-   "coalition_baseline": 0.4157,
-   "programme_accuracy": 0.427,
-   "programme_lift": 0.0112
+   "n": 144,
+   "coalition_baseline": 0.4514,
+   "programme_accuracy": 0.4306,
+   "programme_lift": -0.0208
+  },
+  {
+   "parti": "S",
+   "month": "2025-06",
+   "n": 65,
+   "coalition_baseline": 0.5846,
+   "programme_accuracy": 0.4154,
+   "programme_lift": -0.1692
   },
   {
    "parti": "M",
@@ -798,10 +806,18 @@
   {
    "parti": "M",
    "month": "2025-05",
-   "n": 89,
+   "n": 144,
+   "coalition_baseline": 0.9931,
+   "programme_accuracy": 0.4444,
+   "programme_lift": -0.5486
+  },
+  {
+   "parti": "M",
+   "month": "2025-06",
+   "n": 65,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.4831,
-   "programme_lift": -0.5169
+   "programme_accuracy": 0.4615,
+   "programme_lift": -0.5385
   },
   {
    "parti": "SD",
@@ -1022,10 +1038,18 @@
   {
    "parti": "SD",
    "month": "2025-05",
-   "n": 88,
-   "coalition_baseline": 0.7045,
-   "programme_accuracy": 0.4545,
-   "programme_lift": -0.25
+   "n": 144,
+   "coalition_baseline": 0.75,
+   "programme_accuracy": 0.4514,
+   "programme_lift": -0.2986
+  },
+  {
+   "parti": "SD",
+   "month": "2025-06",
+   "n": 64,
+   "coalition_baseline": 0.7344,
+   "programme_accuracy": 0.5312,
+   "programme_lift": -0.2031
   },
   {
    "parti": "C",
@@ -1246,10 +1270,18 @@
   {
    "parti": "C",
    "month": "2025-05",
-   "n": 88,
-   "coalition_baseline": 0.4545,
+   "n": 144,
+   "coalition_baseline": 0.4722,
+   "programme_accuracy": 0.3611,
+   "programme_lift": -0.1111
+  },
+  {
+   "parti": "C",
+   "month": "2025-06",
+   "n": 64,
+   "coalition_baseline": 0.4844,
    "programme_accuracy": 0.375,
-   "programme_lift": -0.0795
+   "programme_lift": -0.1094
   },
   {
    "parti": "V",
@@ -1470,10 +1502,18 @@
   {
    "parti": "V",
    "month": "2025-05",
-   "n": 88,
-   "coalition_baseline": 0.4545,
-   "programme_accuracy": 0.5,
-   "programme_lift": 0.0455
+   "n": 144,
+   "coalition_baseline": 0.4583,
+   "programme_accuracy": 0.4583,
+   "programme_lift": 0.0
+  },
+  {
+   "parti": "V",
+   "month": "2025-06",
+   "n": 64,
+   "coalition_baseline": 0.3906,
+   "programme_accuracy": 0.3594,
+   "programme_lift": -0.0312
   },
   {
    "parti": "KD",
@@ -1694,10 +1734,18 @@
   {
    "parti": "KD",
    "month": "2025-05",
-   "n": 88,
+   "n": 144,
+   "coalition_baseline": 0.9931,
+   "programme_accuracy": 0.2639,
+   "programme_lift": -0.7292
+  },
+  {
+   "parti": "KD",
+   "month": "2025-06",
+   "n": 64,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.2727,
-   "programme_lift": -0.7273
+   "programme_accuracy": 0.1719,
+   "programme_lift": -0.8281
   },
   {
    "parti": "MP",
@@ -1918,10 +1966,18 @@
   {
    "parti": "MP",
    "month": "2025-05",
-   "n": 88,
-   "coalition_baseline": 0.3182,
-   "programme_accuracy": 0.4545,
-   "programme_lift": 0.1364
+   "n": 144,
+   "coalition_baseline": 0.3194,
+   "programme_accuracy": 0.4306,
+   "programme_lift": 0.1111
+  },
+  {
+   "parti": "MP",
+   "month": "2025-06",
+   "n": 64,
+   "coalition_baseline": 0.3906,
+   "programme_accuracy": 0.4062,
+   "programme_lift": 0.0156
   },
   {
    "parti": "L",
@@ -2142,10 +2198,18 @@
   {
    "parti": "L",
    "month": "2025-05",
-   "n": 88,
+   "n": 144,
+   "coalition_baseline": 0.9931,
+   "programme_accuracy": 0.2292,
+   "programme_lift": -0.7639
+  },
+  {
+   "parti": "L",
+   "month": "2025-06",
+   "n": 64,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.2386,
-   "programme_lift": -0.7614
+   "programme_accuracy": 0.25,
+   "programme_lift": -0.75
   }
  ],
  "override_cases": [
@@ -39818,6 +39882,46 @@
    ]
   },
   {
+   "votering_id": "A0298D8B-EBDF-42AB-BB01-98C8AE53A828",
+   "datum": "2025-05-15",
+   "rubrik": "Sjukskrivning vid psykisk ohälsa",
+   "utskott": "SfU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet åtar sig uttryckligen att göra mer för att förebygga, motverka och rehabilitera stressrelaterad psykisk ohälsa och att göra sjukskrivningen mer flexibel. Partiet vill dessutom satsa på forskning om den stressrelaterade psykiska ohälsan och stärka den genusmedicinska kompetensen, med målet att kvinnor och män ska få lika bra vård. Motförslagets krav på ökad kunskap om rehabilitering med särskilt fokus på kvinnors psykiska hälsa ligger direkt i linje med dessa åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Gör mer för att förebygga, motverka och rehabilitera stressrelaterad psykisk ohälsa. Vi vill göra sjukskrivningen mer flexibel och förbättra rehabiliteringen.",
+     "princip": "bättre rehabilitering psykisk ohälsa",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill satsa på forskning om kvinnosjukdomar, den stressrelaterade psykiska ohälsan och stärka den genusmedicinska kompetensen inom vården.",
+     "princip": "forskning om kvinnors hälsa",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kvinnor och män ska få lika bra vård. Det borde vara en självklarhet.",
+     "princip": "jämställd vård",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stödet för personer med psykisk ohälsa måste förbättras, inte minst för unga.",
+     "princip": "stärkt stöd vid psykisk ohälsa",
+     "svag": null
+    }
+   ]
+  },
+  {
    "votering_id": "2662CC2F-CFA1-4EAC-B8B0-C899F4319ECB",
    "datum": "2025-05-15",
    "rubrik": "Ett differentierat strandskyddsregelverk med ökat kommunalt och lokalt inflytande",
@@ -40058,6 +40162,46 @@
    ]
   },
   {
+   "votering_id": "8B1899ED-5A41-43E0-A8F0-98A17518E5CB",
+   "datum": "2025-05-15",
+   "rubrik": "Regleringen av fri passage",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet lovar uttryckligen att försvara allemansrätten och stärka strandskyddet, vilket är precis vad lagregler om garanterad fri passage längs stränderna gör. Partiprogrammet slår dessutom fast att skyddet av stränder ska utvidgas och skärpas, inte hållas oförändrat. Motförslagets krav ligger därmed i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "försvara allemansrätten och stärka strandskyddet",
+     "princip": "stärkt strandskydd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Skyddet av hav, skogar, våtmarker, stränder och flera andra biotoper måste utvidgas och skärpas.",
+     "princip": "utvidgat skydd av stränder",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Också allemansrätten hotas av ekonomiska intressen.",
+     "princip": "allemansrätten hotad",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill att både du och dina barn ska kunna njuta av våra sandstränder",
+     "princip": "allmänhetens tillgång",
+     "svag": null
+    }
+   ]
+  },
+  {
    "votering_id": "23ACEAEA-E1AD-4BC2-A85C-98A70259548D",
    "datum": "2025-05-15",
    "rubrik": "Sjukpenninggrundande inkomst",
@@ -40133,6 +40277,2320 @@
      "document": "partiprogram",
      "quote": "fattas på lägsta ändamålsenliga nivå",
      "princip": "beslut nära medborgarna",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "61D483E0-5630-4520-9B5B-73B846092450",
+   "datum": "2025-05-20",
+   "rubrik": "Barns rättigheter",
+   "utskott": "SoU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen säger uttryckligen att barnets bästa ska vara styrande vid alla beslut som rör barn, inte bara vid vissa insatstyper. Den kräver också att barns och ungas synpunkter beaktas när beslut fattas, vilket bär kravet på att barnets inställning klarläggs. Motförslagets krav ligger därmed rakt i linje med planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Barnets bästa ska vara\nstyrande i all familjepolitik och vid alla beslut som rör\nbarn.",
+     "princip": "barnets bästa vid alla beslut",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "I det politiska systemet måste man lyssna på och\nbeakta ungdomars synpunkter när beslut fattas.",
+     "princip": "barnets röst ska höras",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "FN:s barnkonvention stadgar att\nbarnets bästa ska komma i främsta rummet.",
+     "princip": "barnkonventionen som ledstjärna",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Barn har rätt till en trygg uppväxtmiljö.",
+     "princip": "trygg uppväxtmiljö",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9A1F3E0A-467D-4B65-8F62-2121F115655C",
+   "datum": "2025-05-20",
+   "rubrik": "Översyn av kontaktförbudssystemet",
+   "utskott": "JuU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår uttryckligen fast att insatserna mot våld i nära relationer måste fokusera på förövarna och att förövare ska kunna åläggas omfattande begränsningar i den geografiska rörelsefriheten. Det är precis vad motförslaget kräver av ett översett kontaktförbudssystem. Valmanifestet vill dessutom att kvinnor ska vara trygga både hemma och ute och prövar vistelseförbud för dömda.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Insatserna för att förebygga och förhindra våld i nära relationer måste fokusera på förövarna.",
+     "princip": "fokus på förövarna",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Förövarna ska genomgå behandling samt kunna åläggas omfattande begränsningar i den",
+     "princip": "begränsad rörelsefrihet för förövare",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kvinnor ska vara trygga både hemma och ute.",
+     "princip": "kvinnors trygghet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill ta tillbaka makten från separatister i utsatta områden, värna en skolgång fri från separatistisk påverkan och pröva möjligheten att införa vistelseförbud för dömda kriminella i utsatta områden.",
+     "princip": "vistelseförbud för dömda",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9A1F3E0A-467D-4B65-8F62-2121F115655C",
+   "datum": "2025-05-20",
+   "rubrik": "Översyn av kontaktförbudssystemet",
+   "utskott": "JuU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig att införa vistelseförbud så att den som utsatt sin tidigare partner för våld kan förbjudas att vistas i ett visst bostadsområde, alltså att begränsa förövarens rörelser i stället för den utsattas. Den vill också införa kontaktförbud och fotboja direkt vid konstaterad risk och en helt ny möjlighet till långtidsövervakning med fotboja. Motförslagets krav på ett system där förövaren är den som ska anpassa sig är därmed just vad planen driver.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Införa vistelseförbud för personer som dömts för våld i nära relation, så att den som utsatt sin tidigare partner för våld och övergrepp kan förbjudas att vara i ett visst bostadsområde även efter att ha släppts ur fängelset",
+     "princip": "vistelseförbud för förövaren",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Införa kontaktförbud och fotboja direkt för en man som utsätter en kvinna för våld, om en riskbedömning visar att det finns behov",
+     "princip": "kontaktförbud direkt vid risk",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Införa en helt ny möjlighet till långtidsövervakning med fotboja",
+     "princip": "långtidsövervakning av förövare",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9A1F3E0A-467D-4B65-8F62-2121F115655C",
+   "datum": "2025-05-20",
+   "rubrik": "Översyn av kontaktförbudssystemet",
+   "utskott": "JuU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att det är förövarens frihet som ska begränsas och vill att våldsutsatta som tvingas gömma sig ska få starkare skydd och att fler våldsutövare ska få fotboja. Det är precis den omkastning motförslaget begär: att den som förbudet gäller mot, inte den utsatta, ska anpassa sig. Planen stöder därför en översyn i grunden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "det är förövarens frihet som ska begränsas",
+     "princip": "begränsa förövaren",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "att våldsutsatta kvinnor som tvingas gömma sig ska få starkare skydd och att fler som utövar våld ska få fotboja.",
+     "princip": "fotboja och starkare skydd",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kvinnor som brutit sig loss från destruktiva relationer ska få sina liv tillbaka.",
+     "princip": "återfå sitt liv",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill också se stöd och skydd för barn och vuxna som utsatts för psykiskt och fysiskt våld samt professionell behandling av våldsutövarna.",
+     "princip": "skydd för våldsutsatta",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "E59868A5-07DA-4466-A91A-2825B01329AF",
+   "datum": "2025-05-20",
+   "rubrik": "Ekonomiska konsekvenser",
+   "utskott": "SoU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet lovar att öka resurserna till välfärden i hela landet och att statens bidrag till kommuner och regioner ska fortsätta öka, och pekar särskilt ut att socialtjänsten ska stärkas. Det slår också fast att arbetsvillkoren i välfärden måste spegla hur centrala jobben är. En långsiktig resursförstärkning för socialtjänsten är precis detta. Planen stöder därför motförslagets krav.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Öka resurserna till välfärden i hela landet.",
+     "princip": "ökade välfärdsresurser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Att socialtjänsten stärks är centralt för att fånga upp unga i tid.",
+     "princip": "stärkt socialtjänst",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Arbetsvillkoren i välfärden måste spegla hur centrala jobben är för att samhället ska fungera.",
+     "princip": "goda arbetsvillkor i välfärden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "För varje krona som läggs på fler poliser, ska minst en krona läggas på det förebyggande arbetet.",
+     "princip": "förebyggande arbete prioriteras",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9A1F3E0A-467D-4B65-8F62-2121F115655C",
+   "datum": "2025-05-20",
+   "rubrik": "Översyn av kontaktförbudssystemet",
+   "utskott": "JuU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill förbättra möjligheterna till kontaktförbud och möjliggöra inskränkningar av gärningsmannens rörelsefrihet, bland annat förbud att återvända till orten eller till brottsoffrets närhet. Politiken ska utformas efter brottsoffrets bästa, inte gärningsmannens. Motförslagets krav på en översyn där det är förövaren och inte den utsatta som ska anpassa sig är därmed planens egen linje.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Förbättra möjligheterna till kontaktförbud",
+     "princip": "stärkt kontaktförbud",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Gärningsmän som begått grova brott bör i högre grad bevakas efter avtjänat brott och beläggas med förbud att återvända till den ort där brottet begått eller i närhet till brottsoffret",
+     "princip": "begränsa gärningsmannens rörelser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Möjliggöra inskränkningar av rörelsefrihet efter avtjänat straff",
+     "princip": "inskränkt rörelsefrihet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Utformningen av politiken måste ske utifrån brottsoffrets bästa, inte gärningsmannen.",
+     "princip": "brottsoffret först",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9DA91716-4C59-4774-BDC3-2ABD00E2F5A1",
+   "datum": "2025-05-21",
+   "rubrik": "Finansiering och stöd till regionala flygplatser",
+   "utskott": "TU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet ålägger uttryckligen staten ansvar för att upprätthålla ett system av nationella och regionala flygplatser samt regionalt betydelsefull flygtrafik som inte uppstår på kommersiella grunder. Det är just en sådan nationell samordning motförslaget efterlyser för glesbefolkade områden med stora avstånd. Planen kräver dessutom en aktiv regionalpolitik oavsett bostadsort.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Staten\nhar ett ansvar att upprätthålla ett system av nationella och regionala flygplatser liksom regionalt betydelsefull flygtrafik som inte kommer till stånd på kommersiella grunder.",
+     "princip": "statligt ansvar för flygplatssystemet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Ett välfungerande inrikesflyg\när nödvändigt i Sverige med dess långa avstånd.",
+     "princip": "nödvändigt inrikesflyg",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla människor ska oavsett bostadsort kunna få del av\nsamhällets grundläggande sociala rättigheter och ges\nrimliga förutsättningar att försörja sig och utveckla sin\nbygd. Därför krävs en aktiv regionalpolitik.",
+     "princip": "aktiv regionalpolitik",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Hela Sverige ska fungera och det ska gå att bo och verka även utanför de stora städerna.",
+     "princip": "hela landet ska fungera",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9DA91716-4C59-4774-BDC3-2ABD00E2F5A1",
+   "datum": "2025-05-21",
+   "rubrik": "Finansiering och stöd till regionala flygplatser",
+   "utskott": "TU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill bevara de regionala flygplatserna och ge dem status som beredskapsflygplatser, och framhåller inrikesflyget som centralt för att människor i hela landet ska kunna driva företag och hålla kontakt. Politiken ska bedrivas för hela Sverige. Motförslagets krav på förstärkt nationell samordning av luftfartens infrastruktur i glesbefolkade områden ligger därför i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Bevara de regionala flygplatserna och att göra dem till beredskapsflygplatser",
+     "princip": "bevarade regionala flygplatser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Inrikesflyget är även centralt för att människor i hela landet ska kunna driva företag och ha nära kontakt med sina vänner och släktingar.",
+     "princip": "inrikesflygets betydelse",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Många av landets regionala flygplatser har drabbats av minskat flygande och flera är nedläggningshotade.",
+     "princip": "hotade flygplatser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Bedriva en politik för hela Sverige",
+     "princip": "politik för hela landet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5D23AD73-8E54-4063-B45E-3DB5D0A3D8F1",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder för att värna svensk fiskerinäring",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet skyddar uttryckligen den småskaliga fiskenäringen mot skadlig bottentrålning och åtar sig att stärka de gröna näringarnas konkurrenskraft. Partiprogrammet slår fast att svenskt fiske ska ta ledningen för den klimatsmarta, sunda och säkra maten. Motförslagets krav på att tydligare värna det kustnära småskaliga fisket och aktivt främja näringen följer direkt av dessa åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Skadlig bottentrålning ska inte få förstöra för varken havsmiljön, den småskaliga fiskenäringen eller sportfisket.",
+     "princip": "värna det småskaliga fisket",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Svenskt jordbruk, fiske och jakt ska ta ledningen för den klimatsmarta, sunda och",
+     "princip": "hållbart fiske i ledningen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill stärka de gröna näringarnas konkurrenskraft.",
+     "princip": "gröna näringarnas konkurrenskraft",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rädda Sveriges sjöar, vattendrag och hav.",
+     "princip": "rädda havsmiljön",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5D23AD73-8E54-4063-B45E-3DB5D0A3D8F1",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder för att värna svensk fiskerinäring",
+   "utskott": "MJU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att den svenska fiskerinäringen måste ges förutsättningar att vara livskraftig och lyfter dess regionalpolitiska betydelse, särskilt för dem i skärgården som är beroende av näringen. Det är just det småskaliga kustnära fisket motförslaget vill värna och utveckla. Fisket ska samtidigt bedrivas enligt förvaltarskapsprincipen, vilket stämmer med argumentet att skonsammare metoder ska premieras.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Den svenska fiskerinäringen måste ges förutsättningar att även i framtiden vara livskraftig. Den regionalpolitiska betydelsen av svenskt fiske är stor.",
+     "princip": "livskraftig fiskerinäring",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Många\ni skärgården är direkt eller indirekt beroende av en väl\nfungerande och livskraftig fiskerinäring.",
+     "princip": "kustnära fiskets betydelse",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "För en levande landsbygd är ett livskraftigt jordoch skogsbruk samt fiske och rennäring av central betydelse.",
+     "princip": "fiske för levande landsbygd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Fisket ska i\nlikhet med allt annat nyttjande av naturresurser ske\nmed hänsyn till förvaltarskapsprincipen.",
+     "princip": "förvaltarskap i fisket",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0817BF58-C84E-4F3B-B92E-0012E9AD3579",
+   "datum": "2025-05-22",
+   "rubrik": "Akademisk frihet och forskningens frihet",
+   "utskott": "UbU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen gör tankens frihet till en förutsättning för framgångsrikt kunskapssökande och kräver att universitet och högskolor åtnjuter ett stort mått av självbestämmande gentemot staten. Den slår också fast att sökandet efter kunskap är en mänsklig rättighet som måste värnas. Ett tydligt värnande av forskningens frihet, nationellt och internationellt, följer därför direkt av planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Tankens frihet är en förutsättning\nför framgångsrikt kunskapssökande. Universitet och\nhögskolor ska åtnjuta stort mått av självbestämmande i förhållande till staten.",
+     "princip": "akademisk självständighet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sökandet efter kunskap är en\nmänsklig rättighet som måste värnas.",
+     "princip": "kunskapssökande som rättighet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Ett starkt skydd för yttrande- och meddelarfriheten\nsamt anonymitetsskyddet, liksom för mötes- och föreningsfriheten, är av stor vikt för en levande demokrati.",
+     "princip": "yttrandefrihetens skydd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla ämnesområden måste garanteras tillräckliga resurser, därför\nkan ekonomiskt tillväxttänkande inte dominera tilldelningen av resurser till universitets- och högskoleväsendet.",
+     "princip": "fri forskning oberoende av nytta",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "B5B3E091-1A3F-43FF-B1D7-9E7192387D19",
+   "datum": "2025-05-22",
+   "rubrik": "Utflyttning av trålgränsen",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att industrifisket ska begränsas och de mest värdefulla havsområdena skyddas, och partiprogrammet att regelverket ska gynna småskaligt och kustnära fiske inom vetenskapligt hållbara ramar. Haven ska skyddas genom avtal mellan alla kuststater, vilket motsvarar behovet av förhandling med EU och grannländerna. En utflyttad trålgräns med tydliga tidsramar följer därför av planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Kampen mot övergödningen ska fortsätta, industrifisket ska begränsas och de mest värdefulla havsområdena skyddas som marina reservat.",
+     "princip": "begränsat industrifiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Regelverket ska gynna småskaligt och kustnära fiske samt",
+     "princip": "gynna kustnära fiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige omges av hav som behöver skyddas genom avtal mellan alla kuststater.",
+     "princip": "havsskydd genom avtal",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Fisket måste bedrivas på ett långsiktigt hållbart sätt och hålla sig inom ramen för vetenskapliga",
+     "princip": "hållbart fiske",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0817BF58-C84E-4F3B-B92E-0012E9AD3579",
+   "datum": "2025-05-22",
+   "rubrik": "Akademisk frihet och forskningens frihet",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen att den akademiska friheten ges skydd i grundlagen, och partiprogrammet gör individuell akademisk frihet till en bärande princip och vill värna lärosätenas oberoende. Planen vill också att Sverige internationellt erbjuder fristäder för förföljda. Ett tydligt värnande av forskningens frihet nationellt och internationellt är därmed precis vad planen kräver.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Den akademiska friheten ska ges skydd i grundlagen.",
+     "princip": "grundlagsskyddad akademisk frihet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Individuell akademisk frihet ska vara en bärande princip för all offentlig verksamhet inom",
+     "princip": "akademisk frihet som bärande princip",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "forskning och högre utbildning. De akademiska lärosätenas oberoende ska värnas och statliga",
+     "princip": "lärosätenas oberoende",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige ska verka internationellt för den konstnärliga friheten, och erbjuda fristäder för förföljda",
+     "princip": "fristäder för förföljda",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5D23AD73-8E54-4063-B45E-3DB5D0A3D8F1",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder för att värna svensk fiskerinäring",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår uttryckligen fast att regelverket ska gynna småskaligt och kustnära fiske och främja skonsamma, selektiva fiskemetoder, och valmanifestet att industrifisket ska begränsas. Fisket ska samtidigt hållas inom vetenskapliga ramar. Att tydligare värna det småskaliga kustnära fisket och främja näringens utveckling är därför precis det planen kräver.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Regelverket ska gynna småskaligt och kustnära fiske samt",
+     "princip": "gynna småskaligt kustnära fiske",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kampen mot övergödningen ska fortsätta, industrifisket ska begränsas och de mest värdefulla havsområdena skyddas som marina reservat.",
+     "princip": "begränsat industrifiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Fisket måste bedrivas på ett långsiktigt hållbart sätt och hålla sig inom ramen för vetenskapliga",
+     "princip": "hållbart fiske inom vetenskapliga ramar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Regelbördan för små företag ska minska, genom ansträngningar på både kommunal, statlig och",
+     "princip": "lägre administrativ börda",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "B5B3E091-1A3F-43FF-B1D7-9E7192387D19",
+   "datum": "2025-05-22",
+   "rubrik": "Utflyttning av trålgränsen",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig uttryckligen att flytta gränsen för trålfiske från fyra till tolv nautiska mil för att stävja minskningen av sill- och strömmingsbestånden i Östersjön. Motförslagets krav på skyndsamt arbete med tydliga tidsramar för just en utflyttad trålgräns är därmed samma sak som planens åtagande. Planen vill dessutom förstärka det gemensamma Östersjöarbetet, vilket svarar mot behovet av förhandling med EU och grannländerna.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Stävja minskningen av sill-/strömmingsbestånden i Östersjön genom att flytta gränsen för trålfiske från fyra till tolv nautiska mil",
+     "princip": "trålgränsen till tolv nautiska mil",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Fiskerinäringen har drabbats hårt av minskade bestånd på senare år inte minst på grund av det kustnära trålfisket – den utvecklingen måste brytas.",
+     "princip": "bryt beståndsminskningen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förstärka det gemensamma Östersjöarbetet för åtgärder mot övergödning och nedskräpning",
+     "princip": "gemensamt Östersjöarbete",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Moderaterna vill vidta kraftfulla åtgärder för att förbättra havs- och vattenmiljön.",
+     "princip": "kraftfulla havsmiljöåtgärder",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0817BF58-C84E-4F3B-B92E-0012E9AD3579",
+   "datum": "2025-05-22",
+   "rubrik": "Akademisk frihet och forskningens frihet",
+   "utskott": "UbU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att den akademiska friheten måste värnas bättre och att forskningen ska stå fri från politiska pekpinnar, och listar det som ett eget åtagande. Partiprogrammet kräver starka och självständiga lärosäten och ser akademin som en viktig motvikt när staten drar åt fel håll. Motförslagets krav på att tydligt värna forskningens frihet nationellt och internationellt är därmed just vad planen säger.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Värna den fria forskningen från politiska pekpinnar",
+     "princip": "fri forskning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi måste bättre värna den akademiska friheten i Sverige och se till att forskningen står fri från politiska pekpinnar och möjliggöra banbrytande forskningsresultat.",
+     "princip": "akademisk frihet ska värnas",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige ska ha starka och självständiga lärosäten",
+     "princip": "självständiga lärosäten",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Starka självständiga institutioner och en pluralism av samhällssfärer ger en viktig maktbalans i samhället.",
+     "princip": "institutioner som maktbalans",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5D23AD73-8E54-4063-B45E-3DB5D0A3D8F1",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder för att värna svensk fiskerinäring",
+   "utskott": "MJU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill gå över till skonsamma fiskemetoder och låta ekosystemen sätta gränserna, och partiprogrammet lyfter det kustnära fiskets roll för levande skärgårdar samt varnar för industrifiskets skador. Motförslagets krav att särskilt värna det småskaliga kustnära fisket följer direkt av dessa åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "låt ekosystemen i haven sätta gränserna för hur mycket fisk som får fångas, inför en ekosystembaserad havsförvaltning och gå över till skonsamma fiskemetoder.",
+     "princip": "skonsamma fiskemetoder",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det kustnära fisket och fritidsfisket har en viktig roll både för människors rekreation och för att våra skärgårdar ska hållas levande.",
+     "princip": "värna kustnära fisket",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Genom bland annat industrifiske, övergödning, miljögifter och exploatering av kustzoner har störningarna på dessa ekologiska system ökat på ett ibland katastrofalt sätt.",
+     "princip": "industrifiskets skador",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Fiskerätter ska fördelas utifrån hållbarhetskriterier.",
+     "princip": "hållbarhet styr fiskerätter",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "A967002B-0C70-4BBE-8274-0BF2463023F3",
+   "datum": "2025-05-22",
+   "rubrik": "Produktion av biodrivmedel",
+   "utskott": "MJU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet lovar uttryckligen att säkra tillgången till bränsle och att öka den svenska produktionen av förnybara drivmedel så att det blir lättare att tanka fossilfritt. Det vill också bygga beredskapslager som del av det civila försvaret och använda statliga investeringar för att driva på omställningen. Motförslagets kombination av investeringsstöd, beredskapslager och strategisk bränslereserv är just detta. Planen stöder därför kravet.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill öka den svenska produktionen av förnybara drivmedel, så att det blir lättare att tanka fossilfritt i Sverige.",
+     "princip": "inhemsk produktion av förnybart",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Säkra tillgången till bränsle.",
+     "princip": "säkrad bränsletillgång",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Arbetet att förstärka det civila försvaret och krisberedskapen måste fortsätta, bland annat genom ökade resurser för att rusta och bygga beredskapslager för sjukvården",
+     "princip": "beredskapslager byggs",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Genom statliga investeringar kan vi öka takten i industrins omställning och underlätta ett klimatsmart liv.",
+     "princip": "statliga investeringar i omställning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "A967002B-0C70-4BBE-8274-0BF2463023F3",
+   "datum": "2025-05-22",
+   "rubrik": "Produktion av biodrivmedel",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet vill främja svensk biobränsleproduktion, återupprätta allmänna beredskapslager och öka självförsörjningsgraden av kritiska varor, och slår fast att självförsörjningen av energi behöver öka och snabbt kunna skalas upp vid långvariga störningar. Motförslagets krav på investeringsstöd till inhemsk produktion, beredskapslager och en strategisk bränslereserv svarar direkt mot dessa åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Främja svensk biobränsleproduktion",
+     "princip": "inhemsk biobränsleproduktion",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Återupprätta allmänna beredskapslager",
+     "princip": "beredskapslager",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sveriges självförsörjning av energi, livsmedel och medicinskt material behöver öka och snabbt kunna skalas upp vid långvariga störningar.",
+     "princip": "ökad energisjälvförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Öka den svenska självförsörjningsgraden av kritiska produkter och varor",
+     "princip": "självförsörjning av kritiska varor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0817BF58-C84E-4F3B-B92E-0012E9AD3579",
+   "datum": "2025-05-22",
+   "rubrik": "Akademisk frihet och forskningens frihet",
+   "utskott": "UbU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att den politiska styrningen av högre utbildning ska minska och akademins självständighet öka, och att den högre akademins självständighet ska värnas. Planen kritiserar politisk styrning och ideologiska värdegrunder i forskningen och vill värna rätten att uttrycka sig fritt utan hot eller repressalier. Motförslagets krav på att värna forskningens frihet ligger därför i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Den politiska styrningen av högre utbildning ska minska och akademins självständighet öka.",
+     "princip": "minskad politisk styrning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Slå vakt om den högre akademins självständighet",
+     "princip": "akademisk självständighet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Allvarlig kritik har riktats mot att politisk styrning och ideologiskt präglade värdegrunder i hög grad präglar forskning och akademi.",
+     "princip": "kritik mot styrd forskning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Varje journalists, konstutövares och medborgares rätt att uttrycka sig fritt utan att utsättas för hot eller repressalier ska värnas och stärkas.",
+     "princip": "skydd mot hot och repressalier",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0817BF58-C84E-4F3B-B92E-0012E9AD3579",
+   "datum": "2025-05-22",
+   "rubrik": "Akademisk frihet och forskningens frihet",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen betonar uttryckligen vikten av självständiga akademier utan politisk styrning och vill värna universitetens oberoende. Att landet nationellt och internationellt tydligt värnar forskningens frihet och öppen vetenskap, i en tid av hot mot forskare och auktoritära angrepp på lärosäten, är precis det åtagandet. Planens vilja att bygga digitala allmänningar med fri tillgång till kunskap stöder också öppen vetenskap.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "självständiga akademier utan politisk styrning",
+     "princip": "självständiga akademier",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet vill värna universitetens oberoende och finansiering och höja studiestödet så att fler kan välja att vidareutbilda sig.",
+     "princip": "värna universitetens oberoende",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill bygga upp digitala allmänningar med fri tillgång",
+     "princip": "öppen tillgång till kunskap",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Forskning behövs för att förstå den värld vi lever i.",
+     "princip": "forskningens samhällsvärde",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "546270E0-0E26-4E59-B9B1-DBE6706CBD17",
+   "datum": "2025-06-04",
+   "rubrik": "Klimatanpassning av jordbruket",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet gör regelförenklingar till det centrala verktyget för ett konkurrenskraftigt jordbruk och en tryggad livsmedelsförsörjning. Motförslagets krav på flexiblare regler för bland annat vattenuttag och biotopskydd är just den upprensning bland krångliga regelverk som planen utlovar. Planen binder dessutom ihop ökad matproduktion med stärkt konkurrenskraft för de gröna näringarna, vilket är motförslagets uttalade syfte.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "En långsiktigt hållbar livsmedelsförsörjning med ökad försörjningstrygghet och ökad matproduktion kräver regelförenklingar och skattesänkningar",
+     "princip": "regelförenklingar för livsmedelsförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Dyra, krångliga och innovationshämmande regelverk ligger som en våt filt över delar av landsbygden. Vi ska rensa upp bland överflödiga regler och byråkrati.",
+     "princip": "rensa upp i regelträsket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill stärka de gröna näringarnas konkurrenskraft.",
+     "princip": "stärkt konkurrenskraft gröna näringar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det svenska lantbrukets konkurrenskraft, både inom EU och gentemot övriga världen, ska förstärkas.",
+     "princip": "lantbrukets konkurrenskraft",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "546270E0-0E26-4E59-B9B1-DBE6706CBD17",
+   "datum": "2025-06-04",
+   "rubrik": "Klimatanpassning av jordbruket",
+   "utskott": "MJU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet lovar uttryckligen regeländringar och kostnadslättnader för svenskt lantbruk för att öka självförsörjningen och stärka konkurrenskraften. Motförslagets krav på flexiblare regler för vattenuttag och biotopskydd är just en sådan regeländring som ska göra det möjligt att fortsätta producera mat vid torka och skyfall. Principprogrammet lägger dessutom förvaltarskapsprincipen till grund för en säker livsmedelsförsörjning. Uppluckrat biotopskydd står i viss spänning mot naturhänsynen, men lantbruksåtagandet väger tyngre.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Regeländringar och kostnadslättnader för svenskt lantbruk för att öka Sveriges självförsörjning och stärka lantbrukets konkurrenskraft.",
+     "princip": "regellättnader för lantbruket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi prioriterar lantbruket, det som sällan syns i media men som producerar vår mat.",
+     "princip": "lantbruket producerar maten",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Förvaltarskapsprincipen ska vara vägledande vid utformandet av en säker livsmedelsförsörjning.",
+     "princip": "säker livsmedelsförsörjning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "För en levande landsbygd är ett livskraftigt jordoch skogsbruk samt fiske och rennäring av central betydelse.",
+     "princip": "livskraftigt jordbruk",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "35567E67-D318-40CD-BB16-A1DC24FDE92F",
+   "datum": "2025-06-04",
+   "rubrik": "Livsmedelsstrategin",
+   "utskott": "MJU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen regeländringar och kostnadslättnader för svenskt lantbruk för att öka självförsörjningen och stärka konkurrenskraften - precis det motförslaget efterlyser. Partiprogrammet slår fast att Sverige i princip ska kunna svara för befolkningens livsmedelsförsörjning, vilket bär kravet på uppföljningsbara mål för produktion och försörjningsförmåga. Även behovet av flexiblare vattenhushållning ryms i planens syn på våtmarker och livsmedelsproduktion som basnäring.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Regeländringar och kostnadslättnader för svenskt lantbruk för att öka Sveriges självförsörjning och stärka lantbrukets konkurrenskraft.",
+     "princip": "regellättnader för lantbruket",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige ska i princip\nkunna svara för befolkningens livsmedels- och energi\nförsörjning samt hålla en god beredskap inför avspärr\nning av utrikeshandeln.",
+     "princip": "nationell livsmedelsförsörjning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Förvaltarskapsprincipen ska vara vägledande vid utformandet av en säker livsmedelsförsörjning. Produktionen av livsmedel är en basnäring som måste vårdas och\nutvecklas.",
+     "princip": "livsmedel som basnäring",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Våtmarker behöver bevaras och vid behov återställas,",
+     "princip": "våtmarker och vattenhushållning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "592083FE-95CC-4907-A3F6-35FFB48150F1",
+   "datum": "2025-06-04",
+   "rubrik": "Elevhälsa",
+   "utskott": "UbU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet utlovar kraftigt stärkt elevhälsa med en sammanhållen barn- och ungdomshälsovård, vilket är precis vad motförslaget kräver i sak. Principprogrammet lägger särskild vikt vid snabb och tillgänglig kompetens för barn och unga med psykisk ohälsa, vilket bär kravet på psykosociala bedömningar och tillgång till kurator och psykolog. Bemanningstak är ett detaljerat medel som planen inte anger, men riktningen är densamma.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Kraftigt stärkt elevhälsa med en sammanhållen barn- och ungdomshälsovård och föräldrastödsprogram som erbjuds alla föräldrar.",
+     "princip": "kraftigt stärkt elevhälsa",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Särskild vikt ska läggas vid snabb och tillgänglig kompetens för barn och ungdom med psykisk ohälsa.",
+     "princip": "snabb hjälp vid psykisk ohälsa",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Psykiatrisk vård och omsorg ska präglas av tillgänglighet och flexibilitet utifrån patientens behov.",
+     "princip": "tillgänglig psykiatrisk vård",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi prioriterar samhällets äldsta och yngsta, dem som inte längre orkar höja sin röst eller ännu inte lärt sig att använda den.",
+     "princip": "prioritering av barn",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "FAE0EF53-44DA-4070-A554-6B6283E63F42",
+   "datum": "2025-06-04",
+   "rubrik": "Stöd i svenska språket",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen gör svenska språket till nyckeln in i samhället och vill bygga ut undervisningstiden i svenska, förlänga skoldagarna för dem som riskerar att halka efter och ha mer av obligatorisk lovskola tidigare i skolåren. Den kräver också tidig uppföljning av kunskapsutvecklingen redan i de lägsta årskurserna och obligatorisk språkförskola för nyanlända barn. Motförslagets krav på tidigt upptäckt språkstöd, intensivundervisning och uppföljning efter årskurs 2 är i sak samma åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Dessutom vill vi kunna förlänga skoldagarna för de elever som annars riskerar att halka efter, och ha mer av obligatorisk lovskola tidigare i skolåren.",
+     "princip": "obligatorisk lovskola tidigt",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill bygga ut undervisningstiden i bland annat svenska och matematik så att det finns tid till att lära sig mer.",
+     "princip": "mer undervisningstid i svenska",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "en fördjupad uppföljning ske både i årskurs ett och årskurs tre",
+     "princip": "tidig uppföljning av kunskaper",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "vill vi både införa en obligatorisk språkförskola för nyanlända barn och barn till nyanlända",
+     "princip": "obligatorisk språkförskola",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "79D33109-729D-4BE6-8B14-110AEFA1675C",
+   "datum": "2025-06-04",
+   "rubrik": "Trygghet och säkerhet",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver uttryckligen ökade befogenheter för lärare och att lagen slår fast personalens rätt att upprätthålla studiero. Den vill också att rektorer enklare ska kunna omplacera elever som allvarligt stör och att skolans personal får fler verktyg mot stök och oordning. Motförslagets krav på tydligt lagstöd för den som ingriper vid ordningsstörningar är exakt det planen efterfrågar.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill ge lärare ökad rätt att agera mot elever som förstör för klasskompisar och sig själv",
+     "princip": "ökade lärarbefogenheter",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "lagen ska slå fast lärarens befogenheter för att upprätthålla studiero i klassrummet",
+     "princip": "lagstöd för studiero",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rektorer ska enklare kunna omplacera elever som allvarligt stör verksamhet.",
+     "princip": "enklare omplacering av störande elever",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "fler verktyg för lärare och rektor att hantera stök och oordning",
+     "princip": "fler verktyg mot oordning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "EAAEC303-D349-463F-9CBB-6FC836D73B77",
+   "datum": "2025-06-04",
+   "rubrik": "Lärarbrist m.m.",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen sätter läraren först och kräver både bättre villkor och avlastning för lärare, fler vägar till lärarlegitimation och en storsatsning på fler speciallärare. Detta är i sak samma åtgärdslista som motförslaget för fram mot lärarbristen. Planens åtagande om minst 1 000 fler speciallärare täcker dessutom uttryckligen kravet på fler speciallärare och specialpedagoger.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Det ska finnas flera vägar till lärarlegitimation.",
+     "princip": "fler vägar in i yrket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Lärare ska avlastas för att kunna vara just lärare, kunna göra karriär, få betald fortbildning och få ordentligt bra betalt.",
+     "princip": "bättre villkor för lärare",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "För att göra det möjligt skjuter vi till pengar för minst 1 000 fler speciallärare.",
+     "princip": "fler speciallärare",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Lärarutbildningarna och lärarnas fortbildningsmöjligheter ska fortsatt stärkas.",
+     "princip": "stärkt lärarutbildning",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "35567E67-D318-40CD-BB16-A1DC24FDE92F",
+   "datum": "2025-06-04",
+   "rubrik": "Livsmedelsstrategin",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig uttryckligen att förstärka livsmedelsstrategin, stärka jordbruket för att öka den inhemska produktionen och minska antalet regler och handläggningstider för miljötillstånd. Den vill också ta fram en plan för hur animalieproduktion och växtodling ska kunna bedrivas vid höjd beredskap, vilket svarar mot kravet på uppföljningsbara mål för försörjningsförmågan. Motförslagets krav på lägre kostnader, mindre administration och flexiblare vattenregler ligger därmed i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Förstärka livsmedelsstrategin",
+     "princip": "förstärkt livsmedelsstrategi",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Minska antalet regler för jordbruket och korta handläggningstider för miljötillstånd",
+     "princip": "minskad administrativ börda",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärka jordbruket för att öka den inhemska produktionen av livsmedel",
+     "princip": "ökad inhemsk produktion",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Ta fram en plan för hur animalieproduktion och växtodling ska kunna bedrivas vid höjd beredskap",
+     "princip": "försörjning vid höjd beredskap",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "79D33109-729D-4BE6-8B14-110AEFA1675C",
+   "datum": "2025-06-04",
+   "rubrik": "Trygghet och säkerhet",
+   "utskott": "UbU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen lovar uttryckligen att stärka lärares och rektorers auktoritet att ingripa i stökiga situationer, vilket är exakt det motförslaget kräver: tydligt lagstöd för personal som ingriper mot ordningsstörningar. Planen vill dessutom skriva in ordning och studiero i skollagens portalparagraf och göra våld mot skolpersonal till egen brottsrubricering. Ordning och studiero framhålls som en förutsättning för lärande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Stärka lärares och rektorers auktoritet att kunna ingripa i stökiga situationer",
+     "princip": "stärkt auktoritet vid ingripanden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skriva in ordning och studiero i skollagens portalparagraf och införa ordningsomdömen",
+     "princip": "ordning och studiero i lag",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Införa våld mot skolpersonal som ny brottsrubricering",
+     "princip": "skydd för skolpersonal",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Studiero är en förutsättning för lärande.",
+     "princip": "studiero som grundvillkor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "FAE0EF53-44DA-4070-A554-6B6283E63F42",
+   "datum": "2025-06-04",
+   "rubrik": "Stöd i svenska språket",
+   "utskott": "UbU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Motförslaget kräver tidig upptäckt av elever som brister i svenska, intensivundervisning och obligatoriska insatser på loven. Planen innehåller just detta: obligatorisk språkuppföljning vid tre års ålder, obligatorisk språkförskola vid bristande språkutveckling och en skyldighet för kommuner att erbjuda lovskola som eleven är skyldig att delta i. Planen anger omfattande satsningar på svenska språket redan i tidig ålder som avgörande för att bryta segregationen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Införa obligatorisk språkförskola för barn som visar en bristande språkutveckling",
+     "princip": "obligatorisk språkförskola",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Införa obligatorisk språkuppföljning vid 3 års ålder för att upptäcka barn som inte kan tala svenska",
+     "princip": "tidig språkuppföljning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Införa en skyldighet för kommuner att erbjuda lovskola från lågstadiet. Elever som ligger efter i skolan ska vara skyldiga att delta i lovskolan",
+     "princip": "obligatorisk lovskola",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Utöka lovskolan för barn som halkar efter",
+     "princip": "utökad lovskola",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "79D33109-729D-4BE6-8B14-110AEFA1675C",
+   "datum": "2025-06-04",
+   "rubrik": "Trygghet och säkerhet",
+   "utskott": "UbU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår uttryckligen fast att lärare och annan personal omedelbart ska kunna ingripa vid stök och oro, vilket är precis vad motförslaget vill ge tydligt lagstöd för. Partiprogrammet lyfter studiero och trygghet i skolorna som ett mål för politiken. Planen talar därmed direkt för att personalens befogenheter vid ordningsstörningar ska klargöras.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Lärare och annan personal i skolan ska omedelbart kunna ingripa vid stök och oro.",
+     "princip": "personal ska kunna ingripa",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stoppa stöket i klassrummen.",
+     "princip": "stopp för stök i klassrum",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Studiero och trygghet i skolorna.",
+     "princip": "studiero och trygghet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Rätt till trygg närmiljö för alla, prioritering av trygghetsskapande arbete.",
+     "princip": "trygghetsskapande arbete prioriteras",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "546270E0-0E26-4E59-B9B1-DBE6706CBD17",
+   "datum": "2025-06-04",
+   "rubrik": "Klimatanpassning av jordbruket",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver uttryckligen enklare och mer flexibla regelverk för jord- och skogsbruket och att jordbrukets konkurrenskraft och självförsörjning stärks. Motförslagets krav på anpassade regler för vattenuttag och biotopskydd är just en sådan regelförenkling som ska göra det möjligt att fortsätta producera mat. Planen betonar också att rättssäkerheten och myndigheternas samspel med markägare behöver förbättras, vilket pekar åt samma håll.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Förenkla regelverken och förbättra rättssäkerheten",
+     "princip": "förenklade regelverk i jordbruket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "EU-reglerna måste bli färre och mer flexibla utifrån varje medlemsstats unika landskap, tradition och standarder.",
+     "princip": "färre och flexiblare regler",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Öka det svenska jordbrukets konkurrenskraft och Sveriges självförsörjning av livsmedel",
+     "princip": "stärkt livsmedelsförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rättssäkerheten behöver stärkas för den som bedriver näring inom jord- och skogsbruk och myndigheternas arbete behöver i högre grad anpassas för att verka i intressegemenskap med markägare.",
+     "princip": "rättssäkerhet för markägare",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "35567E67-D318-40CD-BB16-A1DC24FDE92F",
+   "datum": "2025-06-04",
+   "rubrik": "Livsmedelsstrategin",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver ökad konkurrenskraft i det svenska jordbruket och ökad självförsörjning av livsmedel, förenklade regelverk samt sänkta skatter och avgifter för näringen. Planen vill också öka självförsörjningsgraden av kritiska varor inför kris. Motförslagets krav på uppföljningsbara produktions- och försörjningsmål samt lägre kostnader och administrativa bördor ligger därmed i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Öka det svenska jordbrukets konkurrenskraft och Sveriges självförsörjning av livsmedel",
+     "princip": "ökad livsmedelsförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förenkla regelverken och förbättra rättssäkerheten",
+     "princip": "enklare regelverk",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sänka skatten på diesel för jord- och skogsbruket och den allmänna löneavgiften",
+     "princip": "lägre kostnader för lantbruket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Öka den svenska självförsörjningsgraden av kritiska produkter och varor",
+     "princip": "försörjningsberedskap",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "592083FE-95CC-4907-A3F6-35FFB48150F1",
+   "datum": "2025-06-04",
+   "rubrik": "Elevhälsa",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen satsningar på elevhälsa och socialt stöd i skolan och konstaterar att den psykiska ohälsan bland unga är utbredd. Motförslagets krav på fler kuratorer, psykologer och skolsköterskor samt på att psykisk hälsa ska fångas upp i hälsokontroller är precis den utbyggnad planen efterfrågar. Partiprogrammet lägger dessutom fast att skolan ska ha kapacitet att stödja varje barn.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det krävs satsningar inte bara på undervisning utan också på elevhälsa, specialpedagoger, fritidsverksamhet och socialt stöd.",
+     "princip": "satsningar på elevhälsa",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Alltför många barn far illa idag och den psykiska ohälsan bland unga är utbredd.",
+     "princip": "ungas psykiska ohälsa",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "och kapacitet att stödja varje barn under uppväxten. Den har en viktig",
+     "princip": "skola som stödjer varje barn",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet vill se fler lärare, tidigare insatser för barn som har det kämpigt och förbättrad tillgång till lärande genom hela livet.",
+     "princip": "tidiga insatser för barn",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "EAAEC303-D349-463F-9CBB-6FC836D73B77",
+   "datum": "2025-06-04",
+   "rubrik": "Lärarbrist m.m.",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen fler lärare, tidigare insatser och satsningar på specialpedagoger. Motförslagets krav på fler utbildade lärare, fler vägar in i yrket och fler speciallärare är samma sak i sak. Partiprogrammet vill dessutom göra stora investeringar i utbildningssystemets kvalitet, vilket förutsätter att lärarbristen byggs bort.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Vänsterpartiet vill se fler lärare, tidigare insatser för barn som har det kämpigt och förbättrad tillgång till lärande genom hela livet.",
+     "princip": "fler lärare och tidiga insatser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det krävs satsningar inte bara på undervisning utan också på elevhälsa, specialpedagoger, fritidsverksamhet och socialt stöd.",
+     "princip": "fler specialpedagoger",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill göra stora investeringar i att höja kvaliteten i utbildningssystemet.",
+     "princip": "investeringar i utbildningskvalitet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska inte spela någon roll om du bor i ett miljonprogramsområde eller på landsbygden, rätten till likvärdig utbildning och bildning är grundläggande.",
+     "princip": "likvärdig utbildning i hela landet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3BEF588C-980E-4C8B-BDE6-2D0378926E27",
+   "datum": "2025-06-10",
+   "rubrik": "Företagens förutsättningar för att bidra till en cirkulär ekonomi",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast målet att Sverige ska bli världens mest resurseffektiva land med en mer cirkulär ekonomi, där återvinning och återbruk ska underlättas med rätt stöd och regelförenklingar. Motförslagets krav på styrmedel som prioriterar upparbetning framför energiåtervinning och som gynnar reparerbarhet och längre livslängd är samma åtagande i konkret form. Partiprogrammets princip att det alltid ska löna sig att vara miljövårdande bär samma slutsats.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska bli världens mest resurseffektiva land och ekonomin mer cirkulär. Med rätt stöd och regelförenklingar kan vi återvinna och återbruka allt från kläder till mineral och metaller.",
+     "princip": "cirkulär och resurseffektiv ekonomi",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det ska alltid vara lönsamt att vara miljövårdande och olönsamt att agera miljöförstörande.",
+     "princip": "styrmedel som lönar miljönytta",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska kosta mer att smutsa ner.",
+     "princip": "förorenaren betalar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Företagens innovationskraft är nödvändig för att Sverige och resten av världen ska bli kvitt sitt beroende av fossil energi och övervinna klimathotet.",
+     "princip": "innovation driver omställningen",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0B26DD5F-4CE8-4DBA-B28E-E6C3239DE3ED",
+   "datum": "2025-06-10",
+   "rubrik": "Regelverket för krigsmaterielexport",
+   "utskott": "UU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Principprogrammet uttalar sig direkt om just denna fråga: export ska inte gå till offensivt krigförande länder eller till stater med systematiska kränkningar av mänskliga rättigheter, och vapenexporten ska begränsas till demokratiska stater under noggrann kontroll. Det är i sak vad motförslaget kräver med sitt absoluta exportförbud till diktaturer och grova rättighetskränkare. Planen säger inget om motsvarande reglering av import, vilket är den del av kravet som inte täcks.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Export ska ej gå till offensivt krigförande länder",
+     "princip": "exportförbud till krigförande stater",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "eller till stater där det förekommer systematiska kränkningar av mänskliga rättigheter.",
+     "princip": "exportförbud vid MR-kränkningar",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "till demokratiska stater och omgärdas av noggrann",
+     "princip": "export endast till demokratier",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "en inhemsk försvarsindustri",
+     "princip": "inhemsk försvarsindustri behövs",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9FF407C7-A278-41F3-927D-AED519665635",
+   "datum": "2025-06-10",
+   "rubrik": "Stridsåtgärder",
+   "utskott": "AU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver uttryckligen en regel om rimlig proportion mellan syftet med en stridsåtgärd och de medel som används, vilket är precis den begränsning motförslaget efterfrågar när oinblandade drabbas. Den värnar samtidigt den fackliga friheten och kollektivavtalen, så kravet gäller proportionalitet och inte konflikträtten som sådan. Planens genomgående omsorg om små företags villkor och konkurrens på lika villkor pekar åt samma håll.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "behövs en regel om att det ska finnas en rimlig proportion mellan syftet och de använda",
+     "princip": "proportionalitet vid stridsåtgärder",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Den fackliga friheten och möjligheten till kollektivavtal är en viktig del av förenings- och",
+     "princip": "värnad facklig frihet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Regelbördan för små företag ska minska",
+     "princip": "skydda små företags villkor",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "slå vakt om äganderätt, konkurrens på lika villkor, rättssäkerhet",
+     "princip": "konkurrens på lika villkor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "AEC50DF5-D47A-432F-890D-C173C61BAE92",
+   "datum": "2025-06-10",
+   "rubrik": "Utrikes- och säkerhetspolitik",
+   "utskott": "UU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver mer – inte mindre – europeiskt samarbete och särskilt en tätare samverkan mot inre och yttre hot, och gör EU till det främsta forumet för svensk utrikes- och säkerhetspolitik. Den vill dessutom stärka oberoende och granskande medier som demokratins grund, vilket bär kravet på stöd till pålitliga medier mot desinformation. Motförslagets krav på en stärkt gemensam utrikes- och säkerhetspolitik är därmed planens egen linje.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Inte minst vill vi öka de europeiska klimatambitionerna samt se en tätare samverkan mot inre och yttre hot.",
+     "princip": "tätare EU-samverkan mot hot",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Europeiska unionen är det främsta forumet för svensk utrikes- och säkerhetspolitik.",
+     "princip": "EU som främsta utrikespolitiska forum",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Europa behöver mer – inte mindre – samarbete.",
+     "princip": "fördjupat europasamarbete",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Mediernas oberoende roll och kritiska granskning är grunden i varje demokrati.",
+     "princip": "oberoende granskande medier",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "8DD1BF97-122A-4F80-B48A-6542538E1578",
+   "datum": "2025-06-10",
+   "rubrik": "Översyn av EU:s kemikalielagstiftning",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen säger uttryckligen att kemikalielagstiftningen ska utgå från försiktighetsprincipen och att den europeiska kemikalielagstiftningen behöver skärpas, med särskild hänsyn till barns känslighet och till kombinationseffekter. Den vill också att EU:s regelverk på miljöområdet skärps och att tillsyn och sanktioner förbättras. Motförslagets krav på skyndsam och skärpt reglering mot hormonstörande ämnen och utbyte mot säkrare alternativ är i sak samma åtagande.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Kemikalielagstiftningen ska utgå från försiktighetsprincipen.",
+     "princip": "försiktighetsprincipen styr",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "kemikalielagstiftningen behöver skärpas, och särskild hänsyn tas till barn och ungas känslighet",
+     "princip": "skärpt kemikalielagstiftning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "miljö- och klimatområdet måste höjas och regelverken skärpas",
+     "princip": "höjda EU-ambitioner",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Tillsynen behöver förbättras och sanktionerna skärpas.",
+     "princip": "skärpt tillsyn",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "C653591F-544F-41B0-9EBD-C1A0A0635599",
+   "datum": "2025-06-10",
+   "rubrik": "Sveriges utrikes- och säkerhetspolitik som medlem i Nato",
+   "utskott": "UU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet förenar Nato-medlemskapet med ett pådrivande arbete för avspänning, icke-spridning och ömsesidig nedrustning samt ett aktivt förebyggande fredsarbete. Respekt för mänskliga rättigheter och folkrätt anges som centrala delar av den världsordning partiet vill se. Motförslagets krav på fred, avspänning, nedrustning och ett trovärdigt totalförsvar inom ramen för medlemskapet är därmed planens egen formulering.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Pådrivande arbete för avspänning, icke-spridning och en ömsesidig internationell nedrustning, med en värld helt fri från massförstörelsevapen som mål.",
+     "princip": "avspänning och nedrustning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "vill socialdemokratin delta i ett aktivt förebyggande fredsarbete, i syfte att förhindra krig och konflikter.",
+     "princip": "förebyggande fredsarbete",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Respekt för mänskliga rättigheter och för folkrätten är centrala delar i den regelbaserade världsordning socialdemokratin vill se.",
+     "princip": "mänskliga rättigheter och folkrätt",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Stark motståndskraft i hela samhället genom betydande militär förmåga, stark svensk försvarsindustri och god civil beredskap.",
+     "princip": "trovärdigt totalförsvar",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "A70B2A86-772E-428A-B130-EA6402BF724E",
+   "datum": "2025-06-10",
+   "rubrik": "Utrikespolitik, säkerhetspolitik och krisberedskap",
+   "utskott": "UU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet anger uttryckligen att det inte ska finnas kärnvapen på svenskt territorium och driver på för nedrustning med en värld fri från massförstörelsevapen som mål. Motförslagets krav på en kärnvapenfri zon i Norden med lagstiftning mot kärnvapen på eget territorium är samma åtagande. Att planen samtidigt bejakar Nato-medlemskapet ändrar inte den uttryckliga skrivningen om svenskt territorium.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Inga kärnvapen på svenskt territorium.",
+     "princip": "inga kärnvapen i Sverige",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Pådrivande arbete för avspänning, icke-spridning och en ömsesidig internationell nedrustning, med en värld helt fri från massförstörelsevapen som mål.",
+     "princip": "internationell nedrustning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi fördömer allt hot om användning av kärnvapen och fortsätter verka för det enda rimliga slutmålet: en värld fri från kärnvapen.",
+     "princip": "värld fri från kärnvapen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Utvecklat nordiskt samarbete, också inom säkerhetspolitiken med hela Norden med i Nato.",
+     "princip": "nordiskt samarbete i Nato",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "23011899-2CF3-4666-9337-BB236F76667D",
+   "datum": "2025-06-10",
+   "rubrik": "Nordiskt samarbete",
+   "utskott": "UU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen vill inrätta en nordisk krisberedskapskommitté för samordnad hantering av kriser och slår fast att självförsörjningen av livsmedel behöver öka och snabbt kunna skalas upp vid långvariga störningar. En gemensam nordisk strategi med tidsplan för livsmedelsberedskap är just en sådan samordning. Även kravet på att den nordiska kultur- och språkgemenskapen synliggörs har stöd i planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Inrätta en nordisk krisberedskapskommitté för samordnad hantering av kriser",
+     "princip": "nordisk krisberedskapssamordning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sveriges självförsörjning av energi, livsmedel och medicinskt material behöver öka och snabbt kunna skalas upp vid långvariga störningar.",
+     "princip": "ökad livsmedelsberedskap",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärk den nordiska språk- och kulturgemenskapen",
+     "princip": "nordisk kulturgemenskap",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Öka den svenska självförsörjningsgraden av kritiska produkter och varor",
+     "princip": "självförsörjning av kritiska varor",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3BEF588C-980E-4C8B-BDE6-2D0378926E27",
+   "datum": "2025-06-10",
+   "rubrik": "Företagens förutsättningar för att bidra till en cirkulär ekonomi",
+   "utskott": "MJU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att återanvändning och återvinning av material behöver öka och vill se produkter som håller och lätt kan återanvändas i stället för slit och släng. Motförslagets krav på styrmedel som prioriterar upparbetning framför energiåtervinning och som gynnar reparerbarhet är samma sak i sak. Partiprogrammet pekar dessutom ut skiftet till cirkulär ekonomi som en nyckeldel i industrins omställning.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Återanvändning och återvinning av material behöver öka.",
+     "princip": "ökad återvinning och återanvändning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "produkter som håller och lätt kan återanvändas och delas istället för slit- och släng",
+     "princip": "hållbara och reparerbara produkter",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det är en nyckeldel i ett bredare skifte till cirkulär ekonomi och",
+     "princip": "skifte till cirkulär ekonomi",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Där inte teknikskiften räcker för att minska utsläppen måste konsumtionen styras bort från det smutsiga och alla ges förutsättningar att leva mer hållbart.",
+     "princip": "styrmedel som styr bort från det smutsiga",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "C653591F-544F-41B0-9EBD-C1A0A0635599",
+   "datum": "2025-06-10",
+   "rubrik": "Sveriges utrikes- och säkerhetspolitik som medlem i Nato",
+   "utskott": "UU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen står för fred, deeskalering och långsiktig nedrustning och vill att Sverige kan agera självständigt från stormakterna för att inte dras in i geopolitiska konflikter. Motförslagets krav på att säkerhets- och försvarspolitiken präglas av fred, avspänning, nedrustning och en självständig linje är samma sak i sak. Planen förenar detta med ett modernt totalförsvar byggt på allmän värnplikt, precis som motförslaget.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Världen behöver gå mot fred, nedrustning",
+     "princip": "fred och nedrustning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det är viktigt att Sverige kan agera självständigt från stormakter som",
+     "princip": "självständig utrikespolitik",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "och deeskalering. Vi vänder oss emot militarisering och kapprustning.",
+     "princip": "deeskalering framför upprustning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vi vill se ett modernt totalförsvar byggt på allmän värnplikt, med en",
+     "princip": "totalförsvar på värnplikt",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F30AEF77-2C02-4C2B-AD9F-BEFD25DC1064",
+   "datum": "2025-06-17",
+   "rubrik": "Genomförande av vattendirektivet",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att klimatet inte kan vänta på dyra och krångliga regelverk och vill halvera tillståndstiderna för gröna investeringar samt ge miljönyttan större vikt i prövningen. Motförslagets krav på att reningsverk och andra miljöskyddande verksamheter alltid ska kunna byggas ut, med rimliga undantag och nationellt handlingsutrymme, är samma åtagande. Planens löfte att rädda sjöar, vattendrag och hav bär också kravet på investeringar mot läkemedelsrester.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det är dags att halvera tiden det tar att få tillstånd för gröna investeringar och reformera miljöbalken så att ett projekts klimatnytta ges större vikt i miljöprövningen.",
+     "princip": "snabbare prövning av miljönyttiga projekt",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Klimatet kan inte vänta på dyra och krångliga regelverk.",
+     "princip": "regelverk får inte hindra miljönytta",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rädda Sveriges sjöar, vattendrag och hav. Våra barn ska kunna bada utan att utsättas för gifter, nedskräpning eller algblomning.",
+     "princip": "renare vatten",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Principen måste vara att beslut fattas så nära medborgaren som möjligt och att endast de beslut som måste fattas gemensamt beslutas på EU-nivå.",
+     "princip": "nationellt handlingsutrymme",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "62ECA3E7-166E-4D6E-B322-04CF19E375F4",
+   "datum": "2025-06-17",
+   "rubrik": "Livsmedelsförsörjning och sysselsättning",
+   "utskott": "MJU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet pekar uttryckligen ut vattenbruket som en grön näring med stor potential som måste tas till vara och som kan skapa sysselsättning på landsbygden. Motförslagets krav på fortsatta åtgärder för hållbar fiskuppfödning med höga miljökrav och jobb på landsbygden är samma åtagande. Valmanifestets löfte att stärka de gröna näringarnas konkurrenskraft och att skydda havsmiljön och den småskaliga fiskenäringen stärker slutsatsen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Även vattenbruket är en grön näring med stor potential som måste tas till vara. Det kan såväl producera mat och biomassa av hög kvalitet som skapa sysselsättning på landsbygden.",
+     "princip": "vattenbrukets potential",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill stärka de gröna näringarnas konkurrenskraft.",
+     "princip": "stärkta gröna näringar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skadlig bottentrålning ska inte få förstöra för varken havsmiljön, den småskaliga fiskenäringen eller sportfisket.",
+     "princip": "skyddad havsmiljö och fiskenäring",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverige ska bli världens mest resurseffektiva land och ekonomin mer cirkulär.",
+     "princip": "cirkulär ekonomi",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7EF88120-6F97-4B2F-94C6-452570C171DA",
+   "datum": "2025-06-17",
+   "rubrik": "Återvätning av dikade våtmarker och andra restaureringsåtgärder",
+   "utskott": "MJU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Principprogrammet säger uttryckligen att våtmarker behöver bevaras och vid behov återställas, vilket är precis vad motförslaget vill intensifiera. Förvaltarskapsprincipen kräver dessutom att vi inte ansvarslöst förbrukar naturvärden och att kommande generationer får del av dem, vilket bär kravet på ökad miljö- och klimathänsyn vid exploatering av våtmarker. Försiktighetsprincipen gäller vid misstanke om oåterkallelig skada.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Våtmarker behöver bevaras och vid behov återställas,",
+     "princip": "återställande av våtmarker",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Miljön och naturresurserna måste förvaltas ansvarsfullt, så att goda livsbetingelser inte äventyras och så att kommande generationer också får del av dem.",
+     "princip": "förvaltarskap för kommande generationer",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "också att agerandet grundas på försiktighetsprincipen.",
+     "princip": "försiktighetsprincipen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Att slå vakt om den biologiska mångfalden är viktigt av",
+     "princip": "biologisk mångfald",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "7EF88120-6F97-4B2F-94C6-452570C171DA",
+   "datum": "2025-06-17",
+   "rubrik": "Återvätning av dikade våtmarker och andra restaureringsåtgärder",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig uttryckligen att stärka den naturliga koldioxidinlagringen genom att fler tidigare våtmarker återställs. Den slår också fast att det brådskar att ta hand om koldioxiden i atmosfären och att negativa utsläpp måste börja göras långt innan de sista fossila utsläppen sker. Motförslagets krav på intensifierad återvätning och ökad hänsyn vid exploatering av våtmarker är därmed planens eget åtagande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Den naturliga koldioxidinlagringen ska stärkas genom att fler tidigare våtmarker återställs.",
+     "princip": "återställda våtmarker",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det brådskar att ta hand om den koldioxid som finns i atmosfären.",
+     "princip": "brådskande kolinlagring",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Negativa utsläpp behöver börja göras långt innan de sista fossila utsläppen",
+     "princip": "tidiga negativa utsläpp",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Naturvården måste få en renässans.",
+     "princip": "naturvårdens renässans",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "10617C3F-FEC9-436B-9005-481156C526B3",
+   "datum": "2025-06-17",
+   "rubrik": "Genomförande av naturrestaureringsförordningen",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att naturvården måste få en renässans och att det behövs ökade restaureringsinsatser och fler skyddade sammanhängande områden på land och i vatten. Den åtar sig dessutom att stärka den naturliga koldioxidinlagringen genom att fler tidigare våtmarker återställs och att markägare ersätts för naturvård som kollektiv nyttighet. Motförslagets krav på resurser och långsiktiga anslag till naturrestaurering är därmed planens egen linje.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Naturvården måste få en renässans.",
+     "princip": "naturvårdens renässans",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "behövs ökade restaureringsinsatser och fler skyddade",
+     "princip": "ökade restaureringsinsatser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Den naturliga koldioxidinlagringen ska stärkas genom att fler tidigare våtmarker återställs.",
+     "princip": "återställda våtmarker",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "ersättas för kollektiva nyttigheter som naturvård samt bevarande av den biologiska mångfalden",
+     "princip": "ersättning för naturvård",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F30AEF77-2C02-4C2B-AD9F-BEFD25DC1064",
+   "datum": "2025-06-17",
+   "rubrik": "Genomförande av vattendirektivet",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Motförslaget vill ändra vattendirektivet så att reningsverk och andra miljöskyddande anläggningar alltid kan byggas ut, med rimliga undantag och nationellt handlingsutrymme. Planen åtar sig uttryckligen att satsa på forskning om vattenrening och utbyggnad av avancerad vattenrening, vilket förutsätter att tillståndsreglerna inte blockerar sådana investeringar. Planen vill dessutom motverka överimplementering av EU-beslut och låta beslut fattas på lägsta möjliga nivå.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Satsa på forskning om vattenrening samt utbyggnad av avancerad vattenrening",
+     "princip": "utbyggd avancerad vattenrening",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Minska regelkrånglet och onödig byråkrati, bland annat genom att motverka överimplementering i Sverige av EU-beslut",
+     "princip": "mot överimplementering",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Beslut ska fattas på lägsta möjliga nivå, så nära medborgarna som möjligt.",
+     "princip": "nationellt handlingsutrymme",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förstärka det gemensamma Östersjöarbetet för åtgärder mot övergödning och nedskräpning",
+     "princip": "renare vattenmiljö",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "194E10D7-7446-4E31-B283-20718CD20295",
+   "datum": "2025-06-17",
+   "rubrik": "Utveckling och styrning av högskolans verksamhet",
+   "utskott": "UbU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Motförslaget vill stärka högskolans arbetsmarknadsanknytning och regionala samverkan. Planen åtar sig uttryckligen ett resursfördelningssystem där etablering på arbetsmarknaden premieras och en nationell samordning över samhällets behov av utbildningsplatser för att förbättra kompetensförsörjningen. Planen konstaterar att kompetensförsörjningen måste bli bättre och att utbildningarnas innehåll ska vara relevant och eftertraktat.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Arbeta för ett resursfördelningssystem till högskolan så att akademisk kvalitet, genomströmning samt etablering på arbetsmarknaden premieras i högre utsträckning",
+     "princip": "arbetsmarknadsetablering premieras",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Få på plats en nationell samordning över samhällets behov av antalet utbildningsplatser för att förbättra kompetensförsörjningen",
+     "princip": "samordnad kompetensförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kompetensförsörjningen på svensk arbetsmarknad måste bli bättre.",
+     "princip": "bättre kompetensförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Moderaterna vill ta vara på hela Sveriges möjligheter.",
+     "princip": "hela landets möjligheter",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4E171D85-F37F-40F4-8469-7813439AA650",
+   "datum": "2025-06-17",
+   "rubrik": "Utbildningsformer",
+   "utskott": "UbU",
+   "parti": "MP",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att tillgången på högre utbildning ska vara god i hela landet och lyfter uttryckligen fram regionala högskolor och distansutbildningar som viktiga för den möjligheten. Distansalternativ ska vara lättillgängliga genom utbyggt bredband, och banden till arbetslivet ska vara starka. Motförslagets krav på utbyggd distansutbildning, lärcentrum och arbetsmarknadsanpassat utbud stöds därför.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Byskolor, folkhögskolor, regionala högskolor och\ndistansutbildningar är viktiga för möjligheten till\nutbildning i hela landet.",
+     "princip": "distansutbildning i hela landet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Tillgången på högre utbildning ska vara god i hela\nlandet.",
+     "princip": "god tillgång i hela landet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Distansarbete och kultur\npå distans måste också vara lättillgängliga alternativ, genom bland annat utbyggt, snabbt bredband.",
+     "princip": "lättillgängliga distansalternativ",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Banden mellan\narbetslivet och högskolorna ska vara starka.",
+     "princip": "starka band till arbetslivet",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "6B1DBD23-1B6B-4B55-A5A3-B988313237BA",
+   "datum": "2025-06-17",
+   "rubrik": "Utformningen av bestämmelser på förordnings- och föreskriftsnivå",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver att tillståndsprocesser effektiviseras och görs mer förutsägbara och att regelverken förenklas med bättre rättssäkerhet. Motförslagets krav på bättre anpassade regler, undantag från anmälningsplikt för småskaliga verksamheter och en samlad digital kontaktpunkt är just sådan regelförenkling. Planen vill dessutom avlasta småföretagens administrativa börda och skapa förutsättningar för nyföretagande.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Effektivisera och öka förutsägbarheten i tillståndsprocesserna för gruvnäring, elnätsutbyggnad och industri",
+     "princip": "effektiva tillståndsprocesser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förenkla regelverken och förbättra rättssäkerheten",
+     "princip": "förenklade regelverk",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Verka för regelförenkling och avlasta småföretagens administrativa börda",
+     "princip": "lättad administrativ börda",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skapa förutsättningar för nyföretagande och entreprenörskap",
+     "princip": "förutsättningar för nyföretagande",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "53BAD81C-E2F9-44FF-872C-F8432463B94A",
+   "datum": "2025-06-17",
+   "rubrik": "Genomförande av konventionen om biologisk mångfald",
+   "utskott": "MJU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Planen kräver att regelverken blir mer flexibla utifrån varje medlemsstats unika landskap, tradition och standarder och att Sveriges självbestämmande över skogen värnas gentemot EU. Motförslagets krav på att internationella regelverk och den kommande strategin tar hänsyn till olika biofysiska förutsättningar och naturvårdstraditioner är samma åtagande. Planen betonar dessutom att naturvården ska bygga på vad som mest effektivt bevarar arter.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "EU-reglerna måste bli färre och mer flexibla utifrån varje medlemsstats unika landskap, tradition och standarder.",
+     "princip": "hänsyn till nationella förhållanden",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Värna Sveriges självbestämmande över skogen gentemot EU",
+     "princip": "nationellt självbestämmande",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sverigedemokraterna fokuserar på vad som mest effektivt bevarar arter, ibland med nya tekniker.",
+     "princip": "effektivt artbevarande",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Biologisk mångfald går hand i hand med ett aktivt och produktivt skogsbruk där man genom ny teknik och smarta metoder kan uppnå målen utan kostsam och omfattande utbyggnad av reservaten.",
+     "princip": "mångfald med aktivt brukande",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4E171D85-F37F-40F4-8469-7813439AA650",
+   "datum": "2025-06-17",
+   "rubrik": "Utbildningsformer",
+   "utskott": "UbU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver att det blir lättare att utbilda sig oavsett var i landet man bor och att rätten till likvärdig utbildning gäller överallt. Motförslagets krav på utbyggd distansutbildning, lärcentrum, examination nära hemorten och högre utbildning i varje län är just den geografiska tillgängligheten. Planen vill dessutom se goda möjligheter till lärande genom hela livet och att folkhögskolor och komvux finns i hela landet.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Det måste bli lättare att utbilda sig efter grundskolan oavsett vem du är, tjockleken på din plånbok eller var i landet du bor.",
+     "princip": "utbildning tillgänglig i hela landet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det ska inte spela någon roll om du bor i ett miljonprogramsområde eller på landsbygden, rätten till likvärdig utbildning och bildning är grundläggande.",
+     "princip": "likvärdig utbildning oavsett ort",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Folkhögskolor och Komvux behövs i hela landet.",
+     "princip": "utbildningsinstitutioner i hela landet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "uppväxten och goda möjligheter till lärande genom hela livet. Folk",
+     "princip": "livslångt lärande",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "10617C3F-FEC9-436B-9005-481156C526B3",
+   "datum": "2025-06-17",
+   "rubrik": "Genomförande av naturrestaureringsförordningen",
+   "utskott": "MJU",
+   "parti": "V",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet kräver ett heltäckande arbete för rika ekosystem, bland annat genom att återställa natur, och valmanifestet att torrlagda våtmarker ska återställas. Motförslagets krav på resurser till restaureringsplaner och långsiktiga anslag till naturrestaurering är just det arbetet i praktiken. Planen vill dessutom se ambitiösa miljömål som följs upp med praktiskt arbete, vilket förutsätter finansiering.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "skapa goda villkor för rika ekosystem, bland annat genom att återställa",
+     "princip": "återställd natur",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skogens roll att naturligt minska och lagra utsläpp behöver stärkas och torrlagda våtmarker som läcker utsläpp ska återställas.",
+     "princip": "återställda våtmarker",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "miljömål som följs upp med skarp lagstiftning och praktiskt arbete.",
+     "princip": "miljömål som följs upp",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Skyddet av skogs- och strandområden är en viktig del för att värna den svenska allemansrätten och den biologiska mångfalden.",
+     "princip": "skydd av naturområden",
      "svag": null
     }
    ]
@@ -48437,6 +50895,646 @@
      "document": "valmanifest",
      "quote": "Vi vill förbättra rehabiliteringen och göra sjukskrivningen mer flexibel.",
      "princip": "flexiblare sjukförsäkring",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "AEA441C3-9DCD-463F-AFBF-D9086A45B71E",
+   "datum": "2025-05-15",
+   "rubrik": "Studerande",
+   "utskott": "SfU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet säger uttryckligen att socialförsäkringarna ska anpassas till studerandes situation och att studenters trygghet vid sjukdom måste förstärkas. Sjukförsäkringen ska dessutom ge trygghet vid både kortvarig och kronisk sjukdom och kopplas till rehabilitering tillbaka till sysselsättning. En rätt till deltidssjukskrivning med studiemedel är precis den förstärkning planen efterlyser.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Socialförsäkringarna ska anpassas till studerandes och företagares situation.",
+     "princip": "socialförsäkring anpassad till studenter",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "forskares och företagares trygghet vid sjukdom och föräldraskap måste förstärkas.",
+     "princip": "stärkt trygghet vid sjukdom",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sjukförsäkringen ska ge ekonomisk trygghet vid både kortvarig och kronisk sjukdom",
+     "princip": "trygghet vid sjukdom",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Studiemedelssystemet ska skapa förutsättningar för alla oavsett ekonomisk bakgrund att studera på",
+     "princip": "studiemedel oavsett bakgrund",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0A5EACD3-D435-42A1-8124-458AD48DF644",
+   "datum": "2025-05-20",
+   "rubrik": "Exponering av beslutsfattares namn",
+   "utskott": "JuU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen att socialsekreterare och andra offentliganställda skyddas mot förföljelse och utsatthet, och konstaterar att mycket mer måste göras mot extremistiska och kriminella krafter. Planen vill också att vittnen ges ett effektivt skydd och att den enskildes integritet stärks. Att utreda hur fler offentliganställda kan få polisanställdas skydd ligger därmed i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Socialsekreterare och andra offentliganställda ska skyddas mot förföljelse och utsatthet genom att ett nytt brott – tjänstemannaförföljelse – införs.",
+     "princip": "skydd för offentliganställda",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Vittnen ska ha rätt till ett effektivt skydd samtidigt som tilltalade på ett rättssäkert sätt ska kunna",
+     "princip": "effektivt skydd för vittnen",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Skyddet för den enskildes integritet ska stärkas.",
+     "princip": "stärkt integritetsskydd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Offentlighetsprincipen har en grundläggande betydelse för att förankra och fördjupa folkstyret,",
+     "princip": "offentlighetsprincipens värde",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "61D483E0-5630-4520-9B5B-73B846092450",
+   "datum": "2025-05-20",
+   "rubrik": "Barns rättigheter",
+   "utskott": "SoU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet slår fast att barnets bästa alltid ska beaktas och att utredningar om barn ska vara kvalitetssäkrade och rättssäkra. Partiet vill också ha en tydlig handlingsplan för dem som utsätts för våld i nära relation. Motförslagets krav på att barnets inställning ska klarläggas, att barnets bästa ska gälla alla beslut och på standardiserade riskbedömningar följer därmed planens åtaganden.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Att barnets bästa alltid ska beaktas",
+     "princip": "barnets bästa i alla beslut",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Utredningar rörande barn ska vara kvalitetssäkrade och rättssäkra.",
+     "princip": "rättssäkra barnutredningar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Öka kvalité och rättssäkerhet i utredningar om barn",
+     "princip": "kvalitet i utredningar",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Upprätta en handlingsplan för den som utsätts för våld i nära relation",
+     "princip": "riskbedömning vid våld",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "1CE6B17E-A7E1-458C-8EC8-88BAE9463AD1",
+   "datum": "2025-05-22",
+   "rubrik": "Särskilt om delmål om jämställdhet",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår fast att jämställdhet mellan könen ska genomsyra verksamheten inom såväl högre utbildning som forskning, och att ett jämställdhetsperspektiv ska integreras i alla relevanta offentliga beslut. Planen konstaterar att Sverige inte är ett jämställt land och att arbetet måste fortsätta. Ett kvarvarande forskningspolitiskt delmål om jämställdhet ligger därför i linje med planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Jämställdhet mellan könen ska genomsyra verksamheten inom såväl högre utbildning",
+     "princip": "jämställdhet i forskning",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "jämställdhetsperspektiv ska integreras i alla relevanta offentliga beslut.",
+     "princip": "jämställdhetsintegrering",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige är inte ett jämställt land.",
+     "princip": "kvarstående jämställdhetsbrister",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Jämställdheten måste fortsätta gå framåt.",
+     "princip": "fortsatt jämställdhetsarbete",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "9E8BA008-D9EB-4D11-990A-FCF788250744",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen kräver att fisket bedrivs långsiktigt hållbart och hålls inom vetenskapliga bedömningar av vad bestånden tål, att industrifisket begränsas och att haven skyddas genom avtal mellan kuststaterna. Den vill också fasa ut marknadsstörande stöd. Att låta ekosystemen sätta gränserna och driva bort subventioner som ger överkapacitet ligger därför i linje med planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Fisket måste bedrivas på ett långsiktigt hållbart sätt och hålla sig inom ramen för vetenskapliga",
+     "princip": "fiske inom vetenskapliga gränser",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kampen mot övergödningen ska fortsätta, industrifisket ska begränsas och de mest värdefulla havsområdena skyddas som marina reservat.",
+     "princip": "begränsat industrifiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "EU:s jordbrukspolitik behöver reformeras i grunden. Samtliga direktstöd och marknadsstörande",
+     "princip": "bort med marknadsstörande stöd",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Sverige omges av hav som behöver skyddas genom avtal mellan alla kuststater.",
+     "princip": "havsskydd genom avtal",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F682BF88-C7A5-426F-8C27-E30790963AC4",
+   "datum": "2025-05-22",
+   "rubrik": "Fördelning av fiskemöjligheter och överlåtbara fiskerättigheter",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet kräver att regelverket ska gynna småskaligt och kustnära fiske och att fisket hålls inom vetenskapliga ramar, och valmanifestet att industrifisket begränsas. Ett kvotsystem där rättigheterna samlas hos ett fåtal stora båtar går på tvärs mot det. En översyn av kvotfördelningen med kompensation till småskaliga fiskare följer därför av planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Regelverket ska gynna småskaligt och kustnära fiske samt",
+     "princip": "gynna småskaligt kustnära fiske",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Kampen mot övergödningen ska fortsätta, industrifisket ska begränsas och de mest värdefulla havsområdena skyddas som marina reservat.",
+     "princip": "begränsat industrifiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Fisket måste bedrivas på ett långsiktigt hållbart sätt och hålla sig inom ramen för vetenskapliga",
+     "princip": "ekosystemanpassat fiske",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Regelbördan för små företag ska minska, genom ansträngningar på både kommunal, statlig och",
+     "princip": "rimlig börda för näringen",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "A967002B-0C70-4BBE-8274-0BF2463023F3",
+   "datum": "2025-05-22",
+   "rubrik": "Produktion av biodrivmedel",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig uttryckligen att satsa på tillverkning av biodrivmedel och att bygga bättre beredskapslager, och den motiverar detta med att det nya säkerhetsläget kräver minskad sårbarhet och ökad självförsörjningsgrad. Motförslagets krav på investeringsstöd, beredskapslager och en strategisk bränslereserv är därmed just vad planen vill. Att staten upphandlar för att hålla priset lågt vid pump ligger dessutom i linje med löftet om lägre drivmedelspriser.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Satsa på tillverkning av biodrivmedel",
+     "princip": "inhemsk biodrivmedelsproduktion",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Bygga bättre beredskapslager",
+     "princip": "beredskapslager",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det nya säkerhetsläget i Europa gör att vi som land måste minska vår sårbarhet och öka vår självförsörjningsgrad.",
+     "princip": "ökad självförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Sänka priset på bensin och diesel så att du klarar din vardagsekonomi",
+     "princip": "lägre pris vid pump",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "5D23AD73-8E54-4063-B45E-3DB5D0A3D8F1",
+   "datum": "2025-05-22",
+   "rubrik": "Övergripande åtgärder för att värna svensk fiskerinäring",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att fiskerinäringen drabbats hårt av minskade bestånd på grund av det kustnära trålfisket och att den utvecklingen måste brytas, och vill flytta trålgränsen från fyra till tolv nautiska mil. Det är just ett skydd för det småskaliga kustnära fisket. Planen kopplar dessutom livsmedelsförsörjningen till minskad sårbarhet och ökad självförsörjningsgrad, vilket ligger i linje med motförslagets krav.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Stävja minskningen av sill-/strömmingsbestånden i Östersjön genom att flytta gränsen för trålfiske från fyra till tolv nautiska mil",
+     "princip": "skydd av kustnära fiske",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Fiskerinäringen har drabbats hårt av minskade bestånd på senare år inte minst på grund av det kustnära trålfisket – den utvecklingen måste brytas.",
+     "princip": "rädda fiskerinäringen",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det nya säkerhetsläget i Europa gör att vi som land måste minska vår sårbarhet och öka vår självförsörjningsgrad.",
+     "princip": "ökad självförsörjning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Förstärka livsmedelsstrategin",
+     "princip": "stärkt livsmedelsstrategi",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "546270E0-0E26-4E59-B9B1-DBE6706CBD17",
+   "datum": "2025-06-04",
+   "rubrik": "Klimatanpassning av jordbruket",
+   "utskott": "MJU",
+   "parti": "M",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen åtar sig att minska antalet regler för jordbruket och korta handläggningstiderna för miljötillstånd, och att stärka ägande- och brukanderätten för jordbrukare. Motförslagets krav på flexiblare regler för vattenuttag och biotopskydd så att klimatanpassande åtgärder faktiskt kan genomföras är just en sådan uppmjukning. Planen vill dessutom minska jordbrukets miljöpåverkan genom teknikutveckling snarare än genom stelbenta regler.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Minska antalet regler för jordbruket och korta handläggningstider för miljötillstånd",
+     "princip": "färre regler för jordbruket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stärka ägande- och brukanderätten för jordbrukare",
+     "princip": "stärkt brukanderätt",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Moderaterna vill förbättra förutsättningarna att driva lantbruk genom att sänka skatterna, vilket vi redan börjat göra på drivmedel, och minska regelkrånglet så att kostnaderna för administration går ner.",
+     "princip": "minskat regelkrångel i lantbruket",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Minska jordbrukets miljöpåverkan genom stöd till teknikutveckling och innovationer",
+     "princip": "teknikutveckling minskar miljöpåverkan",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "3BEF588C-980E-4C8B-BDE6-2D0378926E27",
+   "datum": "2025-06-10",
+   "rubrik": "Företagens förutsättningar för att bidra till en cirkulär ekonomi",
+   "utskott": "MJU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen sätter som uttalat mål att grundläggande råvaror ska cirkulera i produktionssystemet och att avfallets miljöpåverkan ska minskas genom återanvändning och återbruk. Den föredrar generella ekonomiska styrmedel framför symbolpolitik och satsar på teknikutveckling och forskning som lösning på miljöproblemen. Motförslagets krav på fler styrmedel för återvinning och återbruk, längre produktlivslängd och mer forskning ligger därför i linje med planen.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Avfallets miljöpåverkan ska minskas genom fungerande återanvändning och återbruk.",
+     "princip": "återanvändning och återbruk",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "grundläggande råvaror, såsom växtnäring och mineraler, ska cirkulera i produktionssystemet",
+     "princip": "cirkulära materialflöden",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "såsom koldioxidskatt och handel med utsläppsrätter, är det mest effektiva redskapet",
+     "princip": "ekonomiska styrmedel främst",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Teknisk utveckling är en central del av lösningen på dagens miljöproblem.",
+     "princip": "teknikutveckling löser miljöproblem",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "0B26DD5F-4CE8-4DBA-B28E-E6C3239DE3ED",
+   "datum": "2025-06-10",
+   "rubrik": "Regelverket för krigsmaterielexport",
+   "utskott": "UU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen säger rakt ut att Sverige inte ska exportera vapen till diktaturer och vill att kriterier om affärsrelationer med odemokratiska regimer ska gälla även i statligt ägda företag. Utrikespolitiken ska vara uttalat värderingsstyrd med fri- och rättigheter som grund. Motförslagets krav på ett absolut exportförbud till diktaturer och grova rättighetskränkare ligger därmed i linje med planen, och undantaget för stöd till ett angripet land krockar inte med planens åtagande om militärt stöd till Ukraina.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Sverige ska inte exportera vapen till diktaturer.",
+     "princip": "inget vapenexport till diktaturer",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi kallar det för vad det är: en ny värderingsstyrd utrikespolitik.",
+     "princip": "värderingsstyrd utrikespolitik",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "staten ska det finnas kriterier gällande affärsrelationer med odemokratiska regimer.",
+     "princip": "krav på statliga bolags affärer",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "En ny regering ska vara garanten för att Ukraina ges ökat ekonomiskt, politiskt och militärt stöd.",
+     "princip": "militärt stöd till Ukraina",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "F1D91DA9-4D06-4234-A359-494E2AA647D5",
+   "datum": "2025-06-10",
+   "rubrik": "Övergripande åtgärder för en cirkulär ekonomi",
+   "utskott": "MJU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Omställning till cirkulär ekonomi för bättre användning av befintliga resurser är ett uttryckligt mål i partiprogrammet, och valmanifestet binder partiet vid nettonollutsläpp 2045 och ett fast klimatpolitiskt ramverk. Ett nationellt mål för cirkulär ekonomi med etappmål som sammanfaller med klimatmålet är den kombinationen omsatt i styrning. Att offentliga upphandlare ska vara föredömen bär även förslaget om offentlig avyttring.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Omställning till cirkulär ekonomi, för bättre användning av befintliga resurser.",
+     "princip": "omställning till cirkulär ekonomi",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "År 2045 ska Sverige inte ha några nettoutsläpp av växthusgaser till atmosfären, för att därefter uppnå negativa utsläpp.",
+     "princip": "klimatneutralitet 2045",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Det klimatpolitiska ramverket ska ligga fast.",
+     "princip": "fast klimatpolitiskt ramverk",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "offentliga arbetsgivare och upphandlare ska vara föredömen i att verka för en sund konkurrens",
+     "princip": "offentlig upphandling som föredöme",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "975949B4-6A5A-4BA9-BD81-AF5F619F451B",
+   "datum": "2025-06-10",
+   "rubrik": "Förkortad arbetstid",
+   "utskott": "AU",
+   "parti": "S",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Partiprogrammet slår uttryckligen fast att samhällets produktivitetsökningar ska omsättas i både ökad levnadsstandard och kortare arbetstid, vilket är den ambition motförslaget vill låta utreda. Planen motiverar det med ett hållbart arbetsliv där alla ska orka ett helt arbetsliv och med jämställda villkor i familje- och yrkesliv. Att utreda en generell arbetstidsförkortning ligger därmed i planens riktning, även om planen samtidigt värnar parternas roll.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Samhällets produktivitetsökningar omsätts i både ökad levnadsstandard och kortare arbetstid.",
+     "princip": "kortare arbetstid av produktivitet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Alla ska kunna orka ett helt arbetsliv.",
+     "princip": "hållbart arbetsliv",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "God balans ska råda mellan arbete och ledighet, mellan yrkesliv och privatliv.",
+     "princip": "balans arbete och ledighet",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "lika rätt och lika ansvar för kvinnor och män i familjeliv, yrkesliv och samhällsliv",
+     "princip": "jämställt familje- och yrkesliv",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "BA151D24-478C-48CD-8E4B-0E346DAC5F0D",
+   "datum": "2025-06-17",
+   "rubrik": "Kontroll på förvaret",
+   "utskott": "SfU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att barnperspektivet alltid ska finnas med i migrationsärenden och att barnets bästa ska komma i främsta rummet, vilket är precis vad motförslaget vill skriva in som garanti vid besök på förvar. Barn har enligt planen rätt till kontakt med båda sina föräldrar, inte minst den vardagliga, vilket bär kravet på fysisk kontakt och barnanpassade utrymmen. Undantaget vid synnerliga skäl motsvarar planens egen reservation i migrationspolitiken.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Barnperspektivet ska alltid finnas med i migrations",
+     "princip": "barnperspektiv i migrationsärenden",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "behöver och har rätt till kontakt med båda sina föräldrar.",
+     "princip": "barns rätt till föräldrakontakt",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "barnets bästa ska komma i främsta rummet.",
+     "princip": "barnets bästa",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Migrationspolitiken får inte leda till att familjemedlemmar skiljs från varandra.",
+     "princip": "undvik familjesplittring",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "4E171D85-F37F-40F4-8469-7813439AA650",
+   "datum": "2025-06-17",
+   "rubrik": "Utbildningsformer",
+   "utskott": "UbU",
+   "parti": "L",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen slår fast att individen alltid ska ha goda möjligheter till utbildning och att treterminssystem och intensivkurser är viktiga för att utbildningen ska kunna fullföljas snabbare – exakt det motförslaget efterfrågar. Den kräver också kraftigt förbättrade möjligheter att lära nytt mitt i livet, vilket bär kraven på decentraliserad utbildning och anpassning till omställningsbehoven. Planens krav på att bygga ut det som håller högst kvalitet innebär dock att stödet gäller inriktningen, inte varje detalj.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "Treterminssystem och intensivkurser är viktiga för att möjliggöra att utbildningen kan fullföljas",
+     "princip": "treterminssystem och intensivkurser",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Individen ska alltid ha goda möjligheter till utbildning.",
+     "princip": "utbildning tillgänglig för alla",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Den enskilde ska alltid ha många möjligheter att lära nytt och utvecklas.",
+     "princip": "det livslånga lärandet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Vi vill öka den lärarledda undervisningen, skärpa utvärderingen och bygga ut de utbildningar och lärosäten som håller högst kvalitet.",
+     "princip": "kvalitet styr utbyggnaden",
+     "svag": null
+    }
+   ]
+  },
+  {
+   "votering_id": "194E10D7-7446-4E31-B283-20718CD20295",
+   "datum": "2025-06-17",
+   "rubrik": "Utveckling och styrning av högskolans verksamhet",
+   "utskott": "UbU",
+   "parti": "SD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen kräver uttryckligen att den högre utbildningen i högre grad anpassas efter behoven på en framtida arbetsmarknad och att utbildning sker efter arbetsmarknadens behov. Motförslagets krav på stärkt arbetsmarknadsanknytning och utbildning av god kvalitet i hela landet ligger i linje med detta och med planens ambition att bedriva politik för hela Sverige. Kravet får dock inte gå ut över den akademiska självständighet planen samtidigt värnar.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Den högre utbildningen ska i högre grad anpassas efter behoven på en framtida arbetsmarknad.",
+     "princip": "arbetsmarknadsanpassad högskola",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Utbilda efter de behov som finns på arbetsmarknaden",
+     "princip": "behovsstyrd utbildning",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Bedriva en politik för hela Sverige",
+     "princip": "utbildning i hela landet",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Den politiska styrningen av högre utbildning ska minska och akademins självständighet öka.",
+     "princip": "minskad politisk styrning",
      "svag": null
     }
    ]
