@@ -5,6 +5,11 @@ Writes site/src/data/ (committed — regenerated locally by `aidag export-site`)
   index/cases-index.json     one compact row per case for the search island
   aggregates/*.json          copied from results/aggregates/{run_id}/
   meta.json                  run metadata, party table, attribution
+
+The AI-side aggregates (`ai_pairs_matrix`, `by_area`, `flips`) are computed here
+rather than in `aggregate.py`: they need decisions, real seat counts AND case
+metadata joined per division, and this is the only place all three are already
+in memory. The maths lives in `aivotes.py`; this module only feeds it.
 """
 
 from __future__ import annotations
@@ -14,7 +19,7 @@ import shutil
 
 import polars as pl
 
-from aidag import coalition
+from aidag import aivotes, coalition
 from aidag.promptgen import evidence_tier
 from aidag.config import (
     HEMICYCLE_ORDER,
@@ -224,6 +229,9 @@ def run(run_id: str | None = None) -> None:
         }
 
     index = []
+    # one row per division, fed to aivotes after the loop — collected here so the
+    # AI aggregates see exactly the corpus that was exported, nothing else
+    ai_rows: list[dict] = []
     for case in cases.sort("datum", "votering_id").iter_rows(named=True):
         vid = case["votering_id"]
         case_votes = votes.filter(pl.col("votering_id") == vid)
@@ -318,11 +326,34 @@ def run(run_id: str | None = None) -> None:
         ]
         if missx:
             entry["missx"] = missx
+        # The same set re-run as a division: `missx` is exactly the parties
+        # aivotes.flip() is allowed to move, so `flip.parties` == `missx` and the
+        # payload carries only what that changes — the two seat counts and
+        # whether the chamber's answer survives. None when missx is empty.
+        flip = aivotes.flip(actual, case_decisions)
+        if flip:
+            payload["flip"] = flip
+            if flip["flips"]:
+                # 1, not the party list: `missx` is already on the row and the
+                # browser only needs the flag to filter and mark on
+                entry["flip"] = 1
         # merge case metadata into BOTH the full payload and the lean index row,
         # then write the payload (after the merge, so `meta` is included)
         merge_case_metadata(payload, entry, metadata_by_vid.get(vid))
         (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))
         index.append(entry)
+        ai_rows.append({
+            "votering_id": vid,
+            "rm": case["rm"],
+            "datum": case["datum"],
+            "utskott": case["utskott"],
+            "rubrik": case["rubrik"],
+            # merge_case_metadata has run, so this is the code it just wrote
+            "policy_area": entry.get("policy_area"),
+            "actual": actual,
+            "ai": case_decisions,
+            "flip": flip,
+        })
 
     index_json = json.dumps(index, ensure_ascii=False)
     (SITE_DATA_DIR / "index" / "cases-index.json").write_text(index_json)
@@ -370,6 +401,26 @@ def run(run_id: str | None = None) -> None:
     (agg_dir / "dissenters.json").write_text(
         json.dumps(analytics.dissenter_league(), ensure_ascii=False)
     )
+
+    # AI-side analytics — the same chamber read off the parties' own documents.
+    # Skipped entirely when the run has no decisions, so an AI-less export does
+    # not leave three empty files behind claiming otherwise.
+    if any(r["ai"] for r in ai_rows):
+        (agg_dir / "ai_pairs_matrix.json").write_text(
+            json.dumps(
+                aivotes.pairs_matrix([
+                    {"rm": r["rm"], "ai": {p: d["rost"] for p, d in r["ai"].items()}}
+                    for r in ai_rows
+                    if r["ai"]
+                ])
+            )
+        )
+        (agg_dir / "by_area.json").write_text(
+            json.dumps(aivotes.area_stats(ai_rows), ensure_ascii=False)
+        )
+        (agg_dir / "flips.json").write_text(
+            json.dumps(aivotes.flip_summary(ai_rows), ensure_ascii=False)
+        )
 
     import gzip
 
