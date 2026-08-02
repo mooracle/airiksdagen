@@ -11,22 +11,31 @@
  * greyscale or with red-green colour blindness the scale collapsed entirely.
  *
  * The stops below are a proper diverging ramp: hue carries the *direction* away
- * from the midpoint and luminance carries the *distance*, symmetrically, with a
- * warm neutral at 0.5 rather than khaki. Measured luminance is a clean V —
- * 0.35 / 0.50 / 0.66 / 0.84 / 0.66 / 0.50 / 0.36 — so "pale = middling" reads
- * correctly even without colour, and every stop carries --ink text at ≥ 6.2:1
- * (the cells print their own percentage, so the number stays legible on all of
- * them).
+ * from the midpoint and luminance carries the *distance*, symmetrically.
+ *
+ * Every caller must pass an ABSOLUTE ratio on the same 0–1 axis. Feeding this a
+ * value that has been re-centred on some other baseline — a deviation from a
+ * per-row average, say — makes identical numbers come out different colours in
+ * different rows, which is what the scale exists to prevent.
  */
 
-/** Stops from 0 → 1, evenly spaced. Red = diverges, neutral = middling, green = agrees. */
+/** Stops from 0 → 1, evenly spaced. Red = diverges, light green = the 50% mark,
+ *  green = agrees. The midpoint used to be a warm neutral (#efece0); it is a
+ *  light green now so that "half the time" reads as the start of the green half
+ *  rather than as an absence of colour, and so every heatmap on the site puts
+ *  the same tone at 50%.
+ *
+ *  Measured luminance stays a clean V — 0.33 / 0.49 / 0.66 / 0.81 / 0.65 / 0.47
+ *  / 0.36 — so "pale = middling" still reads without colour, and both extremes
+ *  stay light enough to carry --ink text at ≥ 6:1 (the cells print their own
+ *  percentage, so the number has to stay legible on every stop). */
 const DIVERGING = [
   '#d98b7a',
   '#e8ae9c',
   '#f0cdbc',
-  '#efece0',
-  '#c3dcb4',
-  '#9cc78f',
+  '#dcefcd',
+  '#b8dfa8',
+  '#93c586',
   '#74b177',
 ] as const;
 

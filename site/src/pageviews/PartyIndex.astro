@@ -1,17 +1,57 @@
 ---
+// Party navigation and the party corpus. Nothing comparative lives here any
+// more: the four cross-party sections (areas, flips, pairs, coalition) moved to
+// /analys/, which is where a reader looking for them would have gone first. What
+// is left is the two things this page is actually named for — pick a party, or
+// read what a party wrote.
+//
+// The source-document index moved in from /om/#dokument, where it sat between
+// the method text and the data appendix. It is the corpus every claim on the
+// site rests on, and it is organised by party, so it belongs beside the party
+// cards rather than three screens into the methodology.
 import Base from '../layouts/Base.astro';
-import CoalitionSection from './CoalitionSection.astro';
-import PairsMatrix from './PairsMatrix.astro';
 import PartyBadge from '../components/PartyBadge.astro';
-import { getMeta, getAggregate } from '../lib/data';
+import { getMeta, getAggregate, listCorpusDocs } from '../lib/data';
+import { docTitle } from '../lib/doctext';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const sv = lang === 'sv';
 const meta = getMeta();
-const summary = getAggregate<{ per_party: Record<string, { agreement: number; n: number }> }>('summary');
 const order = meta.hemicycle_order;
+
+/** p6 gap per party, explicit tier — the same number /parti/[code] leads with.
+ * The cards used to show vote-agreement %, so the index and the detail page
+ * headlined different measurements of the same party. */
+const gap = getAggregate<{
+  per_party: Record<string, { explicit: { n: number; gap: number; gap_rate: number | null } }>;
+}>('gap');
+/** Fallback for pre-p6 exports, which carry no gap at all. */
+const summary = getAggregate<{ per_party: Record<string, { agreement: number; n: number }> }>('summary');
+
+const partyName = (code: string): string => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase();
+const docLabel = (slug: string): string => docTitle(slug, { sv, partyName });
+const dokPath = (slug: string) => localePath(lang, `/dokument/${slug}/`);
+
+// Group the corpus by the party its filename encodes. The position of the code
+// is NOT fixed: programmes and budget motions are `<kind>-<party>-<year>`
+// (`partiprogram-kd-2025`) but the manifestos are `<kind>-<year>-<party>`
+// (`valmanifest-2022-kd`). Scanning every segment for a known code covers both;
+// keying on the second segment silently dropped all eight manifestos into
+// `shared` — and the manifestos are half of what the agents actually read.
+// Party codes never collide with the numeric segments, so the scan is safe.
+// Anything with no code (the Tidö agreement) lands in `shared` and is listed
+// under its own heading rather than dropped.
+const docs = listCorpusDocs().sort();
+const byParty: Record<string, string[]> = Object.fromEntries(order.map((c) => [c, []]));
+const shared: string[] = [];
+for (const slug of docs) {
+  const code = slug.split('-').map((seg) => seg.toUpperCase()).find((seg) => seg in byParty);
+  if (code) byParty[code].push(slug);
+  else shared.push(slug);
+}
 ---
 
 <Base lang={lang} title={t('party.title')} description={t('meta.desc.parties')} path="/parti/">
@@ -21,21 +61,82 @@ const order = meta.hemicycle_order;
 
   <div class="pgrid">
     {order.map((code) => {
+      const g = gap?.per_party?.[code]?.explicit;
       const s = summary?.per_party?.[code];
       return (
         <a class="card pcard" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}
            style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
           <PartyBadge code={code} parties={meta.parties} label="name" size={26} />
-          {s && (
+          {g && g.gap_rate != null ? (
+            <span class="stat">
+              <span class="num">{(g.gap_rate * 100).toFixed(0)}<small>%</small></span>
+              <span class="cardlbl">{t('party.cardGap')}</span>
+              <span class="meta">n = {g.n}</span>
+            </span>
+          ) : s ? (
             <span class="stat">
               <span class="num">{(s.agreement * 100).toFixed(0)}<small>%</small></span>
+              <span class="cardlbl">{t('party.cardAgreement')}</span>
               <span class="meta">n = {s.n}</span>
             </span>
-          )}
+          ) : null}
         </a>
       );
     })}
   </div>
+
+  {/* The comparative tables are one click away and named, rather than silently
+      absent for anyone who remembers them being on this page. */}
+  <p class="crosslink">
+    <a href={localePath(lang, '/analys/')}>{t('party.toAnalysis')} →</a>
+  </p>
+
+  <p class="eyebrow">{t('party.secDocs')}</p>
+  <h2 id="dokument">{t('docs.title')}</h2>
+  <p class="muted docnote">
+    {sv ? (
+      <Fragment>
+        Källtexterna i original. Agenterna får numera bara <strong>valmanifest och
+        partiprogram</strong>; Tidöavtalet och budgetmotionerna finns kvar här för
+        insyn och för den tidigare körningen, men ligger inte i underlaget. Valmanifest
+        från <a href="https://snd.se/sv/vivill">SND Vivill</a> (Public Domain Mark);
+        Tidöavtalet från de fyra samarbetspartierna. Citat på ärendesidorna länkar hit.
+      </Fragment>
+    ) : (
+      <Fragment>
+        The source texts in the original Swedish. The agents now receive only
+        <strong> election manifestos and party programmes</strong>; the Tidö agreement and
+        the shadow budgets remain here for transparency and for the earlier run, but are not
+        part of the context. Election manifestos from
+        <a href="https://snd.se/sv/vivill"> SND Vivill</a> (Public Domain Mark); the Tidö
+        agreement from the four cooperating parties. Quotes on the case pages link here.
+      </Fragment>
+    )}
+  </p>
+
+  <div class="dgrid">
+    {order.filter((code) => byParty[code].length).map((code) => (
+      <div class="card dcard" style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
+        <PartyBadge code={code} parties={meta.parties} label="name" size={22} />
+        <ul>
+          {byParty[code].map((slug) => (
+            <li><a href={dokPath(slug)}>{docLabel(slug).split(' — ')[0]}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  {shared.length > 0 && (
+    <div class="card dcard shared">
+      <strong>{t('docs.shared')}</strong>
+      <ul>
+        {shared.map((slug) => (
+          <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>
+        ))}
+      </ul>
+    </div>
+  )}
 
   <style>
     .pgrid { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
@@ -52,16 +153,26 @@ const order = meta.hemicycle_order;
     .pcard .num small {
       font-size: 0.42em; font-weight: 700; margin-left: 0.1em; vertical-align: baseline;
     }
+    /* names the measurement on the card itself — a bare percentage on a party
+       card invites being read as a vote share */
+    .pcard .cardlbl {
+      display: block; font-size: 0.82rem; color: var(--ink-2); line-height: 1.25;
+    }
+    .pcard .meta { display: block; margin-top: 0.15rem; }
+
+    .crosslink { margin: 1.2rem 0 0; }
+
+    .docnote { max-width: 68ch; }
+    .dgrid {
+      display: grid; gap: 0.9rem; margin-top: 0.9rem;
+      grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    }
+    .dcard {
+      margin: 0; border-top: 3px solid var(--pc, var(--line));
+      border-radius: 3px 3px var(--radius) var(--radius); background-image: none;
+    }
+    .dcard ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
+    .dcard li { margin: 0.25rem 0; font-size: 0.92rem; }
+    .dcard.shared { margin-top: 0.9rem; }
   </style>
-
-  {/* "Who votes with whom" moved here from Analysis: it is a party-by-party
-      comparison, and it sets up the coalition tables below it — who votes
-      together, then what explains each party's vote. */}
-  <PairsMatrix lang={lang} />
-
-  {/* Coalition analysis, formerly its own /koalition/ page and nav item. It is
-      party-comparative content and was only ~3 screens once the individual votes
-      moved to the party pages, so it belongs here rather than behind a second
-      nav entry answering the same question. */}
-  <CoalitionSection lang={lang} />
 </Base>

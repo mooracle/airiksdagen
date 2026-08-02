@@ -1,0 +1,192 @@
+---
+/** Where does each party follow its own plan more — and where less?
+ *
+ * Areas are rows and parties are columns, not the other way round: the area
+ * labels are full sentences ("Migration och socialförsäkring") and only fit as
+ * row headers, while the party codes are two characters wide. It also puts the
+ * comparison the section is about — one party across the areas — down a column,
+ * with that party's own average pinned in the footer beneath it.
+ *
+ * The colour is the cell's own rate on the shared 0–1 ramp — the same scale, and
+ * the same tone for the same number, as every other heatmap on the site.
+ *
+ * It used to be the DEVIATION from that party's own average, which made every
+ * column self-normalising but meant 40% came out green in one row and red in
+ * another; as a table it could not be read. The self-normalised question is a
+ * good one and is still answered, just not in the fill: as ± pp in each cell's
+ * tooltip, as the party average in the footer row, and in the "biggest swings"
+ * table below, which is ranked on deviation and states it in pp.
+ */
+import PartyBadge from '../components/PartyBadge.astro';
+import { getMeta, getAggregate, type AreaStats } from '../lib/data';
+import { agreementColor, EMPTY_FILL } from '../lib/scale';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const stats = getAggregate<AreaStats>('by_area');
+const order = meta.hemicycle_order.filter((p) => stats?.per_party[p]);
+
+/** Cells thinner than this are excluded from the strongest/weakest ranking. The
+ *  smallest cell in full-v4 is 72 decisions, so nothing is currently dropped —
+ *  it is a guard for future runs, not a filter doing work today. */
+const MIN_N = 40;
+
+const areaLabel = (code: string) => meta.policy_areas?.[code]?.[lang] ?? code;
+const pct = (v: number | null | undefined) => (v == null ? '–' : `${(v * 100).toFixed(0)}%`);
+const pp = (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(0)} pp`;
+
+/** Colour is the rate the cell prints, straight onto the shared 0–1 ramp — the
+ *  same scale, and the same tone for the same number, as every other heatmap on
+ *  the site.
+ *
+ *  It used to colour the *deviation from the party's own average* instead, which
+ *  put 40% in green in one row and red in another and made the table unreadable
+ *  as a table. Comparing a party against itself is still the more informative
+ *  question, so it has not been dropped — it moved to where it cannot be
+ *  misread as a level: the ± pp figure in every cell's tooltip, the party
+ *  average in the footer row, and the "biggest swings" table underneath, which
+ *  is ranked on deviation and states it in pp. */
+const cellColor = (rate: number | null | undefined) =>
+  rate == null ? EMPTY_FILL : agreementColor(rate);
+
+const cellOf = (area: string, party: string) => stats?.per_area[area]?.per_party[party] ?? null;
+const deviation = (area: string, party: string) => {
+  const c = cellOf(area, party);
+  const avg = stats?.per_party[party]?.follow_rate;
+  return c?.follow_rate == null || avg == null ? null : c.follow_rate - avg;
+};
+
+// Per party: the area it follows its plan in most, and least, relative to its
+// own average. Computed over cells that clear MIN_N.
+const extremes = order.map((party) => {
+  const ranked = (stats?.areas ?? [])
+    .map((area) => ({ area, cell: cellOf(area, party), d: deviation(area, party) }))
+    .filter((x) => x.cell && x.cell.n >= MIN_N && x.d != null)
+    .sort((a, b) => (b.d as number) - (a.d as number));
+  return { party, top: ranked[0], bottom: ranked[ranked.length - 1], n: ranked.length };
+}).filter((x) => x.top && x.bottom && x.top !== x.bottom);
+
+/** Everything the cell cannot show: both denominators, the party's baseline and
+ *  the documented-commitment subset, which is far too thin per cell to colour. */
+function cellTip(area: string, party: string): string | undefined {
+  const c = cellOf(area, party);
+  const avg = stats?.per_party[party]?.follow_rate;
+  if (!c) return undefined;
+  const d = deviation(area, party);
+  const lines = [
+    `${meta.parties[party]?.name ?? party} · ${areaLabel(area)}`,
+    `${t('area.follow')}: ${c.follows}/${c.n} (${pct(c.follow_rate)})`,
+    `${t('area.partyAvg')}: ${pct(avg)}${d == null ? '' : ` · ${pp(d)}`}`,
+  ];
+  if (c.explicit_n) {
+    lines.push(`${t('area.explicitGap')}: ${c.explicit_gap}/${c.explicit_n} (${pct(c.explicit_gap_rate)})`);
+  }
+  if (c.abstained) lines.push(`${t('area.abstained')}: ${c.abstained}`);
+  return lines.join('\n');
+}
+---
+
+{stats && order.length > 0 && (
+  <>
+    <p class="eyebrow">{t('area.kicker')}</p>
+    <h2 id="amnesomraden">{t('area.title')}</h2>
+    <p class="muted">{t('area.intro')}</p>
+
+    <div class="card scrollx">
+      <table class="compare areamx">
+        <thead>
+          <tr>
+            <th class="a-label">{t('area.col')}</th>
+            {order.map((p) => <th class="a-party"><PartyBadge code={p} parties={meta.parties} label="none" /></th>)}
+            <th class="a-n">n</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stats.areas.map((area) => (
+            <tr>
+              <th scope="row" class="a-label">{areaLabel(area)}</th>
+              {order.map((p) => {
+                const c = cellOf(area, p);
+                return (
+                  <td style={`background:${cellColor(c?.follow_rate)}`} title={cellTip(area, p)}>
+                    {pct(c?.follow_rate)}
+                  </td>
+                );
+              })}
+              <td class="a-n muted">{stats.per_area[area]?.n_cases}</td>
+            </tr>
+          ))}
+        </tbody>
+        {/* each party's own baseline — the cells are coloured on their own
+            absolute rate, so this row is what you read them against */}
+        <tfoot>
+          <tr>
+            <th scope="row" class="a-label">{t('area.partyAvg')}</th>
+            {order.map((p) => <td>{pct(stats.per_party[p]?.follow_rate)}</td>)}
+            <td class="a-n muted">{stats.overall.n}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p class="muted note">{t('area.note')}</p>
+      <p class="muted note">{t('area.colourNote')}</p>
+    </div>
+
+    {extremes.length > 0 && (
+      <>
+        <h3>{t('area.extremesTitle')}</h3>
+        <p class="muted">{t('area.extremesIntro')}</p>
+        <div class="card scrollx">
+          <table class="compare nums">
+            <thead>
+              <tr>
+                <th></th>
+                <th>{t('area.most')}</th>
+                <th>{t('area.least')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {extremes.map(({ party, top, bottom }) => (
+                <tr>
+                  <td><PartyBadge code={party} parties={meta.parties} label="name" /></td>
+                  <td>
+                    {areaLabel(top!.area)}{' '}
+                    <span class="dev up">{pp(top!.d as number)}</span>{' '}
+                    <span class="muted">{pct(top!.cell!.follow_rate)}</span>
+                  </td>
+                  <td>
+                    {areaLabel(bottom!.area)}{' '}
+                    <span class="dev down">{pp(bottom!.d as number)}</span>{' '}
+                    <span class="muted">{pct(bottom!.cell!.follow_rate)}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="muted note">{t('area.extremesNote').replace('{n}', String(MIN_N))}</p>
+        </div>
+      </>
+    )}
+  </>
+)}
+
+<style>
+  .areamx { table-layout: auto; font-variant-numeric: tabular-nums; }
+  .areamx td { text-align: center; white-space: nowrap; }
+  .areamx th.a-label, .areamx tbody th.a-label {
+    text-align: left; font-weight: 500; white-space: nowrap;
+  }
+  .areamx tbody th.a-label { font-size: 0.9rem; }
+  .areamx th.a-party { text-align: center; }
+  .areamx .a-n, .areamx th.a-n { text-align: right; font-size: 0.83rem; }
+  .areamx tfoot td, .areamx tfoot th {
+    border-top: 2px solid var(--line); font-weight: 700; background: var(--panel-2);
+  }
+  .nums td, .nums th { font-variant-numeric: tabular-nums; }
+  .note { font-size: 0.83rem; }
+  .dev { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dev.up { color: #1d6b3a; }
+  .dev.down { color: #a8452f; }
+</style>

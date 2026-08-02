@@ -50,7 +50,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
   ) : (
     <>
       <h3>{t('coalition.tableTitle')}</h3>
-      <div class="card" style="overflow-x:auto">
+      <div class="card scrollx">
         <table class="compare nums">
           <thead>
             <tr>
@@ -93,7 +93,7 @@ const cell = (b: Bucket) => (b.den === 0 ? '–' : `${b.num}/${b.den}`);
 
       <h3>{t('coalition.overrideTitle')}</h3>
       <p class="muted">{t('coalition.overrideIntro')}</p>
-      <div class="card" style="overflow-x:auto">
+      <div class="card scrollx">
         <table class="compare nums">
           <thead>
             <tr>

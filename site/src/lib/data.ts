@@ -74,6 +74,75 @@ export interface AiDecision {
   } | null;
 }
 
+/**
+ * The division re-run with documented commitments overriding the floor: every
+ * party whose plan stated the commitment outright (tier `explicit`) and which
+ * voted the other way is moved onto the plan's side, everyone else keeps their
+ * real seat counts. `parties` is exactly the index row's `missx`. Absent when no
+ * party qualifies; `outcome` is null on an exact tie (decided by lot in reality,
+ * so never reported as a flip). See pipeline/aidag/aivotes.py.
+ */
+export interface Flip {
+  parties: string[];
+  actual: { ja: number; nej: number; outcome: string | null };
+  counterfactual: { ja: number; nej: number; outcome: string | null };
+  flips: boolean;
+}
+
+/** Per policy area x party: how often the real vote followed the party's plan.
+ *
+ * Denominators are votes where the party took a side (Ja/Nej) — the same gate
+ * the published gap uses. `abstained` sits beside `n`, never inside it. */
+export interface AreaCell {
+  n: number;
+  follows: number;
+  follow_rate: number | null;
+  abstained: number;
+  explicit_n: number;
+  explicit_gap: number;
+  explicit_gap_rate: number | null;
+}
+
+export interface AreaStats {
+  /** area codes, most cases first */
+  areas: string[];
+  per_area: Record<
+    string,
+    { n_cases: number; all_parties: AreaCell; per_party: Record<string, AreaCell> }
+  >;
+  per_party: Record<string, AreaCell>;
+  overall: AreaCell;
+}
+
+export interface FlipSummary {
+  n_cases: number;
+  n_with_movers: number;
+  n_flipped: number;
+  /** flipped by a single party's documented commitments alone */
+  n_solo: number;
+  /** tied on one side of the comparison, so undecidable in either direction */
+  n_indeterminate: number;
+  direction: { ja_to_nej: number; nej_to_ja: number };
+  per_party: Record<string, { movers: number; flips: number; solo: number }>;
+  per_area: Record<
+    string,
+    { n_cases: number; with_movers: number; flipped: number; flip_rate: number | null }
+  >;
+  /** every flipped division, newest first — uncapped; callers slice for display */
+  cases: {
+    votering_id: string;
+    datum: string;
+    rubrik: string;
+    utskott: string;
+    policy_area: string | null;
+    parties: string[];
+    solo: boolean;
+    outcome: string;
+    counterfactual: string;
+    margin: number;
+  }[];
+}
+
 /** English case texts; null until the translation batch has run. */
 export interface CaseEn {
   rubrik: string;
@@ -130,6 +199,8 @@ export interface CaseData {
   }[];
   actual: Record<string, ActualPosition>;
   ai: Record<string, AiDecision>;
+  /** counterfactual outcome; absent when no party's plan explicitly diverged */
+  flip?: Flip;
   seats: [string, string, string, string][]; // [parti, rost, namn, valkrets]
   references: { dok_id: string; typ: string; label: string; titel: string; undertitel: string }[];
   source_url: string;
@@ -158,6 +229,11 @@ export interface IndexRow {
   /** precomputed lowercased search blob: rubrik + rubrik_en + titel + bet + subject sv/en + subtopics */
   search?: string;
   miss?: string[];
+  /** subset of `miss` whose evidence tier is `explicit` */
+  missx?: string[];
+  /** 1 when moving every `missx` party onto its plan's side flips the chamber's
+   * decision. Absent otherwise, to keep the client-fetched index lean. */
+  flip?: 1;
 }
 
 function readJson<T>(rel: string): T {

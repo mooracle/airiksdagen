@@ -19,6 +19,10 @@ const PARTY = Object.fromEntries(
   ]),
 );
 
+// Party filter options, in hemicycle order rather than alphabetical — the same
+// left-to-right the badges and every party table on the site use.
+const PARTY_ORDER = meta.hemicycle_order;
+
 // policy_area code -> localized label, for the topic filter (value stays the
 // language-independent code; only the label is localized).
 const POLICY: Record<string, string> = Object.fromEntries(
@@ -30,7 +34,7 @@ const TR = {
   showing: t('browser.showing'), of: t('browser.of'), cases: t('browser.cases'),
   prev: t('browser.prev'), next: t('browser.next'), noResults: t('browser.noResults'),
   allMatch: t('browser.allMatch'), missTip: t('browser.missTip'), noAi: t('browser.noAi'),
-  missTipX: t('browser.missTipX'),
+  missTipX: t('browser.missTipX'), flipTip: t('browser.flipTip'),
 };
 ---
 
@@ -44,34 +48,146 @@ const TR = {
         boots and for crawlers. */}
     <h1>{t('browser.title')} <span class="muted count" id="count">({meta.n_cases})</span></h1>
 
-    {/* Toolbar: search on its own line, then the narrowing controls. The
-        riksmöte select is gone — it partitioned the same axis as the month
+    {/* Toolbar, two rows split by what they ask rather than by what fits:
+
+          which cases   search + when + which committee + which subject
+          plan vs röst  which party + the three divergence flags
+
+        The second row is titled with the table's own column header, because it
+        filters exactly that column — and the party picker belongs there, not up
+        with the subject filters, since choosing a party re-scopes the three
+        flags beside it to that party.
+
+        Cramming all eight onto one line was tried and abandoned: it forced every
+        picker below the width of its own placeholder ("Alla ämnesom…"), which
+        cost more clarity than the saved row was worth.
+
+        The riksmöte select is gone — it partitioned the same axis as the month
         select (a riksmöte is just a span of months), so the two could be set to
-        contradict each other and return nothing. Months alone cover it. */}
+        contradict each other and return nothing. Months alone cover it.
+
+        Every control carries a leading icon, and the three flag icons are the
+        three marks the table itself draws (disc → ringed disc → ⇄), so the pills
+        double as the legend for the column they filter. */}
     <div class="toolbar">
+      <div class="tbrow">
       <div class="searchline">
         <svg class="s-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
           <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2" />
           <path d="M12.8 12.8 L17.5 17.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
         <input id="q" type="search" placeholder={t('browser.search')} aria-label={t('browser.search')} autocomplete="off" />
+        {/* Hint for the "/" shortcut; hidden once the field has focus. */}
+        <kbd class="slashkey" aria-hidden="true">/</kbd>
       </div>
-      <div class="filterline">
+
+      <span class="sel">
+        <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <rect x="2" y="3.2" width="12" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4" />
+          <path d="M2 6.6h12M5.4 1.8v2.6M10.6 1.8v2.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
         <select id="month" aria-label={t('browser.filter.allMonths')}><option value="">{t('browser.filter.allMonths')}</option></select>
+      </span>
+
+      <span class="sel">
+        <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M1.6 6.2 8 2.2l6.4 4M3.4 6.4v6.2M6.6 6.4v6.2M9.4 6.4v6.2M12.6 6.4v6.2M1.8 13.4h12.4"
+                fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
         <select id="utskott" aria-label={t('browser.filter.committee')}><option value="">{t('browser.filter.committee')}</option></select>
+      </span>
+
+      <span class="sel">
+        <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M7.6 1.9H2.2a.4.4 0 0 0-.4.4v5.4l6.6 6.6 5.8-5.8-6.6-6.6z"
+                fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          <circle cx="4.9" cy="5" r="1.05" fill="currentColor" />
+        </svg>
         <select id="area" aria-label={t('browser.filter.allAreas')}><option value="">{t('browser.filter.allAreas')}</option></select>
-        {/* Flags as on/off pills: a bare checkbox next to a long sentence read as
-            body text, so it was never obvious these were controls or which were
-            active. The explanation moved to the tooltip. */}
-        <label class="tog" title={t('browser.filter.disagreeTip')}>
-          <input type="checkbox" id="disagree" />
-          <span>{t('browser.filter.disagree')}</span>
-        </label>
-        <label class="tog" title={t('browser.filter.disagreeXTip')}>
-          <input type="checkbox" id="disagreex" />
-          <span>{t('browser.filter.disagreeX')}</span>
-        </label>
-        <button type="button" id="clear" class="clearbtn" hidden>{t('browser.clear')}</button>
+      </span>
+      </div>
+
+      <div class="tbrow tbrow-gap">
+      {/* Titled with the table's own column header — these four controls filter
+          that column and nothing else. */}
+      <span class="rowlabel">{t('browser.col.ai')}</span>
+
+      {/* Party is a custom listbox rather than a <select> because native options
+          cannot carry the colored identity disc — and the disc is how a party is
+          named everywhere else on this site, including the column this filter
+          narrows. Full markup is server-rendered (so it is complete and
+          crawlable before the island boots); the island only fills in the live
+          counts and wires the interaction.
+
+          It leads this row because it re-scopes the three flags after it: with a
+          party chosen they narrow to that party's own divergences, not the
+          row's. */}
+      <div class="pdrop" id="pdrop">
+        <button type="button" id="pbtn" class="pbtn" aria-haspopup="listbox" aria-expanded="false"
+                aria-controls="pmenu" title={t('browser.filter.partyTip')}>
+          <span class="pbtn-face">
+            <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <circle cx="5.9" cy="5.2" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4" />
+              <path d="M1.7 13.4c0-2.4 1.9-4 4.2-4s4.2 1.6 4.2 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+              <path d="M11.1 3.1a2.4 2.4 0 0 1 0 4.4M12.2 9.9c1.3.6 2.1 1.9 2.1 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="pbtn-txt" id="pbtn-txt">{t('browser.filter.party')}</span>
+          <svg class="chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+            <path d="M2.6 4.4 6 7.8l3.4-3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <ul class="pmenu" id="pmenu" role="listbox" tabindex="-1" aria-label={t('browser.filter.party')} hidden>
+          <li class="pitem" role="option" id="popt-all" data-party="" aria-selected="true">
+            <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <circle cx="5.9" cy="5.2" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4" />
+              <path d="M1.7 13.4c0-2.4 1.9-4 4.2-4s4.2 1.6 4.2 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+              <path d="M11.1 3.1a2.4 2.4 0 0 1 0 4.4M12.2 9.9c1.3.6 2.1 1.9 2.1 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+            <span class="nm">{t('browser.filter.party')}</span>
+          </li>
+          {PARTY_ORDER.map((code) => (
+            <li class="pitem" role="option" id={`popt-${code}`} data-party={code} aria-selected="false">
+              <span class="pbadge" style={`--pb:${PARTY[code].color};--pb-ink:${PARTY[code].ink};width:20px;height:20px;font-size:${((code.length > 1 ? 0.44 : 0.52) * 20).toFixed(1)}px`}>{code}</span>
+              <span class="nm">{PARTY[code].name}</span>
+              <span class="n"></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Flags as on/off pills: a bare checkbox next to a long sentence read as
+          body text, so it was never obvious these were controls or which were
+          active. The explanation moved to the tooltip. */}
+      <label class="tog" title={t('browser.filter.disagreeTip')}>
+        <input type="checkbox" id="disagree" />
+        <span>
+          <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="4.6" fill="currentColor" /></svg>
+          <em>{t('browser.filter.disagree')}</em>
+        </span>
+      </label>
+      <label class="tog" title={t('browser.filter.disagreeXTip')}>
+        <input type="checkbox" id="disagreex" />
+        <span>
+          <svg class="ic" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="3.5" fill="currentColor" />
+            <circle cx="8" cy="8" r="5.9" fill="none" stroke="currentColor" stroke-width="1.7" />
+          </svg>
+          <em>{t('browser.filter.disagreeX')}</em>
+        </span>
+      </label>
+      {/* Strictly narrower than the one before it: the same explicit-tier
+          divergences, kept only where moving them would have changed what the
+          chamber decided. */}
+      <label class="tog" title={t('browser.filter.flipTip')}>
+        <input type="checkbox" id="flip" />
+        <span>
+          <span class="ic glyph" aria-hidden="true">⇄</span>
+          <em>{t('browser.filter.flip')}</em>
+        </span>
+      </label>
+
+      <button type="button" id="clear" class="clearbtn" hidden>{t('browser.clear')}</button>
       </div>
     </div>
 
@@ -99,8 +215,9 @@ const TR = {
     <nav class="pager" id="pager" aria-label="Sidnavigering" hidden></nav>
   </div>
 
-  <script is:inline define:vars={{ indexUrl, caseBase, lang, PARTY, POLICY, TR }}>
+  <script is:inline define:vars={{ indexUrl, caseBase, lang, PARTY, PARTY_ORDER, POLICY, TR }}>
     const PAGE = 50;
+    const LOCALE = lang === 'sv' ? 'sv-SE' : 'en-GB';
     let rows = [];
     let filtered = [];
     let page = 1;
@@ -109,8 +226,15 @@ const TR = {
     const month = document.getElementById('month');
     const utskott = document.getElementById('utskott');
     const area = document.getElementById('area');
+    const pdrop = document.getElementById('pdrop');
+    const pbtn = document.getElementById('pbtn');
+    const pbtnTxt = document.getElementById('pbtn-txt');
+    const pbtnFace = pbtn.querySelector('.pbtn-face');
+    const pmenu = document.getElementById('pmenu');
+    const pitems = [...pmenu.querySelectorAll('.pitem')];
     const disagree = document.getElementById('disagree');
     const disagreex = document.getElementById('disagreex');
+    const flip = document.getElementById('flip');
     const clearBtn = document.getElementById('clear');
     const tbody = document.getElementById('rows');
     const summary = document.getElementById('summary');
@@ -131,15 +255,88 @@ const TR = {
     const norm = (s) => s.toLowerCase();
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+    // ── party picker ──────────────────────────────────────────────────────
+    // Selected party code, '' for all. Held here rather than read off a native
+    // control because the listbox is custom (see the markup note).
+    let partyValue = '';
+    // the generic "all parties" icon, kept so the button can go back to it
+    const partyIconHTML = pbtnFace.innerHTML;
+    const partyAllLabel = pbtnTxt.textContent;
+
+    function setParty(code, refresh = true) {
+      partyValue = PARTY[code] ? code : '';
+      const p = PARTY[partyValue];
+      pbtnFace.innerHTML = p
+        ? `<span class="pbadge" style="--pb:${p.color};--pb-ink:${p.ink};width:20px;height:20px;font-size:${((partyValue.length > 1 ? 0.44 : 0.52) * 20).toFixed(1)}px" aria-hidden="true">${partyValue}</span>`
+        : partyIconHTML;
+      pbtnTxt.textContent = p ? p.name : partyAllLabel;
+      pbtn.classList.toggle('on', !!partyValue);
+      for (const it of pitems) it.setAttribute('aria-selected', String(it.dataset.party === partyValue));
+      if (refresh) apply();
+    }
+
+    function openMenu(open) {
+      pmenu.hidden = !open;
+      pbtn.setAttribute('aria-expanded', String(open));
+      if (open) {
+        // start the keyboard cursor on the current selection
+        const cur = pitems.find((it) => it.dataset.party === partyValue) || pitems[0];
+        markActive(cur);
+        pmenu.focus();
+      }
+    }
+
+    // Focus stays on the listbox; the cursor is published via
+    // aria-activedescendant, which is how a screen reader follows the arrows.
+    function markActive(item) {
+      for (const it of pitems) it.classList.toggle('active', it === item);
+      if (!item) return;
+      pmenu.setAttribute('aria-activedescendant', item.id);
+      item.scrollIntoView({ block: 'nearest' });
+    }
+
+    pbtn.addEventListener('click', () => openMenu(pmenu.hidden));
+    pmenu.addEventListener('click', (e) => {
+      const it = e.target.closest('.pitem');
+      if (!it) return;
+      setParty(it.dataset.party);
+      openMenu(false);
+      pbtn.focus();
+    });
+    pmenu.addEventListener('keydown', (e) => {
+      const cur = pitems.findIndex((it) => it.classList.contains('active'));
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const next = (cur + (e.key === 'ArrowDown' ? 1 : -1) + pitems.length) % pitems.length;
+        markActive(pitems[next]);
+      } else if (e.key === 'Home' || e.key === 'End') {
+        e.preventDefault();
+        markActive(e.key === 'Home' ? pitems[0] : pitems[pitems.length - 1]);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (pitems[cur]) setParty(pitems[cur].dataset.party);
+        openMenu(false);
+        pbtn.focus();
+      } else if (e.key === 'Escape' || e.key === 'Tab') {
+        openMenu(false);
+        if (e.key === 'Escape') pbtn.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!pmenu.hidden && !pdrop.contains(e.target)) openMenu(false);
+    });
+
     // `strong` marks an explicit-tier divergence: the plan stated the commitment
     // outright and the party still voted the other way. Drawn with a dark ring so
     // the graded evidence is visible at a glance without a second column.
-    function badge(code, strong) {
+    // `dim` fades the parties you did not filter on, so the one you did picks
+    // itself out of a row of up to eight discs.
+    function badge(code, strong, dim) {
       const p = PARTY[code] || { color: '#888', ink: '#fff', name: code };
       const size = 20;
       const font = ((code.length > 1 ? 0.44 : 0.52) * size).toFixed(1);
       const name = esc(p.name);
-      const cls = strong ? 'pbadge strong' : 'pbadge';
+      const cls = 'pbadge' + (strong ? ' strong' : '') + (dim ? ' dim' : '');
       const tip = strong ? `${name} — ${esc(TR.missTipX)}` : name;
       return `<span class="${cls}" style="--pb:${p.color};--pb-ink:${p.ink};width:${size}px;height:${size}px;font-size:${font}px" title="${tip}" role="img" aria-label="${tip}">${code}</span>`;
     }
@@ -147,20 +344,31 @@ const TR = {
     // The party discs make the count self-evident, so no N/N score is shown:
     // divergence rows list the diverging parties; a full match shows a check.
     function aiCell(r) {
-      if (!r.hasAi) return `<span class="ai-cell"><span class="muted na" title="${esc(TR.noAi)}">—</span></span>`;
+      // `ai-lbl` spells the mark out in words. It is hidden on desktop, where the
+      // column header says what the column is; on a phone that header is gone
+      // and a lone ✓ in a card has nothing to attach itself to.
+      if (!r.hasAi)
+        return `<span class="ai-cell"><span class="muted na" title="${esc(TR.noAi)}">—</span><span class="ai-lbl muted">${esc(TR.noAi)}</span></span>`;
       const miss = r.miss || [];
       if (!miss.length)
-        return `<span class="ai-cell allmatch" title="${esc(TR.allMatch)}"><span class="ok" aria-hidden="true">✓</span></span>`;
+        return `<span class="ai-cell allmatch" title="${esc(TR.allMatch)}"><span class="ok" aria-hidden="true">✓</span><span class="ai-lbl">${esc(TR.allMatch)}</span></span>`;
       const strong = new Set(r.missx || []);
-      return `<span class="ai-cell"><span class="misses" title="${esc(TR.missTip)}">${miss.map((c) => badge(c, strong.has(c))).join('')}</span></span>`;
+      return `<span class="ai-cell"><span class="misses" title="${esc(TR.missTip)}">${miss.map((c) => badge(c, strong.has(c), partyValue && c !== partyValue)).join('')}</span></span>`;
     }
 
     function rowHTML(r) {
       const title = esc((lang === 'en' && r.rubrik_en) || r.rubrik || r.titel);
+      // ⇄ trails the case title rather than sitting with the party discs: it is
+      // a property of the division as a whole — the chamber's answer would not
+      // have survived — not of any one party's badge, and reading it off the
+      // subject line is what you want when scanning for the consequential ones.
+      const mark = r.flip
+        ? ` <span class="flipmark" title="${esc(TR.flipTip)}" role="img" aria-label="${esc(TR.flipTip)}">⇄</span>`
+        : '';
       return (
         `<tr>` +
         `<td class="c-date muted">${r.datum}</td>` +
-        `<td class="c-title"><a href="${caseBase}${r.id}/">${title}</a></td>` +
+        `<td class="c-title"><a href="${caseBase}${r.id}/">${title}</a>${mark}</td>` +
         `<td class="c-ref muted">${esc(r.bet)} <span class="pt">p.${r.punkt}</span></td>` +
         `<td class="c-ai">${aiCell(r)}</td>` +
         `</tr>`
@@ -216,12 +424,39 @@ const TR = {
       renderPager(total);
     }
 
+    // Which divergence list the party filter reads. Plain "plan ≠ vote" by
+    // default; the two stronger toggles narrow it to the explicit-tier subset,
+    // so ticking one asks the same question of the selected party rather than
+    // of the row as a whole. `flip` additionally keeps the row-level test below
+    // — with a party picked that reads "this party was one of the movers whose
+    // broken commitments would have reversed the chamber", which is what the
+    // published counterfactual supports; it never claims the party flipped it
+    // single-handedly.
+    const partyScope = (r) =>
+      (disagreex.checked || flip.checked ? r.missx : r.miss) || [];
+
+    // Facet counts on the party menu: how many rows each party would yield with
+    // every *other* control left where it is. Recomputed on each apply, so a
+    // number never disagrees with the list it leads to.
+    function labelParties(base) {
+      const n = Object.fromEntries(PARTY_ORDER.map((c) => [c, 0]));
+      for (const r of base) for (const c of partyScope(r)) if (c in n) n[c]++;
+      for (const it of pitems) {
+        const code = it.dataset.party;
+        if (!code) continue;
+        it.querySelector('.n').textContent = n[code].toLocaleString(LOCALE);
+        it.classList.toggle('zero', n[code] === 0);
+      }
+    }
+
     function apply() {
       const term = norm(q.value.trim());
-      const active = !!(term || month.value || utskott.value || area.value
-        || disagree.checked || disagreex.checked);
+      const active = !!(term || month.value || utskott.value || area.value || partyValue
+        || disagree.checked || disagreex.checked || flip.checked);
       clearBtn.hidden = !active;
-      filtered = rows.filter((r) => {
+      // Everything except the party select — the base both the facet counts and
+      // the final list are built from.
+      const base = rows.filter((r) => {
         if (month.value && !r.datum.startsWith(month.value)) return false;
         if (utskott.value && r.utskott !== utskott.value) return false;
         if (area.value && r.policy_area !== area.value) return false;
@@ -229,6 +464,9 @@ const TR = {
         // explicit-tier only: the plan stated the commitment and the party still
         // voted against it — the subset that can carry that claim.
         if (disagreex.checked && !(r.missx && r.missx.length)) return false;
+        // and of those, only the ones where the chamber's decision would not
+        // have survived the change
+        if (flip.checked && !r.flip) return false;
         // display fields (already on the row) OR the precomputed lowercased
         // r.search blob (subject sv/en + subtopics) — so subject/subtopic terms
         // match without duplicating rubrik/bet into every index row.
@@ -239,10 +477,62 @@ const TR = {
         }
         return true;
       });
+      labelParties(base);
+      filtered = partyValue ? base.filter((r) => partyScope(r).includes(partyValue)) : base;
       filtered.sort((a, b) => b.datum.localeCompare(a.datum));
       page = 1;
+      syncUrl();
       render();
     }
+
+    // Filters live in the URL, so a view can be linked, bookmarked, reloaded and
+    // walked back through. replaceState, not push: every keystroke in the search
+    // box would otherwise become its own history entry and bury the page the
+    // reader arrived from. Popping is handled below so Back still restores state
+    // when the entry came from elsewhere.
+    let restoring = false;
+    let urlTimer;
+    // Debounced: Safari throws after ~100 replaceState calls in 30s, and a typed
+    // query fires one per keystroke.
+    function syncUrl() {
+      if (restoring) return;
+      clearTimeout(urlTimer);
+      urlTimer = setTimeout(writeUrl, 250);
+    }
+    function writeUrl() {
+      const p = new URLSearchParams();
+      if (q.value.trim()) p.set('q', q.value.trim());
+      if (month.value) p.set('m', month.value);
+      if (utskott.value) p.set('u', utskott.value);
+      if (area.value) p.set('a', area.value);
+      if (partyValue) p.set('p', partyValue);
+      if (disagree.checked) p.set('d', '1');
+      if (disagreex.checked) p.set('dx', '1');
+      if (flip.checked) p.set('f', '1');
+      const qs = p.toString();
+      history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+    }
+
+    // Reads every control off the query string. Shared by first paint and Back.
+    function readUrl() {
+      const params = new URLSearchParams(location.search);
+      const has = (el, v) => [...el.options].some((o) => o.value === v);
+      q.value = params.get('q') || '';
+      month.value = has(month, params.get('m')) ? params.get('m') : '';
+      utskott.value = has(utskott, params.get('u')) ? params.get('u') : '';
+      area.value = has(area, params.get('a')) ? params.get('a') : '';
+      disagree.checked = params.get('d') === '1';
+      disagreex.checked = params.get('dx') === '1';
+      flip.checked = params.get('f') === '1';
+      setParty(params.get('p') || '', false);
+    }
+
+    window.addEventListener('popstate', () => {
+      restoring = true;
+      readUrl();
+      apply();
+      restoring = false;
+    });
 
     pager.addEventListener('click', (e) => {
       const b = e.target.closest('button[data-go]');
@@ -283,16 +573,15 @@ const TR = {
           opt.textContent = monthLabel(m);
           month.appendChild(opt);
         }
-        // deep links from the homepage: /fall/?q=...&m=YYYY-MM&d=1
-        const params = new URLSearchParams(location.search);
-        if (params.get('q')) q.value = params.get('q');
-        if (params.get('m') && monthsAvail.includes(params.get('m'))) month.value = params.get('m');
-        if (params.get('d') === '1') disagree.checked = true;
-        if (params.get('dx') === '1') disagreex.checked = true;
+        // deep links from the homepage and the party pages:
+        // /fall/?q=…&m=YYYY-MM&u=SkU&a=tax&p=KD&d=1&dx=1&f=1
+        // Runs after the selects are populated, so `readUrl` can reject a value
+        // that no longer exists in the corpus instead of leaving a dead filter.
+        readUrl();
         apply();
       });
 
-    for (const el of [q, month, utskott, area, disagree, disagreex]) el.addEventListener('input', apply);
+    for (const el of [q, month, utskott, area, disagree, disagreex, flip]) el.addEventListener('input', apply);
 
     clearBtn.addEventListener('click', () => {
       q.value = '';
@@ -301,8 +590,25 @@ const TR = {
       area.value = '';
       disagree.checked = false;
       disagreex.checked = false;
+      flip.checked = false;
+      setParty('', false);
       apply();
       q.focus();
+    });
+
+    // "/" jumps to the search field from anywhere on the page, Escape leaves it.
+    // The guard keeps the key literal while you are typing in a field.
+    document.addEventListener('keydown', (e) => {
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || '')
+        || document.activeElement?.isContentEditable;
+      if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        openMenu(false);
+        q.focus();
+        q.select();
+      } else if (e.key === 'Escape' && document.activeElement === q) {
+        if (q.value) { q.value = ''; apply(); } else q.blur();
+      }
     });
   </script>
 
@@ -313,29 +619,68 @@ const TR = {
   -->
   <style is:global>
     /* ── toolbar ────────────────────────────────────────────────────────── */
+    /* Two rows, each a flex line of uniform 2.3rem controls. The second is set
+       off by a hairline so the split reads as deliberate grouping rather than as
+       an overflow that happened to wrap. */
     .cb .toolbar {
-      margin: 1.1rem 0 0; padding: 1rem 1.1rem;
+      margin: 1.1rem 0 0; padding: 0.85rem 0.95rem;
       background: var(--panel); border: 1px solid var(--line);
       border-radius: var(--radius); box-shadow: var(--shadow-sm);
-      display: grid; gap: 0.7rem; max-width: none;
+      display: block; max-width: none;
     }
-    /* search sits in its own row, with the icon inside the field */
-    .cb .searchline { position: relative; display: flex; }
+    .cb .tbrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
+    .cb .tbrow-gap { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+    .cb .rowlabel {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+      margin-right: 0.25rem; white-space: nowrap;
+    }
+    /* the field takes the whole row width the pickers leave */
+    .cb .searchline { position: relative; display: flex; flex: 1 1 14rem; min-width: 12rem; }
     .cb .searchline .s-icon {
-      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
-      width: 1.05rem; height: 1.05rem; color: var(--muted); pointer-events: none;
+      position: absolute; left: 0.65rem; top: 50%; transform: translateY(-50%);
+      width: 1rem; height: 1rem; color: var(--muted); pointer-events: none;
     }
     .cb .searchline input[type='search'] {
-      flex: 1; height: 2.75rem; padding: 0 0.85rem 0 2.5rem;
+      flex: 1; height: 2.3rem; padding: 0 2rem 0 2.2rem; min-width: 0;
       border: 1px solid var(--line); border-radius: var(--radius-sm);
-      background: #fff; font-size: 1rem;
+      background: #fff; font-size: 0.94rem;
     }
-    .cb .filterline { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    .cb .filterline select {
-      height: 2.3rem; padding: 0 0.55rem; border: 1px solid var(--line);
-      border-radius: var(--radius-sm); background: #fff; font-size: 0.9rem; color: var(--ink-2);
-      max-width: 15rem;
+    /* "/" focuses the field — advertised in the field, and out of the way the
+       moment you are actually typing in it */
+    .cb .searchline .slashkey {
+      position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
+      font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--muted); background: var(--panel-2);
+      border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.36rem;
+      pointer-events: none; transition: opacity 0.12s ease;
     }
+    .cb .searchline:focus-within .slashkey,
+    .cb .searchline input:not(:placeholder-shown) + .slashkey { opacity: 0; }
+
+    /* select with a leading icon: the native control is transparent and sits on
+       top of the icon-bearing shell, so the icon never eats the click target */
+    .cb .sel { position: relative; display: inline-flex; align-items: center; flex: 0 0 auto; }
+    .cb .sel .ic {
+      position: absolute; left: 0.6rem; width: 1rem; height: 1rem;
+      color: var(--muted); pointer-events: none;
+    }
+    /* Width is set per select, not left to the content: a native select is as
+       wide as its *widest option*, so "September 2022" and the longest policy
+       area were sizing these controls and pushing the last pill onto a second
+       row. Fixed widths + ellipsis keep the strip on one line; the full text is
+       always visible in the open list, which is where it matters. */
+    .cb .sel select {
+      height: 2.3rem; padding: 0 0.5rem 0 2rem;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: #fff; font-size: 0.88rem; color: var(--ink-2);
+      text-overflow: ellipsis;
+    }
+    /* Capped, not fixed: with a row to themselves each picker can take its
+       natural width — enough for its placeholder — and only a picked long value
+       ellipsizes. The open list always shows the full text. */
+    .cb .sel select { max-width: 12rem; }
+    .cb .sel select:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
     /* on/off pill. The checkbox stays in the DOM for keyboard and screen readers
        and is visually replaced by the pill it labels. */
     .cb .tog { display: inline-flex; cursor: pointer; }
@@ -344,26 +689,76 @@ const TR = {
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
     }
     .cb .tog > span {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      height: 2.3rem; padding: 0 0.85rem;
+      display: inline-flex; align-items: center; gap: 0.38rem;
+      height: 2.3rem; padding: 0 0.8rem;
       border: 1px solid var(--line); border-radius: 999px; background: #fff;
-      font-size: 0.88rem; font-weight: 600; color: var(--ink-2); white-space: nowrap;
+      font-size: 0.86rem; font-weight: 600; color: var(--ink-2); white-space: nowrap;
       transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
-    /* the dot doubles as the on/off indicator */
-    .cb .tog > span::before {
-      content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%;
-      background: var(--line); box-shadow: inset 0 0 0 1px rgb(20 32 43 / 0.12);
+    .cb .tog > span em { font-style: normal; }
+    /* the icon replaces the old generic on/off dot: each pill now shows the mark
+       the table draws for the rows it keeps, so the filters teach the legend */
+    .cb .tog .ic { width: 0.92rem; height: 0.92rem; flex: none; color: var(--muted); }
+    .cb .tog .ic.glyph {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; font-weight: 700; line-height: 1; color: #a97614;
     }
     .cb .tog:hover > span { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
     .cb .tog input:checked + span {
       background: var(--accent); border-color: var(--accent); color: #fff;
     }
-    .cb .tog input:checked + span::before { background: var(--gold); box-shadow: none; }
+    .cb .tog input:checked + span .ic { color: var(--gold); }
     .cb .tog input:focus-visible + span { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+
+    /* ── party picker ───────────────────────────────────────────────────── */
+    .cb .pdrop { position: relative; display: inline-flex; flex: 0 0 auto; }
+    .cb .pbtn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      height: 2.3rem; padding: 0 0.5rem 0 0.6rem; width: 11.5rem;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: #fff; font-size: 0.88rem; color: var(--ink-2); cursor: pointer;
+      font-family: inherit;
+    }
+    .cb .pbtn:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .cb .pbtn:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+    /* holds either the generic icon or the selected party's disc, at one size so
+       the button does not jump width when you pick */
+    .cb .pbtn-face { display: inline-flex; align-items: center; flex: none; }
+    .cb .pbtn-face .ic { width: 1rem; height: 1rem; color: var(--muted); }
+    .cb .pbtn-txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cb .pbtn .chev { width: 0.7rem; height: 0.7rem; flex: none; color: var(--muted); margin-left: auto; }
+    .cb .pbtn[aria-expanded='true'] { border-color: var(--accent); }
+    .cb .pbtn[aria-expanded='true'] .chev { transform: rotate(180deg); }
+    /* the button reads as "on" the same way the flag pills do */
+    .cb .pbtn.on { background: var(--accent-wash); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+
+    .cb .pmenu {
+      position: absolute; top: calc(100% + 0.3rem); left: 0; z-index: 20;
+      min-width: 15rem; margin: 0; padding: 0.3rem; list-style: none;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius-sm); box-shadow: 0 10px 28px rgb(20 32 43 / 0.16);
+      max-height: 20rem; overflow-y: auto;
+    }
+    .cb .pitem {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.38rem 0.45rem; border-radius: var(--radius-sm);
+      font-size: 0.88rem; color: var(--ink-2); cursor: pointer; user-select: none;
+    }
+    .cb .pitem .ic { width: 1rem; height: 1rem; color: var(--muted); flex: none; }
+    .cb .pitem .nm { flex: 1; white-space: nowrap; }
+    /* count of matching cases under the filters already set — right-aligned and
+       tabular so the column scans as a distribution */
+    .cb .pitem .n { font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .cb .pitem:hover, .cb .pitem.active { background: var(--accent-wash); }
+    .cb .pitem[aria-selected='true'] { font-weight: 700; color: var(--accent-ink); }
+    /* nothing to find under the current filters — still selectable, but it says so */
+    .cb .pitem.zero .nm, .cb .pitem.zero .n { opacity: 0.45; }
+
+    /* far right of the flag row, where it reads as "undo all of this" rather
+       than as a fourth filter */
     .cb .clearbtn {
-      height: 2.3rem; padding: 0 0.8rem; border: 0; background: none; cursor: pointer;
-      font-size: 0.86rem; color: var(--accent); text-decoration: underline;
+      height: 2.3rem; padding: 0 0.2rem; border: 0; background: none; cursor: pointer;
+      font-size: 0.85rem; color: var(--accent); text-decoration: underline;
       text-underline-offset: 2px; margin-left: auto;
     }
     .cb .clearbtn:hover { color: var(--accent-ink); }
@@ -416,6 +811,9 @@ const TR = {
     .cb td.empty { text-align: center; padding: 2.6rem 0.65rem; font-style: italic; }
 
     .cb .ai-cell { display: inline-flex; align-items: center; gap: 0.3rem; justify-content: flex-end; min-height: 20px; }
+    /* the column header carries this meaning on desktop; only the phone cards
+       need it written out (see aiCell) */
+    .cb .ai-lbl { display: none; }
     .cb .ai-cell.allmatch .ok { color: #2f7d43; font-weight: 700; font-size: 1rem; }
     .cb .ai-cell .na { font-size: 0.95rem; }
     .cb .misses { display: inline-flex; align-items: center; gap: 0.28rem; }
@@ -424,6 +822,16 @@ const TR = {
     /* explicit-tier divergence: dark ring, so the strong claims stand out from
        the derived ones without needing a separate column */
     .cb .misses .pbadge.strong { box-shadow: 0 0 0 1.5px var(--paper), 0 0 0 3px #3c3a34; }
+    /* a party filter is on and this disc is not it — faded, not hidden, so the
+       row still shows who else diverged on the same division */
+    .cb .misses .pbadge.dim { opacity: 0.3; }
+    /* would have reversed the decision. A bare glyph after the title, not a
+       chip: at ~13% of rows a filled disc on every one of them read as a second
+       badge column and competed with the party discs it is not part of. */
+    .cb .flipmark {
+      color: #a97614; font-size: 0.95em; font-weight: 700; line-height: 1;
+      cursor: help; white-space: nowrap;
+    }
 
     .cb .pager { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; margin: 1.1rem 0 0.5rem; }
     .cb .pg { min-width: 2.15rem; height: 2.15rem; padding: 0 0.55rem; border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
@@ -432,10 +840,123 @@ const TR = {
     .cb .pg:disabled { opacity: 0.4; cursor: default; }
     .cb .pg.gap { border: none; background: none; cursor: default; min-width: 1.2rem; color: var(--muted); }
 
-    @media (max-width: 560px) {
-      .cb .filterline select { flex: 1 1 100%; max-width: none; }
+    @media (max-width: 780px) {
+      .cb .searchline { flex: 1 1 100%; }
+      .cb .sel, .cb .pdrop { flex: 1 1 9rem; }
+      .cb .sel select, .cb .pbtn { width: 100%; max-width: none; }
+      /* the row title stops earning its line once the row itself wraps */
+      .cb .rowlabel { flex: 1 1 100%; margin: 0 0 0.1rem; }
       .cb .clearbtn { margin-left: 0; }
-      .cb .c-ref, .cb th.c-ref { display: none; }
+    }
+    @media (max-width: 560px) {
+      /* 16px minimum on every text control. iOS Safari zooms the whole page in
+         when a smaller field takes focus, and does not zoom back out. */
+      .cb .searchline input[type='search'], .cb .sel select, .cb .pbtn { font-size: 1rem; }
+      /* 2.3rem is 37px — under the 44px thumb-target guideline on every control
+         in the toolbar, which is the part of this page people actually poke at */
+      .cb .searchline input[type='search'], .cb .sel select,
+      .cb .pbtn, .cb .tog > span, .cb .clearbtn { height: 2.75rem; }
+      .cb .pitem { padding: 0.55rem 0.5rem; }
+      /* party picker takes its own row so the three flags below it wrap 2 + 1
+         instead of one flag stranded beside the picker */
+      .cb .pdrop { flex: 1 1 100%; }
+      .cb .tog { flex: 1 1 8rem; }
+      .cb .tog > span { width: 100%; justify-content: center; }
+      /* its own row: sharing one with the last flag made that flag half-width
+         and the row a different shape from the two above it */
+      .cb .clearbtn { flex: 1 1 100%; text-align: right; }
+      .cb .pmenu { min-width: min(17rem, calc(100vw - 3rem)); }
+
+      /* The table stops being a table. Eight party discs need ~200px on their
+         own, which pushed the grid to 508px inside a 390px viewport and set the
+         whole PAGE scrolling sideways — `.table-wrap` is deliberately
+         `overflow: visible` (see above), so the table cannot scroll within its
+         own card and escapes instead.
+         Each row becomes a stacked list item: date + reference, then the title,
+         then the discs. Nothing overflows, the reference column that used to be
+         hidden at this width comes back, and it reads like a list on a phone
+         rather than a table with a third of it off-screen. */
+      .cb .browser-table, .cb .browser-table tbody { display: block; }
+      .cb .browser-table thead { display: none; }
+
+      /* The wrapper gives up its own card chrome — otherwise every case is a
+         card inside a card, and the outer border adds an edge that belongs to
+         nothing you can tap. */
+      .cb .table-wrap.card {
+        background: none; border: 0; box-shadow: none; padding: 0; overflow: visible;
+      }
+
+      /* One card per case. A flat run of hairline-separated blocks gives the
+         thumb no target edges — at this width the list is 50 things you scroll
+         past, so each wants its own surface. */
+      .cb .browser-table tbody tr {
+        position: relative;
+        display: grid; grid-template-columns: auto 1fr;
+        padding: 0.7rem 0.85rem 0.75rem;
+        margin-bottom: 0.5rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+      }
+      .cb .browser-table tbody tr:last-child { margin-bottom: 0; }
+      /* touch has no hover; this is the only press feedback there is */
+      .cb .browser-table tbody tr:active { background: var(--accent-wash); }
+      .cb .browser-table tbody tr:hover td { background: none; }
+
+      /* `tbody td` to out-specify the desktop row padding above (0-2-2, so a
+         plain `td` reset loses to it and left every row 1.4rem too tall) */
+      .cb .browser-table td, .cb .browser-table tbody td {
+        display: block; width: auto; padding: 0; border: 0; white-space: normal;
+      }
+      /* Base's `.card.flush > table.compare td:first-child` gutter is (0,4,2) and
+         beat the reset above, indenting the date 1.5rem past the title under it.
+         The card now supplies its own padding, so the gutter has to go. */
+      .cb .table-wrap.card.flush > table.compare td:first-child,
+      .cb .table-wrap.card.flush > table.compare td:last-child {
+        padding-left: 0; padding-right: 0;
+      }
+      /* likewise the legend's gutter, now that the wrapper has no edges */
+      .cb .table-wrap.card.flush > .note { padding-left: 0; padding-right: 0; }
+
+      /* provenance line, above the title and quiet: which sitting, which report */
+      .cb .c-date, .cb .c-ref { font-size: 0.75rem; letter-spacing: 0; }
+      .cb .c-date { grid-area: 1 / 1; }
+      .cb .c-ref, .cb th.c-ref { display: block; grid-area: 1 / 2; text-align: right; }
+
+      .cb .c-title { grid-area: 2 / 1 / 3 / 3; margin: 0.2rem 0 0.5rem; }
+      /* the case is the headline of its card, so it carries the weight the
+         table's uniform 0.95rem could not give it */
+      .cb .c-title a { font-size: 1.02rem; font-weight: 600; line-height: 1.33; }
+      /* the whole card is the tap target, not just the words in the title —
+         a 44px-tall card with a 20px link in it is a miss waiting to happen */
+      .cb .c-title a::after {
+        content: ''; position: absolute; inset: 0; border-radius: inherit;
+      }
+
+      /* separated from the case text: this is the finding about the case, not
+         part of its description */
+      .cb .c-ai { grid-area: 3 / 1 / 4 / 3; text-align: left; }
+      .cb .c-ai:not(:empty) { border-top: 1px solid var(--line-soft); padding-top: 0.5rem; }
+      .cb .ai-cell { justify-content: flex-start; min-height: 0; }
+      .cb .ai-lbl { display: inline; font-size: 0.82rem; }
+      .cb .ai-cell .na { display: none; }
+      /* the divergence rows say it with discs; only the two wordless verdicts
+         need the sentence */
+      .cb .misses ~ .ai-lbl { display: none; }
+      /* wider gaps rather than bigger discs: the size is set inline per badge
+         (diameter and font together), so growing them here would need
+         !important and would leave the letters at the old ratio */
+      .cb .misses { gap: 0.4rem; }
+
+      .cb td.empty { grid-area: 1 / 1 / 2 / 3; text-align: center; padding: 2rem 0; }
+    }
+
+    /* Two pickers to a row stops fitting once the labels are 16px: the English
+       "All committees" truncated to "All commit…" at 390px. One per row costs a
+       little height and buys full labels and a full-width tap target. */
+    @media (max-width: 460px) {
+      .cb .sel { flex: 1 1 100%; }
     }
   </style>
 </Base>

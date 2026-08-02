@@ -86,6 +86,10 @@ function citationHref(party: string, document: string, quote: string): string | 
   return `${docsBase}${slug}/#:~:text=${quoteFragment(quote)}`;
 }
 
+// The division re-run with every explicit-tier divergence moved onto the plan's
+// side. Absent when no party qualifies; see pipeline/aidag/aivotes.py.
+const flip = c.flip;
+
 // MPs who voted differently from their party's majority position
 const dissenters = c.seats
   .filter(([parti, rost]) => {
@@ -223,6 +227,46 @@ const caseJsonLd = {
     actual={c.actual}
     voteLabels={voteLabels}
   />
+
+  {/* The same division re-run with only the documented commitments moved. Sits
+      directly under the chamber it re-runs. Rendered whenever any party
+      qualifies, not only when the outcome changes: "these commitments were
+      broken and the decision still held" is a result too, and showing it only
+      on the 324 divisions that flip would make the marking look like the whole
+      story. See aivotes.flip(). */}
+  {flip && (
+    <div class={flip.flips ? 'card flipbox hot' : 'card flipbox'}>
+      <p class="fb-head">
+        <span class="fb-mark" aria-hidden="true">⇄</span>
+        {/* A tie is its own answer, not a held decision: the Riksdag settles it
+            by lot, so neither side can be claimed. */}
+        <strong>
+          {flip.flips
+            ? t('flip.caseFlips')
+            : flip.counterfactual.outcome == null || flip.actual.outcome == null
+              ? t('flip.caseTied')
+              : t('flip.caseHolds')}
+        </strong>
+      </p>
+      <p class="fb-who">
+        {t('flip.caseWho')}{' '}
+        {flip.parties.map((p, i) => (
+          <>
+            {i > 0 && <span class="muted">, </span>}
+            <PartyBadge code={p} parties={meta.parties} size={19} label="name" />
+          </>
+        ))}
+      </p>
+      <p class="fb-counts">
+        <span class="votechip" data-v={flip.actual.outcome}>{flip.actual.outcome ?? '–'}</span>
+        <span class="muted"> {flip.actual.ja}–{flip.actual.nej}</span>
+        <span class="fb-arrow" aria-hidden="true">→</span>
+        <span class="votechip" data-v={flip.counterfactual.outcome}>{flip.counterfactual.outcome ?? t('flip.tie')}</span>
+        <span class="muted"> {flip.counterfactual.ja}–{flip.counterfactual.nej}</span>
+      </p>
+      <p class="muted fb-note">{t('flip.caseNote')}</p>
+    </div>
+  )}
 
   {c.compact && (
     <>
@@ -760,6 +804,26 @@ const caseJsonLd = {
     .srclist li { margin: 0.25rem 0; }
     .meanings p { margin: 0.45rem 0; }
     .meanings .votechip { min-width: 4.2rem; text-align: center; margin-right: 0.5rem; }
+    /* counterfactual outcome. The gold left edge is only drawn when the decision
+       actually changes — otherwise this is a null result and should not shout. */
+    .flipbox { border-left: 3px solid var(--line); }
+    .flipbox.hot { border-left-color: var(--gold, #d9a441); background: #fdfaf2; }
+    .flipbox p { margin: 0.4rem 0; }
+    .flipbox .fb-head { display: flex; align-items: center; gap: 0.5rem; margin-top: 0; }
+    .flipbox .fb-mark {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
+      background: var(--line); color: var(--ink-2); font-size: 13px; font-weight: 700;
+    }
+    .flipbox.hot .fb-mark { background: var(--gold, #d9a441); color: #1a1712; }
+    .flipbox .fb-who { font-size: 0.92rem; }
+    .flipbox .fb-who .pbadge-wrap { display: inline-flex; align-items: center; gap: 0.3rem; }
+    .flipbox .fb-counts {
+      display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .flipbox .fb-arrow { color: var(--muted); margin: 0 0.25rem; }
+    .flipbox .fb-note { font-size: 0.8rem; margin-bottom: 0; }
     .sharebox label { display: block; margin-bottom: 0.9rem; font-size: 0.86rem; color: var(--muted); }
     .sharebox label > span:first-child { display: block; margin-bottom: 0.25rem; }
     .sharebox .row { display: flex; gap: 0.5rem; }

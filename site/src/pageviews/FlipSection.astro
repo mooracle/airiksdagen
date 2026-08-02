@@ -1,0 +1,153 @@
+---
+/** Divisions the chamber would have decided the other way on documented
+ *  commitments alone.
+ *
+ * The counterfactual is deliberately narrow. Only parties whose own plan stated
+ * the commitment outright (evidence tier `explicit`) are moved, only where they
+ * voted Ja or Nej, and every other party keeps its real seat counts including
+ * its own dissenters. A party that abstained stays abstaining: an abstention is
+ * a floor tactic the plan was never asked to express. See aivotes.flip().
+ *
+ * `solo` is the strongest claim on the page: one party voting its own manifesto
+ * would have been enough, with no other party changing anything.
+ */
+import PartyBadge from '../components/PartyBadge.astro';
+import { getMeta, getAggregate, type FlipSummary } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+const flips = getAggregate<FlipSummary>('flips');
+
+/** How many divisions the list below shows. The aggregate holds every one of
+ *  them, and the browser link opens the full filtered set. */
+const SHOWN = 12;
+
+const parties = flips
+  ? meta.hemicycle_order.filter((p) => flips.per_party[p]).sort(
+      (a, b) => flips.per_party[b].flips - flips.per_party[a].flips,
+    )
+  : [];
+const shown = flips?.cases.slice(0, SHOWN) ?? [];
+const browseUrl = `${localePath(lang, '/fall/')}?f=1`;
+const nf = new Intl.NumberFormat(lang === 'sv' ? 'sv-SE' : 'en-GB');
+const areaLabel = (code: string | null) => (code ? meta.policy_areas?.[code]?.[lang] ?? code : '');
+---
+
+{flips && flips.n_flipped > 0 && (
+  <>
+    <p class="eyebrow">{t('flip.kicker')}</p>
+    <h2 id="vandbara">{t('flip.title')}</h2>
+    <p class="muted">{t('flip.intro')}</p>
+
+    <div class="statgrid">
+      <div class="stat">
+        <span class="num">{nf.format(flips.n_flipped)}</span>
+        <span class="lbl">{t('flip.statFlipped').replace('{n}', nf.format(flips.n_cases))}</span>
+      </div>
+      <div class="stat">
+        <span class="num">{nf.format(flips.n_solo)}</span>
+        <span class="lbl">{t('flip.statSolo')}</span>
+      </div>
+      <div class="stat">
+        <span class="num">{nf.format(flips.n_with_movers)}</span>
+        <span class="lbl">{t('flip.statMovers')}</span>
+      </div>
+    </div>
+
+    {/* Direction is stated rather than plotted: it is one-sided in this corpus
+        (a plan almost always backs the reservation the committee is rejecting),
+        and a chart of a 324–0 split says less than the sentence does. */}
+    <p class="muted note dir">
+      {t('flip.direction')
+        .replace('{ja}', nf.format(flips.direction.ja_to_nej))
+        .replace('{nej}', nf.format(flips.direction.nej_to_ja))}
+      {flips.n_indeterminate > 0 && ` ${t('flip.tied').replace('{n}', nf.format(flips.n_indeterminate))}`}
+    </p>
+
+    <h3>{t('flip.perPartyTitle')}</h3>
+    <div class="card scrollx">
+      <table class="compare nums">
+        <thead>
+          <tr>
+            <th></th>
+            <th title={t('flip.moversTip')}>{t('flip.movers')}</th>
+            <th title={t('flip.flipsTip')}>{t('flip.flips')}</th>
+            <th title={t('flip.soloTip')}>{t('flip.solo')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {parties.map((p) => {
+            const s = flips.per_party[p];
+            return (
+              <tr>
+                <td>
+                  <a href={localePath(lang, `/parti/${p.toLowerCase()}/`)}>
+                    <PartyBadge code={p} parties={meta.parties} label="name" />
+                  </a>
+                </td>
+                <td class="muted">{nf.format(s.movers)}</td>
+                <td><strong>{nf.format(s.flips)}</strong></td>
+                <td class={s.solo ? 'hot' : 'muted'}>{nf.format(s.solo)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p class="muted note">{t('flip.perPartyNote')}</p>
+    </div>
+
+    <h3>{t('flip.casesTitle')} <span class="muted">({nf.format(flips.n_flipped)})</span></h3>
+    <div class="card flush">
+      <table class="compare">
+        <tbody>
+          {shown.map((c) => (
+            <tr>
+              <td class="muted" style="white-space:nowrap">{c.datum}</td>
+              <td><a href={localePath(lang, `/fall/${c.votering_id}/`)}>{c.rubrik}</a></td>
+              <td class="muted a-area">{areaLabel(c.policy_area)}</td>
+              <td class="who">
+                {c.parties.map((p) => <PartyBadge code={p} parties={meta.parties} label="none" size={19} />)}
+                {c.solo && <span class="solotag" title={t('flip.soloTip')}>{t('flip.soloShort')}</span>}
+              </td>
+              <td style="white-space:nowrap">
+                <span class="votechip" data-v={c.outcome}>{c.outcome}</span>
+                <span class="muted"> → </span>
+                <span class="votechip" data-v={c.counterfactual}>{c.counterfactual}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="muted note">
+        {t('flip.casesNote').replace('{shown}', String(shown.length)).replace('{n}', nf.format(flips.n_flipped))}
+        {' '}<a href={browseUrl}>{t('flip.browseAll')}</a>
+      </p>
+    </div>
+
+    <div class="card caveat">
+      <p>{t('flip.caveat')}</p>
+    </div>
+  </>
+)}
+
+<style>
+  .nums td, .nums th { font-variant-numeric: tabular-nums; }
+  .note { font-size: 0.83rem; }
+  .dir { margin-top: -0.3rem; }
+  .hot { font-weight: 700; }
+  .who { white-space: nowrap; }
+  .who :global(.pbadge) { margin-right: 0.2rem; box-shadow: 0 0 0 1.5px var(--paper); }
+  .a-area { font-size: 0.83rem; white-space: nowrap; }
+  .solotag {
+    display: inline-block; margin-left: 0.15rem; padding: 0 0.4rem;
+    border: 1px solid var(--line); border-radius: 999px;
+    font-size: 0.7rem; font-weight: 700; color: var(--ink-2); background: var(--panel-2);
+  }
+  .caveat p { margin: 0; }
+  @media (max-width: 640px) {
+    .a-area { display: none; }
+  }
+</style>

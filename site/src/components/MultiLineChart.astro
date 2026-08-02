@@ -8,6 +8,19 @@
  * drawn at the end of its line. This is a direct label + secondary encoding:
  * lines that share a hue family (e.g. S and V red) stay tellable apart without
  * relying on color, and without hunting the legend.
+ *
+ * TWO renders, one shown at a time (see the media query at the bottom). An SVG
+ * with `width: 100%` scales its whole coordinate system, text included: the wide
+ * 760-unit viewBox lands at ~1190px on a desktop (1.6x, so a 10-unit label reads
+ * at 16px) and at ~348px on a phone (0.46x, so the same label reads at 4.6px —
+ * invisible) while 240 units of height collapse to 110px for nine overlapping
+ * series. No single viewBox serves both; scaling text up to survive the phone
+ * would make it enormous on the desktop.
+ *
+ * The narrow render is deliberately cheaper, not just smaller: no per-point dots
+ * and no <title> tooltips, which is most of the markup and all of it useless
+ * without a pointer. It costs a few hundred bytes per series, where duplicating
+ * the full chart would have cost ~36KB.
  */
 import { partyInk } from '../lib/data';
 
@@ -30,74 +43,126 @@ interface Props {
 
 const { series, months, yMax, yTicks, yFormat = (v) => `${v}`, height = 240 } = Astro.props;
 const hasLabels = series.some((s) => s.label);
-const W = 760;
-const H = height;
-const PAD_L = 44;
-const PAD_R = hasLabels ? 30 : 14;
-const PAD_T = 10;
-const PAD_B = 26;
 
-const mIndex = new Map(months.map((m, i) => [m, i]));
-const x = (m: string) => PAD_L + ((mIndex.get(m) ?? 0) * (W - PAD_L - PAD_R)) / Math.max(1, months.length - 1);
-const y = (v: number) => H - PAD_B - (Math.min(v, yMax) / yMax) * (H - PAD_T - PAD_B);
+/** Geometry for one render. Every dimension is in viewBox units, so a variant is
+ *  fully described by its box: a narrower box means the same physical width is
+ *  divided into fewer units, and everything drawn in it comes out larger. */
+function layout(W: number, H: number, padL: number, padR: number, padB: number, fs: number, r: number,
+                labelFirstMonth = true) {
+  const PAD_R = hasLabels ? padR : Math.round(fs * 1.4);
+  const PAD_T = 10;
+  const mIndex = new Map(months.map((m, i) => [m, i]));
+  const x = (m: string) =>
+    padL + ((mIndex.get(m) ?? 0) * (W - padL - PAD_R)) / Math.max(1, months.length - 1);
+  const y = (v: number) => H - padB - (Math.min(v, yMax) / yMax) * (H - PAD_T - padB);
 
-const ticks = yTicks ?? [0, yMax / 4, yMax / 2, (3 * yMax) / 4, yMax];
-// year boundaries for x labels
-const xLabels = months.filter((m) => m.endsWith('-01') || m === months[0]);
+  const ticks = yTicks ?? [0, yMax / 4, yMax / 2, (3 * yMax) / 4, yMax];
+  // The series opens mid-term (2022-10), so its own label sits three months
+  // before the first year boundary. At the wide scale that is 50 units of clear
+  // air; at the narrow one it is 24, and "2022" and "2023" printed on top of
+  // each other. Year boundaries alone are unambiguous, so the narrow render
+  // drops the opening month.
+  const xLabels = months.filter((m) => m.endsWith('-01') || (labelFirstMonth && m === months[0]));
 
-// End-of-line labels, vertically de-collided so discs never overlap.
-type EndLabel = { label: string; color: string; ink: string; y: number };
-const endLabels: EndLabel[] = series
-  .filter((s) => s.label)
-  .map((s) => {
-    const pts = s.points.filter((p) => mIndex.has(p.month)).sort((a, b) => a.month.localeCompare(b.month));
-    const last = pts[pts.length - 1];
-    return last ? { label: s.label!, color: s.color, ink: partyInk(s.color), y: y(last.value) } : null;
-  })
-  .filter((e): e is EndLabel => e !== null)
-  .sort((a, b) => a.y - b.y);
-const GAP = 14;
-for (let i = 1; i < endLabels.length; i++) {
-  if (endLabels[i].y - endLabels[i - 1].y < GAP) endLabels[i].y = endLabels[i - 1].y + GAP;
-}
-const overflow = endLabels.length ? endLabels[endLabels.length - 1].y - (H - PAD_B + 6) : 0;
-if (overflow > 0) for (const e of endLabels) e.y -= overflow;
-const labelCx = W - PAD_R + 13;
----
+  // End-of-line labels, vertically de-collided so discs never overlap.
+  type EndLabel = { label: string; color: string; ink: string; y: number };
+  const endLabels: EndLabel[] = series
+    .filter((s) => s.label)
+    .map((s) => {
+      const pts = s.points.filter((p) => mIndex.has(p.month)).sort((a, b) => a.month.localeCompare(b.month));
+      const last = pts[pts.length - 1];
+      return last ? { label: s.label!, color: s.color, ink: partyInk(s.color), y: y(last.value) } : null;
+    })
+    .filter((e): e is EndLabel => e !== null)
+    .sort((a, b) => a.y - b.y);
+  const GAP = r * 1.75;
+  for (let i = 1; i < endLabels.length; i++) {
+    if (endLabels[i].y - endLabels[i - 1].y < GAP) endLabels[i].y = endLabels[i - 1].y + GAP;
+  }
+  const overflow = endLabels.length ? endLabels[endLabels.length - 1].y - (H - padB + 6) : 0;
+  if (overflow > 0) for (const e of endLabels) e.y -= overflow;
 
-<svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto" role="img">
-  {ticks.map((tv) => (
-    <>
-      <line x1={PAD_L} x2={W - PAD_R} y1={y(tv)} y2={y(tv)} stroke="#ecece6" stroke-width="1" />
-      <text x={PAD_L - 6} y={y(tv) + 4} font-size="10" fill="#999" text-anchor="end">{yFormat(tv)}</text>
-    </>
-  ))}
-  {xLabels.map((m) => (
-    <text x={x(m)} y={H - 8} font-size="10" fill="#999" text-anchor="middle">{m.slice(0, 4)}</text>
-  ))}
-  {series.map((s) => {
+  const paths = series.map((s) => {
     const pts = s.points
       .filter((p) => mIndex.has(p.month))
       .sort((a, b) => a.month.localeCompare(b.month));
-    const path = pts.map((p) => `${x(p.month).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
-    return (
-      <>
-        {pts.length > 1 && (
-          <polyline points={path} fill="none" stroke={s.color} stroke-width={s.width ?? 1.8} stroke-linejoin="round" opacity="0.9" />
-        )}
-        {pts.map((p) => (
-          <circle cx={x(p.month)} cy={y(p.value)} r={s.width ? 2.5 : 2} fill={s.color}>
-            <title>{`${s.key} ${p.month}: ${yFormat(p.value)}`}</title>
-          </circle>
-        ))}
-      </>
-    );
-  })}
-  {endLabels.map((e) => (
+    return { s, pts, d: pts.map((p) => `${x(p.month).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ') };
+  });
+
+  return { W, H, padL, PAD_R, padB, fs, r, x, y, ticks, xLabels, endLabels, paths,
+           labelCx: W - PAD_R + r * 1.6 };
+}
+
+// Wide: the original geometry, unchanged, so the desktop render is untouched.
+const wide = layout(760, height, 44, 30, 26, 10, 8);
+// Narrow: fewer units across (so everything is drawn bigger) and taller, because
+// nine series need vertical room far more than they need a long time axis.
+// padL 42, not 34: at font-size 13 a "100%" tick is ~31 units wide and was being
+// clipped by the left edge of the viewBox, printing as "00%".
+const narrow = layout(400, Math.round(height * 1.3), 42, 30, 32, 13, 10, false);
+---
+
+<svg class="mlc mlc-wide" viewBox={`0 0 ${wide.W} ${wide.H}`} role="img">
+  {wide.ticks.map((tv) => (
+    <>
+      <line x1={wide.padL} x2={wide.W - wide.PAD_R} y1={wide.y(tv)} y2={wide.y(tv)} stroke="#ecece6" stroke-width="1" />
+      <text x={wide.padL - 6} y={wide.y(tv) + 4} font-size={wide.fs} fill="#999" text-anchor="end">{yFormat(tv)}</text>
+    </>
+  ))}
+  {wide.xLabels.map((m) => (
+    <text x={wide.x(m)} y={wide.H - 8} font-size={wide.fs} fill="#999" text-anchor="middle">{m.slice(0, 4)}</text>
+  ))}
+  {wide.paths.map(({ s, pts, d }) => (
+    <>
+      {pts.length > 1 && (
+        <polyline points={d} fill="none" stroke={s.color} stroke-width={s.width ?? 1.8} stroke-linejoin="round" opacity="0.9" />
+      )}
+      {pts.map((p) => (
+        <circle cx={wide.x(p.month)} cy={wide.y(p.value)} r={s.width ? 2.5 : 2} fill={s.color}>
+          <title>{`${s.key} ${p.month}: ${yFormat(p.value)}`}</title>
+        </circle>
+      ))}
+    </>
+  ))}
+  {wide.endLabels.map((e) => (
     <g>
-      <circle cx={labelCx} cy={e.y} r="8" fill={e.color} stroke="#fff" stroke-width="1.25" />
-      <text x={labelCx} y={e.y + 0.5} font-size={e.label.length > 1 ? '7.5' : '9'} font-weight="700"
+      <circle cx={wide.labelCx} cy={e.y} r={wide.r} fill={e.color} stroke="#fff" stroke-width="1.25" />
+      <text x={wide.labelCx} y={e.y + 0.5} font-size={e.label.length > 1 ? '7.5' : '9'} font-weight="700"
             text-anchor="middle" dominant-baseline="central" fill={e.ink}>{e.label}</text>
     </g>
   ))}
 </svg>
+
+<svg class="mlc mlc-narrow" viewBox={`0 0 ${narrow.W} ${narrow.H}`} role="img" aria-hidden="true">
+  {narrow.ticks.map((tv) => (
+    <>
+      <line x1={narrow.padL} x2={narrow.W - narrow.PAD_R} y1={narrow.y(tv)} y2={narrow.y(tv)} stroke="#ecece6" stroke-width="1.2" />
+      <text x={narrow.padL - 5} y={narrow.y(tv) + 4.5} font-size={narrow.fs} fill="#8b8b84" text-anchor="end">{yFormat(tv)}</text>
+    </>
+  ))}
+  {narrow.xLabels.map((m) => (
+    <text x={narrow.x(m)} y={narrow.H - 10} font-size={narrow.fs} fill="#8b8b84" text-anchor="middle">{m.slice(0, 4)}</text>
+  ))}
+  {narrow.paths.map(({ s, pts, d }) => (
+    pts.length > 1
+      ? <polyline points={d} fill="none" stroke={s.color} stroke-width={(s.width ?? 1.8) * 1.35} stroke-linejoin="round" opacity="0.9" />
+      /* a single-point series has no line to draw, so it keeps its dot */
+      : pts.map((p) => <circle cx={narrow.x(p.month)} cy={narrow.y(p.value)} r="3" fill={s.color} />)
+  ))}
+  {narrow.endLabels.map((e) => (
+    <g>
+      <circle cx={narrow.labelCx} cy={e.y} r={narrow.r} fill={e.color} stroke="#fff" stroke-width="1.5" />
+      <text x={narrow.labelCx} y={e.y + 0.5} font-size={e.label.length > 1 ? '9' : '11'} font-weight="700"
+            text-anchor="middle" dominant-baseline="central" fill={e.ink}>{e.label}</text>
+    </g>
+  ))}
+</svg>
+
+<style>
+  .mlc { width: 100%; height: auto; display: block; }
+  .mlc-narrow { display: none; }
+  @media (max-width: 560px) {
+    .mlc-wide { display: none; }
+    .mlc-narrow { display: block; }
+  }
+</style>

@@ -298,6 +298,14 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
   .statgrid > * { background: var(--panel); padding: 1.1rem 1.25rem; flex: 0 0 auto; min-width: 11rem; }
   .statgrid .num { font-size: clamp(1.7rem, 3vw, 2.2rem); }
   .statgrid .lbl { font-size: 0.85rem; }
+  /* On a phone the fixed-width tiles fit one per row, and `width: fit-content`
+     then left a band of bare container showing through beside them — the gap
+     read as a broken panel rather than as spare room. Below this width the
+     tiles share the row instead, two up, growing to fill it. */
+  @media (max-width: 640px) {
+    .statgrid { width: 100%; }
+    .statgrid > * { flex: 1 1 9rem; min-width: 0; padding: 0.9rem 1rem; }
+  }
 
   /* proportional stacked bar — for parts of a whole that were previously just
      three numbers separated by spaces */
@@ -476,6 +484,27 @@ function navCurrent(canonicalPath: string): 'page' | undefined {
     /* hairline top highlight — lifts the panel off the paper instead of leaving
        it as a flat rectangle with a border */
     background-image: linear-gradient(180deg, #fff 0 1px, transparent 1px);
+  }
+  /* Card whose contents are wider than it is — the 8-party matrices and the
+     area table. They already scrolled horizontally; on a phone nothing said so,
+     and a table cut off at a clean card edge looks finished rather than
+     scrollable. The inner shadow layers ride `background-attachment: local` so
+     they fade out as you reach each end, which is the affordance: shade on the
+     right means there is more table over there.
+     Declared after `.card` so its top-highlight gradient is replaced, not
+     stacked under these. */
+  .scrollx {
+    overflow-x: auto;
+    background-image:
+      linear-gradient(180deg, #fff 0 1px, transparent 1px),
+      linear-gradient(to right, var(--panel), rgb(255 255 255 / 0)),
+      linear-gradient(to left, var(--panel), rgb(255 255 255 / 0)),
+      linear-gradient(to right, rgb(20 32 43 / 0.14), rgb(20 32 43 / 0)),
+      linear-gradient(to left, rgb(20 32 43 / 0.14), rgb(20 32 43 / 0));
+    background-position: left top, left center, right center, left center, right center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%, 1.6rem 100%, 1.6rem 100%, 0.75rem 100%, 0.75rem 100%;
+    background-attachment: local, local, local, scroll, scroll;
   }
   a.card { transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease; }
   a.card:hover {

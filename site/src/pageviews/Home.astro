@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import MultiLineChart from '../components/MultiLineChart.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getIndex, getAggregate } from '../lib/data';
 import { agreementColor } from '../lib/scale';
@@ -26,59 +25,16 @@ interface GapData {
   n_decisions: number;
   tiers: Record<string, number>;
   headline: { n: number; gap: number; gap_rate: number | null };
-  per_party: Record<string, { explicit: { n: number; gap: number; gap_rate: number | null } }>;
+  per_party: Record<string, {
+    n_decisions: number;
+    tiers: Record<string, number>;
+    explicit: { n: number; gap: number; gap_rate: number | null };
+  }>;
   stance_skew: { unanimous_stodjer: number; n_cases_all_parties: number };
 }
 const gap = getAggregate<GapData>('gap');
-const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
-const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
-
 const browserBase = localePath(lang, '/fall/');
-
-// shared month domain across all charts: full period, from polls (dense) + cases
-const allMonths = new Set<string>([
-  ...supportSeries.map((r) => r.month),
-  ...index.map((r) => r.datum.slice(0, 7)),
-]);
-const months = [...allMonths].sort();
-
-// drift = share of decisions where AI differs from the real vote, per month
 const partyOrder = meta.hemicycle_order;
-const driftSeries = partyOrder.map((code) => ({
-  key: code,
-  label: code,
-  color: meta.parties[code].color,
-  points: timeseries
-    .filter((r) => r.parti === code)
-    .map((r) => ({ month: r.month, value: (1 - r.agreement) * 100 })),
-}));
-// overall drift: n-weighted across parties per month
-const byMonth = new Map<string, { n: number; agree: number }>();
-for (const r of timeseries) {
-  const acc = byMonth.get(r.month) ?? { n: 0, agree: 0 };
-  acc.n += r.n;
-  acc.agree += r.agreement * r.n;
-  byMonth.set(r.month, acc);
-}
-const overallDrift = {
-  key: lang === 'sv' ? 'Alla' : 'All',
-  color: '#1c1c1a',
-  width: 3.2,
-  points: [...byMonth.entries()]
-    .map(([month, a]) => ({ month, value: (1 - a.agree / a.n) * 100 }))
-    .sort((a, b) => a.month.localeCompare(b.month)),
-};
-
-const pollSeries = partyOrder.map((code) => ({
-  key: code,
-  label: code,
-  color: meta.parties[code].color,
-  width: 2,
-  points: supportSeries
-    .filter((r) => r.parti === code)
-    .map((r) => ({ month: r.month, value: r.support })),
-}));
-const pollMax = Math.max(10, Math.ceil(Math.max(0, ...supportSeries.map((r) => r.support)) / 10) * 10);
 
 // timeline: per-month case counts + agreement for the navigator
 const monthStats = new Map<string, { n: number; agree: number; compared: number }>();
@@ -92,7 +48,8 @@ for (const row of index) {
   }
   monthStats.set(m, acc);
 }
-const timelineMonths = months.filter((m) => monthStats.has(m));
+// every month that actually held a division, oldest first
+const timelineMonths = [...monthStats.keys()].sort();
 // Same diverging scale as the co-voting matrix, so the two heatmaps on the site
 // read against one another. Months with no AI coverage yet get no fill at all
 // rather than a grey one: on the old vivid ramp a flat grey was obviously "not a
@@ -102,7 +59,6 @@ const monthColor = (m: string) => {
   const s = monthStats.get(m)!;
   return s.compared ? agreementColor(s.agree / s.compared) : null;
 };
-const hasAiData = timeseries.length > 0;
 
 /**
  * Evidence tiers, strongest first. These were three bare numbers in a row of
@@ -188,45 +144,75 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
     </a>
   </div>
 
-  <p class="eyebrow">{t('home.secTrend')}</p>
-  <h2>{gap ? t('home.gapTitle') : t('home.drift')}</h2>
-  {hasAiData ? (
-    <figure class="fig card">
-      <MultiLineChart
-        series={[...driftSeries, overallDrift]}
-        months={months}
-        yMax={100}
-        yFormat={(v) => `${v.toFixed(0)}%`}
-      />
-      <p class="legend muted">
-        <span><span class="swatch" style="background:#1c1c1a" />{overallDrift.key}</span>
-        {partyOrder.map((code) => (
-          <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
-        ))}
-      </p>
-      <figcaption>{t('home.driftNote')}{gap ? ` ${t('home.gapNote')}` : ''}</figcaption>
-    </figure>
-  ) : (
-    <p class="muted">{t('home.noai')}</p>
-  )}
+  {/* The one per-party block on the page, in the slot the monthly trend chart
+      used to hold. That chart drew nine series over 45 months in 240px and was
+      unreadable at any width; everything it actually said — how far each party's
+      documented position sits from its floor record — is one bar per party.
 
-  <p class="eyebrow">{t('home.secContext')}</p>
-  <h2>{t('home.polls')}</h2>
-  <figure class="fig card">
-    <MultiLineChart
-      series={pollSeries}
-      months={months}
-      yMax={pollMax}
-      yFormat={(v) => `${v.toFixed(0)}%`}
-      height={220}
-    />
-    <p class="legend muted">
-      {partyOrder.map((code) => (
-        <span><PartyBadge code={code} parties={meta.parties} label="none" size={17} /></span>
-      ))}
-    </p>
-    <figcaption>{t('home.pollsNote')}</figcaption>
-  </figure>
+      Two tabs because the corpus grades its own evidence and the two grades tell
+      different stories: across ALL decisions the agent reads a stance for, S sits
+      at 45%, but on the subset where its plan stated the commitment outright it
+      sits at 25%. Showing only one would either overstate the case (all tiers
+      includes decisions the plan never addressed) or hide most of the record.
+
+      Radios, not scripted tabs: the page is static and this way the control is
+      keyboard-operable and works before — and without — any JS. */}
+  {gap && (
+    <>
+      <p class="eyebrow">{t('home.secParties')}</p>
+      <h2>{t('home.gapByParty')}</h2>
+      <div class="gaptabs">
+        {/* Inputs sit here, not inside .tabbar, so that each panel is a *sibling*
+            of the radio that reveals it — `:checked ~ .tp-…` cannot reach into
+            another element. The labels stay grouped in .tabbar for layout. */}
+        <input type="radio" name="gaptab" id="gt-explicit" checked />
+        <input type="radio" name="gaptab" id="gt-all" />
+        <div class="tabbar" role="group" aria-label={t('home.gapByParty')}>
+          <label for="gt-explicit">{t('home.tabExplicit')}</label>
+          <label for="gt-all">{t('home.tabAll')}</label>
+        </div>
+
+        {(['explicit', 'all_tiers'] as const).map((tier) => {
+          const rows = partyOrder
+            .filter((code) => gap.per_party[code]?.[tier].gap_rate !== null)
+            .sort((a, b) => gap.per_party[b][tier].gap_rate! - gap.per_party[a][tier].gap_rate!);
+          return (
+            <div class={`tabpanel tp-${tier}`}>
+              {/* The sentence the bars answer, above the bars. It replaces the
+                  column headers this table used to carry: three figures per row,
+                  two of them percentages measuring different things, needed a
+                  key to read — which is the opposite of what a front page can
+                  ask of anyone. */}
+              <p class="gaplead">{t(tier === 'explicit' ? 'home.gapLead' : 'home.gapLeadAll')}</p>
+              <figure class="fig card">
+                {rows.map((code) => {
+                  const e = gap.per_party[code][tier];
+                  const pctText = `${(e.gap_rate! * 100).toFixed(0)}%`;
+                  return (
+                    <a class="prow" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}
+                       title={`${meta.parties[code]?.name}: ${e.gap} ${t('home.rowOf')} ${e.n}`}>
+                      {/* Spelled out, not just the two-letter disc: a reader
+                          arriving on the front page has not learned the codes
+                          yet, and this is the first table they meet. */}
+                      <span class="pr-name">
+                        <PartyBadge code={code} parties={meta.parties} label="none" size={19} />
+                        <span>{meta.parties[code]?.name}</span>
+                      </span>
+                      <span class="bar"><span style={`width:${(e.gap_rate! * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></span>
+                      <span class="pr-pct">{pctText}</span>
+                      {/* the count stays, in words rather than as a ratio — it is
+                          what the percentage rests on, not a second measurement */}
+                      <span class="pr-n muted">{e.gap} {t('home.rowOf')} {e.n}</span>
+                    </a>
+                  );
+                })}
+              </figure>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  )}
 
   <p class="eyebrow">{t('home.secBrowse')}</p>
   <h2>{t('home.timeline')}</h2>
@@ -264,29 +250,7 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
   {/* p6 only: the divergence that the plan actually documents, party by party.
       Ordered left→right on the hemicycle so the government/opposition split in
       the numbers reads spatially rather than needing to be spelled out. */}
-  {gap && (
-    <>
-      <p class="eyebrow">{t('home.secParties')}</p>
-      <h2>{t('home.gapByParty')}</h2>
-      <figure class="fig card">
-        {partyOrder
-          .filter((code) => gap.per_party[code]?.explicit.gap_rate !== null)
-          .map((code) => {
-            const e = gap.per_party[code].explicit;
-            return (
-              <a class="prow" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}>
-                <span class="pr-badge"><PartyBadge code={code} parties={meta.parties} label="none" size={19} /></span>
-                <span class="bar"><span style={`width:${(e.gap_rate! * 100).toFixed(1)}%;background:${meta.parties[code]?.color}`} /></span>
-                <span class="pr-pct">{(e.gap_rate! * 100).toFixed(0)}%</span>
-                <span class="pr-n muted">{e.gap}/{e.n}</span>
-              </a>
-            );
-          })}
-        <figcaption>{t('home.gapByPartyNote')}</figcaption>
-      </figure>
-    </>
-  )}
-
+  
   <style>
     /* The three audience doors sit half-overlapping the masthead, so the band
        and the page below read as one composition rather than two stacked slabs. */
@@ -303,20 +267,82 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
     .apath p { margin: 0; font-size: 0.88rem; }
     @media (max-width: 860px) { .audience { margin-top: 1.2rem; } }
 
-    /* per-party divergence: a row is a link to that party's page */
+    /* ── tabbed per-party panels ─────────────────────────────────────────
+       CSS-only: the radio that owns the tab shows its panel via a sibling
+       selector. The inputs are visually hidden but still focusable, so the pair
+       behaves like the radio group it is — arrow keys move between tabs. */
+    /* positioned so the visually-hidden radios below anchor here rather than to
+       the page — otherwise focusing one can scroll the viewport somewhere odd */
+    .gaptabs { margin-top: 0.9rem; position: relative; }
+    .gaptabs > input {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .tabbar { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .tabbar label {
+      display: inline-flex; align-items: center; height: 2.35rem; padding: 0 0.95rem;
+      border: 1px solid var(--line); border-radius: 999px; background: var(--panel);
+      font-size: 0.88rem; font-weight: 600; color: var(--ink-2); cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .tabbar label:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    #gt-explicit:checked ~ .tabbar label[for='gt-explicit'],
+    #gt-all:checked ~ .tabbar label[for='gt-all'] {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    #gt-explicit:focus-visible ~ .tabbar label[for='gt-explicit'],
+    #gt-all:focus-visible ~ .tabbar label[for='gt-all'] {
+      outline: 2.5px solid var(--accent); outline-offset: 2px;
+    }
+    .tabpanel { display: none; }
+    #gt-explicit:checked ~ .tp-explicit,
+    #gt-all:checked ~ .tp-all_tiers { display: block; }
+
+    /* the question the bars answer, in a full sentence, directly above them */
+    .gaplead { margin: 0.9rem 0 0.5rem; color: var(--ink-2); max-width: 62ch; }
+
+    /* One bar per party, and exactly one number to read. A row is a link to that
+       party's page. */
     .prow {
-      display: grid; grid-template-columns: 2.2rem minmax(0, 34rem) 3.2rem 4rem;
-      align-items: center; gap: 0.7rem; padding: 0.42rem 0.3rem;
+      display: grid; grid-template-columns: 13rem minmax(0, 1fr) 3.4rem 7rem;
+      align-items: center; gap: 0.9rem; padding: 0.5rem 0.35rem;
       text-decoration: none; color: inherit; border-radius: 6px;
     }
     .prow:hover { background: var(--panel-2); }
-    .prow .bar { display: block; height: 9px; border-radius: 999px; background: #ebe8df; overflow: hidden; }
+    .prow .pr-name { display: inline-flex; align-items: center; gap: 0.5rem; min-width: 0; }
+    .prow .pr-name > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .prow .bar { display: block; height: 10px; border-radius: 999px; background: #ebe8df; overflow: hidden; }
     .prow .bar > span { display: block; height: 100%; border-radius: 999px; }
-    .prow .pr-pct { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+    /* the one figure that carries the row */
+    .prow .pr-pct { text-align: right; font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
     .prow .pr-n { text-align: right; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-    .legend { font-size: 0.8rem; margin: 0.3rem 0 0; }
-    .legend span { margin-right: 0.7rem; white-space: nowrap; }
-    .swatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.3em; }
+
+    @media (max-width: 760px) {
+      /* name and figure on one line, the bar and its count beneath — the name
+         column cannot shrink below its own text and the bar cannot shrink below
+         being a bar, so they stop sharing a line before either is unreadable */
+      .prow {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: 'name pct' 'bar count';
+        row-gap: 0.3rem; column-gap: 0.7rem; padding: 0.6rem 0.35rem;
+      }
+      .prow .pr-name { grid-area: name; }
+      .prow .bar { grid-area: bar; align-self: center; }
+      .prow .pr-pct { grid-area: pct; }
+      .prow .pr-n { grid-area: count; }
+    }
+    /* Flex with a real gap, not margin-right on inline spans: at 0.8rem with
+       17px discs this was the smallest thing on the page, and on a phone it is
+       the only key to nine lines the chart itself can no longer label legibly. */
+    .legend {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 0.5rem 0.85rem; font-size: 0.88rem; margin: 0.55rem 0 0;
+    }
+    .legend > span { display: inline-flex; align-items: center; gap: 0.32rem; white-space: nowrap; }
+    .swatch { display: inline-block; width: 0.85em; height: 0.85em; border-radius: 50%; }
+    @media (max-width: 560px) {
+      .legend { gap: 0.6rem 0.9rem; font-size: 0.92rem; margin-top: 0.7rem; }
+    }
     .timeline { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 0.6rem; }
     .tcell {
       display: flex; flex-direction: column; align-items: center; justify-content: center;

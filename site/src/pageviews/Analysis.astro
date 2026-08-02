@@ -1,5 +1,20 @@
 ---
+// The analytics hub: everything comparative about the term, in one place.
+//
+// The four AI-side sections below (areas, flips, pairs, coalition) used to hang
+// off /parti/, which left this page holding two real-vote tables and left the
+// party index doing the analysis under a name that promised navigation. Nobody
+// looking for "who votes with whom" had a reason to click "Partier". /parti/ is
+// now party navigation and the party corpus; everything analytical is here.
+//
+// Order runs outward from the site's own claim: where the plans and the votes
+// part, what that would have cost, who ends up voting together, and finally the
+// two purely real-vote tables (chamber, then members) that involve no AI at all.
 import Base from '../layouts/Base.astro';
+import AreaStats from './AreaStats.astro';
+import CoalitionSection from './CoalitionSection.astro';
+import FlipSection from './FlipSection.astro';
+import PairsMatrix from './PairsMatrix.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
@@ -11,8 +26,22 @@ const meta = getMeta();
 
 const defeats = getAggregate<{ votering_id: string; datum: string; rubrik: string; bet: string; gov_pos: string; outcome: string }[]>('gov_defeats') ?? [];
 const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n_dissent: number; rate: number }[]>('dissenters') ?? [];
+const gap = getAggregate<{ n_decisions: number; headline: { n: number; gap: number; gap_rate: number | null } }>('gap');
+const flips = getAggregate<{ n_flipped: number }>('flips');
 
+const nf = new Intl.NumberFormat(lang === 'sv' ? 'sv-SE' : 'en-GB');
 
+// Section nav. Seven sections is past the point where a reader will scroll to
+// find out what is here, and the anchors are already load-bearing — /om/ links
+// straight to #koalition.
+const sections = [
+  { id: 'amnesomraden', label: t('area.title'), on: true },
+  { id: 'vandbara', label: t('flip.title'), on: true },
+  { id: 'vem-med-vem', label: t('analysis.matrix'), on: true },
+  { id: 'koalition', label: t('coalition.title'), on: true },
+  { id: 'regeringsforluster', label: t('analysis.defeats'), on: true },
+  { id: 'ledamoter', label: t('analysis.dissenters'), on: true },
+].filter((s) => s.on);
 ---
 
 <Base lang={lang} title={t('analysis.title')} description={t('analysis.intro')} path="/analys/">
@@ -21,22 +50,63 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
   <p class="lede">{t('analysis.intro')}</p>
 
   {/* Only figures that are genuinely totals. `dissenters` deliberately has no
-      tile here: analytics.dissenter_league() takes `top=30`, so its length is the
+      tile: analytics.dissenter_league() takes `top=30`, so its length is the
       export cap, not a count of anything — presenting it as a stat would state a
       limit as a fact. gov_defeats() is uncapped, so that one is a real total. */}
   <div class="statgrid">
     <div class="stat">
-      <span class="num">{defeats.length}</span>
-      <span class="lbl">{t('analysis.defeats')}</span>
-    </div>
-    <div class="stat">
-      <span class="num">{meta.n_cases}</span>
+      <span class="num">{nf.format(meta.n_cases)}</span>
       <span class="lbl">{t('browser.title')}</span>
+    </div>
+    {gap && (
+      <div class="stat">
+        <span class="num">{nf.format(gap.n_decisions)}</span>
+        <span class="lbl">{t('analysis.tileDecisions')}</span>
+      </div>
+    )}
+    {gap?.headline && (
+      <div class="stat">
+        <span class="num">{nf.format(gap.headline.gap)}</span>
+        <span class="lbl">{t('analysis.tileGap')}</span>
+      </div>
+    )}
+    {flips && (
+      <div class="stat">
+        <span class="num">{nf.format(flips.n_flipped)}</span>
+        <span class="lbl">{t('analysis.tileFlips')}</span>
+      </div>
+    )}
+    <div class="stat">
+      <span class="num">{nf.format(defeats.length)}</span>
+      <span class="lbl">{t('analysis.defeats')}</span>
     </div>
   </div>
 
+  <nav class="secnav" aria-label={t('analysis.onThisPage')}>
+    <span class="secnav-lbl">{t('analysis.onThisPage')}</span>
+    {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
+  </nav>
+
+  {/* Where each party departs from its own habit of following its plan — the
+      topic-level cut of the divergence everything else here counts. */}
+  <AreaStats lang={lang} />
+
+  {/* What that divergence would have cost: the divisions whose outcome the
+      documented commitments alone would have reversed. */}
+  <FlipSection lang={lang} />
+
+  {/* Who ends up voting together — the real matrix, and the same measurement
+      over the plan-implied votes. Sets up the coalition question below it. */}
+  <PairsMatrix lang={lang} />
+
+  {/* Coalition analysis, formerly its own /koalition/ page and nav item. Last of
+      the AI-side sections because its caveat is the caveat for all of them. */}
+  <CoalitionSection lang={lang} />
+
+  {/* ── From here down: no AI. Straight from the Riksdag's voting data. ── */}
   <p class="eyebrow">{t('analysis.secChamber')}</p>
-  <h2>{t('analysis.defeats')} <span class="muted">({defeats.length})</span></h2>
+  <h2 id="regeringsforluster">{t('analysis.defeats')} <span class="muted">({defeats.length})</span></h2>
+  <p class="muted note rawnote">{t('analysis.rawNote')}</p>
   <div class="card flush">
     <table class="compare">
       <tbody>
@@ -58,7 +128,7 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
   </div>
 
   <p class="eyebrow">{t('analysis.secMembers')}</p>
-  <h2>{t('analysis.dissenters')}</h2>
+  <h2 id="ledamoter">{t('analysis.dissenters')}</h2>
   <div class="card flush">
     <table class="compare">
       <thead>
@@ -81,4 +151,27 @@ const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n
     <p class="muted note">{t('analysis.dissentersNote').replace('{n}', String(dissenters.length))}</p>
   </div>
 
+  <style>
+    /* Jump list, not a sidebar: the page is one column and the sections are far
+       enough apart that a reader arriving from /om/#koalition needs to see what
+       else is here. */
+    .secnav {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem;
+      margin: 1.4rem 0 0.4rem; padding: 0.75rem 0.9rem;
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .secnav-lbl {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted); margin-right: 0.3rem;
+    }
+    .secnav a {
+      font-size: 0.85rem; text-decoration: none; color: var(--ink-2);
+      padding: 0.28rem 0.6rem; border: 1px solid var(--line);
+      border-radius: 999px; background: var(--panel);
+    }
+    .secnav a:hover { border-color: var(--accent); color: var(--accent-ink); }
+    /* sits under the heading it qualifies, before the table it describes */
+    .rawnote { margin-top: -0.3rem; }
+  </style>
 </Base>

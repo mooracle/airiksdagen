@@ -71,7 +71,7 @@ const schemaSummary = `{
   <nav class="jump" aria-label={sv ? 'På denna sida' : 'On this page'}>
     <a href="#metod">{sv ? 'Metod' : 'Methodology'}</a>
     <a href="#exempel">{sv ? 'Exempel' : 'Worked example'}</a>
-    <a href="#dokument">{sv ? 'Källdokument' : 'Source documents'}</a>
+    <a href={`${localePath(lang, '/parti/')}#dokument`}>{sv ? 'Källdokument' : 'Source documents'}</a>
     <a href="#data">{sv ? 'Data & kod' : 'Data & code'}</a>
   </nav>
 
@@ -205,7 +205,7 @@ const schemaSummary = `{
           <li>Regeringspartier röstar nästan alltid ja till sina egna förslag — hög
           överensstämmelse där är väntad och föga informativ; Cohens kappa redovisas därför
           vid sidan av rå överensstämmelse. Detta är inte ett fel i mätningen utan
-          resultatet: se <a href={`${localePath(lang, '/parti/')}#koalition`}>Koalitionen eller
+          resultatet: se <a href={`${localePath(lang, '/analys/')}#koalition`}>Koalitionen eller
           partiprogrammet?</a>, där koalitionslinjen ställs mot partiets egna dokument
           som två konkurrerande förklaringar.</li>
           <li>En markering ”mot eget program” säger att en dokumentgrundad läsning pekade
@@ -360,7 +360,7 @@ const schemaSummary = `{
           <li>Government parties nearly always support their own proposals — high agreement
           there is expected and uninformative; Cohen's kappa is reported alongside raw
           agreement. This is not a flaw in the measurement but the result of it: see
-          <a href={`${localePath(lang, '/parti/')}#koalition`}>The coalition, or the party
+          <a href={`${localePath(lang, '/analys/')}#koalition`}>The coalition, or the party
           programme?</a>, which sets the coalition line against a party's own documents as
           two competing explanations.</li>
           <li>An "against own programme" flag says a document-grounded reading pointed the
@@ -526,33 +526,27 @@ const schemaSummary = `{
     </div>
   </section>
 
+  {/* The corpus index itself moved to /parti/#dokument, grouped by the party
+      that wrote each text. It is listed there rather than here because it is
+      party-organised source material, not methodology — this section keeps only
+      the pointer so an /om/#dokument bookmark still lands somewhere honest. */}
   <section id="dokument" class="about-sec">
     <h2>{sv ? 'Källdokument' : 'Source documents'}</h2>
     <p class="muted">
       {sv ? (
         <Fragment>
-          Källtexterna i original. Agenterna får numera bara <strong>valmanifest och
-          partiprogram</strong>; Tidöavtalet och budgetmotionerna finns kvar här för
-          insyn och för den tidigare körningen, men ligger inte i underlaget. Valmanifest
-          från <a href="https://snd.se/sv/vivill">SND Vivill</a> (Public Domain Mark);
-          Tidöavtalet från de fyra samarbetspartierna. Citat på ärendesidorna länkar hit.
+          De {docs.length} källtexterna i original ligger på
+          <a href={`${localePath(lang, '/parti/')}#dokument`}> partisidorna</a>, grupperade
+          per parti. Citat på ärendesidorna länkar rakt in i respektive dokument.
         </Fragment>
       ) : (
         <Fragment>
-          The source texts in the original Swedish. The agents now receive only
-          <strong> election manifestos and party programmes</strong>; the Tidö agreement and
-          the shadow budgets remain here for transparency and for the earlier run, but are not
-          part of the context. Election manifestos from
-          <a href="https://snd.se/sv/vivill"> SND Vivill</a> (Public Domain Mark); the Tidö
-          agreement from the four cooperating parties. Quotes on the case pages link here.
+          All {docs.length} source texts are listed on the
+          <a href={`${localePath(lang, '/parti/')}#dokument`}> parties page</a>, grouped by
+          the party that wrote them. Quotes on the case pages link straight into each one.
         </Fragment>
       )}
     </p>
-    <ul>
-      {docs.map((slug) => (
-        <li><a href={localePath(lang, `/dokument/${slug}/`)}>{docLabel(slug)}</a></li>
-      ))}
-    </ul>
   </section>
 
   <section id="data" class="about-sec">
@@ -602,6 +596,15 @@ const schemaSummary = `{
     table.docs th, table.docs td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
     table.docs th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
     table.docs td:first-child { font-weight: 600; white-space: nowrap; }
+    /* The nowrap first column is what makes this table wider than a 360px phone
+       — it cannot shrink, so the whole page scrolled sideways by ~13px. Below
+       that width the label wraps and the type steps down; nothing here needs to
+       stay on one line badly enough to cost the page its horizontal fit. */
+    @media (max-width: 560px) {
+      table.docs { font-size: 0.84rem; }
+      table.docs th, table.docs td { padding: 0.45rem 0.4rem; }
+      table.docs td:first-child { white-space: normal; }
+    }
 
     /* --- Worked example --- */
     .worked { scroll-margin-top: 5rem; margin-top: 2rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }

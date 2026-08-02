@@ -1,10 +1,18 @@
 ---
-/** "Who votes with whom" — the party co-voting matrix.
+/** "Who votes with whom" — the party co-voting matrix, twice.
  *
  * Lives on the Parties page rather than Analysis: it is a party-by-party
  * comparison and reads as one story with the coalition tables beneath it
  * (who votes together, then what explains each party's vote). Analysis keeps
- * the chamber-level material — government defeats and individual dissenters. */
+ * the chamber-level material — government defeats and individual dissenters.
+ *
+ * The second matrix is the same measurement over the plan-implied votes instead
+ * of the floor positions: who would vote with whom if every party voted its own
+ * manifesto and party programme. It is deliberately the same table, same colour
+ * scale, same cell order, so the pair you are looking at is in the same place in
+ * both — and each AI cell carries its real counterpart and the difference in its
+ * tooltip, which is the comparison the second table exists to make.
+ */
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { agreementColor, EMPTY_FILL } from '../lib/scale';
@@ -15,20 +23,32 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const meta = getMeta();
 
-const matrix = getAggregate<{
-  overall: Record<string, Record<string, number | null>>;
-  per_rm: Record<string, any>;
-}>('pairs_matrix');
+type Matrix = { overall: Record<string, Record<string, number | null>>; per_rm: Record<string, any> };
+const matrix = getAggregate<Matrix>('pairs_matrix');
+const aiMatrix = getAggregate<Matrix>('ai_pairs_matrix');
 const order = meta.hemicycle_order;
 
 const cellColor = (v: number | null | undefined) => (v == null ? EMPTY_FILL : agreementColor(v));
+const pct = (v: number | null | undefined) => (v == null ? '' : `${(v * 100).toFixed(0)}%`);
+
+/** Tooltip on an AI cell: the same pair's real figure and the shift. Only the
+ *  AI table gets one — on the real table it would just restate the cell. */
+function delta(a: string, b: string): string | undefined {
+  const ai = aiMatrix?.overall[a]?.[b];
+  const real = matrix?.overall[a]?.[b];
+  if (ai == null || real == null) return undefined;
+  const d = (ai - real) * 100;
+  const sign = d > 0 ? '+' : d < 0 ? '−' : '±';
+  return `${meta.parties[a]?.name ?? a} · ${meta.parties[b]?.name ?? b}\n${t('analysis.matrixReal')}: ${pct(real)}\n${t('analysis.matrixAi')}: ${pct(ai)} (${sign}${Math.abs(d).toFixed(0)} pp)`;
+}
 ---
 
 {matrix && (
   <>
     <p class="eyebrow">{t('analysis.secTogether')}</p>
     <h2 id="vem-med-vem">{t('analysis.matrix')}</h2>
-    <div class="card" style="overflow-x:auto">
+    <h3 class="mtitle">{t('analysis.matrixReal')}</h3>
+    <div class="card scrollx">
       <table class="compare matrix">
         <thead>
           <tr><th></th>{order.map((p) => <th style="text-align:center">{p}</th>)}</tr>
@@ -41,7 +61,7 @@ const cellColor = (v: number | null | undefined) => (v == null ? EMPTY_FILL : ag
                 const v = a === b ? null : matrix.overall[a]?.[b];
                 return (
                   <td style={`text-align:center;background:${a === b ? '#fff' : cellColor(v)}`}>
-                    {a === b ? '–' : v != null ? `${(v * 100).toFixed(0)}%` : ''}
+                    {a === b ? '–' : pct(v)}
                   </td>
                 );
               })}
@@ -51,9 +71,57 @@ const cellColor = (v: number | null | undefined) => (v == null ? EMPTY_FILL : ag
       </table>
       <p class="muted" style="font-size:0.83rem">{t('analysis.matrixNote')}</p>
     </div>
+
+    {aiMatrix && (
+      <>
+        <h3 class="mtitle">{t('analysis.matrixAi')}</h3>
+        <p class="muted mintro">{t('analysis.matrixAiIntro')}</p>
+        <div class="card scrollx">
+          <table class="compare matrix">
+            <thead>
+              <tr><th></th>{order.map((p) => <th style="text-align:center">{p}</th>)}</tr>
+            </thead>
+            <tbody>
+              {order.map((a) => (
+                <tr>
+                  <td><PartyBadge code={a} parties={meta.parties} label="none" /></td>
+                  {order.map((b) => {
+                    const v = a === b ? null : aiMatrix.overall[a]?.[b];
+                    const real = a === b ? null : matrix.overall[a]?.[b];
+                    // ≥10 pp apart from the floor: the pairs where voting the
+                    // documents would rearrange the chamber, marked so they are
+                    // findable without reading both tables cell by cell
+                    const moved = v != null && real != null && Math.abs(v - real) >= 0.1;
+                    return (
+                      <td
+                        class={moved ? 'moved' : undefined}
+                        title={a === b ? undefined : delta(a, b)}
+                        style={`text-align:center;background:${a === b ? '#fff' : cellColor(v)}`}
+                      >
+                        {a === b ? '–' : pct(v)}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="muted" style="font-size:0.83rem">{t('analysis.matrixAiNote')}</p>
+        </div>
+      </>
+    )}
   </>
 )}
 
 <style>
   .matrix td, .matrix th { font-variant-numeric: tabular-nums; }
+  .mtitle { margin-bottom: 0.3rem; }
+  .mintro { margin-top: 0; font-size: 0.92rem; }
+  /* a corner tick, not a border: a full outline on a coloured cell competes
+     with the fill that is already carrying the value */
+  .matrix td.moved { position: relative; font-weight: 700; }
+  .matrix td.moved::after {
+    content: ''; position: absolute; top: 2px; right: 2px;
+    border-top: 6px solid #3c3a34; border-left: 6px solid transparent;
+  }
 </style>
