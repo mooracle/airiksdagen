@@ -103,8 +103,9 @@ Deliberately excluded: SVT/DN/commercial news text (copyright), opinion polls
   an event describing a *previous* vote outcome is legitimate history, but an
   event describing *this* case would be a leak; filter events mentioning the
   case's own beteckning-free rubrik tokens (conservative string check, logged).
-- Richer context = richer recall triggers, so the memorization probe stays
-  mandatory and per-case probe scores keep being published next to results.
+- Richer context = richer recall triggers, so the leakage scrub above is the
+  load-bearing contamination defence and its golden tests must extend to cover
+  every new worldstate field.
 
 ## Implementation order
 

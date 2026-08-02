@@ -125,7 +125,7 @@ Workflow({ scriptPath: "scripts/grouped_batch_workflow.js",
 ```
 
 Agents write decisions as JSONL under the batch's `out_dir`; the workflow
-returns only receipts and probes. Agents that error leave their cids pending —
+returns only receipts. Agents that error leave their cids pending —
 the next `agent-prepare` re-issues them, so a partial batch is not a problem.
 
 ### 3. Merge and ingest

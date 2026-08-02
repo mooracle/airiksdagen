@@ -176,11 +176,22 @@ const schemaSummary = `{
         räknas aldrig in i huvudsiffran, och på ärendesidorna får de en annan text än de
         uttryckliga — annars skulle en procedurfråga läsas som ett brutet löfte.</p>
 
-        <h3>Kontamineringsmätning</h3>
-        <p>För varje ärende ställs en separat <em>minnesprob</em>: modellen får ärendet
-        <em>med</em> identifierare men <em>utan</em> partidokument och tillfrågas hur partierna
-        faktiskt röstade. Hög träffsäkerhet där betyder att överensstämmelsen i huvudmätningen
-        delvis kan bero på memorering — sambandet redovisas öppet per parti och ärende.</p>
+        <h3>Kontaminering</h3>
+        <p>Risken är att modellen minns utfallet från sin träningsdata i stället för att läsa
+        dokumenten. Försvaret är strukturellt: modellen får aldrig veta <em>vilken</em> votering
+        den ser. Dokument-id, betänkandebeteckning, voteringens id och exakta datum tas bort ur
+        prompten — tidsangivelsen är grov ("november 2023") — och utfallet ingår aldrig. Det
+        upprätthålls maskinellt av spärrmönster i promptgenereringen och av golden tests som
+        alltid körs mot den skarpa promptversionen.</p>
+        <p>Två observationer talar åt samma håll. Alla 20&nbsp;312 citat är verifierade som
+        ordagranna utdrag ur just de dokument agenten faktiskt fick se — inga hittade citat,
+        inga citat till dokument utanför kontexten. Och memorering skulle <em>krympa</em> gapet,
+        eftersom modellen då drog sin ståndpunkt mot det utfall den minns; det uppmätta gapet är
+        i stället stort och nästan helt ensidigt (1&nbsp;686 fall där planen pekade på Nej men
+        partiet röstade Ja, mot 14 åt andra hållet).</p>
+        <p>Kvarstående risk: för ett fåtal mycket uppmärksammade voteringar kan sakinnehållet
+        ensamt räcka för att känna igen ärendet. Effekten går i så fall mot ett mindre gap, vilket
+        gör huvudsiffran försiktig snarare än uppblåst.</p>
 
         <h3>Kända begränsningar</h3>
         <ul>
@@ -322,11 +333,22 @@ const schemaSummary = `{
         folded into the headline figure, and on the case pages they carry different wording from
         the explicit ones — otherwise a procedural question would read as a broken promise.</p>
 
-        <h3>Contamination measurement</h3>
-        <p>Each case also gets a separate <em>memorization probe</em>: the model is shown the
-        case <em>with</em> identifiers but <em>without</em> party documents and asked how the
-        parties actually voted. High recall there means agreement in the main measurement may
-        partly reflect memorization — the relationship is published per party and per case.</p>
+        <h3>Contamination</h3>
+        <p>The risk is that the model recalls the outcome from its training data instead of
+        reading the documents. The defence is structural: the model is never told <em>which</em>
+        vote it is looking at. Document ids, committee report designations, the division id and
+        exact dates are stripped from the prompt — the time context is coarse ("November 2023") —
+        and the outcome never appears. This is enforced mechanically by forbidden-pattern checks
+        in prompt generation and by golden tests that always run against the live prompt version.</p>
+        <p>Two observations point the same way. All 20,312 citations are verified as verbatim
+        substrings of the specific documents the agent was actually shown — no invented quotes,
+        no citations to documents outside its context. And memorization would <em>shrink</em> the
+        gap, since the model would bend its stance toward the outcome it remembers; the measured
+        gap is instead large and almost entirely one-directional (1,686 cases where the plan
+        pointed to Nej but the party voted Ja, against 14 the other way).</p>
+        <p>Residual risk: for a handful of genuinely high-profile votes, the substance alone may
+        be enough to recognise the case. That effect would push toward a smaller gap, making the
+        headline figure conservative rather than inflated.</p>
 
         <h3>Known limitations</h3>
         <ul>

@@ -130,7 +130,6 @@ export interface CaseData {
   }[];
   actual: Record<string, ActualPosition>;
   ai: Record<string, AiDecision>;
-  probe: { recalls_case: boolean; exact_match_count: number } | null;
   seats: [string, string, string, string][]; // [parti, rost, namn, valkrets]
   references: { dok_id: string; typ: string; label: string; titel: string; undertitel: string }[];
   source_url: string;

@@ -5,7 +5,6 @@ Outputs data/results/aggregates/{run_id}/:
   summary.json           vote agreement + Cohen's kappa — CALIBRATION, not a score
   party_timeseries.json  per party x month agreement %
   confusion.json         3x3 (AI rost x actual position) per party
-  probe.json             contamination: recall rates, probe-agreement relation
   coalition.json         coalition baseline vs party programme (see coalition.py)
 
 On a p6 run the product is `gap.json`. `rost` is DERIVED from the plan's stance
@@ -18,7 +17,7 @@ result. On p4/p5 runs there is no `hallning` and gap.json is not written.
 from __future__ import annotations
 
 import json
-from collections import Counter, defaultdict
+from collections import Counter
 
 import polars as pl
 
@@ -129,28 +128,6 @@ def run(run_id: str) -> None:
     coal["run_id"] = run_id
     (out_dir / "coalition.json").write_text(json.dumps(coal, indent=1, ensure_ascii=False))
 
-    # --- probe / contamination ---
-    probe_path = RESULTS_DIR / "probes" / run_id / "probe.jsonl"
-    if probe_path.exists() and probe_path.read_text().strip():
-        probes = [json.loads(l) for l in probe_path.read_text().splitlines() if l.strip()]
-        probe_by_vid = {p["votering_id"]: p for p in probes}
-        recall_rate = sum(p["recalls_case"] for p in probes) / len(probes)
-        buckets = defaultdict(list)
-        for row in df.iter_rows(named=True):
-            probe = probe_by_vid.get(row["votering_id"])
-            if probe:
-                buckets[probe["exact_match_count"] >= 6].append(row["agree"])
-        probe_out = {
-            "n_probed": len(probes),
-            "recall_rate": round(recall_rate, 4),
-            "mean_exact_matches": round(
-                sum(p["exact_match_count"] for p in probes) / len(probes), 2
-            ),
-            "agreement_when_memorized": _mean(buckets.get(True)),
-            "agreement_when_not_memorized": _mean(buckets.get(False)),
-        }
-        (out_dir / "probe.json").write_text(json.dumps(probe_out, indent=1))
-
     print(f"aggregates written to {out_dir}")
     if gap_out is not None:
         print("\n  PLAN-vs-BEHAVIOUR GAP (the product):")
@@ -178,7 +155,3 @@ def _avstar_recall(sub: pl.DataFrame) -> float | None:
     return round(float((avstar["rost"] == "Avstår").mean()), 4)
 
 
-def _mean(values) -> float | None:
-    if not values:
-        return None
-    return round(sum(values) / len(values), 4)

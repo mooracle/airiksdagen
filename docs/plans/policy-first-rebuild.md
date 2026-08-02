@@ -122,7 +122,8 @@ principle-vs-realpolitik gap as data instead of an error.
 ### D. Metrics (`aggregate`) — retire the accuracy leaderboard
 - **Grounding rate**: % of stances with a valid, on-point manifesto citation.
 - **Stance/vote divergence catalog**: where `hallning` and actual floor vote part ways.
-- **Contamination probe**: unchanged, reframed as "memory vs. reasoning."
+- **Contamination**: handled by the prompt's identifier stripping (the probe feature was
+  removed — see docs/methodology.*).
 - Keep real-vote agreement as *calibration only*, not the headline.
 
 ## 5. Rebuild runbook (order matters)
@@ -131,7 +132,7 @@ principle-vs-realpolitik gap as data instead of an error.
 3. Prompt wiring + `DECISION_SCHEMA` split + role prompt; update `tests` + `verify prompts`.
 4. **Stratified sample re-sim (~40–80 cases)** on Opus → eyeball stances + divergences
    before committing. Go/no-go here.
-5. Full re-sim → new run **`full-v4`** (~2,539 × 8 ≈ 20k Opus decisions + probes — the
+5. Full re-sim → new run **`full-v4`** (2,539 × 8 = 20,312 Opus decisions; no probes — the
    cost driver; this is why the sample gate in (4) exists).
 6. `aggregate` (new metrics) → `export-site --run-id full-v4` → site build → deploy.
 

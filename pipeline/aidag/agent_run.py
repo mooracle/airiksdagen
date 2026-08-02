@@ -1,12 +1,11 @@
 """Checkpointed batch preparation for the subagent-based full run.
 
-The full run = 2,539 cases x 8 parties (decisions) + 2,539 probes, executed as
-Claude Code subagent batches (Opus orchestrator, Sonnet vote agents) rather
-than the paid Batch API. See docs/orchestration-full-run.md for the protocol.
+The full run = 2,539 cases x 8 parties (decisions), executed as Claude Code
+subagent batches (Opus orchestrator, Sonnet vote agents) rather than the paid
+Batch API. See docs/orchestration-full-run.md for the protocol.
 
 Checkpoint model — no separate state file:
   done      = custom_ids present in data/results/simulations/{run_id}/*.jsonl
-              (+ votering_ids in probes/{run_id}/probe.jsonl)
   pending   = everything else
 `prepare` always emits the next batch from pending, so re-running after a
 partial/failed/limit-interrupted batch automatically resumes.
@@ -14,7 +13,6 @@ partial/failed/limit-interrupted batch automatically resumes.
 Layout under data/interim/agentrun/{run_id}/:
   system/{context}.txt             party corpus + role, one per distinct context
   groups/g-NNNN.json               every case for one agent (1 read, not N)
-  probes/{vid}.json                {"prompt": <probe prompt>}
   batches/batch-{NNN}.json         manifest for one workflow invocation
 """
 
@@ -27,7 +25,6 @@ import polars as pl
 
 from aidag.config import INTERIM_DIR, PARTY_CODES, PROCESSED_DIR, PROMPT_VERSION
 from aidag.corpus import context_key
-from aidag.probe import PROBE_SYSTEM, collected_probe_ids, probe_user_message
 from aidag.promptgen import build_system_blocks, render_user_message
 from aidag.simulate import collected_ids
 
@@ -132,7 +129,6 @@ def _decision_of(cid: str) -> tuple[str, str]:
 def _pending(
     run_id: str,
     cases: list[dict],
-    include_probes: bool,
     mirror_run: str | None = None,
     prompt_version: str = PROMPT_VERSION,
 ):
@@ -156,17 +152,12 @@ def _pending(
             if universe is not None and (party, case["votering_id"]) not in universe:
                 continue
             sims.append((cid, party, case))
-    probes = []
-    if include_probes and mirror_run is None:
-        probes_done = collected_probe_ids(run_id)
-        probes = [c for c in cases if c["votering_id"] not in probes_done]
-    return sims, probes
+    return sims
 
 
 def prepare(
     run_id: str,
     batch_size: int = 240,
-    include_probes: bool = True,
     group: int = 1,
     mirror_run: str | None = None,
     prompt_version: str = PROMPT_VERSION,
@@ -180,16 +171,13 @@ def prepare(
     party corpus once (see scripts/grouped_batch_workflow.js)."""
     base = run_dir(run_id)
     cases = _load_cases()
-    sims, probes = _pending(
-        run_id, cases, include_probes, mirror_run=mirror_run, prompt_version=prompt_version
-    )
-    if not sims and not probes:
+    sims = _pending(run_id, cases, mirror_run=mirror_run, prompt_version=prompt_version)
+    if not sims:
         print("nothing pending — run complete")
         return
 
     (base / "system").mkdir(parents=True, exist_ok=True)
     (base / "cases").mkdir(exist_ok=True)
-    (base / "probes").mkdir(exist_ok=True)
     (base / "batches").mkdir(exist_ok=True)
     (base / "groups").mkdir(exist_ok=True)
 
@@ -214,10 +202,6 @@ def prepare(
         return name
 
     batch_sims = sims[:batch_size]
-    # probes (cheap) fill whatever room decisions leave, so probe batches naturally
-    # run once all decisions are collected
-    room = max(0, batch_size - len(batch_sims))
-    batch_probes = probes[:room]
 
     def _case_file(case: dict):
         # version-scoped like the system file: the rendered <arende> differs
@@ -294,25 +278,13 @@ def prepare(
                 "cid": cid,
                 "sys": _system_file(party, case),
             })
-    for case in batch_probes:
-        probe_file = base / "probes" / f"{case['votering_id']}.json"
-        if not probe_file.exists():
-            probe_file.write_text(
-                json.dumps(
-                    {"prompt": PROBE_SYSTEM + "\n\n" + probe_user_message(case)},
-                    ensure_ascii=False,
-                )
-            )
-        items.append({"kind": "probe", "vid": case["votering_id"]})
-
     manifest_path = base / "batches" / f"batch-{n:03d}.json"
     n_sims = sum(
         len(i["cids"]) if i["kind"] == "simgroup" else 1
         for i in items
         if i["kind"] in ("sim", "simgroup")
     )
-    n_probes = sum(1 for i in items if i["kind"] == "probe")
-    # n_sims/n_probes let the workflow script verify the manifest survived the
+    # n_sims lets the workflow script verify the manifest survived the
     # loader agent's transcription intact (it re-counts and compares)
     manifest_path.write_text(
         json.dumps(
@@ -320,10 +292,8 @@ def prepare(
                 "run_id": run_id,
                 "prompt_version": prompt_version,
                 "n_sims": n_sims,
-                "n_probes": n_probes,
                 "cases_dir": str(base / "cases"),
                 "groups_dir": str(base / "groups"),
-                "probes_dir": str(base / "probes"),
                 "system_dir": str(base / "system"),
                 "out_dir": str(out_dir),
                 "items": items,
@@ -332,8 +302,8 @@ def prepare(
         )
     )
     print(f"batch manifest: {manifest_path}")
-    print(f"  {n_sims} decisions + {n_probes} probes in this batch")
-    print(f"  remaining after this batch: {len(sims) - n_sims} decisions, {len(probes) - n_probes} probes")
+    print(f"  {n_sims} decisions in this batch")
+    print(f"  remaining after this batch: {len(sims) - n_sims} decisions")
 
 
 def status(run_id: str, prompt_version: str = PROMPT_VERSION) -> None:
@@ -341,14 +311,11 @@ def status(run_id: str, prompt_version: str = PROMPT_VERSION) -> None:
     # reported against the p5 default shows 0/20312 done after a perfectly good
     # batch, which invites re-running work that is already paid for and ingested.
     cases = _load_cases()
-    sims, probes = _pending(run_id, cases, include_probes=True,
-                            prompt_version=prompt_version)
+    sims = _pending(run_id, cases, prompt_version=prompt_version)
     total_sims = len(cases) * len(PARTY_CODES)
     done_sims = total_sims - len(sims)
-    done_probes = len(cases) - len(probes)
     print(f"run {run_id}:")
     print(f"  decisions: {done_sims}/{total_sims} done ({done_sims / total_sims:.1%}), {len(sims)} pending")
-    print(f"  probes:    {done_probes}/{len(cases)} done, {len(probes)} pending")
     if sims:
         # temporal frontier: the batches walk chronologically
         print(f"  next pending case date: {sims[0][2]['datum']}")
@@ -389,11 +356,10 @@ def _load_decisions(path: Path) -> list[dict]:
 def merge(
     run_id: str,
     manifest_path: str | None = None,
-    probes_path: str | None = None,
     out_path: str | None = None,
 ) -> str:
     """Collect the JSONL/JSON decision files the group agents wrote for a batch
-    into the single {run_id, sims, probes} payload `agent-ingest` consumes.
+    into the single {run_id, sims} payload `agent-ingest` consumes.
 
     Files live under manifest['out_dir'] (scoped per batch). Each group's files
     are named g-NNNN-*.jsonl. A decision keeps only cids the manifest issued to
@@ -443,13 +409,9 @@ def merge(
         if allowed - got:
             missing_by_group.append((stem, len(allowed - got)))
 
-    probes: list[dict] = []
-    if probes_path:
-        probes = json.loads(Path(probes_path).read_text()).get("probes", [])
-
     out = Path(out_path) if out_path else base / f"{mpath.stem}-merged.json"
     out.write_text(
-        json.dumps({"run_id": manifest["run_id"], "sims": sims, "probes": probes}, ensure_ascii=False)
+        json.dumps({"run_id": manifest["run_id"], "sims": sims}, ensure_ascii=False)
     )
     print(f"merged {len(sims)}/{n_expected} decisions from {len(groups)} groups -> {out}")
     if n_unknown:
@@ -459,6 +421,4 @@ def merge(
     if n_expected - len(sims):
         head = ", ".join(f"{s}:{m}" for s, m in missing_by_group[:10])
         print(f"  {n_expected - len(sims)} missing (re-issue on next prepare): {head}")
-    if probes:
-        print(f"  + {len(probes)} probes")
     return str(out)

@@ -113,20 +113,6 @@ class Decision(BaseModel):
     collected_at: str = ""
 
 
-class Probe(BaseModel):
-    """Memorization probe: the model's cold recall of the real outcome."""
-
-    votering_id: str
-    run_id: str
-    model: str
-    predicted_positions: dict[str, str]  # parti -> rost, as recalled by the model
-    actual_positions: dict[str, str] = {}
-    exact_match_count: int = 0
-    recalls_case: bool = False
-    raw_answer: str = ""
-    batch_id: str = ""
-
-
 class KBIndicator(BaseModel):
     """One macro indicator value together with the vintage it was known at."""
 

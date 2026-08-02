@@ -146,23 +146,6 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
     return out
 
 
-def load_probes(run_id: str | None) -> dict[str, dict]:
-    if run_id is None:
-        return {}
-    path = RESULTS_DIR / "probes" / run_id / "probe.jsonl"
-    if not path.exists():
-        return {}
-    out = {}
-    for line in path.read_text().splitlines():
-        if line.strip():
-            p = json.loads(line)
-            out[p["votering_id"]] = {
-                "recalls_case": p["recalls_case"],
-                "exact_match_count": p["exact_match_count"],
-            }
-    return out
-
-
 def seat_array(votes: pl.DataFrame) -> list[list]:
     """Per-seat [parti, rost] ordered for the hemicycle: party blocks in
     left-right order, MPs alphabetically within party."""
@@ -210,7 +193,6 @@ def run(run_id: str | None = None) -> None:
         .filter(pl.col("parti").is_in(list(PARTIES)))
     )
     decisions = load_decisions_by_case(run_id)
-    probes = load_probes(run_id)
     from aidag.translate import load_case_translations
 
     case_translations = load_case_translations()
@@ -292,7 +274,6 @@ def run(run_id: str | None = None) -> None:
             "alternatives": alternatives,
             "actual": actual,
             "ai": case_decisions,
-            "probe": probes.get(vid),
             "seats": seat_array(case_votes),
             "references": json.loads(case["references"]) if isinstance(case.get("references"), str) else (case.get("references") or []),
             "source_url": f"https://data.riksdagen.se/dokumentstatus/{case['dok_id']}.json",

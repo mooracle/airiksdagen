@@ -536,18 +536,6 @@ const caseJsonLd = {
     </>
   )}
 
-  {c.probe && (
-    <>
-      <h2>{t('case.probe')}</h2>
-      <div class="card">
-        <p style="margin:0">
-          {c.probe.recalls_case ? t('case.probe.recalled') : t('case.probe.notRecalled')}
-          <span class="muted"> ({c.probe.exact_match_count}/8)</span>
-        </p>
-      </div>
-    </>
-  )}
-
   <h2>{t('case.share')}</h2>
   <div class="card sharebox">
     <label>

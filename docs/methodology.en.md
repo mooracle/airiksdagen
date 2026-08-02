@@ -28,8 +28,12 @@ The full methodology is rendered on the site (`/en/methodology/`,
   counter-proposals, never the Riksdag's post-decision summary (only the
   committee's pre-decision one), document references masked. Regex-asserted in
   `tests/test_promptgen.py`.
-- **Contamination is measured** with memorization probes (`aidag probe`) and
-  reported per party and per case.
+- **Contamination is handled structurally, not statistically:** the agent is
+  never told which vote it is looking at, so it cannot retrieve a memorized
+  outcome. The leakage controls above are the defence, and they are enforced
+  mechanically against the live prompt version. Memorization would shrink the
+  gap — the measured gap is instead large and almost entirely one-directional,
+  which points the same way.
 - **Verification:** our vote aggregation is cross-checked against the
   Riksdag's own per-party tables (0 mismatches across all voteringar); AI
   citations are verified as exact substrings of the source documents.

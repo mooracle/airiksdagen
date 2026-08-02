@@ -5,8 +5,11 @@ Design decisions (see docs/methodology):
   maximizes prompt-cache reuse (the per-party corpus prefix is byte-identical
   across all of that party's requests).
 - Identifier stripping — no dok_id/beteckning/votering_id/exact dates in the
-  prompt; time context is coarse ("november 2023"). Reduces verbatim recall of
-  memorized outcomes (contamination is measured separately by the probe).
+  prompt; time context is coarse ("november 2023"). This is the contamination
+  defence: the agent is never told WHICH vote it is looking at, so it cannot
+  retrieve a memorized outcome. Enforced by FORBIDDEN_PATTERNS below and the
+  golden leakage guards in tests/test_promptgen.py, which ride the live
+  PROMPT_VERSION so they always cover the running configuration.
 - Anonymous alternatives — reservation texts are shown without party
   authorship ("Alternativ A/B"); the "labeled" pilot arm keeps authorship so
   the effect of anonymization can be measured and published.

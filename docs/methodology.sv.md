@@ -26,8 +26,11 @@ Den fullständiga metodbeskrivningen renderas på webbplatsen (`/metod/`,
   motförslag, aldrig riksdagens beslutsnotis (endast utskottets
   förhandssammanfattning), maskering av dokumentreferenser. Regex-verifierat i
   `tests/test_promptgen.py`.
-- **Kontaminering mäts** med minnesprober (`aidag probe`) och redovisas per
-  parti och ärende.
+- **Kontaminering hanteras strukturellt, inte statistiskt:** agenten får aldrig
+  veta vilken votering den ser, så den kan inte hämta ett memorerat utfall.
+  Läckagekontrollerna ovan är försvaret, och de är maskinellt upprätthållna mot
+  den skarpa promptversionen. Att memorering skulle krympa gapet — men det
+  uppmätta gapet är stort och nästan helt ensidigt — pekar åt samma håll.
 - **Verifiering:** vår röstaggregering korsvalideras mot riksdagens egna
   partitabeller (0 avvikelser över samtliga voteringar); AI-citat verifieras
   som exakta utdrag ur källdokumenten.

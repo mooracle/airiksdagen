@@ -27,8 +27,6 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
 
     sim_dir = RESULTS_DIR / "simulations" / run_id
     sim_dir.mkdir(parents=True, exist_ok=True)
-    probe_dir = RESULTS_DIR / "probes" / run_id
-    probe_dir.mkdir(parents=True, exist_ok=True)
 
     # real manifesto substrings so `verify simulate` stays green on mock runs
     # (the [MOCKDATA] motivering is what marks the decision as fake)
@@ -92,20 +90,6 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
                 }, ensure_ascii=False) + "\n")
     trans_f.close()
 
-    with open(probe_dir / "probe.jsonl", "w") as f:
-        for case in cases.iter_rows(named=True):
-            recalled = rng.random() < 0.3
-            f.write(json.dumps({
-                "votering_id": case["votering_id"],
-                "run_id": run_id,
-                "model": "mock-model",
-                "predicted_positions": {},
-                "actual_positions": {},
-                "exact_match_count": rng.randint(5, 8) if recalled else rng.randint(0, 4),
-                "recalls_case": recalled,
-                "raw_answer": "",
-                "batch_id": "",
-            }) + "\n")
     print(f"mock run '{run_id}': {len(cases)} cases x {len(PARTY_CODES)} parties")
 
 

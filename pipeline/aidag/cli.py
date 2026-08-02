@@ -1,7 +1,7 @@
 """aidag CLI — every pipeline stage is a subcommand.
 
-Stages are idempotent and resumable; only `simulate` and `probe` call the
-Anthropic API (and both support --dry-run, which is free).
+Stages are idempotent and resumable; only `simulate` calls the Anthropic API
+(and it supports --dry-run, which is free).
 """
 
 from __future__ import annotations
@@ -96,21 +96,8 @@ def collect(run_id: str = typer.Option(..., "--run-id")) -> None:
 
 
 @app.command()
-def probe(
-    run_id: str = typer.Option(..., "--run-id"),
-    pilot: bool = typer.Option(False),
-    model: str = typer.Option(None),
-    dry_run: bool = typer.Option(False),
-) -> None:
-    """Run the memorization probe (contamination measurement)."""
-    from aidag.probe import run
-
-    run(run_id=run_id, pilot=pilot, model=model, dry_run=dry_run)
-
-
-@app.command()
 def aggregate(run_id: str = typer.Option(..., "--run-id")) -> None:
-    """Compute agreement stats, confusion matrices and probe analysis."""
+    """Compute agreement stats, confusion matrices and gap metrics."""
     from aidag.aggregate import run
 
     run(run_id=run_id)
@@ -128,7 +115,6 @@ def export_site(run_id: str = typer.Option(None, "--run-id", help="Omit to expor
 def agent_prepare(
     run_id: str = typer.Option(..., "--run-id"),
     batch_size: int = typer.Option(240),
-    probes: bool = typer.Option(True, help="Include memorization probes"),
     group: int = typer.Option(
         1, help=">1: N cases per agent; 0: size-driven (pack each party-month to --context-limit)"
     ),
@@ -148,7 +134,6 @@ def agent_prepare(
     prepare(
         run_id=run_id,
         batch_size=batch_size,
-        include_probes=probes,
         group=group,
         mirror_run=mirror_run,
         prompt_version=prompt_version,
@@ -331,20 +316,19 @@ def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
 def agent_merge(
     run_id: str = typer.Option(..., "--run-id"),
     manifest: str = typer.Option(None, "--manifest", help="Batch manifest (default: latest)"),
-    probes: str = typer.Option(None, "--probes", help="Workflow result JSON to take probes from"),
     out: str = typer.Option(None, "--out", help="Merged output path (default: <batch>-merged.json)"),
 ) -> None:
     """Merge the per-group decision files a file-writing workflow wrote into one
-    {sims, probes} payload for agent-ingest. Print the merged file's path."""
+    {sims} payload for agent-ingest. Print the merged file's path."""
     from aidag.agent_run import merge
 
-    merge(run_id=run_id, manifest_path=manifest, probes_path=probes, out_path=out)
+    merge(run_id=run_id, manifest_path=manifest, out_path=out)
 
 
 @app.command("agent-ingest")
 def agent_ingest(
     run_id: str = typer.Option(..., "--run-id"),
-    input: str = typer.Option(..., "--input", help="Workflow result JSON ({sims, probes})"),
+    input: str = typer.Option(..., "--input", help="Workflow result JSON ({sims})"),
     model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
     batch_id: str = typer.Option(
         "claude-code-workflow", help="Provenance tag, e.g. claude-code-workflow-grouped8"

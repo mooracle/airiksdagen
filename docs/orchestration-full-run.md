@@ -1,3 +1,10 @@
+> **PROBE FEATURE REMOVED (2026-08-02):** memorization probes were dropped from the
+> pipeline — `aidag probe`, the `--probes/--no-probes` flag, the manifest's
+> `n_probes`/`probes_dir` fields and the workflows' Probe phase no longer exist.
+> Contamination is now handled structurally (the agent is never told which vote it
+> is looking at); see `docs/methodology.en.md`. Probe-related steps and counts below
+> are kept as a record of how that run was executed and will NOT work as written.
+
 > **SUPERSEDED (2026-07-03):** the full simulation now runs as the unified
 > grouped run `full-v2` — see **`docs/orchestration-grouped-run.md`**. This
 > per-case protocol is kept for the record; `full-v1` (256 decisions) is

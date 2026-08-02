@@ -117,4 +117,4 @@ class TestWorkflowScriptSync:
 
     def test_manifest_count_check_present(self):
         src = WORKFLOW_JS.read_text()
-        assert "n_sims" in src and "n_probes" in src, "manifest transcription count check missing"
+        assert "n_sims" in src, "manifest transcription count check missing"

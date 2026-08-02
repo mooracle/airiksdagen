@@ -1,3 +1,10 @@
+> **PROBE FEATURE REMOVED (2026-08-02):** memorization probes were dropped from the
+> pipeline — `aidag probe`, the `--probes/--no-probes` flag, the manifest's
+> `n_probes`/`probes_dir` fields and the workflows' Probe phase no longer exist.
+> Contamination is now handled structurally (the agent is never told which vote it
+> is looking at); see `docs/methodology.en.md`. Probe-related steps and counts below
+> are kept as a record of how that run was executed and will NOT work as written.
+
 # full-v3 — operator runbook
 
 The complete simulation: 2,539 voteringar × 8 parties (20,312 decisions) + 2,539

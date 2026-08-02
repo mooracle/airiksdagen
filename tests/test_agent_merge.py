@@ -1,5 +1,5 @@
 """agent-merge: fold the JSONL/JSON files the group agents wrote back into the
-single {sims, probes} payload agent-ingest consumes. Fully hermetic — no API, no
+single {sims} payload agent-ingest consumes. Fully hermetic — no API, no
 data/processed — merge only reads a manifest + the out files it points to."""
 
 from __future__ import annotations
@@ -27,10 +27,8 @@ def _write_manifest(tmp_path, out_dir, items) -> str:
         "run_id": "test-run",
         "prompt_version": "p5",
         "n_sims": sum(len(i["cids"]) for i in items),
-        "n_probes": 0,
         "cases_dir": "x/agentrun/cases",
         "groups_dir": "x/agentrun/groups",
-        "probes_dir": "x/agentrun/probes",
         "system_dir": "x/agentrun/system",
         "out_dir": str(out_dir),
         "items": items,
@@ -73,7 +71,7 @@ def test_merge_collects_dedups_and_drops(tmp_path):
 
     payload = json.loads(out.read_text())
     assert payload["run_id"] == "test-run"
-    assert payload["probes"] == []
+    assert "probes" not in payload
     by_cid = {s["cid"]: s for s in payload["sims"]}
     # VID1, VID2, VID3, VID4 survive; VID4 deduped to one; VIDZ dropped; VID5 absent
     assert set(by_cid) == {

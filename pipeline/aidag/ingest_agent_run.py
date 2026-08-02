@@ -3,7 +3,7 @@ standard results layout, so aggregate/verify/export-site work unchanged.
 
 Usage: uv run python -m aidag.ingest_agent_run --run-id agent-pilot-v1 --input result.json --model <model>
 
-Input format: {"sims": [{cid, party, vid, decision{...}}], "probes": [{vid, result{...}}]}
+Input format: {"sims": [{cid, party, vid, decision{...}}]}
 """
 
 from __future__ import annotations
@@ -15,8 +15,7 @@ from datetime import datetime, timezone
 import polars as pl
 
 from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
-from aidag.models import Decision, Probe
-from aidag.probe import probe_results_path
+from aidag.models import Decision
 from aidag.promptgen import derive_rost
 from aidag.simulate import collected_ids, results_path
 
@@ -102,40 +101,7 @@ def run(run_id: str, input_path: str, model: str, batch_id: str = DEFAULT_BATCH_
                 f.write(d.model_dump_json() + "\n")
                 n += 1
 
-    n_probes = 0
-    ppath = probe_results_path(run_id)
-    ppath.parent.mkdir(parents=True, exist_ok=True)
-    existing_probes = set()
-    if ppath.exists():
-        existing_probes = {json.loads(l)["votering_id"] for l in ppath.read_text().splitlines() if l.strip()}
-    with open(ppath, "a") as f:
-        for p in data.get("probes", []):
-            vid = p["vid"]
-            if vid in existing_probes:
-                continue
-            if vid not in known_vids:
-                n_bad += 1
-                print(f"  skipped probe {vid!r}: not in cases")
-                continue
-            existing_probes.add(vid)
-            predicted = p["result"].get("positions", {})
-            act = actual.get(vid, {})
-            matches = sum(1 for parti, v in predicted.items() if v != "okänt" and act.get(parti) == v)
-            probe = Probe(
-                votering_id=vid,
-                run_id=run_id,
-                model=model,
-                predicted_positions=predicted,
-                actual_positions=act,
-                exact_match_count=matches,
-                recalls_case=bool(p["result"].get("recalls_case")),
-                raw_answer=p["result"].get("notes", ""),
-                batch_id=batch_id,
-            )
-            f.write(probe.model_dump_json() + "\n")
-            n_probes += 1
-
-    print(f"ingested {n} decisions ({n_bad} skipped), {n_probes} probes -> run_id={run_id}")
+    print(f"ingested {n} decisions ({n_bad} skipped) -> run_id={run_id}")
 
 
 if __name__ == "__main__":

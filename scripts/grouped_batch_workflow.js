@@ -19,9 +19,9 @@
 //
 // Each group agent WRITES its decisions as JSONL to manifest.out_dir (in chunks,
 // so no single response hits the output-token ceiling — this is what lets a group
-// hold 100+ cases). This workflow RETURNS only receipts + probes; the decisions
+// hold 100+ cases). This workflow RETURNS only receipts; the decisions
 // are on disk. After it finishes, merge and ingest:
-//   aidag agent-merge  --run-id <run>            # out files -> {sims, probes} json
+//   aidag agent-merge  --run-id <run>            # out files -> {sims} json
 //   aidag agent-ingest --run-id <run> --input <merged.json> ...
 
 export const meta = {
@@ -30,29 +30,10 @@ export const meta = {
   phases: [
     { title: 'Load', detail: 'read the batch manifest' },
     { title: 'Simulate', detail: 'one agent per (party x case-group)' },
-    { title: 'Probe', detail: 'memorization probes (one per case)' },
   ],
 }
 
 const PARTY_CODES = ['S', 'M', 'SD', 'C', 'V', 'KD', 'MP', 'L']
-
-const PROBE_SCHEMA = {
-  type: 'object',
-  properties: {
-    recalls_case: { type: 'boolean' },
-    positions: {
-      type: 'object',
-      properties: Object.fromEntries(
-        PARTY_CODES.map((p) => [p, { type: 'string', enum: ['Ja', 'Nej', 'Avstår', 'Frånvarande', 'okänt'] }]),
-      ),
-      required: PARTY_CODES,
-      additionalProperties: false,
-    },
-    notes: { type: 'string' },
-  },
-  required: ['recalls_case', 'positions', 'notes'],
-  additionalProperties: false,
-}
 
 // Citable documents, per prompt version — must mirror corpus.DOCS_P4/DOCS_P5.
 // Derived from the manifest, never a permissive union: a p4 agent that never saw
@@ -99,10 +80,8 @@ const MANIFEST_SCHEMA = {
     run_id: { type: 'string' },
     prompt_version: { type: 'string' },
     n_sims: { type: 'number' },
-    n_probes: { type: 'number' },
     cases_dir: { type: 'string' },
     groups_dir: { type: 'string' },
-    probes_dir: { type: 'string' },
     system_dir: { type: 'string' },
     out_dir: { type: 'string' },
     items: {
@@ -110,7 +89,7 @@ const MANIFEST_SCHEMA = {
       items: {
         type: 'object',
         properties: {
-          kind: { type: 'string', enum: ['simgroup', 'probe'] },
+          kind: { type: 'string', enum: ['simgroup'] },
           party: { type: 'string' },
           sys: { type: 'string' },
           gf: { type: 'string' },
@@ -118,7 +97,6 @@ const MANIFEST_SCHEMA = {
           // the actual cases out of `gf` itself; the cids never need to pass
           // through this workflow.
           n: { type: 'number' },
-          vid: { type: 'string' },
         },
         required: ['kind'],
         additionalProperties: false,
@@ -128,8 +106,8 @@ const MANIFEST_SCHEMA = {
   // prompt_version is REQUIRED: it decides which documents an agent may cite, so
   // a loader that quietly omitted it would leave the schema to guess.
   required: [
-    'run_id', 'prompt_version', 'n_sims', 'n_probes',
-    'cases_dir', 'groups_dir', 'probes_dir', 'system_dir', 'out_dir', 'items',
+    'run_id', 'prompt_version', 'n_sims',
+    'cases_dir', 'groups_dir', 'system_dir', 'out_dir', 'items',
   ],
   additionalProperties: false,
 }
@@ -141,7 +119,7 @@ if (typeof args === 'string') {
 if (!args || typeof args.manifestPath !== 'string' || !args.manifestPath.includes('agentrun')) {
   throw new Error(`grouped_batch_workflow: args.manifestPath missing or invalid: ${JSON.stringify(args)}`)
 }
-// Vote/probe model. One model per run — mixing them would make the per-party
+// Vote model. One model per run — mixing them would make the per-party
 // statistics incomparable across batches of the same dataset.
 // A tier alias ('opus') resolves to whatever the SESSION's Opus is and is not
 // stable across sessions — the arms metered as "Opus 4.8" in the grouping study
@@ -162,12 +140,11 @@ if (EFFORT && !['low', 'medium', 'high', 'xhigh', 'max'].includes(EFFORT)) {
 phase('Load')
 const manifest = await agent(
   `Read the JSON file ${args.manifestPath} and return a SUMMARY of it as structured output.\n\n`
-  + `Copy these top-level fields exactly as they appear: run_id, prompt_version, n_sims, n_probes, `
-  + `cases_dir, groups_dir, probes_dir, system_dir, out_dir.\n\n`
-  + `For "items", return one entry per element of the file's items array, in the SAME ORDER:\n`
-  + `- for kind "simgroup": {"kind","party","sys","gf","n"} where n is the LENGTH of that item's `
-  + `"cids" array (a number — do NOT copy the cids themselves).\n`
-  + `- for kind "probe": {"kind","vid"}.\n\n`
+  + `Copy these top-level fields exactly as they appear: run_id, prompt_version, n_sims, `
+  + `cases_dir, groups_dir, system_dir, out_dir.\n\n`
+  + `For "items", return one entry per element of the file's items array, in the SAME ORDER, `
+  + `each {"kind","party","sys","gf","n"} where n is the LENGTH of that item's `
+  + `"cids" array (a number — do NOT copy the cids themselves).\n\n`
   + `Do not omit, reorder or invent items. Do not include the cid strings anywhere in your output.`,
   { label: 'load-manifest', model: 'sonnet', schema: MANIFEST_SCHEMA },
 )
@@ -186,20 +163,12 @@ const groups = manifest.items
     // g-NNNN-001.jsonl, g-NNNN-002.jsonl, … under the batch's out dir
     out_stem: `${manifest.out_dir}/${item.gf.replace(/\.json$/, '')}`,
   }))
-const probeItems = manifest.items
-  .filter((i) => i.kind === 'probe')
-  .map((i) => ({ vid: i.vid, path: `${manifest.probes_dir}/${i.vid}.json` }))
-
 // verify the manifest survived the loader agent's transcription
 const PARTY_SET = new Set(PARTY_CODES)
 const problems = []
 const totalCases = groups.reduce((s, i) => s + (i.n || 0), 0)
 if (totalCases !== manifest.n_sims) problems.push(`case count ${totalCases} != manifest n_sims ${manifest.n_sims}`)
-if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeItems.length} != manifest n_probes ${manifest.n_probes}`)
-for (const item of probeItems) {
-  if (!item.vid) problems.push('probe item missing vid')
-}
-for (const dir of [manifest.cases_dir, manifest.groups_dir, manifest.probes_dir, manifest.system_dir, manifest.out_dir]) {
+for (const dir of [manifest.cases_dir, manifest.groups_dir, manifest.system_dir, manifest.out_dir]) {
   if (!dir || !dir.includes('agentrun')) problems.push(`bad manifest dir: ${dir}`)
 }
 for (const item of groups) {
@@ -244,8 +213,8 @@ if (IS_P6 && !args.model) {
   throw new Error('grouped_batch_workflow: p6 requires an explicit model '
     + '(e.g. model: "claude-opus-5", effort: "high") — refusing to fall back to sonnet')
 }
-log(`batch loaded: ${groups.length} groups (${totalCases} decisions), `
-  + `${probeItems.length} probes (run ${manifest.run_id}, prompt ${promptVersion}, `
+log(`batch loaded: ${groups.length} groups (${totalCases} decisions) `
+  + `(run ${manifest.run_id}, prompt ${promptVersion}, `
   + `model ${MODEL}${EFFORT ? `/${EFFORT}` : ''}, chunk ${CHUNK}, citable: ${CITABLE.join('/')})`)
 
 // p6 splits policy stance from parliamentary behaviour: the agent states what the
@@ -317,12 +286,6 @@ const groupPrompt = (item) =>
   `- Read ONLY the two input files above and Write ONLY under ${manifest.out_dir}. No web search, no other files.\n` +
   `- When every case has been written, respond via the structured output with {"written": <total decisions written>, "cids": [<every cid you wrote>]}. Do not put the decisions themselves in the response.`
 
-const probePrompt = (item) =>
-  `Read the JSON file at ${item.path}. Its "prompt" field contains instructions and a question ` +
-  `about a real Riksdag vote. Follow them exactly: answer only from your actual memory of this ` +
-  `specific vote; if you do not remember it, set recalls_case=false and "okänt" for parties you ` +
-  `do not remember. Read only that one file, use no other tools, answer only via structured output.`
-
 const work = [
   ...groups.map((item) => () =>
     agent(groupPrompt(item), {
@@ -333,19 +296,15 @@ const work = [
       agentType: 'general-purpose', // needs the Write tool
       schema: GROUP_RECEIPT_SCHEMA,
     }).then((r) => (r ? { kind: 'group', party: item.party, gf: item.gf, written: r.written ?? 0 } : { kind: 'group', party: item.party, gf: item.gf, written: 0, error: true }))),
-  ...probeItems.map((item) => () =>
-    agent(probePrompt(item), { label: `probe:${item.vid}`, phase: 'Probe', model: MODEL, ...(EFFORT ? { effort: EFFORT } : {}), schema: PROBE_SCHEMA })
-      .then((r) => (r ? { kind: 'probe', vid: item.vid, result: r } : null))),
 ]
 const results = (await parallel(work)).filter(Boolean)
 
 // Decisions live in the JSONL files the agents wrote, NOT in this return value —
-// `aidag agent-merge` reads manifest.out_dir back into the {sims, probes} payload
-// that agent-ingest consumes. Here we only report receipts and pass probes through.
+// `aidag agent-merge` reads manifest.out_dir back into the {sims} payload that
+// agent-ingest consumes. Here we only report receipts.
 const groupReceipts = results.filter((r) => r.kind === 'group')
 const claimed = groupReceipts.reduce((s, r) => s + (r.written || 0), 0)
 const failed = groupReceipts.filter((r) => r.error).length
-const probes = results.filter((r) => r.kind === 'probe').map(({ vid, result }) => ({ kind: 'probe', vid, result }))
 if (failed > 0) log(`WARNING: ${failed}/${groups.length} group agents errored (their cids stay pending, re-issue next prepare)`)
-log(`batch done: agents wrote ~${claimed}/${totalCases} decisions to ${manifest.out_dir}; ${probes.length}/${probeItems.length} probes. Run: aidag agent-merge --run-id ${manifest.run_id}`)
-return { run_id: manifest.run_id, out_dir: manifest.out_dir, groups: groupReceipts, probes }
+log(`batch done: agents wrote ~${claimed}/${totalCases} decisions to ${manifest.out_dir}. Run: aidag agent-merge --run-id ${manifest.run_id}`)
+return { run_id: manifest.run_id, out_dir: manifest.out_dir, groups: groupReceipts }

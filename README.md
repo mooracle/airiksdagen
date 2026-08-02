@@ -13,15 +13,18 @@ Resultatet jämförs med hur partiet faktiskt röstade och publiceras som en sta
 med full statistik, källhänvisningar och en visualisering av kammarens 349 platser per ärende.
 
 **Detta är rekonstruktion, inte prediktion.** Modellens träningsdata innehåller sannolikt de
-verkliga utfallen. Vi mäter denna kontaminering med minnesprober och publicerar resultaten
-öppet. Projektet är partipolitiskt obundet; metodik, prompts, kod och rådata är öppna.
+verkliga utfallen. Kontamineringen hanteras strukturellt: agenten får aldrig veta vilken
+votering den ser — ärendenummer, voterings-id och exakta datum tas bort ur prompten, maskinellt
+upprätthållet av golden tests. Projektet är partipolitiskt obundet; metodik, prompts, kod och rådata är öppna.
 
 > **English:** For every chamber vote in the Swedish Riksdag 2022–2026, one AI agent per party
 > decides how that party *should* vote based solely on the party's own documents — each visible
 > only from its adoption date — plus a point-in-time snapshot of the country, with no information
 > after the decision date. AI decisions are compared against actual party votes and published as a
 > static site. Framed as **reconstruction, not prediction**: training-data contamination is
-> measured with memorization probes and reported. Not affiliated with any party.
+> handled structurally — the agent is never told which vote it is looking at (identifiers and
+> exact dates are stripped from the prompt, enforced by golden tests). Not affiliated with any
+> party.
 
 ---
 
@@ -94,7 +97,6 @@ repair-citations   align paraphrased quotes to the verbatim source span (+ block
 verify simulate    integrity gate — no hallucinated or out-of-context citations
 aggregate          agreement stats, confusion matrices, coalition-vs-programme metric
 export-site        write per-case JSON + indexes → site/src/data/
-probe              memorization probe (contamination measurement)
 translate-*        English translations (checkpoint-aware); compare-runs, agent-status
 ```
 

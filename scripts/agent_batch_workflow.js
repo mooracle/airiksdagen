@@ -2,16 +2,15 @@
 // Invoke from the Opus orchestrator session with:
 //   Workflow({ scriptPath: "scripts/agent_batch_workflow.js",
 //              args: { manifestPath: "<abs path to batch-NNN.json>" } })
-// Every vote/probe agent runs on Sonnet. Agents that die or get skipped return
+// Every vote agent runs on Sonnet. Agents that die or get skipped return
 // null and are simply left pending — the next `aidag agent-prepare` re-issues them.
 
 export const meta = {
   name: 'aidag-agent-batch',
-  description: 'One checkpointed batch of AI-party vote decisions + probes (Sonnet agents)',
+  description: 'One checkpointed batch of AI-party vote decisions (Sonnet agents)',
   phases: [
     { title: 'Load', detail: 'read the batch manifest' },
     { title: 'Simulate', detail: 'one Sonnet agent per (case x party)', model: 'sonnet' },
-    { title: 'Probe', detail: 'memorization probes', model: 'sonnet' },
   ],
 }
 
@@ -61,24 +60,6 @@ const DECISION_SCHEMA = {
 }
 
 const PARTY_CODES = ['S', 'M', 'SD', 'C', 'V', 'KD', 'MP', 'L']
-const PROBE_SCHEMA = {
-  type: 'object',
-  properties: {
-    recalls_case: { type: 'boolean' },
-    positions: {
-      type: 'object',
-      properties: Object.fromEntries(
-        PARTY_CODES.map((p) => [p, { type: 'string', enum: ['Ja', 'Nej', 'Avstår', 'Frånvarande', 'okänt'] }]),
-      ),
-      required: PARTY_CODES,
-      additionalProperties: false,
-    },
-    notes: { type: 'string' },
-  },
-  required: ['recalls_case', 'positions', 'notes'],
-  additionalProperties: false,
-}
-
 // Compact manifest: party/vid/case_file derive from the cid and the
 // manifest-level dirs — keeps the loader agent's transcription small enough
 // for its output-token limit even on 240+-item batches.
@@ -87,26 +68,23 @@ const MANIFEST_SCHEMA = {
   properties: {
     run_id: { type: 'string' },
     n_sims: { type: 'number' },
-    n_probes: { type: 'number' },
     cases_dir: { type: 'string' },
-    probes_dir: { type: 'string' },
     system_dir: { type: 'string' },
     items: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-          kind: { type: 'string', enum: ['sim', 'probe'] },
+          kind: { type: 'string', enum: ['sim'] },
           cid: { type: 'string' },
           sys: { type: 'string' },
-          vid: { type: 'string' },
         },
         required: ['kind'],
         additionalProperties: false,
       },
     },
   },
-  required: ['run_id', 'n_sims', 'n_probes', 'cases_dir', 'probes_dir', 'system_dir', 'items'],
+  required: ['run_id', 'n_sims', 'cases_dir', 'system_dir', 'items'],
   additionalProperties: false,
 }
 
@@ -144,18 +122,13 @@ const simItems = manifest.items
       case_file: `${manifest.cases_dir}/${vid}-${manifest.prompt_version}.json`,
     }
   })
-const probeItems = manifest.items
-  .filter((i) => i.kind === 'probe')
-  .map((i) => ({ vid: i.vid, path: `${manifest.probes_dir}/${i.vid}.json` }))
-
 // The manifest passes through an agent transcription above — verify it arrived
 // intact before spending ~240 agents on it. A dropped item, a truncated dir or
 // a typo'd cid would otherwise surface as corrupt or missing results at ingest.
 const PARTY_SET = new Set(PARTY_CODES)
 const problems = []
 if (simItems.length !== manifest.n_sims) problems.push(`sim count ${simItems.length} != manifest n_sims ${manifest.n_sims}`)
-if (probeItems.length !== manifest.n_probes) problems.push(`probe count ${probeItems.length} != manifest n_probes ${manifest.n_probes}`)
-for (const dir of [manifest.cases_dir, manifest.probes_dir, manifest.system_dir]) {
+for (const dir of [manifest.cases_dir, manifest.system_dir]) {
   if (!dir || !dir.includes('agentrun')) problems.push(`bad manifest dir: ${dir}`)
 }
 for (const item of simItems) {
@@ -164,13 +137,10 @@ for (const item of simItems) {
     problems.push(`malformed sim item: ${JSON.stringify({ cid: item.cid, sys: item.sys })}`)
   }
 }
-for (const item of probeItems) {
-  if (!item.vid) problems.push(`probe item missing vid`)
-}
 if (problems.length) {
   throw new Error(`manifest failed integrity check (${problems.length} problems):\n${problems.slice(0, 10).join('\n')}`)
 }
-log(`batch loaded: ${simItems.length} decisions, ${probeItems.length} probes (run ${manifest.run_id})`)
+log(`batch loaded: ${simItems.length} decisions (run ${manifest.run_id})`)
 
 const simPrompt = (item) =>
   `You decide how a Swedish party SHOULD vote in one Riksdag division, strictly from the party's own documents.\n\n` +
@@ -191,23 +161,13 @@ const simPrompt = (item) =>
   `decides, use coverage="not_covered" AND omvarld.paverkar=true.\n` +
   `- Answer only via the structured output.`
 
-const probePrompt = (item) =>
-  `Read the JSON file at ${item.path}. Its "prompt" field contains instructions and a question ` +
-  `about a real Riksdag vote. Follow them exactly: answer only from your actual memory of this ` +
-  `specific vote; if you do not remember it, set recalls_case=false and "okänt" for parties you ` +
-  `do not remember. Read only that one file, use no other tools, answer only via structured output.`
-
 const work = [
   ...simItems.map((item) => () =>
     agent(simPrompt(item), { label: item.cid, phase: 'Simulate', model: 'sonnet', schema: DECISION_SCHEMA })
       .then((d) => (d ? { kind: 'sim', cid: item.cid, party: item.party, vid: item.vid, decision: d } : null))),
-  ...probeItems.map((item) => () =>
-    agent(probePrompt(item), { label: `probe:${item.vid}`, phase: 'Probe', model: 'sonnet', schema: PROBE_SCHEMA })
-      .then((r) => (r ? { kind: 'probe', vid: item.vid, result: r } : null))),
 ]
 
 const results = (await parallel(work)).filter(Boolean)
 const sims = results.filter((r) => r.kind === 'sim')
-const probes = results.filter((r) => r.kind === 'probe')
-log(`batch done: ${sims.length}/${simItems.length} decisions, ${probes.length}/${probeItems.length} probes`)
-return { run_id: manifest.run_id, sims, probes }
+log(`batch done: ${sims.length}/${simItems.length} decisions`)
+return { run_id: manifest.run_id, sims }

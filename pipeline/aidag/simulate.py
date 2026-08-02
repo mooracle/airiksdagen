@@ -212,16 +212,6 @@ def collect(run_id: str) -> None:
         print("no open batches for this run")
         return
 
-    if any(e["party"] == "_probe" for e in open_batches):
-        from aidag import probe as probe_mod
-
-        probe_mod.collect(run_id)
-        ledger = load_ledger()
-        open_batches = [
-            e for e in ledger
-            if e["run_id"] == run_id and not e["collected"] and e["party"] != "_probe"
-        ]
-
     for entry in open_batches:
         batch = client.messages.batches.retrieve(entry["batch_id"])
         if batch.processing_status != "ended":

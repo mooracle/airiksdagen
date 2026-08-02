@@ -6,7 +6,7 @@
 # The group agents WRITE their decisions to JSONL files under the batch's out dir
 # (data/interim/agentrun/{run}/out/batch-NNN/) instead of returning them in one
 # response — that is what lets a group hold 100+ cases without a truncated reply
-# losing the whole group. `ingest` merges those files back into the {sims,probes}
+# losing the whole group. `ingest` merges those files back into the {sims}
 # payload agent-ingest expects.
 #
 # Session limits are not a failure mode here. State is derived from the committed
@@ -15,9 +15,7 @@
 # exactly the decisions that are still missing. Nothing needs unwinding.
 #
 #   scripts/run_batch.sh prepare                 # emit the next manifest
-#   scripts/run_batch.sh ingest [result.json]    # merge files + ingest + repair + verify + commit
-#                                                 # result.json (the workflow return) is
-#                                                 # optional — only needed to pull in probes
+#   scripts/run_batch.sh ingest                  # merge files + ingest + repair + verify + commit
 set -euo pipefail
 
 RUN_ID=${RUN_ID:-full-v3}
@@ -32,18 +30,14 @@ case "${1:-}" in
   prepare)
     uv run aidag agent-prepare --run-id "$RUN_ID" --prompt-version p5 \
       --group 0 --context-limit "$CONTEXT_LIMIT" \
-      --batch-size "$BATCH_SIZE" --no-probes
+      --batch-size "$BATCH_SIZE"
     ;;
 
   ingest)
     MERGED="data/interim/agentrun/$RUN_ID/merged-latest.json"
     # Merge the JSONL files the group agents wrote (latest batch manifest) into the
-    # {sims, probes} payload. A workflow-result file may be passed to pull in probes.
-    if [ -n "${2:-}" ]; then
-      uv run aidag agent-merge --run-id "$RUN_ID" --probes "$2" --out "$MERGED"
-    else
-      uv run aidag agent-merge --run-id "$RUN_ID" --out "$MERGED"
-    fi
+    # {sims} payload.
+    uv run aidag agent-merge --run-id "$RUN_ID" --out "$MERGED"
     # ingest is idempotent (dedupes on full custom_id), so a partial batch from a
     # session limit is simply kept, and re-running this is harmless.
     uv run aidag agent-ingest --run-id "$RUN_ID" --input "$MERGED" \
@@ -58,7 +52,7 @@ case "${1:-}" in
     ;;
 
   *)
-    echo "usage: run_batch.sh {prepare|ingest [result.json]}" >&2
+    echo "usage: run_batch.sh {prepare|ingest}" >&2
     exit 1
     ;;
 esac
