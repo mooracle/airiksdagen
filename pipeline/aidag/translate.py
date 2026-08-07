@@ -23,6 +23,7 @@ agents read exactly one file and need no other context.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 
 import polars as pl
@@ -60,10 +61,25 @@ GLOSSARY = (
     "(the reservation put against the committee proposal; never 'the counter-motion' "
     "or 'the alternative proposal')\n"
     "- partiprogram(met) -> party programme (British spelling, not 'program')\n"
+    "- principprogram(met) -> party programme (the same rendering, not 'principle "
+    "programme' or 'programme of principles')\n"
+    "- idéprogram(met) -> party programme (the same rendering — NOT 'idea programme', "
+    "'ideas programme', 'programme of ideas' or 'policy programme'). This holds even "
+    "though the party's own document is titled Idéprogram: 'Idéprogrammet slår fast' "
+    "-> 'The party programme establishes'\n"
     "- valmanifest(et) -> election manifesto\n"
+    "- valplattform(en) -> election manifesto (the same rendering, not 'election "
+    "platform' or 'electoral platform')\n"
+    "  Those five document names collapse into two English ones on purpose: the site "
+    "labels every foundational document 'party programme' and every election document "
+    "with the manifesto label, so prose that invents a third name contradicts the link "
+    "printed next to it.\n"
     "- Tidöavtalet -> the Tidö Agreement\n"
     "- uttryckligen -> explicitly; ett uttryckligt åtagande -> an explicit commitment\n"
-    "- åtagande(n) -> commitment(s) (never 'undertaking' or 'obligation')\n"
+    "- åtagande(n) -> commitment(s). Never 'undertaking' or 'obligation' — this holds "
+    "for the noun in every position, including 'the plan's closest/bearing/binding "
+    "åtagande' and 'these åtaganden'. (An unrelated skyldighet/förpliktelse — a "
+    "reduction obligation, a reporting obligation — is still an obligation.)\n"
     "- ståndpunkt -> stance;  planen stödjer/avvisar -> the plan supports/rejects\n"
     "- reservation -> reservation (a formal counter-proposal in a committee report; "
     "keep the Swedish-derived term, do not translate as 'reservation' in the sense "
@@ -207,8 +223,28 @@ def _pending(run_id: str) -> tuple[list[dict], list[dict]]:
     return pending_cases, pending_decisions
 
 
+def _staged_ids(run_id: str) -> set[str]:
+    """Ids already written into an earlier manifest's request files.
+
+    Pending is normally derived from what is *ingested*, so calling prepare
+    twice before ingesting re-issues the same units. That is exactly right for
+    recovery (a dead agent's units are still pending and must be re-issued) and
+    exactly wrong when staging the whole corpus up front as several manifests.
+    `prepare(skip_staged=True)` subtracts these.
+    """
+    ids: set[str] = set()
+    for req in sorted((run_dir(run_id) / "reqs").glob("*.json")):
+        for unit in json.loads(req.read_text())["units"]:
+            ids.add(unit.get("cid") or unit["votering_id"])
+    return ids
+
+
 def prepare(
-    run_id: str, batch_size: int = 240, kind: str = "all", decided_only: bool = False
+    run_id: str,
+    batch_size: int = 240,
+    kind: str = "all",
+    decided_only: bool = False,
+    skip_staged: bool = False,
 ) -> None:
     """Write the NEXT translation batch manifest from whatever is pending.
 
@@ -220,6 +256,12 @@ def prepare(
     decision in this run — so incremental translation keeps pace with the
     simulation instead of translating case texts for cases not yet simulated
     (decisions are per-run and already scoped, so they are unaffected).
+
+    `skip_staged` also subtracts units an earlier manifest already covers, so a
+    corpus larger than `batch_size` groups can be staged as consecutive
+    manifests without ingesting in between. Leave it off when re-preparing
+    after a run — dead agents' units live in a manifest that was already issued
+    and have to be re-issued.
     """
     if kind not in ("all", "cases", "decisions"):
         raise ValueError(f"kind must be all|cases|decisions, got {kind!r}")
@@ -227,6 +269,10 @@ def prepare(
     if decided_only:
         decided_vids = {d["votering_id"] for d in _load_decisions(run_id).values()}
         pending_cases = [c for c in pending_cases if c["votering_id"] in decided_vids]
+    if skip_staged:
+        staged = _staged_ids(run_id)
+        pending_cases = [c for c in pending_cases if c["votering_id"] not in staged]
+        pending_decisions = [d for d in pending_decisions if d["cid"] not in staged]
 
     groups = []
     if kind in ("all", "cases"):
@@ -270,6 +316,21 @@ def prepare(
     )
 
 
+def _flatten_chunks(data: dict) -> dict:
+    """Accept both workflow result shapes: flat lists and `*_chunks`.
+
+    The workflow VM caps a single boundary-crossing array at 4096 elements, so a
+    full decision manifest (9600 units) must come back chunked. Older results —
+    and any hand-assembled recovery file — are still flat.
+    """
+    out = dict(data)
+    for key in ("cases", "decisions"):
+        chunks = out.pop(f"{key}_chunks", None)
+        if chunks is not None and not out.get(key):
+            out[key] = [unit for chunk in chunks for unit in chunk]
+    return out
+
+
 def ingest(run_id: str, input_path: str, model: str) -> None:
     """Ingest a translate workflow result ({cases: [...], decisions: [...]}).
 
@@ -277,6 +338,7 @@ def ingest(run_id: str, input_path: str, model: str) -> None:
     alignment against its Swedish source before it is written.
     """
     data = json.loads(open(input_path).read())
+    data = _flatten_chunks(data)
     now = datetime.now(timezone.utc).isoformat()
 
     cases_by_vid = {
@@ -306,12 +368,20 @@ def ingest(run_id: str, input_path: str, model: str) -> None:
             n_cases += 1
 
     decisions = _load_decisions(run_id)
+    # Agents transcribe the cid by hand and occasionally change the case of the
+    # votering_id's hex ("...-Ed93-..." for "...-ED93-..."), which threw away an
+    # otherwise perfect translation. Lowercasing is collision-free across the
+    # run's cids, so fall back to it; anything worse (a dropped character) still
+    # fails and is simply re-issued by the next `translate-prepare`.
+    by_lower = {cid.lower(): cid for cid in decisions}
     done_decisions = set(load_decision_translations(run_id))
     dpath = decisions_path(run_id)
     dpath.parent.mkdir(parents=True, exist_ok=True)
     with open(dpath, "a") as f:
         for rec in data.get("decisions", []):
             cid = rec.get("cid")
+            if cid not in decisions and isinstance(cid, str):
+                cid = by_lower.get(cid.lower(), cid)
             if cid in done_decisions:
                 continue
             try:
@@ -323,8 +393,10 @@ def ingest(run_id: str, input_path: str, model: str) -> None:
                 print(f"  skipped decision {cid}: {e}")
                 continue
             done_decisions.add(cid)
-            row = {k: rec[k] for k in ("cid", "motivering", "citations", "omvarld")}
-            row |= {"model": model, "collected_at": now}
+            # `cid`, not `rec["cid"]` — store the canonical form the checkpoint
+            # is keyed on, or a case-repaired row stays pending forever
+            row = {k: rec[k] for k in ("motivering", "citations", "omvarld")}
+            row |= {"cid": cid, "model": model, "collected_at": now}
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
             n_decisions += 1
 
@@ -338,6 +410,32 @@ def status(run_id: str) -> None:
     print(f"translations (run {run_id}):")
     print(f"  cases:     {n_cases_total - len(pending_cases)}/{n_cases_total} done, {len(pending_cases)} pending")
     print(f"  decisions: {n_dec_total - len(pending_decisions)}/{n_dec_total} done, {len(pending_decisions)} pending")
+
+
+# Swedish function words that no English translation should contain. Structural
+# validation only checks array alignment, so it passed 388 rows whose motivering
+# and quotes were English but whose `princip` chips were still Swedish
+# ("förtroende mellan polis och allmänhet") — invisible until the English page
+# renders them. These words have no English homographs, so a hit is a real miss.
+_SWEDISH_MARKERS = re.compile(
+    r"\b(och|att|inte|för|som|är|det|den|planen|motförslaget|valmanifestet|partiprogrammet)\b"
+)
+
+
+def untranslated_fields(rec: dict) -> list[str]:
+    """Names of this translation record's fields that still read as Swedish."""
+    out = []
+    if _SWEDISH_MARKERS.search(rec.get("motivering") or ""):
+        out.append("motivering")
+    for c in rec.get("citations") or []:
+        for field in ("quote", "princip"):
+            if _SWEDISH_MARKERS.search(c.get(field) or ""):
+                out.append(f"citations.{field}")
+    for f in rec.get("omvarld") or []:
+        for field in ("faktor", "effekt"):
+            if _SWEDISH_MARKERS.search(f.get(field) or ""):
+                out.append(f"omvarld.{field}")
+    return sorted(set(out))
 
 
 def verify_translations(run_id: str | None):
@@ -373,4 +471,13 @@ def verify_translations(run_id: str | None):
             "decision translations align with results",
             bad == 0,
             f"{len(dtrs)}/{len(decisions)} translated, {bad} misaligned",
+        )
+        # alignment can pass on a record that was never actually translated
+        untranslated = {cid: f for cid, rec in dtrs.items() if (f := untranslated_fields(rec))}
+        fields = sorted({f for fs in untranslated.values() for f in fs})
+        yield (
+            "decision translations are English",
+            not untranslated,
+            f"{len(untranslated)} rows still Swedish"
+            + (f" (in {', '.join(fields)})" if fields else ""),
         )

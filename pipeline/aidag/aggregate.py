@@ -124,7 +124,7 @@ def run(run_id: str) -> None:
         (out_dir / "gap.json").write_text(json.dumps(gap_out, indent=1, ensure_ascii=False))
 
     # --- coalition discipline vs party programme ---
-    coal = coalition.compute(df)
+    coal = coalition.compute(df, run_id)
     coal["run_id"] = run_id
     (out_dir / "coalition.json").write_text(json.dumps(coal, indent=1, ensure_ascii=False))
 

@@ -173,13 +173,23 @@ def translate_prepare(
     decided_only: bool = typer.Option(
         False, "--decided-only", help="Only translate case texts for voteringar already decided in this run"
     ),
+    skip_staged: bool = typer.Option(
+        False, "--skip-staged", help="Also skip units an earlier manifest already covers "
+        "(stage several manifests up front; off when re-preparing after a run)"
+    ),
 ) -> None:
     """Emit the next English-translation batch manifest (checkpoint-aware).
 
     Run AFTER repair-citations so quote translations use the repaired quotes."""
     from aidag.translate import prepare
 
-    prepare(run_id=run_id, batch_size=batch_size, kind=kind, decided_only=decided_only)
+    prepare(
+        run_id=run_id,
+        batch_size=batch_size,
+        kind=kind,
+        decided_only=decided_only,
+        skip_staged=skip_staged,
+    )
 
 
 @app.command("translate-ingest")

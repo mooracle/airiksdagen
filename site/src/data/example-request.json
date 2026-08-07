@@ -4,7 +4,7 @@
  "votering_id": "CCD60A0B-5D0A-40A7-BEB6-C0159C503184",
  "party_a": "M",
  "party_b": "C",
- "decisions_translated": false,
+ "decisions_translated": true,
  "roleM_sv": "Du är ett analytiskt verktyg i ett partipolitiskt obundet forskningsprojekt. Din uppgift: avgör vilken av två ståndpunkter i en riksdagsvotering som partiet Moderaterna (M) BORDE stå bakom — uteslutande utifrån partiets egna plandokument som återges nedan, och lägesbilden av landet vid tidpunkten. Detta är en rekonstruktion av plantrohet, inte en förutsägelse av partiets agerande i kammaren.\n\nRegler:\n- Grunda ställningstagandet ENBART på dokumenten nedan. Använd inte kunskap om hur partiet faktiskt agerade i riksdagen, uttalanden i media, eller händelser efter tidpunkten.\n- Väg INTE in partitaktik: regeringsunderlag, koalitionslojalitet, uppgörelser, utskottsdiscipline eller hur andra partier väntas rösta. Frågan är vad partiets EGEN plan säger i sakfrågan — inget annat.\n- Om dokumenten inte täcker frågan: härled från dokumentens principer och ange coverage=\"inferred\", eller ange coverage=\"not_covered\" och utgå från närmast liggande princip.\n- Citera ordagrant ur dokumenten i citations; citaten måste vara exakta utdrag. Välj det STÄLLE i dokumenten som faktiskt bär ställningstagandet — inte en allmän formulering. Ordna citaten efter vikt: det FÖRSTA citatet är det avgörande. Ge varje citat en kort \"princip\" (2–6 ord) som namnger åtagandet, t.ex. \"minskad asylinvandring\" eller \"höjda försvarsanslag\".\n\nFältet hallning — partiets plan i förhållande till motförslagets KRAV (inte till vilken sida som helst):\n- \"stodjer\" = planen stöder det som motförslaget kräver i sak.\n- \"avvisar\" = planen talar emot det som motförslaget kräver i sak.\n\nFältet plan_tacker_utskottets_skal — utskottets ställningstagande och motförslaget är ofta inte samma sorts påstående. Motförslaget kräver något i sak; utskottets skäl är ofta procedurella (\"en utredning pågår, arbetet bör inte föregripas\", \"frågan bereds\"). Partiplaner uttalar sig om sak, sällan om beredningsordning.\n- \"ja\" = planen säger något om just det skäl utskottet anför.\n- \"nej\" = planen är tyst om utskottets skäl (t.ex. planen kräver X i sak, medan utskottet enbart invänder att arbete redan pågår). Sätt då \"nej\" ÄVEN om du satt hallning=\"stodjer\" — de två frågorna är olika.\n\nOsäkerhet är ett giltigt och förväntat svar:\n- Sätt confidence=\"low\" när planen bara ger allmänna principer att härleda ur.\n- Sätt coverage=\"not_covered\" när planen inte alls behandlar sakfrågan; välj då ändå hallning utifrån närmast liggande princip och sätt confidence=\"low\".\n- Pressa inte fram ett säkert svar ur ett svagt underlag.\n- Ange ALLTID minst ett citat, även när du härleder eller när coverage=\"not_covered\": citera då den närmast liggande princip du faktiskt utgått från. Att härleda är tillåtet — att göra det utan att visa vad du utgått från är det inte.\n\nOmvärldsläget (\"Läget i landet och omvärlden\" nedan) är inkommande läge som partiet inte kunde planera för. Regler för omvärlden:\n- Dokumenten är alltid grunden. Omvärlden får vägas in ENDAST när den väsentligt påverkar hur dokumenten ska tillämpas (krisåtgärder, situationer planen aldrig förutsåg).\n- Om omvärlden vägts in: sätt omvarld.paverkar=true och ange max 3 faktorer med kort effekt. Annars omvarld.paverkar=false och tom lista.\n- Om dokumenten saknar svar och omvärlden avgör: sätt coverage=\"not_covered\" OCH omvarld.paverkar=true.\n\nSvara med JSON enligt schemat. Motiveringen skrivs på svenska och ska vara KORT: 2–4 meningar (max ca 80 ord) som anger det avgörande åtagandet i dokumenten och hur det leder till ställningstagandet.\nDokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst.",
  "user_sv": "Tidpunkt: september 2023.\n<laget_i_landet_och_omvarlden>\nRegering: Ulf Kristersson (M+KD+L), stödparti: SD\nRiksbankens styrränta: 3.75 % (avser 2023-09)\nInflation (KPI, årstakt): 9.3 % (avser 2023-07)\nArbetslöshet (säsongrensad): 7.1 % (avser 2023-07)\nBNP-indikator (årstakt): -2.2 % (avser 2023-06)\nKonjunkturbarometern (100 = normalläge): 87.3 index (avser 2023-08)\nVäxelkurs EUR/SEK: 11.9008 SEK (avser 2023-09)\nElpris SE3 (30-dagarssnitt): 0.46 kr/kWh (avser 2023-09)\nAsylansökningar (månad): 1400.0 st (avser 2023-06)\nSenaste tidens händelser och frågor (urval):\n- Krisinformation: Terrorhotnivån höjs från förhöjt till ett högt hot, meddelar Säkerhetspolisen. Bakgrunden är ett försämrat läge avseende attentatshot mot Sverige. Myndigheten bedömer att hotet kommer att bestå under en längre tid.\n- Skriftlig fråga i riksdagen: Skillnader i försörjningsstöd\n- Interpellation i riksdagen: Anmälningsplikt för skolpersonal\n- Skriftlig fråga i riksdagen: Val i ockuperade ukrainska områden\n- Skriftlig fråga i riksdagen: Svartlistade företag på statsministerns sociala medier\n- Lokalval genomförs i Norge, där högerpartierna Høyre och Fremskrittspartiet går framåt.\n- Fler än 11 300 människor omkommer och över 10 000 saknas i omfattande översvämningar i nordöstra Libyen, efter att två dammar brister vid staden Darnah i samband med kraftiga skyfall.\n- Fler än 2 600 människor omkommer, omkring 2 500 skadas och flera historiska byggnader förstörs då en jordbävning med magnituden 6,8 på Richterskalan inträffar mellan städerna Marrakech och Agadir i Marocko.\n- Antti Lindtman efterträder Sanna Marin som partiledare för finländska Socialdemokraterna.\n- I Gabon avsätts den sittande presidenten Ali Bongo i en militärkupp, kort efter att ha blivit omvald i ett omstritt val. Kuppen innebär slutet på familjen Bongos 55-åriga styre i landet.\n</laget_i_landet_och_omvarlden>\n<arende>\nUtskott: JuU\nÄrende: Hemliga tvångsmedel - effektiva verktyg för att förhindra och utreda allvarliga brott\nUtskottets ställningstagande: En ståndpunkt stödjer lagförslaget om utökade möjligheter att använda hemliga tvångsmedel, bland annat i förebyggande syfte, och konstaterar att förslagen sammantaget innebär en ökad risk för den personliga integriteten men samtidigt förbättrar möjligheterna att förhindra, utreda och lagföra allvarlig brottslighet på ett sätt som utgör en rimlig avvägning.\nMotförslag i voteringen:\n- Alternativ A: En annan ståndpunkt varnar för en pågående utveckling mot ett övervakningssamhälle och anser att förslagen inte är tillräckligt utredda, att det är oproportionerligt att utvidga preventiva åtgärder på en så oprecis grund som gängtillhörighet, och att föreslagna straffvärdeventiler urholkar skyddet för integritet och rättssäkerhet på ett sätt som strider mot kravet att hemliga tvångsmedel ska förbehållas brott med högre straffvärden.\n</arende>\nStödjer eller avvisar partiets egen plan det som motförslaget kräver i sak (stodjer/avvisar)? Ange också om planen alls berör utskottets skäl.",
  "docsM": [
@@ -32,6 +32,7 @@
   }
  ],
  "decM": {
+  "motiveringEn": "The plan states that gangs should be regarded as Sweden's homegrown terrorists and that legislation must be adapted accordingly, and explicitly makes gang membership a legal basis for both punishment and deportation. The counter-proposal's objection that gang membership is too imprecise a basis for preventive measures therefore stands in direct conflict with the plan. Expanding secret coercive measures for preventive purposes is in line with the plan's demand that more be stopped before committing further crimes.",
   "hallning": "avvisar",
   "rost": "Ja",
   "tier": "explicit",
@@ -43,22 +44,30 @@
    {
     "document": "valmanifest",
     "quote": "Gängen är Sveriges inhemska terrorister – och lagstiftningen måste anpassas därefter så att fler ställs till svars och försvinner från gatan.",
-    "princip": "anpassa lagstiftningen mot gäng"
+    "princip": "anpassa lagstiftningen mot gäng",
+    "quoteEn": "Gangs are Sweden's homegrown terrorists – and legislation must be adapted accordingly so that more are held accountable and disappear from the street.",
+    "principEn": "adapt legislation against gangs"
    },
    {
     "document": "valmanifest",
     "quote": "Göra det straffbart att vara med i ett kriminellt gäng",
-    "princip": "gängtillhörighet som rättslig grund"
+    "princip": "gängtillhörighet som rättslig grund",
+    "quoteEn": "Make it a crime to be part of a criminal gang",
+    "principEn": "gang membership as legal basis"
    },
    {
     "document": "valmanifest",
     "quote": "Utvisa gängmedlemmar, som inte är svenska medborgare, oavsett om de dömts för brott",
-    "princip": "preventiva åtgärder mot gängmedlemmar"
+    "princip": "preventiva åtgärder mot gängmedlemmar",
+    "quoteEn": "Deport gang members who are not Swedish citizens, regardless of whether they have been convicted of a crime",
+    "principEn": "preventive measures against gang members"
    },
    {
     "document": "valmanifest",
     "quote": "Stärka Säkerhetspolisen för att öka deras förmåga att skydda den liberala demokratin och landets alla medborgare",
-    "princip": "starkare säkerhetspolis"
+    "princip": "starkare säkerhetspolis",
+    "quoteEn": "Strengthen the Security Police to increase their ability to protect liberal democracy and the country's all citizens",
+    "principEn": "stronger Security Police"
    }
   ],
   "omvarld": {
@@ -75,6 +84,7 @@
   "match": true
  },
  "decS": {
+  "motiveringEn": "The election manifesto explicitly says no to preventive surveillance, as part of defending the rule of law and the individual's rights against the state. The counter-proposal's objection to widening secret coercive measures in a preventive purpose on such an imprecise ground as gang membership lies directly in line with this. The party programme's requirement for proportionality between integrity restriction and the law's purpose reinforces the conclusion, despite the party's simultaneous requirement for strong action against gangs.",
   "hallning": "stodjer",
   "rost": "Nej",
   "tier": "explicit",
@@ -86,22 +96,30 @@
    {
     "document": "valmanifest",
     "quote": "Rättsstaten och individens rättigheter gentemot staten måste försvaras. Vi säger därför nej till visitationszoner, kollektiv bestraffning, omvänd bevisbörda, anonyma vittnen, preventiv avlyssning och inskränkningar av religionsfriheten.",
-    "princip": "nej till preventiv avlyssning"
+    "princip": "nej till preventiv avlyssning",
+    "quoteEn": "The rule of law and the individual's rights against the state must be defended. We therefore say no to stop-and-search zones, collective punishment, reverse burden of proof, anonymous witnesses, preventive surveillance and restrictions on freedom of religion.",
+    "principEn": "no to preventive surveillance"
    },
    {
     "document": "partiprogram",
     "quote": "All lagstiftning bör prövas mot dess påverkan på människors personliga integritet. Det måste finnas en proportionalitet mellan lagstiftningens inskränkning av medborgarnas integritet och lagarnas syfte.",
-    "princip": "proportionalitet mot integritetsintrång"
+    "princip": "proportionalitet mot integritetsintrång",
+    "quoteEn": "All legislation should be tested against its impact on people's personal integrity. There must be proportionality between the legislation's restriction of citizens' integrity and the law's purpose.",
+    "principEn": "proportionality against integrity intrusion"
    },
    {
     "document": "partiprogram",
     "quote": "Respekten för den enskildes personliga integritet är en grundsten i varje demokrati.",
-    "princip": "integritet som demokratisk grundsten"
+    "princip": "integritet som demokratisk grundsten",
+    "quoteEn": "Respect for the individual's personal integrity is a cornerstone of every democracy.",
+    "principEn": "integrity as democratic cornerstone"
    },
    {
     "document": "partiprogram",
     "quote": "Staten är den enda enheten i samhället som får utöva tvång och våld.",
-    "princip": "kontroll av statens tvångsmakt"
+    "princip": "kontroll av statens tvångsmakt",
+    "quoteEn": "The state is the only entity in society that may exercise coercion and violence.",
+    "principEn": "control of state coercive power"
    }
   ],
   "omvarld": {

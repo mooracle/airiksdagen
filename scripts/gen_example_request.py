@@ -90,9 +90,17 @@ def docs_for(party: str, case: dict) -> list[dict]:
     ]
 
 
-def decision_payload(d: dict, actual: str) -> dict:
-    """The decision as the page shows it: stance first, vote derived from it."""
+def decision_payload(d: dict, actual: str, tr: dict | None = None) -> dict:
+    """The decision as the page shows it: stance first, vote derived from it.
+
+    `tr` is this decision's English translation, if it has one. The About page
+    already renders `motiveringEn`/`principEn`/`quoteEn` when present — without
+    them the English worked example shows Swedish reasoning.
+    """
+    tr = tr or {}
+    tr_cits = tr.get("citations") or []
     return {
+        "motiveringEn": tr.get("motivering", ""),
         "hallning": d["hallning"],
         "rost": d["rost"],
         "tier": evidence_tier(d),
@@ -101,8 +109,16 @@ def decision_payload(d: dict, actual: str) -> dict:
         "coverage": d["coverage"],
         "motivering": d["motivering"],
         "citations": [
-            {"document": c["document"], "quote": c["quote"], "princip": c.get("princip", "")}
-            for c in d["citations"]
+            {
+                "document": c["document"],
+                "quote": c["quote"],
+                "princip": c.get("princip", ""),
+                # translations are positional — same length and order, enforced
+                # by validate_decision_translation at ingest
+                "quoteEn": (tr_cits[i].get("quote", "") if i < len(tr_cits) else ""),
+                "principEn": (tr_cits[i].get("princip", "") if i < len(tr_cits) else ""),
+            }
+            for i, c in enumerate(d["citations"])
         ],
         "omvarld": d.get("omvarld") or {"paverkar": False, "faktorer": []},
         "flags": d.get("flags") or [],
@@ -144,9 +160,12 @@ def main() -> None:
         alternatives = json.loads(alternatives)
     meanings = compact_meanings(case["forslag_text"], alternatives)
 
-    from aidag.translate import load_case_translations
+    from aidag.translate import load_case_translations, load_decision_translations
 
     tr = load_case_translations().get(vid) or {}
+    dtrs = load_decision_translations(RUN_ID)
+    cid = lambda p: f"{p}:{vid}:{PROMPT_VERSION}:anonymous"  # noqa: E731
+    dtr_a, dtr_b = dtrs.get(cid(party_a)), dtrs.get(cid(party_b))
 
     out = {
         # provenance, so a reader can tell which run and prompt this shows
@@ -155,14 +174,15 @@ def main() -> None:
         "votering_id": vid,
         "party_a": party_a,
         "party_b": party_b,
-        # p6 decisions are not translated yet; the page falls back to Swedish.
-        "decisions_translated": False,
+        # drives the page's "not yet translated" notice — read off the data, not
+        # hardcoded, so the notice cannot outlive the translation run
+        "decisions_translated": bool(dtr_a and dtr_b),
         "roleM_sv": role,
         "user_sv": user,
         "docsM": docs_for(party_a, case),
         "docsS": docs_for(party_b, case),
-        "decM": decision_payload(dec_a, actual.get(party_a, "")),
-        "decS": decision_payload(dec_b, actual.get(party_b, "")),
+        "decM": decision_payload(dec_a, actual.get(party_a, ""), dtr_a),
+        "decS": decision_payload(dec_b, actual.get(party_b, ""), dtr_b),
         "case": {
             "rubrik_sv": case["rubrik"],
             "rubrik_en": tr.get("rubrik") or case["rubrik"],

@@ -27,6 +27,9 @@ def _df(rows: list[dict]) -> pl.DataFrame:
         "utskott": "FiU",
         "motivering": "m",
         "citations": [],
+        # part of the cid the English lookup is keyed on
+        "prompt_version": "p6",
+        "arm": "anonymous",
     }
     return pl.DataFrame([{**base, **r} for r in rows])
 

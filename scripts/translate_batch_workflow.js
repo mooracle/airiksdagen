@@ -138,6 +138,22 @@ for (const item of manifest.items) {
   if (!item.path || !item.path.includes('translate')) {
     throw new Error(`manifest item has bad path: ${JSON.stringify(item)}`)
   }
+  // `kind` picks the output schema, so a loader that flips it silently produces
+  // well-formed garbage: decision units come back shaped as cases (cid in
+  // votering_id, motivering in forslag_text) and each citation's `princip` is
+  // dropped outright, because the case schema has nowhere to put it. Nothing
+  // downstream catches that — translate-ingest just reports 0 decisions. The
+  // filename is written by translate-prepare, so trust it over the agent.
+  const fromPath = item.path.split('/').pop().match(/-(cases|decisions)-/)?.[1]
+  if (!fromPath) {
+    throw new Error(`cannot derive kind from request filename: ${item.path}`)
+  }
+  if (item.kind !== fromPath) {
+    throw new Error(
+      `manifest loader mis-transcribed kind: said '${item.kind}' for ${item.path} ` +
+        `(filename says '${fromPath}') — relaunch the workflow`,
+    )
+  }
 }
 const nCases = manifest.items.filter((i) => i.kind === 'cases').reduce((s, i) => s + i.n_units, 0)
 const nDecisions = manifest.items.filter((i) => i.kind === 'decisions').reduce((s, i) => s + i.n_units, 0)
@@ -171,4 +187,24 @@ const results = (
 const cases = results.filter((r) => r.kind === 'cases').flatMap((r) => r.units)
 const decisions = results.filter((r) => r.kind === 'decisions').flatMap((r) => r.units)
 log(`batch done: ${cases.length}/${nCases} case units, ${decisions.length}/${nDecisions} decision units`)
-return { run_id: manifest.run_id, cases, decisions }
+
+// The workflow VM caps any single array crossing the boundary at 4096 elements,
+// and a full decision manifest is 240 agents x 40 units = 9600. Returning them
+// flat threw away a completed 5-hour run once (results survived only in the
+// journal). Chunk instead — translate-ingest flattens `*_chunks` back out.
+const CHUNK = 2000
+const chunk = (xs) => {
+  const out = []
+  for (let i = 0; i < xs.length; i += CHUNK) out.push(xs.slice(i, i + CHUNK))
+  return out
+}
+if (chunk(cases).length > CHUNK || chunk(decisions).length > CHUNK) {
+  throw new Error('batch too large to return even chunked — split the manifest')
+}
+return {
+  run_id: manifest.run_id,
+  n_cases: cases.length,
+  n_decisions: decisions.length,
+  cases_chunks: chunk(cases),
+  decisions_chunks: chunk(decisions),
+}

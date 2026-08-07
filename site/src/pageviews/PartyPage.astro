@@ -70,6 +70,11 @@ interface OverrideCase {
   ai_rost: string; actual: string; confidence: string; coverage: string;
   strict: boolean; authored_reservation: boolean; motivering: string;
   citations: { document: string; quote: string; princip?: string; svag?: boolean }[];
+  /** English case title, and the AI reasoning/citations for this decision.
+   * Both null until the translation pass covers this case — a missing one
+   * falls back to Swedish rather than blanking the card. */
+  rubrik_en?: string | null;
+  en?: { motivering: string; citations: { quote: string; princip?: string }[] } | null;
 }
 const coalition = getAggregate<{ override_cases: OverrideCase[] }>('coalition');
 const overrideCases = (coalition?.override_cases ?? [])
@@ -290,13 +295,20 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
             the old always-open card would have run to ~40 screens on one party. */}
         {overrideCases.map((c) => {
           // show the strongest quote: first non-weak citation, else the first
-          const dc = c.citations.find((x) => !x.svag) ?? c.citations[0];
+          const dcIdx = c.citations.findIndex((x) => !x.svag);
+          const i = dcIdx >= 0 ? dcIdx : 0;
+          const dc = c.citations[i];
+          // English only on the English page, and only where it exists —
+          // the same `||` fallback the case page uses
+          const cEn = lang === 'en' ? c.en ?? null : null;
+          const dcEn = cEn?.citations?.[i] ?? null;
+          const title = (lang === 'en' ? c.rubrik_en : null) || c.rubrik;
           return (
             <details class="ovcase">
               <summary>
                 <span class="ov-title">
                   <span class="ov-date muted">{c.datum}</span>
-                  <span class="ov-name" title={c.rubrik}>{c.rubrik}</span>
+                  <span class="ov-name" title={title}>{title}</span>
                 </span>
                 {/* Meter first, at a fixed width, so the chips land in the same
                     column on every row — the old "(medium)" text appeared only on
@@ -308,12 +320,22 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
                   <span class="votechip" data-v={c.actual}>{voteLabel[c.actual] ?? c.actual}</span>
                 </span>
               </summary>
-              <p class="ov-mot">{c.motivering}</p>
+              <p class="ov-mot">{cEn?.motivering || c.motivering}</p>
+              {cEn?.motivering && (
+                <details class="original">
+                  <summary>{t('case.originalSv')}</summary>
+                  <p>{c.motivering}</p>
+                </details>
+              )}
               {dc && (
                 <blockquote class={dc.svag ? 'weakcite' : undefined}>
                   {dc.svag && <span class="chip weak" title={t('case.weakCiteTip')}>{t('case.weakCite')}</span>}{' '}
+                  {/* the quote stays verbatim Swedish — it is the evidence, and
+                      the citation deep-links match these exact bytes; the
+                      translation rides underneath as a gloss */}
                   »{dc.quote}«
-                  {dc.princip && <span class="muted small"> — {dc.princip}</span>}
+                  {(dcEn?.princip || dc.princip) && <span class="muted small"> — {dcEn?.princip || dc.princip}</span>}
+                  {dcEn?.quote && <span class="qtrans">“{dcEn.quote}”</span>}
                 </blockquote>
               )}
               <p class="ov-link">
@@ -404,6 +426,11 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
     .ov-date { font-size: 0.82rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .ov-votes { display: inline-flex; align-items: center; gap: 0.4rem; flex: none; }
     .ov-mot { margin: 0.6rem 0 0.4rem; font-size: 0.92rem; }
+    /* English gloss under the verbatim Swedish quote, and the Swedish original
+       behind a disclosure — same treatment as the case page's party cards */
+    .qtrans { display: block; margin-top: 0.25rem; font-size: 0.92em; color: var(--muted); font-style: italic; }
+    details.original { margin: 0 0 0.4rem; font-size: 0.88rem; }
+    details.original summary { color: var(--muted); cursor: pointer; }
     .small { font-size: 0.8rem; }
     .ov-link { margin: 0.45rem 0 0; font-size: 0.85rem; }
     .ovcase blockquote {

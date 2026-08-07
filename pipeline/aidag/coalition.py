@@ -65,12 +65,26 @@ def _bucket() -> dict:
     return {"den": 0, "num": 0, "rate": None}
 
 
-def compute(df: pl.DataFrame) -> dict:
+def compute(df: pl.DataFrame, run_id: str | None = None) -> dict:
     """df: decisions joined to actual positions, Frånvarande already dropped.
 
     Requires columns: parti, votering_id, rost, position, coverage, confidence,
-    month, datum, rubrik, utskott, motivering, citations.
+    month, datum, rubrik, utskott, motivering, citations, prompt_version, arm.
+
+    `run_id` enables the English fields on `override_cases`. The party page
+    renders these cards from this file alone — it never reads the per-case
+    exports — so without them the English party page shows Swedish reasoning
+    and principles no matter how complete the translation run is. Missing
+    translations degrade to None, exactly as in `export_site`, so this is safe
+    to run mid-translation.
     """
+    from aidag.translate import load_case_translations, load_decision_translations
+
+    # case texts are run-independent, but both loads are gated on run_id so that
+    # `compute(df)` stays the pure, data-free function the metric tests call
+    case_tr = load_case_translations() if run_id else {}
+    dec_tr = load_decision_translations(run_id) if run_id else {}
+
     authors = reservation_authors()
 
     per_party: dict[str, dict] = {}
@@ -118,10 +132,16 @@ def compute(df: pl.DataFrame) -> dict:
                         bucket["den"] += 1
                         bucket["num"] += overridden
                 if overridden:
+                    cid = (
+                        f"{p}:{row['votering_id']}:{row['prompt_version']}:"
+                        f"{row.get('arm') or 'anonymous'}"
+                    )
+                    tr = dec_tr.get(cid)
                     override_cases.append({
                         "votering_id": row["votering_id"],
                         "datum": row["datum"],
                         "rubrik": row["rubrik"],
+                        "rubrik_en": (case_tr.get(row["votering_id"]) or {}).get("rubrik"),
                         "utskott": row["utskott"],
                         "parti": p,
                         "ai_rost": ai,
@@ -132,6 +152,14 @@ def compute(df: pl.DataFrame) -> dict:
                         "authored_reservation": authored,
                         "motivering": row["motivering"],
                         "citations": row["citations"],
+                        # motivering + citations only: override cards never render
+                        # omvärld, so carrying it would bloat a 2.8 MB file the
+                        # party page loads in full
+                        "en": (
+                            {"motivering": tr["motivering"], "citations": tr["citations"]}
+                            if tr
+                            else None
+                        ),
                     })
 
         for t in ("strict", "loose"):

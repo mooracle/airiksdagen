@@ -183,9 +183,10 @@ const schemaSummary = `{
         prompten — tidsangivelsen är grov ("november 2023") — och utfallet ingår aldrig. Det
         upprätthålls maskinellt av spärrmönster i promptgenereringen och av golden tests som
         alltid körs mot den skarpa promptversionen.</p>
-        <p>Två observationer talar åt samma håll. Alla 20&nbsp;312 citat är verifierade som
-        ordagranna utdrag ur just de dokument agenten faktiskt fick se — inga hittade citat,
-        inga citat till dokument utanför kontexten. Och memorering skulle <em>krympa</em> gapet,
+        <p>Två observationer talar åt samma håll. Alla 77&nbsp;719 citat är kontrollerade som
+        ordagranna utdrag ur just de dokument agenten faktiskt fick se — inga citat till
+        dokument utanför kontexten. Ett citat föll i kontrollen och är blankat och markerat;
+        två justerades till exakt källtext och är markerade som korrigerade. Och memorering skulle <em>krympa</em> gapet,
         eftersom modellen då drog sin ståndpunkt mot det utfall den minns; det uppmätta gapet är
         i stället stort och nästan helt ensidigt (1&nbsp;686 fall där planen pekade på Nej men
         partiet röstade Ja, mot 14 åt andra hållet).</p>
@@ -340,9 +341,10 @@ const schemaSummary = `{
         exact dates are stripped from the prompt — the time context is coarse ("November 2023") —
         and the outcome never appears. This is enforced mechanically by forbidden-pattern checks
         in prompt generation and by golden tests that always run against the live prompt version.</p>
-        <p>Two observations point the same way. All 20,312 citations are verified as verbatim
-        substrings of the specific documents the agent was actually shown — no invented quotes,
-        no citations to documents outside its context. And memorization would <em>shrink</em> the
+        <p>Two observations point the same way. All 77,719 citations are checked as verbatim
+        substrings of the specific documents the agent was actually shown — no citations to
+        documents outside its context. One citation failed the check and is blanked and
+        flagged; two were realigned to the exact source span and flagged as corrected. And memorization would <em>shrink</em> the
         gap, since the model would bend its stance toward the outcome it remembers; the measured
         gap is instead large and almost entirely one-directional (1,686 cases where the plan
         pointed to Nej but the party voted Ja, against 14 the other way).</p>
@@ -399,10 +401,13 @@ const schemaSummary = `{
           : `This is what a single request looks like — the same division, for ${partyName(ex.party_a)} and ${partyName(ex.party_b)}. Each agent receives that party’s own documents, the country snapshot at the time and the case, and nothing else. The stance, reasoning and quotes at the bottom are the agents’ actual answers, verified verbatim against the documents. One party voted its plan; the other did not.`}
       </p>
 
+      {/* The trailing "not yet translated" sentence is conditional on the data:
+          once the decision translation pass has covered this example, the
+          notice would otherwise keep claiming Swedish under English text. */}
       <p class="wx-notice">
         {sv
-          ? 'Agenten avgör en ståndpunkt — om partiets plan stödjer eller avvisar det motförslaget kräver. Rösten under ståndpunkten är härledd i efterhand, inte gissad av modellen. Skillnaden mellan den härledda rösten och den verkliga är själva mätningen. Motiveringarna i detta exempel är ännu inte översatta och visas på svenska.'
-          : 'The agent decides a stance — whether the party’s plan supports or rejects what the counter-proposal demands. The vote shown beneath the stance is derived afterwards in code, never guessed by the model. The difference between that derived vote and the real one is the measurement itself. The reasoning in this example is not yet translated and is shown in Swedish.'}
+          ? `Agenten avgör en ståndpunkt — om partiets plan stödjer eller avvisar det motförslaget kräver. Rösten under ståndpunkten är härledd i efterhand, inte gissad av modellen. Skillnaden mellan den härledda rösten och den verkliga är själva mätningen.${ex.decisions_translated ? '' : ' Motiveringarna i detta exempel är ännu inte översatta och visas på svenska.'}`
+          : `The agent decides a stance — whether the party’s plan supports or rejects what the counter-proposal demands. The vote shown beneath the stance is derived afterwards in code, never guessed by the model. The difference between that derived vote and the real one is the measurement itself.${ex.decisions_translated ? '' : ' The reasoning in this example is not yet translated and is shown in Swedish.'}`}
       </p>
 
       <h4>{sv ? '1. Ärendet' : '1. The case'}</h4>
