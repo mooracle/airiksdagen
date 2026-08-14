@@ -1,0 +1,73 @@
+{
+  "_comment": [
+    "Quotes in data/results/simulations/full-v4 that the Task 3 extraction cannot",
+    "locate in data/corpus/pdf even after collapsing whitespace and hyphenation.",
+    "Every entry is reading order the geometry does not determine: a column that",
+    "continues past a heading belonging to a figure below it. Consulted by",
+    "migrate-quotes (Task 5) and build-anchors (Task 7) so the build gate can tell",
+    "known-and-accepted from newly-broken. Anything not listed here must resolve."
+  ],
+  "run_id": "full-v4",
+  "quotes": [
+    {
+      "document": "partiprogram-v-2024",
+      "quote": "Vi vill också se en könstillhörighetslag som baseras på självbestämmande Vi vill skapa",
+      "citations": 1
+    },
+    {
+      "document": "valmanifest-2022-kd",
+      "quote": "Vi ser människors behov av välfärd och vi ser företagaren vars affärsidéer gör det möjligt att betala för välfärden.",
+      "citations": 1
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Det gör vi genom att ersätta fossil energi med ren el och innovativa tekniker som minskar eller tar bort utsläppen.",
+      "citations": 1
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Det handlar också om att renodla polisens uppdrag – att låta poliser vara poliser och överlåta exempelvis passhantering till andra myndigheter.",
+      "citations": 4
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Inte minst finns ett behov av att bygga många nya, mindre reaktorer snarare än ett fåtal stora för att säkerställa att det finns elproduktion som fungerar oberoende av väder och vind.",
+      "citations": 9
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Majoriteten av kvinnorna från de stora asylländerna – Afghanistan, Somalia och Syrien – har en mycket liten inkomst från eget arbete.",
+      "citations": 3
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Stärka armén, flygvapnet och marinen både när det gäller förmåga och materiel",
+      "citations": 25
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Sverige har redan ett av världens högsta skattetryck – mer skatt är ingen lösning.",
+      "citations": 33
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Varje år försvinner runt 20 miljarder kronor av det som skulle ha gått till välfärden i stället ner i fickorna på bidragsfuskare och kriminella.",
+      "citations": 21
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Vi är övertygade om att politiska styrmedel i kombination med teknisk utveckling och ekonomisk tillväxt kan göra vårt klimatavtryck mindre",
+      "citations": 1
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "Vi är övertygade om att politiska styrmedel i kombination med teknisk utveckling och ekonomisk tillväxt kan göra vårt klimatavtryck mindre och vår livsmiljö renare.",
+      "citations": 17
+    },
+    {
+      "document": "valmanifest-2022-m",
+      "quote": "för att säkerställa att det finns elproduktion som fungerar oberoende av väder och vind",
+      "citations": 3
+    }
+  ]
+}
