@@ -18,6 +18,16 @@ CORPUS_DIR = DATA_DIR / "corpus"
 # redesign away from unreproducible. Extraction reads this cache when it is present,
 # which is what lets the corpus be rebuilt offline and byte-for-byte.
 PDF_DIR = CORPUS_DIR / "pdf"
+# The corpus text as it stood before structured extraction replaced it. Serves
+# every prompt version below p6 (see corpus._text): full-v2's p4 decisions and
+# full-v3's p5 decisions were generated from these exact bytes and their
+# citations verify against them, so re-extraction must not move them. Holds all
+# 40 documents, not only the 23 that change — an unconditional rule cannot be
+# wrong about which file was touched, and a conditional fallback can.
+FROZEN_DIR = CORPUS_DIR / "frozen"
+# Structured extraction output: [{id, role, page, size, bold, text}] per slug.
+# The .txt beside it is DERIVED from this, so text and structure cannot drift.
+BLOCKS_DIR = CORPUS_DIR / "blocks"
 KB_DIR = DATA_DIR / "kb" / "snapshots"
 RESULTS_DIR = DATA_DIR / "results"
 SITE_DATA_DIR = REPO_ROOT / "site" / "src" / "data"

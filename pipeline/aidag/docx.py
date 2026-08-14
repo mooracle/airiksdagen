@@ -100,6 +100,10 @@ _PAGE_NUMBER = re.compile(r"[\d\s.,%‑‒–—•·|ivxlcdmIVXLCDM-]+")
 _NUMERIC_ONLY = re.compile(r"[\d\s.,%‑‒–—•·|-]+")
 _SENTENCE_END = re.compile(r"[.!?:;][\"'”’)\]]?$")
 _TOC_TAIL = re.compile(r"\S\s+\d{1,3}$")
+# The two halves of corpus.normalize()'s hyphenation rule, applied at block
+# boundaries by `_word_continues`.
+_HYPHEN_END = re.compile(r"\w-$")
+_LOWER_START = re.compile(r"[a-zåäö]")
 
 # A line-final hyphen before a lowercase word is a wrap, except when the word is
 # one of these: "el- och drivmedelspriser" breaks after a *suspended* hyphen that
@@ -504,6 +508,29 @@ def _runs_on(prev: list[Line], group: list[Line]) -> bool:
     return b.text[:1].islower()
 
 
+def _word_continues(prev: list[Line], group: list[Line]) -> bool:
+    """True when the split falls inside a hyphenated word.
+
+    Mirrors `corpus.normalize()`'s cross-line hyphenation join exactly, and must
+    keep mirroring it. The corpus .txt is derived from these blocks and served
+    through `normalize()`, so a boundary normalize closes and this does not is a
+    word that exists in the served text and in no block — unquotable by the
+    anchor index, and invisible until a citation lands on it.
+
+    Thirteen boundaries in the corpus, all real wraps the geometry could not see:
+    m-2021's 20pt pull-quote whose leading exceeds the split threshold, and
+    kd-2015/kd-2025/mp-2013 paragraphs continuing into the next column.
+
+    Deliberately no suspended-hyphen exemption ('el- och drivmedelspriser'),
+    which `join_lines` does apply within a block: normalize has none either, and
+    agreeing with it matters more here than being right about the hyphen. None
+    occur today, and the round-trip test fails loudly if one ever does.
+    """
+    return bool(
+        _HYPHEN_END.search(prev[-1].text) and _LOWER_START.match(group[0].text)
+    )
+
+
 def split_blocks(lines: list[Line]) -> list[list[Line]]:
     """Group lines into blocks. Furniture must already be stripped."""
     if not lines:
@@ -518,7 +545,7 @@ def split_blocks(lines: list[Line]) -> list[list[Line]]:
 
     joined: list[list[Line]] = [groups[0]]
     for group in groups[1:]:
-        if _runs_on(joined[-1], group):
+        if _runs_on(joined[-1], group) or _word_continues(joined[-1], group):
             joined[-1] = joined[-1] + group
         else:
             joined.append(group)

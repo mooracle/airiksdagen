@@ -308,6 +308,32 @@ class TestSplitBlocks:
         text = _reading(kd_2015)
         assert "sträcker sig bortom de naturliga gemenskaperna" in text
 
+    def test_a_hyphenated_word_across_any_other_split_closes_too(self):
+        """`corpus.normalize()` closes this in the served text whatever caused it.
+
+        A boundary it closes and the blocks do not is a word that exists in the
+        text agents read and in no block — unresolvable by the anchor index. So
+        the block level mirrors the rule exactly: 13 boundaries in the corpus,
+        here a 20pt pull-quote whose leading exceeds the gap threshold.
+        """
+        lines = [
+            _line("för sig själv, sina med-", y0=415.0, size=20.0),
+            _line("människor, samhället", y0=439.0, size=20.0),
+        ]
+        groups = docx.split_blocks(lines)
+        assert len(groups) == 1
+        assert docx.join_lines([line.text for line in groups[0]]) == (
+            "för sig själv, sina medmänniskor, samhället"
+        )
+
+    def test_a_hyphen_before_a_capital_still_splits(self):
+        """Only a lower-case continuation is a wrap — normalize says the same."""
+        lines = [_line("kortsiktiga mål-", y0=100.0), _line("Nästa stycke börjar", y0=200.0)]
+        assert len(docx.split_blocks(lines)) == 2
+
+    def test_the_split_word_is_whole_in_the_real_documents(self, m_2021):
+        assert "sina medmänniskor" in _reading(m_2021)
+
     def test_a_style_change_splits(self):
         lines = [_line("En rubrik", y0=100.0, size=18.0, bold=True), _line("Brödtext.", y0=118.0)]
         assert len(docx.split_blocks(lines)) == 2
