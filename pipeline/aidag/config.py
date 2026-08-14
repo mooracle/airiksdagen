@@ -40,7 +40,20 @@ PARTIES: dict[str, dict] = {
 }
 PARTY_CODES = list(PARTIES)
 
+# Riksdagen's code for a seated member sitting outside every party group (a
+# "politisk vilde"). Not a party: it has no programme, no line, and no colour,
+# so it never belongs in PARTIES and nothing party-keyed should carry it.
+#
+# It does belong in every count of the *chamber*. Nine such members cast 7,642
+# votes across 2,204 divisions of the 2022-2026 corpus, and because they only
+# ever matter where the margin is one or two, dropping them does not blur a
+# result — it inverts it. Filtering them out reported ten one-vote government
+# wins as defeats. See analytics._chamber_totals.
+NO_PARTY = "-"
+
 # Hemicycle seating order, left to right (conventional political ordering).
+# Independents sort after every party (export_site.seat_array default), so the
+# party blocks stay contiguous and they sit at the end of the arc.
 HEMICYCLE_ORDER = ["V", "S", "MP", "C", "L", "KD", "M", "SD"]
 
 # Tidöavtalet applies to the governing side from its signing date onward.

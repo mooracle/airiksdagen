@@ -43,7 +43,9 @@ def _outcome(ja: int, nej: int) -> str | None:
     return "Ja" if ja > nej else "Nej"
 
 
-def flip(actual: dict[str, dict], ai: dict[str, dict]) -> dict | None:
+def flip(
+    actual: dict[str, dict], ai: dict[str, dict], others: dict | None = None
+) -> dict | None:
     """Re-run one division with documented commitments overriding the floor.
 
     A party is moved only when its own plan stated the commitment outright
@@ -57,6 +59,15 @@ def flip(actual: dict[str, dict], ai: dict[str, dict]) -> dict | None:
     Leaving that party's abstainers abstaining instead changes no outcome in the
     full-v4 corpus, so nothing in the published count turns on the choice.
 
+    `others` carries the votes of members sitting outside every party group
+    ({"n_ja": int, "n_nej": int}), which `actual` cannot hold because it is keyed
+    by party. They are seated members whose votes count, so they are added to
+    both totals and never moved: an independent has no party programme to be
+    measured against. Omitting them is not a rounding error. Nine independents
+    cast 7,642 member-votes across 2,204 divisions of this corpus, and every
+    division they decided is by definition one where the margin is one or two,
+    which is exactly where an outcome flips. See analytics._chamber_totals.
+
     Returns None when no party qualifies — there is no counterfactual to state.
     """
     movers = [
@@ -69,9 +80,11 @@ def flip(actual: dict[str, dict], ai: dict[str, dict]) -> dict | None:
     if not movers:
         return None
 
-    real_ja = sum(a["n_ja"] for a in actual.values())
-    real_nej = sum(a["n_nej"] for a in actual.values())
-    cf_ja = cf_nej = 0
+    other_ja = (others or {}).get("n_ja", 0)
+    other_nej = (others or {}).get("n_nej", 0)
+    real_ja = sum(a["n_ja"] for a in actual.values()) + other_ja
+    real_nej = sum(a["n_nej"] for a in actual.values()) + other_nej
+    cf_ja, cf_nej = other_ja, other_nej
     for p, a in actual.items():
         if p in movers:
             cast = a["n_ja"] + a["n_nej"] + a["n_avstar"]

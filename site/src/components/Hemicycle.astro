@@ -26,7 +26,15 @@ seats.forEach(([p], i) => {
   partyRanges[p] ??= { from: i, to: i };
   partyRanges[p].to = i;
 });
-const partyOrder = Object.entries(partyRanges).sort((a, b) => a[1].from - b[1].from);
+// Seats include members sitting outside every party group, so that the chamber
+// drawn here is the one that voted rather than an eight-party subtotal. They get
+// a seat and a tooltip, but no label arc and no AI badge: an independent has no
+// party programme, so there is no decision to compare and no code to letter a
+// disc with. Keyed off `parties` rather than a hardcoded '-' so any future
+// non-party code is handled the same way.
+const partyOrder = Object.entries(partyRanges)
+  .filter(([code]) => code in parties)
+  .sort((a, b) => a[1].from - b[1].from);
 
 function labelPos(range: { from: number; to: number }) {
   const mid = layout[Math.floor((range.from + range.to) / 2)];

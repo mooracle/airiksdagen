@@ -73,6 +73,39 @@ def test_a_tie_is_not_a_flip():
     assert out["flips"] is False
 
 
+def test_independents_count_toward_both_totals():
+    # A member outside every party group cannot appear in `actual`, which is
+    # keyed by party. Their votes are still cast and still decide the division.
+    actual = {"M": _a("Ja", ja=48), "S": _a("Nej", nej=45)}
+    ai = {"M": _d("Nej")}
+
+    without = aivotes.flip(actual, ai)
+    assert without["actual"] == {"ja": 48, "nej": 45, "outcome": "Ja"}
+
+    # two independents voting Nej are part of the real result
+    with_ind = aivotes.flip(actual, ai, {"n_ja": 0, "n_nej": 2})
+    assert with_ind["actual"] == {"ja": 48, "nej": 47, "outcome": "Ja"}
+    # they stay put in the counterfactual: an independent has no programme to be
+    # measured against, so nothing moves them
+    assert with_ind["counterfactual"] == {"ja": 0, "nej": 95, "outcome": "Nej"}
+
+
+def test_an_independent_can_decide_the_real_outcome():
+    # The regression that shipped: summing only the eight parties turned a
+    # one-vote win into a tie. Here the eight parties are level at 45-45 and a
+    # single independent's Ja is what carries the division.
+    actual = {"M": _a("Ja", ja=45), "S": _a("Nej", nej=45)}
+    ai = {"M": _d("Nej")}
+
+    eight_party_only = aivotes.flip(actual, ai)
+    assert eight_party_only["actual"]["outcome"] is None  # a tie that never was
+
+    real = aivotes.flip(actual, ai, {"n_ja": 1, "n_nej": 0})
+    assert real["actual"] == {"ja": 46, "nej": 45, "outcome": "Ja"}
+    assert real["counterfactual"] == {"ja": 1, "nej": 90, "outcome": "Nej"}
+    assert real["flips"] is True
+
+
 def test_unmoved_parties_keep_their_own_dissenters():
     # S votes Nej as a line but 3 members broke ranks; the counterfactual must
     # carry those 3 Ja votes rather than the party line's seat total

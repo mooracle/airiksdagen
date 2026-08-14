@@ -23,6 +23,7 @@ from aidag import aivotes, coalition
 from aidag.promptgen import evidence_tier
 from aidag.config import (
     HEMICYCLE_ORDER,
+    NO_PARTY,
     PARTIES,
     PARTY_PROGRAMS,
     PROCESSED_DIR,
@@ -191,11 +192,16 @@ def annotate_coalition(alternatives: list[dict], actual: dict, ai: dict) -> None
 def run(run_id: str | None = None) -> None:
     cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet")
     positions = pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
+    # Independents (`parti` == '-') are kept. They are seated members whose
+    # votes decide divisions, and filtering them here is what made every
+    # downstream total an eight-party subtotal — see analytics._chamber_totals.
+    # `positions` above stays party-keyed and therefore stays eight parties;
+    # only the per-seat array and the chamber totals gain the extra members.
     votes = (
         pl.read_parquet(PROCESSED_DIR / "votes.parquet")
         .filter(pl.col("avser") == "sakfrågan", pl.col("votering") == "huvud")
         .with_columns(pl.col("parti").str.to_uppercase())
-        .filter(pl.col("parti").is_in(list(PARTIES)))
+        .filter(pl.col("parti").is_in([*PARTIES, NO_PARTY]))
     )
     decisions = load_decisions_by_case(run_id)
     from aidag.translate import load_case_translations
@@ -330,7 +336,16 @@ def run(run_id: str | None = None) -> None:
         # aivotes.flip() is allowed to move, so `flip.parties` == `missx` and the
         # payload carries only what that changes — the two seat counts and
         # whether the chamber's answer survives. None when missx is empty.
-        flip = aivotes.flip(actual, case_decisions)
+        # Votes cast by members outside every party group. `actual` is keyed by
+        # party and structurally cannot hold them, so they are counted here and
+        # passed in separately; they are added to both sides of the
+        # counterfactual and never moved.
+        independents = case_votes.filter(pl.col("parti") == NO_PARTY)
+        others = {
+            "n_ja": int((independents["rost"] == "Ja").sum()),
+            "n_nej": int((independents["rost"] == "Nej").sum()),
+        }
+        flip = aivotes.flip(actual, case_decisions, others)
         if flip:
             payload["flip"] = flip
             if flip["flips"]:

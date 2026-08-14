@@ -21,12 +21,54 @@ def _positions() -> pl.DataFrame:
     return pl.read_parquet(PROCESSED_DIR / "party_positions.parquet")
 
 
-def _votes() -> pl.DataFrame:
+def _all_member_votes() -> pl.DataFrame:
+    """Every seated member's vote, independents included.
+
+    `party_positions.parquet` is keyed by party and therefore holds only the
+    eight party codes, so anything summed from it is an eight-party subtotal
+    rather than the chamber. Members sitting outside a party group (`parti` is
+    `'-'`) still vote and still count toward the result.
+    """
     return (
         pl.read_parquet(PROCESSED_DIR / "votes.parquet")
         .filter(pl.col("avser") == "sakfrågan", pl.col("votering") == "huvud")
         .with_columns(pl.col("parti").str.to_uppercase())
-        .filter(pl.col("parti").is_in(PARTY_CODES))
+    )
+
+
+def _votes() -> pl.DataFrame:
+    """Member votes restricted to the eight party groups.
+
+    Correct for anything measured *against a party line* (cohesion, dissent),
+    wrong for anything measuring the chamber. Use `_all_member_votes` for that.
+    """
+    return _all_member_votes().filter(pl.col("parti").is_in(PARTY_CODES))
+
+
+def _chamber_totals() -> pl.DataFrame:
+    """Per division: Ja, Nej and the decided outcome over all seated members.
+
+    `outcome` is null on an exact tie, which the Riksdag settles by lot — there
+    is no winning side to compare a party line against, so a tie can never be
+    scored as anyone's defeat. The full-v4 corpus contains none once
+    independents are counted; it contained ten before they were, and all ten
+    were one-vote wins being reported as losses.
+    """
+    cast = _all_member_votes().filter(pl.col("rost").is_in(["Ja", "Nej"]))
+    return (
+        cast.group_by("votering_id")
+        .agg(
+            (pl.col("rost") == "Ja").sum().alias("ja"),
+            (pl.col("rost") == "Nej").sum().alias("nej"),
+        )
+        .with_columns(
+            pl.when(pl.col("ja") > pl.col("nej"))
+            .then(pl.lit("Ja"))
+            .when(pl.col("nej") > pl.col("ja"))
+            .then(pl.lit("Nej"))
+            .otherwise(None)
+            .alias("outcome")
+        )
     )
 
 
@@ -67,18 +109,19 @@ def pairs_matrix() -> dict:
 
 def gov_defeats() -> list[dict]:
     """Voteringar where M, KD and L shared a cast position and the chamber
-    went the other way (the government side lost)."""
+    went the other way (the government side lost).
+
+    The outcome comes from `_chamber_totals`, not from summing
+    `party_positions`. Summing the latter drops the independents and turns a
+    148-147 win into a 147-147 tie, which an `otherwise("Nej")` branch then
+    scored as a defeat: ten of the twenty rows this function used to return were
+    one-vote government wins. Divisions with no decided outcome are skipped.
+    """
     pos = _positions()
     cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet").select(
         "votering_id", "datum", "rubrik", "dok_titel", "rm", "beteckning", "punkt"
     )
-    totals = (
-        pos.group_by("votering_id")
-        .agg(pl.col("n_ja").sum().alias("ja"), pl.col("n_nej").sum().alias("nej"))
-        .with_columns(
-            pl.when(pl.col("ja") > pl.col("nej")).then(pl.lit("Ja")).otherwise(pl.lit("Nej")).alias("outcome")
-        )
-    )
+    totals = _chamber_totals().filter(pl.col("outcome").is_not_null())
     gov_pos = (
         pos.filter(pl.col("parti").is_in(GOV))
         .group_by("votering_id")
