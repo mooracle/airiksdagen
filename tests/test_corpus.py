@@ -53,14 +53,27 @@ class TestNoLookahead:
         assert corpus.program_at("MP", "2026-01-15")["from"] == "2025-10-19"
 
     def test_the_nato_sentence_is_gated_away_from_the_votes_it_describes(self):
-        """The concrete leak this whole mechanism exists to prevent."""
+        """The concrete leak this whole mechanism exists to prevent.
+
+        Asserted on the SERVED text, not on the file: structured extraction
+        re-orders multi-column pages, so "the sentence is in mp-2025.txt" is a
+        statement about a fixture, while "no 2023 vote is ever shown it" is the
+        invariant. Both renditions are checked — the frozen bytes p5 serves and
+        the re-extracted file p6 serves — because the sentence surviving
+        re-extraction is itself something that could quietly stop being true.
+        """
         from aidag.fetch_corpus import program_filename
 
         later = PARTY_PROGRAMS["MP"][-1]
-        text = (corpus.CORPUS_DIR / program_filename("MP", later)).read_text()
-        assert "anslöt sig" in text and "Nato" in text, "fixture drifted: sentence gone"
-        served_2023 = [k for k, _t, _x in corpus.documents_for("MP", "2023-04-12", "2022/23", "V1", "p5")]
-        assert "partiprogram" in served_2023
+        name = program_filename("MP", later)
+        for path in (corpus.CORPUS_DIR / name, corpus.FROZEN_DIR / name):
+            text = path.read_text()
+            assert "anslöt sig" in text and "Nato" in text, f"{path.name}: sentence gone"
+
+        for version in ("p5", "p6"):
+            served = corpus.documents_for("MP", "2023-04-12", "2022/23", "V1", version)
+            assert "partiprogram" in [k for k, _t, _x in served]
+            assert not any("anslöt sig" in x for _k, _t, x in served)
         prog_2023 = corpus.program_at("MP", "2023-04-12")
         assert prog_2023 != later, "the 2025 programme reached a 2023 vote"
 
@@ -105,6 +118,73 @@ class TestP4Frozen:
             for p in PARTY_CODES:
                 served = {k for k, _t, _x in corpus.documents_for(p, c["datum"], c["rm"], c["votering_id"], "p4")}
                 assert not (served - {"valmanifest", "tidoavtalet"})
+
+
+class TestPreP6ReadsTheFrozenCorpus:
+    """Structured extraction rewrote 23 of the 40 corpus documents.
+
+    full-v2 (p4) and full-v3 (p5, 6,563 decisions, in the repo) were generated
+    from the bytes that stood before it, and `verify simulate` checks that every
+    citation is an exact substring of what the agent was shown. Serving them the
+    re-extracted text would fail citations that were never wrong — so everything
+    below p6 reads `data/corpus/frozen/` and p6 reads the regenerated file.
+    """
+
+    def test_every_corpus_document_is_frozen(self):
+        """All 40, not only the 23 that moved: an unconditional rule cannot be
+        wrong about which files a later change touches."""
+        live = {p.name for p in corpus.CORPUS_DIR.glob("*.txt")}
+        frozen = {p.name for p in corpus.FROZEN_DIR.glob("*.txt")}
+        assert live == frozen and len(live) == 40
+
+    def test_the_regeneration_really_moved_the_bytes(self):
+        """Without this the routing tests below are vacuously true."""
+        from aidag.extract_corpus import cited_slugs
+
+        moved = [
+            s for s in cited_slugs()
+            if (corpus.CORPUS_DIR / f"{s}.txt").read_bytes()
+            != (corpus.FROZEN_DIR / f"{s}.txt").read_bytes()
+        ]
+        assert len(moved) == 23
+
+    def test_p5_is_served_the_frozen_text(self):
+        served = dict(
+            (k, x) for k, _t, x in
+            corpus.documents_for("KD", "2023-04-12", "2022/23", "V1", "p5")
+        )
+        frozen = (corpus.FROZEN_DIR / "valmanifest-2022-kd.txt").read_text().lstrip("﻿")
+        assert served["valmanifest"] == corpus.normalize(frozen)
+        live = (corpus.CORPUS_DIR / "valmanifest-2022-kd.txt").read_text()
+        assert served["valmanifest"] != corpus.normalize(live)
+
+    def test_p6_is_served_the_regenerated_text(self):
+        served = dict(
+            (k, x) for k, _t, x in
+            corpus.documents_for("KD", "2023-04-12", "2022/23", "V1", "p6")
+        )
+        live = (corpus.CORPUS_DIR / "valmanifest-2022-kd.txt").read_text()
+        assert served["valmanifest"] == corpus.normalize(live)
+
+    def test_p4_is_served_the_frozen_bytes_raw(self):
+        """p4 never normalized at all — its corpus is the file, verbatim."""
+        served = dict(
+            (k, x) for k, _t, x in
+            corpus.documents_for("KD", "2023-04-12", "2022/23", "V1", "p4")
+        )
+        frozen = (corpus.FROZEN_DIR / "valmanifest-2022-kd.txt").read_text()
+        assert served["valmanifest"] == frozen.lstrip("﻿").strip()
+
+    def test_the_out_of_scope_documents_read_the_same_either_way(self):
+        """Tidöavtalet and the budgetmotioner were not re-extracted."""
+        for version in ("p4", "p5"):
+            served = dict(
+                (k, x) for k, _t, x in
+                corpus.documents_for("M", "2023-04-12", "2022/23", "V1", version)
+            )
+            live = (corpus.CORPUS_DIR / "tidoavtalet-2022.txt").read_text().strip()
+            expected = corpus.normalize(live) if version == "p5" else live
+            assert served["tidoavtalet"] == expected
 
 
 class TestSiteCorpusMatchesWhatAgentsRead:

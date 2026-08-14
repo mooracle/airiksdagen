@@ -45,6 +45,22 @@ def fetch_corpus(force: bool = typer.Option(False)) -> None:
     run(force=force)
 
 
+@app.command("extract-corpus")
+def extract_corpus(
+    slug: str = typer.Option(None, help="Single document, e.g. partiprogram-kd-2015"),
+    force: bool = typer.Option(False, help="Re-extract documents that already have blocks"),
+) -> None:
+    """Re-extract the 23 cited documents into data/corpus/blocks/ + derived .txt.
+
+    Offline: reads the cached PDFs under data/corpus/pdf/. Rewrites the corpus
+    text p6 serves, so `data/corpus/frozen/` must already hold the bytes the
+    older runs were generated from.
+    """
+    from aidag.extract_corpus import run
+
+    run(slug=slug, force=force)
+
+
 @app.command("build-kb")
 def build_kb(
     month: str = typer.Option(None, help="Build a single YYYY-MM snapshot"),

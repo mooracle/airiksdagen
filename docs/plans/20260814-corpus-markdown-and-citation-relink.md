@@ -337,25 +337,79 @@ gate.
 - Modify: `data/corpus/<slug>.txt` (23 files), `pipeline/aidag/corpus.py`,
   `pipeline/aidag/cli.py`, `tests/test_corpus.py`
 
-- [ ] copy current `data/corpus/*.txt` to `data/corpus/frozen/` unchanged
-- [ ] route `_text()` to `frozen/` when **`prompt_version < "p6"`**, so p4 *and* p5 keep
-      verifying against the bytes they were generated from
-- [ ] add `aidag extract-corpus [--slug X] [--force]` writing `blocks/*.json` and the
-      derived `.txt`
-- [ ] derive `.txt` **from the blocks** so text and structure cannot drift; keep the
-      provenance header (`export_site.py:62-66` and `doctext.parseProvenance` expect it)
-- [ ] restate the normalize expectation precisely: `normalize()` is a **no-op on prose
+- [x] copy current `data/corpus/*.txt` to `data/corpus/frozen/` unchanged — **all 40**,
+      not only the 23 that move (5.8 MB). An unconditional "below p6 reads `frozen/`"
+      rule cannot be wrong about which files a later change touched; a
+      "use `frozen/` if it exists" fallback can, and silently.
+- [x] route `_text()` to `frozen/` when **`prompt_version < "p6"`**, so p4 *and* p5 keep
+      verifying against the bytes they were generated from. `verify simulate` reads each
+      decision's own `prompt_version`, so the split needs no flag: **`full-v3` is green
+      against the frozen bytes after the regeneration** (0 hallucinated of 6,563).
+- [x] add `aidag extract-corpus [--slug X] [--force]` writing `blocks/*.json` and the
+      derived `.txt` — 23 documents, 9,409 blocks, offline from `data/corpus/pdf/`
+- [x] derive `.txt` **from the blocks** so text and structure cannot drift; keep the
+      provenance header (`export_site.py:62-66` and `doctext.parseProvenance` expect it).
+      Blocks are separated by a blank line and each is one line, so `normalize()` — which
+      drops blank lines — maps one block to one line. That is what makes the round-trip
+      assertable rather than approximate.
+- [x] restate the normalize expectation precisely: `normalize()` is a **no-op on prose
       characters**, not a no-op — it still strips the header, digit-only lines and
-      `_broken_font_line` lines
-- [ ] content-equivalence guard for the 8 manifestos: word count of the PDF extraction
-      within ±5% of the SND `/txt`, else fail (the source changed rendition)
-- [ ] run `uv run aidag export-site --run-id full-v4`
-- [ ] write test: `.txt` round-trips from `blocks/*.json` modulo the drop set
-- [ ] write test: p5 path reads `frozen/`, p6 path reads the regenerated file
-- [ ] check `tests/test_corpus.py:55-65` (asserts `"anslöt sig"` and `"Nato"` in
+      `_broken_font_line` lines (restated in `corpus.normalize`'s docstring, and it is
+      the drop set `tests/test_extract_corpus.py` asserts the round-trip modulo)
+- [x] content-equivalence guard for the 8 manifestos: word count of the PDF extraction
+      within ±5% of the SND `/txt`, else fail (the source changed rendition) — measured
+      on **prose**, see ⚠️ below
+- [x] run `uv run aidag export-site --run-id full-v4` (only the 23 corpus files changed;
+      no case JSON churn)
+- [x] write test: `.txt` round-trips from `blocks/*.json` modulo the drop set
+- [x] write test: p5 path reads `frozen/`, p6 path reads the regenerated file
+- [x] check `tests/test_corpus.py:55-65` (asserts `"anslöt sig"` and `"Nato"` in
       `partiprogram-mp-2025.txt`) still holds after column reordering; update if it is a
-      fixture artifact rather than a real invariant
-- [ ] run tests — must pass before Task 5
+      fixture artifact rather than a real invariant — it holds in **both** renditions.
+      Rewritten to assert on the **served** text: "the sentence is in the file" is a
+      statement about a fixture, "no 2023 vote is ever shown it" is the invariant, and
+      it is now checked for p5 and p6 alike.
+- [x] run tests — must pass before Task 5 (395 passed; 114 new in
+      `tests/test_extract_corpus.py`, 6 new in `test_corpus.py`, 3 in `test_docx.py`)
+
+⚠️ **Deviation 1, recorded**: the extraction driver is a new module,
+`pipeline/aidag/extract_corpus.py`, not an addition to `corpus.py` as the file list said.
+`corpus.py` answers "what may this party see on this date" and is imported by the prompt
+builder, the repairer and the verify gate; a corpus *writer* living there would give
+every one of them a path to the thing that overwrites the research record. Its tests are
+`tests/test_extract_corpus.py`; `tests/test_corpus.py` keeps the frozen-routing tests,
+which are about serving.
+
+⚠️ **Deviation 2, recorded**: the equivalence guard counts **prose** words — every role
+except `caption` and `unreadable`. On raw word counts `valmanifest-m` reads **1.061**
+against its text rendition and would fail a ±5% band: the PDF exposes 753 words of chart
+axis ticks, figure sources and rotated margin stamps that SND's `/txt` simply does not
+carry. On prose it reads **0.995**, and the other seven manifestos land inside **1.2%**
+either way (worst: `-s` at 1.012). Sizing the tolerance by one document's infographics
+would have made it far too slack to catch what the guard is for — a `/pdf` endpoint
+serving a different, shorter document than `/txt`.
+
+⚠️ **Deviation 3, recorded**: `docx._word_continues()` added — a Task 3 module changed
+for a Task 4 invariant. `normalize()` closes a hyphenated word across a line break, and
+13 corpus boundaries had a block ending `...med-` followed by one starting `människor`
+(m-2021's wide-leading pull-quote; kd-2015/kd-2025/mp-2013 paragraphs continuing into the
+next column). Left alone, the served text holds a word that exists in **no block** —
+unresolvable by Task 7's anchor index and invisible until a citation lands on it. It
+mirrors `normalize()`'s rule exactly, deliberately including the absence of a
+suspended-hyphen exemption: agreeing with what is served matters more here than being
+right about the hyphen, none occur today, and the round-trip test fails loudly if one
+ever does.
+
+➕ **Added**: the 8 manifestos gain a provenance header (`<!-- Valmanifest 2022
+(Kristdemokraterna) | SND Vivill, PDF-rendition | ... -->`), which they never had. This
+is the one document class whose *source rendition* changed, and a corpus that does not
+record which rendition it holds cannot be checked. `valmanifest-2022-c` records
+`textrendition (PDF utan textlager)` — it is the one document whose blocks still come
+from SND's `/txt`.
+
+**State on exit**: `verify simulate --run-id full-v3` **green**;
+`--run-id full-v4` **red at 639 citations of 77,718 (0.82%)**, which is Task 5's
+migration set and is consistent with Task 3's measured 99.178% located.
 
 ### Task 5: Migrate committed citation quotes
 

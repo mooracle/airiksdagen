@@ -32,6 +32,7 @@ from pathlib import Path
 from aidag.config import (
     BUDGET_MOTIONS,
     CORPUS_DIR,
+    FROZEN_DIR,
     PARTY_PROGRAMS,
     RAW_DIR,
     TIDO_DATE,
@@ -140,17 +141,30 @@ def _broken_font_line(s: str) -> bool:
 
 
 def normalize(text: str) -> str:
-    """Serve-time cleanup applied to every p5 document.
+    """Serve-time cleanup applied to every p5+ document.
 
-    Done here, not in the files, for two reasons. The p4 corpus is frozen — its
-    bytes are the exact inputs full-v2's committed decisions came from — and
-    everything that needs to know what an agent saw (the prompt builder, the
-    citation repairer, the verify gate) already routes through documents_for(),
-    so normalizing here means they cannot disagree about it.
+    Done here, not in the files, for two reasons. The pre-p6 corpus is frozen —
+    its bytes are the exact inputs full-v2's and full-v3's committed decisions
+    came from — and everything that needs to know what an agent saw (the prompt
+    builder, the citation repairer, the verify gate) already routes through
+    documents_for(), so normalizing here means they cannot disagree about it.
 
     Strips the header comment, the source's page furniture, and the artifacts
     that break verbatim citation: an agent quotes what it is shown, and
     repair-citations requires the quote to be an exact substring of it.
+
+    On the 23 documents `extract-corpus` now derives from blocks this is a no-op
+    **on prose characters** — docx.clean_line and docx.join_lines already do the
+    NFC folding, the ligature folding, the soft-hyphen closing and the dot-leader
+    removal, so nothing here can move a character a citation might quote. It is
+    emphatically not the identity, and three things still go:
+
+      * the provenance comment (re-attached by export_site for the source credit)
+      * digit-only lines, which are page numbers and rules
+      * `_broken_font_line` lines — mp-2013's undecodable display headings, kept
+        in the blocks as role `unreadable` and dropped from the served text
+
+    That is the exact drop set the block -> .txt round-trip is asserted modulo.
     """
     text = re.sub(r"^<!--.*?-->\n", "", text, flags=re.S)
     text = unicodedata.normalize("NFC", text)
@@ -170,8 +184,22 @@ def normalize(text: str) -> str:
 
 
 @lru_cache(maxsize=128)
-def _text(filename: str, clean: bool = False) -> str:
-    raw = (CORPUS_DIR / filename).read_text().lstrip("﻿").strip()
+def _text(filename: str, clean: bool = False, frozen: bool = False) -> str:
+    """One corpus document, from the live files or from the frozen pre-p6 copies.
+
+    `frozen` is not an optimisation or a fallback: below p6 it is the only
+    correct source. Structured extraction rewrites 23 of these files, and the
+    committed p4/p5 decisions were generated from the bytes that stood before
+    it — `verify simulate` checks each citation is an exact substring of what
+    the agent was shown, so serving a re-extracted file to an old run would fail
+    citations that were never wrong.
+
+    Deliberately no "use frozen/ if it exists" rule. All 40 documents are frozen,
+    including the 17 this change never touches, so the version test decides the
+    directory on its own and cannot be wrong about which files moved.
+    """
+    path = (FROZEN_DIR if frozen else CORPUS_DIR) / filename
+    raw = path.read_text().lstrip("﻿").strip()
     return normalize(raw) if clean else raw
 
 
@@ -185,15 +213,23 @@ def documents_for(
     """
     from aidag.fetch_corpus import budget_filename, program_filename
 
+    # Below p6 the corpus is frozen: full-v2 (p4) and full-v3 (p5) were generated
+    # from the pre-extraction bytes and their citations verify against them.
+    old = prompt_version < "p6"
+
     if prompt_version < "p5":
-        docs = [("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt"))]
+        docs = [
+            ("valmanifest", "valmanifest_2022",
+             _text(f"valmanifest-2022-{code.lower()}.txt", frozen=old))
+        ]
         if tido_applies(code, datum):
-            docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt")))
+            docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt", frozen=old)))
         return docs
 
     # p5+: every document is normalized on the way out (see normalize()).
     docs: list[tuple[str, str, str]] = [
-        ("valmanifest", "valmanifest_2022", _text(f"valmanifest-2022-{code.lower()}.txt", True))
+        ("valmanifest", "valmanifest_2022",
+         _text(f"valmanifest-2022-{code.lower()}.txt", True, old))
     ]
 
     if prompt_version >= "p6":
@@ -202,7 +238,7 @@ def documents_for(
             docs.append((
                 "partiprogram",
                 f'partiprogram antaget="{prog["from"]}"',
-                _text(program_filename(code, prog), True),
+                _text(program_filename(code, prog), True, old),
             ))
         return docs
 
@@ -210,15 +246,15 @@ def documents_for(
         docs.append((
             "partiprogram",
             f'partiprogram antaget="{prog["from"]}"',
-            _text(program_filename(code, prog), True),
+            _text(program_filename(code, prog), True, old),
         ))
     if tido_applies(code, datum):
-        docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt", True)))
+        docs.append(("tidoavtalet", "tidoavtalet", _text("tidoavtalet-2022.txt", True, old)))
     if (b := budget_at(code, rm, datum)) and not budget_excluded(code, rm, votering_id, datum):
         docs.append((
             "budgetmotion",
             f'budgetmotion beteckning="{b["bet"]}"',
-            _text(budget_filename(code, rm), True),
+            _text(budget_filename(code, rm), True, old),
         ))
     return docs
 
