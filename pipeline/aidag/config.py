@@ -11,6 +11,13 @@ RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 INTERIM_DIR = DATA_DIR / "interim"
 CORPUS_DIR = DATA_DIR / "corpus"
+# Source PDFs for the party documents, cached beside the text extracted from them.
+# COMMITTED (~24 MB), on the same reasoning as the .txt files and the already-committed
+# tidoavtalet-2022.pdf: the 15 programme URLs point at live party sites that have
+# each replaced these editions at least once, so an uncached document is one site
+# redesign away from unreproducible. Extraction reads this cache when it is present,
+# which is what lets the corpus be rebuilt offline and byte-for-byte.
+PDF_DIR = CORPUS_DIR / "pdf"
 KB_DIR = DATA_DIR / "kb" / "snapshots"
 RESULTS_DIR = DATA_DIR / "results"
 SITE_DATA_DIR = REPO_ROOT / "site" / "src" / "data"
@@ -21,6 +28,16 @@ RIKSMOTEN = ["2022/23", "2023/24", "2024/25", "2025/26"]
 # Bulk vote dumps, one per riksmöte. Källa: Sveriges riksdag.
 VOTERING_ZIP_URL = "https://data.riksdagen.se/dataset/votering/votering-{rm}.json.zip"
 DOKUMENTSTATUS_URL = "https://data.riksdagen.se/dokumentstatus/{dok_id}.json"
+
+# SND (Swedish National Data Service, Univ. of Gothenburg) Vivill archive, which
+# holds the 2022 valmanifest for all eight parties under a Public Domain Mark.
+# Two RENDITIONS of the same document, not two documents: /txt is what the p4-p6
+# corpus was built from and what the committed citations verify against, /pdf
+# carries the font metrics and column geometry that structured extraction needs.
+# Swapping one for the other is a source change and is guarded where it happens,
+# never done implicitly.
+SND_TXT_URL = "https://snd.se/sv/vivill/file/{code}/v/2022/txt"
+MANIFESTO_PDF_URL = "https://snd.se/sv/vivill/file/{code}/v/2022/pdf"
 
 def rm_slug(rm: str) -> str:
     """'2022/23' -> '202223' (used in dump filenames)."""
