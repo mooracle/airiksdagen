@@ -8,24 +8,75 @@
 
 Corpus files are the exact inputs shown to the agents; they are committed so
 the research is reproducible without re-fetching.
+
+Source PDFs are archived under data/corpus/pdf/ as they are fetched (see
+config.PDF_DIR). Text extraction reads that cache when it is present, so the
+corpus can be rebuilt without the network — which matters because the programme
+URLs are live party-site links, not an archive.
 """
 
 from __future__ import annotations
 
 from html import unescape
+from pathlib import Path
 
 import httpx
 
-from aidag.config import BUDGET_MOTIONS, CORPUS_DIR, PARTY_CODES, PARTY_PROGRAMS
+from aidag.config import (
+    BUDGET_MOTIONS,
+    CORPUS_DIR,
+    MANIFESTO_PDF_URL,
+    PARTY_CODES,
+    PARTY_PROGRAMS,
+    PDF_DIR,
+    SND_TXT_URL,
+)
 
-SND_TXT_URL = "https://snd.se/sv/vivill/file/{code}/v/2022/txt"
 TIDO_PDF_URL = "https://www.liberalerna.se/wp-content/uploads/tidoavtalet-overenskommelse-for-sverige-slutlig.pdf"
 
 HEADERS = {"User-Agent": "aidag-research/0.1 (open research project; contact via repo)"}
 
 
+def cached_pdf(slug: str) -> Path:
+    """Where the source PDF for a corpus slug lives ('partiprogram-kd-2015')."""
+    return PDF_DIR / f"{slug}.pdf"
+
+
+def source_pdf_bytes(slug: str) -> bytes:
+    """Cached source bytes for `slug`, for extraction that must not hit the network.
+
+    Raises FileNotFoundError rather than falling back to a fetch: a silent
+    download here would mean an extraction run could quietly use a *different*
+    edition of a party programme than the one the corpus was built from.
+    """
+    path = cached_pdf(slug)
+    if not path.exists():
+        raise FileNotFoundError(f"{slug}: no cached PDF at {path} — run `aidag fetch-corpus`")
+    return path.read_bytes()
+
+
+def _fetch_pdf(client: httpx.Client, slug: str, url: str, force: bool) -> bytes:
+    """Source bytes for `slug`, from the cache unless it is missing or `force`.
+
+    Filling this cache is the point: the 15 programme URLs are live party-site
+    links and every one of those parties has replaced the pinned edition at least
+    once, so an uncached document is one redesign away from unreproducible.
+    """
+    path = cached_pdf(slug)
+    if path.exists() and not force:
+        return path.read_bytes()
+    r = client.get(url)
+    r.raise_for_status()
+    if not r.content.startswith(b"%PDF"):
+        raise ValueError(f"{slug}: {url} did not return a PDF (starts {r.content[:16]!r})")
+    PDF_DIR.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(r.content)
+    print(f"  pdf/{path.name}: {len(r.content) // 1024} kB")
+    return r.content
+
+
 def fetch_manifesto(client: httpx.Client, code: str, force: bool) -> None:
-    path = CORPUS_DIR / f"valmanifest-2022-{code.lower()}.txt"
+    path = CORPUS_DIR / manifesto_filename(code)
     if path.exists() and not force:
         print(f"  {path.name}: exists, skipping")
         return
@@ -37,6 +88,19 @@ def fetch_manifesto(client: httpx.Client, code: str, force: bool) -> None:
         raise ValueError(f"{code}: suspiciously short manifesto ({len(text)} chars) from {url}")
     path.write_text(text + "\n")
     print(f"  {path.name}: {len(text)} chars")
+
+
+def fetch_manifesto_pdf(client: httpx.Client, code: str, force: bool) -> None:
+    """Archive SND's PDF rendition of a 2022 manifesto.
+
+    Caching only — the .txt beside it keeps coming from SND's /txt endpoint. The
+    manifestos are the 8 documents where structured extraction changes *source
+    rendition*, not just extractor, and that swap is made deliberately (with a
+    content-equivalence guard) where the corpus is regenerated, never as a side
+    effect of filling this cache.
+    """
+    code = code.lower()
+    _fetch_pdf(client, f"valmanifest-2022-{code}", MANIFESTO_PDF_URL.format(code=code), force)
 
 
 def pdf_to_text(pdf_bytes: bytes) -> str:
@@ -112,6 +176,10 @@ def fetch_tido(client: httpx.Client, force: bool) -> None:
     print(f"  {txt_path.name}: {len(reader.pages)} pages, {len(text)} chars")
 
 
+def manifesto_filename(code: str) -> str:
+    return f"valmanifest-2022-{code.lower()}.txt"
+
+
 def program_filename(code: str, version: dict) -> str:
     return f"partiprogram-{code.lower()}-{version['from'][:4]}.txt"
 
@@ -121,16 +189,20 @@ def budget_filename(code: str, rm: str) -> str:
 
 
 def fetch_programs(client: httpx.Client, force: bool) -> None:
-    """Every version of every party's programme, extracted with PyMuPDF."""
+    """Every version of every party's programme, extracted with PyMuPDF.
+
+    The PDF is cached before the up-to-date check, not after it: an existing
+    .txt used to short-circuit the whole document, which is exactly how these
+    source bytes came to be discarded 15 times over.
+    """
     for code, versions in PARTY_PROGRAMS.items():
         for v in versions:
             path = CORPUS_DIR / program_filename(code, v)
+            pdf_bytes = _fetch_pdf(client, path.stem, v["url"], force)
             if path.exists() and not force:
                 print(f"  {path.name}: exists, skipping")
                 continue
-            r = client.get(v["url"])
-            r.raise_for_status()
-            text = pdf_to_text(r.content)
+            text = pdf_to_text(pdf_bytes)
             if len(text.split()) < 5000:
                 raise ValueError(f"{path.name}: too short ({len(text.split())} words) — wrong document?")
             path.write_text(f"<!-- {v['title']} | antaget {v['from']} | {v['url']} -->\n{text}\n")
@@ -193,9 +265,11 @@ def fetch_budgets(client: httpx.Client, force: bool) -> None:
 
 def run(force: bool = False) -> None:
     CORPUS_DIR.mkdir(parents=True, exist_ok=True)
+    PDF_DIR.mkdir(parents=True, exist_ok=True)
     with httpx.Client(timeout=180, follow_redirects=True, headers=HEADERS) as client:
         for code in PARTY_CODES:
             fetch_manifesto(client, code, force)
+            fetch_manifesto_pdf(client, code, force)
         fetch_tido(client, force)
         fetch_programs(client, force)
         fetch_budgets(client, force)

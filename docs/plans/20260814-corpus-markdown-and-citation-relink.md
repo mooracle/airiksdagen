@@ -154,15 +154,30 @@ The 15 programme URLs are fetched live from party websites and nothing is archiv
 - Modify: `pipeline/aidag/fetch_corpus.py`, `pipeline/aidag/config.py`
 - Create: `data/corpus/pdf/` (23 files, ~24 MB)
 
-- [ ] add `PDF_DIR = CORPUS_DIR / "pdf"`; `fetch_programs()` writes source bytes there
-- [ ] add `MANIFESTO_PDF_URL = "https://snd.se/sv/vivill/file/{code}/v/2022/pdf"` to
+- [x] add `PDF_DIR = CORPUS_DIR / "pdf"`; `fetch_programs()` writes source bytes there
+- [x] add `MANIFESTO_PDF_URL = "https://snd.se/sv/vivill/file/{code}/v/2022/pdf"` to
       `config.py` beside the existing SND text URL, and `fetch_manifesto_pdf()`
-- [ ] extraction reads the cache when present, so re-extraction never needs the network
-- [ ] decide and record PDF commit policy: commit (reproducibility, +24 MB) vs
-      `.gitignore` + documented refetch — **recommend committing**, since the corpus is
-      committed for exactly this reason
-- [ ] no new tests here (no behaviour yet); `NoTextLayer` tests live with Task 2
-- [ ] run `uv run pytest tests -q` — must pass before Task 2
+      (`SND_TXT_URL` moved from `fetch_corpus.py` to `config.py` so the two renditions
+      sit together and the "same document, two renditions" note has one home)
+- [x] extraction reads the cache when present, so re-extraction never needs the network
+      — `_fetch_pdf()` returns cached bytes without a client call, and
+      `source_pdf_bytes(slug)` is the read-only entry point Task 2 uses. It raises
+      `FileNotFoundError` rather than fetching, so an extraction run can never silently
+      pick up a *newer* edition than the corpus was built from.
+- [x] decide and record PDF commit policy: **COMMIT**. 23 files, 24 MB, matching the
+      already-committed `tidoavtalet-2022.pdf`. Decisive point: the 15 programme URLs
+      are live party-site links and every one of those parties has already replaced the
+      pinned edition once (`config.py`'s own "TRAP" note) — the archive is the whole
+      reason the corpus is committed. Verified on arrival: `pdf_to_text()` over the 15
+      cached programme PDFs reproduces all 15 committed `.txt` bodies **byte for byte**,
+      so the cache holds the exact documents full-v3/full-v4 were generated from.
+- [x] no new tests here (no behaviour yet); `NoTextLayer` tests live with Task 2
+- [x] run `uv run pytest tests -q` — must pass before Task 2 (196 passed)
+
+➕ Confirmed against the cache, for Task 2/3: `valmanifest-2022-c` is 38 pages with 388
+raw chars (10/page) — the vector-outline document the `NoTextLayer` + `blocks_from_text`
+path exists for, and the only one anywhere near the 200 chars/page floor. The next
+lowest is `valmanifest-2022-kd` at 946/page.
 
 ### Task 2: Add `pipeline/aidag/docx.py` — structured extraction
 
