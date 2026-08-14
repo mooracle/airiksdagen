@@ -187,30 +187,64 @@ go before blocking or a page number lands inside an anchored block.
 **Files:**
 - Create: `pipeline/aidag/docx.py`, `tests/test_docx.py`
 
-- [ ] `read_lines()` — page, layout-block index, size, font, bold, bbox via
+- [x] `read_lines()` — page, layout-block index, size, font, bold, bbox via
       `get_text("dict", sort=True)`; keep the soft hyphen (stripping it before the join
-      is what produces `Kristde mokraterna`)
-- [ ] `NoTextLayer` raised when extracted chars/page < 200
-- [ ] `blocks_from_text()` — degraded path producing `para` blocks from flat text, for
-      `valmanifest-2022-c` (38 pages, 94 extractable chars — vector outlines) so it
-      still gets blocks and a document page
-- [ ] `strip_running()` — drop only when BOTH in the top/bottom 10% band AND the
+      is what produces `Kristde mokraterna`). Style is taken from the line's *longest*
+      span, so a drop cap cannot type the line. Bold reads PyMuPDF's flag with a
+      font-name fallback for the PDFs that never set it.
+- [x] `NoTextLayer` raised when extracted chars/page < 200
+- [x] `blocks_from_text()` — degraded path producing `para` blocks from flat text, for
+      `valmanifest-2022-c` (38 pages, 241 extractable chars — vector outlines) so it
+      still gets blocks and a document page. One block per line: SND's plain-text
+      rendition already puts one paragraph per line (median 208 chars, no wrapping).
+- [x] `strip_running()` — drop only when BOTH in the top/bottom 10% band AND the
       digit-normalized signature repeats on ≥ max(3, 20% of pages); plus bare page
-      numbers in the band
-- [ ] `split_blocks()` — new block on page change, style change, gap > 1.65× median
+      numbers in the band. Signature counts **distinct pages**, not lines (V-2024
+      paints its header twice per page), and includes `(size, bold)` — see ⚠️ below.
+- [x] `split_blocks()` — new block on page change, style change, gap > 1.65× median
       leading, bullet/numbered start, contents entry; layout-block change splits **only
       when** the previous line ended a sentence or the gap exceeds 1.2× leading
-      (PyMuPDF emits per-paragraph blocks in KD, per-line blocks in L-2023)
-- [ ] `join_lines()` — close soft-hyphen and explicit-hyphen breaks with no space
-- [ ] `clean_line()` — NFC, ligature folding, zero-width/NBSP, stray `¬`, dot leaders
-- [ ] write tests: `NoTextLayer` raised for C and not for KD; `blocks_from_text` yields
+      (PyMuPDF emits per-paragraph blocks in KD, per-line blocks in L-2023). A
+      backwards y-jump also splits — it is a column or region change.
+- [x] `join_lines()` — close soft-hyphen and explicit-hyphen breaks with no space
+- [x] `clean_line()` — NFC, ligature folding, zero-width/NBSP, stray `¬`, dot leaders
+- [x] write tests: `NoTextLayer` raised for C and not for KD; `blocks_from_text` yields
       non-empty blocks for C
-- [ ] write tests: `strip_running` drops `Informationsklass: Intern`, keeps a repeated
+- [x] write tests: `strip_running` drops `Informationsklass: Intern`, keeps a repeated
       prose phrase in body position
-- [ ] write tests: `join_lines` (soft hyphen / explicit hyphen / plain wrap)
-- [ ] write tests: `split_blocks` neither fuses two commitments nor shreds a wrapped
+- [x] write tests: `join_lines` (soft hyphen / explicit hyphen / plain wrap)
+- [x] write tests: `split_blocks` neither fuses two commitments nor shreds a wrapped
       paragraph
-- [ ] run tests — must pass before Task 3
+- [x] run tests — must pass before Task 3 (235 passed; 39 new in `tests/test_docx.py`)
+
+⚠️ **Deviation, recorded**: the furniture signature is `(size, bold, digit-normalized
+text)`, not text alone as specified. On text alone V-2024 loses prose: its 6pt running
+header carries the chapter name, so the chapter's own 30pt title — which sits inside the
+top band and repeats that name once — inherits the header's 19-page count and is dropped.
+With style in the signature the title survives and the header still goes. Corpus-wide the
+rule now drops **1,056 lines**, against the 1,046 the prototype measured, and every drop
+is ≤ 60 chars and is a header, footer or page number (asserted per document in the
+tests). Residual leak: V-2024's 6pt `Våra svar` header spans only 5 pages against a
+threshold of 6, so it survives as a stray 6pt block — Task 3's style clusters should
+give it a non-`para` role.
+
+➕ Confirmed for Task 3, from the real extraction:
+
+- **Role instability is exactly as described.** kd-2025's `2.1 Demokrati` subheadings are
+  12.0pt against an 11.0pt body — ratio 1.09, under the 1.12 cut — so they come out
+  `para`. Size ratios cannot fix this; style clusters can.
+- **Column interleaving is visible in the output.** `valmanifest-m` p6 fuses
+  `• Kraftigt sänka kostnaden för att anställa långtidsarbetslösa` with the next
+  column's `Moderaterna kommer att:`, and the same page's chart axis emits
+  `0 Malta Irland`. Both are `detect_columns()` work.
+- **Rotated margin furniture** (`Valmanifest 2022`, once per page in `valmanifest-m`)
+  sits mid-page, so the band rule cannot see it. It lands as a stray `para`. Candidate
+  for a `caption`/`label` role rather than a new stripping rule.
+- **Intra-word spaces from tracking** (`2.1 Dem okrati` in kd-2025, 17 similar) are
+  literal space characters in the content stream, not a hyphen artifact — a separate
+  defect from `Kristde mokraterna`, fixable only at char level (`rawdict` gives per-char
+  x-advance). Left alone: it is pre-existing damage that today's committed text also
+  carries, so touching it would move quotes Task 5 has to migrate. Not in scope.
 
 ### Task 3: Fix role assignment and column reading order
 
