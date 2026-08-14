@@ -261,18 +261,65 @@ thresholding cannot see them: 10.9/10.0 = 1.09, under the 1.12 heading cut.
 **Files:**
 - Modify: `pipeline/aidag/docx.py`, `tests/test_docx.py`
 
-- [ ] `style_clusters()` — char-volume-ranked `(size, bold)` clusters; body = largest
-- [ ] rewrite `assign_roles()` to map clusters → roles rather than size ratios; add a
+- [x] `style_clusters()` — char-volume-ranked clusters; body = largest. Keyed on
+      `(size, font)`, **not** `(size, bold)` — see ⚠️ below.
+- [x] rewrite `assign_roles()` to map clusters → roles rather than size ratios; add a
       `label` role for a minor bold cluster at or below body size
-- [ ] `detect_columns()` — per page, cluster line `x0` into bands, order within band by
-      y, concatenate; single-column pages must be unaffected
-- [ ] restrict `mark_toc()` to near-body-size runs (a cover page is legitimately 4+
+- [x] `detect_columns()` — recursive XY-cut per page (gutter first, one horizontal band
+      cut at a time), rotated text lifted out of the flow; single-column pages are
+      returned untouched and 7 of the 22 extractable documents verify that byte for byte
+- [x] restrict `mark_toc()` to near-body-size runs (a cover page is legitimately 4+
       large titles in a row — this mislabelled 14 of KD's 45 blocks)
-- [ ] write test: KD's 5 back-cover labels all get the same role, and it is not `para`
-- [ ] write test: `mp-2013` / `valmanifest-m` sample pages produce no interleaved text
-- [ ] write test: single-column block sequence unchanged by `detect_columns`
-- [ ] record the residual known-failure allowlist (target: empty)
-- [ ] run tests — must pass before Task 4
+- [x] write test: KD's 5 back-cover labels all get the same role, and it is not `para`
+- [x] write test: `mp-2013` / `valmanifest-m` sample pages produce no interleaved text
+- [x] write test: single-column block sequence unchanged by `detect_columns`
+- [x] record the residual known-failure allowlist — `data/corpus/known-unrecovered.json`,
+      **12 quotes / 119 citations**, down from 35 / 385. Not empty; see ⚠️ below.
+- [x] run tests — must pass before Task 4 (272 passed; 37 new in `tests/test_docx.py`)
+
+**Measured against full-v4, whitespace collapsed** (the basis Task 5 migrates on):
+
+| | Task 2 | Task 3 |
+|---|---|---|
+| Citations located exactly | 76,525 / 77,718 (98.465%) | **77,079 (99.178%)** |
+| Distinct quotes unlocated | 162 | 105 |
+| ...of those, *structural* (word order the extraction never produced) | 19 | **12** |
+| Paragraphs ending mid-clause, `valmanifest-m` | 58.5% | **25.3%** |
+| ...`partiprogram-kd-2015` | 55.0% | **32.0%** |
+| ...`partiprogram-kd-2025` | 42.0% | **30.2%** |
+
+The other 93 unlocated quotes are character damage the *old* text carries and the new
+extraction fixes — `hälso och` for `hälso- och`, `storregio nala` for `storregionala`.
+They are Task 5's to migrate, not Task 3's to match.
+
+⚠️ **Deviation 1, recorded**: clusters are keyed `(size, font)`, not `(size, bold)` as
+specified. On `(size, bold)` KD's back-cover labels are lost: 10.9pt Barlow-ExtraBold
+against 11.0pt Barlow-SemiBold prose is the same weight 0.9% apart, so the size tolerance
+that has to exist (valmanifest-m reports one 11pt body as 11.0/11.1/11.2/11.3) folds the
+labels into the prose and roles them `para` — exactly the failure the task exists to fix.
+The font name separates them; `bold` is kept on the cluster as a derived attribute.
+
+⚠️ **Deviation 2, recorded**: the allowlist is **not empty — 12 quotes / 119 citations**,
+all but two in `valmanifest-m`. Each is a page where a section heading belonging to a
+*figure* sits directly beneath a two-column text block, 9.2pt below it. Reading order
+there is not determined by the geometry this module extracts: separating the heading from
+the columns needs the figure's bounds, and PyMuPDF's image blocks are discarded at
+`read_lines`. Listed rather than tolerated, per the plan; Task 7's gate reads the file.
+
+➕ **Added beyond the checkboxes**: `_runs_on()` closes paragraphs broken by a page
+boundary. Task 10 assigns the fragmentation target to this task, and page splits were
+most of what the figure measured — 312 of kd-2015's 764 paragraphs ended mid-clause at a
+page foot. Conservative by construction: same face, lower-case opener or a hyphen, no
+bullet, no contents entry, adjacent pages. It moved 12 of 22 documents under the 20% gate
+and left the relink rate unchanged to four decimals.
+
+⚠️ **Still over the Task 10 20% gate**: `kd-2015` 32.0%, `kd-2025` 30.2%, `sd-2019`
+24.8%, `valmanifest-m` 25.3%, `mp-2013` 17.4% (passing). The residual in both KD
+documents is dominated by their **glossaries** — 237 marginal terms in 2015, an
+`Ordförklaringar` appendix in 2025 — which are dictionary entries with no terminal
+punctuation and are not fragments at all. Task 10 should either exclude `label` blocks
+and glossary appendices from the metric or restate it; the metric as written cannot
+distinguish them from broken paragraphs.
 
 ### Task 4: Freeze current bytes, regenerate the corpus, re-export
 
@@ -473,10 +520,11 @@ per-document and exactly.
 
 ```
 data/corpus/
-  pdf/<slug>.pdf          source bytes, cached (Task 1)
-  frozen/<slug>.txt       pre-change text; serves prompt_version < p6
-  blocks/<slug>.json      [{id, role, page, size, bold, text}]
-  <slug>.txt              derived from blocks; what agents read, what verify checks
+  pdf/<slug>.pdf              source bytes, cached (Task 1)
+  frozen/<slug>.txt           pre-change text; serves prompt_version < p6
+  blocks/<slug>.json          [{id, role, page, size, bold, text}]
+  <slug>.txt                  derived from blocks; what agents read, what verify checks
+  known-unrecovered.json      residual unlocatable quotes (Task 3); read by Tasks 5 and 7
 ```
 
 `md/*.md` was **cut on review**: agents read `.txt`, verify reads `.txt`, the site
@@ -501,10 +549,12 @@ same thing.
 and re-extraction is half of this work. The locator is deterministic (99.10% exact,
 99.7% of quotes unique in-document), so offsets are recomputed at build time.
 
-**Known-failure allowlist.** The 35 unrecovered quotes (`valmanifest-m` 15,
-`valmanifest-s` 13, `mp-2013` 6, `valmanifest-kd` 1) are tracked explicitly so the Task 7
-gate distinguishes "known and accepted" from "newly broken". Task 3 should empty this
-list; any survivor must be listed, not silently tolerated.
+**Known-failure allowlist.** `data/corpus/known-unrecovered.json`, so the Task 7 gate
+distinguishes "known and accepted" from "newly broken". Task 3 took it from the measured
+35 quotes / 385 citations to **12 quotes / 119 citations** (`valmanifest-m` 10,
+`valmanifest-kd` 1, `partiprogram-v-2024` 1); `valmanifest-s` and `mp-2013` are clear.
+It is a ratchet: `tests/test_docx.py::TestKnownUnrecovered` fails if the list grows or if
+a listed quote starts resolving.
 
 ## Post-Completion
 

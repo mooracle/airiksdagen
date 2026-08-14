@@ -5,10 +5,15 @@ exists to fix is a real-document quirk: KD's soft-hyphenated wraps, KD-2025's
 classification stamp in the header band, V-2024's chapter title that repeats its
 own running header, L-2023's habit of emitting one layout block per line.
 
-Role assignment is deliberately NOT pinned here beyond "the pipeline produces
-one" — it is rewritten in Task 3 against style clusters, and asserting today's
-size-ratio behaviour would only be something to delete.
+Roles are pinned against the two documents that exposed the size-ratio approach:
+KD's manifesto, whose back-cover topic labels sit 9% above a body that is itself
+neither the largest nor the boldest face, and KD-2025, whose numbered
+subheadings sit 9% above the body in the other direction. Both are `para` under
+any ratio cut that does not also turn ordinary prose into headings.
 """
+
+import json
+import re
 
 import pytest
 
@@ -33,11 +38,32 @@ def _line(
     bold: bool = False,
     leader: bool = False,
     x0: float = 70.0,
+    width: float = 300.0,
+    font: str = "Test",
+    rotated: bool = False,
 ) -> docx.Line:
     return docx.Line(
-        page=page, lb=lb, text=text, size=size, font="Test", bold=bold,
-        x0=x0, y0=y0, x1=x0 + 300, y1=y0 + 12, page_w=595.0, page_h=842.0, leader=leader,
+        page=page, lb=lb, text=text, size=size, font=font, bold=bold,
+        x0=x0, y0=y0, x1=x0 + width, y1=y0 + 12, page_w=595.0, page_h=842.0,
+        leader=leader, rotated=rotated,
     )
+
+
+def _reading(*extractions: docx.Extraction) -> str:
+    """The documents as one string, block boundaries flattened to a space.
+
+    A quote that crosses a block boundary still resolves — `verify simulate` and
+    the anchor locator both match against normalized text, where a block break is
+    whitespace. What must not survive is a *word* order the columns never had.
+    """
+    return re.sub(r"\s+", " ", "\n".join(b.text for ex in extractions for b in ex.blocks))
+
+
+def _column_page() -> list[docx.Line]:
+    """Two columns 20pt apart, in the interleaved order `sort=True` produces."""
+    left = [_line(f"vänster {i}", y0=100.0 + 15 * i, x0=60.0, width=230.0) for i in range(4)]
+    right = [_line(f"höger {i}", y0=100.0 + 15 * i, x0=310.0, width=230.0) for i in range(4)]
+    return [line for pair in zip(left, right) for line in pair]
 
 
 @pytest.fixture(scope="module")
@@ -58,6 +84,26 @@ def kd_2025() -> docx.Extraction:
 @pytest.fixture(scope="module")
 def l_2023() -> docx.Extraction:
     return docx.extract(_pdf("partiprogram-l-2023"))
+
+
+@pytest.fixture(scope="module")
+def kd_2015() -> docx.Extraction:
+    return docx.extract(_pdf("partiprogram-kd-2015"))
+
+
+@pytest.fixture(scope="module")
+def m_2021() -> docx.Extraction:
+    return docx.extract(_pdf("partiprogram-m-2021"))
+
+
+@pytest.fixture(scope="module")
+def s_manifest() -> docx.Extraction:
+    return docx.extract(_pdf("valmanifest-2022-s"))
+
+
+@pytest.fixture(scope="module")
+def mp_2013() -> docx.Extraction:
+    return docx.extract(_pdf("partiprogram-mp-2013"))
 
 
 class TestNoTextLayer:
@@ -224,9 +270,43 @@ class TestSplitBlocks:
         assert len(opener) == 1
         assert "Människans ofullkomlighet" not in opener[0].text
 
-    def test_a_page_boundary_always_splits(self):
-        lines = [_line("slutet av sidan", page=0, y0=800.0), _line("början av nästa", page=1, y0=80.0)]
+    def test_a_page_boundary_splits_a_finished_sentence(self):
+        lines = [_line("Slutet av sidan.", page=0, y0=800.0), _line("Början av nästa", page=1, y0=80.0)]
         assert len(docx.split_blocks(lines)) == 2
+
+    def test_a_sentence_running_across_a_page_boundary_stays_whole(self):
+        """312 of kd-2015's paragraphs end mid-clause at a page foot."""
+        lines = [_line("meningen fortsätter", page=0, y0=800.0), _line("på nästa sida.", page=1, y0=80.0)]
+        assert docx.join_lines([line.text for line in docx.split_blocks(lines)[0]]) == (
+            "meningen fortsätter på nästa sida."
+        )
+
+    def test_a_hyphenated_word_across_a_page_boundary_closes(self):
+        lines = [_line("de naturli-", page=0, y0=800.0), _line("ga gemenskaperna.", page=1, y0=80.0)]
+        assert docx.join_lines([line.text for line in docx.split_blocks(lines)[0]]) == (
+            "de naturliga gemenskaperna."
+        )
+
+    def test_a_new_paragraph_after_a_page_break_is_its_own_block(self):
+        """A capital opener is the evidence that the previous thought ended."""
+        lines = [_line("slutet av sidan", page=0, y0=800.0), _line("Början av nästa", page=1, y0=80.0)]
+        assert len(docx.split_blocks(lines)) == 2
+
+    def test_a_bullet_after_a_page_break_is_never_a_continuation(self):
+        lines = [_line("slutet av sidan", page=0, y0=800.0), _line("• första punkten", page=1, y0=80.0)]
+        assert len(docx.split_blocks(lines)) == 2
+
+    def test_a_face_change_across_a_page_break_is_never_a_continuation(self):
+        lines = [_line("slutet av sidan", page=0, y0=800.0), _line("större text", page=1, y0=80.0, size=18.0)]
+        assert len(docx.split_blocks(lines)) == 2
+
+    def test_pages_that_are_not_adjacent_never_join(self):
+        lines = [_line("slutet av sidan", page=0, y0=800.0), _line("på nästa sida.", page=2, y0=80.0)]
+        assert len(docx.split_blocks(lines)) == 2
+
+    def test_cross_page_paragraphs_close_in_the_real_documents(self, kd_2015):
+        text = _reading(kd_2015)
+        assert "sträcker sig bortom de naturliga gemenskaperna" in text
 
     def test_a_style_change_splits(self):
         lines = [_line("En rubrik", y0=100.0, size=18.0, bold=True), _line("Brödtext.", y0=118.0)]
@@ -243,6 +323,220 @@ class TestSplitBlocks:
     def test_no_lines_no_blocks(self):
         assert docx.split_blocks([]) == []
         assert docx.median_leading([]) == 12.0
+
+
+class TestDetectColumns:
+    """All 35 quotes the relink could not recover came from interleaved columns."""
+
+    def test_a_sentence_crossing_the_gutter_survives(self, m_manifest):
+        """p3's left column runs out mid-clause and resumes at the top of the right."""
+        assert "Där det alltid lönar sig att arbeta och göra sitt bästa." in _reading(m_manifest)
+
+    def test_two_columns_do_not_fuse_into_one_block(self, m_manifest):
+        """p7 spliced a left-column bullet onto the right column's lead-in."""
+        for b in m_manifest.blocks:
+            assert not ("Kraftigt sänka kostnaden" in b.text and "Moderaterna kommer att:" in b.text)
+
+    def test_the_manifesto_columns_read_down_not_across(self, m_manifest, s_manifest):
+        text = _reading(m_manifest, s_manifest)
+        assert "Alla nya löften och reformer – som till exempel våra" in text
+        assert "Krafttag för att stoppa hedersrelaterat våld, sexualbrott och mäns våld mot kvinnor" in text
+
+    def test_mp2013_columns_read_down_not_across(self, mp_2013):
+        assert (
+            "Det är en ödesfråga för landsbygden att samhället lyckas bryta "
+            "beroendet av bensin och diesel." in _reading(mp_2013)
+        )
+
+    def test_a_synthetic_two_column_page_reads_down_then_across(self):
+        ordered = docx.detect_columns(_column_page())
+        assert [line.text for line in ordered] == [
+            "vänster 0", "vänster 1", "vänster 2", "vänster 3",
+            "höger 0", "höger 1", "höger 2", "höger 3",
+        ]
+
+    def test_a_single_column_page_is_returned_untouched(self):
+        lines = [_line(f"rad {i}", y0=100.0 + 15 * i) for i in range(6)]
+        assert docx.detect_columns(lines) == lines
+
+    @pytest.mark.parametrize(
+        "slug", ["partiprogram-l-2025", "partiprogram-s-2013", "valmanifest-2022-v"]
+    )
+    def test_single_column_documents_are_byte_for_byte_untouched(self, slug):
+        kept, _ = docx.strip_running(docx.read_lines(_pdf(slug)))
+        assert docx.detect_columns(kept) == kept
+
+    def test_a_caption_beside_nothing_is_not_a_column(self):
+        """Two blocks that never run alongside each other are one column, stacked."""
+        top = [_line(f"överst {i}", y0=100.0 + 15 * i, x0=60.0, width=180.0) for i in range(2)]
+        bottom = [_line(f"nederst {i}", y0=400.0 + 15 * i, x0=330.0, width=180.0) for i in range(2)]
+        assert docx.detect_columns(top + bottom) == top + bottom
+
+    def test_a_lone_marginal_line_is_not_a_column(self):
+        """One line either side of a wide gap is a margin note, not a column."""
+        body = [_line(f"rad {i}", y0=100.0 + 15 * i, x0=60.0, width=230.0) for i in range(6)]
+        stamp = [_line("Valmanifest 2022", y0=140.0, x0=520.0, width=12.0)]
+        assert docx.detect_columns(body[:3] + stamp + body[3:]) == body[:3] + stamp + body[3:]
+
+    def test_rotated_lines_leave_the_flow(self):
+        """A rotated stamp bridges the chart band and the columns beneath it."""
+        body = [_line(f"rad {i}", y0=100.0 + 15 * i, x0=60.0, width=230.0) for i in range(3)]
+        stamp = _line("Valmanifest 2022", y0=120.0, x0=560.0, width=11.0, rotated=True)
+        assert docx.detect_columns([body[0], stamp, body[1], body[2]]) == body + [stamp]
+
+    def test_the_rotated_margin_stamp_never_lands_in_prose(self, m_manifest):
+        """39 of them, once per page, sitting mid-page where the band rule cannot see."""
+        stamps = [b for b in m_manifest.blocks if b.text == "Valmanifest 2022"]
+        assert len(stamps) >= 30
+        assert {b.role for b in stamps} == {"caption"}
+
+
+class TestStyleClusters:
+    def test_the_body_is_the_face_carrying_most_text(self, kd_manifest):
+        """KD sets its body in 10pt Regular — neither the largest nor the boldest."""
+        body = kd_manifest.clusters[0]
+        assert (body.size, body.bold) == (10.0, False)
+        assert any(c.size > body.size and c.bold for c in kd_manifest.clusters[1:])
+
+    def test_a_larger_bolder_face_is_still_prose_when_its_blocks_are_long(self, kd_manifest):
+        """43% of KD's manifesto is 11pt SemiBold prose over a 10pt Regular body."""
+        prose = [c for c in kd_manifest.clusters if c.size == 11.0 and c.bold and c.share > 0.1]
+        assert len(prose) == 1
+        assert prose[0].median_chars >= docx.PROSE_BLOCK_CHARS
+        assert prose[0].role == "para"
+
+    def test_clusters_are_ranked_by_volume_and_share_sums_to_one(self, l_2023):
+        chars = [c.chars for c in l_2023.clusters]
+        assert chars == sorted(chars, reverse=True)
+        assert sum(c.share for c in l_2023.clusters) == pytest.approx(1.0)
+
+    def test_tracking_artefacts_fold_into_one_face(self, m_manifest):
+        """valmanifest-m reports its single 11pt body as 11.0/11.1/11.2/11.3."""
+        for a in m_manifest.clusters:
+            for b in m_manifest.clusters:
+                if a is not b and a.font == b.font:
+                    assert abs(a.size - b.size) > docx.SIZE_TOLERANCE * max(a.size, b.size)
+
+    def test_the_marginal_glossary_is_a_label_face(self, kd_2015):
+        """237 one-word terms set 1.5pt below the body, in the margin."""
+        labels = [c for c in kd_2015.clusters if c.role == "label" and c.blocks > 200]
+        assert len(labels) == 1
+        assert labels[0].size < kd_2015.clusters[0].size and labels[0].bold
+
+    def test_no_groups_no_clusters(self):
+        assert docx.style_clusters([]) == []
+        assert docx.assign_roles([]) == ([], [])
+
+
+class TestRoles:
+    def test_kd_back_cover_labels_share_one_role_and_it_is_not_para(self, kd_manifest):
+        """10.9pt ExtraBold against a 10.0pt body: ratio 1.09, under any heading cut.
+
+        Across three splitter iterations these classified para -> toc -> mixed,
+        because the rules keyed off block length and run position. They are one
+        list at one face and must come out as one role.
+        """
+        labels = [
+            b for b in kd_manifest.blocks
+            if b.size == 10.9 and any(
+                w in b.text for w in ("FLER JOBB", "STARKARE FAMILJER", "BÄTTRE OMSORG",
+                                      "STÄRKT CIVILSAMHÄLLE", "JÄMSTÄLLDHET PÅ RIKTIGT")
+            )
+        ]
+        assert len(labels) >= 5
+        assert len({b.role for b in labels}) == 1
+        assert labels[0].role != "para"
+
+    def test_kd2025_numbered_subheadings_are_headings(self, kd_2025):
+        """12.0pt against an 11.0pt body — the same 1.09 ratio, the other way up."""
+        subheads = [b for b in kd_2025.blocks if b.size == 12.0 and b.text.startswith("2.")]
+        assert len(subheads) >= 4
+        assert {b.role for b in subheads} == {"h2"}
+
+    def test_a_numbered_heading_is_not_re_read_as_a_bullet(self, mp_2013):
+        heads = [b for b in mp_2013.blocks if b.text.strip() == "1. Grön ideologi"]
+        assert heads and heads[0].role.startswith("h")
+
+    def test_page_numbers_set_larger_than_any_heading_are_captions(self, m_2021):
+        """m-2021 sets its page numbers at 28pt, above every real heading."""
+        numbers = [b for b in m_2021.blocks if b.text.isdigit()]
+        assert len(numbers) >= 10
+        assert {b.role for b in numbers} == {"caption"}
+
+    def test_the_section_heading_face_is_h2_not_h3(self):
+        """Levels pivot on the most-used heading face, so a rail can be built.
+
+        Ranked by size, sd-2023's 34 section headings would sit below a 52pt
+        cover wordmark and a 26pt date and come out h3, leaving a chapter rail
+        built from h1/h2 with two entries, both of them cover art.
+        """
+        ex = docx.extract(_pdf("partiprogram-sd-2023"))
+        heads = [b for b in ex.blocks if b.role == "h2"]
+        assert len(heads) >= 20
+        assert any(b.text.strip() == "Inledning" for b in heads)
+
+    def test_every_role_is_decided_once_per_face(self, l_2023):
+        """Two blocks at the same face and neither bulleted nor a contents entry
+        cannot disagree about what they are."""
+        seen: dict[tuple[float, bool], set[str]] = {}
+        for b in l_2023.blocks:
+            if b.role in ("bullet", "toc", "unreadable", "caption"):
+                continue
+            seen.setdefault((b.size, b.bold), set()).add(b.role)
+        assert all(len(roles) == 1 for roles in seen.values())
+
+
+class TestMarkToc:
+    def test_contents_entries_are_marked(self, kd_2015):
+        entries = [b for b in kd_2015.blocks if b.role == "toc"]
+        assert len(entries) >= 20
+        assert any(b.text.startswith("2.1. Demokrati") for b in entries)
+
+    def test_a_near_body_run_is_marked(self):
+        blocks = [
+            docx.Block(id=f"b{i}", role="para", page=0, size=10.0, bold=False, text=t)
+            for i, t in enumerate(["Inledning 5", "Demokrati 12", "Ekonomi 20", "Brödtext."])
+        ]
+        assert [b.role for b in docx.mark_toc(blocks, 10.0)] == ["toc", "toc", "toc", "para"]
+
+    def test_a_cover_run_of_large_titles_is_left_alone(self):
+        """A cover page is legitimately four big titles in a row, some ending in a
+        number — which is all `_TOC_TAIL` can see."""
+        blocks = [
+            docx.Block(id=f"b{i}", role="h1", page=0, size=40.0, bold=True, text=t)
+            for i, t in enumerate(["Valmanifest 2022", "Sverige 2030", "Vår plan 4", "Redo 2"])
+        ]
+        assert {b.role for b in docx.mark_toc(blocks, 10.0)} == {"h1"}
+
+
+class TestKnownUnrecovered:
+    """The residual allowlist, kept as a ratchet rather than a running total.
+
+    The whole point is that the Task 7 build gate can tell known-and-accepted
+    from newly-broken, which it cannot do if the list is allowed to grow
+    quietly. Measuring it needs the full full-v4 record and takes about a minute,
+    so the corpus-wide check belongs in `migrate-quotes`; what is pinned here is
+    that the file stays well-formed and never gets longer.
+    """
+
+    def test_the_allowlist_is_well_formed_and_only_shrinks(self):
+        payload = json.loads((CORPUS_DIR / "known-unrecovered.json").read_text())
+        quotes = payload["quotes"]
+        assert payload["run_id"] == "full-v4"
+        assert len(quotes) <= 12
+        assert sum(q["citations"] for q in quotes) <= 119
+        for q in quotes:
+            assert q["quote"].strip() and q["citations"] >= 1
+            assert (CORPUS_DIR / f"{q['document']}.txt").exists()
+
+    def test_every_listed_quote_really_is_unrecoverable(self):
+        """If one of these starts resolving it belongs out of the file, not in it."""
+        payload = json.loads((CORPUS_DIR / "known-unrecovered.json").read_text())
+        for slug in {q["document"] for q in payload["quotes"]}:
+            text = _reading(docx.extract(_pdf(slug)))
+            for q in payload["quotes"]:
+                if q["document"] == slug:
+                    assert re.sub(r"\s+", " ", q["quote"]).strip() not in text
 
 
 class TestExtraction:

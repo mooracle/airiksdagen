@@ -8,12 +8,14 @@ renders none at all for 51k characters.
 
 This module keeps the metrics instead. The order is load-bearing:
 
-    read_lines  ->  strip_running  ->  split_blocks  ->  assign_roles
+    read_lines -> strip_running -> detect_columns -> split_blocks -> assign_roles
 
 Furniture goes first: a page number stripped after blocking has already landed
-inside a block, and blocks are what citations anchor to. Roles go last, because
-a role is a statement about a block relative to the rest of the document (see
-`assign_roles`) and cannot be decided line by line.
+inside a block, and blocks are what citations anchor to. Columns come next,
+because a block cannot be split out of a line sequence that already interleaves
+two columns. Roles go last, because a role is a statement about a block relative
+to the rest of the document (see `style_clusters`) and cannot be decided line by
+line.
 
 No model runs anywhere in here. A paraphrased party programme would be a
 credibility failure for this project, so structure comes from font metrics and
@@ -27,8 +29,9 @@ import math
 import re
 import statistics
 import unicodedata
-from collections import Counter, defaultdict
+from collections import defaultdict
 from dataclasses import asdict, dataclass, field
+from itertools import groupby
 
 from aidag.corpus import _LIGATURES, _broken_font_line
 
@@ -50,12 +53,51 @@ REPEAT_FLOOR = 3
 # Block splitting, in multiples of the document's median leading.
 GAP_SPLIT = 1.65        # a vertical jump this big is a new block anywhere
 LAYOUT_GAP_SPLIT = 1.20  # ...or this big when PyMuPDF also reports a new layout block
-HEADING_RATIO = 1.12     # provisional; Task 3 replaces size ratios with style clusters
+
+# Reading order. A gutter is a vertical strip of the page that no line crosses.
+# valmanifest-m sets its two columns 11.7pt apart on p24 and 12.0pt apart on p7,
+# so anything near 2% of a 595pt page splits the document against itself. The
+# floor can afford to be low: within one column at least one line reaches the
+# measure, so a column has no internal channel to find. What keeps a drop cap or
+# a marginal note from reading as a column is MIN_COLUMN_LINES and the
+# requirement that the two sides overlap vertically.
+COLUMN_GUTTER = 0.012
+MIN_GUTTER_PT = 6.0
+MIN_COLUMN_LINES = 2
+MAX_CUT_DEPTH = 24
+# A horizontal region boundary is a blank line, in multiples of the median line
+# height. Ordinary leading must not qualify: cut at every inter-line gap and a
+# two-column page becomes one band per *row*, each with a single line either
+# side of the gutter, and the columns interleave exactly as before.
+BAND_GAP = 0.8
+
+# Style clustering. Two faces are the same face when their sizes differ by less
+# than this: PDF text can be horizontally scaled or tracked, which is why
+# valmanifest-m reports its one 11pt body as 11.0/11.1/11.2/11.3.
+SIZE_TOLERANCE = 0.03
+
+# A cluster whose typical block runs this long is prose whatever its size or
+# weight. KD's manifesto sets 43% of its text in 11pt SemiBold against a 10pt
+# Regular body — larger *and* bolder than the body, and still prose.
+PROSE_BLOCK_CHARS = 120
+
+# ...and a cluster below body size carrying this little of the document, in
+# short blocks, is furniture the band rule cannot see: chart labels, photo
+# credits, valmanifest-m's rotated 'Valmanifest 2022' margin stamp.
+MINOR_SHARE = 0.05
+CAPTION_BLOCK_CHARS = 90
+
+# mark_toc only looks at near-body runs. A cover page is legitimately four large
+# titles in a row, and several of them end in a number.
+TOC_MAX_RATIO = 1.35
 
 _DIGITS = re.compile(r"\d+")
 _BULLET = re.compile(r"^(?:[•·▪◦‣⁃]|[–—-]\s|\(?\d{1,2}[.)]\s|[a-zA-ZåäöÅÄÖ][.)]\s)")
 _LEADER = re.compile(r"\.{4,}")
 _PAGE_NUMBER = re.compile(r"[\d\s.,%‑‒–—•·|ivxlcdmIVXLCDM-]+")
+# Same idea without the roman numerals: at block level they would swallow real
+# words ('civil' is nothing but i/v/c/l).
+_NUMERIC_ONLY = re.compile(r"[\d\s.,%‑‒–—•·|-]+")
 _SENTENCE_END = re.compile(r"[.!?:;][\"'”’)\]]?$")
 _TOC_TAIL = re.compile(r"\S\s+\d{1,3}$")
 
@@ -105,6 +147,7 @@ class Line:
     page_w: float
     page_h: float
     leader: bool = False
+    rotated: bool = False
 
 
 @dataclass(slots=True)
@@ -123,10 +166,40 @@ class Block:
 
 
 @dataclass(slots=True)
+class Cluster:
+    """One typographic face, and how much of the document it carries.
+
+    A role is a property of the face, not of the individual block: KD's five
+    back-cover topic labels are one list at one style, and any rule keyed off
+    block length or run position classified them three different ways across
+    three splitter iterations. Cluster the faces first, decide once per face.
+
+    The face is `(size, font)` and not `(size, weight)`, because weight is too
+    coarse to separate KD's 10.9pt Barlow-ExtraBold labels from the 11.0pt
+    Barlow-SemiBold prose beside them: same weight, sizes 0.9% apart, and the
+    size tolerance folds them into one cluster. The font name does not.
+    """
+
+    size: float
+    font: str
+    bold: bool
+    chars: int
+    blocks: int
+    median_chars: float
+    share: float
+    role: str = "para"
+
+    @property
+    def key(self) -> tuple[float, str]:
+        return (self.size, self.font)
+
+
+@dataclass(slots=True)
 class Extraction:
     blocks: list[Block]
     pages: int
     dropped: list[str] = field(default_factory=list)
+    clusters: list[Cluster] = field(default_factory=list)
 
 
 def clean_line(s: str) -> str:
@@ -187,6 +260,7 @@ def read_lines(pdf_bytes: bytes) -> list[Line]:
                             x0=x0, y0=y0, x1=x1, y1=y1,
                             page_w=w, page_h=h,
                             leader=bool(_LEADER.search(raw)),
+                            rotated=_is_rotated(ln.get("dir")),
                         )
                     )
     if pages and raw_chars / pages < MIN_CHARS_PER_PAGE:
@@ -200,6 +274,20 @@ def _is_bold(span: dict) -> bool:
         return True
     name = span.get("font", "").lower()
     return any(w in name for w in ("bold", "black", "heavy", "extrabol", "semibol"))
+
+
+def _is_rotated(direction) -> bool:
+    """True for text not running left-to-right — margin stamps and chart axes.
+
+    Rotated text is never part of the reading flow, and its bounding box is a
+    tall thin sliver that bridges otherwise separate regions of the page. Left in
+    place it welds valmanifest-m's chart band to the two prose columns below it,
+    hiding the gutter between them (see `detect_columns`).
+    """
+    if not direction:
+        return False
+    dx, dy = direction[0], direction[1]
+    return abs(dy) > 0.01 or dx < 0.99
 
 
 def _signature(line: Line) -> str:
@@ -256,6 +344,105 @@ def strip_running(lines: list[Line]) -> tuple[list[Line], list[Line]]:
     return kept, dropped
 
 
+def detect_columns(lines: list[Line]) -> list[Line]:
+    """Reading order for multi-column pages; single-column pages come back as-is.
+
+    PyMuPDF's `sort=True` orders layout blocks roughly by (y, x), which reads a
+    two-column page across the gutter instead of down it. Every one of the 35
+    quotes the relink could not recover is that failure: 'Kollektivtrafik … krävs
+    Många på land' is the end of a left-column sentence with the top of the right
+    column spliced into it.
+
+    The fix is a recursive XY-cut. A vertical cut is taken only through genuine
+    whitespace with at least MIN_COLUMN_LINES either side and the two sides
+    overlapping vertically — that is what a column is, and what a caption or a
+    drop cap is not. Failing that the page is split into horizontal bands and
+    each band re-examined, which is what lets a full-width headline sit above two
+    columns without hiding the gutter beneath it.
+
+    Rotated lines are lifted out first and re-appended at the end of the page in
+    left-to-right order: they are margin stamps and chart axis labels, not flow.
+
+    A page whose horizontal lines take no vertical cut is returned untouched
+    rather than re-sorted, so single-column documents cannot be perturbed here.
+    """
+    out: list[Line] = []
+    for _, group in groupby(lines, key=lambda line: line.page):
+        page = list(group)
+        flow = [line for line in page if not line.rotated]
+        aside = [line for line in page if line.rotated]
+        ordered, cut = _xy_cut(flow, 0)
+        out += (ordered if cut else flow) + sorted(aside, key=lambda line: (line.x0, line.y0))
+    return out
+
+
+def _xy_cut(lines: list[Line], depth: int) -> tuple[list[Line], bool]:
+    """(ordered lines, whether a column split was taken anywhere below)."""
+    if len(lines) < 2 or depth >= MAX_CUT_DEPTH:
+        return lines, False
+    if (cut := _gutter(lines)) is not None:
+        left = [line for line in lines if line.x1 <= cut]
+        right = [line for line in lines if line.x1 > cut]
+        return _xy_cut(left, depth + 1)[0] + _xy_cut(right, depth + 1)[0], True
+    if (y := _widest_band_gap(lines)) is not None:
+        top = [line for line in lines if line.y1 <= y]
+        rest = [line for line in lines if line.y1 > y]
+        to, tc = _xy_cut(top, depth + 1)
+        ro, rc = _xy_cut(rest, depth + 1)
+        return to + ro, tc or rc
+    # Nothing to prove here, so change nothing. Re-sorting by (y, x) would undo
+    # PyMuPDF's own layout analysis, which reads a two-column page correctly
+    # whenever it puts each column in its own layout block — most of the time.
+    return lines, False
+
+
+def _gutter(lines: list[Line]) -> float | None:
+    """x of the widest usable column gutter, or None if the lines are one column."""
+    spans = sorted((line.x0, line.x1) for line in lines)
+    floor = max(MIN_GUTTER_PT, COLUMN_GUTTER * lines[0].page_w)
+    gaps: list[tuple[float, float, float]] = []
+    end = spans[0][1]
+    for x0, x1 in spans[1:]:
+        if x0 - end >= floor:
+            gaps.append((x0 - end, end, x0))
+        end = max(end, x1)
+    for _, a, b in sorted(gaps, reverse=True):
+        cut = (a + b) / 2
+        left = [line for line in lines if line.x1 <= cut]
+        right = [line for line in lines if line.x1 > cut]
+        if len(left) >= MIN_COLUMN_LINES and len(right) >= MIN_COLUMN_LINES:
+            if _overlaps_vertically(left, right):
+                return cut
+    return None
+
+
+def _overlaps_vertically(left: list[Line], right: list[Line]) -> bool:
+    """Columns run alongside each other. A caption below a figure does not."""
+    top = max(min(line.y0 for line in left), min(line.y0 for line in right))
+    bottom = min(max(line.y1 for line in left), max(line.y1 for line in right))
+    return bottom > top
+
+
+def _widest_band_gap(lines: list[Line]) -> float | None:
+    """y of the widest full-width blank line, or None if there is none.
+
+    One cut per step, and the gutter is re-tested on each side afterwards. That
+    ordering is the whole difference between reading valmanifest-m p3 as two
+    columns and reading it as three stacked pairs of half-columns: its two
+    columns share paragraph gaps at the same heights, and splitting at every gap
+    at once turns each shared gap into a false region boundary.
+    """
+    floor = BAND_GAP * statistics.median([line.y1 - line.y0 for line in lines])
+    best: tuple[float, float] | None = None
+    end = -math.inf
+    for line in sorted(lines, key=lambda line: line.y0):
+        gap = line.y0 - end
+        if end > -math.inf and gap > floor and (best is None or gap > best[0]):
+            best = (gap, end)
+        end = max(end, line.y1)
+    return best[1] if best else None
+
+
 def median_leading(lines: list[Line]) -> float:
     """Typical baseline-to-baseline distance, measured within pages."""
     gaps = [
@@ -292,6 +479,31 @@ def _is_break(prev: Line, cur: Line, lead: float) -> bool:
     return cur.lb != prev.lb and (_ends_sentence(prev.text) or gap > LAYOUT_GAP_SPLIT * lead)
 
 
+def _runs_on(prev: list[Line], group: list[Line]) -> bool:
+    """True when a paragraph broken by a page boundary is one paragraph.
+
+    `_is_break` splits on every page change, which is right for the page itself
+    and wrong for the sentence running across it. Unclosed, that split is most of
+    what the fragmentation figure measures: 312 of kd-2015's 764 paragraphs and
+    220 of kd-2025's 655 end mid-clause at a page foot.
+
+    Deliberately conservative. A new paragraph after a page break starts with a
+    capital in every one of these documents, so a lower-case opener (or a
+    hyphenated word) is the evidence; a bullet, a contents entry, a change of
+    face or a closed sentence all veto.
+    """
+    a, b = prev[-1], group[0]
+    if b.page != a.page + 1 or a.rotated or b.rotated:
+        return False
+    if (a.size, a.bold, a.font) != (b.size, b.bold, b.font):
+        return False
+    if a.leader or b.leader or _BULLET.match(b.text) or _ends_sentence(a.text):
+        return False
+    if a.text.endswith(("\xad", "-", "¬")):
+        return True
+    return b.text[:1].islower()
+
+
 def split_blocks(lines: list[Line]) -> list[list[Line]]:
     """Group lines into blocks. Furniture must already be stripped."""
     if not lines:
@@ -303,7 +515,14 @@ def split_blocks(lines: list[Line]) -> list[list[Line]]:
             groups.append([cur])
         else:
             groups[-1].append(cur)
-    return groups
+
+    joined: list[list[Line]] = [groups[0]]
+    for group in groups[1:]:
+        if _runs_on(joined[-1], group):
+            joined[-1] = joined[-1] + group
+        else:
+            joined.append(group)
+    return joined
 
 
 def join_lines(texts: list[str]) -> str:
@@ -340,74 +559,180 @@ def join_lines(texts: list[str]) -> str:
     return out.replace("\xad", "")
 
 
-def body_size(lines: list[Line]) -> float:
-    """The size that carries the most text — the body face, whatever its rank."""
-    volume: Counter[float] = Counter()
-    for line in lines:
-        volume[line.size] += len(line.text)
-    return volume.most_common(1)[0][0] if volume else 0.0
+def _block_face(group: list[Line]) -> tuple[float, str]:
+    """The face a block is set in: its size, and the font carrying most of it.
 
-
-def assign_roles(groups: list[list[Line]], lines: list[Line]) -> list[Block]:
-    """Turn line groups into roled blocks.
-
-    Provisional: roles come off size ratios, which is exactly the approach Task 3
-    replaces with style clustering. Size ratios cannot see KD's back-cover topic
-    labels (10.9pt against a 10.0pt body is a ratio of 1.09, under any usable
-    heading cut) and they make the role of a block depend on how the splitter
-    happened to group it.
+    Size is constant within a block — `_is_break` splits on any size change — but
+    a font can vary inside one, so the dominant font wins for the same reason
+    `read_lines` types a line by its longest span.
     """
-    body = body_size(lines) or 1.0
-    heading_sizes = sorted({line.size for line in lines if line.size >= body * HEADING_RATIO}, reverse=True)
+    volume: dict[str, int] = defaultdict(int)
+    for line in group:
+        volume[line.font] += len(line.text)
+    return (max(line.size for line in group), max(volume, key=volume.__getitem__))
 
+
+def style_clusters(groups: list[list[Line]]) -> list[Cluster]:
+    """The document's typographic faces, ranked by how much text each carries.
+
+    The body face is simply the first one: the face that sets the most characters
+    is the body, whatever its size or weight. That is what makes this work where
+    size ratios do not — KD's manifesto sets its body in 10pt Regular and 43% of
+    its prose in a *larger, bolder* 11pt SemiBold, and the second is prose all the
+    same. A ratio against the body cannot say so; the typical block length can.
+
+    Sizes within SIZE_TOLERANCE of an already-accepted face are folded into it,
+    largest volume first, so tracking artefacts do not fragment the body.
+    """
+    raw: dict[tuple[float, str], list[int]] = defaultdict(list)
+    bold: dict[tuple[float, str], bool] = {}
+    for group in groups:
+        text = join_lines([line.text for line in group])
+        if text:
+            face = _block_face(group)
+            raw[face].append(len(text))
+            bold[face] = any(line.bold for line in group)
+
+    merged: dict[tuple[float, str], list[int]] = {}
+    for face in sorted(raw, key=lambda k: (-sum(raw[k]), -k[0])):
+        host = next(
+            (
+                h
+                for h in merged
+                if h[1] == face[1] and abs(h[0] - face[0]) <= SIZE_TOLERANCE * max(h[0], face[0])
+            ),
+            face,
+        )
+        merged.setdefault(host, []).extend(raw[face])
+
+    total = sum(sum(lengths) for lengths in merged.values()) or 1
+    clusters = [
+        Cluster(
+            size=size,
+            font=font,
+            bold=bold[(size, font)],
+            chars=sum(lengths),
+            blocks=len(lengths),
+            median_chars=statistics.median(lengths),
+            share=sum(lengths) / total,
+        )
+        for (size, font), lengths in merged.items()
+    ]
+    clusters.sort(key=lambda c: (-c.chars, -c.size))
+    return _role_per_cluster(clusters)
+
+
+def _role_per_cluster(clusters: list[Cluster]) -> list[Cluster]:
+    """Decide one role per face. Order of the tests is the argument.
+
+    Prose first, because a face can be bigger and bolder than the body and still
+    be prose — length is the only honest evidence. Then size against the body,
+    because anything larger is a heading of some level. Then weight at or below
+    body size, which is the `label`: KD-2015's 237 marginal glossary terms,
+    valmanifest-l's numbered commitment leads. Anything left that is small,
+    short and rare is `caption` — chart axis labels, photo credits, and the
+    rotated margin stamps the band rule in `strip_running` cannot reach.
+    """
+    if not clusters:
+        return []
+    body = clusters[0]
+    headings: list[Cluster] = []
+    for c in clusters[1:]:
+        if c.median_chars >= PROSE_BLOCK_CHARS:
+            c.role = "para"
+        elif c.size > body.size:
+            headings.append(c)
+        elif c.bold and not body.bold:
+            c.role = "label"
+        elif c.share <= MINOR_SHARE and c.median_chars <= CAPTION_BLOCK_CHARS:
+            c.role = "caption"
+        else:
+            c.role = "para"
+
+    # Levels pivot on the heading face used most often — that is the section
+    # heading, the one a chapter rail is built from. Ranking purely by size puts
+    # a cover-art wordmark at h1 and buries the sections at h3.
+    if headings:
+        pivot = max(headings, key=lambda c: (c.blocks, c.chars))
+        for c in headings:
+            c.role = "h2" if c is pivot else ("h1" if c.size > pivot.size else "h3")
+    return clusters
+
+
+def assign_roles(groups: list[list[Line]]) -> tuple[list[Block], list[Cluster]]:
+    """Turn line groups into roled blocks, plus the clusters the roles came from."""
+    clusters = style_clusters(groups)
+    by_face = {c.key: c for c in clusters}
+
+    def role_of(face: tuple[float, str]) -> str:
+        if c := by_face.get(face):
+            return c.role
+        # a folded size: find the face it was folded into
+        near = [
+            c
+            for c in clusters
+            if c.font == face[1] and abs(c.size - face[0]) <= SIZE_TOLERANCE * max(c.size, face[0])
+        ]
+        return max(near, key=lambda c: c.chars).role if near else "para"
+
+    body = clusters[0].size if clusters else 0.0
     blocks: list[Block] = []
     for i, group in enumerate(groups):
         text = join_lines([line.text for line in group])
         if not text:
             continue
-        head = group[0]
-        size = max(line.size for line in group)
+        face = _block_face(group)
         blocks.append(
             Block(
                 id=f"b{i:04d}",
-                role=_role_for(group, text, size, body, heading_sizes),
-                page=head.page,
-                size=size,
+                role=_role_for(group, text, role_of(face)),
+                page=group[0].page,
+                size=face[0],
                 bold=any(line.bold for line in group),
                 text=text,
             )
         )
-    return mark_toc(blocks)
+    return mark_toc(blocks, body), clusters
 
 
-def _role_for(
-    group: list[Line], text: str, size: float, body: float, heading_sizes: list[float]
-) -> str:
+def _role_for(group: list[Line], text: str, cluster_role: str) -> str:
     if all(_broken_font_line(line.text) for line in group):
         # mp-2013's 50 section headings, set in a display font with no ToUnicode
         # map. Surfaced as an explicit placeholder rather than dropped.
         return "unreadable"
+    if all(line.rotated for line in group):
+        # valmanifest-m's 39 'Valmanifest 2022' margin stamps and its rotated
+        # chart axis labels — outside the flow, whatever face they are set in.
+        return "caption"
     if group[0].leader:
         return "toc"
-    if _BULLET.match(text):
-        return "bullet"
-    if size >= body * HEADING_RATIO:
-        rank = heading_sizes.index(size) if size in heading_sizes else len(heading_sizes)
-        return f"h{min(rank + 1, 3)}"
-    if len(text) <= 60 and group[0].bold and size >= body:
-        return "label"
-    return "para"
+    if _NUMERIC_ONLY.fullmatch(text):
+        # m-2021 sets its 22 page numbers at 28pt, larger than any heading in the
+        # document. They are not chapters.
+        return "caption"
+    if cluster_role != "para":
+        # the face has already been decided; a heading that opens '1. ' is still
+        # a heading and must not be re-read as a bullet.
+        return cluster_role
+    return "bullet" if _BULLET.match(text) else "para"
 
 
-def mark_toc(blocks: list[Block]) -> list[Block]:
-    """Re-role runs of contents entries.
+def mark_toc(blocks: list[Block], body: float) -> list[Block]:
+    """Re-role runs of contents entries — near body size only.
 
-    Provisional, and known to over-reach: a cover page is legitimately several
-    large titles in a row. Task 3 restricts this to near-body-size runs.
+    Restricted to `body * TOC_MAX_RATIO` because a cover page is legitimately
+    four large titles in a row and several of them end in a number, which is all
+    `_TOC_TAIL` can see. Unrestricted it re-roled 14 of KD's 45 manifesto blocks.
     """
+    limit = body * TOC_MAX_RATIO
     run: list[int] = []
     for i, b in enumerate(blocks):
-        if b.role != "toc" and _TOC_TAIL.search(b.text) and len(b.text) <= 120:
+        if (
+            b.role != "toc"
+            and b.size <= limit
+            and _TOC_TAIL.search(b.text)
+            and len(b.text) <= 120
+        ):
             run.append(i)
             continue
         if len(run) >= 3:
@@ -425,8 +750,13 @@ def extract(pdf_bytes: bytes) -> Extraction:
     lines = read_lines(pdf_bytes)
     pages = (max(line.page for line in lines) + 1) if lines else 0
     kept, dropped = strip_running(lines)
-    blocks = assign_roles(split_blocks(kept), kept)
-    return Extraction(blocks=blocks, pages=pages, dropped=[line.text for line in dropped])
+    blocks, clusters = assign_roles(split_blocks(detect_columns(kept)))
+    return Extraction(
+        blocks=blocks,
+        pages=pages,
+        dropped=[line.text for line in dropped],
+        clusters=clusters,
+    )
 
 
 def blocks_from_text(text: str) -> list[Block]:
