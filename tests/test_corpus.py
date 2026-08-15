@@ -268,10 +268,53 @@ class TestSiteCorpusMatchesWhatAgentsRead:
         for _raw_path, site_path in self._pairs():
             served = site_path.read_text(encoding="utf-8")
             body = served.split("\n", 1)[1] if served.startswith("<!--") else served
-            assert not any(c in body for c in "ﬀﬁﬂﬃﬄ"), site_path.name
+            assert not any(c in body for c in "ﬀﬁﬂﬃﬄﬅﬆ"), site_path.name
             assert "­" not in body and "﻿" not in body, site_path.name
             for line in body.splitlines():
                 assert not corpus._broken_font_line(line), f"{site_path.name}: {line!r}"
+
+
+class TestLigatureFoldIsUnicodesOwn:
+    """The fold table is hand-written, load-bearing, and duplicated in TypeScript.
+
+    `docx.clean_line` translates every extracted line through `_LIGATURES`, so
+    the substitution is baked into `data/corpus/blocks/` and the `.txt` derived
+    from it — a wrong pair silently corrupts a word inside text this project
+    publishes as verbatim, and `verify simulate` then stays green on the
+    corrupted form because the agent was served the same bytes. U+FB05 is
+    LATIN SMALL LIGATURE LONG S T and was folded to "ft" rather than "st",
+    which would have written "beftämmelse" for "bestämmelse" had any source PDF
+    used the glyph. None does today, so nothing in the corpus needs redoing.
+
+    Unicode's own compatibility decomposition is the authority, so assert
+    against that rather than against a second hand-written list.
+    """
+
+    def test_every_pair_matches_the_nfkd_decomposition(self):
+        import unicodedata
+
+        for code, folded in corpus._LIGATURES.items():
+            glyph = chr(code)
+            assert folded == unicodedata.normalize("NFKD", glyph), (
+                f"{unicodedata.name(glyph)} folds to {folded!r}"
+            )
+
+    def test_the_whole_ligature_block_is_covered(self):
+        assert {chr(c) for c in corpus._LIGATURES} == set("ﬀﬁﬂﬃﬄﬅﬆ")
+
+    def test_the_typescript_mirror_agrees(self):
+        """`doctext.repairChars` folds the same glyphs on the site side.
+
+        It runs on text the Python pass already folded, so a divergence never
+        shows up as a render difference — the round-trip test cannot catch it.
+        """
+        import re
+        from pathlib import Path
+
+        src = Path(__file__).resolve().parents[1] / "site" / "src" / "lib" / "doctext.ts"
+        mirror = dict(re.findall(r"\[/([ﬀ-ﬆ])/g, '([a-z]+)'\]", src.read_text(encoding="utf-8")))
+        assert mirror, f"no ligature rules parsed out of {src}"
+        assert mirror == {chr(c): f for c, f in corpus._LIGATURES.items()}
 
 
 class TestMockReadsTheSameBytesVerifyServesItBack:
