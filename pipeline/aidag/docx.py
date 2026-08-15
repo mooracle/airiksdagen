@@ -50,6 +50,18 @@ BAND = 0.10
 REPEAT_FRACTION = 0.20
 REPEAT_FLOOR = 3
 
+# ...and the same territory turned on its side. `valmanifest-2022-m` stamps
+# "Valmanifest 2022" up the outer edge of all 39 of its inner pages, rotated, in
+# a strip from x=18.9 to x=30.2 of a 595pt page. Vertically it is centred —
+# y 0.448 to 0.552 — so the top/bottom band never sees it, and 39 copies of the
+# document's own title were reaching the page as body text.
+#
+# Only rotated lines are tested against this, and that is the whole safety of it:
+# upright text at x<10% is the left edge of every line of a single-column page.
+# Rotation plus the outer margin plus the same repetition threshold is a running
+# stamp; any one of the three alone is prose, a chart or an ornament.
+MARGIN = 0.10
+
 # Block splitting, in multiples of the document's median leading.
 GAP_SPLIT = 1.65        # a vertical jump this big is a new block anywhere
 LAYOUT_GAP_SPLIT = 1.20  # ...or this big when PyMuPDF also reports a new layout block
@@ -83,7 +95,11 @@ PROSE_BLOCK_CHARS = 120
 
 # ...and a cluster below body size carrying this little of the document, in
 # short blocks, is furniture the band rule cannot see: chart labels, photo
-# credits, valmanifest-m's rotated 'Valmanifest 2022' margin stamp.
+# credits. It used to catch valmanifest-m's rotated 'Valmanifest 2022' margin
+# stamp too — as `caption`, which put 39 small copies of the document's own
+# title through the body text. That one is furniture rather than a caption and
+# is now dropped outright by `_in_margin`; what is left here is the genuinely
+# minor text that belongs on the page.
 MINOR_SHARE = 0.05
 CAPTION_BLOCK_CHARS = 90
 
@@ -333,6 +349,22 @@ def _in_band(line: Line) -> bool:
     return line.y0 < BAND * line.page_h or line.y1 > (1 - BAND) * line.page_h
 
 
+def _in_margin(line: Line) -> bool:
+    """A rotated line running up either outer edge — furniture territory sideways.
+
+    Rotation is required, not incidental: `_in_band`'s horizontal equivalent
+    would otherwise match the start of every ordinary line on the page. The
+    rotated lines this corpus actually has are a running stamp (`valmanifest-2022-m`,
+    x 0.032-0.051), chart axis labels (the same document's 2012-2018 tick labels,
+    x 0.18-0.61, which are mid-page and must survive), a pull-quote ornament
+    (`partiprogram-v-2024`, x 0.54-0.61) and two one-off headings. Only the first
+    is inside the margin, and only it repeats.
+    """
+    if not line.rotated:
+        return False
+    return line.x1 < MARGIN * line.page_w or line.x0 > (1 - MARGIN) * line.page_w
+
+
 def _is_page_number(text: str) -> bool:
     """A folio: arabic, bare punctuation, or a well-formed roman numeral.
 
@@ -355,7 +387,8 @@ def strip_running(lines: list[Line]) -> tuple[list[Line], list[Line]]:
 
     Two conditions, both required, because either alone loses prose:
 
-      position   only the top/bottom tenth of the page is furniture territory
+      position   only the top/bottom tenth of the page is furniture territory —
+                 or, for a ROTATED line, the left/right tenth (see `_in_margin`)
       repetition the digit-normalized text must recur on max(3, 20% of pages)
 
     Position alone would drop V-2024's 30pt chapter titles, which sit at y=33 on
@@ -374,13 +407,13 @@ def strip_running(lines: list[Line]) -> tuple[list[Line], list[Line]]:
     # twice on every page, which would double any line-based count.
     pages_by_sig: dict[str, set[int]] = defaultdict(set)
     for line in lines:
-        if _in_band(line):
+        if _in_band(line) or _in_margin(line):
             pages_by_sig[_signature(line)].add(line.page)
     running = {sig for sig, pages in pages_by_sig.items() if len(pages) >= threshold}
 
     kept, dropped = [], []
     for line in lines:
-        if _in_band(line) and (
+        if (_in_band(line) or _in_margin(line)) and (
             _signature(line) in running or _is_page_number(line.text)
         ):
             dropped.append(line)

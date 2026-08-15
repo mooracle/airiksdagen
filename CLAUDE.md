@@ -38,7 +38,7 @@ data/corpus/
   pdf/<slug>.pdf            source bytes, committed (23 files, 24 MB) — extraction never fetches
   frozen/<slug>.txt         pre-extraction text, all 40 — serves prompt_version < p6
   blocks/<slug>.json        {slug, source, pages, dropped, blocks: [{id, role, page,
-                            size, bold, text}]} — 23 files, 9,409 blocks. `source` is
+                            size, bold, text}]} — 23 files, 9,370 blocks. `source` is
                             `pdf` except valmanifest-2022-c (`text`, no PDF text layer);
                             `dropped` is the running-header audit trail
   <slug>.txt                derived FROM the blocks; what agents read and verify checks
@@ -54,6 +54,16 @@ the agent was shown, so a re-extracted file served to an old run fails citations
 were never wrong. There is deliberately **no** "use `frozen/` if it exists" rule: all 40
 are frozen, including the 17 nothing touched, so the version test alone decides the
 directory and cannot be wrong about which files moved.
+
+Furniture is stripped by position *and* repetition, and position has two forms:
+the top/bottom tenth of the page for upright text, and the left/right tenth for
+**rotated** text (`docx._in_margin`). The second exists because `valmanifest-2022-m`
+runs "Valmanifest 2022" up the outer edge of all 39 inner pages, vertically centred
+(y 0.448–0.552) where the band rule cannot see it — 39 copies of the document's own
+title were reaching the reader as `caption` blocks in the body. Rotation is required
+for the margin test: upright text at x<10% is the left edge of every line on a
+single-column page. The same document's rotated 2012–2018 chart tick labels sit
+mid-page and survive, which is what the margin condition buys.
 
 **Extraction is offline, and no LLM is in this path** — a model that paraphrases a party
 programme is a credibility failure for this project, so structure comes from font
