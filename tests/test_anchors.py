@@ -325,6 +325,44 @@ class TestCollect:
             ("partiprogram", "KD", "")
         ]
 
+    def test_a_valmanifest_citation_of_an_undated_vote_is_caught_too(self):
+        """The same ingest gap, on the class `resolve_slug` answers without a date.
+
+        A missing votering_id is only visible to the slug resolver for a
+        `partiprogram`, where no edition can be dated from a blank `datum`. A
+        `valmanifest` resolves from the party code alone, so testing the slug
+        would wave this one through — and it is the worse of the two: `case`
+        comes back `{}`, so the ref ships with a null `datum` and `utskott`, and
+        `positions` has no row either, which `verdict_of` reads as the party
+        having been ABSENT. The document page would then publish "this party was
+        absent" for a vote it cast, with nothing raised.
+        """
+        from aidag.migrate_quotes import resolve_slug
+
+        if resolve_slug("valmanifest", "KD", "") is None:
+            pytest.skip("corpus not extracted")
+        _, counts, unlocated, unresolved = anchors.collect(
+            [_decision(["vad som helst"], document="valmanifest")], {}, POSITIONS
+        )
+        assert (counts["out_of_scope"], counts["located"]) == (0, 0)
+        assert unlocated == []
+        assert [(u["document"], u["parti"], u["datum"]) for u in unresolved] == [
+            ("valmanifest", "KD", "")
+        ]
+
+    def test_a_dated_vote_missing_only_from_positions_is_still_indexed(self):
+        """The guard is about the vote being absent from `cases`, not from
+        `positions`. A party with no position row IS absent (`verdict_of`), and
+        that is a fact worth publishing — refusing it would drop every genuinely
+        absent party out of the index."""
+        idx = _index(KD2015)
+        _, text = _a_block(idx)
+        by_slug, _, unlocated, unresolved = anchors.collect(
+            [_decision([text])], CASES, {}
+        )
+        assert (unlocated, unresolved) == ([], [])
+        assert by_slug[KD2015][0].refs[0]["verdict"] == anchors.FRANVARANDE
+
     def test_anchors_come_out_in_reading_order(self, kd2015):
         blocks = [
             (i, kd2015.served[kd2015.starts[i] : kd2015.ends[i]])
@@ -522,7 +560,7 @@ class TestBuild:
         root, sim = run_root
         monkeypatch.setattr(anchors, "_case_tables", lambda: ({}, POSITIONS))
         self._write(sim, [_decision(["vad som helst"], document="partiprogram")])
-        with pytest.raises(anchors.Unlocated, match="resolve to no document"):
+        with pytest.raises(anchors.Unlocated, match="cannot be placed against a dated vote"):
             anchors.build("test-run", results_dir=root)
 
 
@@ -855,6 +893,20 @@ class TestNavigationReport:
         assert json.loads(json.dumps(rep, ensure_ascii=False))["run_id"] == "r"
 
 
+class TestReportOut:
+    def test_the_out_path_gets_its_parent_directory(self, tmp_path):
+        """The whole report is computed before the write, so a missing parent
+        would throw all of it away on the last line — and the documented target
+        is under `data/interim/`, which need not exist yet.
+        `citation_audit.write_snapshot` makes the same directory the same way."""
+        sim = tmp_path / "simulations" / "test-run"
+        sim.mkdir(parents=True)
+        (sim / "d.jsonl").write_text("\n")
+        out = tmp_path / "interim" / "audit" / "nav.json"
+        rep = anchors.report("test-run", out=str(out), results_dir=tmp_path)
+        assert json.loads(out.read_text())["run_id"] == rep["run_id"] == "test-run"
+
+
 class TestWeakListCandidates:
     """Whether any flagged phrase could go in `blocklist.WEAK_LIST` instead.
 
@@ -1140,6 +1192,50 @@ class TestExportSite:
         assert export_site.export_blocks_and_anchors("no-such-run") == 0
         assert json.loads((inline / f"{KD2015}.json").read_text())["slug"] == "kept"
         assert json.loads((public / f"{KD2015}.json").read_text())["slug"] == "kept"
+
+    def test_an_index_from_another_run_is_left_alone_but_warned_about(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        """Leaving it is right; leaving it *quietly* is not.
+
+        The case pages this export writes come from `run_id`, while the document
+        pages keep the committed index's counts, rails and flags. Nothing
+        downstream compares the two — the site reads `run_id` out of the
+        summaries and never checks it — so two runs would ship as one. Refusing
+        is not an option: `mock-v1` is exported this way on purpose.
+        """
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept", "run_id": "full-v4"}')
+
+        assert export_site.export_blocks_and_anchors("full-v5") == 0
+        assert json.loads((inline / f"{KD2015}.json").read_text())["slug"] == "kept"
+        out = capsys.readouterr().out
+        assert "WARNING" in out
+        assert "full-v4" in out and "full-v5" in out
+
+    def test_the_same_run_reindexed_later_draws_no_warning(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        """Exporting between passes is the documented workflow, not a mismatch."""
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept", "run_id": "full-v4"}')
+
+        assert export_site.export_blocks_and_anchors("full-v4") == 0
+        assert "WARNING" not in capsys.readouterr().out
 
     def test_a_run_that_indexed_nothing_still_sweeps(self, tmp_path, monkeypatch):
         """The directory exists and is empty: that IS a run citing nothing, and

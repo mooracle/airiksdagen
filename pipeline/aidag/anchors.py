@@ -204,7 +204,8 @@ def block_index(slug: str) -> BlockIndex:
         raise FileNotFoundError(
             f"{slug}: no blocks at {path} — run `uv run aidag extract-corpus`"
         )
-    kept = [b for b in json.loads(path.read_text())["blocks"] if not normalize_drops(b["text"])]
+    blocks = json.loads(path.read_text(encoding="utf-8"))["blocks"]
+    kept = [b for b in blocks if not normalize_drops(b["text"])]
     if len(kept) != len(idx.spans):
         raise ValueError(
             f"{slug}: {len(kept)} blocks survive normalize() but the served text has "
@@ -320,6 +321,17 @@ def collect(
             continue
         counts["decisions"] += 1
         case = cases.get(d["votering_id"], {})
+        # The ingest gap itself, tested directly rather than through its effect on
+        # `resolve_slug`. A votering_id missing from cases.parquet dates no
+        # programme edition, so the `slug is None` branch below catches it for
+        # `partiprogram` — but `valmanifest` resolves from the party code alone and
+        # sails straight past it. The citation would then be indexed against a
+        # `case` of {}: null `datum` and `utskott`, and no row in `positions`, which
+        # `verdict_of` reads as the party having been ABSENT (its docstring says so
+        # explicitly — "no row" and "Frånvarande" are the same fact arriving two
+        # ways, and that holds only when the vote is in the tables at all). The page
+        # would publish "this party was absent" for a vote it cast. full-v4 has 0.
+        missing_case = d["votering_id"] not in cases
         position = positions.get((d["votering_id"], d["parti"]))
         # Decision-level, and deliberately read as such: `migrate_decision` sets
         # the flag when ANY one of a decision's citations could not be placed, so
@@ -336,14 +348,25 @@ def collect(
                 # `quote_ej_verifierad` and are not a claim about the corpus
                 counts["blank"] += 1
                 continue
+            if missing_case and c["document"] in MIGRATED_CLASSES:
+                # In scope, and the vote it belongs to is not in the tables — so
+                # neither its date nor its verdict can be established. Collected
+                # for the caller to raise on, exactly as the unresolvable slug
+                # below is, and for the same reason: dropping it silently is the
+                # link-rot this module exists to stop.
+                unresolved.append(
+                    {"document": c["document"], "quote": quote,
+                     "cid": d["votering_id"], "parti": d["parti"],
+                     "datum": case.get("datum", "")}
+                )
+                continue
             slug = resolve_slug(c["document"], d["parti"], case.get("datum", ""))
             if slug is None:
                 if c["document"] in MIGRATED_CLASSES:
                     # In scope and still unresolved — `program_at` had no edition
-                    # for the date, which is what a `votering_id` missing from
-                    # cases.parquet looks like (`datum` comes back ""). Dropping
-                    # it here is the silent link-rot this module exists to stop,
-                    # so it is collected and raised on, not counted away.
+                    # for the date. The vote IS in cases.parquet (`missing_case`
+                    # claimed the other case above), so this is a dated citation
+                    # that predates every edition of the class it names.
                     unresolved.append(
                         {"document": c["document"], "quote": quote,
                          "cid": d["votering_id"], "parti": d["parti"],
@@ -473,10 +496,13 @@ def build(run_id: str, results_dir=None) -> dict:
         more = f"\n  ... and {len(unresolved) - 20} more" if len(unresolved) > 20 else ""
         raise Unlocated(
             f"{len(unresolved)} citation(s) name a document class this run serves but "
-            f"resolve to no document:\n{listed}{more}\n"
+            f"cannot be placed against a dated vote:\n{listed}{more}\n"
             "A blank `datum` is the usual cause — the votering_id is missing from "
-            "cases.parquet, so no programme edition can be dated. Re-run the ingest, "
-            "or the citations will drop out of the index unremarked."
+            "cases.parquet. For a partiprogram that dates no edition; for a "
+            "valmanifest, which resolves without a date, it would instead index the "
+            "citation against an empty case and publish the party as ABSENT from a "
+            "vote it cast. Re-run the ingest, or the citations will drop out of the "
+            "index unremarked."
         )
     if unlocated:
         listed = "\n".join(
@@ -550,7 +576,7 @@ def load(run_id: str, results_dir=None) -> dict[str, dict]:
     if not d.exists():
         return out
     for path in sorted(d.glob("*.json")):
-        out[path.stem] = json.loads(path.read_text())
+        out[path.stem] = json.loads(path.read_text(encoding="utf-8"))
     return out
 
 
@@ -752,7 +778,7 @@ def block_roles(slug: str) -> dict[str, dict]:
         )
     return {
         b["id"]: {"role": b["role"], "text": b["text"], "page": b["page"]}
-        for b in json.loads(path.read_text())["blocks"]
+        for b in json.loads(path.read_text(encoding="utf-8"))["blocks"]
     }
 
 
@@ -1095,8 +1121,12 @@ def report(run_id: str, out: str | None = None, results_dir=None) -> dict:
     if out:
         from pathlib import Path
 
-        Path(out).write_text(
-            json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        path = Path(out)
+        # The whole report is already computed by the time we get here, so a
+        # missing parent would throw the work away on the last line — the
+        # documented target is under `data/interim/`, which need not exist.
+        # `citation_audit.write_snapshot` makes the same directory the same way.
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"\nwrote {out}")
     return rep

@@ -165,7 +165,25 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # real empty run, and its files are still swept.
         _check_standing_anchors_survive(moved, corpus_out)
         sync_blocks()
-        print(f"  anchors: {run_id} has no index — committed anchors left alone")
+        standing = _standing_anchor_run(corpus_out)
+        if standing is not None and standing != run_id:
+            # "Left alone" is the right behaviour — refusing here would break
+            # `mock-v1`, which is kept precisely so the site builds without the
+            # real data — but it is not a no-op for the reader. The case pages
+            # this export writes come from `run_id`; the document pages keep
+            # `standing`'s citation panels, chapter-rail counts, ratio bars and
+            # navigation flags. Nothing downstream compares the two — the site
+            # reads `run_id` out of the summaries but never checks it — so say so
+            # here rather than let two runs ship as one.
+            print(
+                f"  anchors: WARNING — cases exported from {run_id}, but the "
+                f"committed citation index is {standing}'s and has been left in "
+                f"place. Document pages will show {standing} counts against "
+                f"{run_id} case pages. Run `build-anchors --run-id {run_id}` and "
+                "export again."
+            )
+        else:
+            print(f"  anchors: {run_id} has no index — committed anchors left alone")
         return 0
 
     payloads = load(run_id)
@@ -206,6 +224,21 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
 
 class StaleAnchors(Exception):
     """The citation index was built against a different extraction than the blocks."""
+
+
+def _standing_anchor_run(corpus_out) -> str | None:
+    """Which run the already-committed site anchor files were built from.
+
+    None when nothing is committed, or when the files carry no `run_id` — both
+    mean "no claim to compare against", and neither is worth a warning of its
+    own. `anchors.summarize` stamps every summary, so on this repo it answers.
+    """
+    for path in sorted((corpus_out / "anchors").glob("*.json")):
+        try:
+            return json.loads(path.read_text(encoding="utf-8")).get("run_id")
+        except (OSError, json.JSONDecodeError):
+            return None
+    return None
 
 
 def _check_standing_anchors_survive(moved: set[str], corpus_out) -> None:

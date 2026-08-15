@@ -171,9 +171,12 @@ itself has been re-extracted; on an unchanged corpus they are no-ops.
 
 Do not skip `build-anchors`. On an **unchanged corpus** `export-site` returns 0
 anchors rather than raising when a run has none — deliberately, so an export
-between passes still produces a site — and a run published without it looks fine
-and simply has no citation panels, no chapter-rail counts and no navigation flags
-on any document page.
+between passes still produces a site. What it does *not* do is leave the document
+pages blank: `site/src/data/corpus/anchors/` is committed, so an index-less export
+keeps whatever run is already there, and the site then serves this run's case pages
+against the previous run's citation panels, chapter-rail counts and navigation
+flags. `export-site` prints a WARNING naming both runs when it spots that; it does
+not refuse, because `mock-v1` is exported that way on purpose.
 
 After `extract-corpus --force` it stops being optional. Block ids are positional,
 so a re-extraction moves the ids the committed index still names; exporting with a
