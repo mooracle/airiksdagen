@@ -453,6 +453,218 @@ export function groupBlocks(blocks: CorpusBlock[]): RenderGroup[] {
   return groups;
 }
 
+// --- title casing ------------------------------------------------------------
+//
+// A party document sets its chapter titles in the face its designer chose, and
+// nine of the 23 chose full capitals: "REDO FÖR EN NY REGERING", "1.1
+// LIBERALISMEN", 35 of them in `partiprogram-s-2025` alone. That is typography,
+// not wording — the same title is set in caps on the cover and in mixed case in
+// the contents list — so rendering it verbatim shouts at the reader in a page
+// that is otherwise prose.
+//
+// Undoing it is not `toLowerCase()`. Sentence case needs to know which words are
+// proper nouns ("VÅRT SVERIGE KAN BÄTTRE" is "Vårt Sverige kan bättre", not
+// "Vårt sverige…") and which are acronyms ("EU", "OSSE", "HBT+"), and guessing
+// either would put words in a party's mouth that it did not write — the failure
+// this project exists to avoid, arriving through the presentation layer.
+//
+// So nothing is guessed: the casing comes from the corpus's own prose. Every
+// word the 23 documents set in mixed case is counted, and a capitalised title
+// word is restored to whichever form those documents attest. `Sverige` is
+// capitalised 858 times mid-sentence and never lowercased; `vid` is lowercased
+// 286 times; `EU` appears 574 times in capitals. Words the corpus never sets in
+// mixed case at all fall to lowercase, which is why the rule is applied to
+// TITLES only — a heading is the one place where an unattested word is far more
+// likely to be an ordinary word the corpus happens not to repeat than a
+// hidden acronym.
+
+/** Word-shaped token: letters only, so "1.1" and "(S)" are punctuation around
+ *  one, not part of it. `\p{L}` rather than `[^\W\d_]`, because JavaScript's `\w`
+ *  stays ASCII even under the `u` flag: the latter cuts "VÅRT" into "V" and "RT"
+ *  and the casing below reassembles it as "VÅrt". */
+const LEX_WORD = /\p{L}+/gu;
+const SENTENCE_BOUNDARY = /[.!?:]$/;
+
+/** How the corpus's own prose sets each word: capitalised mid-sentence (a proper
+ *  noun), lowercased (an ordinary word), or in full capitals (an acronym). */
+export interface CasingLexicon {
+  cap: Map<string, number>;
+  low: Map<string, number>;
+  up: Map<string, number>;
+}
+
+/** True for text the source set in full capitals. Three letters is the floor:
+ *  below it "I" and "(S)" are not evidence of anything. */
+function isAllCaps(text: string): boolean {
+  const letters = [...text].filter((c) => /\p{L}/u.test(c));
+  if (letters.length < 3) return false;
+  const s = letters.join('');
+  return s === s.toUpperCase() && s !== s.toLowerCase();
+}
+
+const bump = (m: Map<string, number>, k: string) => m.set(k, (m.get(k) ?? 0) + 1);
+
+/** Count how the given documents set every word they use.
+ *
+ *  All-caps blocks are excluded from the count — they are the input to the
+ *  rule, and letting them vote would make a title that shouts its own evidence
+ *  for shouting. A word in first position is not counted as capitalised either:
+ *  every sentence starts with one, and taking that as proof of a proper noun
+ *  capitalises half the language. */
+export function casingLexicon(files: Iterable<CorpusBlockFile>): CasingLexicon {
+  const lex: CasingLexicon = { cap: new Map(), low: new Map(), up: new Map() };
+  for (const file of files) {
+    for (const b of file.blocks) {
+      if (isAllCaps(b.text)) continue;
+      for (const m of b.text.matchAll(LEX_WORD)) {
+        const w = m[0];
+        const k = w.toLowerCase();
+        if (w.length > 1 && w === w.toUpperCase()) {
+          bump(lex.up, k);
+          continue;
+        }
+        if (w[0] !== w[0].toLowerCase()) {
+          const before = b.text.slice(0, m.index).trimEnd();
+          if (before && !SENTENCE_BOUNDARY.test(before)) bump(lex.cap, k);
+        } else {
+          bump(lex.low, k);
+        }
+      }
+    }
+  }
+  return lex;
+}
+
+/** The form the corpus attests for one word of a title.
+ *
+ *  Both thresholds are two occurrences, not one: a single stray capital is how
+ *  "SÅ FÅR VI BUKT MED SVERIGES" became "…vi Bukt med…" on the way here, off one
+ *  mid-sentence "Bukt" in 9,409 blocks. */
+function attested(word: string, lex: CasingLexicon): string {
+  const k = word.toLowerCase();
+  const cap = lex.cap.get(k) ?? 0;
+  const low = lex.low.get(k) ?? 0;
+  const up = lex.up.get(k) ?? 0;
+  if (up >= 2 && up >= cap + low) return word; // acronym — leave the capitals
+  if (cap >= 2 && cap > low) return word[0] + word.slice(1).toLowerCase();
+  return word.toLowerCase();
+}
+
+/** A block that is one short word is a term, not a title: `partiprogram-kd-2015`
+ *  ends in a glossary whose entries are single `label` blocks reading "CDI",
+ *  "EPP", "IMF", "OSSE", "WTO", and `valmanifest-2022-sd` heads a section "HBT+".
+ *  Sentence-casing those produces "Cdi" and "Hbt+". The corpus cannot attest them
+ *  — a glossary defines a word precisely because the prose does not use it — so
+ *  the rule declines to touch them rather than guess, at the cost of leaving
+ *  KD's four-letter cover word "REDO" in capitals. */
+const TERM_MAX_LETTERS = 4;
+
+/** One title, in sentence case — or unchanged when it is not in full capitals.
+ *
+ *  Length is preserved exactly (case mapping is 1:1 for every character in this
+ *  corpus), which is what lets a title split across two blocks be cased as one
+ *  string and sliced back apart. The caller checks it. */
+export function sentenceCase(text: string, lex: CasingLexicon): string {
+  if (!isAllCaps(text)) return text;
+  const words = [...text.matchAll(LEX_WORD)];
+  if (words.length === 1 && words[0][0].length <= TERM_MAX_LETTERS) return text;
+  let out = '';
+  let at = 0;
+  let first = true;
+  for (const m of words) {
+    out += text.slice(at, m.index);
+    let w = attested(m[0], lex);
+    if (first) {
+      w = w[0].toUpperCase() + w.slice(1);
+      first = false;
+    }
+    out += w;
+    at = m.index + m[0].length;
+  }
+  return out + text.slice(at);
+}
+
+/** Roles whose text is a title rather than something the document argues. */
+const TITLE_ROLES = new Set<DocRole>(['h1', 'h2', 'h3', 'label']);
+
+/** "Innehåll", "Innehållsförteckning", "INNEHÅLL:" — the heading over a printed
+ *  contents list. Same test as `anchors.CONTENTS`, which keeps the entry out of
+ *  the rail for the same reason. */
+const CONTENTS_HEADING = /^inneh[åa]ll/i;
+
+/** Roles the word can arrive in. `caption` is in here because it is what
+ *  `partiprogram-v-2024` roles both of its contents headings — a heading is only
+ *  an `h1` if the geometry says so, and a small one over a list does not. */
+const CONTENTS_ROLES = new Set<DocRole>(['h1', 'h2', 'h3', 'label', 'caption']);
+
+/** Drop the printed contents list, and the heading that introduces it.
+ *
+ *  The heading has to go with the list or it is left standing over the next
+ *  chapter, announcing contents that are not there — `valmanifest-2022-s` reads
+ *  "Innehåll:" and then straight into "Vårt Sverige kan bättre". Only when the
+ *  very next thing IS the list, though: half the programmes in this corpus set
+ *  their contents as ordinary headings rather than `toc` blocks, and there the
+ *  same word is a real heading over real text.
+ *
+ *  Those nine keep their printed contents list, and that is the deliberate half
+ *  of this. Nothing in the roles separates their entries from prose, so the only
+ *  way to reach them is to guess — and the rule that suggests itself, "an entry
+ *  repeats a heading found later", was measured against the corpus and is not
+ *  safe: it stops three entries into `partiprogram-c-2013`'s list, leaving half
+ *  of it drawn, and in `partiprogram-sd-2019` it runs on past the list and takes
+ *  the document's real first chapter heading with it. Deleting a party's own
+ *  words to tidy a page is the wrong side to err on, so the untidy list stays. */
+function dropContents(groups: RenderGroup[]): RenderGroup[] {
+  const text = (g: RenderGroup) => g.parts.map((p) => p.text).join(' ').trim();
+  const says = (g: RenderGroup) => CONTENTS_ROLES.has(g.role) && CONTENTS_HEADING.test(text(g));
+  /** Is this heading the one over the printed list?
+   *
+   *  "The next group is a `toc`" is not quite the test: `partiprogram-v-2024`
+   *  sets the word twice over each of its two lists — once as a `caption` and
+   *  once as an `h1` — so the first of the pair has a heading between it and the
+   *  entries. Repeats of the same word are skipped; anything else answers no. */
+  const introduces = (i: number): boolean => {
+    for (let j = i + 1; j < groups.length; j += 1) {
+      if (groups[j].role === 'toc') return true;
+      if (!says(groups[j])) return false;
+    }
+    return false;
+  };
+  const out: RenderGroup[] = [];
+  for (let i = 0; i < groups.length; i += 1) {
+    if (groups[i].role === 'toc') continue;
+    if (says(groups[i]) && introduces(i)) continue;
+    out.push(groups[i]);
+  }
+  return out;
+}
+
+/** Sentence-case one paragraph's title, across all the blocks it was split into.
+ *
+ *  Per group, not per block: 101 titles in this corpus are set over two lines and
+ *  arrive as two blocks, and casing them separately would capitalise the second
+ *  half's first word — "REDO FÖR" / "EN NY REGERING" as "Redo för" / "En ny
+ *  regering". The group is cased as the one string it renders as, then sliced
+ *  back on the parts' own lengths. */
+function caseGroup(group: RenderGroup, lex: CasingLexicon): RenderGroup {
+  if (!TITLE_ROLES.has(group.role)) return group;
+  if (!group.parts.every((p) => TITLE_ROLES.has(p.role))) return group;
+  const joined = group.parts.map((p) => p.text).join(' ');
+  const cased = sentenceCase(joined, lex);
+  if (cased === joined) return group;
+  // Case mapping is 1:1 across this corpus, and the slicing below depends on it.
+  // A future character where it is not (ß -> SS) leaves the title in capitals
+  // rather than cutting the parts at the wrong offsets.
+  if (cased.length !== joined.length) return group;
+  let at = 0;
+  const parts = group.parts.map((p) => {
+    const text = cased.slice(at, at + p.text.length);
+    at += p.text.length + 1; // the joining space
+    return { ...p, text };
+  });
+  return { ...group, parts };
+}
+
 /** The fallback path's kinds, in the block vocabulary. `heading`/`subheading`
  *  keep their current depth — the page draws h1 as <h2> and h2 as <h3>, so the
  *  17 documents without blocks render byte-for-byte as they do today. */
@@ -467,16 +679,44 @@ const KIND_ROLE: Record<BlockKind, DocRole> = {
 
 /** One document, ready to draw: from its blocks when it has them, from the flat
  *  text when it does not. `raw` is the served .txt either way — the block file
- *  carries no provenance header, and that header is the page's source credit. */
-export function renderDoc(raw: string, file: CorpusBlockFile | null): RenderedDoc {
+ *  carries no provenance header, and that header is the page's source credit.
+ *
+ *  `lexicon` turns on the title casing above. It is optional because it is
+ *  corpus-wide — the page passes `getCorpusLexicon()`, and a caller holding one
+ *  document renders it as the extraction left it.
+ *
+ *  WHAT THE BLOCK PATH DROPS
+ *  -------------------------
+ *  Its `toc` blocks: the contents list the document printed for a reader holding
+ *  the PDF. The page builds its own from the same headings (the sticky rail, see
+ *  `anchors.chapters`), so the printed one is the same navigation a second time,
+ *  minus the page numbers that made it work — and set as prose it reads as 51
+ *  headings the document does not have. 281 blocks across 10 documents.
+ *
+ *  Nothing is lost with them: no citation in full-v4 lands on a `toc` block, and
+ *  no located quote's span so much as overlaps one, so the annotation layer and
+ *  every `#:~:text=` deep link are untouched. `site/tests/corpus.test.mjs` holds
+ *  both to zero, because the day a citation does land on one this has to become
+ *  a visible failure rather than a line that quietly stops rendering.
+ *
+ *  The 17 documents without blocks keep theirs. Their contents lists are guessed
+ *  back from line lengths by `collapseTocRuns()` rather than read off the PDF's
+ *  own geometry, and they have no rail to replace them with — `chapters()` needs
+ *  block ids, which the fallback path has none of. */
+export function renderDoc(
+  raw: string,
+  file: CorpusBlockFile | null,
+  opts: { lexicon?: CasingLexicon } = {},
+): RenderedDoc {
   const flat = file ? null : formatCorpusDoc(raw);
-  const groups: RenderGroup[] = file
-    ? groupBlocks(file.blocks)
+  let groups: RenderGroup[] = file
+    ? dropContents(groupBlocks(file.blocks))
     : flat!.blocks.map((b) => ({
         role: KIND_ROLE[b.kind],
         page: null,
         parts: [{ id: null, role: KIND_ROLE[b.kind], page: null, text: b.text }],
       }));
+  if (opts.lexicon) groups = groups.map((g) => caseGroup(g, opts.lexicon!));
   const provenance = flat
     ? flat.provenance
     : parseProvenance(repairChars(raw).split('\n', 1)[0].trim());

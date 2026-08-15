@@ -1135,6 +1135,68 @@ class TestExportSite:
         )
         assert fetched["fields"] == list(anchors.REF_FIELDS)
 
+    def test_the_citing_votes_ship_their_titles(self, tmp_path, monkeypatch, kd2015):
+        """The panel says what each vote was about, not just when it happened.
+
+        One shared file rather than a title on each of full-v4's 77,599 ref rows
+        — a vote cites ~30 lines across the corpus, so inlining would repeat
+        every title that many times for a payload the browser already caches.
+        """
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+
+        titles = {"V1": ["Ett svenskt ämne", "A Swedish subject"], "V2": ["Oanvänd", "Unused"]}
+        export_site.export_blocks_and_anchors("test-run", titles)
+        out = json.loads(
+            (tmp_path / "site" / "public" / "data" / "anchors" / "cases.json").read_text()
+        )
+        assert out["fields"] == ["sv", "en"]
+        assert out["cases"] == {"V1": ["Ett svenskt ämne", "A Swedish subject"]}
+        # V2 cites nothing in this run and is not shipped: the file is scoped to
+        # the votes the panels can actually show, not to the whole corpus.
+        assert "V2" not in out["cases"]
+
+    def test_a_cited_vote_with_no_exported_case_is_refused(self, tmp_path, monkeypatch, kd2015):
+        """An anchor naming a vote the export has no case for means the citation
+        index and the case export were built from different corpora. The panel
+        would render a bare UUID and nothing else would say so."""
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+
+        with pytest.raises(ValueError, match="no exported case"):
+            export_site.export_blocks_and_anchors("test-run", {"V2": ["x", "x"]})
+
+    def test_without_titles_the_committed_ones_are_left_alone(self, tmp_path, monkeypatch, kd2015):
+        """Every other caller — the tests here, and any partial export — passes
+        no titles. That must not delete the file, because `public/data/anchors/`
+        is rebuilt from scratch on this path."""
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+
+        export_site.export_blocks_and_anchors("test-run")
+        assert not (tmp_path / "site" / "public" / "data" / "anchors" / "cases.json").exists()
+
     def test_a_run_without_anchors_still_exports_the_blocks(self, tmp_path, monkeypatch):
         from aidag import export_site
 

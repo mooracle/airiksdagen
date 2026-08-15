@@ -66,7 +66,45 @@ def export_corpus() -> None:
         )
 
 
-def export_blocks_and_anchors(run_id: str | None) -> int:
+def _write_case_titles(public_out, payloads: dict[str, dict], titles: dict[str, list[str]]) -> None:
+    """`public/data/anchors/cases.json` — what each citing vote was about.
+
+    A citation panel used to list its votes by date, which answers "when" and
+    nothing else: the reader is looking at a line of a party programme and the
+    panel says `2024-04-11`, with no way to tell why that division is attached to
+    this sentence without opening it. The title answers it in place.
+
+    ONE FILE, NOT ONE PER DOCUMENT. A vote cites on average 30 lines across the
+    corpus, so the titles are shared: written per document they would be repeated
+    ~13x in total (32,796 (slug, vote) pairs against 2,539 votes), and inlined per
+    ref row 77,599 times. Shared, they cost ~400 KB once and the browser caches
+    them across all 23 document pages — the same reason the ref rows are fetched
+    rather than built into the page.
+
+    Scoped to the votes that actually cite something, so a run whose decisions
+    cite nothing does not still ship 2,539 titles.
+    """
+    cited = {ref["votering_id"] for p in payloads.values() for a in p["anchors"] for ref in a["refs"]}
+    missing = sorted(cited - set(titles))
+    if missing:
+        # An anchor naming a vote the export has no case for means the two halves
+        # were built from different corpora — the panel would render a bare id
+        # and nothing else would say so.
+        raise ValueError(
+            f"{len(missing)} cited votes have no exported case: {missing[:5]}. "
+            "The citation index and the case export disagree; re-run "
+            "`build-anchors` against this run."
+        )
+    (public_out / "cases.json").write_text(
+        json.dumps(
+            {"fields": ["sv", "en"], "cases": {vid: titles[vid] for vid in sorted(cited)}},
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+
+def export_blocks_and_anchors(run_id: str | None, case_titles: dict[str, list[str]] | None = None) -> int:
     """Ship the structured corpus and its citation index to the site.
 
     Three destinations, and the split between them is the page-weight decision
@@ -80,6 +118,14 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
                                             block, so they must be cheap.
       public/data/anchors/<slug>.json       the ref lists behind those bars,
                                             fetched per document on demand.
+      public/data/anchors/cases.json        what each of those votes was about,
+                                            shared by all 23 documents.
+
+    `case_titles` is that last file, and it is optional because only `run()`
+    holds the titles: called without it — as every test below does — the three
+    per-document artifacts are written and `cases.json` is left as it was. On the
+    indexed path `public/data/anchors/` is rebuilt from scratch, so a caller that
+    passes None there drops the committed titles until the next full export.
 
     The 17 documents without blocks (16 budgetmotioner, Tidöavtalet) are simply
     absent here and the page falls back to `formatCorpusDoc()`.
@@ -219,6 +265,8 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         (public_out / f"{slug}.json").write_text(
             json.dumps(compact_refs(payload), ensure_ascii=False), encoding="utf-8"
         )
+    if case_titles is not None:
+        _write_case_titles(public_out, payloads, case_titles)
     return len(payloads)
 
 
@@ -509,6 +557,10 @@ def run(run_id: str | None = None) -> None:
     # one row per division, fed to aivotes after the loop — collected here so the
     # AI aggregates see exactly the corpus that was exported, nothing else
     ai_rows: list[dict] = []
+    # votering_id -> [sv, en] title, for the citation panels on the document
+    # pages (see `_write_case_titles`). Collected in this loop rather than read
+    # back off the exported JSON so the two can never name the case differently.
+    case_titles: dict[str, list[str]] = {}
     for case in cases.sort("datum", "votering_id").iter_rows(named=True):
         vid = case["votering_id"]
         case_votes = votes.filter(pl.col("votering_id") == vid)
@@ -626,6 +678,15 @@ def run(run_id: str | None = None) -> None:
         # merge case metadata into BOTH the full payload and the lean index row,
         # then write the payload (after the merge, so `meta` is included)
         merge_case_metadata(payload, entry, metadata_by_vid.get(vid))
+        # The same title CasePage puts in its <title>: the casemeta subject names
+        # THIS vote, where `rubrik` is a committee heading reused across unrelated
+        # ones ("Regeringens lagförslag" covers 71). Falls back the same way, so a
+        # case exported before the casemeta layer still names itself.
+        subject = (payload.get("meta") or {}).get("subject") or {}
+        case_titles[vid] = [
+            subject.get("sv") or case["rubrik"],
+            subject.get("en") or (tr["rubrik"] if tr else None) or case["rubrik"],
+        ]
         (cases_dir / f"{vid}.json").write_text(json.dumps(payload, ensure_ascii=False))
         index.append(entry)
         ai_rows.append({
@@ -660,7 +721,7 @@ def run(run_id: str | None = None) -> None:
     # the new text beside the previous extraction's blocks and anchors — a state
     # `git status` shows as a plausible diff, and README's publish recipe adds
     # wholesale.
-    n_anchors = export_blocks_and_anchors(run_id)
+    n_anchors = export_blocks_and_anchors(run_id, case_titles)
     export_corpus()
     print(f"exported blocks for {len(list(SITE_DATA_DIR.glob('corpus/blocks/*.json')))} documents, "
           f"anchors for {n_anchors}")

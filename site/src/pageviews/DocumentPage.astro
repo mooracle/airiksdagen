@@ -38,7 +38,13 @@
 import Base from '../layouts/Base.astro';
 import BlockText from '../components/BlockText.astro';
 import CiteNote from '../components/CiteNote.astro';
-import { getMeta, getCorpusDoc, getCorpusBlocks, getCorpusAnchors } from '../lib/data';
+import {
+  getMeta,
+  getCorpusDoc,
+  getCorpusBlocks,
+  getCorpusAnchors,
+  getCorpusLexicon,
+} from '../lib/data';
 import { renderDoc, docTitle, type RenderGroup } from '../lib/doctext';
 import { chapters, citedLines, type CitedLine } from '../lib/anchors';
 import { localePath, useTranslations, type Lang } from '../i18n/ui';
@@ -49,7 +55,9 @@ const t = useTranslations(lang);
 const meta = getMeta();
 const sv = lang === 'sv';
 
-const doc = renderDoc(getCorpusDoc(slug), getCorpusBlocks(slug));
+const doc = renderDoc(getCorpusDoc(slug), getCorpusBlocks(slug), {
+  lexicon: getCorpusLexicon(),
+});
 const title = docTitle(slug, {
   sv,
   partyName: (code) => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase(),
@@ -64,7 +72,9 @@ const hasRail = rail.length >= 3;
 const notesFor = (g: RenderGroup): CitedLine[] => citedLines(g, anchors);
 
 // Consecutive bullets (and consecutive table-of-contents entries) become one list
-// instead of N sibling elements.
+// instead of N sibling elements. Only the 17 fallback documents still reach the
+// `toc` branch — renderDoc() drops those blocks on the block path, where the rail
+// below is the same navigation built from the same headings.
 type Run = { role: RenderGroup['role']; groups: RenderGroup[] };
 const runs: Run[] = [];
 for (const g of doc.groups) {
@@ -101,6 +111,9 @@ function pClass(g: RenderGroup): string | undefined {
 // shared by every panel on the page.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const refsUrl = `${base}/data/anchors/${slug}.json`;
+// One file for the whole corpus, so it is already cached by the second document
+// page a reader opens. Fetched with the refs, not before them.
+const titlesUrl = `${base}/data/anchors/cases.json`;
 const caseBase = localePath(lang, '/fall/');
 const TR = {
   loading: t('doc.cite.loading'),
@@ -139,10 +152,20 @@ const TR = {
     </p>
   )}
 
+  {/* The reading contract, and it has to name everything the page changes. The
+      wording is untouched, which is the claim that matters — but "oförändrad"
+      full stop stopped being true when the rendering began dropping the printed
+      contents list and undoing the source's all-capital headings. Both are
+      typography; saying so is cheaper than letting a reader find one and wonder
+      what else moved. */}
   <p class="muted note">
     {sv
-      ? 'Texten är maskinextraherad ur källdokumentet och visas med återställda radbrytningar; ordalydelsen är oförändrad.'
-      : 'Machine-extracted from the source document and shown with its line wrapping undone; the wording is unchanged. This is the Swedish text the AI agents read, and what the citation links on the case pages point into.'}
+      ? doc.stats.source === 'blocks'
+        ? 'Texten är maskinextraherad ur källdokumentet och visas med återställda radbrytningar. Ordalydelsen är oförändrad; dokumentets egen innehållsförteckning utelämnas (menyn till vänster ersätter den) och rubriker satta med versaler återges med gemener.'
+        : 'Texten är maskinextraherad ur källdokumentet och visas med återställda radbrytningar; ordalydelsen är oförändrad.'
+      : doc.stats.source === 'blocks'
+        ? 'Machine-extracted from the source document and shown with its line wrapping undone. The wording is unchanged; the document’s own table of contents is left out (the chapter list replaces it) and headings set in full capitals are shown in sentence case. This is the Swedish text the AI agents read, and what the citation links on the case pages point into.'
+        : 'Machine-extracted from the source document and shown with its line wrapping undone; the wording is unchanged. This is the Swedish text the AI agents read, and what the citation links on the case pages point into.'}
   </p>
 
   {/* The caveat the rail carries. A document with citations but too few chapters
@@ -224,6 +247,8 @@ const TR = {
       <div
         class:list={['docwrap', hasRail && 'withrail']}
         data-refs-url={anchors ? refsUrl : undefined}
+        data-titles-url={anchors ? titlesUrl : undefined}
+        data-lang={anchors ? lang : undefined}
         data-case-base={anchors ? caseBase : undefined}
         data-labels={anchors ? JSON.stringify(TR) : undefined}
       >
@@ -278,38 +303,55 @@ const TR = {
       // lib/anchors.ts, where it is tested against the committed payload. What
       // is left here is DOM wiring: the config comes off the wrapper's data
       // attributes, which is also why this file needs no define:vars.
-      import { refRows } from '../lib/anchors';
+      import { caseTitle, refRows } from '../lib/anchors';
 
       const root = document.querySelector<HTMLElement>('[data-refs-url]');
       if (root) {
         const url = root.dataset.refsUrl!;
+        const titlesUrl = root.dataset.titlesUrl!;
+        const lang = root.dataset.lang!;
         const caseBase = root.dataset.caseBase!;
         const tr = JSON.parse(root.dataset.labels!);
+        const get = (u: string) =>
+          fetch(u).then((r) => {
+            if (!r.ok) throw new Error(String(r.status));
+            return r.json();
+          });
         let pending: Promise<any> | null = null;
+        // Both halves in one round trip, and the titles never fail the panel:
+        // the rows are the finding, the titles are how they are labelled, so a
+        // titles fetch that 404s degrades to the dates this used to show rather
+        // than taking the list down with it.
         const payload = () =>
-          (pending ??= fetch(url)
-            .then((r) => {
-              if (!r.ok) throw new Error(String(r.status));
-              return r.json();
-            })
-            .catch((err) => {
-              pending = null; // a later open may succeed
-              throw err;
-            }));
+          (pending ??= Promise.all([get(url), get(titlesUrl).catch(() => null)]).catch((err) => {
+            pending = null; // a later open may succeed
+            throw err;
+          }));
 
-        const draw = (host: HTMLElement, rows: ReturnType<typeof refRows>) => {
+        const draw = (
+          host: HTMLElement,
+          rows: ReturnType<typeof refRows>,
+          titles: Parameters<typeof caseTitle>[0],
+        ) => {
           const list = document.createElement('ul');
           for (const r of rows) {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = `${caseBase}${r.votering_id}/`;
-            a.textContent = r.datum || r.votering_id;
+            // What the vote was about, which is the question the panel is
+            // answering — "why is this division attached to this sentence". The
+            // date moves down to the meta line beside the committee, where it is
+            // context rather than the only thing said.
+            const title = caseTitle(titles, r.votering_id, lang);
+            a.textContent = title || r.datum || r.votering_id;
             const v = document.createElement('span');
             v.className = `v ${r.verdict}`;
             v.textContent = tr.verdict[r.verdict] ?? r.verdict;
             const m = document.createElement('span');
             m.className = 'meta';
-            m.textContent = [r.utskott, r.tier ? tr.tier[r.tier] : null].filter(Boolean).join(' · ');
+            m.textContent = [title ? r.datum : null, r.utskott, r.tier ? tr.tier[r.tier] : null]
+              .filter(Boolean)
+              .join(' · ');
             li.append(a, v, m);
             list.appendChild(li);
           }
@@ -323,7 +365,8 @@ const TR = {
             host.dataset.state = 'done';
             host.textContent = tr.loading;
             try {
-              draw(host, refRows(await payload(), el.dataset.block!));
+              const [refs, titles] = await payload();
+              draw(host, refRows(refs, el.dataset.block!), titles);
             } catch {
               host.dataset.state = 'failed';
               host.textContent = tr.error;
@@ -568,8 +611,15 @@ const TR = {
       display: flex;
       gap: 0.35rem;
       flex-wrap: wrap;
-      padding: 0.15rem 0;
+      padding: 0.25rem 0;
       border-top: 1px solid var(--line-soft);
+    }
+    /* The case title takes the row and the verdict sits under it. A title is a
+       sentence, not a date — left inline it wraps around the verdict chip and
+       the two read as one run-on line. */
+    .doc :global(.cnote .refs li > a) {
+      flex: 1 0 100%;
+      line-height: 1.35;
     }
     .doc :global(.cnote .refs .v) { font-weight: 600; }
     .doc :global(.cnote .refs .v.kept) { color: var(--accent-ink); }

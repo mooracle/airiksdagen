@@ -1,7 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import PartyBadge from '../components/PartyBadge.astro';
-import { getMeta, getIndex, getAggregate } from '../lib/data';
+import {
+  getMeta,
+  getIndex,
+  getAggregate,
+  listCorpusDocs,
+  getCorpusAnchors,
+  getCitingVotes,
+} from '../lib/data';
 import { agreementColor } from '../lib/scale';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -35,6 +42,41 @@ interface GapData {
 const gap = getAggregate<GapData>('gap');
 const browserBase = localePath(lang, '/fall/');
 const partyOrder = meta.hemicycle_order;
+
+/**
+ * The citation index, measured rather than asserted.
+ *
+ * The site's central claim is that nothing here is the model's opinion — every
+ * decision quotes the party's own text, and the quote is addressable. That claim
+ * was only visible to a reader who had already opened a case page and then a
+ * document page. It gets said here, with the corpus's own numbers behind it.
+ *
+ * Read at build time off `src/data/corpus/anchors/` (23 small files). `votes` is
+ * distinct divisions across the whole corpus, so it is a union rather than a sum:
+ * a division citing five documents is one division, and adding the per-document
+ * totals would count it five times — 32,796 instead of 2,539. `getCitingVotes()`
+ * is that union, taken from the file keyed by it.
+ */
+const anchorFiles = listCorpusDocs()
+  .map((slug) => getCorpusAnchors(slug))
+  .filter((a): a is NonNullable<typeof a> => a !== null);
+const citingVotes = getCitingVotes();
+const links = anchorFiles.length && citingVotes
+  ? {
+      docs: anchorFiles.length,
+      lines: anchorFiles.reduce((n, a) => n + Object.keys(a.blocks).length, 0),
+      refs: anchorFiles.reduce((n, a) => n + a.totals.refs, 0),
+      votes: citingVotes,
+    }
+  : null;
+const nfmt = (n: number) => n.toLocaleString(lang === 'sv' ? 'sv-SE' : 'en-GB');
+const linksLede = links
+  ? t('home.linksLede')
+      .replace('{refs}', nfmt(links.refs))
+      .replace('{lines}', nfmt(links.lines))
+      .replace('{docs}', nfmt(links.docs))
+      .replace('{votes}', nfmt(links.votes))
+  : '';
 
 // timeline: per-month case counts + agreement for the navigator
 const monthStats = new Map<string, { n: number; agree: number; compared: number }>();
@@ -143,6 +185,33 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
       <p class="muted">{t('home.forEveryoneText')}</p>
     </a>
   </div>
+
+  {/* The index runs both ways, and only one direction was ever visible. A reader
+      arriving here sees AI verdicts about parties; what makes them checkable is
+      that each one is anchored in the party's own sentence, and that the sentence
+      answers back with every vote that leaned on it. Said once, near the top,
+      with both doors open. */}
+  {links && (
+    <>
+      <p class="eyebrow">{t('home.secLinks')}</p>
+      <h2>{t('home.linksTitle')}</h2>
+      <p class="muted linklede">{linksLede}</p>
+      <div class="twoway">
+        <a class="card apath" href={browserBase}>
+          <span class="dir" aria-hidden="true">→</span>
+          <strong>{t('home.linkFwdTitle')}</strong>
+          <p class="muted">{t('home.linkFwdText')}</p>
+          <span class="cta">{t('home.linkFwdCta')} →</span>
+        </a>
+        <a class="card apath" href={`${localePath(lang, '/parti/')}#dokument`}>
+          <span class="dir" aria-hidden="true">←</span>
+          <strong>{t('home.linkBackTitle')}</strong>
+          <p class="muted">{t('home.linkBackText')}</p>
+          <span class="cta">{t('home.linkBackCta')} →</span>
+        </a>
+      </div>
+    </>
+  )}
 
   {/* The one per-party block on the page, in the slot the monthly trend chart
       used to hold. That chart drew nine series over 45 months in 240px and was
@@ -266,6 +335,27 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
     .apath strong { display: block; margin: 0.5rem 0 0.25rem; font-size: 1.05rem; }
     .apath p { margin: 0; font-size: 0.88rem; }
     @media (max-width: 860px) { .audience { margin-top: 1.2rem; } }
+
+    /* The two directions of the citation index. Two cards rather than a
+       paragraph, because they are two doors and the reader has to be able to
+       tell which one they are opening. */
+    .linklede { max-width: 68ch; }
+    .twoway {
+      display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-bottom: 1.6rem;
+    }
+    /* The arrow is the whole point of the pair — one card reads a vote into a
+       document, the other reads a document back out into votes. */
+    .twoway .dir {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.7rem; height: 1.7rem; border-radius: 999px;
+      background: var(--accent-wash); color: var(--accent-ink);
+      font-size: 1rem; line-height: 1;
+    }
+    .twoway .cta {
+      display: block; margin-top: 0.6rem; font-size: 0.85rem;
+      font-weight: 600; color: var(--accent-ink);
+    }
 
     /* ── tabbed per-party panels ─────────────────────────────────────────
        CSS-only: the radio that owns the tab shows its panel via a sibling

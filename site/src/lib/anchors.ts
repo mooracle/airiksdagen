@@ -208,6 +208,27 @@ export interface RefRow {
   svag: boolean;
 }
 
+/** `public/data/anchors/cases.json` — votering_id -> [sv, en] title.
+ *
+ *  Shared by all 23 document pages and fetched beside the refs, because a vote
+ *  cites ~30 lines across the corpus and its title would otherwise be repeated
+ *  in every one of the 77,599 ref rows. */
+export interface CaseTitles {
+  fields: string[];
+  cases: Record<string, string[]>;
+}
+
+/** What a citing vote was about, in the reader's language.
+ *
+ *  Null when the payload has no row for it, which the caller renders as the date
+ *  it used to show — a missing title is a thinner panel, never a broken link. */
+export function caseTitle(titles: CaseTitles | null, id: string, lang: string): string | null {
+  const row = titles?.cases[id];
+  if (!row) return null;
+  const at = titles!.fields.indexOf(lang === 'en' ? 'en' : 'sv');
+  return row[at === -1 ? 0 : at] || row[0] || null;
+}
+
 /** The decisions behind one block's ratio bar: newest first, one row per vote.
  *
  *  Deduplicated per (vote, block) for the same reason `summarize()` counts

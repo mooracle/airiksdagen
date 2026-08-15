@@ -119,10 +119,49 @@ uv run aidag export-site      --run-id full-v4
 **Site side.** `export-site` also writes `site/src/data/corpus/{blocks,anchors}/`
 (inline counts, tiers and spans) and `site/public/data/anchors/` (the per-vote ref rows,
 fetched only when a panel is opened — 8.3 MB that never loads with the page).
+It also writes `site/public/data/anchors/cases.json` — votering_id → `[sv, en]` title,
+2,539 rows, 428 KB — so a citation panel can say what each citing vote was *about*
+rather than only when it happened. One shared file, not one per document and not a
+column on the 77,599 ref rows: a vote cites ~30 lines across the corpus, and the
+browser caches this across all 23 document pages. It is written only when `run()`
+passes `case_titles`; `export_blocks_and_anchors()` called without them (every test)
+leaves it alone.
+
 `doctext.renderDoc()` renders from blocks when the slug has them and falls back to
 `formatCorpusDoc()` for the other 17. `groupBlocks()` rejoins paragraphs the extraction
 cut: presentation only, and load-bearing — one `<p>` per block breaks 56 `#:~:text=`
 deep links, because the browser's fragment matcher will not cross a block boundary.
+
+**The block path drops the printed contents list and undoes all-capital titles.**
+Both are typography, both are stated in the page's own reading note, and both are
+`renderDoc()`-only — `groupBlocks()` stays byte-faithful, which is what keeps "the
+rendered text is the text the agents were served" a real test rather than one that
+covers whatever the rendering happens to produce.
+
+- **`toc` blocks go** (281 across 10 documents), with the "Innehåll" heading over
+  them (8). The sticky rail is the same navigation built from the same headings.
+  Safe because *no* citation lands on a `toc` block and no located span overlaps
+  one — `site/tests/corpus.test.mjs` holds both at zero so the day one does, it
+  fails there instead of a cited line quietly vanishing with its votes. The other
+  9 documents set their contents as ordinary headings and paragraphs and **keep**
+  them: the rule that would reach them ("an entry repeats a later heading") was
+  measured and stops half-way through `partiprogram-c-2013`'s list while eating
+  `partiprogram-sd-2019`'s real first chapter heading.
+- **All-capital titles are sentence-cased** (109 blocks) from a **corpus-wide**
+  casing lexicon — `Sverige` is capitalised 858 times in these documents' own prose
+  and never lowercased, `vid` is lowercased 286 times, `EU` appears 574 times in
+  capitals. Nothing is guessed: a word the corpus does not attest falls to
+  lowercase, and a block that is one short word (`OSSE`, `HBT+`, KD's glossary) is
+  left alone rather than turned into "Osse". Per *group*, not per block, or a title
+  set over two lines gets a second capital mid-sentence. Per-document lexicons were
+  tried first and are not enough — `valmanifest-2022-kd` is 104 blocks and uses
+  neither "vid", "bra" nor "bukt" outside its own capitals.
+- 114 citations land on a capitalised heading (`valmanifest-2022-kd`'s five
+  back-cover labels) and their `#:~:text=` fragments now differ from the page **in
+  case only**. Text fragments are specified to match case-insensitively, so they
+  resolve; the deep-link sweep pins that exact set of five so the reliance cannot
+  silently spread. `\p{L}`, never `[^\W\d_]` — JavaScript's `\w` is ASCII even under
+  the `u` flag, and the first cut of this rendered "VÅRT SVERIGE" as "VÅrt Sverige".
 
 `export-site` **refuses to ship blocks and anchors that describe different
 extractions**, raising `StaleAnchors` and writing nothing under
