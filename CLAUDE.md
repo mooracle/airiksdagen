@@ -89,9 +89,18 @@ uv run aidag export-site      --run-id full-v4
 - `migrate-quotes` records *the corpus changed*; `repair-citations` records *the model
   paraphrased*. Running them the other way round attributes an extraction fix to the
   agent. Both leave the original in a sidecar (`quote_fore_migrering`,
-  `quote_ej_verifierad`) and never blank a quote silently. Both also **refuse a
-  `--run-id` that globs no shards**: a run with nothing to do and a typoed one print the
-  same zeroes, and a skipped migration makes repair book the corpus move as a paraphrase.
+  `quote_ej_verifierad`) and never blank a quote silently. All four passes **refuse a
+  `--run-id` that globs no shards** (`citation-audit` and `build-anchors` too): a run with
+  nothing to do and a typoed one print the same zeroes, and a skipped migration makes
+  repair book the corpus move as a paraphrase — while an empty run is *aligned with
+  everything*, so the audit would pass the one check that has no other error path.
+  `migrate-quotes` also **exits non-zero on an unresolved citation** — one naming a class
+  it serves that dates to no edition, i.e. a `votering_id` missing from `cases.parquet`.
+  The write stands and the report prints first; it is the pass *order* that has to stop,
+  because repair reads the same blank date and blanks the quote as `citat_ej_verifierad`
+  (an ingest gap booked as the model inventing it), and `build-anchors`' own guard cannot
+  fire afterwards — by then the quote is blank, and `anchors.collect` excuses blanks
+  before it resolves a slug. full-v4 reports 0.
 - `build-anchors` is keyed on the **quote** — offsets are derived at build time, so
   re-extraction re-runs the locator instead of breaking links. It **fails** on any quote
   that neither resolves nor is blank/`citat_ej_migrerat`, before writing anything.

@@ -333,6 +333,44 @@ class TestTheCommandFailsOnMisalignment:
         assert res.exit_code == 0, res.output
 
 
+class TestARunWithNoShardsIsRefused:
+    """An empty run is aligned with everything, which is the wrong kind of pass.
+
+    `snapshot()` answering zeroes for an absent run is deliberate and pinned
+    above — a snapshot of nothing is not an error. At `run()` level the same
+    zeroes are a *verdict*: `compare({}, {})` is aligned and `translation_gaps`
+    finds none, so a `--run-id` typo copied into both audit invocations of the
+    pass order prints "English pairing still holds" and exits 0 while the real
+    run went through `repair-citations` unaudited. The three sibling passes —
+    `migrate_quotes.run`, `repair.run`, `anchors._load_run` — all refuse it.
+    """
+
+    def test_a_missing_run_directory_is_refused(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(ca, "RESULTS_DIR", tmp_path)
+        with pytest.raises(FileNotFoundError, match="nothing to audit"):
+            ca.run("no-such-run")
+
+    def test_an_empty_run_directory_is_refused_too(self, tmp_path, monkeypatch):
+        (tmp_path / "simulations" / "empty-run").mkdir(parents=True)
+        monkeypatch.setattr(ca, "RESULTS_DIR", tmp_path)
+        with pytest.raises(FileNotFoundError, match="nothing to audit"):
+            ca.run("empty-run")
+
+    def test_the_command_exits_non_zero_on_it(self, tmp_path, monkeypatch):
+        from typer.testing import CliRunner
+
+        from aidag import cli
+
+        monkeypatch.setattr(ca, "RESULTS_DIR", tmp_path)
+        res = CliRunner().invoke(cli.app, ["citation-audit", "--run-id", "no-such-run"])
+        assert res.exit_code != 0
+
+    def test_a_populated_run_still_audits(self, tmp_path, monkeypatch):
+        root = _run_dir(tmp_path, {"KD": [_decision(4, vid="A")]})
+        monkeypatch.setattr(ca, "RESULTS_DIR", root)
+        assert ca.run("test-run")["snapshot"]["citations"] == 4
+
+
 @pytest.fixture(scope="module")
 def snap():
     from aidag.config import RESULTS_DIR

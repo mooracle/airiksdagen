@@ -203,7 +203,23 @@ def run(
     invariant with no error path of its own, so the caller has to be able to fail
     on it rather than read the printed report (`cli.citation_audit` exits
     non-zero). `compare()` still only reports — the decision lives here.
+
+    A `--run-id` that globs no shards is refused here, the same way
+    `migrate_quotes.run()`, `repair.run()` and `anchors._load_run()` refuse it.
+    `snapshot()` deliberately answers an absent run with zeroes (a snapshot of
+    nothing is not an error), but at *this* level the zeroes read as a verdict:
+    an empty run diffs and pairs cleanly against anything, so a typo copied into
+    both audit invocations of the pass order prints "unchanged per decision —
+    English pairing still holds", finds 0 gaps and exits 0, while the real run
+    went through `repair-citations` unaudited.
     """
+    root = RESULTS_DIR / "simulations" / run_id
+    if not sorted(root.glob("*.jsonl")):
+        raise FileNotFoundError(
+            f"{run_id}: no *.jsonl under {root} — nothing to audit. An empty run "
+            "is aligned with everything, so this would pass the one check that "
+            "has no other error path."
+        )
     snap = snapshot(run_id)
     print(
         f"{run_id}: {snap['decisions']} decisions, {snap['citations']} citations, "
