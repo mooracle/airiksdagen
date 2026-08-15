@@ -16,11 +16,12 @@ const summary = getAggregate<{
   per_party: Record<string, { n: number; agreement: number; kappa: number | null; avstar_recall: number | null }>;
 }>('summary');
 const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
-const confusion = getAggregate<Record<string, Record<string, Record<string, number>>>>('confusion');
 /** p6 gap, per party; null on the older vote-matching runs. */
 interface ValidityLevel { n: number; gap_rate: number | null }
 const gap = getAggregate<{
   per_party: Record<string, {
+    /** every vote, abstentions included */
+    n_decisions: number;
     explicit: { n: number; gap: number; gap_rate: number | null };
     /** every decided vote, whatever the plan had to say about it */
     all_tiers?: { n: number; gap: number; gap_rate: number | null };
@@ -85,6 +86,14 @@ const covN = (lv: string) => cov?.[lv]?.n ?? 0;
  *                is where the parties genuinely differ, and which is the number
  *                the headline gap is computed on.
  */
+/* Votes the party abstained on. They are outside the comparison entirely, and
+ * that is a property of the plan rather than a gap in it: `derive_rost` maps a
+ * stance to Ja or Nej and has no abstain in its range at all — "abstention is
+ * something only the real party does". It varies enormously (0 for M, KD and L;
+ * 650 of 2,539 for MP) and, unstated, it silently changes what the denominator
+ * beside it means. This is the honest half of what the confusion matrix used to
+ * show; the other third of that grid was a row that is structurally always zero. */
+const abstained = pgap ? pgap.n_decisions - (pgap.all_tiers?.n ?? pgap.n_decisions) : 0;
 const reachTotal = covN('explicit') + covN('inferred') + covN('not_covered');
 const scope = reachTotal
   ? {
@@ -124,7 +133,6 @@ const sureVerdict = sureDelta == null ? null : Math.abs(sureDelta) <= 0.03 ? 'st
 // than a test of the number above — which is the tell that they did not belong on
 // the page. `gap.json` still carries every level for anyone who wants them.
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
-const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
 /** This party's votes against its own programme. Previously all 471 were listed
  * together on /koalition/, where they were 98% of that page; split by party each
@@ -148,7 +156,6 @@ const overrideCases = (coalition?.override_cases ?? [])
 const stats = summary?.per_party?.[code];
 const ts = timeseries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
 const support = supportSeries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
-const matrix = confusion?.[code];
 const LABELS = ['Ja', 'Nej', 'Avstår'];
 const voteLabel: Record<string, string> = { Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår') };
 
@@ -179,25 +186,10 @@ const supportGrid = [0, 0.25, 0.5, 0.75, 1].map((f) => ({
 }));
 const latestSupport = support[support.length - 1];
 
-/* Cohesion and absence, as two numbers rather than a chart.
- *
- * This was a monthly two-series line chart, and it could not say anything: party
- * cohesion in this chamber runs 99.1–100.0% for all eight parties, with a
- * standard deviation across 39 months of 0.02pp for KD and M. Drawn on the 0–100
- * axis it was a flat line on the ceiling, eight times over — 78 plotted points
- * carrying the information of one figure.
- *
- * The figure itself is worth keeping, and not as trivia: near-total cohesion is
- * what makes "the party's vote" a single thing, and the whole plan-vs-behaviour
- * gap on this page is computed against exactly that. Absence does vary (12.7–18.0%
- * mean, sd 3.0–6.4) but is not read here as absenteeism — pairing (kvittning)
- * makes a level of it routine — so it is stated plainly and left uninterpreted.
- */
-const coh = cohesionSeries.filter((r) => r.parti === code);
-const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
-const floorRecord = coh.length
-  ? { cohesion: mean(coh.map((r) => r.cohesion))!, absence: mean(coh.map((r) => r.absence))!, months: coh.length }
-  : null;
+// Cohesion and absence used to be summarised here (and, before that, drawn as a
+// chart). Both are gone: cohesion runs 99.1-100.0% across all eight parties and
+// separates nobody, and absence is dominated by pairing (kvittning), so it needed
+// a caveat to stop it reading as absenteeism. `cohesion.json` still has both.
 
 const BLOC_KEY = {
   government: 'bloc.government',
@@ -239,153 +231,112 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     <PartyBadge code={code} parties={meta.parties} size={34} /> {party?.name ?? code}
   </h1>
 
+  {/* ONE block, not three cards and a heading. It reads top to bottom as one
+      argument: the finding, what it was computed on, the documents it was read
+      from, and the cross-check. Split across separate cards these were four
+      competing openings, and the reader had to work out which was the point. */}
   {stats ? (
     <div class="card keyed phead" style={`--pc:${party?.color ?? 'var(--gold)'}`}>
-      {/* Lead with the documented gap (explicit tier); vote agreement follows as
-          calibration, since the derived vote is a consequence of the stance and
-          never a prediction of floor tactics. */}
       {pgap && pgap.explicit.gap_rate !== null && (
         <div class="stat">
           <span class="num">{(pgap.explicit.gap_rate * 100).toFixed(0)}%</span>
           <span class="lbl">{t('home.gapHeadline')}</span>
-          <span class="meta">n = {pgap.explicit.n}</span>
+          <span class="meta">n = {num(pgap.explicit.n)}</span>
         </div>
       )}
-      <p class="muted calib">
-        {t('party.calibration')}: {(stats.agreement * 100).toFixed(1)}% · n = {stats.n} · κ = {stats.kappa ?? '–'}
-        {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}
-      </p>
-      {/* Not a footnote: the gap above is a statement about how "the party" voted,
-          and that phrase only means anything because the party votes as one bloc
-          essentially always. The number that licenses the headline belongs under
-          it. */}
-      {floorRecord && (
-        <p class="muted calib floor">
-          {t('party.cohesion')} <b>{(floorRecord.cohesion * 100).toFixed(1)}%</b>
-          {' · '}
-          <span title={t('party.absenceTip')} class="abs">
-            {t('party.absence')} <b>{(floorRecord.absence * 100).toFixed(1)}%</b>
-          </span>
-          {' · '}
-          <span class="mo">{t('party.floorMonths').replace('{n}', String(floorRecord.months))}</span>
-        </p>
-      )}
-    </div>
-  ) : (
-    <p class="muted">{t('home.noai')}</p>
-  )}
 
-  {/* Placed directly under the headline number rather than at the foot of the
-      page: it is what that number was measured against, and a reader who wants
-      to check a gap of 25% should not have to go looking for the texts. */}
-  {partyDocs.length > 0 && (
-    <div class="card pdocs">
-      <p class="dhead">{t('party.ownDocs').replace('{party}', party?.name ?? code)}</p>
-      <ul>
-        {inContext.map((slug) => {
-          const c = cites.get(slug)!;
-          return (
-            <li>
-              <a href={dokPath(slug)}>{docLabel(slug)}</a>
-              <span class="dstat" title={sv
-                ? `${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
-                : `${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
-                {sv
-                  ? `${num(c.lines)} citerade rader · ${num(c.votes)} voteringar`
-                  : `${num(c.lines)} cited lines · ${num(c.votes)} votes`}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-      {alsoPublished.length > 0 && (
-        <details class="alsopub">
-          <summary>{t('party.docsNotInContext').replace('{n}', String(alsoPublished.length))}</summary>
-          <ul>
-            {alsoPublished.map((slug) => <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>)}
-          </ul>
-        </details>
-      )}
-      <p class="dmore">
-        <a href={`${localePath(lang, '/parti/')}#dokument`}>{t('party.allDocs')} →</a>
-      </p>
-    </div>
-  )}
-
-  {matrix && (
-    <>
-      <h2>{t('party.confusion')}</h2>
-      <table class="compare" style="max-width:420px">
-        <thead>
-          <tr><th>{lang === 'sv' ? 'plan ↓ / verklig' : 'plan ↓ / actual'} →</th>{LABELS.map((l) => <th>{voteLabel[l]}</th>)}</tr>
-        </thead>
-        <tbody>
-          {LABELS.map((ai) => (
-            <tr>
-              <td><strong>{voteLabel[ai]}</strong></td>
-              {LABELS.map((act) => {
-                const v = matrix[ai]?.[act] ?? 0;
-                return <td style={ai === act ? 'font-weight:700' : ''}>{v}</td>;
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  )}
-
-  {scope && (
-    <>
-      <h2>{t('party.validity')}</h2>
-      <div class="card">
-        {/* Two metrics about the party's DOCUMENTS, in the order they answer:
-            how much of the chamber's business the plan speaks to at all, and how
-            much of that is an outright commitment rather than a derivation. The
-            second is the base of the headline gap, which is why it is here. */}
-        {scope && (
-          <div class="vmetrics">
-            <div class="vmetric">
-              <span class="vnum">{(scope.reach * 100).toFixed(0)}<small>%</small></span>
-              <span class="vmlbl">{t('party.scopeReach')}</span>
+      {scope && (
+        <div class="sect">
+          <p class="shead">{t('party.validity')}</p>
+          {/* Inline, not two boxed tiles: inside one block a tile is a card in a
+              card, and these two numbers are a single sentence about the plan. */}
+          <p class="vmetrics">
+            <span class="vmetric">
+              <b>{(scope.reach * 100).toFixed(0)}%</b> {t('party.scopeReach')}
               <span class="vmsub">
                 {t('party.scopeReachSub')
                   .replace('{a}', num(scope.addressed))
                   .replace('{t}', num(scope.total))}
               </span>
-            </div>
-            <div class="vmetric lead">
-              <span class="vnum">{(scope.explicitness * 100).toFixed(0)}<small>%</small></span>
-              <span class="vmlbl">{t('party.scopeExplicit')}</span>
+            </span>
+            <span class="vmetric lead">
+              <b>{(scope.explicitness * 100).toFixed(0)}%</b> {t('party.scopeExplicit')}
               <span class="vmsub">
                 {t('party.scopeExplicitSub')
                   .replace('{e}', num(scope.explicit))
                   .replace('{i}', num(scope.inferred))}
               </span>
-            </div>
-          </div>
-        )}
-        {scope && (
+            </span>
+          </p>
           <p class="muted vlogic">
             {t('party.scopeNote')
               .replace('{e}', num(scope.explicit))
               .replace('{pct}', pgap?.explicit.gap_rate != null ? `${(pgap.explicit.gap_rate * 100).toFixed(0)}%` : '–')}
+            {/* Only when it is material. M, KD and L abstained exactly once in
+                four years, which is not a caveat — and "i 1 voteringar" is not
+                Swedish either. */}
+            {abstained >= 10 && ' ' + t('party.scopeAbstained').replace('{n}', num(abstained))}
           </p>
-        )}
+          {sure && sureVerdict && (
+            <p class="vrobust" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
+              {t(`party.robustNote.${sureVerdict}` as any)
+                .replace('{n}', num(sure.n))
+                .replace('{t}', num(pgap?.explicit.n ?? 0))
+                .replace('{pct}', sure.gap_rate == null ? '–' : `${(sure.gap_rate * 100).toFixed(0)}%`)
+                .replace('{head}', pgap?.explicit.gap_rate == null ? '–' : `${(pgap.explicit.gap_rate * 100).toFixed(0)}%`)}
+            </p>
+          )}
+        </div>
+      )}
 
-        {/* The one genuine robustness check, once scope is no longer mistaken for
-            evidence quality: inside the explicit tier, is the gap carried by the
-            readings the model was surest of, or by the rest? */}
-        {sure && sureVerdict && (
-          <p class="vrobust" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
-            {t(`party.robustNote.${sureVerdict}` as any)
-              .replace('{n}', num(sure.n))
-              .replace('{t}', num(pgap?.explicit.n ?? 0))
-              .replace('{pct}', sure.gap_rate == null ? '–' : `${(sure.gap_rate * 100).toFixed(0)}%`)
-              .replace('{head}', pgap?.explicit.gap_rate == null ? '–' : `${(pgap.explicit.gap_rate * 100).toFixed(0)}%`)}
+      {partyDocs.length > 0 && (
+        <div class="sect pdocs">
+          <p class="shead">{t('party.ownDocs').replace('{party}', party?.name ?? code)}</p>
+          <ul>
+            {inContext.map((slug) => {
+              const c = cites.get(slug)!;
+              return (
+                <li>
+                  <a href={dokPath(slug)}>{docLabel(slug)}</a>
+                  <span class="dstat" title={sv
+                    ? `${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
+                    : `${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
+                    {sv
+                      ? `${num(c.lines)} citerade rader · ${num(c.votes)} voteringar`
+                      : `${num(c.lines)} cited lines · ${num(c.votes)} votes`}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+          {alsoPublished.length > 0 && (
+            <details class="alsopub">
+              <summary>{t('party.docsNotInContext').replace('{n}', String(alsoPublished.length))}</summary>
+              <ul>
+                {alsoPublished.map((slug) => <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>)}
+              </ul>
+            </details>
+          )}
+          <p class="dmore">
+            <a href={`${localePath(lang, '/parti/')}#dokument`}>{t('party.allDocs')} →</a>
           </p>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+
+      {/* Last and smallest: a cross-check, not the finding.
+          κ is gone — NEGATIVE for M, KD and L (-0.0015, -0.0034, -0.0035), which
+          is uninterpretable to almost every reader and reads as a broken number,
+          and it is a classifier-agreement statistic for something `gap.py` says
+          outright is not a classification. Cohesion and absence went with it:
+          cohesion is 99.1-100.0% for all eight parties so it distinguishes
+          nobody, and absence needed a tooltip telling the reader not to read it
+          as absenteeism. Both remain in summary.json and cohesion.json. */}
+      <p class="muted calib" title={t('party.calibrationTip')}>
+        {t('party.calibration')}: {(stats.agreement * 100).toFixed(0)}% · n = {num(stats.n)}
+      </p>
+    </div>
+  ) : (
+    <p class="muted">{t('home.noai')}</p>
   )}
 
   {/* The three month-by-month series, together and small.
@@ -535,72 +486,42 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     .phead .floor b { color: var(--ink-2); font-variant-numeric: tabular-nums; }
     .phead .floor .abs { cursor: help; text-decoration: underline dotted; }
     .phead .floor .mo { font-size: 0.92em; }
-    /* The party's own corpus, directly under its headline number. Keyed to the
-       party colour like .phead, because the two belong together: the panel is
-       the claim, this is what the claim was read from. */
-    .pdocs { border-left-color: var(--pc, var(--gold)); }
-    .pdocs .dhead {
-      margin: 0 0 0.6rem; font-size: 0.82rem; font-weight: 700;
-      letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+    /* Sections inside the one block, separated by a hairline rather than by
+       being separate cards. */
+    .phead .sect {
+      margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--line-soft);
+    }
+    .phead .shead {
+      margin: 0 0 0.55rem; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted);
     }
     .pdocs ul { margin: 0; padding-left: 1.1rem; }
-    .pdocs li { margin: 0.45rem 0; }
+    .pdocs li { margin: 0.4rem 0; font-size: 0.92rem; }
     /* Under the title, not beside it: a manifesto name plus a count wraps into
        two ragged lines in a narrow column otherwise. */
     .pdocs .dstat {
       display: block; font-size: 0.78rem; color: var(--muted);
       font-variant-numeric: tabular-nums; cursor: help;
     }
-    /* Collapsed: published for transparency, but not what the gap was measured
-       against, and an open list of four budget motions would outweigh the three
-       documents that actually carry the finding. */
-    .pdocs .alsopub { margin-top: 0.8rem; font-size: 0.88rem; }
+    /* Published for transparency, but not what the gap was measured against, and
+       an open list of four budget motions would outweigh the three documents that
+       actually carry the finding. */
+    .pdocs .alsopub { margin-top: 0.7rem; font-size: 0.85rem; }
     .pdocs .alsopub > summary { cursor: pointer; color: var(--muted); }
     .pdocs .alsopub > summary:hover { color: var(--accent-ink); }
     .pdocs .alsopub ul { margin-top: 0.4rem; }
-    .pdocs .dmore {
-      margin: 0.9rem 0 0; padding-top: 0.7rem;
-      border-top: 1px solid var(--line-soft); font-size: 0.85rem;
-    }
-    /* Small multiples. `auto-fit` would stretch a lone chart back to full width,
-       which is the shape this section exists to get away from — the two-up grid
-       is fixed above 760px and collapses below it, where the SVG's own viewBox
-       scaling makes a full-width chart the legible option again. */
-    .trends { display: grid; gap: 0.9rem; grid-template-columns: minmax(0, 1fr); }
-    .tcard { margin: 0; }
-    .tcard .thead {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
-      margin: 0 0 0.5rem; font-size: 0.82rem; font-weight: 700;
-      letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
-    }
-    /* The number the sparkline is a history of — the chart is small enough now
-       that the current value should not have to be read off it. */
-    .tcard .tnow {
-      font-weight: 400; letter-spacing: 0; text-transform: none;
-      font-variant-numeric: tabular-nums; color: var(--ink-2);
-    }
-    .tcard .tnote { margin: 0.4rem 0 0; font-size: 0.8rem; color: var(--muted); }
-    @media (min-width: 760px) {
-      .trends { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
-      .trends .wide { grid-column: 1 / -1; }
-    }
-    /* The two document metrics, read left to right as one sentence: how much of
-       the chamber's business the plan reaches, and how much of that is an
-       outright commitment. The second is the base of the headline, so it leads. */
+    .pdocs .dmore { margin: 0.7rem 0 0; font-size: 0.85rem; }
+
+    /* The two document metrics, side by side, as one sentence about the plan. */
     .vmetrics {
-      display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      margin-bottom: 1rem;
+      display: grid; gap: 0.5rem 1.6rem; margin: 0 0 0.7rem;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     }
-    .vmetric {
-      padding: 0.7rem 0.9rem; border-left: 3px solid var(--line);
-      background: var(--panel-2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    }
-    .vmetric.lead { border-left-color: var(--pc, var(--accent)); }
-    .vnum { display: block; font-size: 1.9rem; font-weight: 700; line-height: 1.05; }
-    .vnum small { font-size: 0.45em; font-weight: 700; margin-left: 0.08em; vertical-align: baseline; }
-    .vmlbl { display: block; font-size: 0.88rem; color: var(--ink-2); margin-top: 0.15rem; }
+    .vmetric { font-size: 0.9rem; color: var(--ink-2); }
+    .vmetric b { font-size: 1.35rem; color: var(--ink); margin-right: 0.15rem; }
+    .vmetric.lead b { color: var(--pc, var(--accent-ink)); }
     .vmsub {
-      display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem;
+      display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem;
       font-variant-numeric: tabular-nums;
     }
     .vlogic { font-size: 0.88rem; max-width: 62ch; margin: 0 0 1.2rem; }
