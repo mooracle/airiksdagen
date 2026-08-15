@@ -193,7 +193,10 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
   // would fuse every genuine "– " list in the corpus into its preceding
   // paragraph, which is a far larger wrong than one lost highlight. Listed, so a
   // second one cannot arrive unnoticed.
-  const KNOWN = new Set(['valmanifest-2022-m/b0198: tillfälliga personnummer – samordningsnummer.']);
+  // The id moved b0198 -> b0191 when the rotated 'Valmanifest 2022' margin stamp
+  // stopped being extracted: block ids are positional, and seven of the 39 stamps
+  // sit above this line. The limitation itself is unchanged.
+  const KNOWN = new Set(['valmanifest-2022-m/b0191: tillfälliga personnummer – samordningsnummer.']);
   const used = new Set();
   const wrong = [];
   const misparsed = [];

@@ -218,6 +218,39 @@ class TestStripRunning:
         assert titles and titles[0].size == 30.0
         assert ex.dropped.count("Frihetens hinder") >= 3  # the 6pt header, dropped
 
+    def test_a_rotated_stamp_up_the_outer_margin_goes(self):
+        """valmanifest-m runs 'Valmanifest 2022' up the left edge of every page.
+
+        Vertically centred (y 0.448-0.552 of an 842pt page), so the header/footer
+        band never saw it and 39 copies of the document's own title reached the
+        reader as body text — roled `caption` by the minor-cluster rule, which is
+        what made it small and grey rather than absent.
+        """
+        lines = [
+            _line("Valmanifest 2022", page=p, y0=377.0, x0=18.9, width=11.3, rotated=True)
+            for p in range(10)
+        ]
+        kept, dropped = docx.strip_running(lines)
+        assert not kept and len(dropped) == 10
+
+    def test_a_rotated_chart_label_mid_page_survives(self):
+        """The same document's 2012-2018 tick labels are rotated too, and are
+        content. Only the margin separates them from the stamp above."""
+        lines = [
+            _line("2014", page=p, y0=377.0, x0=190.5, width=10.5, rotated=True)
+            for p in range(10)
+        ]
+        kept, dropped = docx.strip_running(lines)
+        assert len(kept) == 10 and not dropped
+
+    def test_upright_text_at_the_left_edge_survives(self):
+        """The margin rule is for rotated lines only. Every line of a
+        single-column page starts at the left edge, so applying it to upright
+        text would empty the document."""
+        lines = [_line("Vi vill se ett tryggare Sverige.", page=p, y0=377.0, x0=18.9) for p in range(10)]
+        kept, dropped = docx.strip_running(lines)
+        assert len(kept) == 10 and not dropped
+
     def test_a_footer_whose_number_changes_is_still_one_signature(self):
         """kd-2015 footers read 'PRINCIPPROGRAM | 5', '6 | PRINCIPPROGRAM', ..."""
         lines = [_line(f"PRINCIPPROGRAM | {p + 1}", page=p, y0=800.0) for p in range(8)]
@@ -436,10 +469,17 @@ class TestDetectColumns:
         assert docx.detect_columns([body[0], stamp, body[1], body[2]]) == body + [stamp]
 
     def test_the_rotated_margin_stamp_never_lands_in_prose(self, m_manifest):
-        """39 of them, once per page, sitting mid-page where the band rule cannot see."""
-        stamps = [b for b in m_manifest.blocks if b.text == "Valmanifest 2022"]
-        assert len(stamps) >= 30
-        assert {b.role for b in stamps} == {"caption"}
+        """39 of them, once per page, sitting mid-page where the BAND rule cannot see.
+
+        They used to survive as `caption` — the minor-cluster rule caught them,
+        which kept them out of the prose but still drew 39 small grey copies of
+        the document's own title through the body. `_in_margin` now drops them as
+        the furniture they are, and the chart labels rotated beside them (mid-page,
+        so outside the margin) still come through.
+        """
+        assert not any("Valmanifest 2022" in b.text for b in m_manifest.blocks)
+        assert m_manifest.dropped.count("Valmanifest 2022") == 39
+        assert any(b.text.strip() == "2014" for b in m_manifest.blocks)
 
 
 class TestStyleClusters:
