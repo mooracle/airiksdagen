@@ -23,6 +23,7 @@ from pathlib import Path
 import httpx
 
 from aidag.config import (
+    BLOCKS_DIR,
     BUDGET_MOTIONS,
     CORPUS_DIR,
     MANIFESTO_PDF_URL,
@@ -75,8 +76,31 @@ def _fetch_pdf(client: httpx.Client, slug: str, url: str, force: bool) -> bytes:
     return r.content
 
 
+def is_derived_from_blocks(slug: str) -> bool:
+    """True when `data/corpus/<slug>.txt` is generated from `blocks/<slug>.json`.
+
+    For the 23 re-extracted documents the .txt is a FUNCTION of the blocks
+    (`extract_corpus.text_from_blocks`), so rewriting it here from a fresh
+    `pdf_to_text()` would silently desynchronise the text agents are served from
+    the structure the site renders and `build-anchors` indexes — with the block
+    file, and therefore the page, still claiming to describe it. Re-extraction is
+    what regenerates these; fetching only fills the PDF cache underneath them.
+    """
+    return (BLOCKS_DIR / f"{slug}.json").exists()
+
+
+def _skip_derived(path: Path) -> bool:
+    if not is_derived_from_blocks(path.stem):
+        return False
+    print(f"  {path.name}: derived from blocks/ — run `aidag extract-corpus --force`")
+    return True
+
+
 def fetch_manifesto(client: httpx.Client, code: str, force: bool) -> None:
     path = CORPUS_DIR / manifesto_filename(code)
+    # before the force check: --force must not reach a derived .txt either
+    if _skip_derived(path):
+        return
     if path.exists() and not force:
         print(f"  {path.name}: exists, skipping")
         return
@@ -199,6 +223,9 @@ def fetch_programs(client: httpx.Client, force: bool) -> None:
         for v in versions:
             path = CORPUS_DIR / program_filename(code, v)
             pdf_bytes = _fetch_pdf(client, path.stem, v["url"], force)
+            # the PDF cache is still filled above; only the derived .txt is left alone
+            if _skip_derived(path):
+                continue
             if path.exists() and not force:
                 print(f"  {path.name}: exists, skipping")
                 continue

@@ -167,6 +167,24 @@ class TestLocate:
         assert m.how == "fuzzy"
         assert _normalize_ws(m.text) in kd2015.served
 
+    def test_a_quote_sharing_no_word_with_the_document_fails_without_scanning_it(
+        self, kd2015
+    ):
+        """The prefilter finding nothing is a verdict, not a reason to scan.
+
+        `best_span` over a 172-page programme is the multi-minute operation the
+        index exists to avoid; reaching for it here would spend it to conclude
+        what the empty candidate set already said.
+        """
+        quote = "zzqx wvbb kkjl mmpr"
+        assert kd2015.candidates(quote) == []
+        m = kd2015.locate(quote)
+        assert (m.how, m.text, m.ratio) == ("failed", "", 0.0)
+
+    def test_an_empty_quote_fails_rather_than_scanning_the_document(self, kd2015):
+        m = kd2015.locate("")
+        assert m.how == "failed"
+
     def test_the_threshold_is_the_repair_threshold(self):
         from aidag import repair
 

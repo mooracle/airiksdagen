@@ -190,10 +190,12 @@ class DocIndex:
             return Match("exact", "", 1.0)
         windows = {self.window(i) for i in self.candidates(q)}
         if not windows:
-            # every token of the quote is damaged or absent — nothing to prefilter
-            # on. Rare enough (no citation in full-v4 reaches it) that the whole
-            # document is an acceptable last resort.
-            windows = {(0, len(self.served))}
+            # Not one word of the quote occurs anywhere in the document (an empty
+            # quote reaches this too), so no span of it can match. Falling back to
+            # the whole served text would spend the multi-minute full-document
+            # scan this module exists to avoid — see the module docstring's
+            # 172-page measurement — to arrive at exactly this verdict.
+            return Match("failed", "", 0.0)
         best, ratio = "", 0.0
         for lo, hi in sorted(windows):
             span, r = _refine(q, self.served[lo:hi])

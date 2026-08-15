@@ -92,7 +92,13 @@ class TestDerivedText:
         assert corpus.normalize(_committed(slug)).splitlines()[0] != first
 
     def test_the_drop_set_is_page_numbers_and_unreadable_headings_only(self):
-        """Whatever normalize drops from a block must be one of those two things."""
+        """Whatever normalize drops from a block must be one of those two things.
+
+        Asserted on the REASON, not the role: a role allowlist wide enough to
+        hold the roles a page number actually carries (`caption`, `toc`) says
+        nothing about whether the block held prose, so a drop regex that widened
+        far enough to swallow a paragraph would still pass it.
+        """
         dropped = [
             b
             for slug in SLUGS
@@ -101,7 +107,12 @@ class TestDerivedText:
         ]
         assert dropped, "nothing is dropped — the round-trip proves nothing"
         for b in dropped:
-            assert b.role in ("caption", "unreadable", "toc", "para", "label"), b.text
+            page_number = not re.search(r"[^\W\d_]", b.text, re.UNICODE)
+            unreadable = docx._broken_font_line(b.text)  # noqa: SLF001
+            assert page_number or unreadable, f"{b.role}: {b.text!r}"
+            # an unreadable heading is kept as a block and roled as one, so the
+            # page can surface it as a placeholder rather than lose it silently
+            assert not unreadable or b.role == "unreadable", b.text
 
     def test_mp2013_unreadable_headings_are_kept_as_blocks(self):
         """Dropped from the served text, surfaced on the page as placeholders."""
@@ -169,6 +180,11 @@ class TestInterlocks:
             ec.run(slug="budgetmotion-v-202223")
 
     def test_an_existing_extraction_is_not_redone_without_force(self, capsys):
+        # guarded like _blocks(): without the committed block file this stops
+        # being a skip test and becomes a real extraction that rewrites
+        # data/corpus/valmanifest-2022-kd.txt in the working tree
+        if not ec.blocks_path("valmanifest-2022-kd").exists():
+            pytest.skip("blocks not built (run: uv run aidag extract-corpus)")
         assert ec.run(slug="valmanifest-2022-kd") == []
         assert "skipping" in capsys.readouterr().out
 

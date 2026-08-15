@@ -19,7 +19,6 @@ import difflib
 import json
 
 from aidag.config import RESULTS_DIR
-from aidag.promptgen import _corpus_text
 from aidag.simulate import _normalize_ws
 
 THRESHOLD = 0.75

@@ -385,7 +385,7 @@ def build_anchors(run_id: str = typer.Option(..., "--run-id")) -> None:
     and is neither blank nor flagged `citat_ej_migrerat` — the anchor is keyed on
     the quote, so an unlocated one is a link that would vanish silently.
     """
-    from aidag.anchors import run as build
+    from aidag.anchors import build
 
     build(run_id=run_id)
 

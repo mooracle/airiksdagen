@@ -14,6 +14,7 @@ process.chdir(ROOT); // lib/data.ts resolves src/data/ from cwd, as astro does
 
 const { getCorpusBlocks, getCorpusDoc, quoteFragment } = await import('../src/lib/data.ts');
 const { renderDoc, groupBlocks, stripInvisible } = await import('../src/lib/doctext.ts');
+const { citedLines } = await import('../src/lib/anchors.ts');
 
 const CORPUS = path.join(ROOT, 'src', 'data', 'corpus');
 const exported = fs.existsSync(CORPUS);
@@ -22,6 +23,13 @@ const slugs = exported
   : [];
 const withBlocks = slugs.filter((s) => fs.existsSync(path.join(CORPUS, 'blocks', `${s}.json`)));
 const skip = exported ? false : 'src/data/corpus not exported (run: uv run aidag export-site)';
+
+// The citation index is a separate artifact with a separate pass behind it, so
+// it needs its own skip: returning early from inside a test body instead reports
+// a green sweep that checked nothing.
+const ANCHORS = path.join(CORPUS, 'anchors');
+const anchorSkip =
+  skip || (fs.existsSync(ANCHORS) ? false : 'anchors not indexed (run: uv run aidag build-anchors)');
 
 test('the loader returns the blocks for a re-extracted document', { skip }, () => {
   const file = getCorpusBlocks('partiprogram-kd-2015');
@@ -128,13 +136,12 @@ test('the rendered text is the text the agents were served', { skip }, () => {
   }
 });
 
-test('every citation deep link resolves inside one rendered paragraph', { skip }, () => {
+test('every citation deep link resolves inside one rendered paragraph', { skip: anchorSkip }, () => {
   // A #:~:text= fragment is matched against the page, and the browser's matcher
   // will not cross a block-level boundary: each term has to sit inside one <p>.
   // 56 anchors quote across a paragraph the extraction cut in two, which is what
   // doctext.groupBlocks() rejoins — this is the check that says so.
-  const dir = path.join(CORPUS, 'anchors');
-  if (!fs.existsSync(dir)) return; // no run indexed yet — build-anchors has not run
+  const dir = ANCHORS;
   let checked = 0;
   const broken = [];
   // One anchor is not recoverable here and does not resolve on the current site
@@ -144,6 +151,7 @@ test('every citation deep link resolves inside one rendered paragraph', { skip }
   // paragraph, which is a far larger wrong than one lost highlight. Listed, so a
   // second one cannot arrive unnoticed.
   const KNOWN = new Set(['valmanifest-2022-m/b0198: tillfälliga personnummer – samordningsnummer.']);
+  const used = new Set();
   for (const f of fs.readdirSync(dir)) {
     const slug = f.replace(/\.json$/, '');
     const summary = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf-8'));
@@ -161,11 +169,44 @@ test('every citation deep link resolves inside one rendered paragraph', { skip }
         const window = doc.texts.slice(at, at + 4);
         for (const term of terms) {
           const miss = `${slug}/${blockId}: ${term}`;
-          if (!window.some((t) => t.includes(term)) && !KNOWN.has(miss)) broken.push(miss);
+          if (window.some((t) => t.includes(term))) continue;
+          if (KNOWN.has(miss)) used.add(miss);
+          else broken.push(miss);
         }
       }
     }
   }
   assert.ok(checked > 1000, `only ${checked} anchors checked`);
+  // ratchet, the way data/corpus/known-unrecovered.json is: an allowlist entry
+  // that has stopped being needed masks the next regression at that block
+  assert.deepEqual([...KNOWN].filter((k) => !used.has(k)), [], 'stale KNOWN entry');
   assert.deepEqual(broken, [], `${broken.length} of ${checked} anchors lost their deep link`);
+});
+
+test('the navigational flag reads the same corpus the same way Python does', { skip: anchorSkip }, () => {
+  // `is_navigational` exists twice — anchors.py for the report, anchors.ts for
+  // the page — and the duplication is only safe if both read the committed
+  // corpus to the same number. tests/test_anchors.py::TestNavigationParity says
+  // this is "the site measured independently in TypeScript"; without this test
+  // that sentence was true of a comment, not of anything that runs, and a
+  // TS-only edit to NAV_MAX_WORDS or the label regexes would put "promises
+  // nothing" on real pledges with nothing failing.
+  //
+  // 16 blocks / 180 (vote, line) pairs — docs/topic-label-citations.md.
+  let blocks = 0;
+  let blockDecisions = 0;
+  for (const f of fs.readdirSync(ANCHORS)) {
+    const slug = f.replace(/\.json$/, '');
+    const summary = JSON.parse(fs.readFileSync(path.join(ANCHORS, f), 'utf-8'));
+    const doc = renderDoc(getCorpusDoc(slug), getCorpusBlocks(slug));
+    for (const g of doc.groups) {
+      for (const line of citedLines(g, summary)) {
+        if (!line.navigational) continue;
+        blocks += 1;
+        blockDecisions += line.cites.decisions.n;
+      }
+    }
+  }
+  assert.equal(blocks, 16);
+  assert.equal(blockDecisions, 180);
 });

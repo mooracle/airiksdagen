@@ -37,7 +37,10 @@ rendering path.
 data/corpus/
   pdf/<slug>.pdf            source bytes, committed (23 files, 24 MB) — extraction never fetches
   frozen/<slug>.txt         pre-extraction text, all 40 — serves prompt_version < p6
-  blocks/<slug>.json        [{id, role, page, size, bold, text}] — 23 files, 9,409 blocks
+  blocks/<slug>.json        {slug, source, pages, dropped, blocks: [{id, role, page,
+                            size, bold, text}]} — 23 files, 9,409 blocks. `source` is
+                            `pdf` except valmanifest-2022-c (`text`, no PDF text layer);
+                            `dropped` is the running-header audit trail
   <slug>.txt                derived FROM the blocks; what agents read and verify checks
   known-unrecovered.json    12 quotes / 119 citations the geometry cannot recover
 ```
@@ -65,7 +68,7 @@ than the corpus was built from.
 
 ```sh
 uv run aidag citation-audit   --run-id full-v4 --out data/interim/audit/before.json
-uv run aidag extract-corpus                      # blocks + derived .txt (23 documents)
+uv run aidag extract-corpus --force              # blocks + derived .txt (23 documents)
 uv run aidag migrate-quotes   --run-id full-v4   # committed quotes → new bytes (citat_migrerat)
 uv run aidag repair-citations --run-id full-v4   # model paraphrases        (citat_korrigerat)
 uv run aidag citation-audit   --run-id full-v4 \
@@ -75,6 +78,11 @@ uv run aidag verify simulate  --run-id full-v4   # and --run-id full-v3 — both
 uv run aidag export-site      --run-id full-v4
 ```
 
+- `extract-corpus` **skips any slug whose block file already exists** — on this repo all
+  23 do, so without `--force` the whole step prints "blocks exist, skipping" and the
+  passes below then run against unchanged blocks. `fetch-corpus` will not rewrite these
+  23 `.txt` files at all, `--force` included: they are derived from the blocks, and only
+  re-extraction regenerates them.
 - `migrate-quotes` records *the corpus changed*; `repair-citations` records *the model
   paraphrased*. Running them the other way round attributes an extraction fix to the
   agent. Both leave the original in a sidecar (`quote_fore_migrering`,
@@ -107,9 +115,13 @@ It is **not** wired into the Cloudflare build, which runs `npm ci && npm run bui
 `aidag navigation-report --run-id full-v4` reports the citations that landed on a
 heading or topic label rather than on a promise — **16 blocks, 178 votes** (180
 vote-line pairs, which is the number the site shows per block). The finding is written
-up in `docs/topic-label-citations.md`; the role-only figure is 1,165 votes and printing
-*that* alone would be a false claim about two parties' pledge lists, which is why the
-report prints three scopes.
+up in `docs/topic-label-citations.md`. The report prints three scopes because they are
+three different numbers: `label_toc` (the `label`/`toc` roles alone) reads **1,165**
+vote-line pairs and printing *that* would be a false claim about two parties' pledge
+lists; `role_only` (every navigational role, headings included) reads **1,433**;
+`navigational` — role *and* the text reading as a label, which is what the site marks —
+is the 180. `site/tests/corpus.test.mjs` re-measures the last of these in TypeScript
+against the committed export, so the duplicated rule cannot drift in one language only.
 
 ---
 
