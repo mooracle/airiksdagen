@@ -200,6 +200,62 @@ class TestKnownUnrecoverableCitations:
         assert repair_decision(d, self.CORPUS, "2023-04-12", self._known()) == (0, 1, 0)
 
 
+class TestRepairRefusesAnEmptyRun:
+    """`repair.run` writes the committed record; a missing run must not read as clean."""
+
+    def test_a_run_that_does_not_exist_is_refused(self, tmp_path, monkeypatch):
+        """The all-zero line an already-verbatim run prints is the same line a
+        typoed `--run-id` prints, and only one of them opened the record."""
+        import aidag.repair as repair
+
+        monkeypatch.setattr(repair, "RESULTS_DIR", tmp_path)
+        with pytest.raises(FileNotFoundError, match="nothing to repair"):
+            repair.run("no-such-run")
+
+    def test_an_empty_run_directory_is_refused_too(self, tmp_path, monkeypatch):
+        import aidag.repair as repair
+
+        monkeypatch.setattr(repair, "RESULTS_DIR", tmp_path)
+        (tmp_path / "simulations" / "empty-run").mkdir(parents=True)
+        with pytest.raises(FileNotFoundError, match="nothing to repair"):
+            repair.run("empty-run")
+
+    def test_a_real_run_still_walks_the_write_path(self, tmp_path, monkeypatch):
+        """The refusal must not be the only thing `run()` can do.
+
+        A guard that returns early on every input passes both tests above and
+        rewrites nothing, so this walks the loop the guard stands in front of:
+        one shard in, one shard out, atomically, with the unverifiable quote
+        withdrawn into its sidecar.
+        """
+        import json
+
+        import aidag.repair as repair
+        from aidag.config import PROCESSED_DIR
+
+        if not (PROCESSED_DIR / "cases.parquet").exists():
+            # gitignored, so CI reaches this test with no data tree
+            pytest.skip("cases.parquet not built (run: uv run aidag build-cases)")
+        monkeypatch.setattr(repair, "RESULTS_DIR", tmp_path)
+        shard = tmp_path / "simulations" / "test-run" / "KD.jsonl"
+        shard.parent.mkdir(parents=True)
+        d = {
+            "parti": "KD",
+            "votering_id": "NO-SUCH-VOTE",  # dates to "", so no document resolves
+            "prompt_version": "p6",
+            "arm": "anonymous",
+            "flags": [],
+            "citations": [{"document": "partiprogram", "princip": "p0", "quote": "Ett löfte."}],
+        }
+        shard.write_text(json.dumps(d, ensure_ascii=False) + "\n", encoding="utf-8")
+        repair.run("test-run")
+        rows = [json.loads(line) for line in shard.read_text().splitlines()]
+        assert len(rows) == 1
+        assert rows[0]["citations"][0]["quote"] == ""
+        assert rows[0]["citations"][0]["quote_ej_verifierad"] == "Ett löfte."
+        assert list(shard.parent.glob("*.tmp")) == []
+
+
 class TestWorkflowScriptSync:
     """The workflow script duplicates pipeline schemas in JS; these tripwires
     catch the copies drifting apart."""

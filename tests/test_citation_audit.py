@@ -269,6 +269,70 @@ class TestWithholdingUnverifiedEnglish:
         assert tr["citations"][0]["quote"] == "the plan says"
 
 
+class TestTheCommandFailsOnMisalignment:
+    """The report is only a report if something reads it.
+
+    This is the invariant with no error path of its own, so `citation-audit` is
+    where it has to surface: printing the affected cids and exiting 0 leaves the
+    rest of the pass order — and any script driving it — treating a misaligned
+    record as a clean one, which is exactly the silence the module exists for.
+    """
+
+    def _invoke(self, tmp_path, monkeypatch, sv: dict[str, int], en: dict[str, int] | None,
+                baseline: dict[str, int] | None):
+        from typer.testing import CliRunner
+
+        from aidag import cli
+
+        root = _run_dir(tmp_path, {"KD": [_decision(n, vid=vid) for vid, n in sv.items()]})
+        monkeypatch.setattr(ca, "RESULTS_DIR", root)
+        args = ["citation-audit", "--run-id", "test-run"]
+        if baseline is not None:
+            path = tmp_path / "before.json"
+            ca.write_snapshot(
+                {**ca.snapshot("test-run", root), "lengths": baseline}, path
+            )
+            args += ["--baseline", str(path)]
+        if en is not None:
+            d = root / "translations" / "test-run"
+            d.mkdir(parents=True)
+            (d / "decisions.jsonl").write_text(
+                "\n".join(
+                    json.dumps({"cid": cid, "citations": [{"quote": "x"}] * n})
+                    for cid, n in en.items()
+                )
+                + "\n"
+            )
+            args.append("--check-translations")
+        return CliRunner().invoke(cli.app, args)
+
+    def test_an_aligned_run_exits_zero(self, tmp_path, monkeypatch):
+        res = self._invoke(
+            tmp_path,
+            monkeypatch,
+            {"A": 4},
+            {"KD:A:p6:anonymous": 4},
+            {"KD:A:p6:anonymous": 4},
+        )
+        assert res.exit_code == 0, res.output
+
+    def test_a_length_change_against_the_baseline_exits_non_zero(self, tmp_path, monkeypatch):
+        res = self._invoke(tmp_path, monkeypatch, {"A": 4}, None, {"KD:A:p6:anonymous": 5})
+        assert res.exit_code == 1
+        # the report still prints — the exit code is added to it, not instead of it
+        assert "KD:A:p6:anonymous: 5 → 4" in res.output
+
+    def test_an_english_pairing_gap_exits_non_zero(self, tmp_path, monkeypatch):
+        res = self._invoke(tmp_path, monkeypatch, {"A": 4}, {"KD:A:p6:anonymous": 5}, None)
+        assert res.exit_code == 1
+        assert "sv 4 vs en 5" in res.output
+
+    def test_a_plain_snapshot_never_fails(self, tmp_path, monkeypatch):
+        """With neither flag there is nothing to be misaligned against."""
+        res = self._invoke(tmp_path, monkeypatch, {"A": 4}, None, None)
+        assert res.exit_code == 0, res.output
+
+
 @pytest.fixture(scope="module")
 def snap():
     from aidag.config import RESULTS_DIR

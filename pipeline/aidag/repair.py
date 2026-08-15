@@ -134,6 +134,18 @@ def run(run_id: str) -> None:
     from aidag.config import PROCESSED_DIR
     from aidag.corpus import documents_for
 
+    sim_dir = RESULTS_DIR / "simulations" / run_id
+    shards = sorted(sim_dir.glob("*.jsonl"))
+    if not shards:
+        # Same refusal as `migrate_quotes.run()`: a typoed `--run-id` globs
+        # nothing and prints the all-zero line an already-verbatim run prints,
+        # so the operator reads "no repairs needed" off a pass that never
+        # opened the record. Checked before the parquet so the typo answers
+        # immediately.
+        raise FileNotFoundError(
+            f"{run_id}: no *.jsonl under {sim_dir} — nothing to repair. A clean "
+            "run and a missing one report the same zeroes."
+        )
     cases = pl.read_parquet(
         PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum", "rm"]
     )
@@ -143,9 +155,8 @@ def run(run_id: str) -> None:
     from aidag.migrate_quotes import MIGRATED_FROM, known_unrecovered
 
     known = known_unrecovered()
-    sim_dir = RESULTS_DIR / "simulations" / run_id
     n_ok = n_fixed = n_failed = n_blocked = n_weak = 0
-    for path in sorted(sim_dir.glob("*.jsonl")):
+    for path in shards:
         party = path.stem
         out_lines = []
         for line in path.read_text().splitlines():

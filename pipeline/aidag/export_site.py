@@ -122,14 +122,21 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     sources = {src.name for src in BLOCKS_DIR.glob("*.json")}
     # Blocks are run-independent and always refreshed, but the committed anchors
     # are not: they index these ids positionally. So note which slugs the refresh
-    # would MOVE — a block file that already exists and whose bytes differ — and
-    # decide on that before writing anything. A slug the site simply did not have
-    # yet has moved nothing and is not this case.
-    rewritten = {
+    # would MOVE — a block file that already exists and whose bytes differ, or one
+    # `sync_blocks()` is about to unlink because the extraction no longer produces
+    # it — and decide on that before writing anything. A slug the site simply did
+    # not have yet has moved nothing and is not this case.
+    #
+    # Removal counts because it is the extreme of the same drift: every id the
+    # index names stops existing, and the page falls back to `formatCorpusDoc()`
+    # while the committed anchor file for the slug stays behind, orphaned. The
+    # indexed path already refuses it (`_check_anchors_match_blocks`, "indexed,
+    # but no blocks/<slug>.json"); the no-index branches must not be laxer.
+    moved = {
         src.stem
         for src in sorted(BLOCKS_DIR.glob("*.json"))
         if (dst := blocks_out / src.name).exists() and dst.read_bytes() != src.read_bytes()
-    }
+    } | {dst.stem for dst in sorted(blocks_out.glob("*.json")) if dst.name not in sources}
 
     def sync_blocks() -> None:
         """Land the refresh. Only ever called once the guards have passed."""
@@ -146,7 +153,7 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # (cli.py). There is no run to index, so there is nothing to say about
         # the citation anchors — and the rebuild below, driven by an empty
         # payload, would delete the committed index rather than leave it alone.
-        _check_standing_anchors_survive(rewritten, corpus_out)
+        _check_standing_anchors_survive(moved, corpus_out)
         sync_blocks()
         return 0
     if not anchors_dir(run_id).exists():
@@ -156,7 +163,7 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # does for "indexed nothing", so the rebuild below cannot tell them apart
         # and would silently drop 46 committed files. An empty *directory* is the
         # real empty run, and its files are still swept.
-        _check_standing_anchors_survive(rewritten, corpus_out)
+        _check_standing_anchors_survive(moved, corpus_out)
         sync_blocks()
         print(f"  anchors: {run_id} has no index — committed anchors left alone")
         return 0
@@ -201,7 +208,7 @@ class StaleAnchors(Exception):
     """The citation index was built against a different extraction than the blocks."""
 
 
-def _check_standing_anchors_survive(rewritten: set[str], corpus_out) -> None:
+def _check_standing_anchors_survive(moved: set[str], corpus_out) -> None:
     """A block refresh must not orphan the committed index the run cannot re-check.
 
     The two no-index branches return before `_check_anchors_match_blocks()` runs,
@@ -211,16 +218,16 @@ def _check_standing_anchors_survive(rewritten: set[str], corpus_out) -> None:
     anchors, which is the failure the pairing guard exists for. Those
     branches have no payload to round-trip quotes against — the site-side files
     hold offsets, not quote text (`anchors.summarize`/`compact_refs`) — but they
-    do not need one: a block file that was rewritten under a standing anchor file
-    for the same slug has moved ids the index still names, and that is enough to
-    refuse on.
+    do not need one: a block file that was rewritten — or dropped — under a
+    standing anchor file for the same slug has moved ids the index still names,
+    and that is enough to refuse on.
     """
     standing = {p.stem for p in (corpus_out / "anchors").glob("*.json")}
-    orphaned = sorted(rewritten & standing)
+    orphaned = sorted(moved & standing)
     if orphaned:
         raise StaleAnchors(
-            "the extracted blocks were rewritten under a committed citation "
-            f"index that this export cannot re-check: {', '.join(orphaned[:3])}"
+            "the extracted blocks were rewritten or removed under a committed "
+            f"citation index that this export cannot re-check: {', '.join(orphaned[:3])}"
             f"{', …' if len(orphaned) > 3 else ''}\n"
             "Block ids are positional, so shipping these together would attribute "
             "real votes to the wrong lines. Re-run `uv run aidag build-anchors "
