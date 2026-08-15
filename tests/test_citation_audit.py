@@ -228,44 +228,44 @@ class TestWithholdingUnverifiedEnglish:
         return {"citations": [{"quote": q, "princip": f"p{i}"} for i, q in enumerate(quotes)]}
 
     def test_english_is_kept_where_the_swedish_survives(self):
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
         tr = self._tr(["the plan says", "and also"])
-        out = _withhold_unverified(tr, [{"quote": "planen säger"}, {"quote": "och även"}])
+        out = withhold_unverified(tr, [{"quote": "planen säger"}, {"quote": "och även"}])
         assert [c["quote"] for c in out["citations"]] == ["the plan says", "and also"]
 
     def test_english_is_withheld_where_the_swedish_was_blanked(self):
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
         tr = self._tr(["the plan says", "and also"])
-        out = _withhold_unverified(tr, [{"quote": ""}, {"quote": "och även"}])
+        out = withhold_unverified(tr, [{"quote": ""}, {"quote": "och även"}])
         assert [c["quote"] for c in out["citations"]] == ["", "and also"]
 
     def test_the_princip_label_survives(self):
         """It is the model's own summary, never claimed to be verbatim — losing
         it would take the citation's only remaining label with it."""
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
-        out = _withhold_unverified(self._tr(["the plan says"]), [{"quote": ""}])
+        out = withhold_unverified(self._tr(["the plan says"]), [{"quote": ""}])
         assert out["citations"][0]["princip"] == "p0"
 
     def test_an_untranslated_decision_passes_through(self):
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
-        assert _withhold_unverified(None, [{"quote": ""}]) is None
+        assert withhold_unverified(None, [{"quote": ""}]) is None
 
     def test_an_unaffected_row_is_returned_unchanged(self):
         """Same object, not a copy — 20,312 decisions and 119 affected."""
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
         tr = self._tr(["the plan says"])
-        assert _withhold_unverified(tr, [{"quote": "planen säger"}]) is tr
+        assert withhold_unverified(tr, [{"quote": "planen säger"}]) is tr
 
     def test_the_source_translation_row_is_not_mutated(self):
-        from aidag.export_site import _withhold_unverified
+        from aidag.translate import withhold_unverified
 
         tr = self._tr(["the plan says"])
-        _withhold_unverified(tr, [{"quote": ""}])
+        withhold_unverified(tr, [{"quote": ""}])
         assert tr["citations"][0]["quote"] == "the plan says"
 
 

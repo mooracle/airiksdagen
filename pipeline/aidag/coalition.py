@@ -78,7 +78,11 @@ def compute(df: pl.DataFrame, run_id: str | None = None) -> dict:
     translations degrade to None, exactly as in `export_site`, so this is safe
     to run mid-translation.
     """
-    from aidag.translate import load_case_translations, load_decision_translations
+    from aidag.translate import (
+        load_case_translations,
+        load_decision_translations,
+        withhold_unverified,
+    )
 
     # case texts are run-independent, but both loads are gated on run_id so that
     # `compute(df)` stays the pure, data-free function the metric tests call
@@ -136,7 +140,13 @@ def compute(df: pl.DataFrame, run_id: str | None = None) -> dict:
                         f"{p}:{row['votering_id']}:{row['prompt_version']}:"
                         f"{row.get('arm') or 'anonymous'}"
                     )
-                    tr = dec_tr.get(cid)
+                    # Same withholding as the per-case export: an override card
+                    # pairs `citations` with `en.citations` positionally, so an
+                    # English quote whose Swedish was blanked by
+                    # `repair-citations` would ship the withdrawn text back into
+                    # `coalition.json` — committed, and loaded whole by the party
+                    # page.
+                    tr = withhold_unverified(dec_tr.get(cid), row["citations"])
                     override_cases.append({
                         "votering_id": row["votering_id"],
                         "datum": row["datum"],
