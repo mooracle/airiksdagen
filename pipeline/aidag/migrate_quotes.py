@@ -399,15 +399,29 @@ def run(run_id: str, dry_run: bool = False) -> Counter:
 
     from aidag.config import PROCESSED_DIR
 
+    sim_dir = RESULTS_DIR / "simulations" / run_id
+    shards = sorted(sim_dir.glob("*.jsonl"))
+    if not shards:
+        # `glob` answers [] for a missing directory exactly as it does for an
+        # empty one, so a typoed `--run-id` would walk nothing, print an all-zero
+        # report and exit 0 — reading as "the corpus move touched no quote".
+        # `repair-citations` then runs against the real run and books every
+        # corpus-moved quote as a model paraphrase (`citat_korrigerat`), which is
+        # the misattribution the two-pass order exists to prevent. Same refusal
+        # `anchors._load_run()` makes one pass later.
+        raise FileNotFoundError(
+            f"{run_id}: no *.jsonl under {sim_dir} — nothing to migrate. A run "
+            "that migrates nothing and one that does not exist print the same "
+            "zeroes, and repair would then blame the model for the corpus move."
+        )
     cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet", columns=["votering_id", "datum"])
     datum_by_vid = {r["votering_id"]: r["datum"] for r in cases.iter_rows(named=True)}
 
-    sim_dir = RESULTS_DIR / "simulations" / run_id
     known = known_unrecovered()
     counts: Counter = Counter()
     cache: dict[tuple[str, str], Match] = {}
     failures: Counter = Counter()
-    for path in sorted(sim_dir.glob("*.jsonl")):
+    for path in shards:
         out_lines = []
         for line in path.read_text().splitlines():
             if not line.strip():

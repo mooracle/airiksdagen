@@ -197,7 +197,13 @@ def run(
     baseline: str | None = None,
     check_translations: bool = False,
 ) -> dict:
-    """Snapshot a run; against `--baseline`, diff it and report."""
+    """Snapshot a run; against `--baseline`, diff it and report.
+
+    Returns the diff and the gaps as well as the snapshot: this is the one
+    invariant with no error path of its own, so the caller has to be able to fail
+    on it rather than read the printed report (`cli.citation_audit` exits
+    non-zero). `compare()` still only reports — the decision lives here.
+    """
     snap = snapshot(run_id)
     print(
         f"{run_id}: {snap['decisions']} decisions, {snap['citations']} citations, "
@@ -208,6 +214,7 @@ def run(
     for field, n in snap["sidecars"].items():
         print(f"  {field}: {n}")
     diff = None
+    gaps: list[dict] | None = None
     if baseline:
         diff = compare(read_snapshot(Path(baseline)), snap)
         print(f"\nvs {baseline}:")
@@ -224,4 +231,4 @@ def run(
             print(f"  ... and {len(gaps) - 20} more")
     if out:
         print(f"\nwrote {write_snapshot(snap, Path(out))}")
-    return {"snapshot": snap, "diff": diff}
+    return {"snapshot": snap, "diff": diff, "translation_gaps": gaps}

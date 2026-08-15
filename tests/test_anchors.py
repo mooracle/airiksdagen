@@ -1423,6 +1423,42 @@ class TestStaleAnchorGuard:
             export_site.export_blocks_and_anchors("no-such-run")
         assert (blocks / f"{KD2015}.json").read_text() == '{"blocks": []}'
 
+    def test_a_slug_the_extraction_dropped_is_refused_under_a_standing_index(
+        self, tmp_path, monkeypatch
+    ):
+        """Removal is the extreme of the same drift, not a different case.
+
+        `sync_blocks()` unlinks a site block file the extraction no longer
+        produces, so without this the export ships a document whose committed
+        anchor file survives with every id it names gone — the page silently
+        drops to `formatCorpusDoc()` while the orphaned index stays in the repo.
+        The indexed path already refuses it; these branches must not be laxer.
+        """
+        export_site, site = self._site(tmp_path, monkeypatch)
+        gone = "partiprogram-x-1999"  # no such file under data/corpus/blocks/
+        blocks = site / "corpus" / "blocks"
+        blocks.mkdir(parents=True)
+        (blocks / f"{gone}.json").write_text('{"blocks": []}', encoding="utf-8")
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{gone}.json").write_text('{"slug": "kept"}', encoding="utf-8")
+        for run in (None, "no-such-run"):
+            with pytest.raises(export_site.StaleAnchors, match=gone):
+                export_site.export_blocks_and_anchors(run)
+            # refused before the copy, so the pair the guard raised on is intact
+            assert (blocks / f"{gone}.json").exists()
+            assert (inline / f"{gone}.json").exists()
+
+    def test_a_dropped_slug_with_no_standing_index_still_syncs(self, tmp_path, monkeypatch):
+        """Nothing indexes it, so unlinking the stale block file is the point."""
+        export_site, site = self._site(tmp_path, monkeypatch)
+        gone = "partiprogram-x-1999"
+        blocks = site / "corpus" / "blocks"
+        blocks.mkdir(parents=True)
+        (blocks / f"{gone}.json").write_text('{"blocks": []}', encoding="utf-8")
+        assert export_site.export_blocks_and_anchors(None) == 0
+        assert not (blocks / f"{gone}.json").exists()
+
     def test_a_slug_the_site_did_not_have_yet_is_not_a_refresh(self, tmp_path, monkeypatch):
         """Adding a block file moves no id, so it must not trip the guard."""
         export_site, site = self._site(tmp_path, monkeypatch)

@@ -89,14 +89,19 @@ uv run aidag export-site      --run-id full-v4
 - `migrate-quotes` records *the corpus changed*; `repair-citations` records *the model
   paraphrased*. Running them the other way round attributes an extraction fix to the
   agent. Both leave the original in a sidecar (`quote_fore_migrering`,
-  `quote_ej_verifierad`) and never blank a quote silently.
+  `quote_ej_verifierad`) and never blank a quote silently. Both also **refuse a
+  `--run-id` that globs no shards**: a run with nothing to do and a typoed one print the
+  same zeroes, and a skipped migration makes repair book the corpus move as a paraphrase.
 - `build-anchors` is keyed on the **quote** — offsets are derived at build time, so
   re-extraction re-runs the locator instead of breaking links. It **fails** on any quote
   that neither resolves nor is blank/`citat_ej_migrerat`, before writing anything.
 - `citation-audit` exists because `repair-citations` can *remove* citations while the
   English translations pair **positionally** (`export_site.py` → `CasePage.astro`): a
   decision whose citation list changes length renders the wrong English quote against
-  the wrong Swedish one, with nothing raised anywhere. Snapshot before, diff after.
+  the wrong Swedish one, with nothing raised anywhere. Snapshot before, diff after — and
+  the command **exits non-zero** when the diff is misaligned or `--check-translations`
+  finds a gap, so the pass order stops instead of exporting past the one failure that has
+  no error path of its own.
 - `known-unrecovered.json` is consulted by both `migrate-quotes` and `repair.py`: a
   listed quote is never fuzzy-rewritten. Offered to `best_span` all 12 score > 0.75 —
   against the *neighbouring column*. `tests/test_docx.py::TestKnownUnrecovered` fails if

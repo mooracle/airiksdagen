@@ -370,10 +370,31 @@ def citation_audit(
     can remove them, and English translations pair positionally, so a decision
     whose citation list changes length renders the wrong English quote against the
     wrong Swedish one — with nothing raised anywhere.
+
+    Exits **non-zero** when a `--baseline` diff is misaligned or
+    `--check-translations` finds a gap. This command is the only place that
+    failure can surface, so it has to fail: printing the affected cids and
+    exiting 0 leaves the next step of the pass order — and any script driving
+    it — treating a misaligned record as a clean one. The full report is printed
+    first either way.
     """
     from aidag.citation_audit import run as audit
 
-    audit(run_id=run_id, out=out, baseline=baseline, check_translations=check_translations)
+    result = audit(
+        run_id=run_id, out=out, baseline=baseline, check_translations=check_translations
+    )
+    diff, gaps = result["diff"], result["translation_gaps"]
+    bad = [
+        label
+        for label, hit in (
+            ("citation lists changed length", diff is not None and not diff["aligned"]),
+            ("English pairing gaps", bool(gaps)),
+        )
+        if hit
+    ]
+    if bad:
+        print(f"\nFAILED: {', '.join(bad)} — re-translate the cids above before exporting.")
+        raise typer.Exit(1)
 
 
 @app.command("build-anchors")

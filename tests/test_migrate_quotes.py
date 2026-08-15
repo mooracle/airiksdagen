@@ -428,3 +428,18 @@ class TestRun:
         once = sim.read_bytes()
         mq.run("test-run")
         assert sim.read_bytes() == once
+
+    def test_a_run_that_does_not_exist_is_refused(self, sim):
+        """A typoed `--run-id` globs nothing and reports what a no-op reports.
+
+        Exiting 0 on it reads as "the corpus move touched no quote", and the next
+        pass then books every migrated quote as a model paraphrase — the
+        misattribution the migrate/repair order exists to prevent.
+        """
+        with pytest.raises(FileNotFoundError, match="nothing to migrate"):
+            mq.run("test-runn")
+
+    def test_an_empty_run_directory_is_refused_too(self, sim, tmp_path):
+        (tmp_path / "simulations" / "empty-run").mkdir(parents=True)
+        with pytest.raises(FileNotFoundError, match="nothing to migrate"):
+            mq.run("empty-run")
