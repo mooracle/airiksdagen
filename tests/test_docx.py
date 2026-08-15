@@ -77,6 +77,11 @@ def m_manifest() -> docx.Extraction:
 
 
 @pytest.fixture(scope="module")
+def m_program() -> docx.Extraction:
+    return docx.extract(_pdf("partiprogram-m-2021"))
+
+
+@pytest.fixture(scope="module")
 def kd_2025() -> docx.Extraction:
     return docx.extract(_pdf("partiprogram-kd-2025"))
 
@@ -480,6 +485,56 @@ class TestDetectColumns:
         assert not any("Valmanifest 2022" in b.text for b in m_manifest.blocks)
         assert m_manifest.dropped.count("Valmanifest 2022") == 39
         assert any(b.text.strip() == "2014" for b in m_manifest.blocks)
+
+
+class TestDropCaps:
+    """m-2021 opens each of its 18 chapters with a letter at 186.5pt."""
+
+    def test_no_chapter_is_a_single_letter(self, m_program):
+        headings = [b for b in m_program.blocks if b.role in ("h1", "h2", "h3")]
+        assert headings, "m-2021 has headings"
+        assert not [b for b in headings if len(b.text.strip()) == 1]
+
+    def test_the_paragraph_gets_its_initial_back(self, m_program):
+        """The other half of the same bug: the text beside the cap began
+        mid-word — 'oderata…', 'ndividens…', 'unskapsinnehållet…'.
+
+        Asserted per block rather than over the joined text, because the drop cap
+        is not the only damage on these pages: the narrow justified measure it
+        forces has vertical rivers that `detect_columns` reads as gutters, so
+        'Moderata' and 'Samlingspartiet verkar…' remain two blocks. That is a
+        separate defect and this rule does not claim to fix it.
+        """
+        opens = {b.text.split()[0] for b in m_program.blocks if b.text.split()}
+        assert "Moderata" in opens
+        assert "Individens" in opens
+        assert "Kunskapsinnehållet" in opens
+        # nothing still opens mid-word where a cap was lifted out
+        assert not {"oderata", "ndividens", "unskapsinnehållet"} & opens
+
+    def test_a_cap_that_is_its_own_word_keeps_its_space(self, m_program):
+        """'I' + 'ett fritt…' is 'I ett', not 'Iett' — decided on the document's
+        own vocabulary, since the letter alone cannot say which it is."""
+        text = "\n".join(b.text for b in m_program.blocks)
+        assert "I ett fritt och civiliserat samhälle" in text
+        assert "Iett" not in text
+
+    def test_a_cap_inside_a_word_takes_no_space(self, m_program):
+        """…and the converse, on a compound the document uses exactly once, which
+        is the case the joined-form test alone gets wrong ('K unskapsinnehållet')."""
+        text = "\n".join(b.text for b in m_program.blocks)
+        assert "Kunskapsinnehållet i ekonomin" in text
+        # 'V'/'N' are the mirror case: attested joined, so no space
+        assert "Vår miljö utgör grunden" in text
+        assert "När det gamla löftet" in text
+
+    def test_an_ordinary_heading_is_not_a_drop_cap(self, kd_manifest):
+        """The ratio must not reach a real heading. The largest in this corpus is
+        49.9pt against a 10pt body (5.0x); the floor is 8x."""
+        assert all(
+            not (len(b.text.strip()) == 1 and b.size >= 8.0 * 10.0)
+            for b in kd_manifest.blocks
+        )
 
 
 class TestStyleClusters:

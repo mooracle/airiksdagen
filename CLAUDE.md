@@ -38,7 +38,7 @@ data/corpus/
   pdf/<slug>.pdf            source bytes, committed (23 files, 24 MB) — extraction never fetches
   frozen/<slug>.txt         pre-extraction text, all 40 — serves prompt_version < p6
   blocks/<slug>.json        {slug, source, pages, dropped, blocks: [{id, role, page,
-                            size, bold, text}]} — 23 files, 9,370 blocks. `source` is
+                            size, bold, text}]} — 23 files, 9,352 blocks. `source` is
                             `pdf` except valmanifest-2022-c (`text`, no PDF text layer);
                             `dropped` is the running-header audit trail
   <slug>.txt                derived FROM the blocks; what agents read and verify checks
@@ -64,6 +64,23 @@ title were reaching the reader as `caption` blocks in the body. Rotation is requ
 for the margin test: upright text at x<10% is the left edge of every line on a
 single-column page. The same document's rotated 2012–2018 chart tick labels sit
 mid-page and survive, which is what the margin condition buys.
+
+`merge_drop_caps` puts a chapter initial back on its paragraph. `partiprogram-m-2021`
+opens 18 chapters with a letter at 186.5pt against a 10pt body, which arrived as 18
+`h1` blocks reading "M", "P", "V", "E" — and left the paragraph beside each starting
+mid-word ("oderata Samlingspartiet verkar…"). The cap is paired by page (the first
+`para` on it that begins lowercase, which nothing else does), and whether a space goes
+back is decided by the document's own vocabulary: the joined form unattested AND the
+fragment attested as a word elsewhere means the cap was its own word ("I" + "ett"),
+otherwise it was the word's first letter ("M" + "oderata"). Either signal alone gets a
+case wrong — see `TestDropCaps`.
+
+**Known and not fixed: justified rivers read as gutters.** The narrow measure a drop
+cap forces is justified, and its inter-word gaps line up vertically into channels that
+`detect_columns`' XY-cut takes for a gutter — so m-2021 p3 yields "Moderata" and
+"Samlingspartiet verkar…" as two blocks, plus a stray "och". It is the same page as
+the drop caps but a different defect, in the column detector rather than the roles,
+and fixing it means touching the gutter rule that every two-column page depends on.
 
 **Extraction is offline, and no LLM is in this path** — a model that paraphrases a party
 programme is a credibility failure for this project, so structure comes from font

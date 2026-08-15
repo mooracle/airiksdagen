@@ -41,6 +41,26 @@ const VALIDITY_ORDER: Record<string, string[]> = {
 const ciHalf = (p: number | null, n: number) =>
   p == null || n === 0 ? null : 1.96 * Math.sqrt((p * (1 - p)) / n);
 
+/* "Does the measurement hold?" — three tests, each answered rather than plotted.
+ *
+ * This was nine bare percentages in three bar groups, under three different
+ * vocabularies the page never defined (uttryckligt/härlett/täcks ej, hög/medel/
+ * låg, ja/nej) and a scale caption reading "stark → svag läsning" that only
+ * parses if you already know explicit > inferred > not_covered is an ordering of
+ * evidence. The finding was there and the reader had to derive it.
+ *
+ * The question is a comparison, so each test is now reduced to the comparison it
+ * makes: the gap where the reading is STRONGEST against the gap everywhere else.
+ * The logic is one sentence — a gap that is really an artifact of the agent
+ * misreading would be largest where the reading is weakest — and each test says
+ * outright whether it is.
+ *
+ * The weak side POOLS every level below the strongest rather than taking the
+ * single weakest. `partiprogram`-level thinness is the reason: KD's `not_covered`
+ * holds 31 decisions against 369 explicit, so a strongest-vs-weakest comparison
+ * was reading a ±17pp number as if it were solid. Pooling puts KD's weak side on
+ * 2,169 decisions. The per-level detail is kept, in the disclosure below.
+ */
 const validity = Object.entries(pgap?.validity ?? {})
   .map(([field, levels]) => {
     const rows = (VALIDITY_ORDER[field] ?? Object.keys(levels))
@@ -49,16 +69,24 @@ const validity = Object.entries(pgap?.validity ?? {})
         const ci = ciHalf(levels[lv].gap_rate, levels[lv].n);
         return { lv, ...levels[lv], ci, thin: ci !== null && ci > 0.1 };
       });
-    // Verdict per field, from strongest read (first) vs weakest (last). This is
-    // the question the section asks, so answer it per block instead of leaving
-    // the reader to derive it from three bars and a paragraph.
-    const strong = rows[0]?.gap_rate;
-    const weak = rows[rows.length - 1]?.gap_rate;
-    const delta = strong != null && weak != null ? strong - weak : null;
-    const verdict = delta == null ? null : delta > 0.05 ? 'holds' : delta < -0.05 ? 'weak' : 'flat';
-    return { field, rows, delta, verdict };
+    const strong = rows[0];
+    const rest = rows.slice(1);
+    const weakN = rest.reduce((n, r) => n + r.n, 0);
+    const weak = weakN
+      ? rest.reduce((s, r) => s + (r.gap_rate ?? 0) * r.n, 0) / weakN
+      : null;
+    const delta = strong?.gap_rate != null && weak != null ? strong.gap_rate - weak : null;
+    // Two outcomes, not three. "Flat" is not a middle case: a gap that does not
+    // move with reading strength is a gap reading strength does not explain,
+    // which is the same reassurance as one that rises. Only a gap that grows as
+    // the evidence weakens is a warning, so only that gets one.
+    const verdict = delta == null ? null : delta >= -0.02 ? 'holds' : 'weak';
+    return { field, rows, strong, weak, weakN, delta, verdict };
   })
-  .filter((f) => f.rows.length > 0);
+  .filter((f) => f.rows.length > 0 && f.strong?.gap_rate != null);
+/** The heading is a question; this answers it before the tests are read. */
+const held = validity.filter((v) => v.verdict === 'holds').length;
+const verdictAll = !validity.length ? null : held === validity.length ? 'all' : held ? 'some' : 'none';
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
@@ -274,39 +302,84 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     <>
       <h2>{t('party.validity')}</h2>
       <div class="card">
-        <div class="vgrid">
+        {/* The answer first, then the tests behind it. The heading is a
+            question and the reader should not have to compute its answer from
+            nine percentages. */}
+        {verdictAll && (
+          <p class="vanswer" data-v={verdictAll}>
+            <b>{t(`party.validityAnswer.${verdictAll}` as any)}</b>{' '}
+            {t('party.validityAnswerNote')
+              .replace('{held}', String(held))
+              .replace('{n}', String(validity.length))}
+          </p>
+        )}
+        <p class="muted vlogic">{t('party.validityLogic')}</p>
+
+        <div class="vtests">
           {validity.map((f) => (
-            <div class="vblock">
-              <div class="vhead">
-                <h3>{t(`party.validityBy.${f.field}` as any)}</h3>
-                <span class="vscale muted">{t('party.validityScale')}</span>
-              </div>
-              {f.rows.map((l) => (
-                <div class="vrow" data-thin={l.thin ? 'true' : undefined}>
-                  <span class="vlabel">{t(`party.validityLevel.${l.lv}` as any)}</span>
+            <div class="vtest" data-v={f.verdict ?? undefined}>
+              <p class="vq">{t(`party.validityTest.${f.field}` as any)}</p>
+              <div class="vpair">
+                <span class="vside">
+                  <span class="vlbl">{t(`party.validityStrong.${f.field}` as any)}</span>
                   <span class="vbar">
-                    <span style={`width:${((l.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
+                    <span style={`width:${((f.strong!.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
                   </span>
-                  <span class="vpct">{l.gap_rate == null ? '–' : `${(l.gap_rate * 100).toFixed(0)}%`}</span>
-                  <span class="vn muted">
-                    {l.n}
-                    {l.thin && l.ci != null && (
-                      <span class="vci" title={t('party.validityThin')}> ±{(l.ci * 100).toFixed(0)}</span>
-                    )}
+                  <b class="vpct">{((f.strong!.gap_rate ?? 0) * 100).toFixed(0)}%</b>
+                  <span class="vn">n = {f.strong!.n}</span>
+                </span>
+                <span class="vside weak">
+                  <span class="vlbl">{t(`party.validityWeak.${f.field}` as any)}</span>
+                  <span class="vbar">
+                    <span style={`width:${((f.weak ?? 0) * 100).toFixed(1)}%`} />
                   </span>
-                </div>
-              ))}
+                  <b class="vpct">{((f.weak ?? 0) * 100).toFixed(0)}%</b>
+                  <span class="vn">n = {f.weakN}</span>
+                </span>
+              </div>
               {f.verdict && (
                 <p class="vverdict" data-v={f.verdict}>
-                  {t(`party.validityVerdict.${f.verdict}` as any)}
+                  {t(`party.validityVerdict.${f.verdict}` as any).replace(
+                    '{d}',
+                    `${f.delta! >= 0 ? '+' : '−'}${Math.abs(f.delta! * 100).toFixed(0)}`,
+                  )}
                 </p>
               )}
             </div>
           ))}
         </div>
+
         <details class="vmore">
           <summary>{t('party.validityHow')}</summary>
           <p class="muted vnote">{t('party.validityNote')}</p>
+          {/* The per-level breakdown the tests are computed from — kept, because
+              pooling the weak side is a presentation choice and the reader is
+              entitled to the levels it pooled. */}
+          <div class="vgrid">
+            {validity.map((f) => (
+              <div class="vblock">
+                <div class="vhead">
+                  <h3>{t(`party.validityBy.${f.field}` as any)}</h3>
+                  <span class="vscale muted">{t('party.validityScale')}</span>
+                </div>
+                {f.rows.map((l) => (
+                  <div class="vrow" data-thin={l.thin ? 'true' : undefined}>
+                    <span class="vlabel">{t(`party.validityLevel.${l.lv}` as any)}</span>
+                    <span class="vbar">
+                      <span style={`width:${((l.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
+                    </span>
+                    <span class="vpct">{l.gap_rate == null ? '–' : `${(l.gap_rate * 100).toFixed(0)}%`}</span>
+                    <span class="vn muted">
+                      {l.n}
+                      {l.thin && l.ci != null && (
+                        <span class="vci" title={t('party.validityThin')}> ±{(l.ci * 100).toFixed(0)}</span>
+                      )}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </details>
       </div>
     </>
@@ -508,7 +581,38 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
       .trends { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
       .trends .wide { grid-column: 1 / -1; }
     }
-    .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    /* The section's own answer, ahead of the tests that produce it. */
+    .vanswer { margin: 0 0 0.5rem; font-size: 1.05rem; }
+    .vanswer b { font-size: 1.25rem; margin-right: 0.15rem; }
+    .vanswer[data-v='all'] b { color: #2f5326; }
+    .vanswer[data-v='some'] b { color: #7a4b12; }
+    .vanswer[data-v='none'] b { color: var(--nej, #8c2f2f); }
+    .vlogic { font-size: 0.88rem; max-width: 62ch; margin: 0 0 1.2rem; }
+
+    .vtests { display: grid; gap: 1.1rem; }
+    .vtest { padding-top: 0.9rem; border-top: 1px solid var(--line-soft); }
+    .vtest:first-child { padding-top: 0; border-top: 0; }
+    /* The question, in the reader's words — the old <h3> said "Efter täckning". */
+    .vq { margin: 0 0 0.5rem; font-weight: 600; font-size: 0.95rem; }
+    .vpair { display: grid; gap: 0.35rem 1.4rem; }
+    /* Label, bar, %, n — the strong side and the pooled weak side read against
+       one another, which is the whole comparison the test makes. */
+    .vside {
+      display: grid; grid-template-columns: minmax(9rem, 15rem) 1fr 2.6rem 3.6rem;
+      align-items: center; gap: 0.5rem; font-size: 0.85rem;
+    }
+    .vside .vlbl { color: var(--ink-2); }
+    .vside .vn { color: var(--muted); }
+    /* The weak side is context for the strong one, so it is drawn quieter — a
+       second full-strength bar reads as a second finding. */
+    .vside.weak .vbar > span { background: var(--muted); opacity: 0.45; }
+    .vside.weak .vpct { font-weight: 600; color: var(--ink-2); }
+    @media (max-width: 620px) {
+      .vside { grid-template-columns: 1fr 2.6rem 3.4rem; }
+      .vside .vlbl { grid-column: 1 / -1; }
+    }
+
+    .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1rem; }
     .vhead {
       display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem;
       margin-bottom: 0.45rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--line-soft);
