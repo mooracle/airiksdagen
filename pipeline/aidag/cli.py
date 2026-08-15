@@ -390,6 +390,24 @@ def build_anchors(run_id: str = typer.Option(..., "--run-id")) -> None:
     build(run_id=run_id)
 
 
+@app.command("navigation-report")
+def navigation_report(
+    run_id: str = typer.Option(..., "--run-id"),
+    out: str = typer.Option(None, "--out", help="Also write the report as JSON"),
+) -> None:
+    """Report which citations landed on a heading or topic label, not a promise.
+
+    Reads the anchor files, so run it after `build-anchors`. A quote can be
+    verbatim from a party programme and still promise nothing — "EN STRAM
+    MIGRATION" names a topic — and this is the corpus-wide count, by party and
+    document. The role-only figure is printed beside it because the difference
+    between the two is the finding.
+    """
+    from aidag.anchors import report
+
+    report(run_id=run_id, out=out)
+
+
 @app.command("agent-merge")
 def agent_merge(
     run_id: str = typer.Option(..., "--run-id"),

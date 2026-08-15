@@ -929,13 +929,83 @@ per-document and exactly.
 - Create: `pipeline/aidag/anchors.py` reporting subcommand or a script
 - Modify: `docs/` findings note
 
-- [ ] report corpus-wide counts of citations landing on `label`/`toc` blocks, by party
-      and document
-- [ ] record the result as a finding; if any phrase genuinely meets the
-      length/distinctiveness bar, propose it for `WEAK_LIST` separately with a
-      cross-party false-positive test
-- [ ] write tests for the reporting aggregation
-- [ ] run tests — must pass before Task 10
+- [x] report corpus-wide counts of citations landing on `label`/`toc` blocks, by party
+      and document — `aidag navigation-report --run-id full-v4 [--out P]`, backed by
+      `anchors.cited_blocks()` / `navigation_report()`. It reports **three** scopes, not
+      one; the plan's literal question is the wrong answer and saying so is the finding
+      (⚠️ 1). Party and document breakdowns count each vote once per scope, with the
+      per-block sum printed beside them — they differ, and both get used (⚠️ 2)
+- [x] record the result as a finding — `docs/topic-label-citations.md`
+- [x] no phrase is proposed for `WEAK_LIST`, and the reason is not that they fail the
+      bar: `weak_list_candidates()` scores all 16 against it on two tests and **all 16
+      pass** (0 false positives over the 16,723 committed quotes, 0 occurrences in any
+      other party's document of the class). They are refused on meaning — see ⚠️ 3
+- [x] write tests for the reporting aggregation
+- [x] run tests — must pass before Task 10 (`uv run pytest tests -q` **543 passed**;
+      32 new in `tests/test_anchors.py`. `npm test` 56 passed, unchanged — the site was
+      not touched)
+
+**Measured on full-v4**
+
+| scope | blocks | citations | votes |
+|---|---:|---:|---:|
+| every cited block | 4,715 | 77,599 | 69,418 (vote, line) pairs |
+| `label`/`toc` — **the plan's literal question** | 56 | 1,222 | **1,165** |
+| any navigational role (headings included) | 82 | 1,490 | 1,433 |
+| role **and** text — what the site marks | **16** | **180** | **180** (178 distinct votes) |
+
+Cited blocks by role reproduce Task 8b's note exactly: `para` 3,856 · `bullet` 775 ·
+`label` 56 · `h2` 20 · `h3` 6 · `caption` 2. The 16 are `valmanifest-2022-m` 9,
+`valmanifest-2022-kd` 5, `partiprogram-v-2016` 1, `valmanifest-2022-s` 1; by party
+M 94 · KD 81 · V 2 · S 1.
+
+Of the 180: tier `off_axis` 104 · `extrapolated` 54 · **`explicit` 22**, verdict
+`diverged` 122 · `kept` 57 · `avstar` 1, and **0** already marked `svag`. The 22 are the
+sharp end — an `explicit` tier asserts the party wrote this down as a commitment, and the
+line it points at is `STARKARE FAMILJER`. 12.2% against 19.9% `explicit` corpus-wide, so
+the model leans on headings less confidently than on prose, but not enough less for the
+claim to go unmarked.
+
+⚠️ **Deviation 1, recorded — the report answers three questions, because the asked one is
+misleading.** "Citations landing on `label`/`toc`" reads **1,165 votes**, and 1,163 of
+them are `valmanifest-2022-s`'s 38 pledge bullets and `valmanifest-2022-l`'s 17 numbered
+ones — the two parties that set their promises in a minor bold face. A report printing
+that number alone would be the false claim Task 8b's Deviation 3 already caught once, so
+all three scopes are printed together and the gap between the first and the last is
+labelled as the finding.
+
+➕ `toc` contributes **zero**: the corpus holds **281 `toc` blocks and not one is cited**.
+The role this task is named after turns out to be empty, and the whole effect sits in
+headings — which is why the site's flag could not have been a `label`/`toc` role test
+even in principle.
+
+⚠️ **Deviation 2, recorded**: every aggregate carries both `decisions` (each vote once in
+scope) and `block_decisions` (the per-block sum). They differ — 178 against 180 — because
+two votes cited two navigation lines each. Task 8b's published 180 is the second; a
+sentence like "N votes rested on a heading" needs the first. Naming one and dropping the
+other is how the two get confused later, so both are reported at every level.
+
+⚠️ **Deviation 3, recorded — `WEAK_LIST` is refused on meaning, not on the measurement.**
+The plan cut this route on the *structure* of `blocklist` (class not slug, bidirectional
+containment), and that argument turns out to be unsupported by the data: measured, all 16
+phrases catch nothing but their own line, and none occurs in another party's document of
+the class — even `STARKARE FAMILJER` at two words. The refusal stands on three other
+grounds, in order of weight: (1) `svag` renders as "supporting but generic" and these
+quotes are the opposite of generic — what they cannot carry is a *commitment*, which is
+what the per-block flag actually says; (2) Task 8b already marks them per block, per
+document, exactly, from the line the citation landed on; (3) both tests are measurements
+over 23 documents and one run, and `config.py`'s TRAP note records that every party has
+replaced its pinned edition once — a `WEAK_LIST` entry is not re-validated when a new one
+lands, while the per-block flag is re-derived on every build. The assessment is not a
+one-off: it runs on every invocation of the report, so a future flagged phrase that does
+meet the bar is reported with its false positives named.
+
+➕ **Added**: the rule is written twice — `anchors.is_navigational()` and
+`site/src/lib/anchors.ts:isNavigational` — because it runs over different inputs in
+different languages. Duplication is a drift risk, so it is held rather than trusted:
+`TestNavigationRule` repeats `site/tests/anchors.test.mjs`'s cases assertion for
+assertion, and `TestNavigationParity` pins **16 blocks / 180 citations / 178 votes** and
+the 1,165-vs-180 gap as a ratchet against the committed run.
 
 ### Task 10: Verify acceptance criteria
 - [ ] every full-v4 citation resolves to a block, is blank, or is flagged

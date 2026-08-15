@@ -42,6 +42,7 @@ they were never shown.
 from __future__ import annotations
 
 import json
+import re
 from bisect import bisect_right
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -491,3 +492,405 @@ def compact_refs(payload: dict) -> dict:
             for a in payload["anchors"]
         ],
     }
+
+
+# --- reporting: what kind of line does a citation land on? -------------------
+#
+# The finding this plan set out to measure. A quote can be verbatim from a party
+# programme and still not be a commitment — "EN STRAM MIGRATION" is a topic
+# label, and a vote resting on it has cited a heading, not a promise. The site
+# marks these per block (`CiteNote`); this reports them corpus-wide, by party and
+# by document, which is what makes the size of the effect a fact rather than an
+# impression.
+#
+# The rule is duplicated from `site/src/lib/anchors.ts:isNavigational` rather
+# than shared, because the two run in different languages over different inputs
+# (rendered groups there, the committed anchor files here). Duplication is a
+# drift risk, so the report is checked against the site's own count in
+# `tests/test_anchors.py::TestNavigationParity` instead of trusted.
+
+NAV_ROLES = frozenset({"h1", "h2", "h3", "label", "toc"})
+NAV_MAX_WORDS = 8
+_BULLET_GLYPH = re.compile(r"^\s*[•▪◦·]")
+_STATES_SOMETHING = re.compile(r"[.!?][\"»”']?$")
+
+
+def is_navigational(role: str, text: str) -> bool:
+    """True for a cited line that names a topic rather than stating anything.
+
+    Role alone is NOT the test, and taking it for one would make a false claim
+    1,163 times. `label` is "a minor bold cluster at or below body size", which
+    in `partiprogram-kd-2015` is a back-cover topic list but in
+    `valmanifest-2022-s` is the bold bullet list of the party's actual pledges
+    ("• Kraftigt öka antalet poliser…") and in `valmanifest-2022-l` its 60
+    numbered ones. So the text has to read as a label too: no bullet glyph, no
+    sentence-ending punctuation, and short.
+
+    `toc` is exempt from all three — a contents entry is navigation whatever it
+    says, that being what a contents list is.
+    """
+    if role == "toc":
+        return True
+    if role not in NAV_ROLES:
+        return False
+    t = text.strip()
+    if _BULLET_GLYPH.match(t) or _STATES_SOMETHING.search(t):
+        return False
+    return len(t.split()) <= NAV_MAX_WORDS
+
+
+@lru_cache(maxsize=64)
+def block_roles(slug: str) -> dict[str, dict]:
+    """`blocks/<slug>.json` as {block_id: {role, text, page}}."""
+    from aidag.extract_corpus import blocks_path
+
+    path = blocks_path(slug)
+    if not path.exists():
+        raise FileNotFoundError(
+            f"{slug}: no blocks at {path} — run `uv run aidag extract-corpus`"
+        )
+    return {
+        b["id"]: {"role": b["role"], "text": b["text"], "page": b["page"]}
+        for b in json.loads(path.read_text())["blocks"]
+    }
+
+
+def _refs_by_block(payload: dict) -> dict[str, list[dict]]:
+    """One document's refs regrouped under the block they cite.
+
+    Per block, not per anchor: two spans of one line are two anchors and one
+    cited line, and the question here is about the line.
+    """
+    out: dict[str, list[dict]] = defaultdict(list)
+    for a in payload["anchors"]:
+        out[a["block_id"]].extend(a["refs"])
+    return out
+
+
+def _votes(refs) -> set[tuple[str, str]]:
+    """The distinct deciding votes behind a pile of citations."""
+    return {(r["votering_id"], r["parti"]) for r in refs}
+
+
+def cited_blocks(run_id: str, results_dir=None) -> list[dict]:
+    """Every cited block in a run, with its role, its text and its tallies.
+
+    Raises if a cited block is missing from `blocks/*.json`: the anchor files
+    were built from those blocks, so a gap means the two have drifted and every
+    role in this report would be a guess.
+    """
+    rows = []
+    for slug, payload in sorted(load(run_id, results_dir).items()):
+        meta = block_roles(slug)
+        for block_id, refs in _refs_by_block(payload).items():
+            b = meta.get(block_id)
+            if b is None:
+                raise ValueError(
+                    f"{slug}: anchors cite block {block_id}, which is not in "
+                    "blocks/ — re-run `uv run aidag build-anchors`"
+                )
+            rows.append(
+                {
+                    "slug": slug,
+                    "block_id": block_id,
+                    "role": b["role"],
+                    "text": b["text"],
+                    "page": b["page"],
+                    "citations": len(refs),
+                    "votes": _votes(refs),
+                    "navigational": is_navigational(b["role"], b["text"]),
+                }
+            )
+    rows.sort(key=lambda r: (r["slug"], r["block_id"]))
+    return rows
+
+
+def _agg(rows: list[dict]) -> dict:
+    """Blocks, citations and votes over a set of cited blocks.
+
+    `decisions` counts each vote once however many of these blocks it cited;
+    `block_decisions` sums the per-block counts. They differ exactly when a vote
+    cited two blocks in scope, and both are reported because both get used: the
+    per-block number is what a document page adds up, the distinct number is
+    what a sentence like "N votes rested on a heading" has to mean.
+    """
+    votes: set[tuple[str, str]] = set()
+    block_decisions = 0
+    citations = 0
+    for r in rows:
+        votes |= r["votes"]
+        block_decisions += len(r["votes"])
+        citations += r["citations"]
+    return {
+        "blocks": len(rows),
+        "citations": citations,
+        "decisions": len(votes),
+        "block_decisions": block_decisions,
+    }
+
+
+def _split(rows: list[dict], key) -> dict[str, dict]:
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for r in rows:
+        grouped[key(r)].append(r)
+    agg = {k: _agg(v) for k, v in grouped.items()}
+    return dict(sorted(agg.items(), key=lambda kv: (-kv[1]["decisions"], kv[0])))
+
+
+def _by_party(rows: list[dict]) -> dict[str, dict]:
+    """Citing party, taken from the refs rather than from the document's slug.
+
+    In practice a party only cites its own documents, so the two agree — but
+    that is a fact about the corpus, and reading it off the refs keeps it one.
+    """
+    votes: dict[str, set] = defaultdict(set)
+    for r in rows:
+        for vid, parti in r["votes"]:
+            votes[parti].add(vid)
+    return {
+        parti: {"decisions": len(v)}
+        for parti, v in sorted(votes.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+    }
+
+
+def _listed(r: dict) -> dict:
+    return {
+        "slug": r["slug"],
+        "block_id": r["block_id"],
+        "role": r["role"],
+        "page": r["page"],
+        "text": r["text"],
+        "citations": r["citations"],
+        "decisions": len(r["votes"]),
+        "parties": sorted({p for _, p in r["votes"]}),
+    }
+
+
+def _scope(rows: list[dict], listed: int | None = None) -> dict:
+    """One slice of the cited blocks, broken down the way the finding needs it."""
+    ranked = sorted(rows, key=lambda r: (-len(r["votes"]), r["slug"], r["block_id"]))
+    return {
+        **_agg(rows),
+        "by_party": _by_party(rows),
+        "by_document": _split(rows, lambda r: r["slug"]),
+        "by_role": _split(rows, lambda r: r["role"]),
+        "blocks_listed": [_listed(r) for r in ranked[:listed]],
+    }
+
+
+def navigation_report(run_id: str, results_dir=None, rows: list[dict] | None = None) -> dict:
+    """Corpus-wide: which citations landed on navigation, by party and document.
+
+    Three scopes, because they are three different numbers and only naming each
+    one keeps them apart:
+
+    - `label_toc` — this plan's literal question, citations landing on a `label`
+      or `toc` block. **1,165 votes**, and it is the wrong answer: `label` is a
+      typographic class ("a minor bold cluster at or below body size"), and in
+      two manifestos it is the party's own pledge list.
+    - `role_only` — the same test over every navigational role, headings
+      included, because KD's back-cover topic labels are roled `h3`.
+    - `navigational` — role AND the text reading as a label, which is what the
+      site marks. **16 blocks / 178 votes.**
+
+    The gap between the first and the last IS the finding. A report printing
+    only the final number would leave the next reader to re-derive why it is not
+    the obvious one, and re-deriving it is how the false claim gets made.
+    """
+    rows = rows or cited_blocks(run_id, results_dir)
+    return {
+        "run_id": run_id,
+        "totals": _agg(rows),
+        "by_role": _split(rows, lambda r: r["role"]),
+        "navigational": _scope([r for r in rows if r["navigational"]], listed=None),
+        "label_toc": _scope([r for r in rows if r["role"] in ("label", "toc")], listed=10),
+        "role_only": _scope([r for r in rows if r["role"] in NAV_ROLES], listed=10),
+    }
+
+
+def _pct(part: int, whole: int) -> str:
+    return f"{100 * part / whole:.2f}%" if whole else "—"
+
+
+# `blocklist.WEAK_LIST` was the route this finding was originally expected to
+# take, and it was cut on review: an entry names a document CLASS, not a slug,
+# and matching is bidirectional containment (`blocklist.py:139`), so a short
+# topic label registered against `valmanifest` is tested against all eight
+# parties' manifestos in both directions. That is an argument, and an argument
+# is not a measurement — so the report scores every flagged phrase against the
+# bar the module states ("long and distinctive enough that either-direction
+# containment cannot catch a genuine policy quote") using the committed
+# citations as the corpus of things that must not be caught.
+
+
+def _class_of(slug: str) -> str:
+    """The document class a citation names — `valmanifest` or `partiprogram`."""
+    return slug.split("-", 1)[0]
+
+
+@lru_cache(maxsize=1)
+def _served_by_class() -> dict[str, list[tuple[str, str]]]:
+    """(slug, matching-form served text) per document class, for every document.
+
+    The class is what a WEAK_LIST entry names, so this is the set an entry is
+    tested against — all eight parties, not the one whose page the phrase sits
+    on.
+    """
+    from aidag.blocklist import _key
+    from aidag.extract_corpus import cited_slugs
+
+    out: dict[str, list[tuple[str, str]]] = defaultdict(list)
+    for slug in cited_slugs():
+        try:
+            served = index_for(slug).served
+        except FileNotFoundError:
+            continue
+        out[_class_of(slug)].append((slug, _key(served)))
+    return dict(out)
+
+
+def weak_list_candidates(run_id: str, results_dir=None, rows: list[dict] | None = None) -> list[dict]:
+    """Each flagged navigation phrase, scored against the WEAK_LIST bar.
+
+    Two tests, and they answer different questions.
+
+    `catches`/`false_positives` are measured against the committed citations:
+    every quote the entry would mark across every party's document of the same
+    class, and how many of those are not this line. That is evidence, over the
+    16,723 quotes that exist.
+
+    `other_documents` is the bar `blocklist.py` actually states — "long and
+    distinctive enough that either-direction containment cannot catch a genuine
+    policy quote" — tested against the DOCUMENTS rather than the quotes: if the
+    phrase occurs verbatim in another party's document of the same class, then
+    a future citation of that passage would be marked `svag`, and no committed
+    quote has to exist yet for that to be true. A phrase clean on the first test
+    and dirty on this one is a trap, not a candidate.
+    """
+    from aidag.blocklist import _key
+
+    rows = [r for r in (rows or cited_blocks(run_id, results_dir)) if r["navigational"]]
+    # distinct quotes per document class, with the votes that used each
+    quotes: dict[str, dict[str, set]] = defaultdict(lambda: defaultdict(set))
+    for d in _load_run(run_id, results_dir):
+        if d.get("arm", ARM) != ARM or d["prompt_version"] < MIGRATED_FROM:
+            continue
+        for c in d.get("citations", []):
+            if q := c.get("quote") or "":
+                quotes[c["document"]][_key(q)].add((d["votering_id"], d["parti"]))
+    out = []
+    for r in rows:
+        phrase = _key(r["text"])
+        klass = _class_of(r["slug"])
+        pool = quotes.get(klass, {})
+        catches, false_positives = [], []
+        for q, votes in pool.items():
+            if phrase in q or q in phrase:
+                catches.append((q, votes))
+                if stray := votes - r["votes"]:
+                    false_positives.append((q, stray))
+        elsewhere = [
+            slug
+            for slug, served in _served_by_class().get(klass, [])
+            if slug != r["slug"] and phrase in served
+        ]
+        out.append(
+            {
+                "slug": r["slug"],
+                "block_id": r["block_id"],
+                "role": r["role"],
+                "phrase": r["text"],
+                "words": len(r["text"].split()),
+                "chars": len(r["text"]),
+                "decisions": len(r["votes"]),
+                "catches": sum(len(v) for _, v in catches),
+                "false_positives": sum(len(v) for _, v in false_positives),
+                "false_positive_quotes": sorted(q for q, _ in false_positives)[:5],
+                "other_documents": elsewhere,
+            }
+        )
+    out.sort(key=lambda c: (-c["false_positives"], -len(c["other_documents"]), -c["decisions"]))
+    return out
+
+
+def _print_scope(title: str, scope: dict, total: dict, note: str = "") -> None:
+    print(
+        f"\n  {title}: {scope['blocks']} blocks / {scope['decisions']} distinct votes "
+        f"({scope['block_decisions']} block-votes, "
+        f"{_pct(scope['block_decisions'], total['block_decisions'])} of all block-votes)"
+    )
+    if note:
+        print(f"    {note}")
+    if scope["by_party"]:
+        print(
+            "    by party: "
+            + " | ".join(f"{p} {a['decisions']}" for p, a in scope["by_party"].items())
+        )
+    for slug, a in scope["by_document"].items():
+        print(
+            f"    {slug:<26} {a['blocks']:>3} blocks  {a['decisions']:>5} votes  "
+            f"{a['citations']:>5} citations"
+        )
+    for b in scope["blocks_listed"]:
+        text = b["text"] if len(b["text"]) <= 60 else b["text"][:57] + "…"
+        print(
+            f"      {b['slug']:<26} {b['block_id']} {b['role']:<6} "
+            f"{b['decisions']:>4} votes  {text!r}"
+        )
+
+
+def report(run_id: str, out: str | None = None, results_dir=None) -> dict:
+    """Print the navigation-citation finding; optionally write it as JSON."""
+    rows = cited_blocks(run_id, results_dir)
+    rep = navigation_report(run_id, results_dir, rows=rows)
+    rep["weak_list_candidates"] = weak_list_candidates(run_id, results_dir, rows=rows)
+    t = rep["totals"]
+    print(
+        f"{run_id}: {t['blocks']} cited blocks, {t['citations']} citations, "
+        f"{t['decisions']} distinct votes ({t['block_decisions']} block-votes)"
+    )
+    print("\n  cited blocks by role")
+    for role, a in sorted(rep["by_role"].items(), key=lambda kv: -kv[1]["blocks"]):
+        print(
+            f"    {role:<10} {a['blocks']:>6} blocks  {a['citations']:>7} citations  "
+            f"{a['block_decisions']:>7} block-votes"
+        )
+    _print_scope(
+        "on a `label` or `toc` block (role alone — the plan's literal question)",
+        rep["label_toc"],
+        t,
+        "NOT the finding: `label` is a typographic class, and in valmanifest-s / -l "
+        "it is the party's own pledge list",
+    )
+    _print_scope(
+        "on any navigational role (headings included, role alone)", rep["role_only"], t
+    )
+    _print_scope(
+        "on navigation, role AND text (what the site marks)", rep["navigational"], t
+    )
+    cands = rep["weak_list_candidates"]
+    clean = [c for c in cands if not c["false_positives"] and not c["other_documents"]]
+    print(
+        f"\n  as WEAK_LIST entries: {len(cands)} candidate phrases, "
+        f"{len(clean)} clean on both tests (no committed false positive, and the "
+        "phrase occurs in no other party's document of the class)"
+    )
+    for c in cands:
+        text = c["phrase"] if len(c["phrase"]) <= 46 else c["phrase"][:43] + "…"
+        print(
+            f"    {c['words']:>2}w {c['chars']:>3}c  catches {c['catches']:>4}  "
+            f"false {c['false_positives']:>4}  elsewhere {len(c['other_documents']):>2}  "
+            f"{c['slug']:<20} {text!r}"
+        )
+        for q in c["false_positive_quotes"]:
+            print(f"        would also mark: {q[:76]!r}")
+        for slug in c["other_documents"]:
+            print(f"        also occurs in: {slug}")
+    if out:
+        from pathlib import Path
+
+        Path(out).write_text(
+            json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(f"\nwrote {out}")
+    return rep
