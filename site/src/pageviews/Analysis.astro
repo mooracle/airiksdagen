@@ -8,14 +8,14 @@
 // now party navigation and the party corpus; everything analytical is here.
 //
 // Order runs outward from the site's own claim: where the plans and the votes
-// part, what that would have cost, who ends up voting together, and finally the
-// two purely real-vote tables (chamber, then members) that involve no AI at all.
+// part, what that would have cost, who ends up voting together, and last the one
+// purely real-vote table (the chamber) that involves no AI at all. The member
+// dissent league that used to close the page is gone — see the note above it.
 import Base from '../layouts/Base.astro';
 import AreaStats from './AreaStats.astro';
 import CoalitionSection from './CoalitionSection.astro';
 import FlipSection from './FlipSection.astro';
 import PairsMatrix from './PairsMatrix.astro';
-import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate } from '../lib/data';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -25,7 +25,6 @@ const t = useTranslations(lang);
 const meta = getMeta();
 
 const defeats = getAggregate<{ votering_id: string; datum: string; rubrik: string; bet: string; gov_pos: string; outcome: string }[]>('gov_defeats') ?? [];
-const dissenters = getAggregate<{ namn: string; parti: string; n_cast: number; n_dissent: number; rate: number }[]>('dissenters') ?? [];
 const gap = getAggregate<{ n_decisions: number; headline: { n: number; gap: number; gap_rate: number | null } }>('gap');
 const flips = getAggregate<{ n_flipped: number }>('flips');
 
@@ -40,7 +39,6 @@ const sections = [
   { id: 'vem-med-vem', label: t('analysis.matrix'), on: true },
   { id: 'koalition', label: t('coalition.title'), on: true },
   { id: 'regeringsforluster', label: t('analysis.defeats'), on: true },
-  { id: 'ledamoter', label: t('analysis.dissenters'), on: true },
 ].filter((s) => s.on);
 ---
 
@@ -49,10 +47,9 @@ const sections = [
   <h1>{t('analysis.title')}</h1>
   <p class="lede">{t('analysis.intro')}</p>
 
-  {/* Only figures that are genuinely totals. `dissenters` deliberately has no
-      tile: analytics.dissenter_league() takes `top=30`, so its length is the
-      export cap, not a count of anything — presenting it as a stat would state a
-      limit as a fact. gov_defeats() is uncapped, so that one is a real total. */}
+  {/* Only figures that are genuinely totals — `gov_defeats()` is uncapped, so
+      its length is a real count. A capped export must never become a tile: it
+      would state a limit as a fact. */}
   <div class="statgrid">
     <div class="stat">
       <span class="num">{nf.format(meta.n_cases)}</span>
@@ -82,9 +79,12 @@ const sections = [
     </div>
   </div>
 
-  <nav class="secnav" aria-label={t('analysis.onThisPage')}>
+  {/* Sticky, and it marks where you are. The page is six sections and ~120 KB
+      of tables; a jump list that scrolls away at the first heading is a table of
+      contents, not navigation. */}
+  <nav class="secnav" aria-label={t('analysis.onThisPage')} data-secnav>
     <span class="secnav-lbl">{t('analysis.onThisPage')}</span>
-    {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
+    {sections.map((s) => <a href={`#${s.id}`} data-for={s.id}>{s.label}</a>)}
   </nav>
 
   {/* Where each party departs from its own habit of following its plan — the
@@ -127,29 +127,54 @@ const sections = [
     <p class="muted note">{t('analysis.defeatsNote')}</p>
   </div>
 
-  <p class="eyebrow">{t('analysis.secMembers')}</p>
-  <h2 id="ledamoter">{t('analysis.dissenters')}</h2>
-  <div class="card flush">
-    <table class="compare">
-      <thead>
-        <tr><th></th><th>{t('analysis.dissents')}</th><th>{t('analysis.votesCast')}</th><th>%</th></tr>
-      </thead>
-      <tbody>
-        {/* No .slice() here: the aggregate is already the top 30 and nothing
-            downstream can widen it, so cutting to 20 in the template only hid
-            10 rows that had been exported. The caption states the cap. */}
-        {dissenters.map((d) => (
-          <tr>
-            <td><span class="pbadge-wrap"><PartyBadge code={d.parti} parties={meta.parties} /><strong>{d.namn}</strong></span> <span class="muted">({d.parti})</span></td>
-            <td>{d.n_dissent}</td>
-            <td class="muted">{d.n_cast}</td>
-            <td>{(d.rate * 100).toFixed(1)}%</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <p class="muted note">{t('analysis.dissentersNote').replace('{n}', String(dissenters.length))}</p>
-  </div>
+  {/* The dissenter league is gone. Its top row was 25 votes against the party
+      line out of 2,070 — 1.21% — and its last was 8; it named thirty individual
+      members for what party cohesion of 99.1-100% makes statistical noise. It
+      also sorted by count while showing a rate, so its highest percentage
+      (2.06%, on 389 votes cast) sat at the bottom, and its length was the
+      export cap rather than a count of anything. None of it bears on what a
+      party's documents say against how it voted. `dissenters.json` is still
+      exported. */}
+
+  <script>
+    // Which section the reader is in, marked in the sticky jump list. Same
+    // approach as the document pages' chapter rail: position is the last heading
+    // to pass under the header, because a section taller than the viewport
+    // intersects nothing. Pure enhancement — without JS the list still jumps.
+    const nav = document.querySelector<HTMLElement>('[data-secnav]');
+    if (nav) {
+      const marks = [...nav.querySelectorAll<HTMLAnchorElement>('a[data-for]')]
+        .map((a) => ({ a, el: document.getElementById(a.dataset.for!) }))
+        .filter((m): m is { a: HTMLAnchorElement; el: HTMLElement } => m.el !== null);
+      const OFFSET = 140; // sticky site header + this nav
+      let current: HTMLAnchorElement | null = null;
+      const sync = () => {
+        let found: HTMLAnchorElement | null = null;
+        for (const m of marks) {
+          if (m.el.getBoundingClientRect().top <= OFFSET) found = m.a;
+          else break;
+        }
+        if (found === current) return;
+        current?.removeAttribute('data-here');
+        found?.setAttribute('data-here', '');
+        current = found;
+        // keep the marked chip visible when the list scrolls sideways on narrow
+        // screens, without ever scrolling the page itself
+        if (found && nav.scrollWidth > nav.clientWidth + 4) {
+          const r = found.getBoundingClientRect();
+          const box = nav.getBoundingClientRect();
+          if (r.left < box.left || r.right > box.right) found.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
+      };
+      let queued = false;
+      addEventListener('scroll', () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; sync(); });
+      }, { passive: true });
+      sync();
+    }
+  </script>
 
   <style>
     /* Jump list, not a sidebar: the page is one column and the sections are far
@@ -160,6 +185,17 @@ const sections = [
       margin: 1.4rem 0 0.4rem; padding: 0.75rem 0.9rem;
       background: var(--panel-2); border: 1px solid var(--line);
       border-radius: var(--radius);
+      position: sticky; top: 4.6rem; z-index: 3;
+    }
+    /* On a narrow screen the chips would wrap to four rows and eat the viewport,
+       so they scroll sideways instead and the script keeps the current one in
+       view. */
+    @media (max-width: 640px) {
+      .secnav {
+        flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+        top: 3.9rem;
+      }
+      .secnav a { white-space: nowrap; }
     }
     .secnav-lbl {
       font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
@@ -171,6 +207,10 @@ const sections = [
       border-radius: 999px; background: var(--panel);
     }
     .secnav a:hover { border-color: var(--accent); color: var(--accent-ink); }
+    .secnav a[data-here] {
+      border-color: var(--accent); background: var(--accent-wash);
+      color: var(--accent-ink); font-weight: 600;
+    }
     /* sits under the heading it qualifies, before the table it describes */
     .rawnote { margin-top: -0.3rem; }
   </style>
