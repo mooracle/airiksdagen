@@ -110,6 +110,15 @@ _PAGE_NUMBER = re.compile(r"[\d\s.,%‑‒–—•·|ivxlcdmIVXLCDM-]+")
 # are nothing but i/v/x/l/c/d/m, which would delete a chapter title that happens
 # to sit in the band (see `strip_running`; V-2024's 30pt titles sit at 5.5%).
 _ROMAN = re.compile(r"m*(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})", re.I)
+# Swedish words that *are* well-formed roman numerals, so the numeral check above
+# passes them. 'Vi' (= VI) is the one that matters: the multi-word case is safe
+# because 'Vi vill' is not a numeral, but a column break can leave 'Vi' alone on a
+# line, and dropping it deletes the opening word of a pledge. Nothing is lost by
+# refusing them — 'vi' is folio 6 and 'di' folio 501, and no cited document
+# numbers its pages in roman at all. Bare 'i' is deliberately absent: it is a
+# preposition that never stands as its own line, and it is the first folio of any
+# roman-numbered front matter (`test_a_roman_folio_in_the_band_goes`).
+_ROMAN_WORDS = {"vi", "di"}
 # Same idea without the roman numerals: at block level they would swallow real
 # words ('civil' is nothing but i/v/c/l).
 _NUMERIC_ONLY = re.compile(r"[\d\s.,%‑‒–—•·|-]+")
@@ -336,6 +345,8 @@ def _is_page_number(text: str) -> bool:
     if not _PAGE_NUMBER.fullmatch(text):
         return False
     letters = "".join(c for c in text if c.isalpha())
+    if letters.lower() in _ROMAN_WORDS:
+        return False
     return not letters or bool(_ROMAN.fullmatch(letters))
 
 

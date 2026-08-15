@@ -242,6 +242,18 @@ class TestStripRunning:
             kept, dropped = docx.strip_running([_line(title, page=0, y0=20.0)])
             assert [line.text for line in kept] == [title] and not dropped
 
+    def test_a_bare_swedish_word_that_is_a_numeral_survives(self):
+        """'Vi' *is* VI, so the numeral check alone passes it and the line goes.
+
+        The multi-word guard above only fires once a second word follows, and a
+        column break can leave 'Vi' alone at the head of a pledge — dropping it
+        deletes prose with the drop log as the only trace, which no equivalence
+        check at ±5% of the word count can see.
+        """
+        for word in ("Vi", "vi", "Di"):
+            kept, dropped = docx.strip_running([_line(word, page=0, y0=20.0)])
+            assert [line.text for line in kept] == [word] and not dropped
+
     def test_below_the_repeat_floor_nothing_is_dropped(self):
         """Two pages cannot establish a running header."""
         lines = [_line("Ett rubrikliknande stycke", page=p, y0=20.0) for p in range(2)]
