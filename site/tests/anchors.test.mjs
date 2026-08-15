@@ -255,6 +255,43 @@ test('a demoted heading gives its cited lines to the chapter it sits in', () => 
   assert.deepEqual(chs.map((c) => [c.text, c.lines]), [['KAPITEL 1', 2]]);
 });
 
+test('the introduction gives its cited lines to the first chapter, not to the bin', () => {
+  // valmanifest-2022-v opens with two pages of prose before "Vi har rätt att
+  // förvänta oss något bättre", and its rail published 60 of the document's 66
+  // cited lines — the whole introduction missing. Nothing sits above those
+  // lines to demote them into, so they belong to the first chapter below.
+  const chs = chapters(
+    doc(
+      group('para', 1, ['b0000', 'Vi är många som upplevt att tryggheten försvunnit.']),
+      group('para', 2, ['b0001', 'I trettio år har det förts samma politik.']),
+      group('h2', 2, ['b0008', 'Vi har rätt att förvänta oss något bättre']),
+      group('para', 3, ['b0009', 'Brödtext.']),
+    ),
+    summaryOf({ b0000: cites(1, 1, 0), b0001: cites(2, 1, 0), b0009: cites(3, 1, 0) }),
+  );
+  assert.deepEqual(chs.map((c) => [c.text, c.lines]), [
+    ['Vi har rätt att förvänta oss något bättre', 3],
+  ]);
+});
+
+test('collapsing folds the h2s ahead of the first h1 down into it', () => {
+  // The same hole on the capped path: an h2 with no h1 above it has nowhere to
+  // hand its count up to, and filtering dropped it.
+  const groups = [group('h2', 1, ['b000', 'Inledning'])];
+  const tally = { b000: cites(1, 1, 0) };
+  for (let i = 0; i < 12; i += 1) {
+    groups.push(group('h1', i + 2, [`b1${i}`, `Kapitel ${i}`]));
+    for (let j = 0; j < 5; j += 1) {
+      const id = `b2${i}${j}`;
+      groups.push(group('h2', i + 2, [id, `Avsnitt ${i}.${j}`]));
+      tally[id] = cites(1, 1, 0);
+    }
+  }
+  const capped = chapters(groups, summaryOf(tally), { max: 20 });
+  assert.deepEqual(capped.map((c) => c.lines), [6, ...Array(11).fill(5)]);
+  assert.equal(capped.reduce((n, c) => n + c.lines, 0), 61);
+});
+
 test('a title set twice is one entry', () => {
   const chs = chapters(
     doc(
