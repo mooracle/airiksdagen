@@ -278,6 +278,16 @@ export function chapters(
     if (last) last.lines += cited;
   }
   if (out.length <= max) return out;
-  const top = out.filter((c) => c.level === 1);
+  // Dropping the h2s must not drop their counts with them: a collapsed chapter's
+  // cited lines belong to the chapter above it, exactly as a demoted heading's
+  // do. Filtering alone published 28 cited lines for valmanifest-2022-m where its
+  // chapters hold 388, and 24 against 283 for partiprogram-mp-2025 — the two most
+  // heavily cited manifestos read as the two least. Copy rather than accumulate
+  // in place: `out` is still returned unchanged when the h1s are too few.
+  const top: Chapter[] = [];
+  for (const c of out) {
+    if (c.level === 1) top.push({ ...c });
+    else if (top.length) top[top.length - 1].lines += c.lines;
+  }
   return top.length >= MIN_TOP_LEVEL ? top : out;
 }

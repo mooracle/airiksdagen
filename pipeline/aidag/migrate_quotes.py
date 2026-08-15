@@ -178,7 +178,11 @@ class DocIndex:
     def candidates(self, quote: str) -> list[int]:
         """Block indices most likely to hold the quote, rarest tokens first."""
         toks = {t for t in _TOKEN.findall(quote.lower()) if t in self.postings}
-        ranked = sorted(toks, key=lambda t: len(self.postings[t]))[:RARE_TOKENS]
+        # the token itself breaks ties: `toks` is a set, so equally-rare tokens
+        # would otherwise be ordered by PYTHONHASHSEED and the [:RARE_TOKENS] cut
+        # would select a different candidate set run to run — this pass rewrites
+        # the research record and has to be reproducible
+        ranked = sorted(toks, key=lambda t: (len(self.postings[t]), t))[:RARE_TOKENS]
         score: Counter[int] = Counter()
         for t in ranked:
             score.update(self.postings[t])

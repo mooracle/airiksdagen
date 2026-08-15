@@ -261,6 +261,43 @@ test('past the cap the rail keeps the h1 outline instead of scrolling', () => {
   assert.ok(capped.every((c) => c.level === 1));
 });
 
+test('a collapsed h2 hands its cited lines up to its chapter, not into the bin', () => {
+  // Filtering the h2s out dropped their counts with them, and the rail then
+  // reported 28 cited lines for valmanifest-2022-m where its chapters hold 388.
+  const groups = [];
+  const tally = {};
+  for (let i = 0; i < 12; i += 1) {
+    groups.push(group('h1', i + 1, [`b1${i}`, `Kapitel ${i}`]));
+    for (let j = 0; j < 5; j += 1) {
+      const id = `b2${i}${j}`;
+      groups.push(group('h2', i + 1, [id, `Avsnitt ${i}.${j}`]));
+      tally[id] = cites(1, 1, 0);
+    }
+  }
+  const capped = chapters(groups, summaryOf(tally), { max: 20 });
+  // every chapter's five subsections are cited once each, and nothing is lost
+  assert.deepEqual(capped.map((c) => c.lines), Array(12).fill(5));
+  assert.equal(capped.reduce((n, c) => n + c.lines, 0), 60);
+});
+
+test('collapsing does not mutate the long rail it may have to fall back to', () => {
+  // The h1s here are too few to outline the document, so `chapters` returns the
+  // full list — which must not have been accumulated into on the way past.
+  const groups = [];
+  const tally = {};
+  for (let i = 0; i < 3; i += 1) {
+    groups.push(group('h1', i + 1, [`b1${i}`, `Kapitel ${i}`]));
+    for (let j = 0; j < 9; j += 1) {
+      const id = `b2${i}${j}`;
+      groups.push(group('h2', i + 1, [id, `Avsnitt ${i}.${j}`]));
+      tally[id] = cites(1, 1, 0);
+    }
+  }
+  const chs = chapters(groups, summaryOf(tally), { max: 20 });
+  assert.equal(chs.length, 30);
+  assert.deepEqual(chs.filter((c) => c.level === 1).map((c) => c.lines), [0, 0, 0]);
+});
+
 test('...but not when the h1s alone would hide the structure', () => {
   // partiprogram-l-2023 has 6 h1 against 51 h2. Six entries is not an outline of
   // that document, it is a quarter of one, so the long rail is the lesser wrong.

@@ -21,7 +21,6 @@ import json
 from functools import lru_cache
 
 from aidag.config import (
-    CORPUS_DIR,
     KB_DIR,
     PARTIES,
     PROMPT_VERSION,
@@ -309,11 +308,6 @@ P5_ROLE_DOCS = """\
 Dokumenten nedan är partiets egna. Valmanifestet är det färskaste och mest \
 bindande uttrycket för partiets linje i den här mandatperioden; partiprogrammet \
 anger de långsiktiga principerna. Där de skiljer sig väger valmanifestet tyngst."""
-
-
-@lru_cache(maxsize=32)
-def _corpus_text(filename: str) -> str:
-    return (CORPUS_DIR / filename).read_text().lstrip("﻿").strip()
 
 
 def build_system_blocks(
