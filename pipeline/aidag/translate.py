@@ -131,6 +131,39 @@ def load_decision_translations(run_id: str) -> dict[str, dict]:
     return {r["cid"]: r for r in _read_jsonl(decisions_path(run_id))}
 
 
+def withhold_unverified(tr: dict | None, citations: list[dict]) -> dict | None:
+    """Drop English quotes whose Swedish source has been withdrawn.
+
+    `repair-citations` BLANKS a quote it cannot verify against the corpus —
+    that is the whole mechanism by which the site never presents an
+    unverifiable string as a verbatim source. But the English was translated
+    from the wording the agent produced, before that pass ran, and it is still
+    in `data/results/translations/`. Shipped as-is it puts the withdrawn text
+    back into the record in the other language, in machine-readable form.
+
+    Positional, because that is how the pairing works throughout
+    (`CasePage.astro` reads `dEn?.citations?.[i]`); the `princip` label is kept,
+    since it is the model's own summary and never claimed to be verbatim.
+
+    Lives here rather than in `export_site` because there are TWO exports that
+    pair a Swedish citation list with an English one — the per-case JSON and
+    `coalition.py`'s `override_cases[].en` — and `export_site` already imports
+    `coalition`, so the shared helper cannot live on that side of the edge.
+    """
+    if not tr:
+        return tr
+    en = tr.get("citations") or []
+    if not any(i < len(en) and en[i].get("quote") and not c.get("quote")
+               for i, c in enumerate(citations)):
+        return tr
+    return tr | {
+        "citations": [
+            (e | {"quote": ""}) if i < len(citations) and not citations[i].get("quote") else e
+            for i, e in enumerate(en)
+        ]
+    }
+
+
 def _load_decisions(run_id: str) -> dict[str, dict]:
     """All anonymous-arm decisions of the run, keyed by cid."""
     out: dict[str, dict] = {}

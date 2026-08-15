@@ -333,9 +333,17 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
                   {/* the quote stays verbatim Swedish — it is the evidence, and
                       the citation deep-links match these exact bytes; the
                       translation rides underneath as a gloss */}
-                  »{dc.quote}«
-                  {(dcEn?.princip || dc.princip) && <span class="muted small"> — {dcEn?.princip || dc.princip}</span>}
-                  {dcEn?.quote && <span class="qtrans">“{dcEn.quote}”</span>}
+                  {dc.quote && <>»{dc.quote}«</>}
+                  {(dcEn?.princip || dc.princip) && (
+                    <span class="muted small">{dc.quote ? ' — ' : ''}{dcEn?.princip || dc.princip}</span>
+                  )}
+                  {/* Only alongside a Swedish quote, exactly as in
+                      `CasePage.astro`. `repair-citations` BLANKS a quote it
+                      cannot verify — the whole point being that the site never
+                      shows it — but the English was translated before that pass
+                      and is still committed. Rendered on its own it puts the
+                      withdrawn text back on the page in the other language. */}
+                  {dc.quote && dcEn?.quote && <span class="qtrans">“{dcEn.quote}”</span>}
                 </blockquote>
               )}
               <p class="ov-link">

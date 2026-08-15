@@ -168,6 +168,56 @@ class TestEveryCitationIsAccountedFor:
             )
 
 
+class TestNoWithdrawnQuoteSurvivesInEnglish:
+    """`repair-citations` blanks a Swedish quote it cannot verify; the English
+    was translated before that pass and is still committed, so every export that
+    pairs the two positionally has to withhold it.
+
+    There are TWO such exports, and only one of them is the case JSON: the party
+    page loads `aggregates/coalition.json` whole, and its `override_cases[].en`
+    is built from the same translation rows. Both are asserted here because the
+    failure is silent — the lists stay the same length, and the withdrawn text
+    ships as machine-readable data whether or not any page renders it.
+    """
+
+    def _pairs(self, sv: list[dict], en: dict | None):
+        en_cits = (en or {}).get("citations") or []
+        return [
+            (i, en_cits[i]["quote"])
+            for i, c in enumerate(sv)
+            if i < len(en_cits)
+            and not (c.get("quote") or "").strip()
+            and (en_cits[i].get("quote") or "").strip()
+        ]
+
+    def test_the_exported_cases_withhold_it(self):
+        cases = _skip_unless(SITE_DATA_DIR / "cases", f"uv run aidag export-site --run-id {RUN}")
+        leaked, blank = [], 0
+        for path in sorted(cases.glob("*.json")):
+            case = json.loads(path.read_text(encoding="utf-8"))
+            for parti, d in (case.get("ai") or {}).items():
+                sv = d.get("citations") or []
+                blank += sum(1 for c in sv if not (c.get("quote") or "").strip())
+                for i, q in self._pairs(sv, d.get("en")):
+                    leaked.append((path.stem, parti, i, q[:60]))
+        assert not leaked, f"{len(leaked)} withdrawn quotes still in English, e.g. {leaked[:3]}"
+        assert blank == N_BLANK
+
+    def test_the_coalition_override_cards_withhold_it(self):
+        path = _skip_unless(
+            SITE_DATA_DIR / "aggregates" / "coalition.json",
+            f"uv run aidag build-aggregates --run-id {RUN}",
+        )
+        cards = json.loads(path.read_text(encoding="utf-8")).get("override_cases") or []
+        assert cards, "coalition.json carries no override cases — the check would be vacuous"
+        leaked = [
+            (c["parti"], c["votering_id"], i, q[:60])
+            for c in cards
+            for i, q in self._pairs(c.get("citations") or [], c.get("en"))
+        ]
+        assert not leaked, f"{len(leaked)} withdrawn quotes still in English, e.g. {leaked[:3]}"
+
+
 class TestVerifyIsGreenForBothRuns:
     """Criterion 2. full-v3 is p5 and reads `data/corpus/frozen/`; full-v4 is p6
     and reads the re-extracted files. Both have to pass, and they pass against
