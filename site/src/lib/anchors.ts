@@ -149,8 +149,9 @@ function statesSomething(t: string): boolean {
  *  `partiprogram-kd-2015` is a back-cover topic list but in `valmanifest-2022-s`
  *  is the bold bullet list of the party's actual pledges ("• Kraftigt öka
  *  antalet poliser…") and in `valmanifest-2022-l` its 60 numbered ones. Flagging
- *  those would have put "promises nothing" against 1,163 of the 1,165 decisions
- *  the flag reaches — a false claim, and the kind this project exists to avoid.
+ *  those would have put "promises nothing" against 1,163 of the 1,165 vote-line
+ *  pairs the role reaches (1,047 distinct votes) — a false claim, and the kind
+ *  this project exists to avoid.
  *
  *  So the text has to read as a label too: no bullet glyph, short, and not
  *  stating anything — see `statesSomething`, which is where the heading side of

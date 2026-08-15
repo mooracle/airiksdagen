@@ -14,7 +14,7 @@ import random
 
 import polars as pl
 
-from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
+from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR, version_ge
 from aidag.models import Decision
 
 # What the mock decisions declare, and therefore which corpus bytes
@@ -43,7 +43,7 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
     # snippets then read as hallucinated citations.
     from aidag.corpus import _text  # noqa: PLC2701
 
-    frozen = PROMPT_VERSION < "p6"
+    frozen = not version_ge(PROMPT_VERSION, "p6")
     manifesto_snippets = {}
     for p in PARTY_CODES:
         text = _text(f"valmanifest-2022-{p.lower()}.txt", frozen=frozen)

@@ -48,7 +48,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from functools import lru_cache
 
-from aidag.config import RESULTS_DIR
+from aidag.config import RESULTS_DIR, version_ge
 from aidag.migrate_quotes import MIGRATED_CLASSES, MIGRATED_FROM, index_for, resolve_slug
 from aidag.simulate import _normalize_ws
 
@@ -310,7 +310,7 @@ def collect(
         if d.get("arm", ARM) != ARM:
             counts["other_arm"] += 1
             continue
-        if d["prompt_version"] < MIGRATED_FROM:
+        if not version_ge(d["prompt_version"], MIGRATED_FROM):
             # pre-p6 runs read data/corpus/frozen/; these blocks are not their text
             counts["pre_p6"] += 1
             continue
@@ -695,7 +695,8 @@ def is_navigational(role: str, text: str) -> bool:
     """True for a cited line that names a topic rather than stating anything.
 
     Role alone is NOT the test, and taking it for one would make a false claim
-    1,163 times. `label` is "a minor bold cluster at or below body size", which
+    against 1,163 of the 1,165 vote-line pairs the role reaches (1,047 distinct
+    votes). `label` is "a minor bold cluster at or below body size", which
     in `partiprogram-kd-2015` is a back-cover topic list but in
     `valmanifest-2022-s` is the bold bullet list of the party's actual pledges
     ("• Kraftigt öka antalet poliser…") and in `valmanifest-2022-l` its 60
@@ -862,13 +863,18 @@ def navigation_report(run_id: str, results_dir=None, rows: list[dict] | None = N
     one keeps them apart:
 
     - `label_toc` — this plan's literal question, citations landing on a `label`
-      or `toc` block. **1,165 votes**, and it is the wrong answer: `label` is a
-      typographic class ("a minor bold cluster at or below body size"), and in
-      two manifestos it is the party's own pledge list.
+      or `toc` block. **1,165 vote-line pairs / 1,047 distinct votes**, and it
+      is the wrong answer: `label` is a typographic class ("a minor bold cluster
+      at or below body size"), and in two manifestos it is the party's own
+      pledge list.
     - `role_only` — the same test over every navigational role, headings
       included, because KD's back-cover topic labels are roled `h3`.
     - `navigational` — role AND the text reading as a label, which is what the
-      site marks. **6 blocks / 83 votes.**
+      site marks. **6 blocks / 84 vote-line pairs / 83 distinct votes.**
+
+    Every scope is reported in both units, which is the discipline `_agg`
+    documents: a vote citing two flagged lines is one vote and two pairs, and
+    quoting whichever number is larger is how the overstatement gets made.
 
     The gap between the first and the last IS the finding. A report printing
     only the final number would leave the next reader to re-derive why it is not
@@ -950,7 +956,7 @@ def weak_list_candidates(run_id: str, results_dir=None, rows: list[dict] | None 
     # distinct quotes per document class, with the votes that used each
     quotes: dict[str, dict[str, set]] = defaultdict(lambda: defaultdict(set))
     for d in _load_run(run_id, results_dir):
-        if d.get("arm", ARM) != ARM or d["prompt_version"] < MIGRATED_FROM:
+        if d.get("arm", ARM) != ARM or not version_ge(d["prompt_version"], MIGRATED_FROM):
             continue
         for c in d.get("citations", []):
             if q := c.get("quote") or "":

@@ -187,6 +187,49 @@ class TestPreP6ReadsTheFrozenCorpus:
             assert served["tidoavtalet"] == expected
 
 
+class TestVersionsOrderNumerically:
+    """`p10` must not read as older than `p6`.
+
+    Every gate in the pipeline is a version comparison, and comparing the raw
+    strings puts `"p10" < "p6"`. The first two-digit version would then be served
+    `data/corpus/frozen/`, prompted with the pre-p6 schema, skipped by
+    `migrate-quotes` and `build-anchors` and denied the known-unrecovered
+    allowlist — none of it raising, and `verify simulate` still green, because it
+    would be checked against the same frozen bytes it was prompted with.
+    """
+
+    def test_two_digit_versions_sort_after_single_digit_ones(self):
+        from aidag.config import version_ge
+
+        assert version_ge("p10", "p6") and version_ge("p10", "p9")
+        assert not version_ge("p6", "p10")
+        assert version_ge("p6", "p6") and not version_ge("p5", "p6")
+
+    def test_the_mock_version_still_sorts_below_every_real_one(self):
+        """`mock.PROMPT_VERSION` relies on this to be served the frozen corpus."""
+        from aidag.config import version_ge
+        from aidag.mock import PROMPT_VERSION as MOCK_VERSION
+
+        assert not version_ge(MOCK_VERSION, "p4")
+        assert not version_ge(MOCK_VERSION, "p6")
+
+    def test_a_two_digit_version_is_routed_like_the_newest_corpus(self):
+        """The routing itself, not just the comparison helper."""
+        assert corpus.docs_for_version("p10") == corpus.DOCS_P6
+        served = {
+            k: x
+            for k, _t, x in corpus.documents_for("KD", "2023-04-12", "2022/23", "V1", "p10")
+        }
+        live = (corpus.CORPUS_DIR / "valmanifest-2022-kd.txt").read_text()
+        assert served["valmanifest"] == corpus.normalize(live)
+
+    def test_a_two_digit_run_is_not_skipped_by_the_citation_passes(self):
+        from aidag.config import version_ge
+        from aidag.migrate_quotes import MIGRATED_FROM
+
+        assert version_ge("p10", MIGRATED_FROM)
+
+
 class TestSiteCorpusMatchesWhatAgentsRead:
     """The /dokument/ pages tell the reader "this is what the AI agents read".
 

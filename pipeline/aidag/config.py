@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -220,5 +221,31 @@ PILOT_MODELS = ["claude-opus-4-8", "claude-sonnet-4-6"]
 # and makes `agent-prepare` build manifests for the wrong schema.
 PROMPT_VERSION = "p6"
 BATCH_CHUNK_SIZE = 300
+
+
+def version_ge(prompt_version: str, base: str) -> bool:
+    """True when `prompt_version` is `base` or newer, ordering `pN` NUMERICALLY.
+
+    Every gate in the pipeline is a version comparison — which corpus directory a
+    run is served (`corpus.documents_for`), which schema it is prompted with
+    (`promptgen`), whether `migrate-quotes` and `build-anchors` touch it, whether
+    `repair-citations` may apply the known-unrecovered allowlist. Comparing the
+    raw strings reads `"p10" < "p6"` as True, so the first two-digit version would
+    be served `data/corpus/frozen/`, skipped by both citation passes and denied
+    the allowlist — silently, and with `verify simulate` still green, because it
+    would be checked against the same frozen bytes it was prompted with. The
+    failure would surface only as "the new run has no anchors and no citation
+    panels", four passes downstream of the cause.
+
+    Anything that is not `pN` — `mock.PROMPT_VERSION` is the only one — sorts
+    below every real version, which is what the string comparison already did and
+    what the mock run relies on (it reads the frozen corpus).
+    """
+    return _version_key(prompt_version) >= _version_key(base)
+
+
+def _version_key(prompt_version: str) -> tuple[int, str]:
+    m = re.fullmatch(r"p(\d+)", prompt_version)
+    return (int(m.group(1)), "") if m else (-1, prompt_version)
 
 RIKSDAG_ATTRIBUTION = "Källa: Sveriges riksdag"

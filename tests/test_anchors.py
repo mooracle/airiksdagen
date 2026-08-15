@@ -1402,3 +1402,36 @@ class TestStaleAnchorGuard:
         by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
         anchors.write("test-run", by_slug, tmp_path)
         assert export_site.export_blocks_and_anchors("test-run") == 1
+
+    def test_run_guards_the_blocks_before_it_writes_the_derived_text(self):
+        """`export_corpus()` writes into the directory the guard protects.
+
+        It rewrites all 40 `site/src/data/corpus/*.txt`, and for the 23 extracted
+        documents those are DERIVED from the blocks. Called first, a
+        `StaleAnchors` refusal leaves the site tree holding the new text beside
+        the previous extraction's blocks and anchors — which `git status` shows
+        as an ordinary diff and README's publish recipe (`git add site/src/data`)
+        takes wholesale. Asserted on the source because `run()` needs the whole
+        data tree to reach these two lines, and the ordering is the invariant
+        `export_blocks_and_anchors`'s docstring states.
+        """
+        import ast
+        import inspect
+        import textwrap
+
+        from aidag import export_site
+
+        tree = ast.parse(textwrap.dedent(inspect.getsource(export_site.run)))
+        called: list[str] = []
+
+        class _InOrder(ast.NodeVisitor):
+            # not ast.walk: that is breadth-first, and the assertion below is
+            # about source order
+            def visit_Call(self, node):
+                if isinstance(node.func, ast.Name):
+                    called.append(node.func.id)
+                self.generic_visit(node)
+
+        _InOrder().visit(tree)
+        assert "export_corpus" in called and "export_blocks_and_anchors" in called
+        assert called.index("export_blocks_and_anchors") < called.index("export_corpus")

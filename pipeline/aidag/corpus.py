@@ -38,6 +38,7 @@ from aidag.config import (
     TIDO_DATE,
     TIDO_SIGNATORIES,
     TIDO_SUPPORT,
+    version_ge,
 )
 
 # Document kinds an agent may cite, per prompt version. The decision schema's
@@ -53,9 +54,9 @@ DOCS_P6 = ("valmanifest", "partiprogram")
 
 
 def docs_for_version(prompt_version: str) -> tuple[str, ...]:
-    if prompt_version >= "p6":
+    if version_ge(prompt_version, "p6"):
         return DOCS_P6
-    return DOCS_P5 if prompt_version >= "p5" else DOCS_P4
+    return DOCS_P5 if version_ge(prompt_version, "p5") else DOCS_P4
 
 
 def tido_applies(code: str, datum: str) -> bool:
@@ -215,9 +216,9 @@ def documents_for(
 
     # Below p6 the corpus is frozen: full-v2 (p4) and full-v3 (p5) were generated
     # from the pre-extraction bytes and their citations verify against them.
-    old = prompt_version < "p6"
+    old = not version_ge(prompt_version, "p6")
 
-    if prompt_version < "p5":
+    if not version_ge(prompt_version, "p5"):
         docs = [
             ("valmanifest", "valmanifest_2022",
              _text(f"valmanifest-2022-{code.lower()}.txt", frozen=old))
@@ -232,7 +233,7 @@ def documents_for(
          _text(f"valmanifest-2022-{code.lower()}.txt", True, old))
     ]
 
-    if prompt_version >= "p6":
+    if version_ge(prompt_version, "p6"):
         # own durable plan only — symmetric across all eight parties
         if prog := program_at(code, datum):
             docs.append((
@@ -262,7 +263,7 @@ def documents_for(
 def context_key(code: str, datum: str, rm: str, votering_id: str, prompt_version: str) -> str:
     """Identity of a party's context. Cases sharing it share one system prompt,
     which is what lets grouped agents batch and the prompt cache hit."""
-    if prompt_version < "p5":
+    if not version_ge(prompt_version, "p5"):
         return f"{code}-{'tido' if tido_applies(code, datum) else 'base'}"
     prog = program_at(code, datum)
     parts = [code, prog["from"][:4] if prog else "noprog"]
