@@ -324,6 +324,23 @@ class TestMigrateDecision:
         assert (counts["unresolved"], counts["out_of_scope"]) == (1, 0)
         assert d["flags"] == []
 
+    def test_a_valmanifest_citation_of_an_undated_vote_is_caught_too(self):
+        """`resolve_slug` sees the gap only for a `partiprogram`.
+
+        A `valmanifest` resolves from the party code with no date at all, so a
+        votering_id missing from cases.parquet would migrate normally and the
+        pass would exit 0 — the one report that is supposed to stop the pass
+        order before `repair-citations` reads the same blank date. The test is
+        on the date, not on the slug, for exactly that reason.
+        """
+        if mq.resolve_slug("valmanifest", "KD", "") is None:
+            pytest.skip("corpus not extracted")
+        d = _decision(["vad som helst"], document="valmanifest")
+        counts = mq.migrate_decision(d, "")
+        assert (counts["unresolved"], counts["out_of_scope"]) == (1, 0)
+        assert d["flags"] == []
+        assert d["citations"][0]["quote"] == "vad som helst"
+
     def test_a_second_run_changes_nothing(self, kd2015):
         original = _sentence(kd2015)
         d = _decision([_break_a_word(original)])

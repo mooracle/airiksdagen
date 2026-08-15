@@ -283,7 +283,7 @@ def known_unrecovered() -> set[tuple[str, str]]:
         return set()
     return {
         (q["document"], _normalize_ws(q["quote"]))
-        for q in json.loads(path.read_text())["quotes"]
+        for q in json.loads(path.read_text(encoding="utf-8"))["quotes"]
     }
 
 
@@ -318,19 +318,26 @@ def migrate_decision(
             # `quote_ej_verifierad` and is not a claim about the corpus
             out["blank"] += 1
             continue
+        if not datum and c["document"] in MIGRATED_CLASSES:
+            # In scope, and the vote it belongs to is missing from cases.parquet
+            # (`run` passes "" for a votering_id it could not date). Counting it
+            # as out-of-scope hides it among the budgetmotioner that belong
+            # there — and `repair-citations`, reading the same blank date, then
+            # finds no document to verify against and blanks the quote as
+            # `citat_ej_verifierad`: an ingest gap recorded as the model having
+            # made the quote up, which is the misattribution the migrate/repair
+            # split exists to prevent. `anchors.collect` keeps the two apart for
+            # the same reason.
+            #
+            # Tested on the date rather than on `slug is None`, which sees this
+            # only for `partiprogram`: a `valmanifest` resolves from the party
+            # code alone, so the undated vote would sail past unremarked.
+            out["unresolved"] += 1
+            continue
         slug = resolve_slug(c["document"], d["parti"], datum)
         if slug is None:
             if c["document"] in MIGRATED_CLASSES:
-                # In scope and still unresolved: `program_at` could date no
-                # edition, which is what a votering_id missing from
-                # cases.parquet looks like (`datum` comes back ""). Counting it
-                # as out-of-scope hides it among the budgetmotioner that belong
-                # there — and `repair-citations`, reading the same blank date,
-                # then finds no document to verify against and blanks the quote
-                # as `citat_ej_verifierad`: an ingest gap recorded as the model
-                # having made the quote up, which is the misattribution the
-                # migrate/repair split exists to prevent. `anchors.collect`
-                # keeps the two apart for the same reason.
+                # Dated, but earlier than every edition of the class it names.
                 out["unresolved"] += 1
                 continue
             out["out_of_scope"] += 1
@@ -423,7 +430,7 @@ def run(run_id: str, dry_run: bool = False) -> Counter:
     failures: Counter = Counter()
     for path in shards:
         out_lines = []
-        for line in path.read_text().splitlines():
+        for line in path.read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
             d = json.loads(line)
@@ -441,7 +448,7 @@ def run(run_id: str, dry_run: bool = False) -> Counter:
             # atomic replace — these files are the committed scientific record,
             # never leave them truncated on an interrupt
             tmp = path.with_suffix(".jsonl.tmp")
-            tmp.write_text("\n".join(out_lines) + "\n")
+            tmp.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
             tmp.replace(path)
     counts["known_failed"] = sum(n for key, n in failures.items() if key in known)
     unknown = sorted(key for key in failures if key not in known)

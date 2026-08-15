@@ -49,7 +49,7 @@ def cid_of(d: dict) -> str:
 
 
 def _read_jsonl(path: Path):
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         if line.strip():
             yield json.loads(line)
 
@@ -96,7 +96,7 @@ def write_snapshot(snap: dict, path: Path) -> Path:
 
 
 def read_snapshot(path: Path) -> dict:
-    return json.loads(Path(path).read_text())
+    return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
 def compare(before: dict, after: dict) -> dict:
