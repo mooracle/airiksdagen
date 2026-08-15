@@ -98,6 +98,12 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     rather than a no-op — a refresh moves the positional ids the standing index
     names — so `_check_standing_anchors_survive()` refuses the pairing they cannot
     verify.
+
+    Nothing under `site/src/data/corpus/` is written until every guard has passed.
+    Refusing after the copy would leave the tree in exactly the state the guard
+    exists to prevent, and — because the guard's own evidence is "the site copy
+    differs from the source" — a second `export-site` would then find them equal,
+    pass, and ship the mismatched pair.
     """
     from aidag.anchors import anchors_dir, compact_refs, load, summarize
     from aidag.config import BLOCKS_DIR
@@ -114,22 +120,26 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         print("  blocks: no extraction directory — committed blocks left alone")
         return 0
     sources = {src.name for src in BLOCKS_DIR.glob("*.json")}
-    # same rule as the anchors below: a document that stops being extracted must
-    # lose its block file, or the page keeps rendering it from a stale copy
-    for stale in blocks_out.glob("*.json"):
-        if stale.name not in sources:
-            stale.unlink()
     # Blocks are run-independent and always refreshed, but the committed anchors
     # are not: they index these ids positionally. So note which slugs the refresh
-    # actually MOVED — a block file that already existed and whose bytes differ —
-    # before overwriting them. A slug the site simply did not have yet has moved
-    # nothing and is not this case.
-    rewritten = set()
-    for src in sorted(BLOCKS_DIR.glob("*.json")):
-        dst = blocks_out / src.name
-        if dst.exists() and dst.read_bytes() != src.read_bytes():
-            rewritten.add(src.stem)
-        shutil.copy(src, dst)
+    # would MOVE — a block file that already exists and whose bytes differ — and
+    # decide on that before writing anything. A slug the site simply did not have
+    # yet has moved nothing and is not this case.
+    rewritten = {
+        src.stem
+        for src in sorted(BLOCKS_DIR.glob("*.json"))
+        if (dst := blocks_out / src.name).exists() and dst.read_bytes() != src.read_bytes()
+    }
+
+    def sync_blocks() -> None:
+        """Land the refresh. Only ever called once the guards have passed."""
+        # same rule as the anchors below: a document that stops being extracted
+        # must lose its block file, or the page keeps rendering it from a stale copy
+        for stale in blocks_out.glob("*.json"):
+            if stale.name not in sources:
+                stale.unlink()
+        for src in sorted(BLOCKS_DIR.glob("*.json")):
+            shutil.copy(src, blocks_out / src.name)
 
     if run_id is None:
         # `export-site` with no --run-id exports the cases without decisions
@@ -137,6 +147,7 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # the citation anchors — and the rebuild below, driven by an empty
         # payload, would delete the committed index rather than leave it alone.
         _check_standing_anchors_survive(rewritten, corpus_out)
+        sync_blocks()
         return 0
     if not anchors_dir(run_id).exists():
         # The same hazard one step in, and the likelier one: `export-site` before
@@ -146,11 +157,12 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # and would silently drop 46 committed files. An empty *directory* is the
         # real empty run, and its files are still swept.
         _check_standing_anchors_survive(rewritten, corpus_out)
+        sync_blocks()
         print(f"  anchors: {run_id} has no index — committed anchors left alone")
         return 0
 
     payloads = load(run_id)
-    # The blocks copied above and the index loaded here are two artifacts of two
+    # The blocks about to ship and the index loaded here are two artifacts of two
     # passes, and nothing so far has checked that they describe the SAME
     # extraction. `build-anchors` asserts the pairing (`anchors.block_index`),
     # but this path does not go through it: re-extract and then export before
@@ -159,7 +171,12 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     # (`docx.assign_roles` numbers them `b{i:04d}`), so one added or removed block
     # shifts every id after it and attributes real votes to lines nobody cited,
     # with plausible numbers and nothing raised. Refuse instead of shipping it.
-    _check_anchors_match_blocks(payloads, blocks_out)
+    #
+    # Checked against BLOCKS_DIR rather than `blocks_out`: these are the bytes
+    # `sync_blocks()` is about to write, so the two are equivalent — except that
+    # reading the source lets the refusal happen before the site tree is touched.
+    _check_anchors_match_blocks(payloads, BLOCKS_DIR)
+    sync_blocks()
     summaries = {slug: summarize(p) for slug, p in payloads.items()}
 
     anchors_out = corpus_out / "anchors"
@@ -188,10 +205,10 @@ def _check_standing_anchors_survive(rewritten: set[str], corpus_out) -> None:
     """A block refresh must not orphan the committed index the run cannot re-check.
 
     The two no-index branches return before `_check_anchors_match_blocks()` runs,
-    and the blocks are already refreshed by then — so `extract-corpus --force`
-    followed by `export-site` with no `--run-id` (or against a run with no index,
-    such as README's `mock-v1`) would ship a NEW extraction against the PREVIOUS
-    run's anchors, which is the failure the pairing guard exists for. Those
+    and the blocks refresh on every export — so `extract-corpus --force` followed
+    by `export-site` with no `--run-id` (or against a run with no index, such as
+    README's `mock-v1`) would ship a NEW extraction against the PREVIOUS run's
+    anchors, which is the failure the pairing guard exists for. Those
     branches have no payload to round-trip quotes against — the site-side files
     hold offsets, not quote text (`anchors.summarize`/`compact_refs`) — but they
     do not need one: a block file that was rewritten under a standing anchor file
@@ -211,7 +228,7 @@ def _check_standing_anchors_survive(rewritten: set[str], corpus_out) -> None:
         )
 
 
-def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
+def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_dir) -> None:
     """Every anchor must still name, and still fit, the block it was built against.
 
     Not an id-existence check: an inserted block shifts every id after it while
@@ -232,7 +249,7 @@ def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
 
     stale: list[str] = []
     for slug, payload in sorted(payloads.items()):
-        path = blocks_out / f"{slug}.json"
+        path = blocks_dir / f"{slug}.json"
         if not path.exists():
             stale.append(f"  {slug}: indexed, but no blocks/{slug}.json to render it against")
             continue

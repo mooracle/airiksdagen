@@ -12,6 +12,7 @@ run, and a gate that has never been seen to fire is not a gate.
 """
 
 import json
+import re
 
 import pytest
 
@@ -188,7 +189,30 @@ class TestBlockIndex:
         bogus.write_text(json.dumps(payload, ensure_ascii=False))
         monkeypatch.setattr("aidag.extract_corpus.blocks_path", lambda slug: bogus)
         anchors.block_index.cache_clear()
-        with pytest.raises(ValueError, match="served"):
+        with pytest.raises(ValueError, match="lines — blocks/"):
+            anchors.block_index(KD2015)
+        anchors.block_index.cache_clear()
+
+    def test_a_block_that_kept_its_place_but_changed_its_text_raises(
+        self, kd2015, tmp_path, monkeypatch
+    ):
+        """The count check cannot see this one, and it is the likelier drift.
+
+        Inserting a block trips the length comparison before the pairing loop
+        ever runs. An *edited* block leaves the count intact, so only the
+        per-block round-trip catches it — and without that the served line and
+        the block claiming to be it silently disagree.
+        """
+        from aidag.extract_corpus import blocks_path
+
+        payload = json.loads(blocks_path(KD2015).read_text())
+        edited = next(b for b in payload["blocks"] if len(b["text"]) > 40)
+        edited["text"] = "Utbytt text som inte står i dokumentet."
+        bogus = tmp_path / f"{KD2015}.json"
+        bogus.write_text(json.dumps(payload, ensure_ascii=False))
+        monkeypatch.setattr("aidag.extract_corpus.blocks_path", lambda slug: bogus)
+        anchors.block_index.cache_clear()
+        with pytest.raises(ValueError, match="does not match the served line"):
             anchors.block_index(KD2015)
         anchors.block_index.cache_clear()
 
@@ -901,6 +925,46 @@ def rep():
     return anchors.navigation_report(RUN)
 
 
+class TestNavigationRuleIsDuplicatedFaithfully:
+    """The rule exists twice; the source of both has to say the same thing.
+
+    The output-parity tests below (and `site/tests/corpus.test.mjs`) only catch
+    drift that MOVES the corpus-wide count. Adding a word to `_FINITE_VERBS` on
+    one side alone does not move it — none of the six flagged blocks contains
+    one — so both suites stay green while the two implementations diverge, and
+    the next document to be cited is read differently in the report and on the
+    page. CLAUDE.md says these lists "must be edited together"; this is what
+    holds anyone to it.
+    """
+
+    @staticmethod
+    def _ts() -> str:
+        from aidag.config import REPO_ROOT
+
+        return (REPO_ROOT / "site" / "src" / "lib" / "anchors.ts").read_text(encoding="utf-8")
+
+    def _set(self, name: str) -> set[str]:
+        m = re.search(rf"const {name} = new Set\(\s*`([^`]*)`", self._ts())
+        assert m, f"{name} is no longer a backtick word list in anchors.ts"
+        return set(m.group(1).split())
+
+    def test_the_finite_verbs_match(self):
+        assert self._set("FINITE_VERBS") == set(anchors._FINITE_VERBS)
+
+    def test_the_imperative_stems_match(self):
+        assert self._set("IMPERATIVE_LEAD") == set(anchors._IMPERATIVE_LEAD)
+
+    def test_the_roles_match(self):
+        m = re.search(r"const NAV_ROLES = new Set<DocRole>\(\[([^\]]*)\]", self._ts())
+        assert m
+        assert set(re.findall(r"'([^']+)'", m.group(1))) == set(anchors.NAV_ROLES)
+
+    def test_the_word_cap_matches(self):
+        m = re.search(r"const NAV_MAX_WORDS = (\d+);", self._ts())
+        assert m, "NAV_MAX_WORDS is no longer a named constant in anchors.ts"
+        assert int(m.group(1)) == anchors.NAV_MAX_WORDS
+
+
 class TestNavigationParity:
     """The committed finding, held as a ratchet against the real run.
 
@@ -1312,11 +1376,14 @@ class TestStaleAnchorGuard:
         (inline / f"{KD2015}.json").write_text('{"slug": "kept"}', encoding="utf-8")
         with pytest.raises(export_site.StaleAnchors, match=KD2015):
             export_site.export_blocks_and_anchors(None)
-        # the refresh above already landed, so put the older bytes back to ask
-        # the same question of the other no-index branch
-        (blocks / f"{KD2015}.json").write_text('{"blocks": []}', encoding="utf-8")
+        # Refusing has to happen BEFORE the copy. The guard's evidence is "the
+        # site copy differs from the source", so a refusal that had already
+        # landed the refresh would leave a second export finding them equal,
+        # passing, and shipping the very pairing this raised on.
+        assert (blocks / f"{KD2015}.json").read_text() == '{"blocks": []}'
         with pytest.raises(export_site.StaleAnchors, match=KD2015):
             export_site.export_blocks_and_anchors("no-such-run")
+        assert (blocks / f"{KD2015}.json").read_text() == '{"blocks": []}'
 
     def test_a_slug_the_site_did_not_have_yet_is_not_a_refresh(self, tmp_path, monkeypatch):
         """Adding a block file moves no id, so it must not trip the guard."""

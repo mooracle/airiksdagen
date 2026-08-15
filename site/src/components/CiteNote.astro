@@ -63,7 +63,7 @@ const tiers = TIERS.filter((x) => cites.tiers[x.key]).map((x) => ({
   label: t(x.label),
 }));
 
-const label = (t('doc.cite.summaryTip') as string).replace('{n}', String(d.n));
+const label = t('doc.cite.summaryTip').replace('{n}', String(d.n));
 ---
 <details class="cnote" data-block={line.id}>
   <summary aria-label={label}>
@@ -83,7 +83,7 @@ const label = (t('doc.cite.summaryTip') as string).replace('{n}', String(d.n));
       <p class="tiers">{tiers.map((x) => <span class="chip">{x.n} {x.label}</span>)}</p>
     )}
     {cites.svag > 0 && (
-      <p class="weak">{(t('doc.cite.weak') as string).replace('{n}', String(cites.svag))}</p>
+      <p class="weak">{t('doc.cite.weak').replace('{n}', String(cites.svag))}</p>
     )}
     {/* Filled by the page's script on first open; the fetch is per document and
         shared by every panel on it. Without JavaScript the aggregates above are

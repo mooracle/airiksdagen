@@ -29,3 +29,10 @@ jobs:
         working-directory: site
       - run: npx astro check || true
         working-directory: site
+      # The block renderer, the deep-link sweep over every anchor and the
+      # Python↔TypeScript parity of `is_navigational` live only here — `uv run
+      # pytest` cannot reach them, and the Cloudflare build runs `npm ci &&
+      # npm run build` only. Needs Node ≥ 22.18 for type stripping, which
+      # `node-version: 22` above resolves to.
+      - run: npm test
+        working-directory: site

@@ -140,7 +140,7 @@ def run(run_id: str) -> None:
     meta = {r["votering_id"]: (r["datum"], r["rm"]) for r in cases.iter_rows(named=True)}
 
     from aidag.blocklist import mark_weak, strip_blocked
-    from aidag.migrate_quotes import known_unrecovered
+    from aidag.migrate_quotes import MIGRATED_FROM, known_unrecovered
 
     known = known_unrecovered()
     sim_dir = RESULTS_DIR / "simulations" / run_id
@@ -161,7 +161,18 @@ def run(run_id: str) -> None:
                     party, datum, rm, d["votering_id"], d["prompt_version"]
                 )
             }
-            ok, fixed, failed = repair_decision(d, corpus, datum, known)
+            # The allowlist names quotes the *re-extracted* geometry cannot
+            # place. A pre-p6 decision is served `data/corpus/frozen/` above —
+            # bytes the re-extraction never touched — so applying it there would
+            # blank a genuine paraphrase as "the corpus could not be read",
+            # which is the misattribution the list exists to prevent, running
+            # the other way. `migrate_quotes.run` gates on the same version.
+            ok, fixed, failed = repair_decision(
+                d,
+                corpus,
+                datum,
+                known if d["prompt_version"] >= MIGRATED_FROM else None,
+            )
             n_ok += ok
             n_fixed += fixed
             n_failed += failed

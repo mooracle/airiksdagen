@@ -169,10 +169,17 @@ uv run aidag export-site      --run-id full-v4
 `migrate-quotes` and `extract-corpus` belong in front of this only when the corpus
 itself has been re-extracted; on an unchanged corpus they are no-ops.
 
-Do not skip `build-anchors`. `export-site` returns 0 anchors rather than raising
-when a run has none — deliberately, so an export between passes still produces a
-site — so a run published without it looks fine and simply has no citation panels,
-no chapter-rail counts and no navigation flags on any document page.
+Do not skip `build-anchors`. On an **unchanged corpus** `export-site` returns 0
+anchors rather than raising when a run has none — deliberately, so an export
+between passes still produces a site — and a run published without it looks fine
+and simply has no citation panels, no chapter-rail counts and no navigation flags
+on any document page.
+
+After `extract-corpus --force` it stops being optional. Block ids are positional,
+so a re-extraction moves the ids the committed index still names; exporting with a
+stale or absent index raises `StaleAnchors` rather than shipping the two together.
+Nothing under `site/src/data/corpus/` is written when it does. Re-run
+`build-anchors --run-id <run>` and export with that `--run-id`.
 
 Note `full-v3` stays frozen for comparison; p6 is backwards-incompatible by
 choice (every reader of `rost` changes to `hallning` + derived vote).

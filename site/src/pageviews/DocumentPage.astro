@@ -62,8 +62,6 @@ const anchors = getCorpusAnchors(slug);
 const rail = chapters(doc.groups, anchors);
 const hasRail = rail.length >= 3;
 const notesFor = (g: RenderGroup): CitedLine[] => citedLines(g, anchors);
-const num = (key: string, vals: Record<string, number>) =>
-  Object.entries(vals).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t(key) as string);
 
 // Consecutive bullets (and consecutive table-of-contents entries) become one list
 // instead of N sibling elements.
@@ -233,7 +231,7 @@ const TR = {
           <nav class="rail" aria-label={t('doc.rail.title')}>
             <p class="rtitle">{t('doc.rail.title')}</p>
             {anchors && (
-              <p class="rtotal">{num('doc.rail.decisions', { n: anchors.totals.decisions.n })}</p>
+              <p class="rtotal">{t('doc.rail.decisions').replace('{n}', String(anchors.totals.decisions.n))}</p>
             )}
             <ol>
               {rail.map((c) => (
