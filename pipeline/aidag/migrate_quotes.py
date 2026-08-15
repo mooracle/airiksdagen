@@ -280,7 +280,18 @@ def known_unrecovered() -> set[tuple[str, str]]:
     """
     path = CORPUS_DIR / "known-unrecovered.json"
     if not path.exists():
-        return set()
+        # Refuse rather than fall back to an empty set: both callers read this as
+        # "not on the list, so offer it to the matcher", and all 12 listed quotes
+        # score > 0.75 against the *neighbouring column*. An absent file would
+        # therefore rewrite every one of them and stamp it `citat_korrigerat` —
+        # an extraction failure booked as the model paraphrasing, with both
+        # outputs verbatim substrings so `verify simulate` and `citation-audit`
+        # stay green. Same refusal the passes already make for an empty shard glob.
+        raise FileNotFoundError(
+            f"{path} is missing — it is the allowlist that keeps the 12 "
+            "unrecoverable quotes away from the fuzzy matcher; refusing to run "
+            "without it"
+        )
     return {
         (q["document"], _normalize_ws(q["quote"]))
         for q in json.loads(path.read_text(encoding="utf-8"))["quotes"]

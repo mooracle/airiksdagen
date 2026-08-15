@@ -264,6 +264,19 @@ class TestKnownUnrecovered:
         assert mq.KNOWN_FAILURE.text == ""
         assert mq.KNOWN_FAILURE.ratio == 0.0
 
+    def test_an_absent_allowlist_refuses_rather_than_reading_as_empty(self, tmp_path, monkeypatch):
+        """Failing open here is the one failure mode with no other error path.
+
+        An empty set reads to both callers as 'not listed, offer it to the
+        matcher', and all 12 score over the bar against the neighbouring column
+        — so repair would rewrite every one and stamp `citat_korrigerat`, booking
+        an extraction failure as the model paraphrasing. Both outputs are
+        verbatim substrings, so `verify simulate` and `citation-audit` stay green.
+        """
+        monkeypatch.setattr(mq, "CORPUS_DIR", tmp_path)
+        with pytest.raises(FileNotFoundError, match="known-unrecovered.json"):
+            mq.known_unrecovered()
+
 
 class TestMigrateDecision:
     def test_an_exact_quote_is_passed_through_untouched(self, kd2015):
