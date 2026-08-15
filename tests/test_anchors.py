@@ -507,6 +507,346 @@ class TestSiteShapes:
         assert len(c["anchors"][0]["refs"]) == payload["n_refs"]
 
 
+KDVAL = "valmanifest-2022-kd"
+MVAL = "valmanifest-2022-m"
+
+
+class TestNavigationRule:
+    """Mirrors `site/src/lib/anchors.ts:isNavigational`, case for case.
+
+    The rule is written twice — once per language — so these are the assertions
+    `site/tests/anchors.test.mjs` makes, repeated here. A change on one side that
+    is not made on the other fails in exactly one suite, which is the point.
+    """
+
+    def test_a_topic_label_is_navigation(self):
+        assert anchors.is_navigational("label", "EN STRAM MIGRATION")
+        assert anchors.is_navigational("h3", "FLER JOBB FLER FÖRETAG")
+        assert anchors.is_navigational("h1", "KAPITEL 1. Kristdemokratins värdegrund")
+
+    def test_a_contents_entry_is_navigation_whatever_it_says(self):
+        assert anchors.is_navigational(
+            "toc", "Kampen mot kriminaliteten ska vinnas i varje del av landet."
+        )
+
+    def test_a_pledge_set_as_a_bold_label_is_not(self):
+        """The false claim this rule exists to avoid, 1,163 decisions' worth."""
+        assert not anchors.is_navigational(
+            "label", "• Kraftigt öka antalet poliser på våra gator och torg."
+        )
+        assert not anchors.is_navigational(
+            "label",
+            "13. En högre utbildning med högre ambitioner. Vi vill öka den "
+            "lärarledda undervisningen.",
+        )
+
+    def test_body_text_is_never_navigation_however_it_looks(self):
+        for role in ("para", "bullet", "caption", "unreadable"):
+            assert not anchors.is_navigational(role, "EN STRAM MIGRATION"), role
+
+    def test_a_heading_that_states_something_is_not_reduced_to_a_label(self):
+        assert not anchors.is_navigational("h2", "Vi ska avskaffa fastighetsskatten.")
+        assert not anchors.is_navigational(
+            "h2", "Ett samhälle där varje människa räknas och där ingen lämnas efter av staten"
+        )
+
+    def test_the_length_cut_is_where_it_says_it_is(self):
+        assert anchors.is_navigational("h2", " ".join(["ord"] * anchors.NAV_MAX_WORDS))
+        assert not anchors.is_navigational("h2", " ".join(["ord"] * (anchors.NAV_MAX_WORDS + 1)))
+
+    def test_a_quoted_full_stop_still_ends_a_sentence(self):
+        assert not anchors.is_navigational("h2", 'Han sade "vi ska vinna."')
+
+
+class TestCitedBlocks:
+    """The report's input: every cited block, with the role it carries."""
+
+    @pytest.fixture
+    def run(self, tmp_path, monkeypatch, kd2015):
+        monkeypatch.setattr(anchors, "_case_tables", lambda: (CASES, POSITIONS))
+        sim = tmp_path / "simulations" / "test-run"
+        sim.mkdir(parents=True)
+        return tmp_path, sim
+
+    def _build(self, root, sim, rows):
+        (sim / "d.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
+        )
+        anchors.build("test-run", results_dir=root)
+
+    def test_a_cited_block_carries_its_role_and_its_text(self, run, kd2015):
+        root, sim = run
+        bid, text = _a_block(kd2015)
+        self._build(root, sim, [_decision([text])])
+        (row,) = anchors.cited_blocks("test-run", root)
+        assert (row["slug"], row["block_id"]) == (KD2015, bid)
+        assert row["role"] == anchors.block_roles(KD2015)[bid]["role"]
+        assert row["citations"] == 1
+        assert row["votes"] == {("V1", "KD")}
+
+    def test_two_spans_of_one_line_are_one_cited_block(self, run, kd2015):
+        """Per block, not per anchor — the question is about the line."""
+        _, text = _a_block(kd2015, min_words=30)
+        words = text.split()
+        self._build(root_sim := run[0], run[1],
+                    [_decision([" ".join(words[:14]), " ".join(words[-14:])])])
+        (row,) = anchors.cited_blocks("test-run", root_sim)
+        assert (row["citations"], row["votes"]) == (2, {("V1", "KD")})
+
+    def test_a_cited_block_missing_from_blocks_raises(self, run, kd2015, monkeypatch):
+        """Anchors were built from those blocks — a gap means they have drifted,
+        and every role in the report would be a guess."""
+        root, sim = run
+        _, text = _a_block(kd2015)
+        self._build(root, sim, [_decision([text])])
+        monkeypatch.setattr(anchors, "block_roles", lambda slug: {})
+        with pytest.raises(ValueError, match="build-anchors"):
+            anchors.cited_blocks("test-run", root)
+
+
+def _row(slug, block_id, role, text, votes, citations=None, page=0):
+    return {
+        "slug": slug,
+        "block_id": block_id,
+        "role": role,
+        "text": text,
+        "page": page,
+        "citations": citations if citations is not None else len(votes),
+        "votes": set(votes),
+        "navigational": anchors.is_navigational(role, text),
+    }
+
+
+class TestNavigationReport:
+    """The aggregation — three scopes, and the difference between them."""
+
+    @pytest.fixture
+    def rows(self):
+        return [
+            _row(KDVAL, "b0094", "h3", "FLER JOBB FLER FÖRETAG", [("V1", "KD"), ("V2", "KD")]),
+            _row(KDVAL, "b0095", "h3", "STARKARE FAMILJER", [("V2", "KD")]),
+            _row("valmanifest-2022-s", "b0041", "label",
+                 "• Krafttag för att stoppa hedersrelaterat våld.", [("V3", "S")]),
+            _row(KDVAL, "b0200", "para",
+                 "Vi vill fördubbla antalet poliser i yttre tjänst under mandatperioden.",
+                 [("V1", "KD"), ("V3", "S")], citations=3),
+        ]
+
+    def test_the_totals_count_every_cited_block(self, rows):
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["totals"]["blocks"] == 4
+        assert rep["totals"]["citations"] == 7
+
+    def test_a_vote_citing_two_blocks_is_one_vote_and_two_block_votes(self, rows):
+        """Both numbers are reported because both get used, and they differ."""
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["totals"]["decisions"] == 3  # V1/KD, V2/KD, V3/S
+        assert rep["totals"]["block_decisions"] == 6
+
+    def test_the_role_breakdown_covers_every_cited_block(self, rows):
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["by_role"]["h3"]["blocks"] == 2
+        assert rep["by_role"]["label"]["blocks"] == 1
+        assert rep["by_role"]["para"]["blocks"] == 1
+
+    def test_role_alone_would_flag_the_pledge_list(self, rows):
+        """`label`/`toc` is the plan's literal question and the wrong answer."""
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["label_toc"]["blocks"] == 1
+        assert rep["label_toc"]["by_party"] == {"S": {"decisions": 1}}
+
+    def test_the_text_test_flags_the_labels_and_spares_the_pledge(self, rows):
+        rep = anchors.navigation_report("r", rows=rows)
+        nav = rep["navigational"]
+        assert nav["blocks"] == 2
+        assert [b["block_id"] for b in nav["blocks_listed"]] == ["b0094", "b0095"]
+        assert nav["by_document"] == {
+            KDVAL: {"blocks": 2, "citations": 3, "decisions": 2, "block_decisions": 3}
+        }
+
+    def test_the_party_breakdown_counts_each_vote_once(self, rows):
+        """V2/KD cited both labels; it is one party's one vote."""
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["navigational"]["by_party"] == {"KD": {"decisions": 2}}
+        assert rep["navigational"]["block_decisions"] == 3
+
+    def test_the_listing_names_the_line_so_the_finding_can_be_read(self, rows):
+        rep = anchors.navigation_report("r", rows=rows)
+        top = rep["navigational"]["blocks_listed"][0]
+        assert top["text"] == "FLER JOBB FLER FÖRETAG"
+        assert (top["role"], top["decisions"], top["parties"]) == ("h3", 2, ["KD"])
+
+    def test_a_run_citing_no_navigation_reports_zero_rather_than_nothing(self):
+        rows = [_row(KDVAL, "b0200", "para", "En vanlig mening om politik.", [("V1", "KD")])]
+        rep = anchors.navigation_report("r", rows=rows)
+        assert rep["navigational"]["blocks"] == 0
+        assert rep["navigational"]["by_party"] == {}
+        assert rep["navigational"]["blocks_listed"] == []
+
+    def test_the_report_is_json_serializable(self, rows):
+        """It is written with --out and read back by the findings note."""
+        rep = anchors.navigation_report("r", rows=rows)
+        assert json.loads(json.dumps(rep, ensure_ascii=False))["run_id"] == "r"
+
+
+class TestWeakListCandidates:
+    """Whether any flagged phrase could go in `blocklist.WEAK_LIST` instead.
+
+    Two tests per phrase, and they answer different questions: what it would
+    catch among the quotes that exist, and whether it occurs at all in another
+    party's document of the same class — which needs no committed quote to be a
+    trap.
+    """
+
+    @pytest.fixture
+    def run_dir(self, tmp_path):
+        sim = tmp_path / "simulations" / "test-run"
+        sim.mkdir(parents=True)
+        return tmp_path, sim
+
+    def _write(self, sim, rows):
+        (sim / "d.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
+        )
+
+    def test_a_phrase_catching_only_its_own_line_is_clean(self, run_dir):
+        root, sim = run_dir
+        label = "FLER JOBB FLER FÖRETAG"
+        self._write(sim, [_decision([label], document="valmanifest")])
+        rows = [_row(KDVAL, "b0094", "h3", label, [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert (c["catches"], c["false_positives"]) == (1, 0)
+        assert (c["words"], c["chars"]) == (4, len(label))
+
+    def test_containment_catches_a_longer_quote_by_another_party(self, run_dir):
+        """Matching is bidirectional (`blocklist.py:139`) and `document` is a
+        CLASS, so an entry is offered every party's manifesto."""
+        root, sim = run_dir
+        label = "FLER JOBB FLER FÖRETAG"
+        self._write(sim, [
+            _decision([label], document="valmanifest"),
+            _decision([f"Vi vill ha {label} i hela landet."], parti="M", vid="V2",
+                      document="valmanifest"),
+        ])
+        rows = [_row(KDVAL, "b0094", "h3", label, [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert c["catches"] == 2
+        assert c["false_positives"] == 1
+        assert c["false_positive_quotes"] == ["vi vill ha fler jobb fler företag i hela landet."]
+
+    def test_a_sub_window_of_the_phrase_is_caught_too(self, run_dir):
+        """The other direction: agents quote slices of the same line."""
+        root, sim = run_dir
+        label = "FLER JOBB FLER FÖRETAG"
+        self._write(sim, [
+            _decision(["FLER JOBB"], parti="M", vid="V2", document="valmanifest"),
+        ])
+        rows = [_row(KDVAL, "b0094", "h3", label, [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert (c["catches"], c["false_positives"]) == (1, 1)
+
+    def test_only_the_same_document_class_is_offered(self, run_dir):
+        root, sim = run_dir
+        label = "FLER JOBB FLER FÖRETAG"
+        self._write(sim, [
+            _decision([f"Vi vill ha {label}."], parti="M", vid="V2", document="partiprogram"),
+        ])
+        rows = [_row(KDVAL, "b0094", "h3", label, [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert (c["catches"], c["false_positives"]) == (0, 0)
+
+    def test_a_phrase_occurring_in_another_partys_document_is_a_trap(self, run_dir):
+        """The bar `blocklist.py` states, tested against the DOCUMENTS: no
+        committed quote has to exist for a future one to be marked."""
+        if not (CORPUS_DIR / f"{MVAL}.txt").exists():
+            pytest.skip("corpus not extracted")
+        root, sim = run_dir
+        self._write(sim, [])
+        borrowed = "Statens utgifter ska minska"  # a heading of valmanifest-2022-m
+        rows = [_row(KDVAL, "b0094", "h3", borrowed, [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert c["other_documents"] == [MVAL]
+
+    def test_a_blank_quote_is_not_offered_to_the_matcher(self, run_dir):
+        """`repair-citations` withdrew it; it is not a claim about the corpus."""
+        root, sim = run_dir
+        self._write(sim, [_decision(["", "FLER JOBB FLER FÖRETAG"], document="valmanifest")])
+        rows = [_row(KDVAL, "b0094", "h3", "FLER JOBB FLER FÖRETAG", [("V1", "KD")])]
+        (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
+        assert c["catches"] == 1
+
+    def test_only_navigational_lines_are_proposed(self, run_dir):
+        root, sim = run_dir
+        self._write(sim, [])
+        rows = [_row(KDVAL, "b0200", "para", "En vanlig mening.", [("V1", "KD")])]
+        assert anchors.weak_list_candidates("test-run", root, rows=rows) == []
+
+
+RUN = "full-v4"
+
+
+@pytest.fixture(scope="module")
+def rep():
+    if not anchors.anchors_dir(RUN).exists():
+        pytest.skip("anchors not built (run: uv run aidag build-anchors)")
+    return anchors.navigation_report(RUN)
+
+
+class TestNavigationParity:
+    """The committed finding, held as a ratchet against the real run.
+
+    These are the numbers `docs/topic-label-citations.md` reports and the site
+    measured independently in TypeScript (Task 8b: 16 blocks / 180 decisions).
+    Two implementations of one rule agreeing on the same corpus is the only
+    check there is that the duplication has not drifted.
+    """
+
+    def test_the_corpus_wide_navigation_count_is_what_the_site_measured(self, rep):
+        nav = rep["navigational"]
+        assert nav["blocks"] == 16
+        assert nav["block_decisions"] == 180
+        assert nav["decisions"] == 178  # two votes cited two navigation lines each
+
+    def test_role_alone_would_have_claimed_the_pledge_lists(self, rep):
+        """1,165 block-votes against 180 — the gap IS the finding."""
+        assert rep["label_toc"]["block_decisions"] == 1165
+        assert rep["role_only"]["block_decisions"] == 1433
+
+    def test_the_finding_is_a_fact_about_two_parties_manifestos(self, rep):
+        assert set(rep["navigational"]["by_document"]) == {
+            MVAL, KDVAL, "partiprogram-v-2016", "valmanifest-2022-s"
+        }
+        assert rep["navigational"]["by_party"]["M"]["decisions"] == 94
+        assert rep["navigational"]["by_party"]["KD"]["decisions"] == 81
+
+    def test_kd_back_cover_labels_are_among_them(self, rep):
+        """The finding in this plan's Overview, in the final extraction."""
+        kd = [b for b in rep["navigational"]["blocks_listed"] if b["slug"] == KDVAL]
+        assert len(kd) == 5
+        assert all(b["role"] == "h3" for b in kd)
+
+    def test_every_cited_block_is_accounted_for_by_role(self, rep):
+        by_role = rep["by_role"]
+        assert sum(a["blocks"] for a in by_role.values()) == rep["totals"]["blocks"]
+        assert sum(a["citations"] for a in by_role.values()) == rep["totals"]["citations"]
+
+    def test_no_flagged_phrase_is_disqualified_and_none_is_proposed(self, rep):
+        """All 16 pass both tests — and none is proposed anyway. `svag` means
+        'supporting but generic', and these quotes are specific; the claim they
+        cannot carry is a commitment, which is what the per-block flag says."""
+        cands = anchors.weak_list_candidates(RUN)
+        assert len(cands) == 16
+        # the matcher really ran against the committed record, so "no false
+        # positive" is a measurement rather than an empty scan
+        assert sum(c["catches"] for c in cands) == 180
+        assert all(c["false_positives"] == 0 for c in cands)
+        assert all(c["other_documents"] == [] for c in cands)
+        from aidag.blocklist import WEAK_LIST
+
+        phrases = {e["phrase"] for e in WEAK_LIST}
+        assert not phrases & {c["phrase"] for c in cands}
+
+
 class TestExportSite:
     def test_blocks_and_both_anchor_halves_land_in_the_site(self, tmp_path, monkeypatch, kd2015):
         from aidag import export_site
