@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import ConfidenceMeter from '../components/ConfidenceMeter.astro';
-import MultiLineChart from '../components/MultiLineChart.astro';
 import PartyBadge from '../components/PartyBadge.astro';
 import { getMeta, getAggregate, corpusDocsByParty, corpusCitationStats } from '../lib/data';
 import { docTitle } from '../lib/doctext';
@@ -89,8 +88,14 @@ const matrix = confusion?.[code];
 const LABELS = ['Ja', 'Nej', 'Avstår'];
 const voteLabel: Record<string, string> = { Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår') };
 
-// build-time SVG line charts
-const W = 720, H = 180, PAD = 30;
+// Build-time SVG line charts, sized for the two-up grid they sit in rather than
+// for the full column. An SVG at `width:100%` scales its whole coordinate system,
+// text included, so the viewBox has to be near the rendered width or the labels
+// go with it: the old 720-unit box in a ~380px half-column rendered its 10-unit
+// tick labels at ~5px. At 380 the ratio is ~1:1 and they land at their nominal
+// size, which is what lets these charts be half the width without being
+// illegible. Below 760px the grid collapses to one column and they scale up.
+const W = 380, H = 150, PAD = 26;
 const points = ts.map((r, i) => {
   const x = PAD + (i * (W - 2 * PAD)) / Math.max(1, ts.length - 1);
   const y = H - PAD - r.agreement * (H - 2 * PAD);
@@ -110,21 +115,25 @@ const supportGrid = [0, 0.25, 0.5, 0.75, 1].map((f) => ({
 }));
 const latestSupport = support[support.length - 1];
 
-const coh = cohesionSeries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
-const cohMonths = coh.map((r) => r.month);
-const cohesionChart = [
-  {
-    key: lang === 'sv' ? 'Sammanhållning' : 'Cohesion',
-    color: party?.color ?? '#333',
-    width: 2.4,
-    points: coh.map((r) => ({ month: r.month, value: r.cohesion * 100 })),
-  },
-  {
-    key: lang === 'sv' ? 'Frånvaro' : 'Absence',
-    color: '#8a95a0',
-    points: coh.map((r) => ({ month: r.month, value: r.absence * 100 })),
-  },
-];
+/* Cohesion and absence, as two numbers rather than a chart.
+ *
+ * This was a monthly two-series line chart, and it could not say anything: party
+ * cohesion in this chamber runs 99.1–100.0% for all eight parties, with a
+ * standard deviation across 39 months of 0.02pp for KD and M. Drawn on the 0–100
+ * axis it was a flat line on the ceiling, eight times over — 78 plotted points
+ * carrying the information of one figure.
+ *
+ * The figure itself is worth keeping, and not as trivia: near-total cohesion is
+ * what makes "the party's vote" a single thing, and the whole plan-vs-behaviour
+ * gap on this page is computed against exactly that. Absence does vary (12.7–18.0%
+ * mean, sd 3.0–6.4) but is not read here as absenteeism — pairing (kvittning)
+ * makes a level of it routine — so it is stated plainly and left uninterpreted.
+ */
+const coh = cohesionSeries.filter((r) => r.parti === code);
+const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
+const floorRecord = coh.length
+  ? { cohesion: mean(coh.map((r) => r.cohesion))!, absence: mean(coh.map((r) => r.absence))!, months: coh.length }
+  : null;
 
 const BLOC_KEY = {
   government: 'bloc.government',
@@ -182,6 +191,21 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
         {t('party.calibration')}: {(stats.agreement * 100).toFixed(1)}% · n = {stats.n} · κ = {stats.kappa ?? '–'}
         {stats.avstar_recall != null && ` · Avstår recall ${(stats.avstar_recall * 100).toFixed(0)}%`}
       </p>
+      {/* Not a footnote: the gap above is a statement about how "the party" voted,
+          and that phrase only means anything because the party votes as one bloc
+          essentially always. The number that licenses the headline belongs under
+          it. */}
+      {floorRecord && (
+        <p class="muted calib floor">
+          {t('party.cohesion')} <b>{(floorRecord.cohesion * 100).toFixed(1)}%</b>
+          {' · '}
+          <span title={t('party.absenceTip')} class="abs">
+            {t('party.absence')} <b>{(floorRecord.absence * 100).toFixed(1)}%</b>
+          </span>
+          {' · '}
+          <span class="mo">{t('party.floorMonths').replace('{n}', String(floorRecord.months))}</span>
+        </p>
+      )}
     </div>
   ) : (
     <p class="muted">{t('home.noai')}</p>
@@ -222,61 +246,6 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
         <a href={`${localePath(lang, '/parti/')}#dokument`}>{t('party.allDocs')} →</a>
       </p>
     </div>
-  )}
-
-  {ts.length > 1 && (
-    <>
-      <h2>{t('party.agreement')}</h2>
-      <div class="card">
-        <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
-          {[0, 0.25, 0.5, 0.75, 1].map((f) => (
-            <>
-              <line x1={PAD} x2={W - PAD} y1={H - PAD - f * (H - 2 * PAD)} y2={H - PAD - f * (H - 2 * PAD)} stroke="#eee" />
-              <text x={4} y={H - PAD - f * (H - 2 * PAD) + 4} font-size="10" fill="#999">{(f * 100).toFixed(0)}%</text>
-            </>
-          ))}
-          <polyline points={points.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2.5" />
-          <text x={PAD} y={H - 8} font-size="10" fill="#999">{ts[0]?.month}</text>
-          <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{ts[ts.length - 1]?.month}</text>
-        </svg>
-      </div>
-    </>
-  )}
-
-  {support.length > 1 && (
-    <>
-      <h2>{t('party.support')}</h2>
-      <div class="card">
-        <p class="muted" style="margin:0 0 0.4rem">
-          {latestSupport && `${latestSupport.month}: ${latestSupport.support.toFixed(1)}%`}
-        </p>
-        <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
-          {supportGrid.map((g) => (
-            <>
-              <line x1={PAD} x2={W - PAD} y1={g.y} y2={g.y} stroke="#eee" />
-              <text x={4} y={g.y + 4} font-size="10" fill="#999">{g.label}</text>
-            </>
-          ))}
-          <polyline points={supportPoints.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2.5" />
-          <text x={PAD} y={H - 8} font-size="10" fill="#999">{support[0]?.month}</text>
-          <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{support[support.length - 1]?.month}</text>
-        </svg>
-        <p class="muted" style="margin:0.4rem 0 0;font-size:0.8rem">{t('party.supportSource')}</p>
-      </div>
-    </>
-  )}
-
-  {coh.length > 1 && (
-    <>
-      <h2>{t('party.cohesion')}</h2>
-      <div class="card">
-        <MultiLineChart series={cohesionChart} months={cohMonths} yMax={100} yFormat={(v) => `${v.toFixed(0)}%`} height={190} />
-        <p class="muted" style="font-size:0.83rem;margin:0.4rem 0 0">
-          <span style={`color:${party?.color}`}>■</span> {cohesionChart[0].key} ·
-          <span style="color:#8a95a0"> ■</span> {cohesionChart[1].key} — {t('party.cohesionNote')}
-        </p>
-      </div>
-    </>
   )}
 
   {matrix && (
@@ -339,6 +308,64 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
           <summary>{t('party.validityHow')}</summary>
           <p class="muted vnote">{t('party.validityNote')}</p>
         </details>
+      </div>
+    </>
+  )}
+
+  {/* The three month-by-month series, together and small.
+
+      They used to be three full-width <h2> sections stacked directly under the
+      headline number — roughly two screens of line chart before the reader
+      reached the documents the number was measured from, or any of the tables
+      that qualify it. They are context, not the finding: none of them is the
+      plan-vs-behaviour gap this page is about (agreement is the calibration
+      number, support is external polling, cohesion is floor behaviour with no AI
+      in it at all). So they are one section of small multiples, below the
+      evidence and the measurement quality rather than above them. */}
+  {(ts.length > 1 || support.length > 1) && (
+    <>
+      <h2>{t('party.trends')}</h2>
+      <div class="trends">
+        {ts.length > 1 && (
+          <div class="card tcard">
+            <p class="thead">{t('party.agreement')}</p>
+            <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
+              {[0, 0.5, 1].map((f) => (
+                <>
+                  <line x1={PAD} x2={W - PAD} y1={H - PAD - f * (H - 2 * PAD)} y2={H - PAD - f * (H - 2 * PAD)} stroke="#eee" />
+                  <text x={4} y={H - PAD - f * (H - 2 * PAD) + 4} font-size="10" fill="#999">{(f * 100).toFixed(0)}%</text>
+                </>
+              ))}
+              <polyline points={points.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2" />
+              <text x={PAD} y={H - 8} font-size="10" fill="#999">{ts[0]?.month}</text>
+              <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{ts[ts.length - 1]?.month}</text>
+            </svg>
+          </div>
+        )}
+
+        {support.length > 1 && (
+          <div class="card tcard">
+            <p class="thead">
+              {t('party.support')}
+              {latestSupport && (
+                <span class="tnow">{latestSupport.month}: {latestSupport.support.toFixed(1)}%</span>
+              )}
+            </p>
+            <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
+              {supportGrid.map((g) => (
+                <>
+                  <line x1={PAD} x2={W - PAD} y1={g.y} y2={g.y} stroke="#eee" />
+                  <text x={4} y={g.y + 4} font-size="10" fill="#999">{g.label}</text>
+                </>
+              ))}
+              <polyline points={supportPoints.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2" />
+              <text x={PAD} y={H - 8} font-size="10" fill="#999">{support[0]?.month}</text>
+              <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{support[support.length - 1]?.month}</text>
+            </svg>
+            <p class="tnote">{t('party.supportSource')}</p>
+          </div>
+        )}
+
       </div>
     </>
   )}
@@ -427,6 +454,11 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
       margin: 0.9rem 0 0; font-size: 0.88rem;
       padding-top: 0.8rem; border-top: 1px solid var(--line-soft);
     }
+    /* Second context line, under calibration — same family, no second rule. */
+    .phead .floor { margin-top: 0.35rem; padding-top: 0; border-top: 0; }
+    .phead .floor b { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+    .phead .floor .abs { cursor: help; text-decoration: underline dotted; }
+    .phead .floor .mo { font-size: 0.92em; }
     /* The party's own corpus, directly under its headline number. Keyed to the
        party colour like .phead, because the two belong together: the panel is
        the claim, this is what the claim was read from. */
@@ -453,6 +485,28 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     .pdocs .dmore {
       margin: 0.9rem 0 0; padding-top: 0.7rem;
       border-top: 1px solid var(--line-soft); font-size: 0.85rem;
+    }
+    /* Small multiples. `auto-fit` would stretch a lone chart back to full width,
+       which is the shape this section exists to get away from — the two-up grid
+       is fixed above 760px and collapses below it, where the SVG's own viewBox
+       scaling makes a full-width chart the legible option again. */
+    .trends { display: grid; gap: 0.9rem; grid-template-columns: minmax(0, 1fr); }
+    .tcard { margin: 0; }
+    .tcard .thead {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
+      margin: 0 0 0.5rem; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+    }
+    /* The number the sparkline is a history of — the chart is small enough now
+       that the current value should not have to be read off it. */
+    .tcard .tnow {
+      font-weight: 400; letter-spacing: 0; text-transform: none;
+      font-variant-numeric: tabular-nums; color: var(--ink-2);
+    }
+    .tcard .tnote { margin: 0.4rem 0 0; font-size: 0.8rem; color: var(--muted); }
+    @media (min-width: 760px) {
+      .trends { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+      .trends .wide { grid-column: 1 / -1; }
     }
     .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
     .vhead {

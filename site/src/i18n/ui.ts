@@ -128,7 +128,12 @@ export const ui = {
     'coalition.authoredZero':
       'Lade partiet reservationen självt övergav det den aldrig — 0 % för samtliga partier, båda trösklarna. Proceduren är avgörande där proceduren gäller. Kolumnen till höger är därför det egentliga testet.',
     'party.calibration': 'Kalibrering — planens röst sammanföll med den verkliga',
-    'party.cohesion': 'Sammanhållning och frånvaro',
+    // Two figures on the header card, not a chart — see PartyPage.astro for why.
+    // `cohesionNote` is still the definition of both, kept for the tooltip.
+    'party.cohesion': 'Sammanhållning',
+    'party.absence': 'frånvaro',
+    'party.absenceTip': 'Andel frånvarande ledamöter. Kvittning gör en viss nivå normal — läs det inte som skolk.',
+    'party.floorMonths': 'månadsmedel över {n} månader',
     'party.cohesionNote': 'Sammanhållning = andel av partiets avgivna röster som följde partilinjen (månadsmedel). Frånvaro = andel frånvarande ledamöter.',
     'nav.method': 'Metod',
     'nav.data': 'Data',
@@ -291,6 +296,7 @@ export const ui = {
     'party.secDocs': 'Underlaget',
     // The party detail page's own document block. `{party}` and `{n}` are filled
     // in PartyPage.astro.
+    'party.trends': 'Över tid',
     'party.ownDocs': 'Mätt mot {party}s egna dokument',
     'party.docsNotInContext': 'Ytterligare {n} dokument finns publicerade men ingår inte i underlaget',
     'party.allDocs': 'Alla partiers källdokument',
@@ -490,7 +496,10 @@ export const ui = {
     'coalition.authoredZero':
       'Where a party moved the reservation itself, it never abandoned it — 0% for every party, at both thresholds. Procedure is decisive where procedure applies. The right-hand column is therefore the real test.',
     'party.calibration': 'Calibration — the plan-implied vote matched the actual one',
-    'party.cohesion': 'Cohesion and absence',
+    'party.cohesion': 'Cohesion',
+    'party.absence': 'absence',
+    'party.absenceTip': 'Share of MPs absent. Pairing (kvittning) makes a level of this routine — not a measure of absenteeism.',
+    'party.floorMonths': 'monthly mean over {n} months',
     'party.cohesionNote': 'Cohesion = share of the party\'s cast votes following the party line (monthly mean). Absence = share of absent MPs.',
     'nav.method': 'Methodology',
     'nav.data': 'Data',
@@ -647,6 +656,7 @@ export const ui = {
     'party.cardAgreement': 'plan matched the vote',
     'party.toAnalysis': 'Cross-party comparisons live in Analysis',
     'party.secDocs': 'The corpus',
+    'party.trends': 'Over time',
     'party.ownDocs': 'Measured against {party}’s own documents',
     'party.docsNotInContext': '{n} further documents are published but are not part of the context',
     'party.allDocs': 'Source documents for every party',
