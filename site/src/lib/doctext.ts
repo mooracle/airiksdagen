@@ -67,6 +67,77 @@ export interface DocProvenance {
   hrefLabel: string | null;
 }
 
+// --- the structured corpus ---------------------------------------------------
+//
+// 23 of the 40 documents are re-extracted by `aidag extract-corpus` and ship as
+// `src/data/corpus/blocks/<slug>.json`: one record per paragraph, with the role
+// recovered from the PDF's own font metrics and column geometry rather than
+// guessed back from line lengths. Those render from their roles; the remaining
+// 17 (16 budgetmotioner + Tidöavtalet) have no block file and keep the
+// `formatCorpusDoc()` path below until the budgetmotion parser lands.
+
+export type DocRole =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'para'
+  | 'bullet'
+  | 'label'
+  | 'toc'
+  | 'caption'
+  | 'unreadable';
+
+export interface CorpusBlock {
+  id: string;
+  role: DocRole;
+  page: number;
+  size: number;
+  bold: boolean;
+  text: string;
+}
+
+export interface CorpusBlockFile {
+  slug: string;
+  /** 'pdf', or 'text' for valmanifest-2022-c, whose PDF has no text layer. */
+  source: string;
+  pages: number;
+  /** Running headers/footers stripped at extraction — kept for auditing. */
+  dropped: string[];
+  blocks: CorpusBlock[];
+}
+
+/** One block as rendered: its own id, so a citation anchor can address it. */
+export interface RenderPart {
+  /** Block id, or null on the `formatCorpusDoc()` fallback path. */
+  id: string | null;
+  role: DocRole;
+  /** 0-based source page, null on the fallback path. */
+  page: number | null;
+  text: string;
+}
+
+/** One paragraph on the page. Usually one block; more when the extraction split
+ *  a paragraph at a column or page break (see `joinsOn`). */
+export interface RenderGroup {
+  role: DocRole;
+  /** 0-based source page, null on the fallback path. */
+  page: number | null;
+  parts: RenderPart[];
+}
+
+export interface RenderedDoc {
+  provenance: DocProvenance | null;
+  groups: RenderGroup[];
+  stats: {
+    /** 'blocks' when the structured extraction was used, 'text' for fallback. */
+    source: 'blocks' | 'text';
+    groups: number;
+    unreadable: number;
+    /** groups holding more than one block — paragraphs rejoined at render time */
+    joined: number;
+  };
+}
+
 export type BlockKind = 'heading' | 'subheading' | 'para' | 'bullet' | 'toc' | 'unreadable';
 
 export interface DocBlock {
@@ -103,6 +174,16 @@ function repairChars(raw: string): string {
   let t = raw.replace(/\r\n?/g, '\n');
   for (const [re, sub] of LIGATURES) t = t.replace(re, sub);
   return t.replace(INVISIBLE, '').replace(HARD_SPACES, ' ');
+}
+
+/** Drop the characters that never render, so a caller matching against the page
+ *  matches what the page actually shows. `valmanifest-2022-s` carries a literal
+ *  BEL (U+0007) after 40 of its bullet glyphs — it is in the source PDF, so it
+ *  is in the corpus text and in 51 committed citation quotes, but it is stripped
+ *  before anything is drawn. A `#:~:text=` fragment built from the raw quote
+ *  encodes it as %07 and can never match. */
+export function stripInvisible(s: string): string {
+  return s.replace(INVISIBLE, '').replace(HARD_SPACES, ' ');
 }
 
 // Letters that legitimately occur in this corpus (Swedish plus the accents that
@@ -288,6 +369,128 @@ export function formatCorpusDoc(raw: string): FormattedDoc {
       wrapWidth,
       unreadable: final.filter((b) => b.kind === 'unreadable').length,
       dehyphenated: counters.dehyphenated,
+    },
+  };
+}
+
+// --- rendering from blocks --------------------------------------------------
+
+/** Blocks `corpus.normalize()` removes on its way to the served .txt: bare page
+ *  numbers and rules. Mirrors `extract_corpus.normalize_drops()`, which is the
+ *  documented drop set the block -> .txt round-trip is asserted modulo. The other
+ *  half of that set is the undecodable display-font lines, which arrive here as
+ *  role `unreadable` and are surfaced as placeholders instead of dropped. */
+const SERVED_DROP = /^[\p{Nd}\s.,%‑‒–—•·|-]+$/u;
+
+/** Roles that end a paragraph by definition, so nothing joins across them. */
+const STRUCTURAL = new Set<DocRole>(['h1', 'h2', 'h3', 'toc', 'caption', 'unreadable']);
+const HEADINGS = new Set<DocRole>(['h1', 'h2', 'h3']);
+const TERMINAL = /[.!?:;»”"')\]]$/;
+const CONTINUATION = /^[a-zåäöéüàèïóáíøæ]/;
+/** A heading may also continue into a dash — "KAPITEL 5. Ett medmänskligt
+ *  samhälle" / "– går solidaritet och effektivitet att förena?". A dash opener is
+ *  not allowed for prose, where it is how half this corpus writes a list item. */
+const HEAD_CONTINUATION = /^(?:[a-zåäöéüàèïóáíøæ]|[–—-]\s*[a-zåäöéü])/;
+
+/** True when the block carrying `text` finishes the paragraph `prev` started.
+ *
+ *  The extraction splits a block at every column and page break, and
+ *  `docx._runs_on()` rejoins only the ones it can prove (same face, adjacent
+ *  pages). What it leaves behind is paragraphs cut in two mid-sentence — and a
+ *  citation quoting across that cut would have its `#:~:text=` fragment straddle
+ *  two <p> elements, which the browser's matcher will not cross. 56 of full-v4's
+ *  anchors do exactly that. Rejoining here is presentation-only: the served .txt,
+ *  the quotes and the block ids are untouched, and the reader gets the paragraph
+ *  the party actually wrote.
+ *
+ *  A continuation is either plain prose or the first thing on a new page. A
+ *  `label` or `bullet` beginning mid-page begins something new — KD 2015's
+ *  marginal glossary alternates term (`label`) and definition (`para`), neither
+ *  ending in a full stop, and would otherwise chain 39 dictionary entries into
+ *  one paragraph. One that opens a page is the tail the extractor cut off.
+ *
+ *  Headings are their own case: a title set over two lines arrives as two blocks
+ *  at the same size on the same page (101 of them), and rendering it as two
+ *  headings breaks both the outline and any citation quoting across the line. */
+function joinsOn(prev: CorpusBlock, prevText: string, block: CorpusBlock, text: string): boolean {
+  if (HEADINGS.has(prev.role) && block.role === prev.role) {
+    if (block.page !== prev.page || block.size !== prev.size) return false;
+    return !TERMINAL.test(prevText) && HEAD_CONTINUATION.test(text);
+  }
+  if (STRUCTURAL.has(prev.role) || STRUCTURAL.has(block.role)) return false;
+  if (block.role !== 'para' && block.page === prev.page) return false;
+  return !TERMINAL.test(prevText) && CONTINUATION.test(text);
+}
+
+/** Blocks in reading order -> the paragraphs the page draws. */
+export function groupBlocks(blocks: CorpusBlock[]): RenderGroup[] {
+  const groups: RenderGroup[] = [];
+  // The block behind the last rendered part — dropped page numbers never become
+  // one, so they cannot break a paragraph in two.
+  let prevBlock: CorpusBlock | null = null;
+  for (const b of blocks) {
+    // A heading whose glyphs never mapped back to Unicode (mp-2013's 50 display
+    // headings). It is not in the served text — the reader is told a heading is
+    // there rather than shown 40 characters of soup, and rather than nothing.
+    if (b.role === 'unreadable') {
+      groups.push({
+        role: 'unreadable',
+        page: b.page,
+        parts: [{ id: b.id, role: 'unreadable', page: b.page, text: '' }],
+      });
+      prevBlock = b;
+      continue;
+    }
+    const text = repairChars(b.text).replace(/\s+/g, ' ').trim();
+    if (!text || SERVED_DROP.test(text)) continue;
+    const part = { id: b.id, role: b.role, page: b.page, text };
+    const last = groups[groups.length - 1];
+    const prev = last?.parts[last.parts.length - 1];
+    if (last && prev && prevBlock && joinsOn(prevBlock, prev.text, b, text)) {
+      last.parts.push(part);
+    } else {
+      groups.push({ role: b.role, page: b.page, parts: [part] });
+    }
+    prevBlock = b;
+  }
+  return groups;
+}
+
+/** The fallback path's kinds, in the block vocabulary. `heading`/`subheading`
+ *  keep their current depth — the page draws h1 as <h2> and h2 as <h3>, so the
+ *  17 documents without blocks render byte-for-byte as they do today. */
+const KIND_ROLE: Record<BlockKind, DocRole> = {
+  heading: 'h1',
+  subheading: 'h2',
+  para: 'para',
+  bullet: 'bullet',
+  toc: 'toc',
+  unreadable: 'unreadable',
+};
+
+/** One document, ready to draw: from its blocks when it has them, from the flat
+ *  text when it does not. `raw` is the served .txt either way — the block file
+ *  carries no provenance header, and that header is the page's source credit. */
+export function renderDoc(raw: string, file: CorpusBlockFile | null): RenderedDoc {
+  const flat = file ? null : formatCorpusDoc(raw);
+  const groups: RenderGroup[] = file
+    ? groupBlocks(file.blocks)
+    : flat!.blocks.map((b) => ({
+        role: KIND_ROLE[b.kind],
+        page: null,
+        parts: [{ id: null, role: KIND_ROLE[b.kind], page: null, text: b.text }],
+      }));
+  const provenance = flat
+    ? flat.provenance
+    : parseProvenance(repairChars(raw).split('\n', 1)[0].trim());
+  return {
+    provenance,
+    groups,
+    stats: {
+      source: file ? 'blocks' : 'text',
+      groups: groups.length,
+      unreadable: groups.filter((g) => g.role === 'unreadable').length,
+      joined: groups.filter((g) => g.parts.length > 1).length,
     },
   };
 }

@@ -6,13 +6,25 @@
 // quote against it. All cleanup is render-time, in lib/doctext.ts — see the header
 // there for what is repaired and what is deliberately left alone.
 //
+// TWO SOURCES OF STRUCTURE
+// ------------------------
+// The 23 cited party documents ship a block file (roles and reading order taken
+// from the PDF's own font metrics, by `aidag extract-corpus`) and render from it.
+// The other 17 — 16 budgetmotioner and Tidöavtalet — have none, and renderDoc()
+// falls back to formatCorpusDoc(), which guesses structure back from line
+// lengths. That branch stays until the budgetmotion parser lands; deleting it
+// would regress those 17 to a ragged wall.
+//
 // Citation deep-links (#:~:text=) keep working across this change: quoteFragment()
-// in lib/data.ts already collapses each quote to single-spaced words, and the
-// browser's text-fragment matcher normalises whitespace too, so a quote that
-// spanned a hard wrap in the source still matches the reflowed paragraph.
+// in lib/data.ts collapses each quote to single-spaced words and drops invisible
+// characters, the browser's text-fragment matcher normalises whitespace too, and
+// doctext.groupBlocks() rejoins the paragraphs the extraction split at a column
+// or page break — a fragment cannot match across two <p> elements, and 56 of
+// full-v4's anchors quote across such a split.
 import Base from '../layouts/Base.astro';
-import { getMeta, getCorpusDoc } from '../lib/data';
-import { formatCorpusDoc, docTitle, type DocBlock } from '../lib/doctext';
+import BlockText from '../components/BlockText.astro';
+import { getMeta, getCorpusDoc, getCorpusBlocks } from '../lib/data';
+import { renderDoc, docTitle, type RenderGroup } from '../lib/doctext';
 import { localePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; slug: string }
@@ -21,7 +33,7 @@ const t = useTranslations(lang);
 const meta = getMeta();
 const sv = lang === 'sv';
 
-const doc = formatCorpusDoc(getCorpusDoc(slug));
+const doc = renderDoc(getCorpusDoc(slug), getCorpusBlocks(slug));
 const title = docTitle(slug, {
   sv,
   partyName: (code) => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase(),
@@ -29,21 +41,37 @@ const title = docTitle(slug, {
 
 // Consecutive bullets (and consecutive table-of-contents entries) become one list
 // instead of N sibling elements.
-type Run = { kind: DocBlock['kind']; items: string[] };
+type Run = { role: RenderGroup['role']; groups: RenderGroup[] };
 const runs: Run[] = [];
-for (const b of doc.blocks) {
+for (const g of doc.groups) {
   const last = runs[runs.length - 1];
-  if (last && last.kind === b.kind && (b.kind === 'bullet' || b.kind === 'toc')) {
-    last.items.push(b.text);
+  if (last && last.role === g.role && (g.role === 'bullet' || g.role === 'toc')) {
+    last.groups.push(g);
   } else {
-    runs.push({ kind: b.kind, items: [b.text] });
+    runs.push({ role: g.role, groups: [g] });
   }
 }
 // The bullet glyph is NOT stripped. Agents cite verbatim spans and some quotes
 // begin with "• ", so removing it would stop those citations' #:~:text= links from
 // resolving (caught by two real failures in the deep-link regression check). The
 // list is rendered without its own marker instead, so the source character stands
-// in for it and the text on the page stays byte-faithful.
+// in for it and the text on the page stays byte-faithful. A block that carries the
+// glyph without being roled `bullet` (a bold lead-in, a small-print list) gets the
+// same hanging indent through `.hang`.
+const BULLET_GLYPH = /^[•▪◦·]/;
+const hangs = (g: RenderGroup) => g.role !== 'bullet' && BULLET_GLYPH.test(g.parts[0].text);
+// A group is one block unless the extraction split a paragraph; then each block
+// keeps its own id on a span, so a citation anchor can still address the line.
+const anchorId = (g: RenderGroup) => (g.parts.length === 1 ? g.parts[0].id ?? undefined : undefined);
+// The element comes from the group's leading role, the weight from each block's
+// own role — so a rejoined paragraph is styled by its parts (see BlockText), not
+// wholesale by whichever block happened to start it.
+function pClass(g: RenderGroup): string | undefined {
+  const cls: string[] = [];
+  if (g.parts.length === 1 && (g.role === 'label' || g.role === 'caption')) cls.push(g.role);
+  if (hangs(g)) cls.push('hang');
+  return cls.length ? cls.join(' ') : undefined;
+}
 ---
 
 <Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`} ogType="article">
@@ -74,21 +102,31 @@ for (const b of doc.blocks) {
 
   <article class="doc">
     {runs.map((run) => {
-      if (run.kind === 'bullet')
-        return <ul class="marked">{run.items.map((s) => <li>{s}</li>)}</ul>;
-      if (run.kind === 'toc')
-        return <ul class="toc">{run.items.map((s) => <li>{s}</li>)}</ul>;
-      if (run.kind === 'heading') return <h2>{run.items[0]}</h2>;
-      if (run.kind === 'subheading') return <h3>{run.items[0]}</h3>;
-      if (run.kind === 'unreadable')
+      const g = run.groups[0];
+      if (run.role === 'bullet')
         return (
-          <p class="unreadable" title={sv
+          <ul class="marked">
+            {run.groups.map((b) => <li id={anchorId(b)}><BlockText group={b} /></li>)}
+          </ul>
+        );
+      if (run.role === 'toc')
+        return (
+          <ul class="toc">
+            {run.groups.map((b) => <li id={anchorId(b)}><BlockText group={b} /></li>)}
+          </ul>
+        );
+      if (run.role === 'h1') return <h2 id={anchorId(g)}><BlockText group={g} /></h2>;
+      if (run.role === 'h2') return <h3 id={anchorId(g)}><BlockText group={g} /></h3>;
+      if (run.role === 'h3') return <h4 id={anchorId(g)}><BlockText group={g} /></h4>;
+      if (run.role === 'unreadable')
+        return (
+          <p class="unreadable" id={anchorId(g)} title={sv
             ? 'Rubrik satt i ett dekorativt teckensnitt som inte kunde avkodas ur PDF:en'
             : 'Heading set in a decorative font that could not be decoded from the PDF'}>
             {sv ? '[oläsbar rubrik i källdokumentet]' : '[unreadable heading in the source document]'}
           </p>
         );
-      return <p>{run.items[0]}</p>;
+      return <p class={pClass(g)} id={anchorId(g)}><BlockText group={g} /></p>;
     })}
   </article>
 
@@ -130,6 +168,24 @@ for (const b of doc.blocks) {
       font-size: 1.05rem;
       margin: 1.6rem 0 0.4rem;
     }
+    .doc h4 {
+      font-size: 1rem;
+      margin: 1.3rem 0 0.35rem;
+    }
+    /* A minor bold cluster at or below body size: KD's back-cover topic labels,
+       its 237 marginal glossary terms, a bold lead-in to a list item. Set apart
+       from the prose without competing with a real heading. */
+    .doc p.label {
+      font-weight: 600;
+      margin: 1.2rem 0 0.4rem;
+    }
+    /* Chart axes, figure sources, print credits — present in the document, but
+       not what it argues. */
+    .doc p.caption {
+      font-size: 0.85rem;
+      color: var(--muted, #555);
+      margin: 0 0 0.8em;
+    }
     .doc ul { margin: 0 0 1em; padding-left: 1.4rem; }
     .doc li { margin: 0 0 0.35em; }
     /* The source's own bullet character is kept in the text, so suppress the
@@ -138,7 +194,8 @@ for (const b of doc.blocks) {
       list-style: none;
       padding-left: 0;
     }
-    .doc ul.marked li {
+    .doc ul.marked li,
+    .doc p.hang {
       padding-left: 1.3rem;
       text-indent: -1.3rem;
     }

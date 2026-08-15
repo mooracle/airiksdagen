@@ -706,16 +706,88 @@ yet — `export-site` between `repair-citations` and `build-anchors` still produ
 **Files:**
 - Modify: `site/src/pageviews/DocumentPage.astro`, `site/src/lib/data.ts`,
   `site/src/lib/doctext.ts`
+- Create: `site/src/components/BlockText.astro`, `site/tests/` (see ⚠️ 1)
 
-- [ ] render from `blocks/*.json` roles when a block file exists for the slug
-- [ ] **keep `formatCorpusDoc()` as the fallback branch** — `[slug].astro:5` builds a
-      page for every slug from `listCorpusDocs()` (all 40), and only 23 have blocks.
-      Deleting it would regress the 16 budgetmotioner + Tidöavtalet to a ragged wall.
-      Retire it only when the budgetmotion parser lands
-- [ ] verify existing `#:~:text=` deep links still resolve
-- [ ] write tests for the `data.ts` block loader (present / absent slug)
-- [ ] `cd site && npm run build` succeeds
-- [ ] run tests — must pass before Task 8b
+- [x] render from `blocks/*.json` roles when a block file exists for the slug —
+      `doctext.renderDoc()` picks the branch, `groupBlocks()` maps the nine roles
+      onto the page's elements (`h1/h2/h3` → `<h2>/<h3>/<h4>`, `bullet`/`toc` →
+      the two existing lists, `label`/`caption` → their own paragraph classes,
+      `unreadable` → the placeholder). Blocks `corpus.normalize()` drops are
+      dropped here too, so the page still shows exactly the served text
+- [x] **keep `formatCorpusDoc()` as the fallback branch** — kept, and the parity is
+      measured rather than asserted: the built `<article>` of all **17** documents
+      without blocks is **byte-identical** to the pre-change build, and the 23 with
+      blocks are the only pages that changed
+- [x] verify existing `#:~:text=` deep links still resolve — this needed work, not
+      just a check; see ⚠️ 2. Now **16,706 of 16,707 anchors** resolve inside one
+      rendered paragraph, against **16,697 on the current site**
+- [x] write tests for the `data.ts` block loader (present / absent slug) — plus the
+      corpus-wide checks that only exist on this side: rendered text == served
+      text, and the deep-link sweep over every anchor
+- [x] `cd site && npm run build` succeeds (7,723 pages)
+- [x] run tests — must pass before Task 8b (`npm test` 29 passed;
+      `uv run pytest tests -q` 508 passed, unchanged — no Python changed)
+
+**Measured across the 23 block-rendered documents**
+
+| | |
+|---|---|
+| Blocks in | 9,409 |
+| Paragraphs drawn | 8,168 (576 furniture blocks dropped, 429 rejoined from 1,094) |
+| `unreadable` placeholders surfaced | 50 (mp-2013) — they render for the first time |
+| Anchors whose deep link resolves in one paragraph | 16,706 / 16,707 |
+| ...on the current site, for comparison | 16,697 / 16,707 |
+
+⚠️ **Deviation 1, recorded**: the site gained a test suite —
+`site/tests/*.test.mjs`, run by `npm test` (`node --test`). Everything this task
+changes is TypeScript and Astro, which `uv run pytest tests -q` cannot reach, and
+the one guarantee worth having (every citation's fragment still finds its quote)
+is a statement about the rendered page. `tests/register.mjs` registers a resolve
+hook because `src/` imports extensionless (`from './doctext'`) the way every
+bundler expects and plain Node does not; it needs a Node that strips types without
+a flag (≥ 22.18). Not wired into the Cloudflare build, which runs `npm ci && npm
+run build` only.
+
+⚠️ **Deviation 2, recorded — the renderer rejoins paragraphs, and had to.** One
+block per `<p>` is the obvious rendering and it silently breaks **56 deep links**.
+The browser's text-fragment matcher does not cross a block-level boundary, and the
+extraction cuts a paragraph at every column and page break `docx._runs_on()` could
+not prove — so a quote spanning that cut has its fragment straddle two `<p>`
+elements and matches nothing. Today's page merges those lines back by line-length
+heuristic, so this would have been a regression against the live site, invisible
+except to the reader who clicks a citation.
+
+`groupBlocks()` therefore rejoins a block onto the previous one when the previous
+does not end a sentence and this one opens lower-case. Presentation-only: the
+served `.txt`, the quotes, the block ids and the anchor offsets are untouched, and
+each block keeps its own `id` on an inline `<span>` (`BlockText.astro`) so the
+annotation layer can still address it. Three restrictions, each from a real
+document:
+
+- a `label`/`bullet` continuation must open a **new page**. KD 2015's glossary
+  alternates term (`label`) and definition (`para`), neither ending in a full
+  stop — unrestricted, the rule chained **39 dictionary entries** into one
+  paragraph. Across a page break the same shape is a genuine cut (valmanifest-s
+  `b0150`)
+- a **heading** joins only its own role at its own size on its own page, and may
+  open with a dash: 101 titles are set over two blocks
+  (`KAPITEL 5. Ett medmänskligt samhälle` / `– går solidaritet och effektivitet
+  att förena?`)
+- a dash opener is refused everywhere else — half this corpus writes its list
+  items with `– `
+
+➕ **Added**: `quoteFragment()` strips invisible characters. `valmanifest-2022-s`
+carries a literal BEL after 40 of its bullet glyphs; it is in the corpus text and
+in **51 committed quotes**, the page has always stripped it before drawing, so the
+fragment encoded `%07` and could never match — on the current site either. One
+line, and those 51 links now resolve.
+
+⚠️ **Known, not fixed — one anchor**: `valmanifest-2022-m/b0198` runs into a block
+roled `bullet` opening with an en dash (`– samordningsnummer.`). Admitting a
+dash-led prose continuation would fuse every genuine `– ` list into the paragraph
+above it, which is a much larger wrong than one lost highlight. It does not resolve
+on the current site either. Listed in `site/tests/corpus.test.mjs` as a ratchet, so
+a second one cannot arrive unnoticed.
 
 ### Task 8b: Annotation layer and chapter rail
 
