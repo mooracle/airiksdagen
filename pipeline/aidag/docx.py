@@ -104,6 +104,12 @@ _DIGITS = re.compile(r"\d+")
 _BULLET = re.compile(r"^(?:[•·▪◦‣⁃]|[–—-]\s|\(?\d{1,2}[.)]\s|[a-zA-ZåäöÅÄÖ][.)]\s)")
 _LEADER = re.compile(r"\.{4,}")
 _PAGE_NUMBER = re.compile(r"[\d\s.,%‑‒–—•·|ivxlcdmIVXLCDM-]+")
+# A well-formed roman numeral, checked against the line's letters rather than
+# left to the character class above. The class alone has no repetition
+# requirement, so one match drops the line — and 'civil', 'vill' and 'Vi vill'
+# are nothing but i/v/x/l/c/d/m, which would delete a chapter title that happens
+# to sit in the band (see `strip_running`; V-2024's 30pt titles sit at 5.5%).
+_ROMAN = re.compile(r"m*(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})", re.I)
 # Same idea without the roman numerals: at block level they would swallow real
 # words ('civil' is nothing but i/v/c/l).
 _NUMERIC_ONLY = re.compile(r"[\d\s.,%‑‒–—•·|-]+")
@@ -318,6 +324,21 @@ def _in_band(line: Line) -> bool:
     return line.y0 < BAND * line.page_h or line.y1 > (1 - BAND) * line.page_h
 
 
+def _is_page_number(text: str) -> bool:
+    """A folio: arabic, bare punctuation, or a well-formed roman numeral.
+
+    The letters are checked as a numeral rather than as a character class,
+    because this is the one drop rule with no repetition requirement — a single
+    match deletes the line from the blocks AND from the derived .txt, and the
+    only trace is the drop log. 'Vi vill' opens a page in more than one of these
+    manifestos.
+    """
+    if not _PAGE_NUMBER.fullmatch(text):
+        return False
+    letters = "".join(c for c in text if c.isalpha())
+    return not letters or bool(_ROMAN.fullmatch(letters))
+
+
 def strip_running(lines: list[Line]) -> tuple[list[Line], list[Line]]:
     """Split off running headers, footers and page numbers. Returns (kept, dropped).
 
@@ -349,7 +370,7 @@ def strip_running(lines: list[Line]) -> tuple[list[Line], list[Line]]:
     kept, dropped = [], []
     for line in lines:
         if _in_band(line) and (
-            _signature(line) in running or _PAGE_NUMBER.fullmatch(line.text)
+            _signature(line) in running or _is_page_number(line.text)
         ):
             dropped.append(line)
         else:

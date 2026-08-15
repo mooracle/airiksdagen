@@ -179,6 +179,31 @@ class TestInterlocks:
         with pytest.raises(ValueError, match="not one of the 23"):
             ec.run(slug="budgetmotion-v-202223")
 
+    def test_force_does_not_re_download_the_pdf_a_block_file_derives_from(self, capsys):
+        """`fetch-corpus --force` correctly refuses to rewrite the derived .txt.
+
+        It must refuse the PDF under it for the same reason: replacing those
+        bytes with today's edition leaves blocks/ describing a document no longer
+        on disk, and nothing raises — `extract-corpus` reads this cache and
+        `source_pdf_bytes()` never fetches, precisely so an extraction cannot
+        pick up a different edition.
+        """
+        from aidag import fetch_corpus
+
+        slug = "partiprogram-kd-2015"
+        if not fetch_corpus.cached_pdf(slug).exists():
+            pytest.skip("PDF cache not populated")
+        before = fetch_corpus.cached_pdf(slug).read_bytes()
+
+        class ExplodingClient:
+            def get(self, url):
+                raise AssertionError(f"--force must not re-fetch {url}")
+
+        got = fetch_corpus._fetch_pdf(ExplodingClient(), slug, "https://example.invalid", True)
+        assert got == before
+        assert "--force ignored" in capsys.readouterr().out
+        assert fetch_corpus.cached_pdf(slug).read_bytes() == before
+
     def test_an_existing_extraction_is_not_redone_without_force(self, capsys):
         # guarded like _blocks(): without the committed block file this stops
         # being a skip test and becomes a real extraction that rewrites
