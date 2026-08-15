@@ -355,6 +355,27 @@ def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     repair(run_id=run_id)
 
 
+@app.command("citation-audit")
+def citation_audit(
+    run_id: str = typer.Option(..., "--run-id"),
+    out: str = typer.Option(None, "--out", help="Write the snapshot here"),
+    baseline: str = typer.Option(None, "--baseline", help="Snapshot to diff against"),
+    check_translations: bool = typer.Option(
+        False, "--check-translations", help="Also compare against the committed English"
+    ),
+) -> None:
+    """Snapshot the shape of a run's citation record, or diff it against one.
+
+    Run this BEFORE and AFTER any pass that rewrites citations. `repair-citations`
+    can remove them, and English translations pair positionally, so a decision
+    whose citation list changes length renders the wrong English quote against the
+    wrong Swedish one — with nothing raised anywhere.
+    """
+    from aidag.citation_audit import run as audit
+
+    audit(run_id=run_id, out=out, baseline=baseline, check_translations=check_translations)
+
+
 @app.command("agent-merge")
 def agent_merge(
     run_id: str = typer.Option(..., "--run-id"),
