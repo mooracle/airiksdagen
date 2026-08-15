@@ -136,6 +136,29 @@ test('the rendered text is the text the agents were served', { skip }, () => {
   }
 });
 
+// The quotes behind the exported spans. `summarize()` leaves them out of
+// src/data/ on purpose — the page has the block text and the span recovers the
+// quote from it — but that contract is only checkable with the quote in hand, so
+// the sweep below reads the index the export was made from. Repo data, not site
+// data, hence its own existence check.
+const RESULTS = path.join(ROOT, '..', 'data', 'results', 'anchors');
+
+/** The located quotes of one document, keyed by block, offset AND length.
+ *
+ *  All three: a decision quoting one sentence and another quoting that sentence
+ *  plus the next are two anchors sharing a block and an offset, and 1,679 of the
+ *  corpus's cited blocks carry such a pair. */
+function quotesOf(slug, runId) {
+  const p = path.join(RESULTS, runId, `${slug}.json`);
+  if (!fs.existsSync(p)) return null;
+  const out = new Map();
+  for (const a of JSON.parse(fs.readFileSync(p, 'utf-8')).anchors) {
+    const drawn = stripInvisible(a.quote).replace(/\s+/g, ' ').trim();
+    out.set(`${a.block_id}:${a.offset}:${a.length}`, drawn);
+  }
+  return out;
+}
+
 test('every citation deep link resolves inside one rendered paragraph', { skip: anchorSkip }, () => {
   // A #:~:text= fragment is matched against the page, and the browser's matcher
   // will not cross a block-level boundary: each term has to sit inside one <p>.
@@ -152,16 +175,39 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
   // second one cannot arrive unnoticed.
   const KNOWN = new Set(['valmanifest-2022-m/b0198: tillfälliga personnummer – samordningsnummer.']);
   const used = new Set();
+  const wrong = [];
+  let verified = 0;
   for (const f of fs.readdirSync(dir)) {
     const slug = f.replace(/\.json$/, '');
     const summary = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf-8'));
     const doc = rendered(slug);
+    const located = quotesOf(slug, summary.run_id);
     for (const [blockId, b] of Object.entries(summary.blocks)) {
       const from = doc.start.get(blockId);
       assert.notEqual(from, undefined, `${slug}/${blockId}: cited block is not rendered`);
       for (const a of b.anchors) {
-        const quote = doc.served.slice(from + a.offset, from + a.offset + a.length);
+        const at0 = from + a.offset;
+        const quote = doc.served.slice(at0, at0 + a.length);
         checked += 1;
+        // Is the span the RIGHT span? Slicing the quote out of the text and then
+        // asking whether it occurs there is true by construction, so this is the
+        // only part of the sweep that can see a wrong offset — and offsets do go
+        // wrong: `valmanifest-2022-s` carries a literal BEL after 40 of its
+        // bullet glyphs, kept in the served text and deleted by the page, and
+        // measuring on the served text put 126 of its anchors one character late
+        // ("raftigt öka antalet poliser") with everything below green.
+        //
+        // A span the index does not have is a failure, not a skip: the summary
+        // IS `summarize()` of that file, so the two disagreeing about a span
+        // means one of them is stale — which is the same wrong offset arriving
+        // by another route, and the route a lookup-and-skip would hide.
+        if (located) {
+          const key = `${blockId}:${a.offset}:${a.length}`;
+          const want = located.get(key);
+          verified += 1;
+          if (want === undefined) wrong.push(`${slug}/${key}: not in the index it was summarised from`);
+          else if (quote !== want) wrong.push(`${slug}/${key}: ${JSON.stringify(quote.slice(0, 48))}`);
+        }
         // Exactly what CasePage.astro puts in the URL, decoded back to terms.
         const terms = quoteFragment(quote).split(',').map(decodeURIComponent);
         const at = doc.paragraph.get(blockId);
@@ -181,6 +227,10 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
   // that has stopped being needed masks the next regression at that block
   assert.deepEqual([...KNOWN].filter((k) => !used.has(k)), [], 'stale KNOWN entry');
   assert.deepEqual(broken, [], `${broken.length} of ${checked} anchors lost their deep link`);
+  assert.deepEqual(wrong, [], `${wrong.length} of ${verified} spans recover the wrong text`);
+  // the span check is the load-bearing half; a missing results/ directory would
+  // otherwise turn it off and leave a green sweep that checked only grouping
+  assert.ok(verified > 1000, `only ${verified} spans checked against their quote`);
 });
 
 test('the navigational flag reads the same corpus the same way Python does', { skip: anchorSkip }, () => {

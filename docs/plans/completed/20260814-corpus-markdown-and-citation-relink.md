@@ -833,7 +833,7 @@ a second one cannot arrive unnoticed.
 | Cited blocks carrying a panel | **4,715** over 23 documents |
 | Decisions behind them | **69,418** (from 77,599 citations — ⚠️ 1) |
 | Documents with a chapter rail | 20 of 23 (`mp-2013`, `valmanifest-c`, `valmanifest-mp` have no usable headings) |
-| Citations landing on navigation | **16 blocks / 180 decisions** (0.26%) — ⚠️ 3 |
+| Citations landing on navigation | **6 blocks / 84 vote-line pairs** — ⚠️ 3, ⚠️ 3b (measured at 16 / 180 under the superseded punctuation rule) |
 
 **Page weight, `valmanifest-2022-sd`** (the 510-panel worst case):
 
@@ -877,13 +877,29 @@ or below body size", which in `valmanifest-2022-s` is the bullet list of the par
 promises (`• Kraftigt öka antalet poliser på våra gator och torg.`, 1,035 decisions) and
 in `valmanifest-2022-l` its 60 numbered ones (128). Marking those "promises nothing"
 would be exactly the kind of false claim this project exists not to make. The text has to
-read as a label too — no bullet glyph, no sentence-ending punctuation, ≤ 8 words — and
+read as a label too — no bullet glyph, short, and not stating anything — and
 `h1`/`h2`/`h3` are included on the same terms, because KD's back-cover topic labels (the
 finding in this plan's Overview) are roled `h3` in the final extraction, not `label`.
 `toc` is exempt from the text test: a contents entry is navigation whatever it says.
-Result: **16 blocks / 180 decisions**, including KD's five. The chip states the fact
-("citat ur en rubrik" / "quoted from a heading") and the tooltip carries the reasoning,
-rather than asserting a judgement about a heading the party did write.
+Result: **6 blocks / 84 vote-line pairs / 83 distinct votes**, including KD's five. The
+chip states the fact ("citat ur en rubrik" / "quoted from a heading") and the tooltip
+carries the reasoning, rather than asserting a judgement about a heading the party did
+write.
+
+⚠️ **Deviation 3b, recorded — "states nothing" is a clause test, not a punctuation
+test.** The first version of the text test above read "no sentence-ending punctuation",
+and measured **16 blocks / 180 vote-line pairs / 178 votes** — the numbers Task 8b's
+table and Task 9 below were written against. It was wrong on the heading side for the
+mirror-image reason it was wrong on the `label` side: a heading omits its full stop by
+typographic convention, so "Vi ska stoppa mäns våld mot kvinnor" — an `h2`, and a
+commitment — read as a line that promises nothing. It marked 10 of M's and S's headline
+pledges that way, 96 of the 180 pairs it reached. `_states_something` now looks for a
+finite verb (`ska`, `vill`, `är`, …) or a leading imperative stem, duplicated in
+`anchors.py` and `anchors.ts` and held together by `TestNavigationParity` /
+`site/tests/corpus.test.mjs`. **The shipped finding is 6 blocks / 84 / 83**, which is
+what `docs/topic-label-citations.md` reports and what the tests pin; the 16 / 180 / 178
+figures below are the superseded rule's and are left in place only as the record of what
+changed.
 
 ⚠️ **Deviation 4, recorded — the rail filters furniture.** Straight off the `h1`/`h2`
 roles the rail opens with "PRINCIPPROGRAM", "PRINCIPPROGRAM", "ANTAGET VID
@@ -937,9 +953,11 @@ per-document and exactly.
       per-block sum printed beside them — they differ, and both get used (⚠️ 2)
 - [x] record the result as a finding — `docs/topic-label-citations.md`
 - [x] no phrase is proposed for `WEAK_LIST`, and the reason is not that they fail the
-      bar: `weak_list_candidates()` scores all 16 against it on two tests and **all 16
-      pass** (0 false positives over the 16,723 committed quotes, 0 occurrences in any
-      other party's document of the class). They are refused on meaning — see ⚠️ 3
+      bar: `weak_list_candidates()` scores every flagged phrase against it on two tests
+      and **all of them pass** (0 false positives over the committed quotes, 0
+      occurrences in any other party's document of the class). They are refused on
+      meaning — see ⚠️ 3. Counted 16 under the punctuation rule, **6** under the shipped
+      one (`TestNavigationParity`); the conclusion is the same either way
 - [x] write tests for the reporting aggregation
 - [x] run tests — must pass before Task 10 (`uv run pytest tests -q` **543 passed**;
       32 new in `tests/test_anchors.py`. `npm test` 56 passed, unchanged — the site was
@@ -947,12 +965,20 @@ per-document and exactly.
 
 **Measured on full-v4**
 
+> ⚠️ **Superseded on the last row only — see Task 8b's Deviation 3b.** This section was
+> written against the punctuation-only text test. The shipped rule is the finite-verb
+> clause test, and the last row now reads **6 blocks / 84 citations / 84 vote-line pairs
+> (83 distinct votes)**; the other three scopes are unchanged. Everything below that
+> quotes 16 / 180 / 178 is the earlier rule's measurement, kept as the record of what
+> changed. `docs/topic-label-citations.md` and `TestNavigationParity` carry the shipped
+> numbers.
+
 | scope | blocks | citations | votes |
 |---|---:|---:|---:|
 | every cited block | 4,715 | 77,599 | 69,418 (vote, line) pairs |
 | `label`/`toc` — **the plan's literal question** | 56 | 1,222 | **1,165** |
 | any navigational role (headings included) | 82 | 1,490 | 1,433 |
-| role **and** text — what the site marks | **16** | **180** | **180** (178 distinct votes) |
+| role **and** text — what the site marks | **6** | **84** | **84** (83 distinct votes) |
 
 Cited blocks by role reproduce Task 8b's note exactly: `para` 3,856 · `bullet` 775 ·
 `label` 56 · `h2` 20 · `h3` 6 · `caption` 2. The 16 are `valmanifest-2022-m` 9,
@@ -1004,8 +1030,9 @@ meet the bar is reported with its false positives named.
 `site/src/lib/anchors.ts:isNavigational` — because it runs over different inputs in
 different languages. Duplication is a drift risk, so it is held rather than trusted:
 `TestNavigationRule` repeats `site/tests/anchors.test.mjs`'s cases assertion for
-assertion, and `TestNavigationParity` pins **16 blocks / 180 citations / 178 votes** and
-the 1,165-vs-180 gap as a ratchet against the committed run.
+assertion, and `TestNavigationParity` pins **6 blocks / 84 vote-line pairs / 83 votes**
+and the 1,165-vs-84 gap as a ratchet against the committed run (⚠️ 3b — the rule changed
+after this section was written; 16 / 180 / 178 was the punctuation-only version).
 
 ### Task 10: Verify acceptance criteria
 

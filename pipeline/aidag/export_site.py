@@ -133,6 +133,18 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         return 0
 
     payloads = load(run_id)
+    # The blocks copied above and the index loaded here are two artifacts of two
+    # passes, and nothing so far has checked that they describe the SAME
+    # extraction. `build-anchors` asserts the pairing (`anchors.block_index`),
+    # but this path does not go through it: re-extract and then export before
+    # re-indexing — a sequence the no-index branches above deliberately allow —
+    # and the site ships new blocks against old anchors. Block ids are positional
+    # (`docx.assign_roles` numbers them `b{i:04d}`), so one added or removed block
+    # shifts every id after it and attributes real votes to lines nobody cited,
+    # with plausible numbers and nothing raised. Refuse instead of shipping it.
+    _check_anchors_match_blocks(payloads, blocks_out)
+    summaries = {slug: summarize(p) for slug, p in payloads.items()}
+
     anchors_out = corpus_out / "anchors"
     public_out = SITE_DATA_DIR.parents[1] / "public" / "data" / "anchors"
     # rebuilt, not merged: a slug that stops being cited must lose its file
@@ -143,12 +155,69 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         d.mkdir(parents=True)
     for slug, payload in payloads.items():
         (anchors_out / f"{slug}.json").write_text(
-            json.dumps(summarize(payload), ensure_ascii=False), encoding="utf-8"
+            json.dumps(summaries[slug], ensure_ascii=False), encoding="utf-8"
         )
         (public_out / f"{slug}.json").write_text(
             json.dumps(compact_refs(payload), ensure_ascii=False), encoding="utf-8"
         )
     return len(payloads)
+
+
+class StaleAnchors(Exception):
+    """The citation index was built against a different extraction than the blocks."""
+
+
+def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
+    """Every anchor must still name, and still fit, the block it was built against.
+
+    Not an id-existence check: an inserted block shifts every id after it while
+    leaving them all in range, so "the id exists" would pass the very case this
+    is for. The quote is in the index, so the span is re-read from the block that
+    is about to ship and compared against it — the same round-trip
+    `tests/test_anchors.py::TestDrawnSpans` pins, run on the artifact rather than
+    on the repo.
+
+    Anchors whose quote runs past their block into the next one (143 of full-v4's
+    16,707) cannot be checked this way and are skipped: their span is correct by
+    the same construction, and re-joining the document here to prove it would be
+    `block_index()` a second time.
+    """
+    from aidag.anchors import drawn
+
+    stale: list[str] = []
+    for slug, payload in sorted(payloads.items()):
+        path = blocks_out / f"{slug}.json"
+        if not path.exists():
+            stale.append(f"  {slug}: indexed, but no blocks/{slug}.json to render it against")
+            continue
+        text = {
+            b["id"]: drawn(b["text"])
+            for b in json.loads(path.read_text(encoding="utf-8"))["blocks"]
+        }
+        missing, moved = [], []
+        for a in payload["anchors"]:
+            block = text.get(a["block_id"])
+            if block is None:
+                missing.append(a["block_id"])
+                continue
+            span = block[a["offset"] : a["offset"] + a["length"]]
+            if len(span) == a["length"] and span != drawn(a["quote"]):
+                moved.append(f"{a['block_id']} ({span[:40]!r} for {drawn(a['quote'])[:40]!r})")
+        for label, rows in (("not in", missing), ("moved in", moved)):
+            if rows:
+                stale.append(
+                    f"  {slug}: {len(rows)} anchor(s) {label} blocks/{slug}.json "
+                    f"({', '.join(sorted(set(rows))[:3])}{', …' if len(set(rows)) > 3 else ''})"
+                )
+    if stale:
+        listed = "\n".join(stale)
+        raise StaleAnchors(
+            "the citation index and the extracted blocks describe different "
+            f"extractions:\n{listed}\n"
+            "Block ids are positional, so shipping these together would attribute "
+            "real votes to the wrong lines. Re-run `uv run aidag build-anchors "
+            "--run-id <run>` after `extract-corpus`, before exporting."
+        )
 
 
 def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -> None:

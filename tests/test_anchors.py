@@ -1103,3 +1103,149 @@ class TestExportSite:
         assert json.loads((public / f"{KD2015}.json").read_text())["slug"] == "kept"
         # the blocks are still refreshed — they are run-independent
         assert (site / "corpus" / "blocks" / f"{KD2015}.json").exists()
+
+
+class TestDrawnSpans:
+    """`offset`/`length` index the block AS DRAWN, and the corpus proves it matters.
+
+    The served text is the exact bytes the agent read, invisible characters
+    included, and `verify simulate` checks every citation against it — so nothing
+    may clean it up. The page draws it through `doctext.repairChars`, which
+    deletes those characters. A span measured on one and used against the other
+    is off by however many the block carries, and `valmanifest-2022-s` carries a
+    literal BEL after 40 of its bullet glyphs: measuring on the served text put
+    every anchor in those lines one character late, reading "raftigt öka antalet
+    poliser" for "Kraftigt …".
+
+    Nothing on the site reads these spans today, which is exactly why this is
+    tested here rather than left to be noticed: they are a committed artifact
+    with a stated contract.
+    """
+
+    S = "valmanifest-2022-s"
+
+    def test_the_bel_is_still_in_the_corpus_this_guards(self):
+        """A guard for a character that has gone away tests nothing."""
+        idx = _index(self.S)
+        assert "\x07" in idx.served
+        assert "\x07" not in idx.drawn_served
+
+    def test_a_span_recovers_its_quote_from_the_drawn_block(self):
+        idx = _index(self.S)
+        payload = anchors.load(RUN).get(self.S)
+        if payload is None:
+            pytest.skip("anchors not built (run: uv run aidag build-anchors)")
+        blocks = {bid: i for i, bid in enumerate(idx.ids)}
+        checked = 0
+        for a in payload["anchors"]:
+            i = blocks[a["block_id"]]
+            block = anchors.drawn(idx.served[idx.starts[i] : idx.ends[i]])
+            span = block[a["offset"] : a["offset"] + a["length"]]
+            if len(span) < a["length"]:
+                continue  # the quote runs past this block into the next one
+            assert span == anchors.drawn(a["quote"])
+            checked += 1
+        assert checked > 100, f"only {checked} spans were block-internal"
+
+    def test_every_document_agrees_across_the_committed_index(self):
+        payloads = anchors.load(RUN)
+        if not payloads:
+            pytest.skip("anchors not built (run: uv run aidag build-anchors)")
+        bad, checked = [], 0
+        for slug, payload in payloads.items():
+            idx = _index(slug)
+            at = {bid: i for i, bid in enumerate(idx.ids)}
+            for a in payload["anchors"]:
+                i = at[a["block_id"]]
+                start = idx.drawn_starts[i]
+                span = idx.drawn_served[start + a["offset"] : start + a["offset"] + a["length"]]
+                checked += 1
+                if span != anchors.drawn(a["quote"]):
+                    bad.append(f"{slug}/{a['block_id']}: {span[:40]!r}")
+        assert bad[:5] == []
+        assert checked > 10000, f"only {checked} anchors checked"
+
+    def test_drawn_collapses_after_removing_rather_than_before(self):
+        """Deleting a character from between two spaces must not leave two."""
+        assert anchors.drawn("a \x07 b") == "a b"
+        assert anchors.drawn("• \x07Kraftigt") == "• Kraftigt"
+        assert anchors.drawn("Vi vill se ett tryggt Sverige.") == "Vi vill se ett tryggt Sverige."
+
+
+class TestStaleAnchorGuard:
+    """Blocks and anchors are two passes; the export must not ship a mismatch.
+
+    `build-anchors` asserts the pairing, but `export-site` does not go through
+    it — re-extract, export before re-indexing, and block ids (positional, per
+    `docx.assign_roles`) have shifted underneath a standing index.
+    """
+
+    def _site(self, tmp_path, monkeypatch):
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        return export_site, site
+
+    def test_an_index_naming_a_block_the_extraction_does_not_have_is_refused(
+        self, tmp_path, monkeypatch, kd2015
+    ):
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        # the shift a re-extraction produces: the same quote, a block id past the
+        # end of the document it is indexed against
+        by_slug[KD2015][0].block_id = "b9999"
+        anchors.write("test-run", by_slug, tmp_path)
+        with pytest.raises(export_site.StaleAnchors, match="b9999"):
+            export_site.export_blocks_and_anchors("test-run")
+
+    def test_an_index_for_a_document_with_no_blocks_is_refused(
+        self, tmp_path, monkeypatch, kd2015
+    ):
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        (anchors.anchors_dir("test-run", tmp_path) / "partiprogram-x-1999.json").write_text(
+            json.dumps({"slug": "partiprogram-x-1999", "run_id": "test-run",
+                        "n_anchors": 0, "n_refs": 0,
+                        "anchors": [{"quote": "q", "block_id": "b0001", "offset": 0,
+                                     "length": 1, "refs": []}]}),
+            encoding="utf-8",
+        )
+        with pytest.raises(export_site.StaleAnchors, match="partiprogram-x-1999"):
+            export_site.export_blocks_and_anchors("test-run")
+
+    def test_a_shift_that_leaves_every_id_in_range_is_still_refused(
+        self, tmp_path, monkeypatch, kd2015
+    ):
+        """The case an id-existence check would wave through.
+
+        A block inserted early renumbers the rest without pushing any id off the
+        end, so every anchor still names a block that exists — a different one.
+        """
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        bid, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        # the same anchor against its neighbour, which is what renumbering does
+        other = kd2015.ids[kd2015.ids.index(bid) + 1]
+        path = anchors.anchors_dir("test-run", tmp_path) / f"{KD2015}.json"
+        payload = json.loads(path.read_text())
+        payload["anchors"][0]["block_id"] = other
+        payload["anchors"][0]["offset"] = 0
+        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        with pytest.raises(export_site.StaleAnchors, match="moved in"):
+            export_site.export_blocks_and_anchors("test-run")
+
+    def test_the_committed_export_passes_its_own_guard(self, tmp_path, monkeypatch, kd2015):
+        """The guard has to be satisfiable, not just firable."""
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        assert export_site.export_blocks_and_anchors("test-run") == 1
