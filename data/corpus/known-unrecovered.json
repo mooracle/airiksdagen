@@ -4,8 +4,10 @@
     "locate in data/corpus/pdf even after collapsing whitespace and hyphenation.",
     "Every entry is reading order the geometry does not determine: a column that",
     "continues past a heading belonging to a figure below it. Consulted by",
-    "migrate-quotes (Task 5) and build-anchors (Task 7) so the build gate can tell",
-    "known-and-accepted from newly-broken. Anything not listed here must resolve."
+    "migrate-quotes and repair-citations, so neither fuzzy-rewrites a listed quote.",
+    "build-anchors does NOT read this file: it accepts these via the",
+    "citat_ej_migrerat flag migrate-quotes leaves on them, so the build gate can",
+    "tell known-and-accepted from newly-broken. Anything not listed here must resolve."
   ],
   "run_id": "full-v4",
   "quotes": [

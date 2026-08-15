@@ -30,8 +30,9 @@ the Node-only `site/`); if you do, move `wrangler.toml`+`.node-version` back int
 
 | File | Role |
 |------|------|
-| `site/src/data/` | **Committed** site data (from `export-site`); Astro reads it directly |
-| `.node-version` | Pins Node 22 for Cloudflare's build image |
+| `site/src/data/` | **Committed** site data (from `export-site`); Astro reads it directly at build time |
+| `site/public/data/` | **Committed** too, and easy to forget: fetched by the browser at runtime (cases index, per-document citation anchors). Missing it deploys a site that 404s every citation panel |
+| `.node-version` | Pins Node 22.12 for Cloudflare's build image. `npm test` needs ≥ 22.18 (type stripping) and does not run in the build |
 | `wrangler.toml` | `[build]` = `cd site && npm ci && npm run build`; `[assets]` = `./site/dist` |
 | `site/public/_headers` | Security headers + long cache on `/_astro/*` (honored by Workers assets) |
 
@@ -73,12 +74,17 @@ Worker → **Settings → Domains & Routes → Add → Custom domain** → `airi
 
 ## Publishing new data (the only step that touches Python — locally)
 ```bash
-uv run aidag aggregate    --run-id full-v3
-uv run aidag export-site  --run-id full-v3   # regenerates site/src/data/
-git add site/src/data data/results/aggregates
+uv run aidag aggregate    --run-id full-v4
+uv run aidag export-site  --run-id full-v4   # regenerates site/src/data/ AND site/public/data/
+git add site/src/data site/public/data data/results/aggregates data/results/anchors
 git commit -m "publish: refresh site data"
 git push                                     # Cloudflare rebuilds HTML only
 ```
+
+`site/public/data/` is the half the browser fetches — the per-document citation anchors
+are 8.3 MB that never load with the page. Staging only `site/src/data` builds a site
+whose document pages render but whose every citation panel 404s on open, and nothing in
+the build says so.
 To publish a different run, pass a different `--run-id` to `export-site` (and set
 `site` in `astro.config.mjs` / the Worker as needed).
 

@@ -11,6 +11,8 @@ daterad efter beslutsdagen.
 
 Resultatet jämförs med hur partiet faktiskt röstade och publiceras som en statisk webbplats
 med full statistik, källhänvisningar och en visualisering av kammarens 349 platser per ärende.
+Källhänvisningarna går åt båda hållen: varje citerad rad i ett partidokument visar också vilka
+beslut som lutade sig mot just den raden, och om partiet sedan röstade med sin egen plan.
 
 **Detta är rekonstruktion, inte prediktion.** Modellens träningsdata innehåller sannolikt de
 verkliga utfallen. Kontamineringen hanteras strukturellt: agenten får aldrig veta vilken
@@ -34,6 +36,7 @@ upprätthållet av golden tests. Projektet är partipolitiskt obundet; metodik, 
 |---|---|
 | **Just see the results** | Open [airiksdagen.se](https://airiksdagen.se) |
 | **Run the site locally** | `cd site && npm install && npm run dev` — reads committed JSON in `site/src/data/`, no Python needed |
+| **Test the site** | `cd site && npm test` (`node --test`). Needs Node **≥ 22.18** for type stripping — above the 22.12 `.node-version` pins for Cloudflare's build image, which runs `npm ci && npm run build` only |
 | **Explore the research pipeline** | `uv sync && uv run aidag --help` (Python 3.12+, [uv](https://docs.astral.sh/uv/)) |
 | **Understand the method** | [`docs/methodology.sv.md`](docs/methodology.sv.md) / the site's `/metod` page, and [`docs/data-sources.md`](docs/data-sources.md) |
 | **Reproduce a full run** | [`docs/orchestration-full-v4.md`](docs/orchestration-full-v4.md) (agent loop) + [`docs/deploy-cloudflare.md`](docs/deploy-cloudflare.md) (publish) |
@@ -85,7 +88,7 @@ original flat text.
 data/corpus/
   pdf/<slug>.pdf            source bytes, archived so re-extraction never needs the network
   frozen/<slug>.txt         pre-extraction text (all 40) — what prompt versions below p6 are served
-  blocks/<slug>.json        [{id, role, page, size, bold, text}]
+  blocks/<slug>.json        {slug, source, pages, dropped, blocks: [{id, role, page, size, bold, text}]}
   <slug>.txt                derived from the blocks; what the agents read and `verify simulate` checks
   known-unrecovered.json    the residual quotes no reading order recovers (12, all column artifacts)
 ```
@@ -133,8 +136,9 @@ translate-*        English translations (checkpoint-aware); compare-runs, agent-
 > API path and are kept for reference; the published `full-v4` run uses the subagent workflow.
 
 **Publish a refresh:** `aggregate` → `export-site` → `cd site && npm run build` (gate) → commit
-`site/src/data data/results` → `git push` (Cloudflare rebuilds the site). See
-[`docs/deploy-cloudflare.md`](docs/deploy-cloudflare.md).
+`site/src/data site/public/data data/results` → `git push` (Cloudflare rebuilds the site).
+`site/public/data` is the browser-fetched half (citation anchors); leaving it out ships a site
+whose citation panels 404. See [`docs/deploy-cloudflare.md`](docs/deploy-cloudflare.md).
 
 ## Data sources & attribution
 

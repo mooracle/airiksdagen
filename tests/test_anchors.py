@@ -392,6 +392,31 @@ class TestBuild:
         anchors.build("test-run", results_dir=root)
         assert out.read_bytes() == once
 
+    def test_a_slug_that_stops_being_cited_loses_its_file(self, run_root, kd2015):
+        """`load()` globs this directory, so a survivor is re-exported forever."""
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        stale = anchors.anchors_dir("test-run", root) / "partiprogram-x-1999.json"
+        stale.write_text('{"slug": "partiprogram-x-1999"}')
+        anchors.build("test-run", results_dir=root)
+        assert not stale.exists()
+        assert set(anchors.load("test-run", root)) == {KD2015}
+
+    def test_a_refused_build_leaves_the_standing_index_alone(self, run_root, kd2015):
+        """The prune happens after collect(), so an Unlocated raise costs nothing."""
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        out = anchors.anchors_dir("test-run", root) / f"{KD2015}.json"
+        before = out.read_bytes()
+        self._write(sim, [_decision(["Detta står ingenstans i något program alls."])])
+        with pytest.raises(anchors.Unlocated):
+            anchors.build("test-run", results_dir=root)
+        assert out.read_bytes() == before
+
 
 class TestSiteShapes:
     """Page weight: aggregates inline, ref lists fetched."""
@@ -551,8 +576,12 @@ class TestNavigationRule:
         )
 
     def test_the_length_cut_is_where_it_says_it_is(self):
-        assert anchors.is_navigational("h2", " ".join(["ord"] * anchors.NAV_MAX_WORDS))
-        assert not anchors.is_navigational("h2", " ".join(["ord"] * (anchors.NAV_MAX_WORDS + 1)))
+        """Literal 8/9, not NAV_MAX_WORDS — deriving the boundary from the
+        constant under test moves both sides of the assertion together, so the
+        cut would pass wherever it was moved to."""
+        assert anchors.NAV_MAX_WORDS == 8
+        assert anchors.is_navigational("h2", "ord ord ord ord ord ord ord ord")
+        assert not anchors.is_navigational("h2", "ord ord ord ord ord ord ord ord ord")
 
     def test_a_quoted_full_stop_still_ends_a_sentence(self):
         assert not anchors.is_navigational("h2", 'Han sade "vi ska vinna."')
@@ -891,3 +920,47 @@ class TestExportSite:
         (stale / "partiprogram-x-1999.json").write_text("{}")
         export_site.export_blocks_and_anchors("no-such-run")
         assert not (stale / "partiprogram-x-1999.json").exists()
+
+    def test_a_document_that_stops_being_extracted_loses_its_block_file(
+        self, tmp_path, monkeypatch
+    ):
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        blocks = site / "corpus" / "blocks"
+        blocks.mkdir(parents=True)
+        (blocks / "partiprogram-x-1999.json").write_text("{}")
+        export_site.export_blocks_and_anchors("no-such-run")
+        assert not (blocks / "partiprogram-x-1999.json").exists()
+        assert (blocks / f"{KD2015}.json").exists()
+
+    def test_an_export_without_a_run_leaves_the_committed_anchors_alone(
+        self, tmp_path, monkeypatch
+    ):
+        """`export-site` with no --run-id is "cases without decisions" (cli.py).
+
+        There is no run to index, so rebuilding the anchor directories from an
+        empty payload would delete the committed index — 46 files and every
+        document page's rail and panels — with nothing raised anywhere.
+        """
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept"}')
+        public = tmp_path / "site" / "public" / "data" / "anchors"
+        public.mkdir(parents=True)
+        (public / f"{KD2015}.json").write_text('{"slug": "kept"}')
+
+        assert export_site.export_blocks_and_anchors(None) == 0
+        assert json.loads((inline / f"{KD2015}.json").read_text())["slug"] == "kept"
+        assert json.loads((public / f"{KD2015}.json").read_text())["slug"] == "kept"
+        # the blocks are still refreshed — they are run-independent
+        assert (site / "corpus" / "blocks" / f"{KD2015}.json").exists()

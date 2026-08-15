@@ -152,10 +152,27 @@ check the group-size distribution first — that is nearly always the cause.
 
 ## After the run
 
+The citation passes come first, and they are ordered — `CLAUDE.md` has the full
+sequence and the reason each step cannot move. The short version:
+
 ```sh
-uv run aidag aggregate   --run-id full-v4      # gap metrics, not accuracy
-uv run aidag export-site --run-id full-v4
+uv run aidag citation-audit   --run-id full-v4 --out data/interim/audit/before.json
+uv run aidag repair-citations --run-id full-v4   # model paraphrases → verbatim
+uv run aidag citation-audit   --run-id full-v4 \
+    --baseline data/interim/audit/before.json --check-translations
+uv run aidag build-anchors    --run-id full-v4   # quote → block index
+uv run aidag verify simulate  --run-id full-v4   # and --run-id full-v3
+uv run aidag aggregate        --run-id full-v4   # gap metrics, not accuracy
+uv run aidag export-site      --run-id full-v4
 ```
+
+`migrate-quotes` and `extract-corpus` belong in front of this only when the corpus
+itself has been re-extracted; on an unchanged corpus they are no-ops.
+
+Do not skip `build-anchors`. `export-site` returns 0 anchors rather than raising
+when a run has none — deliberately, so an export between passes still produces a
+site — so a run published without it looks fine and simply has no citation panels,
+no chapter-rail counts and no navigation flags on any document page.
 
 Note `full-v3` stays frozen for comparison; p6 is backwards-incompatible by
 choice (every reader of `rost` changes to `hallning` + derived vote).

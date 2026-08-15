@@ -23,10 +23,25 @@ substantive question).
 ## Party documents — SND Vivill
 
 [Svensk Nationell Datatjänst, Vivill](https://snd.se/sv/vivill) — Public Domain
-Mark 1.0, open access, redistribution permitted. We commit the plain-text 2022
-valmanifest for all eight parties:
+Mark 1.0, open access, redistribution permitted. SND publishes each 2022
+valmanifest in two renditions, and we use both:
 
-`https://snd.se/sv/vivill/file/{s,m,sd,c,v,kd,mp,l}/v/2022/txt`
+`https://snd.se/sv/vivill/file/{s,m,sd,c,v,kd,mp,l}/v/2022/pdf`  (7 of 8)
+`https://snd.se/sv/vivill/file/{c}/v/2022/txt`                   (valmanifest-2022-c only)
+
+Seven of the eight committed `.txt` files are now derived from the PDF rendition,
+because that is the one carrying the font metrics and page geometry the structured
+extraction reads. `valmanifest-2022-c`'s PDF has no text layer, so it keeps the
+plain-text rendition; its block file records `"source": "text"` and the others
+`"source": "pdf"`. The swap is made where the corpus is regenerated, behind a
+word-count equivalence guard (`extract_corpus.check_equivalence`) that refuses two
+renditions that are not the same document — never as a side effect of fetching.
+
+Party programmes (partiprogram / principprogram / idéprogram), pinned to the
+version standing at the 2022 election: 15 PDFs from the parties' own sites, listed
+per party in `config.PARTY_PROGRAMS`. These are the parties' own published
+platforms, redistributed here for research citation; unlike the SND manifestos they
+carry no Public Domain Mark.
 
 Tidöavtalet (2022-10-14): PDF published by the four cooperating parties,
 `https://www.liberalerna.se/wp-content/uploads/tidoavtalet-overenskommelse-for-sverige-slutlig.pdf`
@@ -50,5 +65,12 @@ enforces this.
 
 - **Committed**: `data/corpus/` (manifesto texts, PDM), `data/kb/snapshots/`,
   `data/results/` (simulation outputs — the scientific record).
+- **Committed, and the reason the corpus is reproducible**: `data/corpus/pdf/` —
+  the 23 source PDFs (24 MB) behind the re-extracted documents, 8 SND manifestos
+  and 15 party-site programmes. Extraction reads this cache and never the network
+  (`fetch_corpus.source_pdf_bytes` raises rather than downloading), because the 15
+  programme URLs are live party-site links and every one of those parties has
+  replaced the pinned edition at least once. Without the cache a re-extraction
+  would quietly build against a different edition than the decisions were.
 - **Gitignored, re-fetchable**: `data/raw/`, `data/processed/` — rebuild with
   `aidag fetch-votes && aidag fetch-cases && aidag build-cases`.

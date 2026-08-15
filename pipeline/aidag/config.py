@@ -25,8 +25,11 @@ PDF_DIR = CORPUS_DIR / "pdf"
 # 40 documents, not only the 23 that change — an unconditional rule cannot be
 # wrong about which file was touched, and a conditional fallback can.
 FROZEN_DIR = CORPUS_DIR / "frozen"
-# Structured extraction output: [{id, role, page, size, bold, text}] per slug.
-# The .txt beside it is DERIVED from this, so text and structure cannot drift.
+# Structured extraction output, one file per slug:
+#   {slug, source, pages, dropped, blocks: [{id, role, page, size, bold, text}]}
+# `source` is 'pdf' except valmanifest-2022-c ('text' — its PDF has no text layer);
+# `dropped` is the running-header audit trail. The .txt beside it is DERIVED from
+# `blocks`, so text and structure cannot drift.
 BLOCKS_DIR = CORPUS_DIR / "blocks"
 KB_DIR = DATA_DIR / "kb" / "snapshots"
 RESULTS_DIR = DATA_DIR / "results"

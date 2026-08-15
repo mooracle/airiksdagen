@@ -228,6 +228,15 @@ function isFurniture(text: string, page: number | null, pages: number): boolean 
   return pages > 4 && page === 0;
 }
 
+/** Past this many entries the rail is a scrollbar, not a table of contents:
+ *  `valmanifest-2022-m` sets 116 headings and `partiprogram-kd-2015` 85. */
+const MAX_RAIL = 60;
+
+/** …but dropping to the h1s only helps if they still make an outline.
+ *  `partiprogram-l-2023` has 6 h1 against 51 h2, and six entries would hide the
+ *  document's structure rather than summarise it. */
+const MIN_TOP_LEVEL = 8;
+
 /** The sticky rail's entries: the document's chapters, and how much of each one
  *  the votes actually leaned on.
  *
@@ -237,17 +246,15 @@ function isFurniture(text: string, page: number | null, pages: number): boolean 
  *  citation anyway — the exact vote total for the whole document sits at the top
  *  of the rail, where `totals.decisions` makes it exact.
  *
- *  `max` caps the rail: `valmanifest-2022-m` sets 116 headings and
- *  `partiprogram-kd-2015` 85, which is a scrollbar, not a table of contents. Past
- *  the cap the h2s are dropped — but only when the h1s alone still make an
- *  outline (`partiprogram-l-2023` has 6 h1 against 51 h2, and reducing it to six
- *  entries would hide the document's structure rather than summarise it). */
+ *  `max` caps the rail (see MAX_RAIL); past the cap the h2s are dropped, but only
+ *  when the h1s alone still make an outline (MIN_TOP_LEVEL). It is a parameter
+ *  only so a test can cap a small fixture — no page overrides it. */
 export function chapters(
   groups: RenderGroup[],
   summary: AnchorSummary | null,
-  opts: { max?: number; minTopLevel?: number } = {},
+  opts: { max?: number } = {},
 ): Chapter[] {
-  const { max = 60, minTopLevel = 8 } = opts;
+  const { max = MAX_RAIL } = opts;
   const pages = groups.reduce((n, g) => Math.max(n, (g.page ?? 0) + 1), 0);
   const out: Chapter[] = [];
   for (const g of groups) {
@@ -272,5 +279,5 @@ export function chapters(
   }
   if (out.length <= max) return out;
   const top = out.filter((c) => c.level === 1);
-  return top.length >= minTopLevel ? top : out;
+  return top.length >= MIN_TOP_LEVEL ? top : out;
 }

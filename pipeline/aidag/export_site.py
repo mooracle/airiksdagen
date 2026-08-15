@@ -86,7 +86,10 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
 
     Returns the number of anchor files written — 0 when the run has no anchors
     yet, which is not an error: `build-anchors` runs after `repair-citations` and
-    an export in between should still produce a site.
+    an export in between should still produce a site. `run_id=None` (the
+    no-decisions export) returns 0 without touching the anchors at all; it is the
+    absence of a run, not a run without anchors, and the two must not rebuild the
+    same directories from the same empty payload.
     """
     from aidag.anchors import compact_refs, load, summarize
     from aidag.config import BLOCKS_DIR
@@ -94,10 +97,23 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     corpus_out = SITE_DATA_DIR / "corpus"
     blocks_out = corpus_out / "blocks"
     blocks_out.mkdir(parents=True, exist_ok=True)
+    sources = {src.name for src in BLOCKS_DIR.glob("*.json")}
+    # same rule as the anchors below: a document that stops being extracted must
+    # lose its block file, or the page keeps rendering it from a stale copy
+    for stale in blocks_out.glob("*.json"):
+        if stale.name not in sources:
+            stale.unlink()
     for src in sorted(BLOCKS_DIR.glob("*.json")):
         shutil.copy(src, blocks_out / src.name)
 
-    payloads = load(run_id) if run_id else {}
+    if run_id is None:
+        # `export-site` with no --run-id exports the cases without decisions
+        # (cli.py). There is no run to index, so there is nothing to say about
+        # the citation anchors — and the rebuild below, driven by an empty
+        # payload, would delete the committed index rather than leave it alone.
+        return 0
+
+    payloads = load(run_id)
     anchors_out = corpus_out / "anchors"
     public_out = SITE_DATA_DIR.parents[1] / "public" / "data" / "anchors"
     # rebuilt, not merged: a slug that stops being cited must lose its file

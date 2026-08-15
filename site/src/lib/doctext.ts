@@ -131,10 +131,7 @@ export interface RenderedDoc {
   stats: {
     /** 'blocks' when the structured extraction was used, 'text' for fallback. */
     source: 'blocks' | 'text';
-    groups: number;
     unreadable: number;
-    /** groups holding more than one block — paragraphs rejoined at render time */
-    joined: number;
   };
 }
 
@@ -488,9 +485,7 @@ export function renderDoc(raw: string, file: CorpusBlockFile | null): RenderedDo
     groups,
     stats: {
       source: file ? 'blocks' : 'text',
-      groups: groups.length,
       unreadable: groups.filter((g) => g.role === 'unreadable').length,
-      joined: groups.filter((g) => g.parts.length > 1).length,
     },
   };
 }

@@ -17,6 +17,11 @@ import polars as pl
 from aidag.config import PARTY_CODES, PROCESSED_DIR, RESULTS_DIR
 from aidag.models import Decision
 
+# What the mock decisions declare, and therefore which corpus bytes
+# `documents_for()` (and so `verify simulate`) serves them back. The two must be
+# read off one constant: they are the same question asked twice.
+PROMPT_VERSION = "mock"
+
 
 def run(run_id: str = "mock-v1", seed: int = 7) -> None:
     assert run_id.startswith("mock"), "mock runs must use a 'mock' run_id prefix"
@@ -29,12 +34,20 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
     sim_dir.mkdir(parents=True, exist_ok=True)
 
     # real manifesto substrings so `verify simulate` stays green on mock runs
-    # (the [MOCKDATA] motivering is what marks the decision as fake)
-    from aidag.promptgen import _corpus_text  # noqa: PLC2701
+    # (the [MOCKDATA] motivering is what marks the decision as fake).
+    #
+    # Read through the same frozen/live split `documents_for()` applies, keyed on
+    # the SAME prompt_version the decisions below are written with. Reading
+    # data/corpus/ directly would take the snippet from the re-extracted p6 bytes
+    # while verify serves this run the pre-extraction ones — 3 of the 8 parties'
+    # snippets then read as hallucinated citations.
+    from aidag.corpus import _text  # noqa: PLC2701
 
+    frozen = PROMPT_VERSION < "p6"
     manifesto_snippets = {}
     for p in PARTY_CODES:
-        words = " ".join(_corpus_text(f"valmanifest-2022-{p.lower()}.txt").split()).split(" ")
+        text = _text(f"valmanifest-2022-{p.lower()}.txt", frozen=frozen)
+        words = " ".join(text.split()).split(" ")
         manifesto_snippets[p] = " ".join(words[100:120])
 
     # mock English decision translations exercise the EN site path; case-text
@@ -63,7 +76,7 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
                     votering_id=case["votering_id"],
                     parti=party,
                     run_id=run_id,
-                    prompt_version="mock",
+                    prompt_version=PROMPT_VERSION,
                     model="mock-model",
                     arm="anonymous",
                     rost=rost,  # type: ignore[arg-type]
@@ -78,7 +91,7 @@ def run(run_id: str = "mock-v1", seed: int = 7) -> None:
                 )
                 f.write(decision.model_dump_json() + "\n")
                 trans_f.write(json.dumps({
-                    "cid": f"{party}:{case['votering_id']}:mock:anonymous",
+                    "cid": f"{party}:{case['votering_id']}:{PROMPT_VERSION}:anonymous",
                     "motivering": (
                         f"[MOCKDATA EN] Simulated reasoning for {party} on "
                         f"'{case['rubrik']}'. Replaced by a real AI translation."

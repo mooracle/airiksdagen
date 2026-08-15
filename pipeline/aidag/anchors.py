@@ -319,6 +319,15 @@ def _case_tables():
 def write(run_id: str, by_slug: dict[str, list[Anchor]], results_dir=None) -> list[dict]:
     out_dir = anchors_dir(run_id, results_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Rebuilt, not merged — the same invariant `export_blocks_and_anchors()`
+    # keeps one layer downstream, and it has to hold HERE too: `load()` globs
+    # this directory, so a slug that stops being cited would otherwise be
+    # re-exported from the previous run's file with nothing raised. Safe at this
+    # point because `build()` raises on any unlocated citation before calling
+    # write(), so a refused build never deletes the standing index.
+    for stale in out_dir.glob("*.json"):
+        if stale.stem not in by_slug:
+            stale.unlink()
     report = []
     for slug in sorted(by_slug):
         anchors = by_slug[slug]
@@ -370,10 +379,6 @@ def build(run_id: str, results_dir=None) -> dict:
         + " | ".join(f"{v} {counts[f'verdict:{v}']}" for v in VERDICTS)
     )
     return {"counts": counts, "report": report}
-
-
-def run(run_id: str) -> dict:
-    return build(run_id)
 
 
 # --- site shapes ---------------------------------------------------------
