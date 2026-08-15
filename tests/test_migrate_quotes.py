@@ -443,3 +443,64 @@ class TestRun:
         (tmp_path / "simulations" / "empty-run").mkdir(parents=True)
         with pytest.raises(FileNotFoundError, match="nothing to migrate"):
             mq.run("empty-run")
+
+
+class TestTheCommandFailsOnAnUnresolvedCitation:
+    """`unresolved` is a defect, and nothing downstream of it ever raises.
+
+    A citation naming a class this pass serves that resolves to no edition is an
+    ingest gap: `datum` came back "" because the `votering_id` is not in
+    cases.parquet. `repair-citations` reads that same blank date, finds no
+    document to verify against and blanks the quote as `citat_ej_verifierad` —
+    booking a missing case as the model inventing a quote. `build-anchors`' own
+    guard cannot catch it either: by then the quote is blank, and
+    `anchors.collect` excuses blanks before it resolves a slug. So the exit code
+    here is the only place the pass order can stop.
+    """
+
+    def _invoke(self, tmp_path, monkeypatch, rows, extra=()):
+        from typer.testing import CliRunner
+
+        from aidag import cli
+
+        d = tmp_path / "simulations" / "test-run"
+        d.mkdir(parents=True)
+        (d / "KD.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
+        )
+        monkeypatch.setattr(mq, "RESULTS_DIR", tmp_path)
+        return CliRunner().invoke(
+            cli.app, ["migrate-quotes", "--run-id", "test-run", *extra]
+        )
+
+    def _undatable(self, kd2015):
+        # vid absent from cases.parquet -> datum "" -> `program_at` names no edition
+        return _decision([_sentence(kd2015)], vid="INGEN-SADAN-VOTERING")
+
+    def test_an_undatable_citation_exits_non_zero(self, tmp_path, monkeypatch, kd2015):
+        res = self._invoke(tmp_path, monkeypatch, [self._undatable(kd2015)])
+        assert res.exit_code == 1
+        assert "1 unresolved" in res.output
+        # the report still prints — the exit code is added to it, not instead of it
+        assert "re-run the ingest" in res.output.lower()
+
+    def test_a_resolvable_run_exits_zero(self, tmp_path, monkeypatch, kd2015):
+        rows = [_decision([_sentence(kd2015)], vid=_a_real_votering())]
+        res = self._invoke(tmp_path, monkeypatch, rows)
+        assert res.exit_code == 0, res.output
+
+    def test_a_dry_run_fails_on_it_too(self, tmp_path, monkeypatch, kd2015):
+        """The defect is in the record, not in the write — reporting it and
+        exiting 0 is what lets the pass order walk past it."""
+        res = self._invoke(
+            tmp_path, monkeypatch, [self._undatable(kd2015)], extra=["--dry-run"]
+        )
+        assert res.exit_code == 1
+
+    def test_an_out_of_scope_document_is_not_a_failure(self, tmp_path, monkeypatch):
+        """budgetmotioner keep the flat extraction; resolving to no block file is
+        what they are supposed to do."""
+        rows = [_decision(["Vad som helst."], document="budgetmotion", vid="TEST-VID")]
+        res = self._invoke(tmp_path, monkeypatch, rows)
+        assert res.exit_code == 0, res.output
+        assert "1 out of scope" in res.output

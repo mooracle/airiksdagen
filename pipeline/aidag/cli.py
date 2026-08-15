@@ -341,10 +341,27 @@ def migrate_quotes(
     corpus change (`citat_migrerat`), repair records a model paraphrase
     (`citat_korrigerat`), and whatever this one cannot place it leaves untouched
     for repair to resolve.
+
+    Exits **non-zero** on an unresolved citation — one naming a document class
+    this pass serves that resolves to no edition, the shape a `votering_id`
+    missing from `cases.parquet` takes. The migration itself is sound, so the
+    write stands and the report prints first; the pass *order* is what has to
+    stop. `repair-citations` reads the same blank date, finds no document to
+    verify against and blanks the quote as `citat_ej_verifierad` — an ingest gap
+    recorded as the model having invented the quote — and `build-anchors`' own
+    guard never fires, because by then the quote is blank and `anchors.collect`
+    excuses blanks before it resolves a slug. Exiting 0 here ships that silently.
     """
     from aidag.migrate_quotes import run as migrate
 
-    migrate(run_id=run_id, dry_run=dry_run)
+    counts = migrate(run_id=run_id, dry_run=dry_run)
+    if counts["unresolved"]:
+        print(
+            f"\nFAILED: {counts['unresolved']} citation(s) resolve to no edition — "
+            "repair-citations would blank them as the model's invention. Re-run the "
+            "ingest before continuing the pass order."
+        )
+        raise typer.Exit(1)
 
 
 @app.command("repair-citations")
