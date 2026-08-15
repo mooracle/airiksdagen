@@ -95,7 +95,13 @@ const funnel = pgap && decided
       { key: 'all', n: pgap.n_decisions, share: null as number | null },
       { key: 'decided', n: decided, share: decided / pgap.n_decisions },
       { key: 'addressed', n: addressed, share: addressed / decided },
-      { key: 'explicit', n: covN('explicit'), share: covN('explicit') / Math.max(1, addressed), here: true },
+      // The headline's OWN n, not `coverage.explicit`. The two are equal on
+      // full-v4 (0 votes corpus-wide are explicit-coverage at low confidence)
+      // but they are not the same set: `evidence_tier` also requires confidence
+      // >= medium. Taking it from the tier means the last row of the funnel is
+      // by construction the row the headline is computed on, instead of a number
+      // that happens to match it and could quietly stop.
+      { key: 'explicit', n: pgap.explicit.n, share: pgap.explicit.n / Math.max(1, addressed), here: true },
     ]
   : null;
 
@@ -204,8 +210,12 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
 
       {funnel && (
         <div class="sect">
+          {/* The caption is floated right; without a separator in the DOM it
+              reads as "…räcker tillandel av raden ovan" to a screen reader and
+              to anything else consuming the text rather than the layout. */}
           <p class="shead">
             {t('party.validity')}
+            {' — '}
             <span class="sof">{t('party.funnelOf')}</span>
           </p>
           <ol class="funnel">
