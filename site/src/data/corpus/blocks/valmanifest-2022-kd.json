@@ -1,0 +1,840 @@
+{
+ "slug": "valmanifest-2022-kd",
+ "source": "pdf",
+ "pages": 12,
+ "dropped": [],
+ "blocks": [
+  {
+   "id": "b0000",
+   "role": "h1",
+   "page": 0,
+   "size": 61.0,
+   "bold": true,
+   "text": "REDO"
+  },
+  {
+   "id": "b0001",
+   "role": "h1",
+   "page": 0,
+   "size": 61.0,
+   "bold": true,
+   "text": "FÖR EN NY"
+  },
+  {
+   "id": "b0002",
+   "role": "h1",
+   "page": 0,
+   "size": 61.0,
+   "bold": true,
+   "text": "REGERING"
+  },
+  {
+   "id": "b0003",
+   "role": "h3",
+   "page": 0,
+   "size": 19.7,
+   "bold": true,
+   "text": "VALMANIFEST 2022"
+  },
+  {
+   "id": "b0004",
+   "role": "h1",
+   "page": 1,
+   "size": 84.9,
+   "bold": true,
+   "text": "REDO FÖR"
+  },
+  {
+   "id": "b0005",
+   "role": "h1",
+   "page": 1,
+   "size": 84.9,
+   "bold": true,
+   "text": "EN NY REGER"
+  },
+  {
+   "id": "b0006",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": true,
+   "text": "barn. Kristdemokraterna vill bygga ett samhälle där ingen hålls tillbaka och ingen lämnas efter. Vi når dit genom att i vår demokrati främja goda värden som medmänsklighet ansvarstagande, förvaltarskap, hederlighet, måttfullhet och jämställdhet och. Vi prioriterar välfärdens viktigaste delar, samtidigt som vi ger människor utrymme att forma sina egna liv i gemenskap med andra. De problem vi har fått på senare år är djupa, men de kan lösas och de ska lösas. Det är dags nu. Vi är redo för en ny regering."
+  },
+  {
+   "id": "b0007",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": true,
+   "text": "Det har gått åtta år sedan Kristdemokraterna senast satt i regeringen. Sedan dess har utvecklingen gått åt fel håll och vanligt folk har fått det sämre. Vårdköerna har tredubblats. 140 000 människor har väntat olagligt länge på besök hos specialist eller på behandling. Gängkrigen har tagit mer än tvåhundra liv de senaste fem åren. El- och drivmedelspriserna pressar hushållen, inte minst i Sveriges hjärtland. Drivmedelspriserna har skenat och den gångna vinterns elpriser låg periodvis tusen procent högre än året innan. Sverige har blivit dyrare, otryggare och med sämre tillgång till vård för den som behöver – det är orimligt."
+  },
+  {
+   "id": "b0008",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": true,
+   "text": "Det behöver inte vara så här. Det går att vända utvecklingen. Sverige är ett fantastiskt land med en stark ekonomisk grund och ett välfärdssystem som stödjer människor utifrån behov genom hela livet. Köer i vården, gängkrig och upplopp på gatorna är inte värdigt vårt land. Det är inte det Sverige vi växte upp i och det är inte det Sverige vi ska lämna över till våra"
+  },
+  {
+   "id": "b0009",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": true,
+   "text": "Vi prioriterar vården, för alla dem som lider i väntan på vård. Vi prioriterar samhällets äldsta och yngsta, dem som inte längre orkar höja sin röst eller ännu inte lärt sig att använda den. Vi prioriterar lantbruket, det som sällan syns i media men som producerar vår mat. Vi ser den som bor utanför storstäderna och är beroende av sin bil. Vi prioriterar tryggheten, vi är redo att bekämpa brotten. Vi ser människors behov av välfärd och vi ser företagaren vars"
+  },
+  {
+   "id": "b0010",
+   "role": "h1",
+   "page": 2,
+   "size": 84.9,
+   "bold": true,
+   "text": "ING"
+  },
+  {
+   "id": "b0011",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": true,
+   "text": "affärsidéer gör det möjligt att betala för välfärden. Vi ser den som drabbats av elfattigdom och som tvingades ha ytterjackan på sig hemma i vintras för att uppvärmningen blivit för dyr."
+  },
+  {
+   "id": "b0012",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": true,
+   "text": "I Sverige ska vi ha råd med värme. Både den värme som kommer från element och den som kommer från mänsklig gemenskap. Om du har läst ända hit så ber vi dig att läsa i en minut till, så ska vi berätta hur det ska gå till."
+  },
+  {
+   "id": "b0013",
+   "role": "h3",
+   "page": 2,
+   "size": 12.0,
+   "bold": true,
+   "text": "EBBA BUSCH Kristdemokraterna"
+  },
+  {
+   "id": "b0014",
+   "role": "caption",
+   "page": 2,
+   "size": 9.0,
+   "bold": false,
+   "text": "Facebook: fb.me/buschebba Insta: @buschebba Twitter: @BuschEbba"
+  },
+  {
+   "id": "b0015",
+   "role": "h1",
+   "page": 3,
+   "size": 85.0,
+   "bold": true,
+   "text": "SJUKVÅRD"
+  },
+  {
+   "id": "b0016",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": true,
+   "text": "Var i landet du bor ska inte avgöra vilken sjukvård du får. Vården har blivit ett ojämlikt postkodlotteri. Hundratusentals väntar olagligt länge på specialiserad vård eller operation, samtidigt som det finns lediga tider i andra delar av landet. Vårdköer är inte någon naturlag. Andra länder klarar av att ge vård utan långa köer och Sverige kan också klara det. Men för det krävs att vi både tänker om och tänker nytt."
+  },
+  {
+   "id": "b0017",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": true,
+   "text": "2014"
+  },
+  {
+   "id": "b0018",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": true,
+   "text": "2019"
+  },
+  {
+   "id": "b0019",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": true,
+   "text": "2022"
+  },
+  {
+   "id": "b0020",
+   "role": "toc",
+   "page": 3,
+   "size": 9.0,
+   "bold": false,
+   "text": "45 000"
+  },
+  {
+   "id": "b0021",
+   "role": "toc",
+   "page": 3,
+   "size": 9.0,
+   "bold": false,
+   "text": "100 000"
+  },
+  {
+   "id": "b0022",
+   "role": "toc",
+   "page": 3,
+   "size": 9.0,
+   "bold": false,
+   "text": "145 000"
+  },
+  {
+   "id": "b0023",
+   "role": "h3",
+   "page": 3,
+   "size": 20.0,
+   "bold": true,
+   "text": "(S) VÅRDKÖER"
+  },
+  {
+   "id": "b0024",
+   "role": "h3",
+   "page": 3,
+   "size": 20.0,
+   "bold": true,
+   "text": "SKA BORT"
+  },
+  {
+   "id": "b0025",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "JUNI"
+  },
+  {
+   "id": "b0026",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "JUNI"
+  },
+  {
+   "id": "b0027",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "JUNI"
+  },
+  {
+   "id": "b0028",
+   "role": "h2",
+   "page": 4,
+   "size": 29.0,
+   "bold": true,
+   "text": "SÅ FÖRBÄTTRAR VI SJUKVÅRDEN"
+  },
+  {
+   "id": "b0029",
+   "role": "h2",
+   "page": 4,
+   "size": 29.0,
+   "bold": true,
+   "text": "I HELA SVERIGE"
+  },
+  {
+   "id": "b0030",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Avskaffa regionernas ansvar för sjukvården. Låt staten ta över ansvaret för vården med en gemensam organisation i stället för 21 olika. Det ger en högkvalitativ, effektiv och jämlik vård på lika villkor till hela befolkningen."
+  },
+  {
+   "id": "b0031",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför en nationell vårdförmedling som matchar vårdbehovet med den vårdkapacitet som finns i hela landet – och inte bara i regionen där personen bor."
+  },
+  {
+   "id": "b0032",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Fler vårdplatser. Sverige har lägst antal vårdplatser per capita i Europa, trots att vi är ett av de länder som lägger mest pengar på vården."
+  },
+  {
+   "id": "b0033",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Fler vårdcentraler på landsbygden och enklare för enskilda läkare att starta egen verksamhet - så att vården finns nära till hands."
+  },
+  {
+   "id": "b0034",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför fast läkarkontakt med en namngiven läkare och tak för antal patienter för att möjliggöra relationsbyggande mellan patient och läkare."
+  },
+  {
+   "id": "b0035",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Ökad möjlighet att vårdas i egna hemmet, särskilt för multisjuka, genom mobila sjukvårdsenheter som kan ge vård i hemmet."
+  },
+  {
+   "id": "b0036",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "En nationell förlossningsplan och öppna fler förlossningskliniker, ökad bemanning och ett barnmorsketeam genom hela vårdkedjan"
+  },
+  {
+   "id": "b0037",
+   "role": "bullet",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "– Före, under och efter förlossningen."
+  },
+  {
+   "id": "b0038",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Utbilda mer personal för sjukvården. Förbättrade villkor i vårdens bristyrken och minska behovet av dyr inhyrd personal."
+  },
+  {
+   "id": "b0039",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Kraftigt stärkt elevhälsa med en sammanhållen barn- och ungdomshälsovård och föräldrastödsprogram som erbjuds alla föräldrar."
+  },
+  {
+   "id": "b0040",
+   "role": "para",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Trygg patientsäkerheten med nationella standarder och tekniska specifikationer för all digital vårdinformation. Information om patienten ökar möjligheterna för en god vård."
+  },
+  {
+   "id": "b0041",
+   "role": "h1",
+   "page": 5,
+   "size": 85.0,
+   "bold": true,
+   "text": "TRYGGHET"
+  },
+  {
+   "id": "b0042",
+   "role": "para",
+   "page": 5,
+   "size": 11.0,
+   "bold": true,
+   "text": "Sverige befinner sig i en extrem situation. Det sker i snitt en skjutning om dagen och en dödsskjutning i veckan. Så ser det inte ut någon annanstans bland jämförbara länder. Sverige har de största problemen i hela EU, samtidigt har vi nästintill lägst antal poliser per invånare i EU. I flera svenska förorter är de kriminella gängens makt stor. Människor vågar inte vittna och knarkhandel sker öppet. Det finns också områden där islamistiska extremister har en avgörande påverkan på samhällslivet. Så här kan vi inte ha det. Tryggheten på gator och torg måste återupprättas, brottsförebyggande arbetet måste stärkas, brottslingar dömas och brottsoffer få upprättelse."
+  },
+  {
+   "id": "b0043",
+   "role": "h2",
+   "page": 6,
+   "size": 29.0,
+   "bold": true,
+   "text": "SÅ FÅR VI BUKT MED SVERIGES"
+  },
+  {
+   "id": "b0044",
+   "role": "h2",
+   "page": 6,
+   "size": 29.0,
+   "bold": true,
+   "text": "KRIMINALITET"
+  },
+  {
+   "id": "b0045",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Förebygg brott genom att stärka familjerna och föräldraansvaret och göra det obligatoriskt med föräldrastöd i alla Sverige kommuner."
+  },
+  {
+   "id": "b0046",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Förebygg brott genom att stärka föreningslivet samt inrättande av mentorskapsprogram och nationellt avhopparprogram."
+  },
+  {
+   "id": "b0047",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Fler poliser och höjda polislöner. Polisyrket behöver bli mer attraktivt för att behålla poliser och attrahera nya."
+  },
+  {
+   "id": "b0048",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Renodla polisens uppdrag. Polisen fokuserar idag alldeles för mycket på annat än brottsbekämpning."
+  },
+  {
+   "id": "b0049",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Hela rättsväsendet behöver byggas ut. Fler poliser kräver fler åklagare, domstolar på fler platser i landet och en kraftigt utbyggd kriminalvård."
+  },
+  {
+   "id": "b0050",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Skärp straffet för vapenbrott till lägst fem års fängelse."
+  },
+  {
+   "id": "b0051",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Skärp straffen för sexualbrott kraftigt. 25 års fängelse för grov våldtäkt, kemisk kastrering som villkor för villkorlig frigivning och livstids fängelse för grov våldtäkt mot barn."
+  },
+  {
+   "id": "b0052",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Stram migrationspolitik krävs för att ta itu med integrationsproblem och utanförskap."
+  },
+  {
+   "id": "b0053",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Stärk sociala insatser och socialtjänstens möjligheter till tvingande åtgärder gentemot barn och unga som begår brott. Inrätta en nationell social insatsstyrka, så det förebyggande arbetet stärks och blir mer lika i landet."
+  },
+  {
+   "id": "b0054",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Total översyn av sekretessreglerna, så att myndigheter kan dela uppgifter mellan sig för att förebygga och klara upp brott."
+  },
+  {
+   "id": "b0055",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Beslagta kriminellas statussymboler och bekämpa på så sätt negativa förebilder som rekryterar unga in i gängkriminalitet."
+  },
+  {
+   "id": "b0056",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför brottsrubriceringen missfirmelse mot tjänsteman, dvs att skrika okvädningsord till poliser, ska förbjudas."
+  },
+  {
+   "id": "b0057",
+   "role": "para",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför anonyma vittnen. Det finns i flera andra länder och har bidragit till fler fällande domar."
+  },
+  {
+   "id": "b0058",
+   "role": "h1",
+   "page": 7,
+   "size": 69.0,
+   "bold": true,
+   "text": "HJÄRTLANDET"
+  },
+  {
+   "id": "b0059",
+   "role": "para",
+   "page": 7,
+   "size": 11.0,
+   "bold": true,
+   "text": "Hela Sverige ska fungera och det ska gå att bo och verka även utanför de stora städerna. Idag blir det allt svårare. Regeringen, och även andra partier, har glömt bort dessa orter. Det är rekorddyrt att tanka bilen, elförsörjningen sviktar, infrastruktursatsningar prioriteras bort, äganderätten över skogen hotas, lokala företag, jordbruk och åkerier får det allt tuffare. Viktig samhällsservice hamnar längre bort och avstånden till vård växer. Sverige är världsledande i klimatomställningen och det ska vi fortsätta vara på ett sätt som både fungerar och är effektivt. Det ska gå att bo, leva och känna sig trygg i Sveriges hjärtland, men det kräver en annan politik."
+  },
+  {
+   "id": "b0060",
+   "role": "h2",
+   "page": 8,
+   "size": 29.0,
+   "bold": true,
+   "text": "NÅGRA VIKTIGA IDÉER FÖR"
+  },
+  {
+   "id": "b0061",
+   "role": "h2",
+   "page": 8,
+   "size": 29.0,
+   "bold": true,
+   "text": "HJÄRTLANDET"
+  },
+  {
+   "id": "b0062",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Sänk bensin- och dieselpriserna rejält för alla, främst genom minskad inblandningen av dyrt biobränsle.."
+  },
+  {
+   "id": "b0063",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Miljardsatsning för att rusta eftersatta vägar i hela landet - istället för att bygga dyra höghastighetståg."
+  },
+  {
+   "id": "b0064",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Fler poliser med lokal närvaro, utbyggd primärvård, enklare starta lokal läkarmottagning och inrätta fler statliga servicekontor. Du ska känna dig trygg i hela landet."
+  },
+  {
+   "id": "b0065",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Underlätta personalägande och generationsskifte av företag - så att fler företag kan drivas vidare av personalen om ägaren vill sluta."
+  },
+  {
+   "id": "b0066",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Rädda lanthandeln genom att bredda driftstödet till dagligvarubutiker."
+  },
+  {
+   "id": "b0067",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Den svenska vargstammen ska minskas till 170 individer."
+  },
+  {
+   "id": "b0068",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Satsa på kärnkraften med långsiktiga villkor att utvecklas. Förläng befintliga reaktorers drift och bygg ut med nya reaktorer."
+  },
+  {
+   "id": "b0069",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför en “stötdämpare” i elskatten så att den sänks om elpriserna ökar."
+  },
+  {
+   "id": "b0070",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Värna vattenkraften, både den storskaliga och småskaliga."
+  },
+  {
+   "id": "b0071",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Bygg ut vindkraften men med respekt för den lokala demokratin och anpassa storleken efter lokala villkor. Vindkraft kan dock bara vara ett komplement."
+  },
+  {
+   "id": "b0072",
+   "role": "para",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Regeländringar och kostnadslättnader för svenskt lantbruk för att öka Sveriges självförsörjning och stärka lantbrukets konkurrenskraft."
+  },
+  {
+   "id": "b0073",
+   "role": "h1",
+   "page": 9,
+   "size": 85.0,
+   "bold": true,
+   "text": "ÄLDRE"
+  },
+  {
+   "id": "b0074",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": true,
+   "text": "Sveriges äldre och pensionärer förtjänar bättre. De som byggt Sverige är värda en ekonomi och omsorg som ger både trygghet och frihet. Sverige ska ha en äldreomsorg i världsklass. Det kräver att personalen i äldreomsorgen har goda villkor, att de äldre ska garanteras ett tryggt boende och att äldres möjligheter till gemenskap stärks. Vi vill bygga ett samhälle där människor kan åldras i trygghet och värdighet utan åldersdiskriminering. Sveriges äldre förtjänar en bättre politik."
+  },
+  {
+   "id": "b0075",
+   "role": "h2",
+   "page": 10,
+   "size": 29.0,
+   "bold": true,
+   "text": "SÅ VILL VI FÖRBÄTTRA"
+  },
+  {
+   "id": "b0076",
+   "role": "h2",
+   "page": 10,
+   "size": 29.0,
+   "bold": true,
+   "text": "FöR ÄLDRE I SVERIGE"
+  },
+  {
+   "id": "b0077",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Sänkt skatt på pension."
+  },
+  {
+   "id": "b0078",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Skattelättnad för äldre (69+) som vill och kan fortsätta arbeta."
+  },
+  {
+   "id": "b0079",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Gör det möjligt att arbeta längre och mer flexibelt för den som kan genom att förlänga rätten att arbeta (LAS-åldern) i två steg till 75 års ålder, med ömsesidig rätt att minska arbetstiden till 50%. Ta samtidigt bort arbetsgivaravgiften helt från 69 år."
+  },
+  {
+   "id": "b0080",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Inför trygghetsersättning, för dem som har ett fåtal år kvar till pensionen men som slitit ut kroppen."
+  },
+  {
+   "id": "b0081",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Höjd garantipension och höjt bostadstillägg för pensionärer."
+  },
+  {
+   "id": "b0082",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Fler trygghetsboenden, gemenskapsboenden för äldre."
+  },
+  {
+   "id": "b0083",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Förbättrade villkor för personalen i äldreomsorgen - bort med delade turer."
+  },
+  {
+   "id": "b0084",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Ökad medicinsk kompetens inom äldreomsorgen."
+  },
+  {
+   "id": "b0085",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Tid och resurser till demensvården och ökade kunskaper om demenssjukdomar och psykisk ohälsa hos äldre."
+  },
+  {
+   "id": "b0086",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Bryt äldres ofrivilliga ensamhet och isolering genom äldresamtal i alla kommuner, gemenskapsfrämjande insatser i omsorgen samt digitala hjälpmedel."
+  },
+  {
+   "id": "b0087",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Stärkt tandvård för äldre bland annat genom att sänka högkostnadsskyddet för tandvård."
+  },
+  {
+   "id": "b0088",
+   "role": "para",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Säkerställ att personal inom hemtjänst och äldreboenden har möjlighet till kontinuerlig kompetensutveckling."
+  },
+  {
+   "id": "b0089",
+   "role": "h3",
+   "page": 11,
+   "size": 26.3,
+   "bold": true,
+   "text": "TRYGGHET"
+  },
+  {
+   "id": "b0090",
+   "role": "h3",
+   "page": 11,
+   "size": 26.3,
+   "bold": true,
+   "text": "ÄLDRE"
+  },
+  {
+   "id": "b0091",
+   "role": "h3",
+   "page": 11,
+   "size": 26.3,
+   "bold": true,
+   "text": "SJUKVÅRD"
+  },
+  {
+   "id": "b0092",
+   "role": "h3",
+   "page": 11,
+   "size": 26.3,
+   "bold": true,
+   "text": "HJÄRTLANDET"
+  },
+  {
+   "id": "b0093",
+   "role": "h3",
+   "page": 11,
+   "size": 12.2,
+   "bold": true,
+   "text": "Fyra prioriterade områden. Men vi går också till val på förslag som rör andra viktiga områden. Förslag för"
+  },
+  {
+   "id": "b0094",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "FLER JOBB FLER FöRETAG"
+  },
+  {
+   "id": "b0095",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "STARKARE FAMILJER"
+  },
+  {
+   "id": "b0096",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "BÄTTRE OMSORG FÖR UTSATTA SJÄLVBESTÄMMANDE VID FUNKTIONSNEDSÄTTNING"
+  },
+  {
+   "id": "b0097",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "STÄRKT CIVILSAMHÄLLE FÖRBÄTTRAD INTEGRATION FLER BOSTÄDER"
+  },
+  {
+   "id": "b0098",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "BRA SKOLA EN STRAM MIGRATION MINSKADE KLIMATUTSLÄPP INTERNATIONELLT ANSVARSTAGANDE"
+  },
+  {
+   "id": "b0099",
+   "role": "h3",
+   "page": 11,
+   "size": 10.9,
+   "bold": true,
+   "text": "JÄMSTÄLLDHET PÅ RIKTIGT"
+  },
+  {
+   "id": "b0100",
+   "role": "h3",
+   "page": 11,
+   "size": 14.0,
+   "bold": true,
+   "text": "VI ÄR REDO"
+  },
+  {
+   "id": "b0101",
+   "role": "h3",
+   "page": 11,
+   "size": 12.2,
+   "bold": true,
+   "text": "Din röst behövs för förändring"
+  },
+  {
+   "id": "b0102",
+   "role": "h3",
+   "page": 11,
+   "size": 12.2,
+   "bold": false,
+   "text": "Vill du läsa mer om våra förslag eller om vår politik på alla politikområden, läs mer"
+  },
+  {
+   "id": "b0103",
+   "role": "h3",
+   "page": 11,
+   "size": 12.2,
+   "bold": true,
+   "text": "på kristdemokraterna.se"
+  }
+ ]
+}

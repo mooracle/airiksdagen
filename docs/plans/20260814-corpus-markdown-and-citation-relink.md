@@ -614,27 +614,92 @@ independent — re-extraction re-runs the locator instead of breaking links.
 - Create: `pipeline/aidag/anchors.py`, `tests/test_anchors.py`
 - Modify: `pipeline/aidag/cli.py`, `pipeline/aidag/export_site.py`
 
-- [ ] `aidag build-anchors --run-id full-v4` → `data/results/anchors/full-v4/<slug>.json`
-- [ ] **locator text basis**: match against block text normalized with
-      `corpus.normalize()` semantics, so the locator and `verify simulate` agree
-- [ ] resolve the target document via `documents_for()` for `(parti, datum)`, as Task 5
-- [ ] per anchor: `block_id`, offset in block, refs of
-      `(votering_id, parti, verdict, tier, utskott, datum, svag)`
-- [ ] verdict from `rost` vs `party_positions`: `kept` | `diverged` | `avstar` |
-      `franvarande`. `gap.py:121` scores only `("Ja","Nej")`; abstention is a floor
-      tactic the plan was never asked to predict and `Frånvarande` is excluded
-      throughout (`analytics.py:77,160,177`). Note in code that `rost` is derived from
-      `hallning` at ingest, so this is the gap, not vote agreement
-- [ ] **fail the build** on any quote that fails to locate and is neither blank nor
-      flagged `citat_ej_migrerat` — silent link-rot is the failure this design prevents
-- [ ] export blocks + anchors to `site/src/data/corpus/`
-- [ ] **page-weight decision, up front**: inline aggregate counts and the ratio bar;
-      full ref lists behind a per-document JSON fetch. `valmanifest-2022-sd` has 9,007
-      refs — inlining 7 fields each would be multi-MB of static HTML
-- [ ] write tests: anchor resolves to the correct block; unlocatable quote fails the
+- [x] `aidag build-anchors --run-id full-v4` → `data/results/anchors/full-v4/<slug>.json`
+      (23 files, 15 MB, one per cited document)
+- [x] **locator text basis**: match against block text normalized with
+      `corpus.normalize()` semantics, so the locator and `verify simulate` agree — via
+      `migrate_quotes.index_for()`, the same served string built the same way, so the
+      two cannot drift apart by construction rather than by convention
+- [x] resolve the target document via the date gate for `(parti, datum)`, as Task 5 —
+      through `migrate_quotes.resolve_slug`, whose Task 5 Deviation 1 (`program_at()`
+      rather than `documents_for()`) is already tested against what the agent was served
+- [x] per anchor: `block_id`, offset in block, refs of
+      `(votering_id, parti, verdict, tier, utskott, datum, svag)`. `length` is written
+      beside the offset — the renderer needs the span, and re-deriving it from the quote
+      in the browser is the work quote-as-key exists to do once at build time
+- [x] verdict from `rost` vs `party_positions`: `kept` | `diverged` | `avstar` |
+      `franvarande`, and absence is read the way `build_cases` writes it — a party with
+      no positions row cast no votes in the division, which is the same fact as
+      `Frånvarande` arriving another way
+- [x] **fail the build** on any quote that fails to locate and is neither blank nor
+      flagged `citat_ej_migrerat` — `anchors.Unlocated`, which names the quotes and the
+      two ways to resolve them. It fires before anything is written, so a refused build
+      leaves no half-index behind
+- [x] export blocks + anchors to `site/src/data/corpus/` —
+      `export_site.export_blocks_and_anchors()`, called from `run()`
+- [x] **page-weight decision, up front**: inline aggregate counts and the ratio bar;
+      full ref lists behind a per-document JSON fetch — measured below
+- [x] write tests: anchor resolves to the correct block; unlocatable quote fails the
       build; blanked quote does not; verdict derivation matches `party_positions`;
       date-gated slug resolution
-- [ ] run tests — must pass before Task 8a
+- [x] run tests — must pass before Task 8a (508 passed; 45 new in `tests/test_anchors.py`)
+      and `cd site && npm run build` (7,723 pages, 0 case-JSON churn)
+
+**Measured on full-v4**
+
+| | |
+|---|---|
+| Citations located | **77,599** into **16,707** anchors |
+| Blank (withdrawn by `repair-citations`) | 120 |
+| Unlocated | **0** — the gate never had to excuse one |
+| Verdicts | kept 31,045 \| diverged 37,750 \| avstar 8,804 \| franvarande 0 |
+| Largest document | `valmanifest-2022-sd`, 1,106 anchors / **9,007 refs** |
+
+77,599 + 120 = 77,719, the whole record. `franvarande` is 0 because every p6 decision
+has a party that took a side; the verdict exists so the site never has to represent
+absence as a divergence, not because the corpus needs it today.
+
+**The page-weight split, as built and as measured**
+
+| destination | what | size |
+|---|---|---|
+| `src/data/corpus/blocks/` | the documents — roles, pages, reading order | 3.3 MB |
+| `src/data/corpus/anchors/` | per-block counts, tiers, parties, per-anchor spans | 2.4 MB (max 243 KB) |
+| `public/data/anchors/` | the ref lists behind the bars, fetched on demand | 8.3 MB (max 959 KB) |
+
+The inline half carries **no quote text and no ref rows** — the block already holds the
+text and `offset`+`length` recover the span, which is asserted rather than assumed
+(`test_offset_and_length_cut_the_quote_back_out_of_the_block`). The fetched half is row
+arrays keyed by a declared `fields` header: the seven field names repeat 77,599 times
+otherwise and are the larger half of the payload.
+
+⚠️ **Deviation 1, recorded**: the locator is **exact substring only** — no fuzzy branch,
+where Task 5's has one. Deliberate. `migrate-quotes` weighs a near-match against the
+research record and *writes its verdict back*, with a sidecar and a flag; this is a build
+step that cannot write anything back, so a fuzzy hit here would be an unrecorded second
+opinion on a judgement already taken and committed. A quote that does not resolve is
+therefore a fact about the record, reported and not repaired. On full-v4 the exact path
+covers every non-blank citation, which is what Tasks 5 and 6 were for.
+
+⚠️ **Deviation 2, recorded**: `block_index()` **asserts** the block↔served-line pairing
+instead of trusting it. The served document is one line per block that survives
+`corpus.normalize()`, so ids can be attached positionally — but only while
+`extract_corpus.normalize_drops()` and `normalize()` agree about every block. A single
+disagreement would shift every id after it and attribute real citations to the wrong
+lines, with every count still plausible and nothing raised. So each pairing is compared
+text-for-text (8,783 blocks across the 23 documents) and a mismatch raises with the slug
+and block id. This is the one failure mode of quote-as-key that the build gate cannot
+see, because the quotes would all still locate.
+
+➕ **Added**: refs are deduplicated per `(decision, anchor)`. A decision that cites the
+same line twice is one vote, and counting it twice would put a phantom party in the ratio
+bar. 0 such duplicates in full-v4; the counter is reported so a future run cannot acquire
+them silently.
+
+➕ **Note for Task 8b**: `export_blocks_and_anchors()` rebuilds both anchor directories
+rather than merging into them, so a slug that stops being cited loses its file instead of
+serving the previous run's refs. It also returns 0 harmlessly when the run has no anchors
+yet — `export-site` between `repair-citations` and `build-anchors` still produces a site.
 
 ### Task 8a: Render documents from blocks (parity with today)
 
