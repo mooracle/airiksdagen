@@ -15,7 +15,6 @@ const party = meta.parties[code];
 const summary = getAggregate<{
   per_party: Record<string, { n: number; agreement: number; kappa: number | null; avstar_recall: number | null }>;
 }>('summary');
-const timeseries = getAggregate<{ parti: string; month: string; agreement: number; n: number }[]>('party_timeseries') ?? [];
 /** p6 gap, per party; null on the older vote-matching runs. */
 interface ValidityLevel { n: number; gap_rate: number | null }
 const gap = getAggregate<{
@@ -76,35 +75,28 @@ const ciHalf = (p: number | null, n: number) =>
  */
 const cov = pgap?.validity?.coverage;
 const covN = (lv: string) => cov?.[lv]?.n ?? 0;
-/** Two metrics about the party's documents, not one verdict about the method.
+/* How the record narrows to the votes the headline is computed on.
  *
- *  reach       — of the votes the party actually decided, how many its plan says
- *                anything about. 89.5-98.8% across the eight parties: a plan is
- *                almost always relevant to something in a case.
- *  explicitness — and of those, how many are an outright commitment rather than a
- *                position derived from the plan's principles. 14.7-26.6%, which
- *                is where the parties genuinely differ, and which is the number
- *                the headline gap is computed on.
+ * This was two percentages and three paragraphs of prose, and between them they
+ * printed ~25 numbers with `480` appearing four times and `28%` three. The
+ * narrowing IS the explanation, so it is a ladder now: one row per step, each
+ * number said once, and every percentage against the row above it so there is a
+ * single base to hold in mind rather than four.
+ *
+ * The steps are the real ones, in order, and each drop is a different reason:
+ * the party abstained (a plan has no abstain to express), the plan does not
+ * address the case at all, or it addresses it only through its principles. Only
+ * the last row can show a commitment was broken.
  */
-/* Votes the party abstained on. They are outside the comparison entirely, and
- * that is a property of the plan rather than a gap in it: `derive_rost` maps a
- * stance to Ja or Nej and has no abstain in its range at all — "abstention is
- * something only the real party does". It varies enormously (0 for M, KD and L;
- * 650 of 2,539 for MP) and, unstated, it silently changes what the denominator
- * beside it means. This is the honest half of what the confusion matrix used to
- * show; the other third of that grid was a row that is structurally always zero. */
-const abstained = pgap ? pgap.n_decisions - (pgap.all_tiers?.n ?? pgap.n_decisions) : 0;
-const reachTotal = covN('explicit') + covN('inferred') + covN('not_covered');
-const scope = reachTotal
-  ? {
-      total: reachTotal,
-      addressed: covN('explicit') + covN('inferred'),
-      explicit: covN('explicit'),
-      inferred: covN('inferred'),
-      uncovered: covN('not_covered'),
-      reach: (covN('explicit') + covN('inferred')) / reachTotal,
-      explicitness: covN('explicit') / Math.max(1, covN('explicit') + covN('inferred')),
-    }
+const decided = pgap?.all_tiers?.n ?? 0;
+const addressed = covN('explicit') + covN('inferred');
+const funnel = pgap && decided
+  ? [
+      { key: 'all', n: pgap.n_decisions, share: null as number | null },
+      { key: 'decided', n: decided, share: decided / pgap.n_decisions },
+      { key: 'addressed', n: addressed, share: addressed / decided },
+      { key: 'explicit', n: covN('explicit'), share: covN('explicit') / Math.max(1, addressed), here: true },
+    ]
   : null;
 
 /** The one robustness question left once scope is stated plainly: inside the
@@ -132,7 +124,6 @@ const sureVerdict = sureDelta == null ? null : Math.abs(sureDelta) <= 0.03 ? 'st
 // paragraph explaining that it was a contrast between different questions rather
 // than a test of the number above — which is the tell that they did not belong on
 // the page. `gap.json` still carries every level for anyone who wants them.
-const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 
 /** This party's votes against its own programme. Previously all 471 were listed
  * together on /koalition/, where they were 98% of that page; split by party each
@@ -154,43 +145,9 @@ const overrideCases = (coalition?.override_cases ?? [])
   .sort((a, b) => b.datum.localeCompare(a.datum));
 
 const stats = summary?.per_party?.[code];
-const ts = timeseries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
-const support = supportSeries.filter((r) => r.parti === code).sort((a, b) => a.month.localeCompare(b.month));
-const LABELS = ['Ja', 'Nej', 'Avstår'];
+/** Vote names for the override-case chips. (The confusion matrix that used to
+ *  share this is gone; only the chips are left, so `LABELS` went with it.) */
 const voteLabel: Record<string, string> = { Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår') };
-
-// Build-time SVG line charts, sized for the two-up grid they sit in rather than
-// for the full column. An SVG at `width:100%` scales its whole coordinate system,
-// text included, so the viewBox has to be near the rendered width or the labels
-// go with it: the old 720-unit box in a ~380px half-column rendered its 10-unit
-// tick labels at ~5px. At 380 the ratio is ~1:1 and they land at their nominal
-// size, which is what lets these charts be half the width without being
-// illegible. Below 760px the grid collapses to one column and they scale up.
-const W = 380, H = 150, PAD = 26;
-const points = ts.map((r, i) => {
-  const x = PAD + (i * (W - 2 * PAD)) / Math.max(1, ts.length - 1);
-  const y = H - PAD - r.agreement * (H - 2 * PAD);
-  return `${x.toFixed(1)},${y.toFixed(1)}`;
-});
-
-// polling support: y-scale 0..max(rounded up to next 5%)
-const supportMax = Math.max(10, Math.ceil(Math.max(0, ...support.map((r) => r.support)) / 5) * 5);
-const supportPoints = support.map((r, i) => {
-  const x = PAD + (i * (W - 2 * PAD)) / Math.max(1, support.length - 1);
-  const y = H - PAD - (r.support / supportMax) * (H - 2 * PAD);
-  return `${x.toFixed(1)},${y.toFixed(1)}`;
-});
-const supportGrid = [0, 0.25, 0.5, 0.75, 1].map((f) => ({
-  y: H - PAD - f * (H - 2 * PAD),
-  label: `${(f * supportMax).toFixed(0)}%`,
-}));
-const latestSupport = support[support.length - 1];
-
-// Cohesion and absence used to be summarised here (and, before that, drawn as a
-// chart). Both are gone: cohesion runs 99.1-100.0% across all eight parties and
-// separates nobody, and absence is dominated by pairing (kvittning), so it needed
-// a caveat to stop it reading as absenteeism. `cohesion.json` still has both.
-
 const BLOC_KEY = {
   government: 'bloc.government',
   support: 'bloc.support',
@@ -245,38 +202,25 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
         </div>
       )}
 
-      {scope && (
+      {funnel && (
         <div class="sect">
-          <p class="shead">{t('party.validity')}</p>
-          {/* Inline, not two boxed tiles: inside one block a tile is a card in a
-              card, and these two numbers are a single sentence about the plan. */}
-          <p class="vmetrics">
-            <span class="vmetric">
-              <b>{(scope.reach * 100).toFixed(0)}%</b> {t('party.scopeReach')}
-              <span class="vmsub">
-                {t('party.scopeReachSub')
-                  .replace('{a}', num(scope.addressed))
-                  .replace('{t}', num(scope.total))}
-              </span>
-            </span>
-            <span class="vmetric lead">
-              <b>{(scope.explicitness * 100).toFixed(0)}%</b> {t('party.scopeExplicit')}
-              <span class="vmsub">
-                {t('party.scopeExplicitSub')
-                  .replace('{e}', num(scope.explicit))
-                  .replace('{i}', num(scope.inferred))}
-              </span>
-            </span>
+          <p class="shead">
+            {t('party.validity')}
+            <span class="sof">{t('party.funnelOf')}</span>
           </p>
-          <p class="muted vlogic">
-            {t('party.scopeNote')
-              .replace('{e}', num(scope.explicit))
-              .replace('{pct}', pgap?.explicit.gap_rate != null ? `${(pgap.explicit.gap_rate * 100).toFixed(0)}%` : '–')}
-            {/* Only when it is material. M, KD and L abstained exactly once in
-                four years, which is not a caveat — and "i 1 voteringar" is not
-                Swedish either. */}
-            {abstained >= 10 && ' ' + t('party.scopeAbstained').replace('{n}', num(abstained))}
-          </p>
+          <ol class="funnel">
+            {funnel.map((r) => (
+              <li data-here={r.here ? '' : undefined}>
+                <b class="fn">{num(r.n)}</b>
+                <span class="flbl">{t(`party.funnel.${r.key}` as any)}</span>
+                <span class="fbar" aria-hidden="true">
+                  <span style={`width:${((r.n / funnel[0].n) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
+                </span>
+                <span class="fpct">{r.share == null ? '' : `${(r.share * 100).toFixed(0)}%`}</span>
+              </li>
+            ))}
+          </ol>
+          <p class="muted vlogic">{t('party.funnelNote')}</p>
           {sure && sureVerdict && (
             <p class="vrobust" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
               {t(`party.robustNote.${sureVerdict}` as any)
@@ -339,63 +283,15 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     <p class="muted">{t('home.noai')}</p>
   )}
 
-  {/* The three month-by-month series, together and small.
-
-      They used to be three full-width <h2> sections stacked directly under the
-      headline number — roughly two screens of line chart before the reader
-      reached the documents the number was measured from, or any of the tables
-      that qualify it. They are context, not the finding: none of them is the
-      plan-vs-behaviour gap this page is about (agreement is the calibration
-      number, support is external polling, cohesion is floor behaviour with no AI
-      in it at all). So they are one section of small multiples, below the
-      evidence and the measurement quality rather than above them. */}
-  {(ts.length > 1 || support.length > 1) && (
-    <>
-      <h2>{t('party.trends')}</h2>
-      <div class="trends">
-        {ts.length > 1 && (
-          <div class="card tcard">
-            <p class="thead">{t('party.agreement')}</p>
-            <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
-              {[0, 0.5, 1].map((f) => (
-                <>
-                  <line x1={PAD} x2={W - PAD} y1={H - PAD - f * (H - 2 * PAD)} y2={H - PAD - f * (H - 2 * PAD)} stroke="#eee" />
-                  <text x={4} y={H - PAD - f * (H - 2 * PAD) + 4} font-size="10" fill="#999">{(f * 100).toFixed(0)}%</text>
-                </>
-              ))}
-              <polyline points={points.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2" />
-              <text x={PAD} y={H - 8} font-size="10" fill="#999">{ts[0]?.month}</text>
-              <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{ts[ts.length - 1]?.month}</text>
-            </svg>
-          </div>
-        )}
-
-        {support.length > 1 && (
-          <div class="card tcard">
-            <p class="thead">
-              {t('party.support')}
-              {latestSupport && (
-                <span class="tnow">{latestSupport.month}: {latestSupport.support.toFixed(1)}%</span>
-              )}
-            </p>
-            <svg viewBox={`0 0 ${W} ${H}`} style="width:100%;height:auto">
-              {supportGrid.map((g) => (
-                <>
-                  <line x1={PAD} x2={W - PAD} y1={g.y} y2={g.y} stroke="#eee" />
-                  <text x={4} y={g.y + 4} font-size="10" fill="#999">{g.label}</text>
-                </>
-              ))}
-              <polyline points={supportPoints.join(' ')} fill="none" stroke={party?.color ?? '#333'} stroke-width="2" />
-              <text x={PAD} y={H - 8} font-size="10" fill="#999">{support[0]?.month}</text>
-              <text x={W - PAD} y={H - 8} font-size="10" fill="#999" text-anchor="end">{support[support.length - 1]?.month}</text>
-            </svg>
-            <p class="tnote">{t('party.supportSource')}</p>
-          </div>
-        )}
-
-      </div>
-    </>
-  )}
+  {/* The two month-by-month charts that stood here are gone.
+      "Plantrohet över tid" plotted monthly AGREEMENT, and a month's figure is
+      set by which cases happened to reach the floor that month — committee mix,
+      not the party moving — so its shape was case composition read as a trend.
+      It also plotted the one quantity this page deliberately demotes to a single
+      line at the foot of the block, which made the page argue with itself.
+      Polling support went with it: it is real, external, and about a different
+      subject than what a party's documents say against how it voted.
+      party_timeseries.json and party_support.json are still exported. */}
 
   {overrideCases.length > 0 && (
     <>
@@ -512,17 +408,30 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     .pdocs .alsopub ul { margin-top: 0.4rem; }
     .pdocs .dmore { margin: 0.7rem 0 0; font-size: 0.85rem; }
 
-    /* The two document metrics, side by side, as one sentence about the plan. */
-    .vmetrics {
-      display: grid; gap: 0.5rem 1.6rem; margin: 0 0 0.7rem;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    /* The funnel: one row per step, aligned so the counts read down as a column
+       and the bars show the narrowing at a glance. Every percentage is of the row
+       above — one base, said once in the header, instead of four. */
+    .phead .shead .sof {
+      float: right; font-weight: 400; letter-spacing: 0; text-transform: none;
+      font-size: 0.9em;
     }
-    .vmetric { font-size: 0.9rem; color: var(--ink-2); }
-    .vmetric b { font-size: 1.35rem; color: var(--ink); margin-right: 0.15rem; }
-    .vmetric.lead b { color: var(--pc, var(--accent-ink)); }
-    .vmsub {
-      display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem;
-      font-variant-numeric: tabular-nums;
+    .funnel { list-style: none; margin: 0 0 0.8rem; padding: 0; }
+    .funnel li {
+      display: grid; grid-template-columns: 3.6rem minmax(0, 1fr) 5rem 2.6rem;
+      align-items: baseline; gap: 0.6rem; padding: 0.22rem 0; font-size: 0.88rem;
+    }
+    .funnel .fn { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .funnel .flbl { color: var(--ink-2); }
+    .funnel .fbar { align-self: center; height: 8px; border-radius: 4px; background: var(--line-soft); overflow: hidden; }
+    .funnel .fbar > span { display: block; height: 100%; border-radius: 4px; min-width: 2px; opacity: 0.55; }
+    .funnel .fpct { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.85em; }
+    /* The row the headline is computed on. */
+    .funnel li[data-here] .fn,
+    .funnel li[data-here] .flbl { font-weight: 700; color: var(--ink); }
+    .funnel li[data-here] .fbar > span { opacity: 1; }
+    @media (max-width: 560px) {
+      .funnel li { grid-template-columns: 3.6rem minmax(0, 1fr) 2.6rem; }
+      .funnel .fbar { display: none; }
     }
     .vlogic { font-size: 0.88rem; max-width: 62ch; margin: 0 0 1.2rem; }
 
