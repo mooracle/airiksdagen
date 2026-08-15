@@ -1,5 +1,5 @@
 ---
-// One corpus document, formatted for reading.
+// One corpus document, formatted for reading — and read back the other way.
 //
 // The source .txt is PDF/HTML-extracted and is never edited: it is the exact byte
 // sequence the AI agents read, and `aidag verify simulate` checks every citation
@@ -21,10 +21,26 @@
 // doctext.groupBlocks() rejoins the paragraphs the extraction split at a column
 // or page break — a fragment cannot match across two <p> elements, and 56 of
 // full-v4's anchors quote across such a split.
+//
+// THE ANNOTATION LAYER
+// --------------------
+// Citations run one way — a case page points into this document. The anchor
+// index (`aidag build-anchors`) points back, so a cited line can show the votes
+// that leaned on it and whether they then followed the party's own plan. Two
+// pieces here: a sticky chapter rail built from the h1/h2 blocks, and one margin
+// panel per cited block (CiteNote.astro). Only the aggregates are built into the
+// page; the per-decision rows are fetched from public/data/anchors/ when a panel
+// is opened, because `valmanifest-2022-sd` alone carries 9,007 of them.
+//
+// The 17 documents without blocks have no anchors either, so nothing below
+// changes what they render — they stay byte-identical to the pre-annotation
+// build, which is checked in site/tests/corpus.test.mjs.
 import Base from '../layouts/Base.astro';
 import BlockText from '../components/BlockText.astro';
-import { getMeta, getCorpusDoc, getCorpusBlocks } from '../lib/data';
+import CiteNote from '../components/CiteNote.astro';
+import { getMeta, getCorpusDoc, getCorpusBlocks, getCorpusAnchors } from '../lib/data';
 import { renderDoc, docTitle, type RenderGroup } from '../lib/doctext';
+import { chapters, citedLines, type CitedLine } from '../lib/anchors';
 import { localePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; slug: string }
@@ -38,6 +54,16 @@ const title = docTitle(slug, {
   sv,
   partyName: (code) => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase(),
 });
+
+const anchors = getCorpusAnchors(slug);
+// Three chapters is where a rail starts being navigation rather than decoration;
+// below that (valmanifest-2022-c has no headings at all) the caveat it carries
+// moves above the document instead.
+const rail = chapters(doc.groups, anchors);
+const hasRail = rail.length >= 3;
+const notesFor = (g: RenderGroup): CitedLine[] => citedLines(g, anchors);
+const num = (key: string, vals: Record<string, number>) =>
+  Object.entries(vals).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t(key) as string);
 
 // Consecutive bullets (and consecutive table-of-contents entries) become one list
 // instead of N sibling elements.
@@ -72,6 +98,27 @@ function pClass(g: RenderGroup): string | undefined {
   if (hangs(g)) cls.push('hang');
   return cls.length ? cls.join(' ') : undefined;
 }
+
+// The fetched half, and the strings its rows need. One request per document,
+// shared by every panel on the page.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const refsUrl = `${base}/data/anchors/${slug}.json`;
+const caseBase = localePath(lang, '/fall/');
+const TR = {
+  loading: t('doc.cite.loading'),
+  error: t('doc.cite.error'),
+  verdict: {
+    kept: t('doc.cite.kept'),
+    diverged: t('doc.cite.diverged'),
+    avstar: t('doc.cite.avstar'),
+    franvarande: t('doc.cite.franvarande'),
+  },
+  tier: {
+    explicit: t('tier.explicitShort'),
+    extrapolated: t('tier.extrapolatedShort'),
+    off_axis: t('tier.off_axisShort'),
+  },
+};
 ---
 
 <Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`} ogType="article">
@@ -100,35 +147,194 @@ function pClass(g: RenderGroup): string | undefined {
       : 'Machine-extracted from the source document and shown with its line wrapping undone; the wording is unchanged. This is the Swedish text the AI agents read, and what the citation links on the case pages point into.'}
   </p>
 
-  <article class="doc">
-    {runs.map((run) => {
-      const g = run.groups[0];
-      if (run.role === 'bullet')
-        return (
-          <ul class="marked">
-            {run.groups.map((b) => <li id={anchorId(b)}><BlockText group={b} /></li>)}
-          </ul>
-        );
-      if (run.role === 'toc')
-        return (
-          <ul class="toc">
-            {run.groups.map((b) => <li id={anchorId(b)}><BlockText group={b} /></li>)}
-          </ul>
-        );
-      if (run.role === 'h1') return <h2 id={anchorId(g)}><BlockText group={g} /></h2>;
-      if (run.role === 'h2') return <h3 id={anchorId(g)}><BlockText group={g} /></h3>;
-      if (run.role === 'h3') return <h4 id={anchorId(g)}><BlockText group={g} /></h4>;
-      if (run.role === 'unreadable')
-        return (
-          <p class="unreadable" id={anchorId(g)} title={sv
-            ? 'Rubrik satt i ett dekorativt teckensnitt som inte kunde avkodas ur PDF:en'
-            : 'Heading set in a decorative font that could not be decoded from the PDF'}>
-            {sv ? '[oläsbar rubrik i källdokumentet]' : '[unreadable heading in the source document]'}
-          </p>
-        );
-      return <p class={pClass(g)} id={anchorId(g)}><BlockText group={g} /></p>;
-    })}
-  </article>
+  {/* The caveat the rail carries. A document with citations but too few chapters
+      for a rail still has to state it — it is the reading instruction for every
+      gold segment on the page, not a footnote to the navigation. */}
+  {anchors && !hasRail && <p class="muted note ownplan">{t('doc.rail.ownPlan')}</p>}
+
+  {/* Said once for the whole page rather than inside each of up to 510 panels. */}
+  {anchors && <noscript><p class="muted note">{t('doc.cite.noscript')}</p></noscript>}
+
+  {(() => {
+    const article = (
+      <article class="doc">
+        {runs.map((run) => {
+          const g = run.groups[0];
+          if (run.role === 'bullet')
+            return (
+              <ul class="marked">
+                {run.groups.map((b) => {
+                  const cited = notesFor(b);
+                  // Uncited items keep the markup they had before the annotation
+                  // layer: no wrapper, no extra element. Only a cited one becomes
+                  // a two-column row.
+                  if (!cited.length) return <li id={anchorId(b)}><BlockText group={b} /></li>;
+                  return (
+                    <li id={anchorId(b)} class="line">
+                      <div class="t"><BlockText group={b} /></div>
+                      <div class="notes">
+                        {cited.map((line) => <CiteNote lang={lang} line={line} />)}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            );
+          if (run.role === 'toc')
+            return (
+              <ul class="toc">
+                {run.groups.map((b) => (
+                  <li id={anchorId(b)}>
+                    <BlockText group={b} />
+                    {notesFor(b).map((line) => <CiteNote lang={lang} line={line} />)}
+                  </li>
+                ))}
+              </ul>
+            );
+
+          // Everything else is one element, optionally with its margin panels
+          // beside it. `.line` is the two-column wrapper; without citations the
+          // element stays a direct child of .doc exactly as it was.
+          const cited = notesFor(g);
+          const el =
+            run.role === 'h1' ? <h2 id={anchorId(g)}><BlockText group={g} /></h2> :
+            run.role === 'h2' ? <h3 id={anchorId(g)}><BlockText group={g} /></h3> :
+            run.role === 'h3' ? <h4 id={anchorId(g)}><BlockText group={g} /></h4> :
+            run.role === 'unreadable' ? (
+              <p class="unreadable" id={anchorId(g)} title={sv
+                ? 'Rubrik satt i ett dekorativt teckensnitt som inte kunde avkodas ur PDF:en'
+                : 'Heading set in a decorative font that could not be decoded from the PDF'}>
+                {sv ? '[oläsbar rubrik i källdokumentet]' : '[unreadable heading in the source document]'}
+              </p>
+            ) : <p class={pClass(g)} id={anchorId(g)}><BlockText group={g} /></p>;
+          if (!cited.length) return el;
+          return (
+            <div class="line">
+              {el}
+              <div class="notes">
+                {cited.map((line) => <CiteNote lang={lang} line={line} />)}
+              </div>
+            </div>
+          );
+        })}
+      </article>
+    );
+    // The 17 documents without blocks have no rail and no panels, so they keep
+    // the bare <article> they have always rendered — no wrapper, no grid.
+    if (!hasRail && !anchors) return article;
+    return (
+      <div
+        class:list={['docwrap', hasRail && 'withrail']}
+        data-refs-url={anchors ? refsUrl : undefined}
+        data-case-base={anchors ? caseBase : undefined}
+        data-labels={anchors ? JSON.stringify(TR) : undefined}
+      >
+        {hasRail && (
+          <nav class="rail" aria-label={t('doc.rail.title')}>
+            <p class="rtitle">{t('doc.rail.title')}</p>
+            {anchors && (
+              <p class="rtotal">{num('doc.rail.decisions', { n: anchors.totals.decisions.n })}</p>
+            )}
+            <ol>
+              {rail.map((c) => (
+                <li class={`lvl${c.level}`}>
+                  <a href={`#${c.id}`}>{c.text}</a>
+                  {c.lines > 0 && (
+                    <span class="rn" title={t('doc.rail.linesTip')}>{c.lines}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+            {anchors && (
+              <>
+                <p class="rlegend">
+                  <span class="key"><i class="sw kept" /> {t('doc.cite.kept')}</span>
+                  <span class="key"><i class="sw diverged" /> {t('doc.cite.diverged')}</span>
+                </p>
+                {/* The panels' tier chips carry no tooltip of their own — the
+                    vocabulary is explained here once instead of 510 times. */}
+                <p class="rlegend tierkey">
+                  <span class="lbl">{t('tier.label')}</span>
+                  <span title={t('tier.explicitTip')}>{t('tier.explicitShort')}</span>
+                  <span title={t('tier.extrapolatedTip')}>{t('tier.extrapolatedShort')}</span>
+                  <span title={t('tier.off_axisTip')}>{t('tier.off_axisShort')}</span>
+                </p>
+                <p class="rnote">{t('doc.rail.ownPlan')}</p>
+              </>
+            )}
+          </nav>
+        )}
+        {article}
+      </div>
+    );
+  })()}
+
+  {anchors && (
+    <script>
+      // The ref rows behind the ratio bars: one fetch per document, on the first
+      // panel a reader opens, shared by all of them. Nothing is fetched if none
+      // is opened — which is the usual case, and the reason the rows are not in
+      // the page to begin with.
+      //
+      // Bundled rather than `is:inline` so the row building can live in
+      // lib/anchors.ts, where it is tested against the committed payload. What
+      // is left here is DOM wiring: the config comes off the wrapper's data
+      // attributes, which is also why this file needs no define:vars.
+      import { refRows } from '../lib/anchors';
+
+      const root = document.querySelector<HTMLElement>('[data-refs-url]');
+      if (root) {
+        const url = root.dataset.refsUrl!;
+        const caseBase = root.dataset.caseBase!;
+        const tr = JSON.parse(root.dataset.labels!);
+        let pending: Promise<any> | null = null;
+        const payload = () =>
+          (pending ??= fetch(url)
+            .then((r) => {
+              if (!r.ok) throw new Error(String(r.status));
+              return r.json();
+            })
+            .catch((err) => {
+              pending = null; // a later open may succeed
+              throw err;
+            }));
+
+        const draw = (host: HTMLElement, rows: ReturnType<typeof refRows>) => {
+          const list = document.createElement('ul');
+          for (const r of rows) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `${caseBase}${r.votering_id}/`;
+            a.textContent = r.datum || r.votering_id;
+            const v = document.createElement('span');
+            v.className = `v ${r.verdict}`;
+            v.textContent = tr.verdict[r.verdict] ?? r.verdict;
+            const m = document.createElement('span');
+            m.className = 'meta';
+            m.textContent = [r.utskott, r.tier ? tr.tier[r.tier] : null].filter(Boolean).join(' · ');
+            li.append(a, v, m);
+            list.appendChild(li);
+          }
+          host.replaceChildren(list);
+        };
+
+        for (const el of document.querySelectorAll<HTMLDetailsElement>('details.cnote')) {
+          el.addEventListener('toggle', async () => {
+            const host = el.querySelector<HTMLElement>('[data-refs]');
+            if (!el.open || !host || host.dataset.state === 'done') return;
+            host.dataset.state = 'done';
+            host.textContent = tr.loading;
+            try {
+              draw(host, refRows(await payload(), el.dataset.block!));
+            } catch {
+              host.dataset.state = 'failed';
+              host.textContent = tr.error;
+            }
+          });
+        }
+      }
+    </script>
+  )}
 
   <style>
     .prov {
@@ -141,6 +347,63 @@ function pClass(g: RenderGroup): string | undefined {
       font-style: italic;
       margin-bottom: 1.25rem;
     }
+    .ownplan { max-width: 68ch; }
+    /* The rail is navigation for a 172-page document, so it stays in view; the
+       document keeps the full remaining width and caps its own measure. */
+    .docwrap { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); }
+    .rail {
+      font-size: 0.85rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0.8rem 0.9rem;
+      max-height: 14rem;
+      overflow-y: auto;
+    }
+    .rail .rtitle {
+      margin: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .rail .rtotal { margin: 0.15rem 0 0.5rem; color: var(--ink-2); }
+    .rail ol { list-style: none; margin: 0; padding: 0; }
+    .rail li {
+      display: flex;
+      gap: 0.4rem;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.12rem 0;
+    }
+    .rail li.lvl2 { padding-left: 0.7rem; font-size: 0.95em; }
+    .rail a { color: var(--ink-2); text-decoration: none; }
+    .rail a:hover { color: var(--accent-ink); text-decoration: underline; }
+    .rail .rn {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.75rem;
+      color: var(--muted);
+      cursor: help;
+    }
+    .rail .rlegend {
+      margin: 0.7rem 0 0;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .rail .key { display: inline-flex; align-items: center; gap: 0.3rem; }
+    .rail .sw { width: 0.85rem; height: 7px; border-radius: 999px; display: inline-block; }
+    .rail .sw.kept { background: var(--accent); }
+    .rail .sw.diverged { background: var(--gold-deep); }
+    .rail .tierkey { border-top: 0; padding-top: 0; margin-top: 0.35rem; gap: 0.35rem; }
+    .rail .tierkey span[title] { cursor: help; text-decoration: underline dotted; }
+    .rail .tierkey .lbl { text-decoration: none; }
+    .rail .rnote { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); }
     .doc {
       background: #fff;
       border: 1px solid var(--line);
@@ -214,6 +477,124 @@ function pClass(g: RenderGroup): string | undefined {
       font-size: 0.85rem;
       color: var(--muted, #777);
       font-style: italic;
+    }
+    /* A cited line and its panels. Stacked by default; side by side once there
+       is room for both, which is where the annotation stops interrupting the
+       reading and becomes a margin note. */
+    .doc .notes { margin: 0 0 1em; }
+    .doc > ul.marked { max-width: none; }
+    .doc > ul.marked > li:not(.line) { max-width: 68ch; }
+
+    /* CiteNote's own styles live here, as :global rules. A scoped <style> in the
+       component would put a `data-astro-cid` attribute on each of its dozen
+       elements, and those elements are rendered 510 times on one page. */
+    .doc :global(.cnote) {
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: var(--ink-2);
+      border-left: 2px solid var(--line);
+      padding-left: 0.6rem;
+    }
+    .doc :global(.cnote + .cnote) { margin-top: 0.5rem; }
+    .doc :global(.cnote > summary) {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      cursor: pointer;
+      list-style: none;
+      color: var(--muted);
+    }
+    .doc :global(.cnote > summary::-webkit-details-marker) { display: none; }
+    .doc :global(.cnote > summary:hover) { color: var(--accent-ink); }
+    .doc :global(.cnote .n) {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: var(--ink-2);
+    }
+    /* The gap axis. Blue = the vote followed the party's own plan, gold = it did
+       not; neither is a "good" colour, which is the point. */
+    .doc :global(.cnote .bar) {
+      display: flex;
+      flex: 1 1 3.5rem;
+      min-width: 3.5rem;
+      max-width: 8rem;
+      height: 7px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--line-soft);
+    }
+    .doc :global(.seg.kept) { background: var(--accent); }
+    .doc :global(.seg.diverged) { background: var(--gold-deep); }
+    .doc :global(.seg.avstar) { background: var(--line); }
+    .doc :global(.seg.franvarande) { background: var(--franvarande); }
+    .doc :global(.cnote .flag) {
+      font-size: 0.7rem;
+      padding: 0.05rem 0.4rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel-2);
+      color: var(--muted);
+      cursor: help;
+    }
+    .doc :global(.cnote .body) { margin-top: 0.45rem; }
+    .doc :global(.cnote .tally) { margin: 0; }
+    .doc :global(.cnote .tally b) { font-variant-numeric: tabular-nums; color: var(--ink); }
+    .doc :global(.cnote .tally b.kept) { color: var(--accent-ink); }
+    .doc :global(.cnote .tally b.diverged) { color: var(--gold-deep); }
+    .doc :global(.cnote .tiers) {
+      margin: 0.35rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    .doc :global(.cnote .chip) {
+      font-size: 0.72rem;
+      padding: 0.05rem 0.4rem;
+      border-radius: 999px;
+      background: var(--accent-wash);
+      color: var(--accent-ink);
+    }
+    .doc :global(.cnote .weak) { margin: 0.35rem 0 0; color: var(--muted); }
+    .doc :global(.cnote .refs) { margin-top: 0.4rem; }
+    /* Long lists stay inside the panel rather than pushing the document down —
+       one line of partiprogram-kd-2015 is cited by 371 decisions. */
+    .doc :global(.cnote .refs ul) {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 15rem;
+      overflow-y: auto;
+    }
+    .doc :global(.cnote .refs li) {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      padding: 0.15rem 0;
+      border-top: 1px solid var(--line-soft);
+    }
+    .doc :global(.cnote .refs .v) { font-weight: 600; }
+    .doc :global(.cnote .refs .v.kept) { color: var(--accent-ink); }
+    .doc :global(.cnote .refs .v.diverged) { color: var(--gold-deep); }
+    .doc :global(.cnote .refs .v.avstar),
+    .doc :global(.cnote .refs .v.franvarande) { color: var(--muted); }
+    .doc :global(.cnote .refs .meta) { color: var(--muted); }
+    @media (min-width: 1080px) {
+      .docwrap.withrail { grid-template-columns: 15rem minmax(0, 1fr); gap: 1.75rem; }
+      /* Clear of the site header, which is itself sticky at 78px (the same
+         offset Base.astro gives :target, so a rail link lands below it too). */
+      .rail { position: sticky; top: 5.5rem; align-self: start; max-height: calc(100vh - 7rem); }
+      .doc > .line,
+      .doc > ul.marked > li.line {
+        max-width: none;
+        display: grid;
+        grid-template-columns: minmax(0, 68ch) minmax(0, 1fr);
+        column-gap: 1.5rem;
+        align-items: start;
+      }
+      .doc > ul.marked > li.line { padding-left: 0; text-indent: 0; }
+      .doc > ul.marked > li.line > .t { padding-left: 1.3rem; text-indent: -1.3rem; }
+      .doc .notes { margin: 0.15rem 0 0; }
     }
     @media (max-width: 640px) {
       .doc { padding: 1.15rem; font-size: 0.97rem; }

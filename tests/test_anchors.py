@@ -72,8 +72,11 @@ def _decision(
     }
 
 
-CASES = {"V1": {"votering_id": "V1", "datum": "2023-04-12", "utskott": "SfU"}}
-POSITIONS = {("V1", "KD"): "Ja"}
+CASES = {
+    "V1": {"votering_id": "V1", "datum": "2023-04-12", "utskott": "SfU"},
+    "V2": {"votering_id": "V2", "datum": "2023-05-10", "utskott": "SfU"},
+}
+POSITIONS = {("V1", "KD"): "Ja", ("V2", "KD"): "Ja"}
 
 
 class TestVerdict:
@@ -396,7 +399,7 @@ class TestSiteShapes:
     @pytest.fixture
     def payload(self, kd2015):
         _, text = _a_block(kd2015)
-        rows = [_decision([text]), _decision([text], vid="V1", rost="Nej")]
+        rows = [_decision([text]), _decision([text], vid="V2", rost="Nej")]
         by_slug, _, _ = anchors.collect(rows, CASES, POSITIONS)
         anchor = by_slug[KD2015][0]
         return {
@@ -407,14 +410,76 @@ class TestSiteShapes:
             "anchors": [anchor.to_dict()],
         }
 
+    @pytest.fixture
+    def twice_cited(self, kd2015):
+        """One decision quoting two spans of the same block — 1,679 of full-v4's
+        4,715 cited blocks carry at least one such pair."""
+        bid, text = _a_block(kd2015, min_words=30)
+        words = text.split()
+        head, tail = " ".join(words[:14]), " ".join(words[-14:])
+        by_slug, _, _ = anchors.collect([_decision([head, tail])], CASES, POSITIONS)
+        found = by_slug[KD2015]
+        assert [a.block_id for a in found] == [bid, bid]
+        return {
+            "slug": KD2015,
+            "run_id": "test-run",
+            "n_anchors": len(found),
+            "n_refs": sum(len(a.refs) for a in found),
+            "anchors": [a.to_dict() for a in found],
+        }
+
     def test_the_inline_summary_counts_by_block(self, payload):
         s = anchors.summarize(payload)
         block = s["blocks"][payload["anchors"][0]["block_id"]]
         assert (block["refs"], block["kept"], block["diverged"]) == (2, 1, 1)
+        assert block["decisions"] == {"n": 2, "kept": 1, "diverged": 1,
+                                      "avstar": 0, "franvarande": 0}
         assert block["tiers"] == {"explicit": 2}
         assert block["parties"] == {"KD": 2}
         assert s["totals"] == {"anchors": 1, "refs": 2, "kept": 1, "diverged": 1,
-                               "avstar": 0, "franvarande": 0}
+                               "avstar": 0, "franvarande": 0,
+                               "decisions": {"n": 2, "kept": 1, "diverged": 1,
+                                             "avstar": 0, "franvarande": 0}}
+
+    def test_a_vote_quoting_one_line_twice_is_one_vote(self, twice_cited):
+        """The page says "N votes leaned on this line". Two citations from the
+        same decision are one vote that read the line, and the ref list behind
+        the bar shows it once — so the headline count has to agree with it."""
+        s = anchors.summarize(twice_cited)
+        (block,) = s["blocks"].values()
+        assert block["refs"] == 2
+        assert block["decisions"] == {"n": 1, "kept": 1, "diverged": 0,
+                                      "avstar": 0, "franvarande": 0}
+        assert s["totals"]["decisions"]["n"] == 1
+
+    def test_a_tier_histogram_is_not_weighted_by_how_often_a_vote_quoted(self, twice_cited):
+        """`tier` is a property of the decision, not of the quote."""
+        s = anchors.summarize(twice_cited)
+        (block,) = s["blocks"].values()
+        assert block["tiers"] == {"explicit": 1}
+        assert block["parties"] == {"KD": 1}
+
+    def test_a_vote_citing_two_different_lines_is_one_vote_in_the_document_total(self, kd2015):
+        """Distinct per block AND distinct across the document: the rail says how
+        many votes read this document, not how many lines they read."""
+        first, first_text = _a_block(kd2015, min_words=20)
+        second = next(
+            (bid, kd2015.served[kd2015.starts[i] : kd2015.ends[i]])
+            for i, bid in enumerate(kd2015.ids)
+            if bid != first and len(kd2015.served[kd2015.starts[i] : kd2015.ends[i]].split()) >= 20
+            and kd2015.served[kd2015.starts[i] : kd2015.ends[i]][0].isupper()
+        )
+        by_slug, _, _ = anchors.collect([_decision([first_text, second[1]])], CASES, POSITIONS)
+        found = by_slug[KD2015]
+        s = anchors.summarize({
+            "slug": KD2015, "run_id": "test-run", "n_anchors": len(found),
+            "n_refs": sum(len(a.refs) for a in found),
+            "anchors": [a.to_dict() for a in found],
+        })
+        assert len(s["blocks"]) == 2
+        assert all(b["decisions"]["n"] == 1 for b in s["blocks"].values())
+        assert s["totals"]["refs"] == 2
+        assert s["totals"]["decisions"]["n"] == 1
 
     def test_the_inline_summary_carries_no_ref_rows_and_no_quote_text(self, payload):
         """9,007 refs on one document is why this half exists at all."""

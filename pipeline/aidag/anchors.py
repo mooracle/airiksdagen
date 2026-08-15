@@ -409,31 +409,67 @@ def _tally(refs: list[dict]) -> dict:
     return {"refs": len(refs), **counts}
 
 
+def _decision_tally(refs: list[dict]) -> dict:
+    """The same tally over DISTINCT deciding votes rather than citations.
+
+    A decision may quote two spans of one block — 1,679 of full-v4's 4,715 cited
+    blocks carry at least one, and the corpus reads 77,599 citations against
+    69,418 distinct (decision, block) pairs. Counting those twice is right for a
+    citation total and wrong for the sentence the page actually makes: "N votes
+    leaned on this line, X of them with the plan". Both are kept, named for what
+    they count.
+    """
+    seen = {(r["votering_id"], r["parti"]): r["verdict"] for r in refs}
+    counts = {v: 0 for v in VERDICTS}
+    for verdict in seen.values():
+        counts[verdict] += 1
+    return {"n": len(seen), **counts}
+
+
 def summarize(payload: dict) -> dict:
-    """The inline aggregate: per block, and per anchor within it."""
+    """The inline aggregate: per block, and per anchor within it.
+
+    `refs`/`kept`/`diverged`/... count citations; `decisions` counts the votes
+    behind them. `tiers` and `parties` are properties OF a decision, not of a
+    citation, so they are tallied per distinct decision too — a histogram
+    weighted by how often a vote happened to quote the same line twice is not a
+    histogram of anything. `svag` stays a citation count: weakness is a property
+    of the quote (`blocklist.WEAK_LIST`), and one vote can cite a line both ways.
+    """
     blocks: dict[str, dict] = {}
+    per_block_refs: dict[str, list[dict]] = defaultdict(list)
     for a in payload["anchors"]:
         b = blocks.setdefault(
             a["block_id"],
-            {**_tally([]), "svag": 0, "tiers": Counter(), "parties": Counter(), "anchors": []},
+            {**_tally([]), "svag": 0, "decisions": {}, "tiers": Counter(),
+             "parties": Counter(), "anchors": []},
         )
         tally = _tally(a["refs"])
         for k, n in tally.items():
             b[k] += n
+        per_block_refs[a["block_id"]].extend(a["refs"])
         for r in a["refs"]:
-            b["tiers"][r["tier"]] += 1
-            b["parties"][r["parti"]] += 1
             b["svag"] += bool(r["svag"])
         b["anchors"].append({"offset": a["offset"], "length": a["length"], **tally})
-    for b in blocks.values():
+    for block_id, b in blocks.items():
+        refs = per_block_refs[block_id]
+        b["decisions"] = _decision_tally(refs)
+        by_decision = {(r["votering_id"], r["parti"]): r for r in refs}
+        for r in by_decision.values():
+            b["tiers"][r["tier"]] += 1
+            b["parties"][r["parti"]] += 1
         b["tiers"] = dict(sorted(b["tiers"].items(), key=lambda kv: (kv[0] is None, kv[0])))
         b["parties"] = dict(sorted(b["parties"].items()))
+    all_refs = [r for a in payload["anchors"] for r in a["refs"]]
     return {
         "slug": payload["slug"],
         "run_id": payload["run_id"],
         "totals": {
             "anchors": payload["n_anchors"],
-            **_tally([r for a in payload["anchors"] for r in a["refs"]]),
+            **_tally(all_refs),
+            # distinct across the whole document: a vote citing four of its lines
+            # is one vote that read this document, not four
+            "decisions": _decision_tally(all_refs),
         },
         "blocks": blocks,
     }

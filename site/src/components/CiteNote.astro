@@ -1,0 +1,94 @@
+---
+// The margin panel beside one cited line of a party document.
+//
+// Closed it is a number and a ratio bar: how many AI decisions leaned on this
+// line, and how many of them then voted with the party's own plan. Opened it
+// adds the evidence-tier breakdown and the list of the decisions themselves,
+// which is FETCHED — `valmanifest-2022-sd` alone carries 9,007 citing votes, so
+// the rows live under public/data/anchors/ and only the aggregates are built
+// into the page (the split is decided in anchors.py).
+//
+// COLOUR
+// ------
+// Accent blue for "voted with the plan", deep gold for "voted against it".
+// Deliberately not --ja/--nej: those are the vote colours, and red on a
+// divergence would assert a broken promise. gap.py refuses that reading outright
+// — a divergence is the signal, not an error — and on a line roled `label` or
+// `toc` there is no promise to break at all, which is what the flag says.
+//
+// PAGE WEIGHT
+// -----------
+// 510 of these render on `valmanifest-2022-sd` and 349 on `partiprogram-kd-2015`,
+// so every attribute here is paid for 500 times. Hence: no scoped <style> (its
+// `data-astro-cid` would land on each of the dozen elements below — the styles
+// live in DocumentPage as :global rules), no per-panel tooltip prose, and the
+// tallies as one line rather than a list. The tier vocabulary is explained once,
+// in the rail.
+import type { CitedLine } from '../lib/anchors';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; line: CitedLine }
+const { lang, line } = Astro.props;
+const t = useTranslations(lang);
+const { cites } = line;
+const d = cites.decisions;
+
+const pct = (n: number) => {
+  const v = (n / Math.max(1, d.n)) * 100;
+  return `${Number.isInteger(v) ? v : v.toFixed(1)}%`;
+};
+const segments = ([
+  ['kept', d.kept],
+  ['diverged', d.diverged],
+  ['avstar', d.avstar],
+  ['franvarande', d.franvarande],
+] as const).filter(([, n]) => n > 0);
+
+const tally = ([
+  ['kept', d.kept, t('doc.cite.keptShort')],
+  ['diverged', d.diverged, t('doc.cite.divergedShort')],
+  ['avstar', d.avstar, t('doc.cite.avstarShort')],
+  ['franvarande', d.franvarande, t('doc.cite.franvarandeShort')],
+] as const).filter(([kind, n]) => n > 0 || kind === 'kept' || kind === 'diverged');
+
+// explicit | extrapolated | off_axis, in that order of strength — the same
+// vocabulary and the same short labels the case pages use.
+const TIERS = [
+  { key: 'explicit', label: 'tier.explicitShort' },
+  { key: 'extrapolated', label: 'tier.extrapolatedShort' },
+  { key: 'off_axis', label: 'tier.off_axisShort' },
+] as const;
+const tiers = TIERS.filter((x) => cites.tiers[x.key]).map((x) => ({
+  n: cites.tiers[x.key],
+  label: t(x.label),
+}));
+
+const label = (t('doc.cite.summaryTip') as string).replace('{n}', String(d.n));
+---
+<details class="cnote" data-block={line.id}>
+  <summary aria-label={label}>
+    <span class="n">{d.n}</span>
+    <span class="bar" aria-hidden="true">
+      {segments.map(([kind, n]) => <span class={`seg ${kind}`} style={`width:${pct(n)}`} />)}
+    </span>
+    {line.navigational && (
+      <span class="flag" title={t('doc.cite.navigationalTip')}>{t('doc.cite.navigational')}</span>
+    )}
+  </summary>
+  <div class="body">
+    <p class="tally">{tally.map(([kind, n, word], i) => (
+      <>{i > 0 && ' · '}<b class={kind}>{n}</b> {word}</>
+    ))}</p>
+    {tiers.length > 0 && (
+      <p class="tiers">{tiers.map((x) => <span class="chip">{x.n} {x.label}</span>)}</p>
+    )}
+    {cites.svag > 0 && (
+      <p class="weak">{(t('doc.cite.weak') as string).replace('{n}', String(cites.svag))}</p>
+    )}
+    {/* Filled by the page's script on first open; the fetch is per document and
+        shared by every panel on it. Without JavaScript the aggregates above are
+        still the whole finding — only the per-decision rows are missing, which
+        the page says once rather than 510 times. */}
+    <div class="refs" data-refs />
+  </div>
+</details>

@@ -792,20 +792,129 @@ a second one cannot arrive unnoticed.
 ### Task 8b: Annotation layer and chapter rail
 
 **Files:**
-- Modify: `site/src/pageviews/DocumentPage.astro`, `site/src/i18n/ui.ts`
+- Modify: `site/src/pageviews/DocumentPage.astro`, `site/src/i18n/ui.ts`,
+  `site/src/lib/data.ts`, `pipeline/aidag/anchors.py` (see ⚠️ 1)
+- Create: `site/src/lib/anchors.ts`, `site/src/components/CiteNote.astro`,
+  `site/tests/anchors.test.mjs`
 
-- [ ] sticky chapter rail from `h1`/`h2` blocks with per-chapter citation counts
-- [ ] per-cited-block: use count, kept/diverged ratio bar, tier breakdown, ref list
-      loaded on demand
-- [ ] colour the gap axis accent-blue vs deep-gold — **not** `--ja`/`--nej`, which are
+- [x] sticky chapter rail from `h1`/`h2` blocks with per-chapter citation counts —
+      `chapters()` in `site/src/lib/anchors.ts`; **20 of the 23** block-rendered
+      documents get one (three have no usable headings). The per-chapter number is
+      **cited lines**, not votes: a vote citing three lines of one chapter cannot
+      be summed across them without being counted three times, and the exact vote
+      total for the document sits at the top of the rail where `totals.decisions`
+      makes it exact. The rail is furniture-filtered — see ⚠️ 4
+- [x] per-cited-block: use count, kept/diverged ratio bar, tier breakdown, ref list
+      loaded on demand — `CiteNote.astro`, one panel per cited block (⚠️ 2), 4,715
+      of them across the corpus. Closed it is the count and the bar; opened it adds
+      the tier chips and fetches the decisions from `public/data/anchors/`
+- [x] colour the gap axis accent-blue vs deep-gold — **not** `--ja`/`--nej`, which are
       the vote colours; red would assert "broken promise", which `gap.py` explicitly
-      refuses ("a divergence is the signal, not an error")
-- [ ] state in the rail that a party is read against its own manifesto alone, so a
-      governing party following a coalition agreement diverges *by design*
-- [ ] mark citations landing on `label`/`toc` blocks — a topic label promises nothing
-- [ ] add sv/en i18n strings for all new UI
-- [ ] `cd site && npm run build`; check page weight for `valmanifest-2022-sd`
-- [ ] run tests — must pass before Task 9
+      refuses ("a divergence is the signal, not an error"). `--accent` = voted with
+      the plan, `--gold-deep` = voted against it, `--line`/`--franvarande` for the
+      two verdicts that took no side; the rail carries the key
+- [x] state in the rail that a party is read against its own manifesto alone, so a
+      governing party following a coalition agreement diverges *by design* —
+      `doc.rail.ownPlan`, and printed above the document for the cited documents
+      that have no rail, since it is the reading instruction for every gold
+      segment on the page rather than a footnote to the navigation
+- [x] mark citations landing on `label`/`toc` blocks — a topic label promises nothing.
+      Role alone turned out to be the wrong test and would have made a false claim
+      1,163 times; see ⚠️ 3
+- [x] add sv/en i18n strings for all new UI (28 keys per language)
+- [x] `cd site && npm run build` (7,723 pages); page weight measured below
+- [x] run tests — `npm test` **56 passed** (27 new in `site/tests/anchors.test.mjs`),
+      `uv run pytest tests -q` **511 passed** (3 new in `tests/test_anchors.py`)
+
+**Measured**
+
+| | |
+|---|---|
+| Cited blocks carrying a panel | **4,715** over 23 documents |
+| Decisions behind them | **69,418** (from 77,599 citations — ⚠️ 1) |
+| Documents with a chapter rail | 20 of 23 (`mp-2013`, `valmanifest-c`, `valmanifest-mp` have no usable headings) |
+| Citations landing on navigation | **16 blocks / 180 decisions** (0.26%) — ⚠️ 3 |
+
+**Page weight, `valmanifest-2022-sd`** (the 510-panel worst case):
+
+| | before | after |
+|---|---|---|
+| `valmanifest-2022-sd` | 194 KB / 57 KB gzip | **567 KB / 82 KB** |
+| `partiprogram-kd-2015` | 291 KB / 81 KB gzip | 534 KB / 99 KB |
+| fetched on demand | — | up to 959 KB, only if a panel is opened |
+
+Getting there took cutting the per-panel markup from ~1.8 KB to ~560 B: `CiteNote`
+carries **no scoped `<style>`** (its `data-astro-cid` would land on each of a dozen
+elements, 510 times over — the rules live in `DocumentPage` as `:global`), no
+per-panel tooltip prose (the tier vocabulary is explained once, in the rail), no
+per-panel `<noscript>`, and the tallies as one line rather than a list.
+
+⚠️ **Deviation 1, recorded — a Python change in a site task.** `anchors.summarize()`
+now emits `decisions` beside `refs`, and tallies `tiers`/`parties` per distinct vote.
+The page's sentence is "N votes leaned on this line", and `refs` does not count votes:
+**1,679 of the 4,715 cited blocks** have a vote quoting them twice, 77,599 citations
+against 69,418 distinct (vote, block) pairs. Rendering `refs` there would have put a
+number on the summary that the panel's own ref list contradicts the moment it opens —
+the list is per vote, because two rows for one vote are one vote shown twice. A tier
+histogram weighted by how often a vote happened to quote the same line is likewise not
+a histogram of anything; `svag` stays a citation count, since weakness is a property of
+the quote. `site/src/data/corpus/anchors/*.json` was regenerated
+(`export_blocks_and_anchors`); `public/data/anchors/` and `blocks/` are byte-identical.
+
+⚠️ **Deviation 2, recorded**: one panel per **cited block**, not per rendered
+paragraph. `groupBlocks()` rejoins paragraphs the extraction cut, and 69 of the 8,168
+rendered paragraphs then hold more than one cited block — **57 of those share a vote
+between the two blocks**, so summing them would count it twice and no dedup is possible
+at build time without the ref rows. Each block keeps its own panel, whose number is
+exactly what its own ref list contains
+(`tests/anchors.test.mjs`: "a panel promises exactly as many decisions as it then lists",
+asserted for all 4,715).
+
+⚠️ **Deviation 3, recorded — the navigation flag is not a role test.** The plan says
+"mark citations landing on `label`/`toc` blocks", and on role alone that flags **1,165
+decisions**, of which **1,163 are genuine pledges**: `label` is "a minor bold cluster at
+or below body size", which in `valmanifest-2022-s` is the bullet list of the party's own
+promises (`• Kraftigt öka antalet poliser på våra gator och torg.`, 1,035 decisions) and
+in `valmanifest-2022-l` its 60 numbered ones (128). Marking those "promises nothing"
+would be exactly the kind of false claim this project exists not to make. The text has to
+read as a label too — no bullet glyph, no sentence-ending punctuation, ≤ 8 words — and
+`h1`/`h2`/`h3` are included on the same terms, because KD's back-cover topic labels (the
+finding in this plan's Overview) are roled `h3` in the final extraction, not `label`.
+`toc` is exempt from the text test: a contents entry is navigation whatever it says.
+Result: **16 blocks / 180 decisions**, including KD's five. The chip states the fact
+("citat ur en rubrik" / "quoted from a heading") and the tooltip carries the reasoning,
+rather than asserting a judgement about a heading the party did write.
+
+⚠️ **Deviation 4, recorded — the rail filters furniture.** Straight off the `h1`/`h2`
+roles the rail opens with "PRINCIPPROGRAM", "PRINCIPPROGRAM", "ANTAGET VID
+KRISTDEMOKRATERNAS", "RIKSTING 2015", "Innehållsförteckning" — cover lines and the
+document's own contents list, which the rail *is*. Four rules, each from a real
+document: first-page headings are dropped (unless the document is ≤ 4 pages, where the
+first page is the content), `Innehåll…` is dropped, entries under 4 characters go
+(`m-2021` sets its drop caps "M" and "P" as their own `h1`), and a title set twice
+collapses to one. A dropped heading is **demoted, not deleted** — its cited lines count
+towards the chapter it sits in. Past 60 entries the rail keeps the `h1` outline
+(`valmanifest-m` sets 116 headings, `kd-2015` 85), but only when there are ≥ 8 of them:
+`l-2023` has 6 `h1` against 51 `h2`, and six entries would hide the structure rather
+than summarise it.
+
+➕ **Added**: the ref-list script is **bundled, not `is:inline`**, so the row building
+lives in `lib/anchors.ts` (`refRows()`) where it is tested against the committed
+payload, and the page holds only DOM wiring. It reads the field order from the
+payload's own `fields` header rather than hard-coding indices. Config reaches it
+through `data-` attributes on the wrapper, which is what removes the need for
+`define:vars`.
+
+➕ **Note for Task 9**: the corpus-wide count is ready — cited blocks by role are
+`para` 3,856 · `bullet` 775 · `label` 56 · `h2` 20 · `h3` 6 · `caption` 2, and by
+decisions `para` 51,218 · `bullet` 16,764 · `label` 1,165 · `h2` 145 · `h3` 123 ·
+`caption` 3. The Overview's "26 of 125 citations (21%)" was measured on the *old*
+extraction; after Task 3's role work the corpus-wide figure is far smaller, and the
+`label` share is dominated by two parties' pledge lists rather than by topic labels.
+
+➕ **Fallback parity, restated**: the 17 documents without blocks render **byte-identical
+body markup** — the only change is in `<head>`, where the page's CSS crossed Astro's
+inlining threshold and is now an external stylesheet shared by all 40 document pages.
 
 ### Task 9: Report the topic-label finding
 
