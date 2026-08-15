@@ -229,7 +229,15 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
               </li>
             ))}
           </ol>
-          <p class="muted vlogic">{t('party.funnelNote')}</p>
+          {/* One clause, plus the door. The full account — why the two weaker
+              tiers exist, why an abstention cannot be expressed in a plan, why
+              the last row is a minority — was four lines of boilerplate
+              identical on all eight party pages. It belongs with the method, and
+              was already written there. */}
+          <p class="muted vlogic">
+            {t('party.funnelNote')}{' '}
+            <a href={`${localePath(lang, '/om/')}#evidens`}>{t('party.funnelWhy')} →</a>
+          </p>
           {sure && sureVerdict && (
             <p class="vrobust" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
               {t(`party.robustNote.${sureVerdict}` as any)
