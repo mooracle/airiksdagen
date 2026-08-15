@@ -55,15 +55,37 @@ const t = useTranslations(lang);
 const meta = getMeta();
 const sv = lang === 'sv';
 
-const doc = renderDoc(getCorpusDoc(slug), getCorpusBlocks(slug), {
-  lexicon: getCorpusLexicon(),
-});
+const blocks = getCorpusBlocks(slug);
+const doc = renderDoc(getCorpusDoc(slug), blocks, { lexicon: getCorpusLexicon() });
 const title = docTitle(slug, {
   sv,
   partyName: (code) => meta.parties[code.toUpperCase()]?.name ?? code.toUpperCase(),
 });
 
 const anchors = getCorpusAnchors(slug);
+
+// The document's own dimensions, for the strip under the title.
+//
+// The citation total used to live only inside the rail, which meant the three
+// documents that cannot build one — `partiprogram-mp-2013`, whose 50 headings
+// are undecodable display type, and the two manifestos that set no headings at
+// all — published 268, 186 and 136 cited lines while stating none of it. The
+// numbers belong to the document, not to its navigation.
+const words = doc.groups.reduce(
+  (n, g) => n + g.parts.reduce((m, p) => m + (p.text ? p.text.split(/\s+/).length : 0), 0),
+  0,
+);
+const nfmt = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
+const facts = [
+  blocks?.pages ? { n: nfmt(blocks.pages), label: sv ? 'sidor' : 'pages' } : null,
+  words ? { n: `${Math.round(words / 1000)}k`, label: sv ? 'ord' : 'words' } : null,
+  anchors
+    ? { n: nfmt(Object.keys(anchors.blocks).length), label: sv ? 'citerade rader' : 'cited lines' }
+    : null,
+  anchors
+    ? { n: nfmt(anchors.totals.decisions.n), label: sv ? 'voteringar' : 'votes', strong: true }
+    : null,
+].filter((f): f is { n: string; label: string; strong?: boolean } => f !== null);
 // Three chapters is where a rail starts being navigation rather than decoration;
 // below that (valmanifest-2022-c has no headings at all) the caveat it carries
 // moves above the document instead.
@@ -153,6 +175,16 @@ const TR = {
           {doc.provenance.hrefLabel === 'källa' ? (sv ? 'källa' : 'source') : doc.provenance.hrefLabel}
         </a></>
       )}
+    </p>
+  )}
+
+  {facts.length > 0 && (
+    <p class="facts">
+      {facts.map((f) => (
+        <span class:list={['fact', f.strong && 'lead']}>
+          <b>{f.n}</b> {f.label}
+        </span>
+      ))}
     </p>
   )}
 
@@ -262,9 +294,9 @@ const TR = {
             {anchors && (
               <p class="rtotal">{t('doc.rail.decisions').replace('{n}', String(anchors.totals.decisions.n))}</p>
             )}
-            <ol>
+            <ol data-chapters>
               {rail.map((c) => (
-                <li class={`lvl${c.level}`}>
+                <li class={`lvl${c.level}`} data-for={c.id}>
                   <a href={`#${c.id}`}>{c.text}</a>
                   {c.lines > 0 && (
                     <span class="rn" title={t('doc.rail.linesTip')}>{c.lines}</span>
@@ -295,6 +327,69 @@ const TR = {
       </div>
     );
   })()}
+
+  {hasRail && (
+    <script>
+      // "You are here" in the chapter rail. `partiprogram-kd-2015` is 30,000
+      // words over 171 pages under 59 chapter entries, and without this the rail
+      // is a list of places you might go with no indication of where you are.
+      //
+      // Progressive enhancement in both directions: with no JS the rail is
+      // exactly what it was, and the active class only ever adds emphasis — it
+      // never hides an entry, so a failure here cannot cost the reader a link.
+      //
+      // Position is read off the last heading to have passed under the sticky
+      // site header, not off an IntersectionObserver: "which chapter am I in" is
+      // a question about the heading ABOVE the viewport, and a chapter longer
+      // than the screen has no heading intersecting it at all.
+      const rail = document.querySelector<HTMLElement>('.rail [data-chapters]');
+      if (rail) {
+        const items = [...rail.querySelectorAll<HTMLElement>('li[data-for]')];
+        const marks = items
+          .map((li) => ({ li, el: document.getElementById(li.dataset.for!) }))
+          .filter((m): m is { li: HTMLElement; el: HTMLElement } => m.el !== null);
+        const HEADER = 96; // the sticky header, plus a little breathing room
+        let current: HTMLElement | null = null;
+        const sync = () => {
+          let found: HTMLElement | null = null;
+          for (const m of marks) {
+            if (m.el.getBoundingClientRect().top <= HEADER) found = m.li;
+            else break; // marks are in document order
+          }
+          // Before the first chapter, keep the first entry lit rather than
+          // nothing: the reader is in the document's opening, which belongs to
+          // that chapter for counting purposes too (see anchors.chapters `lead`).
+          found ??= marks[0]?.li ?? null;
+          if (found === current) return;
+          current?.classList.remove('here');
+          found?.classList.add('here');
+          current = found;
+          // Keep the lit entry visible when the rail scrolls on its own. Guarded
+          // on overflow, or `scrollIntoView` on a rail that fits would scroll the
+          // PAGE to it and fight the reader for control of the scroll position.
+          if (found && rail.scrollHeight > rail.clientHeight + 4) {
+            const r = found.getBoundingClientRect();
+            const box = rail.getBoundingClientRect();
+            if (r.top < box.top || r.bottom > box.bottom) {
+              found.scrollIntoView({ block: 'nearest' });
+            }
+          }
+        };
+        let queued = false;
+        const onScroll = () => {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(() => {
+            queued = false;
+            sync();
+          });
+        };
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll, { passive: true });
+        sync();
+      }
+    </script>
+  )}
 
   {anchors && (
     <script>
@@ -385,8 +480,22 @@ const TR = {
     .prov {
       font-size: 0.85rem;
       color: var(--muted, #555);
-      margin: -0.25rem 0 0.75rem;
+      margin: -0.25rem 0 0.5rem;
     }
+    /* What this document is, in four numbers. Sits above the reading note rather
+       than in the rail, because three documents cannot build a rail and were
+       publishing hundreds of cited lines without ever saying so. */
+    .facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+      margin: 0 0 0.9rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .facts b { font-variant-numeric: tabular-nums; color: var(--ink-2); font-weight: 700; }
+    /* The vote count is the one a reader came for; the rest is provenance. */
+    .facts .lead b { color: var(--accent-ink); }
     .note {
       font-size: 0.85rem;
       font-style: italic;
@@ -402,8 +511,13 @@ const TR = {
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       padding: 0.8rem 0.9rem;
-      max-height: 14rem;
+      /* Above the document on a narrow screen, so it is a cost paid before any
+         reading starts: kept short, and worth its height only because the script
+         scrolls it to the chapter the reader is actually in. `overscroll-behavior`
+         stops a flick inside it from carrying on into the page. */
+      max-height: 11rem;
       overflow-y: auto;
+      overscroll-behavior: contain;
     }
     .rail .rtitle {
       margin: 0;
@@ -425,6 +539,17 @@ const TR = {
     .rail li.lvl2 { padding-left: 0.7rem; font-size: 0.95em; }
     .rail a { color: var(--ink-2); text-decoration: none; }
     .rail a:hover { color: var(--accent-ink); text-decoration: underline; }
+    /* The chapter the reader is in. A left edge plus weight rather than a fill:
+       the entries already carry a right-hand count, and a filled row at 59
+       entries reads as a selected item in a menu instead of a position. */
+    .rail li.here {
+      margin-left: -0.9rem;
+      padding-left: calc(0.9rem - 3px);
+      border-left: 3px solid var(--accent);
+      background: var(--accent-wash);
+    }
+    .rail li.here a { color: var(--accent-ink); font-weight: 600; }
+    .rail li.lvl2.here { padding-left: calc(1.6rem - 3px); }
     .rail .rn {
       font-variant-numeric: tabular-nums;
       font-size: 0.75rem;
@@ -450,7 +575,7 @@ const TR = {
     .rail .tierkey .lbl { text-decoration: none; }
     .rail .rnote { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--muted); }
     .doc {
-      background: #fff;
+      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 1.5rem clamp(1.5rem, 4vw, 2.75rem);
@@ -463,6 +588,24 @@ const TR = {
     .doc > * {
       max-width: 68ch;
     }
+    /* Arriving at a line, from the rail or from a case page's citation link.
+       The browser highlights a `#:~:text=` match itself but nothing marks a
+       plain `#b0095`, so a rail click used to land in the middle of 30,000 words
+       of prose with no indication of where it had put you. Kept subtle and
+       persistent rather than a flash: the reader may look away and back, and an
+       animation that has finished cannot be replayed by re-clicking the same
+       anchor. */
+    .doc :target,
+    .doc .line:has(:target) {
+      background: var(--accent-wash);
+      box-shadow: -0.6rem 0 0 var(--accent-wash), 0.6rem 0 0 var(--accent-wash);
+      border-radius: 2px;
+    }
+    /* A rejoined paragraph addresses its blocks by inner <span>; highlight the
+       paragraph it sits in rather than a ragged fragment of one. */
+    .doc p:has(> span:target),
+    .doc li:has(> span:target) { background: var(--accent-wash); }
+    .doc span:target { background: none; box-shadow: none; }
     .doc > :first-child { margin-top: 0; }
     .doc > :last-child { margin-bottom: 0; }
     .doc p { margin: 0 0 1em; }
