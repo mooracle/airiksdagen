@@ -88,10 +88,16 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     yet, which is not an error: `build-anchors` runs after `repair-citations` and
     an export in between should still produce a site. All three no-index cases —
     a missing extraction directory, `run_id=None` (the no-decisions export), and a
-    run whose `build-anchors` has not run — return 0 without touching the
-    committed files at all. None of them is "a run that cites nothing", and
-    rebuilding the directories from their empty payload would delete the
-    committed index rather than leave it alone.
+    run whose `build-anchors` has not run — return 0 leaving the committed ANCHORS
+    untouched. None of them is "a run that cites nothing", and rebuilding the
+    directories from their empty payload would delete the committed index rather
+    than leave it alone.
+
+    The blocks are not held back with them: they are run-independent, so the two
+    latter cases still refresh them. That is what makes those branches a hazard
+    rather than a no-op — a refresh moves the positional ids the standing index
+    names — so `_check_standing_anchors_survive()` refuses the pairing they cannot
+    verify.
     """
     from aidag.anchors import anchors_dir, compact_refs, load, summarize
     from aidag.config import BLOCKS_DIR
@@ -113,14 +119,24 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     for stale in blocks_out.glob("*.json"):
         if stale.name not in sources:
             stale.unlink()
+    # Blocks are run-independent and always refreshed, but the committed anchors
+    # are not: they index these ids positionally. So note which slugs the refresh
+    # actually MOVED — a block file that already existed and whose bytes differ —
+    # before overwriting them. A slug the site simply did not have yet has moved
+    # nothing and is not this case.
+    rewritten = set()
     for src in sorted(BLOCKS_DIR.glob("*.json")):
-        shutil.copy(src, blocks_out / src.name)
+        dst = blocks_out / src.name
+        if dst.exists() and dst.read_bytes() != src.read_bytes():
+            rewritten.add(src.stem)
+        shutil.copy(src, dst)
 
     if run_id is None:
         # `export-site` with no --run-id exports the cases without decisions
         # (cli.py). There is no run to index, so there is nothing to say about
         # the citation anchors — and the rebuild below, driven by an empty
         # payload, would delete the committed index rather than leave it alone.
+        _check_standing_anchors_survive(rewritten, corpus_out)
         return 0
     if not anchors_dir(run_id).exists():
         # The same hazard one step in, and the likelier one: `export-site` before
@@ -129,6 +145,7 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # does for "indexed nothing", so the rebuild below cannot tell them apart
         # and would silently drop 46 committed files. An empty *directory* is the
         # real empty run, and its files are still swept.
+        _check_standing_anchors_survive(rewritten, corpus_out)
         print(f"  anchors: {run_id} has no index — committed anchors left alone")
         return 0
 
@@ -167,6 +184,33 @@ class StaleAnchors(Exception):
     """The citation index was built against a different extraction than the blocks."""
 
 
+def _check_standing_anchors_survive(rewritten: set[str], corpus_out) -> None:
+    """A block refresh must not orphan the committed index the run cannot re-check.
+
+    The two no-index branches return before `_check_anchors_match_blocks()` runs,
+    and the blocks are already refreshed by then — so `extract-corpus --force`
+    followed by `export-site` with no `--run-id` (or against a run with no index,
+    such as README's `mock-v1`) would ship a NEW extraction against the PREVIOUS
+    run's anchors, which is the failure the pairing guard exists for. Those
+    branches have no payload to round-trip quotes against — the site-side files
+    hold offsets, not quote text (`anchors.summarize`/`compact_refs`) — but they
+    do not need one: a block file that was rewritten under a standing anchor file
+    for the same slug has moved ids the index still names, and that is enough to
+    refuse on.
+    """
+    standing = {p.stem for p in (corpus_out / "anchors").glob("*.json")}
+    orphaned = sorted(rewritten & standing)
+    if orphaned:
+        raise StaleAnchors(
+            "the extracted blocks were rewritten under a committed citation "
+            f"index that this export cannot re-check: {', '.join(orphaned[:3])}"
+            f"{', …' if len(orphaned) > 3 else ''}\n"
+            "Block ids are positional, so shipping these together would attribute "
+            "real votes to the wrong lines. Re-run `uv run aidag build-anchors "
+            "--run-id <run>` and export with that --run-id."
+        )
+
+
 def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
     """Every anchor must still name, and still fit, the block it was built against.
 
@@ -178,9 +222,11 @@ def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
     on the repo.
 
     Anchors whose quote runs past their block into the next one (143 of full-v4's
-    16,707) cannot be checked this way and are skipped: their span is correct by
-    the same construction, and re-joining the document here to prove it would be
-    `block_index()` a second time.
+    16,707) cannot be round-tripped whole — re-joining the document here to prove
+    them would be `block_index()` a second time — so they are checked against the
+    part that IS in this block: the span must be its non-empty tail and must be a
+    prefix of the quote. Skipping them outright instead would exempt every anchor
+    that no longer fits its block, which is the drift itself.
     """
     from aidag.anchors import drawn
 
@@ -200,9 +246,23 @@ def _check_anchors_match_blocks(payloads: dict[str, dict], blocks_out) -> None:
             if block is None:
                 missing.append(a["block_id"])
                 continue
+            quote = drawn(a["quote"])
             span = block[a["offset"] : a["offset"] + a["length"]]
-            if len(span) == a["length"] and span != drawn(a["quote"]):
-                moved.append(f"{a['block_id']} ({span[:40]!r} for {drawn(a['quote'])[:40]!r})")
+            if len(span) == a["length"]:
+                ok = span == quote
+            else:
+                # A short span is NOT self-evidently the cross-block case. An
+                # anchor whose block has shrunk under it reads short too, and one
+                # whose offset now falls off the end reads empty — so excusing
+                # every short span waves through exactly the drift this guards:
+                # re-point 200 anchors at a one-character block and all 200 pass.
+                # The cases separate cleanly. A quote that continues into the next
+                # block starts with the WHOLE tail of this one, so the span must be
+                # non-empty and must be a prefix of the quote. All 143 of full-v4's
+                # cross-block anchors satisfy that; nothing else does.
+                ok = bool(span) and quote.startswith(span)
+            if not ok:
+                moved.append(f"{a['block_id']} ({span[:40]!r} for {quote[:40]!r})")
         for label, rows in (("not in", missing), ("moved in", moved)):
             if rows:
                 stale.append(

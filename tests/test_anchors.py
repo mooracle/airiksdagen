@@ -1242,6 +1242,92 @@ class TestStaleAnchorGuard:
         with pytest.raises(export_site.StaleAnchors, match="moved in"):
             export_site.export_blocks_and_anchors("test-run")
 
+    def test_an_anchor_that_no_longer_fits_its_block_is_refused(
+        self, tmp_path, monkeypatch, kd2015
+    ):
+        """The case the cross-block exemption used to swallow.
+
+        143 of full-v4's anchors quote past their block into the next one and so
+        read back a SHORT span. An anchor whose block shrank under it reads short
+        too, and one whose offset fell off the end reads empty — so exempting
+        every short span exempts the drift. Point one at the shortest block in the
+        document and it must not pass.
+        """
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        _, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        drawn_blocks = {
+            bid: anchors.drawn(kd2015.served[kd2015.starts[i] : kd2015.ends[i]])
+            for i, bid in enumerate(kd2015.ids)
+        }
+        shortest = min(drawn_blocks, key=lambda bid: len(drawn_blocks[bid]))
+        path = anchors.anchors_dir("test-run", tmp_path) / f"{KD2015}.json"
+        payload = json.loads(path.read_text())
+        a = payload["anchors"][0]
+        assert a["length"] > len(drawn_blocks[shortest])
+        assert not anchors.drawn(a["quote"]).startswith(drawn_blocks[shortest])
+        a["block_id"], a["offset"] = shortest, 0
+        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        with pytest.raises(export_site.StaleAnchors, match="moved in"):
+            export_site.export_blocks_and_anchors("test-run")
+
+    def test_a_cross_block_quote_still_passes(self, tmp_path, monkeypatch, kd2015):
+        """Tightening the short-span case must not fail the 143 real ones.
+
+        A quote running into the next block starts with the whole tail of this
+        one, which is what separates it from an anchor that has drifted.
+        """
+        export_site, _ = self._site(tmp_path, monkeypatch)
+        bid, text = _a_block(kd2015)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        path = anchors.anchors_dir("test-run", tmp_path) / f"{KD2015}.json"
+        payload = json.loads(path.read_text())
+        a = payload["anchors"][0]
+        i = kd2015.ids.index(bid)
+        block = anchors.drawn(kd2015.served[kd2015.starts[i] : kd2015.ends[i]])
+        # the quote as the next block continues it: this block's tail, then more
+        tail = block[-12:].lstrip()
+        a["offset"] = len(block) - len(tail)
+        a["quote"] = tail + " och mer text"
+        a["length"] = len(anchors.drawn(a["quote"]))
+        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        assert export_site.export_blocks_and_anchors("test-run") == 1
+
+    def test_a_block_refresh_under_a_standing_index_is_refused(self, tmp_path, monkeypatch):
+        """`extract-corpus --force` then `export-site` with no run to re-check it.
+
+        The blocks are run-independent and refresh on every export; the committed
+        anchors index their positional ids and do not. The no-index branches
+        return before the pairing guard, so without this they ship a new
+        extraction against the previous run's anchors.
+        """
+        export_site, site = self._site(tmp_path, monkeypatch)
+        blocks = site / "corpus" / "blocks"
+        blocks.mkdir(parents=True)
+        (blocks / f"{KD2015}.json").write_text('{"blocks": []}', encoding="utf-8")
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept"}', encoding="utf-8")
+        with pytest.raises(export_site.StaleAnchors, match=KD2015):
+            export_site.export_blocks_and_anchors(None)
+        # the refresh above already landed, so put the older bytes back to ask
+        # the same question of the other no-index branch
+        (blocks / f"{KD2015}.json").write_text('{"blocks": []}', encoding="utf-8")
+        with pytest.raises(export_site.StaleAnchors, match=KD2015):
+            export_site.export_blocks_and_anchors("no-such-run")
+
+    def test_a_slug_the_site_did_not_have_yet_is_not_a_refresh(self, tmp_path, monkeypatch):
+        """Adding a block file moves no id, so it must not trip the guard."""
+        export_site, site = self._site(tmp_path, monkeypatch)
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept"}', encoding="utf-8")
+        assert export_site.export_blocks_and_anchors(None) == 0
+        assert (site / "corpus" / "blocks" / f"{KD2015}.json").exists()
+        assert json.loads((inline / f"{KD2015}.json").read_text())["slug"] == "kept"
+
     def test_the_committed_export_passes_its_own_guard(self, tmp_path, monkeypatch, kd2015):
         """The guard has to be satisfiable, not just firable."""
         export_site, _ = self._site(tmp_path, monkeypatch)
