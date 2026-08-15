@@ -88,6 +88,14 @@ def _validity(rows: list[dict]) -> dict:
     reaches the committee's reason < does not); a flat table means the "gap" is
     not tracking the strength of the plan-reading. Computed over an
     already-filtered set so it can be run for the whole corpus or one party.
+
+    NOT A TEST OF THE HEADLINE when run over every decided vote. Across tiers
+    this is a contrast between different QUESTIONS, not a strong and a weak
+    answer to one: the headline is the `explicit` tier, and the rest are votes a
+    plan never reached. `evidence_tier` is derived from these very fields, so
+    "does the gap hold at explicit versus the rest" compares the headline's own
+    definition with its complement. Run it over `explicit` for the robustness
+    question — see `validity_explicit` in `compute`.
     """
     out = {}
     for field in VALIDITY_FIELDS:
@@ -146,6 +154,13 @@ def compute(df: pl.DataFrame) -> dict | None:
             # party's gap can be judged against its own read strength rather than
             # only against the other parties'
             "validity": _validity(p_dec),
+            # ...and the same split INSIDE the headline tier, which is the only
+            # one that asks a robustness question rather than a scope one. Within
+            # `explicit` the coverage field cannot vary (it is what defines the
+            # tier) and confidence is high/medium — so what is left is a real
+            # test: among the votes that CAN carry a broken-promise claim, does
+            # the gap depend on how well the model thought it had read the plan?
+            "validity_explicit": _validity(p_exp),
         }
 
     # --- internal validity, corpus-wide (see _validity) -------------------

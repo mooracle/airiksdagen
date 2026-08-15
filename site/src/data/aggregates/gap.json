@@ -126,6 +126,34 @@
       "gap_rate": 0.4938
      }
     }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 323,
+      "gap_rate": 0.2539
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 286,
+      "gap_rate": 0.2273
+     },
+     "medium": {
+      "n": 37,
+      "gap_rate": 0.4595
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 213,
+      "gap_rate": 0.2441
+     },
+     "nej": {
+      "n": 110,
+      "gap_rate": 0.2727
+     }
+    }
    }
   },
   "M": {
@@ -193,6 +221,34 @@
      "nej": {
       "n": 1560,
       "gap_rate": 0.5885
+     }
+    }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 383,
+      "gap_rate": 0.6423
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 321,
+      "gap_rate": 0.595
+     },
+     "medium": {
+      "n": 62,
+      "gap_rate": 0.8871
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 253,
+      "gap_rate": 0.5138
+     },
+     "nej": {
+      "n": 130,
+      "gap_rate": 0.8923
      }
     }
    }
@@ -264,6 +320,34 @@
       "gap_rate": 0.6011
      }
     }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 488,
+      "gap_rate": 0.459
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 445,
+      "gap_rate": 0.4472
+     },
+     "medium": {
+      "n": 43,
+      "gap_rate": 0.5814
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 321,
+      "gap_rate": 0.3489
+     },
+     "nej": {
+      "n": 167,
+      "gap_rate": 0.6707
+     }
+    }
    }
   },
   "C": {
@@ -331,6 +415,34 @@
      "nej": {
       "n": 1211,
       "gap_rate": 0.5235
+     }
+    }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 304,
+      "gap_rate": 0.3553
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 266,
+      "gap_rate": 0.3421
+     },
+     "medium": {
+      "n": 38,
+      "gap_rate": 0.4474
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 188,
+      "gap_rate": 0.3617
+     },
+     "nej": {
+      "n": 116,
+      "gap_rate": 0.3448
      }
     }
    }
@@ -402,6 +514,34 @@
       "gap_rate": 0.4461
      }
     }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 391,
+      "gap_rate": 0.3708
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 372,
+      "gap_rate": 0.3629
+     },
+     "medium": {
+      "n": 19,
+      "gap_rate": 0.5263
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 224,
+      "gap_rate": 0.2946
+     },
+     "nej": {
+      "n": 167,
+      "gap_rate": 0.4731
+     }
+    }
    }
   },
   "KD": {
@@ -469,6 +609,34 @@
      "nej": {
       "n": 1416,
       "gap_rate": 0.8545
+     }
+    }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 369,
+      "gap_rate": 0.8184
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 261,
+      "gap_rate": 0.8008
+     },
+     "medium": {
+      "n": 108,
+      "gap_rate": 0.8611
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 203,
+      "gap_rate": 0.7438
+     },
+     "nej": {
+      "n": 166,
+      "gap_rate": 0.9096
      }
     }
    }
@@ -540,6 +708,34 @@
       "gap_rate": 0.4373
      }
     }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 480,
+      "gap_rate": 0.2812
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 451,
+      "gap_rate": 0.2616
+     },
+     "medium": {
+      "n": 29,
+      "gap_rate": 0.5862
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 305,
+      "gap_rate": 0.2525
+     },
+     "nej": {
+      "n": 175,
+      "gap_rate": 0.3314
+     }
+    }
    }
   },
   "L": {
@@ -607,6 +803,34 @@
      "nej": {
       "n": 1256,
       "gap_rate": 0.8217
+     }
+    }
+   },
+   "validity_explicit": {
+    "coverage": {
+     "explicit": {
+      "n": 583,
+      "gap_rate": 0.7856
+     }
+    },
+    "confidence": {
+     "high": {
+      "n": 451,
+      "gap_rate": 0.7738
+     },
+     "medium": {
+      "n": 132,
+      "gap_rate": 0.8258
+     }
+    },
+    "plan_tacker_utskottets_skal": {
+     "ja": {
+      "n": 377,
+      "gap_rate": 0.7029
+     },
+     "nej": {
+      "n": 206,
+      "gap_rate": 0.9369
      }
     }
    }

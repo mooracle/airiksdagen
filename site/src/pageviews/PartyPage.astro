@@ -22,9 +22,13 @@ interface ValidityLevel { n: number; gap_rate: number | null }
 const gap = getAggregate<{
   per_party: Record<string, {
     explicit: { n: number; gap: number; gap_rate: number | null };
+    /** every decided vote, whatever the plan had to say about it */
+    all_tiers?: { n: number; gap: number; gap_rate: number | null };
     tiers: Record<string, number>;
     /** gap split by the model's own read strength; absent on pre-p6 exports */
     validity?: Record<string, Record<string, ValidityLevel>>;
+    /** the same split INSIDE the headline tier — the robustness question */
+    validity_explicit?: Record<string, Record<string, ValidityLevel>>;
   }>;
 }>('gap');
 const pgap = gap?.per_party?.[code];
@@ -41,52 +45,93 @@ const VALIDITY_ORDER: Record<string, string[]> = {
 const ciHalf = (p: number | null, n: number) =>
   p == null || n === 0 ? null : 1.96 * Math.sqrt((p * (1 - p)) / n);
 
-/* "Does the measurement hold?" — three tests, each answered rather than plotted.
+/* What the headline number is computed over, and whether it holds inside that.
  *
- * This was nine bare percentages in three bar groups, under three different
- * vocabularies the page never defined (uttryckligt/härlett/täcks ej, hög/medel/
- * låg, ja/nej) and a scale caption reading "stark → svag läsning" that only
- * parses if you already know explicit > inferred > not_covered is an ordering of
- * evidence. The finding was there and the reader had to derive it.
+ * THE PREVIOUS VERSION STARTED FROM A WRONG PREMISE and this is the correction.
+ * It compared the headline against every other decided vote pooled together and
+ * called the difference a validity test — so a party whose gap was larger among
+ * votes its plan never addressed was reported as "Osäkert. 0 av 3 test", i.e.
+ * as a measurement that fails. That is not what those votes are.
  *
- * The question is a comparison, so each test is now reduced to the comparison it
- * makes: the gap where the reading is STRONGEST against the gap everywhere else.
- * The logic is one sentence — a gap that is really an artifact of the agent
- * misreading would be largest where the reading is weakest — and each test says
- * outright whether it is.
+ * A party programme is not a voting manual. It cannot speak to all 2,539
+ * divisions and is not trying to: `gap.py` says so outright — "a plan that never
+ * reached what the vote turned on cannot convict a party of defying it", and
+ * `promptgen.evidence_tier` calls the off-axis case "the honest majority case".
+ * The headline is deliberately the `explicit` tier alone, 14.5-25.4% of decided
+ * votes depending on the party. The rest are not a weaker reading of the plan;
+ * there is nothing there to read weakly. Treating them as evidence quality
+ * framed full coverage as the target, which it never was.
  *
- * The weak side POOLS every level below the strongest rather than taking the
- * single weakest. `partiprogram`-level thinness is the reason: KD's `not_covered`
- * holds 31 decisions against 369 explicit, so a strongest-vs-weakest comparison
- * was reading a ±17pp number as if it were solid. Pooling puts KD's weak side on
- * 2,169 decisions. The per-level detail is kept, in the disclosure below.
+ * It was also circular: `evidence_tier` is DERIVED from coverage, confidence and
+ * plan_tacker_utskottets_skal, the same three fields the tests were splitting
+ * on, so "does the gap hold at explicit versus the rest" compared the headline's
+ * own definition against its complement.
+ *
+ * So the section now states scope first — how much of the record can carry a
+ * broken-promise claim at all — and then asks the one question that is a genuine
+ * robustness check: INSIDE that tier, does the gap depend on how well the model
+ * thought it had read the plan? (`validity_explicit`; coverage cannot vary
+ * there, being what defines the tier.)
  */
+const cov = pgap?.validity?.coverage;
+const covN = (lv: string) => cov?.[lv]?.n ?? 0;
+/** Two metrics about the party's documents, not one verdict about the method.
+ *
+ *  reach       — of the votes the party actually decided, how many its plan says
+ *                anything about. 89.5-98.8% across the eight parties: a plan is
+ *                almost always relevant to something in a case.
+ *  explicitness — and of those, how many are an outright commitment rather than a
+ *                position derived from the plan's principles. 14.7-26.6%, which
+ *                is where the parties genuinely differ, and which is the number
+ *                the headline gap is computed on.
+ */
+const reachTotal = covN('explicit') + covN('inferred') + covN('not_covered');
+const scope = reachTotal
+  ? {
+      total: reachTotal,
+      addressed: covN('explicit') + covN('inferred'),
+      explicit: covN('explicit'),
+      inferred: covN('inferred'),
+      uncovered: covN('not_covered'),
+      reach: (covN('explicit') + covN('inferred')) / reachTotal,
+      explicitness: covN('explicit') / Math.max(1, covN('explicit') + covN('inferred')),
+    }
+  : null;
+
+/** The one robustness question left once scope is stated plainly: inside the
+ *  explicit tier, does the gap lean on the readings the model was least sure of?
+ *  Coverage cannot vary here — it is what defines the tier — so confidence is
+ *  the axis, and `high` is the overwhelming majority of it. */
+const confRows = Object.entries(pgap?.validity_explicit?.confidence ?? {})
+  .map(([lv, v]) => ({ lv, ...v, ci: ciHalf(v.gap_rate, v.n) }))
+  .filter((r) => r.n > 0)
+  .sort((a, b) => VALIDITY_ORDER.confidence.indexOf(a.lv) - VALIDITY_ORDER.confidence.indexOf(b.lv));
+const sure = confRows.find((r) => r.lv === 'high') ?? null;
+/* The conclusion has to be read off the comparison, not asserted. On V and KD
+ * the confident subset lands within 2pp of the headline, so the gap plainly does
+ * not rest on the shakier readings. On M it is 60% against a headline of 64% —
+ * the 62 medium-confidence cases at 89% are lifting it, which is worth saying
+ * rather than papering over with the same reassuring sentence. */
+const sureDelta =
+  sure?.gap_rate != null && pgap?.explicit.gap_rate != null
+    ? sure.gap_rate - pgap.explicit.gap_rate
+    : null;
+const sureVerdict = sureDelta == null ? null : Math.abs(sureDelta) <= 0.03 ? 'steady' : 'lower';
+
+/** The per-level tables, kept behind the disclosure as the raw split. Framed as
+ *  a contrast across scope, which is what it is — NOT a strong-versus-weak test
+ *  of the headline (see the note above). */
 const validity = Object.entries(pgap?.validity ?? {})
-  .map(([field, levels]) => {
-    const rows = (VALIDITY_ORDER[field] ?? Object.keys(levels))
+  .map(([field, levels]) => ({
+    field,
+    rows: (VALIDITY_ORDER[field] ?? Object.keys(levels))
       .filter((lv) => levels[lv])
       .map((lv) => {
         const ci = ciHalf(levels[lv].gap_rate, levels[lv].n);
         return { lv, ...levels[lv], ci, thin: ci !== null && ci > 0.1 };
-      });
-    const strong = rows[0];
-    const rest = rows.slice(1);
-    const weakN = rest.reduce((n, r) => n + r.n, 0);
-    const weak = weakN
-      ? rest.reduce((s, r) => s + (r.gap_rate ?? 0) * r.n, 0) / weakN
-      : null;
-    const delta = strong?.gap_rate != null && weak != null ? strong.gap_rate - weak : null;
-    // Two outcomes, not three. "Flat" is not a middle case: a gap that does not
-    // move with reading strength is a gap reading strength does not explain,
-    // which is the same reassurance as one that rises. Only a gap that grows as
-    // the evidence weakens is a warning, so only that gets one.
-    const verdict = delta == null ? null : delta >= -0.02 ? 'holds' : 'weak';
-    return { field, rows, strong, weak, weakN, delta, verdict };
-  })
-  .filter((f) => f.rows.length > 0 && f.strong?.gap_rate != null);
-/** The heading is a question; this answers it before the tests are read. */
-const held = validity.filter((v) => v.verdict === 'holds').length;
-const verdictAll = !validity.length ? null : held === validity.length ? 'all' : held ? 'some' : 'none';
+      }),
+  }))
+  .filter((f) => f.rows.length > 0);
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
@@ -302,59 +347,75 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     <>
       <h2>{t('party.validity')}</h2>
       <div class="card">
-        {/* The answer first, then the tests behind it. The heading is a
-            question and the reader should not have to compute its answer from
-            nine percentages. */}
-        {verdictAll && (
-          <p class="vanswer" data-v={verdictAll}>
-            <b>{t(`party.validityAnswer.${verdictAll}` as any)}</b>{' '}
-            {t('party.validityAnswerNote')
-              .replace('{held}', String(held))
-              .replace('{n}', String(validity.length))}
+        {/* Two metrics about the party's DOCUMENTS, in the order they answer:
+            how much of the chamber's business the plan speaks to at all, and how
+            much of that is an outright commitment rather than a derivation. The
+            second is the base of the headline gap, which is why it is here. */}
+        {scope && (
+          <div class="vmetrics">
+            <div class="vmetric">
+              <span class="vnum">{(scope.reach * 100).toFixed(0)}<small>%</small></span>
+              <span class="vmlbl">{t('party.scopeReach')}</span>
+              <span class="vmsub">
+                {t('party.scopeReachSub')
+                  .replace('{a}', num(scope.addressed))
+                  .replace('{t}', num(scope.total))}
+              </span>
+            </div>
+            <div class="vmetric lead">
+              <span class="vnum">{(scope.explicitness * 100).toFixed(0)}<small>%</small></span>
+              <span class="vmlbl">{t('party.scopeExplicit')}</span>
+              <span class="vmsub">
+                {t('party.scopeExplicitSub')
+                  .replace('{e}', num(scope.explicit))
+                  .replace('{i}', num(scope.inferred))}
+              </span>
+            </div>
+          </div>
+        )}
+        {scope && (
+          <p class="muted vlogic">
+            {t('party.scopeNote')
+              .replace('{e}', num(scope.explicit))
+              .replace('{pct}', pgap?.explicit.gap_rate != null ? `${(pgap.explicit.gap_rate * 100).toFixed(0)}%` : '–')}
           </p>
         )}
-        <p class="muted vlogic">{t('party.validityLogic')}</p>
 
-        <div class="vtests">
-          {validity.map((f) => (
-            <div class="vtest" data-v={f.verdict ?? undefined}>
-              <p class="vq">{t(`party.validityTest.${f.field}` as any)}</p>
-              <div class="vpair">
-                <span class="vside">
-                  <span class="vlbl">{t(`party.validityStrong.${f.field}` as any)}</span>
-                  <span class="vbar">
-                    <span style={`width:${((f.strong!.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
-                  </span>
-                  <b class="vpct">{((f.strong!.gap_rate ?? 0) * 100).toFixed(0)}%</b>
-                  <span class="vn">n = {f.strong!.n}</span>
+        {/* The one genuine robustness check, once scope is no longer mistaken for
+            evidence quality: inside the explicit tier, is the gap carried by the
+            readings the model was surest of, or by the rest? */}
+        {sure && confRows.length > 1 && (
+          <div class="vrobust">
+            <p class="vq">{t('party.robustTitle')}</p>
+            {confRows.map((r) => (
+              <span class="vside" data-lv={r.lv}>
+                <span class="vlbl">{t(`party.validityLevel.${r.lv}` as any)}</span>
+                <span class="vbar">
+                  <span style={`width:${((r.gap_rate ?? 0) * 100).toFixed(1)}%;background:${r.lv === 'high' ? (party?.color ?? 'var(--muted)') : 'var(--muted)'}`} />
                 </span>
-                <span class="vside weak">
-                  <span class="vlbl">{t(`party.validityWeak.${f.field}` as any)}</span>
-                  <span class="vbar">
-                    <span style={`width:${((f.weak ?? 0) * 100).toFixed(1)}%`} />
-                  </span>
-                  <b class="vpct">{((f.weak ?? 0) * 100).toFixed(0)}%</b>
-                  <span class="vn">n = {f.weakN}</span>
-                </span>
-              </div>
-              {f.verdict && (
-                <p class="vverdict" data-v={f.verdict}>
-                  {t(`party.validityVerdict.${f.verdict}` as any).replace(
-                    '{d}',
-                    `${f.delta! >= 0 ? '+' : '−'}${Math.abs(f.delta! * 100).toFixed(0)}`,
-                  )}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
+                <b class="vpct">{r.gap_rate == null ? '–' : `${(r.gap_rate * 100).toFixed(0)}%`}</b>
+                <span class="vn">n = {r.n}</span>
+              </span>
+            ))}
+            {sureVerdict && (
+              <p class="vverdict" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
+                {t(`party.robustNote.${sureVerdict}` as any)
+                  .replace('{n}', num(sure.n))
+                  .replace('{t}', num(pgap?.explicit.n ?? 0))
+                  .replace('{pct}', sure.gap_rate == null ? '–' : `${(sure.gap_rate * 100).toFixed(0)}%`)
+                  .replace('{head}', pgap?.explicit.gap_rate == null ? '–' : `${(pgap.explicit.gap_rate * 100).toFixed(0)}%`)}
+              </p>
+            )}
+          </div>
+        )}
 
         <details class="vmore">
           <summary>{t('party.validityHow')}</summary>
           <p class="muted vnote">{t('party.validityNote')}</p>
-          {/* The per-level breakdown the tests are computed from — kept, because
-              pooling the weak side is a presentation choice and the reader is
-              entitled to the levels it pooled. */}
+          {/* The full per-level split, across every decided vote. A CONTRAST
+              across scope, not a strong-versus-weak test of the headline — the
+              note above says so, and the previous version of this section did
+              not, which is what made it misread its own data. */}
           <div class="vgrid">
             {validity.map((f) => (
               <div class="vblock">
@@ -581,20 +642,30 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
       .trends { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
       .trends .wide { grid-column: 1 / -1; }
     }
-    /* The section's own answer, ahead of the tests that produce it. */
-    .vanswer { margin: 0 0 0.5rem; font-size: 1.05rem; }
-    .vanswer b { font-size: 1.25rem; margin-right: 0.15rem; }
-    .vanswer[data-v='all'] b { color: #2f5326; }
-    .vanswer[data-v='some'] b { color: #7a4b12; }
-    .vanswer[data-v='none'] b { color: var(--nej, #8c2f2f); }
+    /* The two document metrics, read left to right as one sentence: how much of
+       the chamber's business the plan reaches, and how much of that is an
+       outright commitment. The second is the base of the headline, so it leads. */
+    .vmetrics {
+      display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      margin-bottom: 1rem;
+    }
+    .vmetric {
+      padding: 0.7rem 0.9rem; border-left: 3px solid var(--line);
+      background: var(--panel-2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .vmetric.lead { border-left-color: var(--pc, var(--accent)); }
+    .vnum { display: block; font-size: 1.9rem; font-weight: 700; line-height: 1.05; }
+    .vnum small { font-size: 0.45em; font-weight: 700; margin-left: 0.08em; vertical-align: baseline; }
+    .vmlbl { display: block; font-size: 0.88rem; color: var(--ink-2); margin-top: 0.15rem; }
+    .vmsub {
+      display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem;
+      font-variant-numeric: tabular-nums;
+    }
     .vlogic { font-size: 0.88rem; max-width: 62ch; margin: 0 0 1.2rem; }
 
-    .vtests { display: grid; gap: 1.1rem; }
-    .vtest { padding-top: 0.9rem; border-top: 1px solid var(--line-soft); }
-    .vtest:first-child { padding-top: 0; border-top: 0; }
+    .vrobust { padding-top: 0.9rem; border-top: 1px solid var(--line-soft); display: grid; gap: 0.35rem; }
     /* The question, in the reader's words — the old <h3> said "Efter täckning". */
-    .vq { margin: 0 0 0.5rem; font-weight: 600; font-size: 0.95rem; }
-    .vpair { display: grid; gap: 0.35rem 1.4rem; }
+    .vq { margin: 0 0 0.35rem; font-weight: 600; font-size: 0.95rem; }
     /* Label, bar, %, n — the strong side and the pooled weak side read against
        one another, which is the whole comparison the test makes. */
     .vside {
