@@ -93,13 +93,43 @@ def verdict_of(rost: str | None, position: str | None) -> str:
     return KEPT if position == rost else DIVERGED
 
 
+# Mirror of `site/src/lib/doctext.ts:INVISIBLE` — the characters the page deletes
+# before it draws anything.
+#
+# The served text KEEPS them, and must: it is the exact bytes the agent was shown
+# and what `verify simulate` checks every citation against. But an offset measured
+# over the served text does not index the *rendered* block, and the two differ on
+# real data — `valmanifest-2022-s` carries a literal BEL (U+0007) after 40 of its
+# bullet glyphs, straight out of the source PDF, which put every anchor in those
+# lines one character late. So the span is derived in the coordinates the page
+# draws in, exactly as the quote itself is derived rather than stored.
+#
+# Hard spaces (U+00A0/2007/202F) need no entry here: `str.split()` treats them as
+# whitespace, so `_normalize_ws` already collapses them the way the page does.
+_INVISIBLE = re.compile(
+    "[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\xad\u200b-\u200d\u2060\ufeff]"
+)
+
+
+def drawn(text: str) -> str:
+    """`text` as the page renders it — the Python side of `doctext.repairChars`.
+
+    Collapse comes after the removal, as it does there
+    (`repairChars(...).replace(/\\s+/g, ' ')`): a character deleted from between
+    two spaces would otherwise leave a double space on one side only.
+    """
+    return _normalize_ws(_INVISIBLE.sub("", text))
+
+
 @dataclass(slots=True)
 class BlockIndex:
     """One served document, addressable by block.
 
     `served` and `starts`/`ends` come from `migrate_quotes.index_for`, so the
     text is byte-for-byte what `verify simulate` compares a citation against.
-    `ids` names the block each span belongs to.
+    `ids` names the block each span belongs to. `drawn_served`/`drawn_starts` are
+    the same document in the coordinates the page draws in, which is what an
+    exported span has to index — see `drawn()`.
     """
 
     slug: str
@@ -107,6 +137,8 @@ class BlockIndex:
     ids: list[str]
     starts: list[int]
     ends: list[int]
+    drawn_served: str
+    drawn_starts: list[int]
 
     def block_at(self, pos: int) -> int:
         """Index of the block holding character `pos` of the served text."""
@@ -118,12 +150,18 @@ class BlockIndex:
         return i
 
     def locate(self, quote: str) -> tuple[str, int] | None:
-        """(block_id, offset within the block) for a quote, or None.
+        """(block_id, offset within the block as drawn) for a quote, or None.
 
         Exact substring only. A fuzzy locator here would re-do the judgement
         `migrate-quotes` already made against the research record, in a build
         step that cannot write its result back — so a quote that does not
         resolve is a fact about the record, to be reported and not repaired.
+
+        The block is decided on the served text, because that is the text the
+        citation was made against; the offset is then re-measured on the drawn
+        text, because that is what the page will index with it. Removal never
+        reorders, so searching from the block's drawn start finds the same
+        occurrence the served search did.
         """
         q = _normalize_ws(quote)
         if not q:
@@ -134,7 +172,16 @@ class BlockIndex:
         i = self.block_at(pos)
         if i < 0:
             return None
-        return self.ids[i], pos - self.starts[i]
+        dq = drawn(q)
+        if not dq:
+            # a quote of nothing but characters the page deletes. `find("")`
+            # would answer 0 and write a zero-length anchor; report it as a miss
+            # instead, which is what `collect()` then raises on.
+            return None
+        at = self.drawn_served.find(dq, self.drawn_starts[i])
+        if at < 0:
+            return None
+        return self.ids[i], at - self.drawn_starts[i]
 
 
 @lru_cache(maxsize=64)
@@ -170,12 +217,31 @@ def block_index(slug: str) -> BlockIndex:
                 f"{slug}: block {b['id']} does not match the served line at {lo} "
                 f"({b['text'][:60]!r} vs {idx.served[lo:hi][:60]!r})"
             )
+    # The same document again, in the coordinates the page draws in. Built the
+    # way `groupBlocks()` builds it — each block drawn on its own, then joined
+    # by the single space `index_for` joins the served lines with — so a
+    # character the page deletes cannot shift the block after it. A block that
+    # draws to nothing keeps a start anyway, so `drawn_starts` stays parallel
+    # to `ids`.
+    drawn_parts: list[str] = []
+    drawn_starts: list[int] = []
+    pos = 0
+    for lo, hi in idx.spans:
+        text = drawn(idx.served[lo:hi])
+        if text and drawn_parts:
+            pos += 1
+        drawn_starts.append(pos)
+        if text:
+            drawn_parts.append(text)
+            pos += len(text)
     return BlockIndex(
         slug=slug,
         served=idx.served,
         ids=[b["id"] for b in kept],
         starts=[lo for lo, _ in idx.spans],
         ends=[hi for _, hi in idx.spans],
+        drawn_served=" ".join(drawn_parts),
+        drawn_starts=drawn_starts,
     )
 
 
@@ -187,11 +253,14 @@ class Anchor:
     refs: list[dict]
 
     def to_dict(self) -> dict:
+        # `quote` is the citation as the record holds it; `offset`/`length` index
+        # the block as the page draws it, so they measure `drawn(quote)` — see
+        # `drawn()` for why the two are not the same string.
         return {
             "quote": self.quote,
             "block_id": self.block_id,
             "offset": self.offset,
-            "length": len(_normalize_ws(self.quote)),
+            "length": len(drawn(self.quote)),
             "refs": self.refs,
         }
 
@@ -437,7 +506,8 @@ def build(run_id: str, results_dir=None) -> dict:
 # So the split is by what the page shows before a click. Aggregate counts and the
 # kept/diverged ratio bar render for every cited block and are therefore INLINE,
 # built into `site/src/data/corpus/anchors/` at build time — no quote text, since
-# the block already holds it and offset+length recover the span. The ref lists
+# the block already holds it and offset+length recover the span from the block AS
+# DRAWN (`drawn()`, and `tests/test_anchors.py::TestDrawnSpans`). The ref lists
 # behind them are fetched per document from `site/public/data/anchors/`, in a
 # row encoding keyed by REF_FIELDS: the field names repeat 77,599 times
 # otherwise, and they are the larger half of the payload.
