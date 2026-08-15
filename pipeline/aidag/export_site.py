@@ -86,11 +86,12 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
 
     Returns the number of anchor files written — 0 when the run has no anchors
     yet, which is not an error: `build-anchors` runs after `repair-citations` and
-    an export in between should still produce a site. Both no-index cases —
-    `run_id=None` (the no-decisions export) and a run whose `build-anchors` has
-    not run — return 0 without touching the anchors at all. Neither is "a run
-    that cites nothing", and rebuilding the directories from their empty payload
-    would delete the committed index rather than leave it alone.
+    an export in between should still produce a site. All three no-index cases —
+    a missing extraction directory, `run_id=None` (the no-decisions export), and a
+    run whose `build-anchors` has not run — return 0 without touching the
+    committed files at all. None of them is "a run that cites nothing", and
+    rebuilding the directories from their empty payload would delete the
+    committed index rather than leave it alone.
     """
     from aidag.anchors import anchors_dir, compact_refs, load, summarize
     from aidag.config import BLOCKS_DIR
@@ -98,6 +99,14 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
     corpus_out = SITE_DATA_DIR / "corpus"
     blocks_out = corpus_out / "blocks"
     blocks_out.mkdir(parents=True, exist_ok=True)
+    if not BLOCKS_DIR.exists():
+        # Same distinction the anchors make below, and `glob` cannot draw it:
+        # it answers [] for a missing directory exactly as it does for an empty
+        # one, so the sweep would read "nothing is extracted any more" and unlink
+        # all 23 committed block files. An empty *directory* is the real "nothing
+        # is extracted", and its files are still swept.
+        print("  blocks: no extraction directory — committed blocks left alone")
+        return 0
     sources = {src.name for src in BLOCKS_DIR.glob("*.json")}
     # same rule as the anchors below: a document that stops being extracted must
     # lose its block file, or the page keeps rendering it from a stale copy
