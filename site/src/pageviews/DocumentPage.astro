@@ -134,7 +134,11 @@ const TR = {
 
 <Base lang={lang} title={title} description={`${title} ${t('meta.desc.documentSuffix')}`} path={`/dokument/${slug}/`} ogType="article">
   <p class="muted">
-    <a href={`${localePath(lang, '/om/')}#dokument`}>
+    {/* /parti/#dokument, not /om/#dokument: the corpus index moved to the parties
+        page and /om/ kept only a one-line pointer to it, so this "← Party
+        documents" was landing the reader on the methodology page instead of the
+        list they came from. */}
+    <a href={`${localePath(lang, '/parti/')}#dokument`}>
       ← {sv ? 'Partidokument' : 'Party documents'}
     </a>
   </p>

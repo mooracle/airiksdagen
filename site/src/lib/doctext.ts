@@ -37,7 +37,7 @@
 // Note p6 (full-v4) does not show budgetmotion to agents at all — only valmanifest
 // and partiprogram, which have 2 and 254 such breaks respectively.
 
-/** Human title for a corpus slug. Shared by /om/#dokument and the document page,
+/** Human title for a corpus slug. Shared by /parti/#dokument and the document page,
  *  which used to carry two copies — the page's handled only tidoavtalet and
  *  valmanifest, so every partiprogram and budgetmotion page was titled with its
  *  raw slug ("partiprogram-sd-2019"). */
