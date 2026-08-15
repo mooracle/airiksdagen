@@ -1125,9 +1125,36 @@ document now carries 10 `h2` headings and no unheaded stretch reaches a quarter 
 it, which is what the criterion is asserted on.
 
 ### Task 11: [Final] Update documentation
-- [ ] update `CLAUDE.md`: extraction pipeline, `frozen/` split, new commands
-- [ ] update `README.md` if the corpus layout is described there
-- [ ] move this plan to `docs/plans/completed/`
+- [x] update `CLAUDE.md`: extraction pipeline, `frozen/` split, new commands — a new
+      "The document corpus" section holding the layout, the version split, the pass
+      order and why it is an order, the site's own test suite, and the `known-unrecovered`
+      rule. Written as the things a later session gets *wrong* rather than as a feature
+      list: `frozen/` is not a fallback, `migrate-quotes` before `repair-citations`,
+      `citation-audit` around anything that rewrites citations
+- [x] update `README.md` if the corpus layout is described there — it is (the
+      "Where the data lives" table). Given a `data/corpus/` subsection, plus the
+      `anchors/` results row and the five new commands in the pipeline listing.
+      Corrected while there: the published run is `full-v4`, not `full-v3` (⚠️ below)
+- [x] move this plan to `docs/plans/completed/`
+- [x] run tests — `uv run pytest tests -q` **561 passed**, `cd site && npm test` **56
+      passed**, both unchanged. No `npm run build`: nothing under `site/` changed, and
+      the last build in Task 10 was green at 7,723 pages
+
+⚠️ **Deviation, recorded — the run id in `README.md` was stale and is fixed here.**
+Out of this plan's scope on a literal reading, but the corpus rows sit in the same
+table, and `site/src/data/meta.json` records `run_id: full-v4` while the README said
+"the current run is **`full-v3`** (prompt p5)" and pointed at
+`docs/orchestration-full-v3.md`. Writing a new corpus section directly above a
+contradicted sentence is worse than fixing it: the run-id rows are now `<run>`-keyed,
+full-v4 is named as published with full-v3 kept and still verifying, and the runbook
+link points at `orchestration-full-v4.md`.
+
+➕ **Also corrected**: `CLAUDE.md`'s translation state ("AI decisions 0/9460 — the
+decision pass has never been run"), which Task 6 flagged as stale. `translate-status`
+reads **2539/2539** cases and **20312/20312** decisions, all on `claude-haiku-4-5`. The
+figures downstream of it were derived from the 9,460 (237 agents, ~$14 vs ~$42) and are
+restated against a full 20,312-decision pass — 508 agents, several manifests, ~$31 vs
+~$91 — since that is now the only shape a re-run can take.
 
 ## Technical Details
 
