@@ -12,7 +12,7 @@ import path from 'node:path';
 const ROOT = path.join(import.meta.dirname, '..');
 process.chdir(ROOT); // lib/data.ts resolves src/data/ from cwd, as astro does
 
-const { citedLines, chapters, refRows } = await import('../src/lib/anchors.ts');
+const { citedLines, chapters, refRows, caseTitle } = await import('../src/lib/anchors.ts');
 const { getCorpusAnchors, getCorpusBlocks, getCorpusDoc } = await import('../src/lib/data.ts');
 const { renderDoc, groupBlocks } = await import('../src/lib/doctext.ts');
 
@@ -417,6 +417,27 @@ test('the field order is read from the payload, not assumed', () => {
   });
 });
 
+test('a ref row is labelled with what the vote was about, in the page language', () => {
+  const titles = { fields: ['sv', 'en'], cases: { V1: ['Klimatanpassning', 'Climate adaptation'] } };
+  assert.equal(caseTitle(titles, 'V1', 'sv'), 'Klimatanpassning');
+  assert.equal(caseTitle(titles, 'V1', 'en'), 'Climate adaptation');
+  // Read by name, not by index — same reason refRows reads REF_FIELDS.
+  const swapped = { fields: ['en', 'sv'], cases: { V1: ['Climate adaptation', 'Klimatanpassning'] } };
+  assert.equal(caseTitle(swapped, 'V1', 'sv'), 'Klimatanpassning');
+});
+
+test('a missing title falls back rather than breaking the row', () => {
+  // The rows are the finding; the titles only label them. A payload that failed
+  // to load, or a vote it has no row for, must leave the panel listing dates —
+  // which is what it did before the titles existed.
+  assert.equal(caseTitle(null, 'V1', 'sv'), null);
+  assert.equal(caseTitle({ fields: ['sv', 'en'], cases: {} }, 'V1', 'sv'), null);
+  // An untranslated English title falls back to the Swedish one rather than
+  // rendering an empty link.
+  const partial = { fields: ['sv', 'en'], cases: { V1: ['Klimatanpassning', ''] } };
+  assert.equal(caseTitle(partial, 'V1', 'en'), 'Klimatanpassning');
+});
+
 // --- against the committed export ---------------------------------------------
 
 test('every rail entry links to an id the page actually renders', { skip }, () => {
@@ -471,6 +492,41 @@ test('a panel promises exactly as many decisions as it then lists', { skip }, ()
     }
   }
   assert.ok(blocks > 4000, `only ${blocks} cited blocks checked`);
+});
+
+test('every vote a panel can list has a title to list it under', { skip }, () => {
+  // The panel fetches two files and joins them in the browser. A vote in the
+  // refs with no row in cases.json renders as a bare date — the state the title
+  // was added to remove — and nothing anywhere would report it, so it is
+  // measured here across the whole committed export rather than assumed from
+  // the writer's own guard.
+  const p = path.join(ROOT, 'public', 'data', 'anchors', 'cases.json');
+  if (!fs.existsSync(p)) return assert.fail('public/data/anchors/cases.json not exported');
+  const titles = JSON.parse(fs.readFileSync(p, 'utf-8'));
+  assert.deepEqual(titles.fields, ['sv', 'en']);
+  const missing = new Set();
+  let checked = 0;
+  for (const slug of slugs) {
+    const fetched = JSON.parse(
+      fs.readFileSync(path.join(ROOT, 'public', 'data', 'anchors', `${slug}.json`), 'utf-8'),
+    );
+    for (const id of Object.keys(getCorpusAnchors(slug).blocks)) {
+      for (const r of refRows(fetched, id)) {
+        checked += 1;
+        for (const lang of ['sv', 'en']) {
+          if (!caseTitle(titles, r.votering_id, lang)) missing.add(`${r.votering_id} (${lang})`);
+        }
+      }
+    }
+  }
+  assert.deepEqual([...missing], []);
+  assert.ok(checked > 40000, `only ${checked} rows checked`);
+  // Shared, not per document: one row per vote, not one per (document, vote).
+  // 32,796 pairs against 2,539 votes is the ~13x this file exists to avoid.
+  assert.ok(
+    Object.keys(titles.cases).length <= 2600,
+    `${Object.keys(titles.cases).length} title rows — the file is no longer deduplicated`,
+  );
 });
 
 test('the document total counts a vote once however many lines it cited', { skip }, () => {

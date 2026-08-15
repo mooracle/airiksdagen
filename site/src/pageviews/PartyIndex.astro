@@ -11,7 +11,7 @@
 // cards rather than three screens into the methodology.
 import Base from '../layouts/Base.astro';
 import PartyBadge from '../components/PartyBadge.astro';
-import { getMeta, getAggregate, listCorpusDocs } from '../lib/data';
+import { getMeta, getAggregate, listCorpusDocs, getCorpusAnchors } from '../lib/data';
 import { docTitle } from '../lib/doctext';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -44,6 +44,34 @@ const dokPath = (slug: string) => localePath(lang, `/dokument/${slug}/`);
 // Party codes never collide with the numeric segments, so the scan is safe.
 // Anything with no code (the Tidö agreement) lands in `shared` and is listed
 // under its own heading rather than dropped.
+// How much of each document the votes actually leaned on. Read off the committed
+// citation index (`aidag build-anchors` -> src/data/corpus/anchors/), which is 23
+// small files at build time — the per-vote rows behind these totals are the 8.3 MB
+// that stay out of every page until a reader opens a panel.
+//
+// The two numbers are different questions and both are worth printing. "Lines" is
+// how much of the document is under citation at all; "votes" is how many divisions
+// leaned on it, counted once per division however many lines it quoted — the same
+// distinction the document pages draw between a block's `decisions.n` and `refs`.
+// Absent for the 17 documents the p6 run does not show the agents, and absent is
+// the honest answer there: no citation can point at a document nobody was given.
+const cites = new Map<string, { lines: number; votes: number; kept: number; diverged: number }>();
+for (const slug of listCorpusDocs()) {
+  const a = getCorpusAnchors(slug);
+  if (!a) continue;
+  cites.set(slug, {
+    lines: Object.keys(a.blocks).length,
+    votes: a.totals.decisions.n,
+    kept: a.totals.decisions.kept,
+    diverged: a.totals.decisions.diverged,
+  });
+}
+const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
+const citedTotal = {
+  docs: cites.size,
+  lines: [...cites.values()].reduce((n, c) => n + c.lines, 0),
+};
+
 const docs = listCorpusDocs().sort();
 const byParty: Record<string, string[]> = Object.fromEntries(order.map((c) => [c, []]));
 const shared: string[] = [];
@@ -114,14 +142,58 @@ for (const slug of docs) {
     )}
   </p>
 
+  {/* The counts are the point of the section, not decoration: they say which of
+      these documents the evidence actually rests on. Two parties' manifestos
+      carry a fifth of every citation on the site, and a programme nobody quoted
+      reads the same as one quoted 2,534 times until the number is printed. */}
+  {citedTotal.docs > 0 && (
+    <p class="muted docnote">
+      {sv ? (
+        <Fragment>
+          Siffrorna under varje dokument går <strong>åt andra hållet</strong>: hur många
+          rader i dokumentet som minst en votering citerat, och hur många voteringar som
+          lutat sig mot det. Öppna ett dokument så står citaten i marginalen, med de
+          voteringar som åberopat just den raden — och om partiet sedan röstade med sin
+          egen plan eller emot den. Sammanlagt {num(citedTotal.lines)} rader i
+          {' '}{citedTotal.docs} dokument.
+        </Fragment>
+      ) : (
+        <Fragment>
+          The counts under each document run <strong>the other way</strong>: how many of
+          its lines at least one division quoted, and how many divisions leaned on it.
+          Open a document and the citations sit in the margin, each listing the votes
+          that invoked that line — and whether the party then voted with its own plan or
+          against it. {num(citedTotal.lines)} lines across {citedTotal.docs} documents in
+          total.
+        </Fragment>
+      )}
+    </p>
+  )}
+
   <div class="dgrid">
     {order.filter((code) => byParty[code].length).map((code) => (
       <div class="card dcard" style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
         <PartyBadge code={code} parties={meta.parties} label="name" size={22} />
         <ul>
-          {byParty[code].map((slug) => (
-            <li><a href={dokPath(slug)}>{docLabel(slug).split(' — ')[0]}</a></li>
-          ))}
+          {byParty[code].map((slug) => {
+            const c = cites.get(slug);
+            return (
+              <li>
+                <a href={dokPath(slug)}>{docLabel(slug).split(' — ')[0]}</a>
+                {c ? (
+                  <span class="dstat" title={sv
+                    ? `${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
+                    : `${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
+                    {sv
+                      ? `${num(c.lines)} citerade rader · ${num(c.votes)} voteringar`
+                      : `${num(c.lines)} cited lines · ${num(c.votes)} votes`}
+                  </span>
+                ) : (
+                  <span class="dstat off">{sv ? 'ej i underlaget' : 'not in the context'}</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     ))}
@@ -172,7 +244,19 @@ for (const slug of docs) {
       border-radius: 3px 3px var(--radius) var(--radius); background-image: none;
     }
     .dcard ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
-    .dcard li { margin: 0.25rem 0; font-size: 0.92rem; }
+    .dcard li { margin: 0.45rem 0; font-size: 0.92rem; }
+    /* Under the title rather than beside it: the manifesto names already run to
+       two lines in the narrower cards, and a trailing count would wrap into them. */
+    .dstat {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      cursor: help;
+    }
+    /* A document the agents are not shown cannot be cited, so it has no count —
+       said in words, because a blank line reads as "nobody quoted it". */
+    .dstat.off { font-style: italic; cursor: default; }
     .dcard.shared { margin-top: 0.9rem; }
   </style>
 </Base>
