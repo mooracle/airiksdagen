@@ -26,17 +26,104 @@ repo root via `wrangler.toml`; the Python pipeline never runs in the cloud build
 
 ---
 
+## The document corpus — extraction, `frozen/`, anchors
+
+23 of the 40 corpus documents (8 valmanifest + 15 partiprogram — the cited ones) are
+extracted from cached PDFs into **blocks with stable ids**. The other 17 (16
+budgetmotion + Tidöavtalet) keep their original flat text *and* their original
+rendering path.
+
+```
+data/corpus/
+  pdf/<slug>.pdf            source bytes, committed (23 files, 24 MB) — extraction never fetches
+  frozen/<slug>.txt         pre-extraction text, all 40 — serves prompt_version < p6
+  blocks/<slug>.json        [{id, role, page, size, bold, text}] — 23 files, 9,409 blocks
+  <slug>.txt                derived FROM the blocks; what agents read and verify checks
+  known-unrecovered.json    12 quotes / 119 citations the geometry cannot recover
+```
+
+Roles: `h1 h2 h3 para bullet label toc caption unreadable`.
+
+**`frozen/` is a version split, not a fallback.** `corpus._text()` reads `frozen/`
+whenever `prompt_version < "p6"` — full-v2 (p4) and full-v3 (p5) were generated from
+those bytes, and `verify simulate` checks every citation is an exact substring of what
+the agent was shown, so a re-extracted file served to an old run fails citations that
+were never wrong. There is deliberately **no** "use `frozen/` if it exists" rule: all 40
+are frozen, including the 17 nothing touched, so the version test alone decides the
+directory and cannot be wrong about which files moved.
+
+**Extraction is offline, and no LLM is in this path** — a model that paraphrases a party
+programme is a credibility failure for this project, so structure comes from font
+metrics and geometry. `docx.py` does the work (`read_lines` → `strip_running` →
+`detect_columns` → `split_blocks` → `style_clusters`/`assign_roles`) via PyMuPDF;
+`extract_corpus.py` drives it and derives the `.txt` from the blocks so text and
+structure cannot drift. `fetch_corpus.source_pdf_bytes()` raises `FileNotFoundError`
+rather than downloading, so a re-extraction can never silently pick up a newer edition
+than the corpus was built from.
+
+**The passes are ordered, and re-running one alone is wrong:**
+
+```sh
+uv run aidag citation-audit   --run-id full-v4 --out data/interim/audit/before.json
+uv run aidag extract-corpus                      # blocks + derived .txt (23 documents)
+uv run aidag migrate-quotes   --run-id full-v4   # committed quotes → new bytes (citat_migrerat)
+uv run aidag repair-citations --run-id full-v4   # model paraphrases        (citat_korrigerat)
+uv run aidag citation-audit   --run-id full-v4 \
+    --baseline data/interim/audit/before.json --check-translations
+uv run aidag build-anchors    --run-id full-v4   # quote → block index
+uv run aidag verify simulate  --run-id full-v4   # and --run-id full-v3 — both must be green
+uv run aidag export-site      --run-id full-v4
+```
+
+- `migrate-quotes` records *the corpus changed*; `repair-citations` records *the model
+  paraphrased*. Running them the other way round attributes an extraction fix to the
+  agent. Both leave the original in a sidecar (`quote_fore_migrering`,
+  `quote_ej_verifierad`) and never blank a quote silently.
+- `build-anchors` is keyed on the **quote** — offsets are derived at build time, so
+  re-extraction re-runs the locator instead of breaking links. It **fails** on any quote
+  that neither resolves nor is blank/`citat_ej_migrerat`, before writing anything.
+- `citation-audit` exists because `repair-citations` can *remove* citations while the
+  English translations pair **positionally** (`export_site.py` → `CasePage.astro`): a
+  decision whose citation list changes length renders the wrong English quote against
+  the wrong Swedish one, with nothing raised anywhere. Snapshot before, diff after.
+- `known-unrecovered.json` is consulted by both `migrate-quotes` and `repair.py`: a
+  listed quote is never fuzzy-rewritten. Offered to `best_span` all 12 score > 0.75 —
+  against the *neighbouring column*. `tests/test_docx.py::TestKnownUnrecovered` fails if
+  the list grows or if a listed quote starts resolving.
+
+**Site side.** `export-site` also writes `site/src/data/corpus/{blocks,anchors}/`
+(inline counts, tiers and spans) and `site/public/data/anchors/` (the per-vote ref rows,
+fetched only when a panel is opened — 8.3 MB that never loads with the page).
+`doctext.renderDoc()` renders from blocks when the slug has them and falls back to
+`formatCorpusDoc()` for the other 17. `groupBlocks()` rejoins paragraphs the extraction
+cut: presentation only, and load-bearing — one `<p>` per block breaks 56 `#:~:text=`
+deep links, because the browser's fragment matcher will not cross a block boundary.
+
+**The site has its own test suite**: `cd site && npm test` (`node --test`, needs Node ≥
+22.18 for type stripping). It covers the block renderer and sweeps every anchor's deep
+link — guarantees that live in TypeScript and Astro, where `uv run pytest` cannot reach.
+It is **not** wired into the Cloudflare build, which runs `npm ci && npm run build` only.
+
+`aidag navigation-report --run-id full-v4` reports the citations that landed on a
+heading or topic label rather than on a promise — **16 blocks, 178 votes** (180
+vote-line pairs, which is the number the site shows per block). The finding is written
+up in `docs/topic-label-citations.md`; the role-only figure is 1,165 votes and printing
+*that* alone would be a false claim about two parties' pledge lists, which is why the
+report prints three scopes.
+
+---
+
 ## Running the English translations
 
 The English site shows translated case texts **and** translated AI reasoning.
 Missing translations fall back to Swedish silently, so a partial run looks like a
 half-Swedish page rather than an error.
 
-State as of the last check (full-v4 batch 16): **case texts 2539/2539 done**,
-**AI decisions 0/9460** — the decision pass has never been run. The decision
-total is not fixed: it is however many decisions full-v4 has collected so far,
-rising to 20,312 when the run completes. Always read it off the tool rather than
-from this page:
+State as of 2026-08-15: **case texts 2539/2539**, **AI decisions 20312/20312** —
+both passes are complete, both on `claude-haiku-4-5`, so `translate-prepare` emits
+nothing today. Work appears again only when new decisions land or when units are
+deleted from `decisions.jsonl` to re-run them. Always read it off the tool rather
+than from this page:
 
 ```sh
 uv run aidag translate-status --run-id full-v4
@@ -53,9 +140,8 @@ not a downgrade:
   glossary, so the consistency that would otherwise depend on model strength is
   pinned in the prompt instead.
 - ~3x cheaper than Sonnet (~$1.5 vs ~$4.5 per 1,000 decisions in shadow API
-  terms — so ~$14 vs ~$42 at the current 9,460, and ~$31 vs ~$91 for the full
-  20,312; the real cost is Claude Code usage, since these run as subagents with
-  no API key).
+  terms — so ~$31 vs ~$91 for a full 20,312-decision pass; the real cost is
+  Claude Code usage, since these run as subagents with no API key).
 
 The workflow's own default is still `sonnet` so an unchanged launch behaves as it
 always did — **pass `model: "haiku"` explicitly.**
@@ -72,16 +158,16 @@ uv run aidag translate-prepare --run-id full-v4 --kind decisions --batch-size 24
 
 Writes `data/interim/translate/full-v4/batches/batch-NNN.json` plus one
 self-contained request file per agent under `reqs/`. At
-`DECISIONS_PER_REQUEST = 40` the agent count is `ceil(pending / 40)` — **237** at
-the current 9,460 (`--batch-size 240` caps groups per manifest, not units).
+`DECISIONS_PER_REQUEST = 40` the agent count is `ceil(pending / 40)` — **0** today,
+and **508** for a full 20,312-decision re-translation (`--batch-size 240` caps
+groups per manifest, not units).
 
-Note that 240 cap: it is only just above 237, so today's corpus still fits one
-manifest but a completed full-v4 (20,312 → **508 agents**) will not. Expect
-`translate-prepare` to emit several manifests then, and run each in turn — one
-`Workflow` call per `batch-NNN.json`.
+Note that 240 cap: 508 agents do not fit one manifest, so a full pass makes
+`translate-prepare` emit several. Run each in turn — one `Workflow` call per
+`batch-NNN.json`.
 
-**2. Run the workflow** — ~237 agents against a concurrency cap of
-`min(16, cores-2)`, so roughly **2–4 h** wall clock per full manifest.
+**2. Run the workflow** — up to 240 agents per manifest against a concurrency cap
+of `min(16, cores-2)`, so roughly **2–4 h** wall clock per full manifest.
 
 ```
 Workflow({
