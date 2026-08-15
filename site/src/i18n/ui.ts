@@ -128,6 +128,7 @@ export const ui = {
     'coalition.authoredZero':
       'Lade partiet reservationen självt övergav det den aldrig — 0 % för samtliga partier, båda trösklarna. Proceduren är avgörande där proceduren gäller. Kolumnen till höger är därför det egentliga testet.',
     'party.calibration': 'Kalibrering — planens röst sammanföll med den verkliga',
+    'party.calibrationTip': 'Hur ofta den ståndpunkt planen pekar mot råkade sammanfalla med partiets verkliga röst. Det är en kontrollsiffra, inte ett mått på träffsäkerhet: planens röst är vad dokumenten implicerar, inte en förutsägelse av kammartaktik.',
     // Two figures on the header card, not a chart — see PartyPage.astro for why.
     // `cohesionNote` is still the definition of both, kept for the tooltip.
     'party.cohesion': 'Sammanhållning',
@@ -277,6 +278,7 @@ export const ui = {
     'party.scopeExplicit': '…och så stor del av dem är ett uttryckligt åtagande',
     'party.scopeExplicitSub': '{e} uttryckliga · {i} härledda ur principer',
     'party.scopeNote': 'Avvikelsen ovan ({pct}) räknas på de {e} uttryckliga — de enda som kan visa att ett åtagande faktiskt bröts. Ett partiprogram är ingen omröstningsmanual: att de flesta ståndpunkter måste härledas ur principer är väntat, och de räknas inte in.',
+    'party.scopeAbstained': 'Partiet lade dessutom ned sin röst i {n} voteringar — planen kan inte uttrycka ett nedlagt röst, så de ligger utanför jämförelsen.',
     'party.robustTitle': 'Bärs avvikelsen av de säkra läsningarna?',
     'party.robustNote.steady': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt — avvikelsen vilar alltså inte på de osäkra läsningarna.',
     'party.robustNote.lower': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt. En del av avvikelsen bärs alltså av de läsningar agenten var mindre säker på.',
@@ -503,6 +505,7 @@ export const ui = {
     'coalition.authoredZero':
       'Where a party moved the reservation itself, it never abandoned it — 0% for every party, at both thresholds. Procedure is decisive where procedure applies. The right-hand column is therefore the real test.',
     'party.calibration': 'Calibration — the plan-implied vote matched the actual one',
+    'party.calibrationTip': 'How often the position the plan points to happened to coincide with the party’s real vote. A cross-check, not an accuracy score: the plan-implied vote is what the documents entail, not a prediction of floor tactics.',
     'party.cohesion': 'Cohesion',
     'party.absence': 'absence',
     'party.absenceTip': 'Share of MPs absent. Pairing (kvittning) makes a level of this routine — not a measure of absenteeism.',
@@ -645,6 +648,7 @@ export const ui = {
     'party.scopeReachSub': '{a} of {t} decided votes',
     'party.scopeExplicitSub': '{e} explicit · {i} derived from principle',
     'party.scopeNote': 'The {pct} gap above is computed on those {e} explicit commitments — the only votes that can show a commitment was actually broken. A party programme is not a voting manual: that most positions have to be derived from principle is expected, and those votes are not counted in.',
+    'party.scopeAbstained': 'The party also abstained in {n} divisions — a plan cannot express an abstention, so those sit outside the comparison.',
     'party.robustTitle': 'Is the gap carried by the confident readings?',
     'party.robustNote.steady': 'The {n} of {t} explicit cases the agent was surest about give {pct}, against {head} overall — so the gap does not rest on the uncertain readings.',
     'party.robustNote.lower': 'The {n} of {t} explicit cases the agent was surest about give {pct}, against {head} overall. Part of the gap is therefore carried by the readings the agent was less sure of.',
