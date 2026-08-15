@@ -151,7 +151,7 @@ const schemaSummary = `{
           kontrollen frågar samma funktion som byggde prompten.</li>
         </ul>
 
-        <h3>Ståndpunkt, röst och evidensnivå</h3>
+        <h3 id="evidens">Ståndpunkt, röst och evidensnivå</h3>
         <p>Agenten avgör en <strong>ståndpunkt</strong>: stödjer eller avvisar partiets plan
         det som motförslaget kräver? Rösten härleds sedan i kod (stödjer → Nej, avvisar → Ja)
         och efterfrågas aldrig av modellen. Skälet är att en plan inte uttrycker
@@ -175,6 +175,14 @@ const schemaSummary = `{
         <p>De två svagare nivåerna utgör merparten av besluten. De redovisas öppet men
         räknas aldrig in i huvudsiffran, och på ärendesidorna får de en annan text än de
         uttryckliga — annars skulle en procedurfråga läsas som ett brutet löfte.</p>
+        <p>Samma sak gäller åt andra hållet: <strong>nedlagda röster ligger utanför
+        jämförelsen</strong>. Ståndpunkten härleds till Ja eller Nej och har inget
+        ”avstår” i sitt värdeförråd — att avstå är ett kammartaktiskt drag som bara det
+        verkliga partiet gör. Partisidornas trappa visar båda avsmalningarna: från
+        samtliga voteringar, till dem partiet tog ställning i, till dem planen berör, till
+        dem den tar uttryckligen ställning i. Det är den sista raden huvudsiffran räknas
+        på, och att den är en minoritet är väntat — ett partiprogram är ingen
+        omröstningsmanual.</p>
 
         <h3>Kontaminering</h3>
         <p>Risken är att modellen minns utfallet från sin träningsdata i stället för att läsa
@@ -312,7 +320,7 @@ const schemaSummary = `{
           check asks the same function that built the prompt.</li>
         </ul>
 
-        <h3>Stance, vote and evidence tier</h3>
+        <h3 id="evidens">Stance, vote and evidence tier</h3>
         <p>The agent decides a <strong>stance</strong>: does the party's plan support or reject
         what the counter-proposal demands? The vote is then derived in code (supports → Nej,
         rejects → Ja) and never asked of the model. The reason is that a plan does not express
@@ -333,6 +341,13 @@ const schemaSummary = `{
           and the plan says nothing about it. The stance is still real and fully cited, but it
           cannot show a commitment was broken.</li>
         </ul>
+        <p>The same applies in the other direction: <strong>abstentions sit outside the
+        comparison</strong>. The stance is derived to Yes or No and has no "abstain" in its
+        range at all — abstaining is a floor tactic only the real party performs. The ladder
+        on each party page shows both narrowings: from every division, to the ones the party
+        took a side in, to the ones its plan addresses, to the ones it addresses outright.
+        The last row is what the headline is computed on, and that it is a minority is
+        expected — a party programme is not a voting manual.</p>
         <p>The two weaker tiers account for most decisions. They are published openly but never
         folded into the headline figure, and on the case pages they carry different wording from
         the explicit ones — otherwise a procedural question would read as a broken promise.</p>
