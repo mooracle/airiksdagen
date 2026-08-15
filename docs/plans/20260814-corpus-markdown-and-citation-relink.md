@@ -421,23 +421,82 @@ precedent (`quote_ej_verifierad`, atomic `.tmp` + `replace()`).
 - Create: `pipeline/aidag/migrate_quotes.py`, `tests/test_migrate_quotes.py`
 - Modify: `pipeline/aidag/cli.py`, `data/results/simulations/full-v4/*.jsonl`
 
-- [ ] `aidag migrate-quotes --run-id full-v4 [--dry-run]`
-- [ ] resolve each citation's document with **`corpus.documents_for()` for the
-      decision's `(parti, datum)`** — a citation records only the document *class*, and
-      L has three programme editions, V/KD/S/SD/MP two each
-- [ ] exact substring first; on miss `best_span` against candidate blocks chosen by an
+- [x] `aidag migrate-quotes --run-id full-v4 [--dry-run]`
+- [x] resolve each citation's document for the decision's `(parti, datum)` — a citation
+      records only the document *class*, and L has three programme editions, V/KD/S/SD/MP
+      two each. Through `corpus.program_at()` rather than `documents_for()` — see ⚠️ 1
+- [x] exact substring first; on miss `best_span` against candidate blocks chosen by an
       inverted token index (whole-document `best_span` did not finish in 10 min; the
-      prefilter runs in seconds)
-- [ ] fuzzy hit ≥0.75 → rewrite `quote`, stash original in `quote_fore_migrering`, flag
+      prefilter runs in seconds). Blocks are taken as the *lines of the served text*,
+      which `text_from_blocks` makes the same thing, so a span is a slice of exactly the
+      string `verify simulate` compares against — checked again before it is accepted
+- [x] fuzzy hit ≥0.75 → rewrite `quote`, stash original in `quote_fore_migrering`, flag
       `citat_migrerat`; never overwrite an existing sidecar on a second run
-- [ ] failure → **leave the quote untouched**, flag `citat_ej_migrerat`; never blank it
-- [ ] skip citations whose `quote` is already blank (`repair._mark_unverifiable`)
-- [ ] write atomically via `.tmp` + `replace()`
-- [ ] `--dry-run` reports per-document exact/fuzzy/failed and changes nothing
-- [ ] write tests: exact passthrough; fuzzy rewrite sets sidecar + flag; failure leaves
+- [x] failure → **leave the quote untouched**, flag `citat_ej_migrerat`; never blank it
+- [x] skip citations whose `quote` is already blank (`repair._mark_unverifiable`)
+- [x] write atomically via `.tmp` + `replace()`
+- [x] `--dry-run` reports per-document exact/fuzzy/failed and changes nothing
+- [x] write tests: exact passthrough; fuzzy rewrite sets sidecar + flag; failure leaves
       quote intact; re-run is idempotent; a KD 2023 vote resolves to
       `partiprogram-kd-2015`, not `-2025`
-- [ ] run tests — must pass before Task 6
+- [x] run tests — must pass before Task 6 (432 passed; 37 new in
+      `tests/test_migrate_quotes.py`)
+
+**Measured on full-v4**, and the run was executed, not only planned:
+
+| | |
+|---|---|
+| Already exact | 77,079 citations |
+| Migrated (sidecar written, `citat_migrerat`) | **520** citations / 93 distinct quotes |
+| Unplaced (`citat_ej_migrerat`) | **119** — all 12 known-unrecovered quotes, **0 new** |
+| Blank (left to `repair-citations`) | 1 |
+| `verify simulate --run-id full-v4` | red at **119** of 77,718, down from 639 |
+
+Record intact: 20,312 decisions and 77,719 citations before and after, and a second run
+is byte-identical.
+
+⚠️ **Deviation 1, recorded**: resolution goes through `corpus.program_at()`, not
+`documents_for()`. Same point-in-time gate — `documents_for()` calls it — but per
+*document* rather than per *decision*, which is what lets one `DocIndex` be built once
+per slug instead of a corpus dict per (parti, datum, rm, votering_id). The thing that
+would make the shortcut wrong is landing on different bytes than the agent was served,
+so that is asserted rather than assumed:
+`TestResolveSlug::test_the_resolved_document_is_the_one_the_agent_was_served` compares
+the index's text against `documents_for()`'s for three (party, date) pairs.
+
+⚠️ **Deviation 2, recorded**: `known-unrecovered.json` is a **decision**, not just the
+report label the plan described. Offered to the matcher, all 12 listed quotes score over
+0.75 — and what they score against is the neighbouring column:
+
+```
+Det handlar också om att renodla polisens uppdrag – att låta poliser vara poliser …
+Valmanifest 2022 renodla polisens uppdrag – att låta poliser vara poliser …     (0.878)
+
+Sverige har redan ett av världens högsta skattetryck – mer skatt är ingen lösning.
+2022 har redan ett av världens högsta skattetryck – mer skatt är ingen lösning.  (0.932)
+```
+
+`Valmanifest 2022` is the rotated margin stamp and `Källa:` the chart source; both are
+verbatim in the served document, so those rewrites would verify. They are still not what
+the party wrote. Taking them would have reported 614 migrated / 25 unplaced and buried
+the problem inside `citat_migrerat`, where Task 6's "investigate any increase" cannot
+see it. Refusing them lands the count on exactly the 119 Task 3 predicted.
+
+➕ **Added beyond the checkboxes**: `_refine()` hill-climbs the span's edges after
+`best_span`. `best_span` scores *fixed-width* word windows, and closing a broken word
+makes the true span shorter than the quote hunting for it — so the width overshoots and
+takes a real word off the neighbouring block with it (`relationer Vi vill se ett robust
+samhälle …`, `… reglerad i grundlagen. De`, `… på bidragsfuskare och Källa:`). Moving
+either edge while the ratio strictly improves removes the bleed: the sampled rewrites go
+from 0.878–0.99 to 0.986–0.997, and every one of them is now a pure character repair
+(`omfatt ning` → `omfattning`, `energioch` → `energi- och`, `-` → `–`). It is a strict
+improvement by construction — the loop only ever accepts a better score.
+
+➕ **For Task 6**: two of the migrations are faithful to the new corpus and read as
+damage — `flygvapnet` → `flygpvapnet` and `tanken` → `tan ken`, both in manifestos.
+Neither is an extraction bug: the SND **PDF** rendition carries them and the `/txt`
+rendition did not, so they are the documented cost of the Task 4 source change, and the
+migrated quote is verbatim against what p6 now serves.
 
 ### Task 6: Re-run repair and verify, and check translation alignment
 
