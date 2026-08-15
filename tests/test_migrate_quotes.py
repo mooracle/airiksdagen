@@ -493,6 +493,15 @@ class TestTheCommandFailsOnAnUnresolvedCitation:
 
         from aidag import cli
 
+        # These two are the only tests in this file that reach `program_at`,
+        # which dates a citation by looking its vote up in cases.parquet. That
+        # file is gitignored — the data is re-fetchable from public APIs — so CI
+        # arrives here with no data tree and the CliRunner swallows the
+        # FileNotFoundError into a non-zero exit that reads as the assertion
+        # failing. Skip, the way test_agent_pipeline.py does for the same file.
+        if not (PROCESSED_DIR / "cases.parquet").exists():
+            pytest.skip("cases.parquet not built (run: uv run aidag build-cases)")
+
         d = tmp_path / "simulations" / "test-run"
         d.mkdir(parents=True)
         (d / "KD.jsonl").write_text(
