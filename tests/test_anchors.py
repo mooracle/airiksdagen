@@ -207,7 +207,7 @@ class TestBlockIndex:
 class TestCollect:
     def test_a_citation_becomes_one_ref_under_its_block(self, kd2015):
         bid, text = _a_block(kd2015)
-        by_slug, counts, unlocated = anchors.collect(
+        by_slug, counts, unlocated, _ = anchors.collect(
             [_decision([text])], CASES, POSITIONS
         )
         assert unlocated == []
@@ -223,7 +223,7 @@ class TestCollect:
     def test_two_decisions_citing_one_line_share_an_anchor(self, kd2015):
         _, text = _a_block(kd2015)
         rows = [_decision([text]), _decision([text], parti="KD", vid="V1", rost="Nej")]
-        by_slug, counts, _ = anchors.collect(rows, CASES, POSITIONS)
+        by_slug, counts, _, _ = anchors.collect(rows, CASES, POSITIONS)
         (anchor,) = by_slug[KD2015]
         assert len(anchor.refs) == 2
         assert {r["verdict"] for r in anchor.refs} == {"kept", "diverged"}
@@ -231,24 +231,24 @@ class TestCollect:
 
     def test_one_decision_citing_the_same_line_twice_is_one_vote(self, kd2015):
         _, text = _a_block(kd2015)
-        by_slug, counts, _ = anchors.collect([_decision([text, text])], CASES, POSITIONS)
+        by_slug, counts, _, _ = anchors.collect([_decision([text, text])], CASES, POSITIONS)
         (anchor,) = by_slug[KD2015]
         assert len(anchor.refs) == 1
         assert counts["duplicate_ref"] == 1
 
     def test_the_weak_marker_rides_along(self, kd2015):
         _, text = _a_block(kd2015)
-        by_slug, _, _ = anchors.collect([_decision([text], svag=True)], CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([text], svag=True)], CASES, POSITIONS)
         assert by_slug[KD2015][0].refs[0]["svag"] is True
 
     def test_a_blank_quote_is_skipped_and_does_not_fail_the_build(self):
-        by_slug, counts, unlocated = anchors.collect([_decision([""])], CASES, POSITIONS)
+        by_slug, counts, unlocated, _ = anchors.collect([_decision([""])], CASES, POSITIONS)
         assert (by_slug, unlocated) == ({}, [])
         assert counts["blank"] == 1
 
     def test_an_unlocatable_quote_is_reported(self, kd2015):
         junk = "Detta har aldrig stått i något partiprogram över huvud taget."
-        _, counts, unlocated = anchors.collect([_decision([junk])], CASES, POSITIONS)
+        _, counts, unlocated, _ = anchors.collect([_decision([junk])], CASES, POSITIONS)
         assert counts["unlocated"] == 1
         assert unlocated == [
             {"document": KD2015, "quote": junk, "cid": "V1", "parti": "KD"}
@@ -256,7 +256,7 @@ class TestCollect:
 
     def test_an_unlocatable_quote_the_record_already_flagged_is_excused(self, kd2015):
         junk = "Detta har aldrig stått i något partiprogram över huvud taget."
-        _, counts, unlocated = anchors.collect(
+        _, counts, unlocated, _ = anchors.collect(
             [_decision([junk], flags=["citat_ej_migrerat"])], CASES, POSITIONS
         )
         assert unlocated == []
@@ -265,23 +265,41 @@ class TestCollect:
     def test_a_pre_p6_decision_is_skipped(self, kd2015):
         """Those runs read data/corpus/frozen/; these blocks are not their text."""
         _, text = _a_block(kd2015)
-        by_slug, counts, _ = anchors.collect(
+        by_slug, counts, _, _ = anchors.collect(
             [_decision([text], prompt_version="p5")], CASES, POSITIONS
         )
         assert (by_slug, counts["pre_p6"]) == ({}, 1)
 
     def test_a_non_anonymous_arm_is_skipped(self, kd2015):
         _, text = _a_block(kd2015)
-        by_slug, counts, _ = anchors.collect(
+        by_slug, counts, _, _ = anchors.collect(
             [_decision([text], arm="named")], CASES, POSITIONS
         )
         assert (by_slug, counts["other_arm"]) == ({}, 1)
 
     def test_a_document_class_without_blocks_is_out_of_scope(self):
-        _, counts, unlocated = anchors.collect(
+        _, counts, unlocated, unresolved = anchors.collect(
             [_decision(["vad som helst"], document="budgetmotion")], CASES, POSITIONS
         )
-        assert (counts["out_of_scope"], unlocated) == (1, [])
+        assert (counts["out_of_scope"], unlocated, unresolved) == (1, [], [])
+
+    def test_an_in_scope_class_that_resolves_to_nothing_is_not_counted_away(self):
+        """`out_of_scope` used to absorb this too, and it is a different thing.
+
+        A votering_id missing from cases.parquet gives `datum=""`, no programme
+        edition can be dated from it, and `resolve_slug` answers None exactly as
+        it does for a budgetmotion. Dropping the citation there is the silent
+        link-rot this module exists to stop, so it is collected for the caller
+        to raise on.
+        """
+        _, counts, unlocated, unresolved = anchors.collect(
+            [_decision(["vad som helst"], document="partiprogram")], {}, POSITIONS
+        )
+        assert counts["out_of_scope"] == 0
+        assert unlocated == []
+        assert [(u["document"], u["parti"], u["datum"]) for u in unresolved] == [
+            ("partiprogram", "KD", "")
+        ]
 
     def test_anchors_come_out_in_reading_order(self, kd2015):
         blocks = [
@@ -290,7 +308,7 @@ class TestCollect:
         ]
         picks = [t for _, t in blocks if len(t.split()) >= 14][:4]
         rows = [_decision([q]) for q in reversed(picks)]
-        by_slug, _, _ = anchors.collect(rows, CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect(rows, CASES, POSITIONS)
         order = {bid: i for i, bid in enumerate(kd2015.ids)}
         got = [(order[a.block_id], a.offset) for a in by_slug[KD2015]]
         assert got == sorted(got)
@@ -303,7 +321,7 @@ class TestDateGatedResolution:
         idx = _index(KD2015)
         _, text = _a_block(idx)
         cases = {"V1": {"datum": "2023-04-12", "utskott": "SfU"}}
-        by_slug, _, unlocated = anchors.collect([_decision([text])], cases, POSITIONS)
+        by_slug, _, unlocated, _ = anchors.collect([_decision([text])], cases, POSITIONS)
         assert list(by_slug) == [KD2015]
         assert unlocated == []
 
@@ -311,7 +329,7 @@ class TestDateGatedResolution:
         idx = _index(KD2025)
         _, text = _a_block(idx)
         cases = {"V1": {"datum": "2026-01-15", "utskott": "SfU"}}
-        by_slug, _, _ = anchors.collect([_decision([text])], cases, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], cases, POSITIONS)
         assert list(by_slug) == [KD2025]
 
     def test_the_older_edition_is_not_consulted_for_a_later_vote(self):
@@ -320,7 +338,7 @@ class TestDateGatedResolution:
         not something the resolver may fall back on."""
         cases = {"V1": {"datum": "2026-01-15", "utskott": "SfU"}}
         _, text = _a_block(_index(KD2015))
-        by_slug, _, unlocated = anchors.collect([_decision([text])], cases, POSITIONS)
+        by_slug, _, unlocated, _ = anchors.collect([_decision([text])], cases, POSITIONS)
         assert KD2015 not in by_slug
         assert all(u["document"] == KD2025 for u in unlocated)
         assert set(by_slug) | {u["document"] for u in unlocated} == {KD2025}
@@ -417,6 +435,39 @@ class TestBuild:
             anchors.build("test-run", results_dir=root)
         assert out.read_bytes() == before
 
+    def test_a_run_with_no_shards_refuses_rather_than_pruning_everything(
+        self, run_root, kd2015
+    ):
+        """`glob` cannot tell a missing run from an empty one, and an empty one
+        reaches write() with nothing unlocated — which unlinks the whole index
+        and reports `0 decisions` as if that were the answer."""
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        out = anchors.anchors_dir("test-run", root) / f"{KD2015}.json"
+        before = out.read_bytes()
+        (sim / "KD.jsonl").unlink()
+        with pytest.raises(FileNotFoundError, match="nothing to index"):
+            anchors.build("test-run", results_dir=root)
+        assert out.read_bytes() == before
+
+    def test_a_missing_run_directory_refuses_too(self, run_root, kd2015):
+        root, _ = run_root
+        with pytest.raises(FileNotFoundError, match="nothing to index"):
+            anchors.build("no-such-run", results_dir=root)
+
+    def test_an_in_scope_citation_that_resolves_to_nothing_fails_the_build(
+        self, run_root, kd2015, monkeypatch
+    ):
+        """A votering_id missing from cases.parquet dates no edition, so the
+        citation would drop out of the index with only a counter moving."""
+        root, sim = run_root
+        monkeypatch.setattr(anchors, "_case_tables", lambda: ({}, POSITIONS))
+        self._write(sim, [_decision(["vad som helst"], document="partiprogram")])
+        with pytest.raises(anchors.Unlocated, match="resolve to no document"):
+            anchors.build("test-run", results_dir=root)
+
 
 class TestSiteShapes:
     """Page weight: aggregates inline, ref lists fetched."""
@@ -425,7 +476,7 @@ class TestSiteShapes:
     def payload(self, kd2015):
         _, text = _a_block(kd2015)
         rows = [_decision([text]), _decision([text], vid="V2", rost="Nej")]
-        by_slug, _, _ = anchors.collect(rows, CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect(rows, CASES, POSITIONS)
         anchor = by_slug[KD2015][0]
         return {
             "slug": KD2015,
@@ -442,7 +493,7 @@ class TestSiteShapes:
         bid, text = _a_block(kd2015, min_words=30)
         words = text.split()
         head, tail = " ".join(words[:14]), " ".join(words[-14:])
-        by_slug, _, _ = anchors.collect([_decision([head, tail])], CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([head, tail])], CASES, POSITIONS)
         found = by_slug[KD2015]
         assert [a.block_id for a in found] == [bid, bid]
         return {
@@ -494,7 +545,7 @@ class TestSiteShapes:
             if bid != first and len(kd2015.served[kd2015.starts[i] : kd2015.ends[i]].split()) >= 20
             and kd2015.served[kd2015.starts[i] : kd2015.ends[i]][0].isupper()
         )
-        by_slug, _, _ = anchors.collect([_decision([first_text, second[1]])], CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([first_text, second[1]])], CASES, POSITIONS)
         found = by_slug[KD2015]
         s = anchors.summarize({
             "slug": KD2015, "run_id": "test-run", "n_anchors": len(found),
@@ -574,6 +625,35 @@ class TestNavigationRule:
         assert not anchors.is_navigational(
             "h2", "Ett samhälle där varje människa räknas och där ingen lämnas efter av staten"
         )
+
+    def test_a_pledge_heading_survives_dropping_its_full_stop(self):
+        """The heading-side half of the false claim above.
+
+        A heading omits the terminal period by typographic convention, so the
+        fixture in the test before this one passes on punctuation the real
+        documents do not set. These are `valmanifest-2022-m`'s and `-s`'s
+        headline pledges verbatim — 10 blocks, 96 of the 180 (vote, line) pairs
+        the flag reached while the text test was punctuation alone.
+        """
+        for t in (
+            "Statens utgifter ska minska",
+            "Vi ska stötta, inte styra, jord- och skogsbruket",
+            "Vi ska stoppa mäns våld mot kvinnor",
+            "Du ska ha råd med elräkningen",
+            "Vi ska stå upp för hbtq-personers rättigheter",
+            "Bryt segregationen för att hålla ihop Sverige",  # imperative
+        ):
+            assert not anchors.is_navigational("h2", t), t
+
+    def test_the_topic_labels_the_rule_is_for_still_pass_it(self):
+        """The other side of the same cut — these carry no verb at all."""
+        for t in (
+            "STÄRKT CIVILSAMHÄLLE FÖRBÄTTRAD INTEGRATION FLER BOSTÄDER",
+            "JÄMSTÄLLDHET PÅ RIKTIGT",
+            "STARKARE FAMILJER",
+            "Den politiska demokratin – ofullgången men ovärderlig",
+        ):
+            assert anchors.is_navigational("h3", t), t
 
     def test_the_length_cut_is_where_it_says_it_is(self):
         """Literal 8/9, not NAV_MAX_WORDS — deriving the boundary from the
@@ -791,7 +871,7 @@ class TestWeakListCandidates:
             pytest.skip("corpus not extracted")
         root, sim = run_dir
         self._write(sim, [])
-        borrowed = "Statens utgifter ska minska"  # a heading of valmanifest-2022-m
+        borrowed = "Dödsskjutningar per år"  # a chart label of valmanifest-2022-m
         rows = [_row(KDVAL, "b0094", "h3", borrowed, [("V1", "KD")])]
         (c,) = anchors.weak_list_candidates("test-run", root, rows=rows)
         assert c["other_documents"] == [MVAL]
@@ -825,28 +905,36 @@ class TestNavigationParity:
     """The committed finding, held as a ratchet against the real run.
 
     These are the numbers `docs/topic-label-citations.md` reports and the site
-    measured independently in TypeScript (Task 8b: 16 blocks / 180 decisions).
+    measured independently in TypeScript (Task 8b: 6 blocks / 84 decisions).
     Two implementations of one rule agreeing on the same corpus is the only
     check there is that the duplication has not drifted.
     """
 
     def test_the_corpus_wide_navigation_count_is_what_the_site_measured(self, rep):
         nav = rep["navigational"]
-        assert nav["blocks"] == 16
-        assert nav["block_decisions"] == 180
-        assert nav["decisions"] == 178  # two votes cited two navigation lines each
+        assert nav["blocks"] == 6
+        assert nav["block_decisions"] == 84
+        assert nav["decisions"] == 83  # one vote cited two navigation lines
 
     def test_role_alone_would_have_claimed_the_pledge_lists(self, rep):
-        """1,165 block-votes against 180 — the gap IS the finding."""
+        """1,165 block-votes against 84 — the gap IS the finding."""
         assert rep["label_toc"]["block_decisions"] == 1165
         assert rep["role_only"]["block_decisions"] == 1433
 
-    def test_the_finding_is_a_fact_about_two_parties_manifestos(self, rep):
+    def test_the_finding_is_a_fact_about_two_parties_documents(self, rep):
         assert set(rep["navigational"]["by_document"]) == {
-            MVAL, KDVAL, "partiprogram-v-2016", "valmanifest-2022-s"
+            KDVAL, "partiprogram-v-2016"
         }
-        assert rep["navigational"]["by_party"]["M"]["decisions"] == 94
         assert rep["navigational"]["by_party"]["KD"]["decisions"] == 81
+        assert rep["navigational"]["by_party"]["V"]["decisions"] == 2
+
+    def test_no_declarative_pledge_heading_is_among_them(self, rep):
+        """The heading-side false claim, held out by measurement rather than by
+        the rule's own unit tests. M sets its headline pledges as `h2` with no
+        terminal period, so a punctuation-only text test flagged 10 of them."""
+        listed = {b["text"] for b in rep["navigational"]["blocks_listed"]}
+        assert not any(t.lower().startswith("vi ska") for t in listed)
+        assert MVAL not in rep["navigational"]["by_document"]
 
     def test_kd_back_cover_labels_are_among_them(self, rep):
         """The finding in this plan's Overview, in the final extraction."""
@@ -860,14 +948,14 @@ class TestNavigationParity:
         assert sum(a["citations"] for a in by_role.values()) == rep["totals"]["citations"]
 
     def test_no_flagged_phrase_is_disqualified_and_none_is_proposed(self, rep):
-        """All 16 pass both tests — and none is proposed anyway. `svag` means
+        """All 6 pass both tests — and none is proposed anyway. `svag` means
         'supporting but generic', and these quotes are specific; the claim they
         cannot carry is a commitment, which is what the per-block flag says."""
         cands = anchors.weak_list_candidates(RUN)
-        assert len(cands) == 16
+        assert len(cands) == 6
         # the matcher really ran against the committed record, so "no false
         # positive" is a measurement rather than an empty scan
-        assert sum(c["catches"] for c in cands) == 180
+        assert sum(c["catches"] for c in cands) == 84
         assert all(c["false_positives"] == 0 for c in cands)
         assert all(c["other_documents"] == [] for c in cands)
         from aidag.blocklist import WEAK_LIST
@@ -884,7 +972,7 @@ class TestExportSite:
         site.mkdir(parents=True)
         monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
         _, text = _a_block(kd2015)
-        by_slug, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
         anchors.write("test-run", by_slug, tmp_path)
         monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
 
@@ -921,7 +1009,7 @@ class TestExportSite:
         site.mkdir(parents=True)
         monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
         _, text = _a_block(kd2015)
-        by_slug, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        by_slug, _, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
         anchors.write("test-run", by_slug, tmp_path)
         monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
         stale = site / "corpus" / "anchors"

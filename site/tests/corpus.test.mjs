@@ -192,7 +192,7 @@ test('the navigational flag reads the same corpus the same way Python does', { s
   // TS-only edit to NAV_MAX_WORDS or the label regexes would put "promises
   // nothing" on real pledges with nothing failing.
   //
-  // 16 blocks / 180 (vote, line) pairs — docs/topic-label-citations.md.
+  // 6 blocks / 84 (vote, line) pairs — docs/topic-label-citations.md.
   let blocks = 0;
   let blockDecisions = 0;
   for (const f of fs.readdirSync(ANCHORS)) {
@@ -207,6 +207,6 @@ test('the navigational flag reads the same corpus the same way Python does', { s
       }
     }
   }
-  assert.equal(blocks, 16);
-  assert.equal(blockDecisions, 180);
+  assert.equal(blocks, 6);
+  assert.equal(blockDecisions, 84);
 });

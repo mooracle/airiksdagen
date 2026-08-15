@@ -92,9 +92,41 @@ export interface CitedLine {
 }
 
 const BULLET_GLYPH = /^\s*[•▪◦·]/;
-const STATES_SOMETHING = /[.!?]["»”']?$/;
+const SENTENCE_END = /[.!?]["»”']?$/;
+const WORD = /\p{L}+/gu;
 
 const NAV_ROLES = new Set<DocRole>(['h1', 'h2', 'h3', 'label', 'toc']);
+
+/*  A topic label is a noun phrase; a pledge is a clause, and a clause needs a
+ *  verb. Punctuation alone cannot separate them, because a heading drops its
+ *  full stop by typographic convention — "Vi ska stoppa mäns våld mot kvinnor"
+ *  is set as an `h2` with no terminal period and is a commitment, not a topic.
+ *  Testing only the period marked 10 of `valmanifest-2022-m`'s and `-s`'s
+ *  headline pledges "promises nothing": the same false claim the role-only rule
+ *  made 1,163 times, re-entered through the heading side. */
+const FINITE_VERBS = new Set(
+  `ska skall skulle vill ville kan kunde kommer måste bör borde får fick
+   är var vore har hade blir blev behöver behövde tänker krävs`.split(/\s+/),
+);
+
+/*  Imperative pledges carry no finite verb ("Bryt segregationen för att hålla
+ *  ihop Sverige"), so the bare stem is tested at the head of the line only,
+ *  where a noun-phrase label does not put a verb. Every addition can only
+ *  *un*-flag a line, so the error it risks is a missed annotation, never a
+ *  false claim. */
+const IMPERATIVE_LEAD = new Set(
+  `bryt stoppa stärk sänk höj öka minska inför avskaffa satsa bygg rusta
+   riv skärp säkra förbättra försvara skydda fortsätt återupprätta halvera
+   fördubbla`.split(/\s+/),
+);
+
+/** Does the line assert something, rather than name a subject? */
+function statesSomething(t: string): boolean {
+  if (SENTENCE_END.test(t)) return true;
+  const words = (t.toLowerCase().match(WORD) ?? []) as string[];
+  if (words.length === 0) return false;
+  return words.some((w) => FINITE_VERBS.has(w)) || IMPERATIVE_LEAD.has(words[0]!);
+}
 
 /** True for a citation that landed on something naming a topic rather than
  *  stating anything — a contents entry, a chapter title, a bare label like "EN
@@ -109,14 +141,16 @@ const NAV_ROLES = new Set<DocRole>(['h1', 'h2', 'h3', 'label', 'toc']);
  *  those would have put "promises nothing" against 1,163 of the 1,165 decisions
  *  the flag reaches — a false claim, and the kind this project exists to avoid.
  *
- *  So the text has to read as a label too: no bullet glyph, no sentence-ending
- *  punctuation, and short. `toc` is exempt from all three — a contents entry is
- *  navigation whatever it says, that being what a contents list is. */
+ *  So the text has to read as a label too: no bullet glyph, short, and not
+ *  stating anything — see `statesSomething`, which is where the heading side of
+ *  the same false claim is kept out. `toc` is exempt from all of it — a
+ *  contents entry is navigation whatever it says, that being what a contents
+ *  list is. */
 function isNavigational(role: DocRole, text: string): boolean {
   if (role === 'toc') return true;
   if (!NAV_ROLES.has(role)) return false;
   const t = text.trim();
-  if (BULLET_GLYPH.test(t) || STATES_SOMETHING.test(t)) return false;
+  if (BULLET_GLYPH.test(t) || statesSomething(t)) return false;
   return t.split(/\s+/).length <= 8;
 }
 

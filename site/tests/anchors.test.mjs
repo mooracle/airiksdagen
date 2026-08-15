@@ -123,6 +123,24 @@ test('a heading that states something is not reduced to a label', () => {
   );
 });
 
+test('a pledge heading is not reduced to a label by dropping its full stop', () => {
+  // The heading-side half of the same false claim. A heading omits the terminal
+  // period by typographic convention, so testing punctuation alone marked 10 of
+  // valmanifest-2022-m's and -s's headline pledges "promises nothing" — 96 of
+  // the 180 (vote, line) pairs the flag then reached. These are the real lines,
+  // verbatim and unpunctuated as the documents set them.
+  for (const t of [
+    'Statens utgifter ska minska',
+    'Vi ska stötta, inte styra, jord- och skogsbruket',
+    'Vi ska stoppa mäns våld mot kvinnor',
+    'Du ska ha råd med elräkningen',
+    'Vi ska stå upp för hbtq-personers rättigheter',
+    'Bryt segregationen för att hålla ihop Sverige', // imperative, no finite verb
+  ]) {
+    assert.equal(flagged('h2', t), false, t);
+  }
+});
+
 test('the flag follows the block, not the paragraph it was joined into', () => {
   // A label opening a page is rejoined onto the paragraph before it, and the two
   // are then one <p> — but the citation still landed on one block or the other.

@@ -113,15 +113,23 @@ link — guarantees that live in TypeScript and Astro, where `uv run pytest` can
 It is **not** wired into the Cloudflare build, which runs `npm ci && npm run build` only.
 
 `aidag navigation-report --run-id full-v4` reports the citations that landed on a
-heading or topic label rather than on a promise — **16 blocks, 178 votes** (180
+heading or topic label rather than on a promise — **6 blocks, 83 votes** (84
 vote-line pairs, which is the number the site shows per block). The finding is written
 up in `docs/topic-label-citations.md`. The report prints three scopes because they are
 three different numbers: `label_toc` (the `label`/`toc` roles alone) reads **1,165**
 vote-line pairs and printing *that* would be a false claim about two parties' pledge
 lists; `role_only` (every navigational role, headings included) reads **1,433**;
 `navigational` — role *and* the text reading as a label, which is what the site marks —
-is the 180. `site/tests/corpus.test.mjs` re-measures the last of these in TypeScript
+is the 84. `site/tests/corpus.test.mjs` re-measures the last of these in TypeScript
 against the committed export, so the duplicated rule cannot drift in one language only.
+
+The text half of that last test is a **clause test, not a punctuation test**, and it has
+to stay one. A heading omits its full stop by convention, so an earlier
+"ends with `.!?`" version marked ten of M's and S's headline pledges ("Vi ska stoppa
+mäns våld mot kvinnor") as lines that promise nothing — 96 of the 180 vote-line pairs it
+then reached. `is_navigational` looks for a finite verb (`ska`, `vill`, `är`, …) or a
+leading imperative stem instead; both word lists are duplicated in `anchors.ts` and must
+be edited together.
 
 ---
 

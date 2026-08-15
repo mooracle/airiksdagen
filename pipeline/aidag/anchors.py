@@ -49,7 +49,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 
 from aidag.config import RESULTS_DIR
-from aidag.migrate_quotes import MIGRATED_FROM, index_for, resolve_slug
+from aidag.migrate_quotes import MIGRATED_CLASSES, MIGRATED_FROM, index_for, resolve_slug
 from aidag.simulate import _normalize_ws
 
 # What the party's own plan implied, against what the party actually did.
@@ -223,14 +223,19 @@ def _sort_key(anchor: Anchor, order: dict[str, int]) -> tuple[int, int]:
     return (order.get(anchor.block_id, 1 << 30), anchor.offset)
 
 
-def collect(decisions, cases: dict, positions: dict) -> tuple[dict[str, list[Anchor]], Counter, list]:
+def collect(
+    decisions, cases: dict, positions: dict
+) -> tuple[dict[str, list[Anchor]], Counter, list, list]:
     """Walk a run's decisions and group every citation under its anchor.
 
-    Returns (anchors by slug, counters, unlocated). `unlocated` holds only the
-    misses the record does not excuse — the caller raises on those.
+    Returns (anchors by slug, counters, unlocated, unresolved). `unlocated` holds
+    only the misses the record does not excuse; `unresolved` the in-scope
+    citations whose slug could not be determined at all. The caller raises on
+    both — either one is a link that would disappear without a word.
     """
     counts: Counter = Counter()
     unlocated: list[dict] = []
+    unresolved: list[dict] = []
     by_slug: dict[str, dict[tuple[str, str], Anchor]] = defaultdict(dict)
     for d in decisions:
         if d.get("arm", ARM) != ARM:
@@ -253,6 +258,18 @@ def collect(decisions, cases: dict, positions: dict) -> tuple[dict[str, list[Anc
                 continue
             slug = resolve_slug(c["document"], d["parti"], case.get("datum", ""))
             if slug is None:
+                if c["document"] in MIGRATED_CLASSES:
+                    # In scope and still unresolved — `program_at` had no edition
+                    # for the date, which is what a `votering_id` missing from
+                    # cases.parquet looks like (`datum` comes back ""). Dropping
+                    # it here is the silent link-rot this module exists to stop,
+                    # so it is collected and raised on, not counted away.
+                    unresolved.append(
+                        {"document": c["document"], "quote": quote,
+                         "cid": d["votering_id"], "parti": d["parti"],
+                         "datum": case.get("datum", "")}
+                    )
+                    continue
                 # budgetmotioner and Tidöavtalet keep the flat extraction and have
                 # no blocks to anchor into. p6 shows neither, so this stays at 0.
                 counts["out_of_scope"] += 1
@@ -288,13 +305,25 @@ def collect(decisions, cases: dict, positions: dict) -> tuple[dict[str, list[Anc
         out[slug] = sorted(anchors.values(), key=lambda a: _sort_key(a, order))
         for a in out[slug]:
             a.refs.sort(key=lambda r: (r["datum"] or "", r["votering_id"], r["parti"]))
-    return out, counts, unlocated
+    return out, counts, unlocated, unresolved
 
 
 def _load_run(run_id: str, results_dir=None):
     root = (results_dir or RESULTS_DIR) / "simulations" / run_id
-    for path in sorted(root.glob("*.jsonl")):
-        for line in path.read_text().splitlines():
+    shards = sorted(root.glob("*.jsonl"))
+    if not shards:
+        # `glob` answers [] for a missing directory exactly as it does for an
+        # empty one, and an empty run reaches write() with nothing unlocated —
+        # which unlinks the whole committed index and prints a normal-looking
+        # `0 decisions`. The same ambiguity `export_blocks_and_anchors()` guards
+        # one layer down, and the same answer: refuse rather than rebuild to
+        # nothing.
+        raise FileNotFoundError(
+            f"{run_id}: no *.jsonl under {root} — nothing to index. Building from "
+            "an empty run would delete the committed anchor files."
+        )
+    for path in shards:
+        for line in path.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 yield json.loads(line)
 
@@ -352,7 +381,23 @@ def write(run_id: str, by_slug: dict[str, list[Anchor]], results_dir=None) -> li
 def build(run_id: str, results_dir=None) -> dict:
     """Locate every citation in a run and write the per-document anchor files."""
     cases, positions = _case_tables()
-    by_slug, counts, unlocated = collect(_load_run(run_id, results_dir), cases, positions)
+    by_slug, counts, unlocated, unresolved = collect(
+        _load_run(run_id, results_dir), cases, positions
+    )
+    if unresolved:
+        listed = "\n".join(
+            f"  {u['parti']} {u['cid']} ({u['document']}, datum={u['datum']!r}): "
+            f"{u['quote'][:80]}"
+            for u in unresolved[:20]
+        )
+        more = f"\n  ... and {len(unresolved) - 20} more" if len(unresolved) > 20 else ""
+        raise Unlocated(
+            f"{len(unresolved)} citation(s) name a document class this run serves but "
+            f"resolve to no document:\n{listed}{more}\n"
+            "A blank `datum` is the usual cause — the votering_id is missing from "
+            "cases.parquet, so no programme edition can be dated. Re-run the ingest, "
+            "or the citations will drop out of the index unremarked."
+        )
     if unlocated:
         listed = "\n".join(
             f"  {u['document']}: {u['quote'][:100]}" for u in unlocated[:20]
@@ -372,7 +417,8 @@ def build(run_id: str, results_dir=None) -> dict:
     print(
         f"{run_id}: {counts['decisions']} decisions, {counts['located']} citations located "
         f"into {counts['anchors']} anchors ({counts['refs']} refs), {counts['blank']} blank, "
-        f"{counts['unlocated_excused']} unlocated but flagged, {counts['pre_p6']} pre-p6 skipped"
+        f"{counts['unlocated_excused']} unlocated but flagged, {counts['out_of_scope']} "
+        f"out of scope, {counts['pre_p6']} pre-p6 skipped"
     )
     print(
         "  verdicts: "
@@ -517,7 +563,45 @@ def compact_refs(payload: dict) -> dict:
 NAV_ROLES = frozenset({"h1", "h2", "h3", "label", "toc"})
 NAV_MAX_WORDS = 8
 _BULLET_GLYPH = re.compile(r"^\s*[•▪◦·]")
-_STATES_SOMETHING = re.compile(r"[.!?][\"»”']?$")
+_SENTENCE_END = re.compile(r"[.!?][\"»”']?$")
+_WORD = re.compile(r"[^\W\d_]+")
+
+# A topic label is a noun phrase; a pledge is a clause, and a clause needs a
+# verb. Punctuation alone cannot separate them, because a heading drops its full
+# stop by typographic convention — "Vi ska stoppa mäns våld mot kvinnor" is set
+# as an `h2` with no terminal period and is a commitment, not a topic. Testing
+# only the period marked 10 of `valmanifest-2022-m`'s and `-s`'s headline
+# pledges "promises nothing"; it is the same false claim the role-only rule made
+# 1,163 times, re-entered through the heading side.
+#
+# These are the finite forms that fill the verb slot of a Swedish declarative —
+# modals, auxiliaries and the copula, which is what a pledge heading is built
+# from ("Vi *ska* …", "Statens utgifter *ska* minska", "Du *ska* ha råd …").
+_FINITE_VERBS = frozenset(
+    """ska skall skulle vill ville kan kunde kommer måste bör borde får fick
+    är var vore har hade blir blev behöver behövde tänker krävs""".split()
+)
+
+# Imperative pledges carry no finite verb ("Bryt segregationen för att hålla
+# ihop Sverige"), so the bare stem is tested at the head of the line only, where
+# a noun-phrase label does not put a verb. The list is the common political
+# action verbs and is meant to be extended; every addition can only *un*-flag a
+# line, so the error it risks is a missed annotation, never a false claim.
+_IMPERATIVE_LEAD = frozenset(
+    """bryt stoppa stärk sänk höj öka minska inför avskaffa satsa bygg rusta
+    riv skärp säkra förbättra försvara skydda fortsätt återupprätta halvera
+    fördubbla""".split()
+)
+
+
+def _states_something(t: str) -> bool:
+    """Does the line assert something, rather than name a subject?"""
+    if _SENTENCE_END.search(t):
+        return True
+    words = [w.lower() for w in _WORD.findall(t)]
+    if not words:
+        return False
+    return not _FINITE_VERBS.isdisjoint(words) or words[0] in _IMPERATIVE_LEAD
 
 
 def is_navigational(role: str, text: str) -> bool:
@@ -528,10 +612,11 @@ def is_navigational(role: str, text: str) -> bool:
     in `partiprogram-kd-2015` is a back-cover topic list but in
     `valmanifest-2022-s` is the bold bullet list of the party's actual pledges
     ("• Kraftigt öka antalet poliser…") and in `valmanifest-2022-l` its 60
-    numbered ones. So the text has to read as a label too: no bullet glyph, no
-    sentence-ending punctuation, and short.
+    numbered ones. So the text has to read as a label too: no bullet glyph,
+    short, and not stating anything — see `_states_something`, which is where
+    the heading side of the same false claim is kept out.
 
-    `toc` is exempt from all three — a contents entry is navigation whatever it
+    `toc` is exempt from all of it — a contents entry is navigation whatever it
     says, that being what a contents list is.
     """
     if role == "toc":
@@ -539,7 +624,7 @@ def is_navigational(role: str, text: str) -> bool:
     if role not in NAV_ROLES:
         return False
     t = text.strip()
-    if _BULLET_GLYPH.match(t) or _STATES_SOMETHING.search(t):
+    if _BULLET_GLYPH.match(t) or _states_something(t):
         return False
     return len(t.split()) <= NAV_MAX_WORDS
 
@@ -696,7 +781,7 @@ def navigation_report(run_id: str, results_dir=None, rows: list[dict] | None = N
     - `role_only` — the same test over every navigational role, headings
       included, because KD's back-cover topic labels are roled `h3`.
     - `navigational` — role AND the text reading as a label, which is what the
-      site marks. **16 blocks / 178 votes.**
+      site marks. **6 blocks / 83 votes.**
 
     The gap between the first and the last IS the finding. A report printing
     only the final number would leave the next reader to re-derive why it is not

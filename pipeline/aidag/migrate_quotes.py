@@ -88,6 +88,12 @@ THRESHOLD = 0.75
 # The first p6 version. Older runs verify against the frozen corpus.
 MIGRATED_FROM = "p6"
 
+# The document classes re-extracted into blocks, and so the only ones a slug can
+# be resolved for. Named rather than inlined because `anchors.collect()` has to
+# tell "this class was never in scope" apart from "this class is in scope and
+# the slug still did not resolve" — the second is a defect and the first is not.
+MIGRATED_CLASSES = frozenset({"valmanifest", "partiprogram"})
+
 # Prefilter shape. The rarest tokens of a quote carry nearly all of its locating
 # power — a candidate ranked by how many of them it holds puts the true block
 # first almost always, and the window either side of it absorbs the rest.
