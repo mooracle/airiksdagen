@@ -119,7 +119,7 @@ def budget_excluded(code: str, rm: str, votering_id: str, datum: str) -> bool:
 # BEFORE the hyphenation join below, so a word broken right after a ligature
 # ("upp-\nﬁnning") still rejoins to one word.
 _LIGATURES = str.maketrans(
-    {"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "ft", "ﬆ": "st"}
+    {"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "st", "ﬆ": "st"}
 )
 
 
