@@ -66,6 +66,56 @@ def export_corpus() -> None:
         )
 
 
+def export_blocks_and_anchors(run_id: str | None) -> int:
+    """Ship the structured corpus and its citation index to the site.
+
+    Three destinations, and the split between them is the page-weight decision
+    (see `anchors.py`):
+
+      src/data/corpus/blocks/<slug>.json    the document itself — roles, pages,
+                                            reading order. Read at build time.
+      src/data/corpus/anchors/<slug>.json   per-block aggregate counts and the
+                                            kept/diverged ratio bar. Also build
+                                            time; these render for every cited
+                                            block, so they must be cheap.
+      public/data/anchors/<slug>.json       the ref lists behind those bars,
+                                            fetched per document on demand.
+
+    The 17 documents without blocks (16 budgetmotioner, Tidöavtalet) are simply
+    absent here and the page falls back to `formatCorpusDoc()`.
+
+    Returns the number of anchor files written — 0 when the run has no anchors
+    yet, which is not an error: `build-anchors` runs after `repair-citations` and
+    an export in between should still produce a site.
+    """
+    from aidag.anchors import compact_refs, load, summarize
+    from aidag.config import BLOCKS_DIR
+
+    corpus_out = SITE_DATA_DIR / "corpus"
+    blocks_out = corpus_out / "blocks"
+    blocks_out.mkdir(parents=True, exist_ok=True)
+    for src in sorted(BLOCKS_DIR.glob("*.json")):
+        shutil.copy(src, blocks_out / src.name)
+
+    payloads = load(run_id) if run_id else {}
+    anchors_out = corpus_out / "anchors"
+    public_out = SITE_DATA_DIR.parents[1] / "public" / "data" / "anchors"
+    # rebuilt, not merged: a slug that stops being cited must lose its file
+    # rather than keep serving the previous run's refs
+    for d in (anchors_out, public_out):
+        if d.exists():
+            shutil.rmtree(d)
+        d.mkdir(parents=True)
+    for slug, payload in payloads.items():
+        (anchors_out / f"{slug}.json").write_text(
+            json.dumps(summarize(payload), ensure_ascii=False), encoding="utf-8"
+        )
+        (public_out / f"{slug}.json").write_text(
+            json.dumps(compact_refs(payload), ensure_ascii=False), encoding="utf-8"
+        )
+    return len(payloads)
+
+
 def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -> None:
     """Merge a case-metadata record into the per-case payload and the lean index row.
 
@@ -412,6 +462,9 @@ def run(run_id: str | None = None) -> None:
 
     # Corpus documents for the /dokument/ pages (citation deep links).
     export_corpus()
+    n_anchors = export_blocks_and_anchors(run_id)
+    print(f"exported blocks for {len(list(SITE_DATA_DIR.glob('corpus/blocks/*.json')))} documents, "
+          f"anchors for {n_anchors}")
 
     # Party polling support per month, from the KB snapshots (run-independent).
     from aidag.config import KB_DIR

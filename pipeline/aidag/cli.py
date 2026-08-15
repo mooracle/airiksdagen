@@ -376,6 +376,20 @@ def citation_audit(
     audit(run_id=run_id, out=out, baseline=baseline, check_translations=check_translations)
 
 
+@app.command("build-anchors")
+def build_anchors(run_id: str = typer.Option(..., "--run-id")) -> None:
+    """Index every citation back to the corpus block it quotes.
+
+    Run after `repair-citations`, whose blanking decides which quotes are claims
+    about the corpus at all. Fails loudly on any quote that no longer resolves
+    and is neither blank nor flagged `citat_ej_migrerat` — the anchor is keyed on
+    the quote, so an unlocated one is a link that would vanish silently.
+    """
+    from aidag.anchors import run as build
+
+    build(run_id=run_id)
+
+
 @app.command("agent-merge")
 def agent_merge(
     run_id: str = typer.Option(..., "--run-id"),

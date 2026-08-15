@@ -1,0 +1,7060 @@
+{
+ "slug": "valmanifest-2022-m",
+ "source": "pdf",
+ "pages": 40,
+ "dropped": [
+  "2022",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "170",
+  "1 500",
+  "12",
+  "13",
+  "14",
+  "12%",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40"
+ ],
+ "blocks": [
+  {
+   "id": "b0000",
+   "role": "h1",
+   "page": 0,
+   "size": 99.8,
+   "bold": false,
+   "text": "Så får vi"
+  },
+  {
+   "id": "b0001",
+   "role": "h1",
+   "page": 0,
+   "size": 99.8,
+   "bold": false,
+   "text": "ordning"
+  },
+  {
+   "id": "b0002",
+   "role": "h1",
+   "page": 0,
+   "size": 99.8,
+   "bold": false,
+   "text": "på Sverige"
+  },
+  {
+   "id": "b0003",
+   "role": "h1",
+   "page": 0,
+   "size": 38.0,
+   "bold": false,
+   "text": "Moderaternas"
+  },
+  {
+   "id": "b0004",
+   "role": "h1",
+   "page": 0,
+   "size": 38.0,
+   "bold": false,
+   "text": "valmanifest"
+  },
+  {
+   "id": "b0005",
+   "role": "h1",
+   "page": 1,
+   "size": 38.0,
+   "bold": false,
+   "text": "Innehåll"
+  },
+  {
+   "id": "b0006",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Nu får vi ordning på Sverige"
+  },
+  {
+   "id": "b0007",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på ekonomin och jobben"
+  },
+  {
+   "id": "b0008",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på tryggheten och rättssystemet"
+  },
+  {
+   "id": "b0009",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på miljön, klimatet och energin"
+  },
+  {
+   "id": "b0010",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på invandringen och integrationen"
+  },
+  {
+   "id": "b0011",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på försvaret och Sveriges omvärldsrelationer"
+  },
+  {
+   "id": "b0012",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på vården och äldreomsorgen"
+  },
+  {
+   "id": "b0013",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på skolan"
+  },
+  {
+   "id": "b0014",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på hela Sveriges möjligheter"
+  },
+  {
+   "id": "b0015",
+   "role": "para",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "Så får vi ordning på demokratin"
+  },
+  {
+   "id": "b0016",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "3"
+  },
+  {
+   "id": "b0017",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "4"
+  },
+  {
+   "id": "b0018",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "10"
+  },
+  {
+   "id": "b0019",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "16"
+  },
+  {
+   "id": "b0020",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "24"
+  },
+  {
+   "id": "b0021",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "27"
+  },
+  {
+   "id": "b0022",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "30"
+  },
+  {
+   "id": "b0023",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "33"
+  },
+  {
+   "id": "b0024",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "36"
+  },
+  {
+   "id": "b0025",
+   "role": "caption",
+   "page": 1,
+   "size": 11.0,
+   "bold": false,
+   "text": "38"
+  },
+  {
+   "id": "b0026",
+   "role": "caption",
+   "page": 1,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0027",
+   "role": "h1",
+   "page": 2,
+   "size": 38.0,
+   "bold": false,
+   "text": "Nu får vi ordning"
+  },
+  {
+   "id": "b0028",
+   "role": "h1",
+   "page": 2,
+   "size": 38.0,
+   "bold": false,
+   "text": "på Sverige"
+  },
+  {
+   "id": "b0029",
+   "role": "h2",
+   "page": 2,
+   "size": 14.0,
+   "bold": false,
+   "text": "Sverige kan bättre. Mycket bättre."
+  },
+  {
+   "id": "b0030",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "I höstens val söker Moderaterna väljarnas förtroende för att få ordning på Sverige, så att vi också kan ta vara på vårt lands alla möjligheter."
+  },
+  {
+   "id": "b0031",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Svenska folket står inför ett viktigt vägskäl. Efter åtta år av socialdemokratiskt styre har Sverige fått EU:s fjärde högsta arbetslöshet, och lägsta tillväxt."
+  },
+  {
+   "id": "b0032",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Dödsskjutningarna och utsattheten för sexualbrott har eskalerat, och ungdomsrånen har mer än fördubblats sedan 2014. Den pågående avvecklingen av kärnkraften har lett till skenande elpriser och hotar den gröna omställningen."
+  },
+  {
+   "id": "b0033",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige är på väg åt fel håll. Den utvecklingen måste vändas – och den kan vändas med en ny handlingskraftig regering och en offensiv reformpolitik som på allvar kan ta itu med samhällsproblemen och få något gjort."
+  },
+  {
+   "id": "b0034",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "För det finns ett Sverige där ordet utanförskapsområde är förpassat till historien, för att inget område längre är utanför. Ett Sverige utan gängvåld och klanvälden, där lagen och jämställdheten gäller lika för alla."
+  },
+  {
+   "id": "b0035",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Där polisen kommer när man ringer och inte backar när det gäller. Där brottsoffren, inte gärningsmännen, får upprättelse och skadestånd. Där du kan vara trygg när du är ute, för att brottslingarna sitter inne."
+  },
+  {
+   "id": "b0036",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det finns ett Sverige där alla barn får se sina föräldrar gå till jobbet. Där det alltid lönar sig"
+  },
+  {
+   "id": "b0037",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "att arbeta och göra sitt bästa. Där slit och flit alltid trumfar fusk och dåliga ursäkter, och där välfärdens skyddsnät finns till för den som behöver det."
+  },
+  {
+   "id": "b0038",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det är ett Sverige där skolan är en trygg plats för kunskap och klassresor. Där alla barn får lära sig bra svenska tidigt. Där barn och föräldrar får välja själva, och inte en enda elev kvoteras in eller tvångsbussas ut."
+  },
+  {
+   "id": "b0039",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det är ett Sverige där ingen får ångest av att öppna elräkningen. Där du som behöver åka en bit för att skjutsa dina barn till fotbollsträningen eller musikskolan har råd att ta bilen, oavsett om den går på bensin eller el."
+  },
+  {
+   "id": "b0040",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det är ett Sverige där klimatsmart kärnkraft ger ren, stabil och billig el, och det sista oljekraftverket lagts ner. Där miljöbovar betalar för sig, men du kan unna dig en plastpåse när du veckohandlar."
+  },
+  {
+   "id": "b0041",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Under ytan, runt hörnet, finns ett Sverige där rättsstaten vunnit över våldet. Där arbetslinjen ersatt bidragslinjen. Där gröna innovationer, världsledande utbildning, forskning och nya jobb – inte kravaller och dödsskjutningar – ger Sverige stora rubriker."
+  },
+  {
+   "id": "b0042",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det är frihetens och trygghetens och möjligheternas Sverige. Den hoppfulla framtidens Sverige. Detta Sverige finns inom räckhåll bara viljan och kraften finns att få allting gjort som måste göras."
+  },
+  {
+   "id": "b0043",
+   "role": "para",
+   "page": 2,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vi har både viljan och kraften. Nu får vi ordning på Sverige."
+  },
+  {
+   "id": "b0044",
+   "role": "caption",
+   "page": 2,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0045",
+   "role": "h1",
+   "page": 3,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning på"
+  },
+  {
+   "id": "b0046",
+   "role": "h1",
+   "page": 3,
+   "size": 38.0,
+   "bold": false,
+   "text": "ekonomin och jobben"
+  },
+  {
+   "id": "b0047",
+   "role": "h2",
+   "page": 3,
+   "size": 14.0,
+   "bold": false,
+   "text": "Ansvar för Sverige i en osäker tid"
+  },
+  {
+   "id": "b0048",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige går in i ett nytt ekonomiskt läge med lägre tillväxt och ökande inflation. Räntehöjningar pressar hushållen och den socialdemokratiska regeringens nedläggning av kärnkraft har drivit upp elpriserna till rekordnivåer. Åtta år av rödgröna skattehöjningar gör nu att pengarna knappt räcker till att tanka bilen eller betala elräkningen."
+  },
+  {
+   "id": "b0049",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige behöver hitta tillbaka till en ansvarsfull ekonomisk politik som bygger upp motståndskraft mot kriser och genomföra reformer för fler i arbete. Att återupprätta arbetslinjen är det bästa sättet att se till att Sveriges hushåll har styrka nog att komma igenom den tuffa tid som ligger framför oss."
+  },
+  {
+   "id": "b0050",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill bygga ett Sverige där tydliga drivkrafter banar väg för egen försörjning. Där jobb och flit lönar sig bättre – så att du som jobbar får råd med vardagen och ibland kan unna dig något extra. Ett Sverige där barnen ser sina föräldrar gå till jobbet. Där alla ges förutsättningar att göra sin livsresa. Där bidragslinjen ersätts av arbetslinjen så att fler kan komma till sin rätt. Där dina skattepengar används till fler lärare och poliser i stället för att hamna i fickorna på kriminella."
+  },
+  {
+   "id": "b0051",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "I tuffa ekonomiska tider krävs ordning och reda i ekonomin. Överskottsmålet ska värnas och det är inte aktuellt att övergå till ett balansmål. Alla nya löften och reformer – som till exempel våra inkomstskattesänkningar – behöver finansieras eller rymmas inom överskottsmålet. De stora behoven inom rättsväsendet, försvaret"
+  },
+  {
+   "id": "b0052",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "och välfärden ställer stora krav på prioriteringar under åren som kommer."
+  },
+  {
+   "id": "b0053",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vi vet vad som måste göras – och vad som får vänta."
+  },
+  {
+   "id": "b0054",
+   "role": "h2",
+   "page": 3,
+   "size": 14.0,
+   "bold": false,
+   "text": "Du som jobbar, har jobbat eller kan jobba ska märka skillnad"
+  },
+  {
+   "id": "b0055",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Klassresornas Sverige byggde på hög arbetsmoral och tydliga förväntningar på egen försörjning. Men idag har Sverige en mycket hög arbetslöshet. Och de samlade bidragen kan i vissa fall bli så höga att det inte lönar sig att jobba. Så kan vi inte ha det."
+  },
+  {
+   "id": "b0056",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Du som ställer klockan varje morgon – eller kväll – för att arbeta, förtjänar lön för mödan. Det ska inte vara som idag att den som lever på bidrag kan få lika mycket i plånboken varje månad som den som jobbar. Och skatterna ska inte vara så höga att pengarna knappt räcker till att tanka bilen eller betala elräkningen."
+  },
+  {
+   "id": "b0057",
+   "role": "para",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Du som arbetat ett helt yrkesliv måste få bättre lön för mödan när du går i pension. Att du ska ha en betydligt bättre pension än den som aldrig arbetat i Sverige är, åtminstone för oss, en självklarhet. Vi värnar arbetslinjen i pensionssystemet – det ska alltid löna sig bättre att ha arbetat än att inte ha gjort det."
+  },
+  {
+   "id": "b0058",
+   "role": "caption",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0059",
+   "role": "bullet",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka skatten på arbete så att din ansträngning lönar sig bättre"
+  },
+  {
+   "id": "b0060",
+   "role": "bullet",
+   "page": 3,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en jobbpremie som gör det extra lönsamt för långtidsarbetslösa att gå från bidrag till arbete"
+  },
+  {
+   "id": "b0061",
+   "role": "caption",
+   "page": 3,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0062",
+   "role": "h2",
+   "page": 4,
+   "size": 14.0,
+   "bold": false,
+   "text": "Så har arbetslösheten förändrats i EU sedan 2014"
+  },
+  {
+   "id": "b0063",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0064",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-2"
+  },
+  {
+   "id": "b0065",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-4"
+  },
+  {
+   "id": "b0066",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-6"
+  },
+  {
+   "id": "b0067",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-8"
+  },
+  {
+   "id": "b0068",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-10"
+  },
+  {
+   "id": "b0069",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-12"
+  },
+  {
+   "id": "b0070",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "-14"
+  },
+  {
+   "id": "b0071",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka skatten för alla Sveriges pensionärer"
+  },
+  {
+   "id": "b0072",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en ”gas” i pensionssystemet som ger högre pensioner när Sveriges ekonomi är god"
+  },
+  {
+   "id": "b0073",
+   "role": "h2",
+   "page": 4,
+   "size": 14.0,
+   "bold": false,
+   "text": "Du ska ha råd med livet – vi ska städa undan de värsta rödgröna prishöjningarna"
+  },
+  {
+   "id": "b0074",
+   "role": "para",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det har blivit orimligt dyrt att vara svensk. Världens högsta dieselpriser. Rekordhöga elpriser. Dyrare att spara för framtiden. Några säger upp sig för att pendlingen till jobbet blivit för dyr och andra skruvar ner värmen för att kunna betala elräkningen. Så här kan inte samhället fungera. Ingen regering kan kompensera för alla prishöjningar men vi kan städa undan de värsta misstagen som begåtts under de senaste åren."
+  },
+  {
+   "id": "b0075",
+   "role": "para",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "Till vår uppgift hör också att stoppa den socialdemokratiska regeringens skattechock. Under de senaste åtta åren har regeringen höjt 46 skatter, som krånglar till och fördyrar vardagen för både företagare och konsumenter. Sverige"
+  },
+  {
+   "id": "b0076",
+   "role": "caption",
+   "page": 4,
+   "size": 8.0,
+   "bold": false,
+   "text": "Källa: Eurostat, juni 2022"
+  },
+  {
+   "id": "b0077",
+   "role": "para",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "har redan ett av världens högsta skattetryck"
+  },
+  {
+   "id": "b0078",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "– mer skatt är ingen lösning."
+  },
+  {
+   "id": "b0079",
+   "role": "para",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "När vår politik med sänkt skatt och sänkta bränslepriser får fullt genomslag, kan en tvåbarnsfamilj få 24 000 kronor mer per år. Dessutom vill vi se till att de höga elpriserna som drivits fram av nedlagd kärnkraft går tillbaka till hushållen."
+  },
+  {
+   "id": "b0080",
+   "role": "caption",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0081",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka priset på bensin och diesel så att du klarar din vardagsekonomi"
+  },
+  {
+   "id": "b0082",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka skatten på investeringssparkonton (ISK) – så att du lättare kan spara till en bostad eller till pensionen"
+  },
+  {
+   "id": "b0083",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa återinförandet av fastighetsskatten och sänkta ränteavdrag"
+  },
+  {
+   "id": "b0084",
+   "role": "bullet",
+   "page": 4,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett skattehöjarstopp under den kommande mandatperioden som innebär att de samlade skatterna inte höjs"
+  },
+  {
+   "id": "b0085",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Grekland Spanien Cypern"
+  },
+  {
+   "id": "b0086",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Kroatien"
+  },
+  {
+   "id": "b0087",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Bulgarien Portugal Irland"
+  },
+  {
+   "id": "b0088",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Slovakien Polen"
+  },
+  {
+   "id": "b0089",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Slovenien Italien"
+  },
+  {
+   "id": "b0090",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Holland"
+  },
+  {
+   "id": "b0091",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Lettland Ungern Litauen"
+  },
+  {
+   "id": "b0092",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Tjeckien"
+  },
+  {
+   "id": "b0093",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Rumänien Belgien"
+  },
+  {
+   "id": "b0094",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Frankrike Malta"
+  },
+  {
+   "id": "b0095",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Danmark Finland"
+  },
+  {
+   "id": "b0096",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Tyskland Österike"
+  },
+  {
+   "id": "b0097",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Luxemburg Estland"
+  },
+  {
+   "id": "b0098",
+   "role": "caption",
+   "page": 4,
+   "size": 9.0,
+   "bold": false,
+   "text": "Sverige"
+  },
+  {
+   "id": "b0099",
+   "role": "caption",
+   "page": 4,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0100",
+   "role": "h1",
+   "page": 5,
+   "size": 20.0,
+   "bold": false,
+   "text": "Har du råd med vänstersidans skattechock?"
+  },
+  {
+   "id": "b0101",
+   "role": "caption",
+   "page": 5,
+   "size": 8.0,
+   "bold": false,
+   "text": "Sammanräkning av hur de rödgröna partierna kan förväntas finansiera sina vallöften."
+  },
+  {
+   "id": "b0102",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Halverat RUT-avdrag"
+  },
+  {
+   "id": "b0103",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Höjd bolåneskatt"
+  },
+  {
+   "id": "b0104",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Halverade ränteavdrag"
+  },
+  {
+   "id": "b0105",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Återinförd fastighetsskatt"
+  },
+  {
+   "id": "b0106",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Höjd bränsleskatt"
+  },
+  {
+   "id": "b0107",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Höjd skatt på arbete"
+  },
+  {
+   "id": "b0108",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 3 000 kr/år"
+  },
+  {
+   "id": "b0109",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 1 000 kr/år"
+  },
+  {
+   "id": "b0110",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 15 000 kr/år"
+  },
+  {
+   "id": "b0111",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 21 000 kr/år"
+  },
+  {
+   "id": "b0112",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 1 000 kr/år"
+  },
+  {
+   "id": "b0113",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "+ 5 000 kr/år"
+  },
+  {
+   "id": "b0114",
+   "role": "h1",
+   "page": 5,
+   "size": 20.0,
+   "bold": false,
+   "text": "= 46 000 kr/år*"
+  },
+  {
+   "id": "b0115",
+   "role": "caption",
+   "page": 5,
+   "size": 8.0,
+   "bold": false,
+   "text": "*för en familj med fyra personer, en bil och villa."
+  },
+  {
+   "id": "b0116",
+   "role": "h2",
+   "page": 5,
+   "size": 14.0,
+   "bold": false,
+   "text": "Du ska ha råd med elräkningen"
+  },
+  {
+   "id": "b0117",
+   "role": "h2",
+   "page": 5,
+   "size": 14.0,
+   "bold": false,
+   "text": "– vi ska omedelbart sänka elpriserna"
+  },
+  {
+   "id": "b0118",
+   "role": "para",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Ny kärnkraft är lösningen för att reparera Sveriges energisystem på lång sikt. Men för att mildra elkrisen i vinter behövs akuta åtgärder så att hushållen har råd att betala sina elräkningar. Det handlar både om att öka den planerbara elproduktionen från kraftvärmen och om att de höga intäkter som uppkommit efter den rödgröna nedläggningen av kärnkraft ska gå tillbaka till hushållen. I dag kan priserna skilja stort mellan elkunder i norra och södra Sverige. Detta bör åtgärdas – utan att elen blir dyrare i något område."
+  },
+  {
+   "id": "b0119",
+   "role": "caption",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0120",
+   "role": "bullet",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skydda hushållen mot vinterns elräkningar genom ett högkostnadsskydd"
+  },
+  {
+   "id": "b0121",
+   "role": "bullet",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Göra det billigare för privatpersoner att minska sin elkonsumtion genom"
+  },
+  {
+   "id": "b0122",
+   "role": "para",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "att förstärka och utvidga det gröna skatteavdraget"
+  },
+  {
+   "id": "b0123",
+   "role": "bullet",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se över elprisområdenas utformning"
+  },
+  {
+   "id": "b0124",
+   "role": "bullet",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta bort avfallsförbränningsskatten för att öka elproduktionen från kraftvärmeverken"
+  },
+  {
+   "id": "b0125",
+   "role": "h2",
+   "page": 5,
+   "size": 14.0,
+   "bold": false,
+   "text": "Fler ska bidra i stället för att leva på bidrag – vi ska återupprätta arbetslinjen"
+  },
+  {
+   "id": "b0126",
+   "role": "para",
+   "page": 5,
+   "size": 11.0,
+   "bold": false,
+   "text": "Den som kan försörja sig själv och den som anstränger sig, ska belönas. Det handlar ytterst om moral och rättvisa. Varannan invandrad person i Sverige, totalt 700 000 personer, kan idag inte försörja sig själv fullt ut. Om utrikesfödda jobbade i samma utsträckning som inrikesfödda skulle skattebetalarna spara 57 miljarder kronor om året. De samlade bidragen ska aldrig bli så höga att det inte lönar sig att jobba."
+  },
+  {
+   "id": "b0127",
+   "role": "caption",
+   "page": 5,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0128",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "14"
+  },
+  {
+   "id": "b0129",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "10,5"
+  },
+  {
+   "id": "b0130",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "7"
+  },
+  {
+   "id": "b0131",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "3,5"
+  },
+  {
+   "id": "b0132",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0133",
+   "role": "h2",
+   "page": 6,
+   "size": 14.0,
+   "bold": false,
+   "text": "Arbetslöshet i EU 2022"
+  },
+  {
+   "id": "b0134",
+   "role": "caption",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "Långtidsarbetslösheten kostar 31 miljarder per år. Det motsvarar 50 000 grundskollärare."
+  },
+  {
+   "id": "b0135",
+   "role": "para",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "Drivkrafter spelar roll. Genom att sänka skatten på låga inkomster och införa ett bidragstak, så att det alltid lönar sig bättre att jobba än att leva på staplade bidrag, kommer Moderaterna att stärka arbetslinjen. Genom att ställa krav på den som är ny i Sverige att göra sig anställningsbar tydliggörs att här räknar vi med att alla blir en del av samhället. Och när fler är med och bidrar blir det mer pengar till fler poliser och sjuksköterskor, till fler utbildningsplatser och till försvaret. Att fler försörjer sig själva gynnar alla."
+  },
+  {
+   "id": "b0136",
+   "role": "caption",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0137",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Genomföra en stor bidragsreform för att bryta utanförskapet"
+  },
+  {
+   "id": "b0138",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett bidragstak så att de samlade bidragen aldrig kan bli högre än lönen från ett arbete"
+  },
+  {
+   "id": "b0139",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att den som invandrat kvalificerar sig till olika välfärdsförmåner genom arbete och utbildning"
+  },
+  {
+   "id": "b0140",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Eurostat, juni 2022"
+  },
+  {
+   "id": "b0141",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Bygga ut antalet praktikplatser med 30 000"
+  },
+  {
+   "id": "b0142",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kräva aktivitet på heltid av den som lever på försörjningsstöd"
+  },
+  {
+   "id": "b0143",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Möjliggöra samhällsnyttiga insatser för den som lever på bidrag"
+  },
+  {
+   "id": "b0144",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa hembesök hos den som lever på försörjningsstöd för att upptäcka missförhållanden"
+  },
+  {
+   "id": "b0145",
+   "role": "bullet",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kraftigt sänka kostnaden för att anställa långtidsarbetslösa"
+  },
+  {
+   "id": "b0146",
+   "role": "h2",
+   "page": 6,
+   "size": 14.0,
+   "bold": false,
+   "text": "Du som är företagare ska märka skillnad – vi ska ge fler möjlighet att växa och skapa nya jobb"
+  },
+  {
+   "id": "b0147",
+   "role": "para",
+   "page": 6,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sveriges välstånd bygger på ett dynamiskt och livskraftigt näringsliv. Men höga skatter, krångliga tillståndsprocesser och byråkrati sätter käppar i hjulet för innovation och tillväxt. Det kan vi aldrig acceptera."
+  },
+  {
+   "id": "b0148",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Spanien"
+  },
+  {
+   "id": "b0149",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Grekland Italien"
+  },
+  {
+   "id": "b0150",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Sverige"
+  },
+  {
+   "id": "b0151",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Frankrike"
+  },
+  {
+   "id": "b0152",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Finland Lettland Kroatien"
+  },
+  {
+   "id": "b0153",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Portugal"
+  },
+  {
+   "id": "b0154",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Slovakien Litauen"
+  },
+  {
+   "id": "b0155",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Estland Belgien Rumänien"
+  },
+  {
+   "id": "b0156",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Cypern"
+  },
+  {
+   "id": "b0157",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Danmark Bulgarien"
+  },
+  {
+   "id": "b0158",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Irland"
+  },
+  {
+   "id": "b0159",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Österike"
+  },
+  {
+   "id": "b0160",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Luxemburg"
+  },
+  {
+   "id": "b0161",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Slovenien Holland"
+  },
+  {
+   "id": "b0162",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Ungern Malta"
+  },
+  {
+   "id": "b0163",
+   "role": "caption",
+   "page": 6,
+   "size": 9.0,
+   "bold": false,
+   "text": "Tyskland Polen Tjeckien"
+  },
+  {
+   "id": "b0164",
+   "role": "caption",
+   "page": 6,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0165",
+   "role": "para",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill bygga ett land där ett fritt näringsliv skapar ett välstånd som kommer alla till del. Där det är lätt att göra rätt – för att en tredjedel av regelkrånglet tagits bort. Där du som vill anställa har möjlighet att hitta rätt kompetens inom Sveriges gränser – men den som rekryterat utländsk spetskompetens inte behöver oroa sig för orättvisa kompetensutvisningar."
+  },
+  {
+   "id": "b0166",
+   "role": "para",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Villkoren för att starta, växa och expandera behöver vara goda för att fler ska våga lämna trygga och välbetalda jobb för att starta företag. Ska det ske måste skattesystemet bli enklare, och bolags-, kunskaps- och kapitalskatter vara konkurrenskraftiga och uppmuntra till investeringar i Sverige."
+  },
+  {
+   "id": "b0167",
+   "role": "caption",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0168",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta bort en tredjedel av företagens administrationskostnader och en tredjedel av regelkrånglet"
+  },
+  {
+   "id": "b0169",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kraftigt sänka anställningskostnaderna för den som anställer nyanlända och långtidsarbetslösa"
+  },
+  {
+   "id": "b0170",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka drivkrafterna för investeringar, forskning och entreprenörskap, genom lägre skatter på företagande"
+  },
+  {
+   "id": "b0171",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Möjliggöra för fler företag att kunna använda sig av reglerna för personaloptioner"
+  },
+  {
+   "id": "b0172",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förenkla 3:12-reglerna"
+  },
+  {
+   "id": "b0173",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Korta myndigheternas handläggningstider genom en bortre tidsgräns"
+  },
+  {
+   "id": "b0174",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Få på plats en nationell samordning över samhällets behov av antalet utbildningsplatser för att förbättra kompetensförsörjningen"
+  },
+  {
+   "id": "b0175",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sätta stopp för kompetensutvisningarna"
+  },
+  {
+   "id": "b0176",
+   "role": "h2",
+   "page": 7,
+   "size": 14.0,
+   "bold": false,
+   "text": "Du som är företagare har rätt till samma trygghet som alla andra"
+  },
+  {
+   "id": "b0177",
+   "role": "para",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Företagare är många gånger måltavla för de kriminella gängens systemhotande angrepp. Det är ett grundläggande politiskt ansvar att rättsstaten finns där med sin fulla kraft när företagare blir utsatta för brott. Idag uppgår de belopp som företag lägger på att skydda sina verksamheter från kriminalitet till mycket höga summor. Och var femte företagare som drabbats av kriminalitet överväger att lägga ner sitt företag på grund av brottsligheten. Så här kan det inte fortsätta. Den otrygghet som idag drabbar Sveriges näringsliv är inte bara ett oacceptabelt hot mot den enskilde företagaren – utan mot hela landets välstånd."
+  },
+  {
+   "id": "b0178",
+   "role": "caption",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0179",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge Brå i uppdrag att kartlägga brott mot företag"
+  },
+  {
+   "id": "b0180",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge butiksägare rätt att bestämma vem som får vistas i butikslokalen"
+  },
+  {
+   "id": "b0181",
+   "role": "bullet",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge företag som är engagerade i säkerhetskänslig verksamhet bättre stöd från staten att kunna möta cyberattacker, spionage och stöldförsök från främmande makt"
+  },
+  {
+   "id": "b0182",
+   "role": "h2",
+   "page": 7,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska öka den ekonomiska jämställdheten"
+  },
+  {
+   "id": "b0183",
+   "role": "para",
+   "page": 7,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige är på många sätt ett föregångsland, men mycket återstår innan vårt samhälle kan beskrivas som jämställt. Kvinnor i Sverige äger bara hälften av vad män äger. Av totala kapitalinkomster står kvinnor för en knapp tredjedel. Kvinnor i Sverige förvärvsarbetar fortfarande i lägre utsträckning än män och är sjukskrivna i högre utsträckning. Kvinnors inkomster är 83 procent av mäns inkomster i åldern 20–64 år. Särskilt utrikes födda kvinnor är ekonomiskt ojämställda männen. Majoriteten av kvinnorna från de stora asylländerna – Afghanistan,"
+  },
+  {
+   "id": "b0184",
+   "role": "caption",
+   "page": 7,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0185",
+   "role": "caption",
+   "page": 8,
+   "size": 23.3,
+   "bold": false,
+   "text": "83%"
+  },
+  {
+   "id": "b0186",
+   "role": "h2",
+   "page": 8,
+   "size": 14.0,
+   "bold": false,
+   "text": "Kvinnors inkomst är 83 procent av männens (i åldern 20-64 år)."
+  },
+  {
+   "id": "b0187",
+   "role": "para",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "Somalia och Syrien – har en mycket liten inkomst från eget arbete. I många fall nära noll. Ökad självförsörjning ger ökad egenmakt."
+  },
+  {
+   "id": "b0188",
+   "role": "caption",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0189",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa flerbarnstillägget från och med barn fyra så att inte kvinnor i stora familjer fastnar i hemmet"
+  },
+  {
+   "id": "b0190",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Öka flexibiliteten i föräldraförsäkringen och göra fler dagar till dubbeldagar"
+  },
+  {
+   "id": "b0191",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska förekomsten av delade turer i offentlig vård och omsorg"
+  },
+  {
+   "id": "b0192",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska det ofrivilliga deltidsarbetet"
+  },
+  {
+   "id": "b0193",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Betala ut försörjningsstöd till kvinnan i stället för till mannen"
+  },
+  {
+   "id": "b0194",
+   "role": "h2",
+   "page": 8,
+   "size": 14.0,
+   "bold": false,
+   "text": "Statens utgifter ska minska"
+  },
+  {
+   "id": "b0195",
+   "role": "h2",
+   "page": 8,
+   "size": 14.0,
+   "bold": false,
+   "text": "– vi ska stoppa slöseriet med skattepengar"
+  },
+  {
+   "id": "b0196",
+   "role": "para",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "Samtidigt som många jobbar hårt för att kunna betala räkningarna finns det de som systematiskt lurar till sig av våra gemensamma pengar. Det är orättvist. Det är dessutom brottsligt. Varje år försvinner runt 20 miljarder kronor av det som skulle ha gått till välfärden i stället ner i fickorna på bidragsfuskare och"
+  },
+  {
+   "id": "b0197",
+   "role": "caption",
+   "page": 8,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: SCB"
+  },
+  {
+   "id": "b0198",
+   "role": "para",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "kriminella. För dessa pengar hade 29 000 poliser kunnat anställas. Ett viktigt första steg är att fastställa vilka som lever i Sverige och att stoppa fusket med tillfälliga personnummer"
+  },
+  {
+   "id": "b0199",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "– samordningsnummer. Moderaterna tänker ta kontroll över folkbokföringen för att stoppa bidragsbrotten och se till att de skattepengar du betalar in används till det de är avsedda för. I ett första steg är målet att halvera bidragsbrotten under nästa mandatperiod."
+  },
+  {
+   "id": "b0200",
+   "role": "caption",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0201",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Genomföra en nationell folkräkning för att stoppa bidragsbrotten"
+  },
+  {
+   "id": "b0202",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kräva personlig inställelse för att bekräfta samordningsnummer, annars ska det återkallas"
+  },
+  {
+   "id": "b0203",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skärpa straffen för bidragsbrott"
+  },
+  {
+   "id": "b0204",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta en bidragsbrottsenhet på Försäkringskassan"
+  },
+  {
+   "id": "b0205",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa utbetalningar av skattemedel till extremister"
+  },
+  {
+   "id": "b0206",
+   "role": "bullet",
+   "page": 8,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta ett effektiviseringskansli som ska gå inom alla myndigheters ekonomi för att frigöra resurser till försvaret"
+  },
+  {
+   "id": "b0207",
+   "role": "h2",
+   "page": 8,
+   "size": 14.0,
+   "bold": false,
+   "text": "per år i bidragsfusk/brott"
+  },
+  {
+   "id": "b0208",
+   "role": "h1",
+   "page": 8,
+   "size": 30.0,
+   "bold": false,
+   "text": "20 miljarder"
+  },
+  {
+   "id": "b0209",
+   "role": "h2",
+   "page": 8,
+   "size": 14.0,
+   "bold": false,
+   "text": "poliser"
+  },
+  {
+   "id": "b0210",
+   "role": "caption",
+   "page": 8,
+   "size": 30.0,
+   "bold": false,
+   "text": "29 000"
+  },
+  {
+   "id": "b0211",
+   "role": "caption",
+   "page": 8,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0212",
+   "role": "h1",
+   "page": 9,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0213",
+   "role": "h1",
+   "page": 9,
+   "size": 38.0,
+   "bold": false,
+   "text": "på tryggheten och"
+  },
+  {
+   "id": "b0214",
+   "role": "h1",
+   "page": 9,
+   "size": 38.0,
+   "bold": false,
+   "text": "rättssystemet"
+  },
+  {
+   "id": "b0215",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "Tryggheten har blivit vår tids stora frihetsfråga. Det finns idag inget annat EU-land där en så stor del av invånarna dör av gängskjutningar som i Sverige. Mammor vittnar om hur de inte vågar släppa ut sina barn för att leka på innergården. Föräldrar vågar inte låta sina barn gå hem själva efter fotbollsträningen av rädsla för att något ska hända på vägen hem."
+  },
+  {
+   "id": "b0216",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "Människor är rädda för att röra sig ute ensamma på kvällen. Personer utger sig för att exempelvis vara poliser och tränger sig in i äldres bostäder för att stjäla deras pengar och värdesaker. Näringslivet vittnar om att brottsligheten numera gör det svårt att rekrytera arbetskraft från övriga Norden. Folk från våra grannländer vågar helt enkelt inte flytta hit."
+  },
+  {
+   "id": "b0217",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige har samtidigt blivit hårt drabbat av utländska stöldligor – som plockar på sig bilar, bildelar, båtmotorer och dyra föremål och för dem ut ur landet. Så här kan vi inte ha det. Den som vill få ordning på Sverige måste därför först få ordning på vår inre och yttre säkerhet. Moderaterna tänker lägga om rättspolitiken för att återupprätta tryggheten, så att du kan känna dig trygg. Brottslingarna ska sitta inne – och du ska våga vara ute och få behålla det som är ditt."
+  },
+  {
+   "id": "b0218",
+   "role": "h2",
+   "page": 9,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska göra den största satsningen någonsin för att förebygga kriminalitet"
+  },
+  {
+   "id": "b0219",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "På kort sikt är den mest effektiva brottsförebyggande åtgärden att sätta fler gängkriminella i fängelse. Där kan de inte begå fler brott och inte rekrytera in fler ungdomar och barn in i kriminalitet. Samtidigt behövs satsningar"
+  },
+  {
+   "id": "b0220",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "på socialtjänsten och skolan för att på sikt förhindra att fler dras in i kriminalitet. Moderaterna vill därför genomföra det största brottsförebyggande reformpaketet i modern tid. Det handlar om över 50 reformer för att stärka socialtjänst, skola och missbruksvård."
+  },
+  {
+   "id": "b0221",
+   "role": "para",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "Utöver detta finns åtgärder att vidta för att öka människors trygghet i vardagen. Många känner sig otrygga utomhus under kvällstid på grund av dåligt belysta och mörka platser. Att göra obelysta platser tillgängliga och trygga är därför en av de viktigaste åtgärderna för att öka känslan av trygghet utomhus. Moderaterna vill komma till rätta med detta problem genom att satsa på trygga utemiljöer, med förbättrad belysning som en viktig del."
+  },
+  {
+   "id": "b0222",
+   "role": "caption",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0223",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Betona och förstärka föräldraansvaret"
+  },
+  {
+   "id": "b0224",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Säkerställa att fler omhändertas enligt LVU"
+  },
+  {
+   "id": "b0225",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att placerade ungdomar ges bättre utbildning"
+  },
+  {
+   "id": "b0226",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Undanröja alla sekretesshinder mellan socialtjänst och polis"
+  },
+  {
+   "id": "b0227",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta ett nationellt kunskapscentrum för brottsprevention och ett nationellt avhopparprogram för gängkriminella"
+  },
+  {
+   "id": "b0228",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Genomföra ett särskilt idrottslyft för utsatta områden"
+  },
+  {
+   "id": "b0229",
+   "role": "bullet",
+   "page": 9,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på trygga utemiljöer, där en viktig del är att lysa upp obelysta platser runtom i Sverige"
+  },
+  {
+   "id": "b0230",
+   "role": "caption",
+   "page": 9,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0231",
+   "role": "h2",
+   "page": 10,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska sätta brottsoffret i centrum"
+  },
+  {
+   "id": "b0232",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Brottsofferperspektivet behöver stärkas i svenskt rättsväsende. Det är inte rimligt att våldtäktsmannen kan få högre skadestånd för att ha suttit inlåst för länge, än vad våldtäktsoffret får för att ha blivit våldtagen. Rättssamhället måste alltid stå på brottsoffrets sida. Moderaterna kommer kraftigt stärka brottsoffrets ställning i rättsprocessen."
+  },
+  {
+   "id": "b0233",
+   "role": "caption",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0234",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Dubbla skadestånden till brottsoffer"
+  },
+  {
+   "id": "b0235",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Underlätta utbetalningen av ersättning till brottsoffer för att minska lidandet"
+  },
+  {
+   "id": "b0236",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka skyddet för vittnen och brottsoffer"
+  },
+  {
+   "id": "b0237",
+   "role": "h2",
+   "page": 10,
+   "size": 14.0,
+   "bold": false,
+   "text": "Våldtäkt ska inte ge rabatt"
+  },
+  {
+   "id": "b0238",
+   "role": "h2",
+   "page": 10,
+   "size": 14.0,
+   "bold": false,
+   "text": "– vi ska skärpa straffen för allvarliga brott"
+  },
+  {
+   "id": "b0239",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Rättspolitiken ska vara rättvis. Men i dag kan en våldtäktsman få högre skadestånd än sina brottsoffer. Och straffen som döms ut speglar ofta inte brottens allvar."
+  },
+  {
+   "id": "b0240",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Nyligen dömde en dansk domstol en 17-årig svensk gängkriminell till 16 års fängelse för mord. I Sverige hade straffet stannat vid fyra års sluten ungdomsvård."
+  },
+  {
+   "id": "b0241",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Den så kallade ”Nytorgsmannen” dömdes tidigare i år för en rad grova sexuella brott inklusive sju våldtäkter. På grund av straffrabatter och villkorlig frigivning kommer han att sitta i fängelse i knappt 3,5 år. Det är ett hån mot brottsoffren."
+  },
+  {
+   "id": "b0242",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Våldtäktsmän ska inte få rabatt. Med Moderaternas straffskärpningar kommer samma brott i stället att leda till minst 12 år i fängelse."
+  },
+  {
+   "id": "b0243",
+   "role": "caption",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0244",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en ny brottsbalk för att skifta fokus från gärningsmannen till brottsoffer"
+  },
+  {
+   "id": "b0245",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skärpa straffen för vålds- och sexualbrott"
+  },
+  {
+   "id": "b0246",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta bort alla straffrabatter för den som fyllt 18 år och slopa dagens mängdrabatter"
+  },
+  {
+   "id": "b0247",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett system med kraftiga straffskärpningar vid återfall"
+  },
+  {
+   "id": "b0248",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utvisa den som har medborgarskap i annat land och begår brott på fängelsenivå"
+  },
+  {
+   "id": "b0249",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett nytt äldrefridsbrott för att stävja brott mot äldre"
+  },
+  {
+   "id": "b0250",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att våld mot poliser alltid leder till långa fängelsestraff"
+  },
+  {
+   "id": "b0251",
+   "role": "bullet",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en ny typ av förvaringsstraff så att serievåldtäktsmän och andra samhällsfarliga brottslingar kan sitta frihetsberövade så länge de är farliga för allmänheten"
+  },
+  {
+   "id": "b0252",
+   "role": "h2",
+   "page": 10,
+   "size": 14.0,
+   "bold": false,
+   "text": "Alla vill ha fler poliser – vi har en konkret plan för hur det ska bli verklighet"
+  },
+  {
+   "id": "b0253",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Trots det ökade gängvåldet är polistätheten lägre nu än för tio år sedan. I vissa delar av landet finns ibland bara en polispatrull på en yta lika stor som Danmark. Ingen ska behöva vänta i flera timmar på att polisen kommer."
+  },
+  {
+   "id": "b0254",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill införa ett nytt polismål som innebär att polistätheten i Sverige motsvarar genomsnittet inom EU. Det innebär 10 000 fler poliser senast år 2028. För att det ska bli möjligt måste polisyrket blir mer attraktivt."
+  },
+  {
+   "id": "b0255",
+   "role": "para",
+   "page": 10,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att avsätta medel för höjda polislöner och se till att CSN-lån skrivs av i takt med att personen börjar arbeta som polis. En viktig del i att göra yrket mer attraktivt är också att se till att poliserna har rätt förutsättningar i sitt arbete. Det handlar till exempel om kroppskameror men också vattenkanoner vid upplopp likt de vi såg i våras – och om att kraftigt skärpa straffen för den som attackerar blåljuspersonal. Det handlar också om att"
+  },
+  {
+   "id": "b0256",
+   "role": "caption",
+   "page": 10,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0257",
+   "role": "h2",
+   "page": 11,
+   "size": 14.0,
+   "bold": false,
+   "text": "Så många nya poliser blir det med Moderaternas politik år 2028 (per län)"
+  },
+  {
+   "id": "b0258",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "280"
+  },
+  {
+   "id": "b0259",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Västerbotten"
+  },
+  {
+   "id": "b0260",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "130"
+  },
+  {
+   "id": "b0261",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Jämtland"
+  },
+  {
+   "id": "b0262",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "280"
+  },
+  {
+   "id": "b0263",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Dalarna"
+  },
+  {
+   "id": "b0264",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "270"
+  },
+  {
+   "id": "b0265",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Värmland"
+  },
+  {
+   "id": "b0266",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "290"
+  },
+  {
+   "id": "b0267",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Örebro"
+  },
+  {
+   "id": "b0268",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "1 820"
+  },
+  {
+   "id": "b0269",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Västra Götaland"
+  },
+  {
+   "id": "b0270",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "350"
+  },
+  {
+   "id": "b0271",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Halland"
+  },
+  {
+   "id": "b0272",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "220"
+  },
+  {
+   "id": "b0273",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Kronoberg"
+  },
+  {
+   "id": "b0274",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Skåne"
+  },
+  {
+   "id": "b0275",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "250"
+  },
+  {
+   "id": "b0276",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Norrbotten"
+  },
+  {
+   "id": "b0277",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "250"
+  },
+  {
+   "id": "b0278",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Västernorrland"
+  },
+  {
+   "id": "b0279",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "280"
+  },
+  {
+   "id": "b0280",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Gävleborg"
+  },
+  {
+   "id": "b0281",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "270"
+  },
+  {
+   "id": "b0282",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Västmanland"
+  },
+  {
+   "id": "b0283",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "380"
+  },
+  {
+   "id": "b0284",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Uppsala"
+  },
+  {
+   "id": "b0285",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "2 900"
+  },
+  {
+   "id": "b0286",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Stockholm"
+  },
+  {
+   "id": "b0287",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "270"
+  },
+  {
+   "id": "b0288",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Södermanland"
+  },
+  {
+   "id": "b0289",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "420"
+  },
+  {
+   "id": "b0290",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Östergötland"
+  },
+  {
+   "id": "b0291",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "70"
+  },
+  {
+   "id": "b0292",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Gotland"
+  },
+  {
+   "id": "b0293",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "330"
+  },
+  {
+   "id": "b0294",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Jönköping"
+  },
+  {
+   "id": "b0295",
+   "role": "caption",
+   "page": 11,
+   "size": 30.0,
+   "bold": false,
+   "text": "270"
+  },
+  {
+   "id": "b0296",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Kalmar"
+  },
+  {
+   "id": "b0297",
+   "role": "caption",
+   "page": 11,
+   "size": 11.0,
+   "bold": false,
+   "text": "Blekinge"
+  },
+  {
+   "id": "b0298",
+   "role": "caption",
+   "page": 11,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0299",
+   "role": "para",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "renodla polisens uppdrag – att låta poliser vara poliser och överlåta exempelvis passhantering till andra myndigheter."
+  },
+  {
+   "id": "b0300",
+   "role": "caption",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0301",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Arbeta efter målet om 10 000 fler poliser till år 2028 med fokus på fler poliser i yttre tjänst"
+  },
+  {
+   "id": "b0302",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Rikta en särskild lönesatsning till poliser – så att fler stannar kvar och söker sig till yrket"
+  },
+  {
+   "id": "b0303",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skriva av studielånen för den som utbildar sig och börjar arbeta som polis"
+  },
+  {
+   "id": "b0304",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Renodla Polisens uppdrag med fokus på att upptäcka, utreda och klara upp brott"
+  },
+  {
+   "id": "b0305",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på polisens utrustning, exempelvis kroppskameror men också vattenkanoner att använda vid exempelvis upplopp"
+  },
+  {
+   "id": "b0306",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kraftigt öka antalet övervakningskameror"
+  },
+  {
+   "id": "b0307",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Återinföra de specialiserade narkotikapoliserna"
+  },
+  {
+   "id": "b0308",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta särskilda utredningsgrupper för sexualbrott och våld i nära relation samt en särskild klanbrottsenhet"
+  },
+  {
+   "id": "b0309",
+   "role": "h2",
+   "page": 12,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska rusta upp rättsväsendet för att utreda och klara upp fler brott"
+  },
+  {
+   "id": "b0310",
+   "role": "para",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Svenskt rättsväsende är uppenbart underdimensionerat i förhållande till den kriminalitet som samhället drabbas av idag. Under 2020 klarades endast 1 av 4 av alla gängmord upp. Många brott kräver alltmer komplicerade och tidskrävande utredningar. En förutsättning för att fler brottslingar ska kunna lagföras och dömas är att åklagarna har möjlighet att göra sitt jobb. Det underlättas förstås när åklagarna bli fler. Det är därför angeläget att öka rekryteringen av åklagare så att utbyggnaden av Åklagarmyndigheten kan gå i takt med polisens utökning."
+  },
+  {
+   "id": "b0311",
+   "role": "para",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Trängseln på landets häkten och anstalter börjar på många håll i landet bli ohållbar. Att öka antalet fängelseplatser är därför mycket angeläget, både på kort och på lång sikt. Moderaternas satsningar på Polisen och åklagarna kommer i sig leda till att fler personer blir frihetsberövade och att fler kommer att avtjäna fängelsestraff."
+  },
+  {
+   "id": "b0312",
+   "role": "caption",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0313",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på fler åklagare så att fler brott kan leda till fällande dom"
+  },
+  {
+   "id": "b0314",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Öka antalet fängelseplatser och se över möjligheten att hyra fängelseplatser utomlands"
+  },
+  {
+   "id": "b0315",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka tullen med mer resurser och kraftfulla befogenheter för att stoppa stöldligor och vapensmugglare"
+  },
+  {
+   "id": "b0316",
+   "role": "h2",
+   "page": 12,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stoppa gängvåldet, skjutningarna och sprängningarna"
+  },
+  {
+   "id": "b0317",
+   "role": "para",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Under 2021 inträffade 342 skjutningar och 79 fullbordade sprängningar – i snitt mer än en skjutning eller sprängning om dagen. Och det här året har inletts med fler dödskjutningar än någonsin tidigare. Fram till mitten av augusti i år har det skett lika många dödskjutningar som under hela 2021."
+  },
+  {
+   "id": "b0318",
+   "role": "para",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige tillhör numera europatoppen i antalet dödskjutningar. Samtidigt breder en tystnadskultur ut sig i de utsatta områdena där gängen styr. Människor vågar inte vittna. Gäng sätter upp egna vägspärrar för att kontrollera vilka som åker in och ut ur områden och begränsar på det sättet friheten för alla andra som bor där. Poliser vittnar om ett råare klimat med grova och personliga hot mot blåljuspersonal. Gängen är Sveriges inhemska terrorister – och lagstiftningen måste anpassas därefter så att fler ställs till svars och försvinner från gatan."
+  },
+  {
+   "id": "b0319",
+   "role": "caption",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0320",
+   "role": "bullet",
+   "page": 12,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Göra det straffbart att vara med i ett kriminellt gäng"
+  },
+  {
+   "id": "b0321",
+   "role": "caption",
+   "page": 12,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0322",
+   "role": "h2",
+   "page": 13,
+   "size": 14.0,
+   "bold": false,
+   "text": "Dödsskjutningar per år"
+  },
+  {
+   "id": "b0323",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "75"
+  },
+  {
+   "id": "b0324",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "50"
+  },
+  {
+   "id": "b0325",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "25"
+  },
+  {
+   "id": "b0326",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0327",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Polismyndigheten och Brå"
+  },
+  {
+   "id": "b0328",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa dubbla straff för gängkriminella"
+  },
+  {
+   "id": "b0329",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skärpa minimistraffen för grova vapenbrott från dagens 2 års fängelse till 6 års fängelse"
+  },
+  {
+   "id": "b0330",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa visitationszoner så att Polisen får bättre möjligheter att leta efter vapen"
+  },
+  {
+   "id": "b0331",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Tillåta anonyma vittnen så att fler vågar vittna"
+  },
+  {
+   "id": "b0332",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utvisa gängmedlemmar, som inte är svenska medborgare, oavsett om de dömts för brott"
+  },
+  {
+   "id": "b0333",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta gängens pengar och införa en omvänd bevisbörda för att kunna beslagta gängmedlemmarnas lyxprylar"
+  },
+  {
+   "id": "b0334",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett bidragsstopp för gängkriminella och göra det enklare att vräka dem"
+  },
+  {
+   "id": "b0335",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Begränsa möjligheterna till permission och villkorlig frigivning för gängkriminella"
+  },
+  {
+   "id": "b0336",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en helt ny möjlighet till långtidsövervakning med fotboja"
+  },
+  {
+   "id": "b0337",
+   "role": "h2",
+   "page": 13,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stoppa mäns våld mot kvinnor"
+  },
+  {
+   "id": "b0338",
+   "role": "para",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "Elva kvinnor misstänks ha blivit mördade under årets första månader. I sju av fallen tros förövaren vara en man de har eller har haft en relation med. Män som upprepade gånger slår, hotar eller utsätter sin kvinnliga partner för sexualbrott blir idag dömda för grov kvinnofridskränkning. Moderaterna vill skärpa straffen för detta brott och göra det lättare att häkta våldsutövaren så att en våldsam partner omedelbart kan sättas bakom lås och bom i avvaktan på att brottet utreds. Fler män som utsätter kvinnor för våld borde tvingas bära fotboja. Idag kan fotboja enbart bli aktuellt om mannen har brutit mot sitt kontaktförbud. Då är det för sent."
+  },
+  {
+   "id": "b0339",
+   "role": "caption",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0340",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ändra i lagen så att mord i nära relation alltid leder till livstids fängelse"
+  },
+  {
+   "id": "b0341",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka gränsen för obligatorisk häktning så att den gäller misstänkta för brott med ett straffvärde på minst ett års fängelse, inte två års fängelse som idag"
+  },
+  {
+   "id": "b0342",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa särskilda grupper i varje polisregion som är specialiserade på sexualbrott och våld i nära relation för att fler anmälda brott ska leda till lagföring och straff"
+  },
+  {
+   "id": "b0343",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa vistelseförbud för personer som dömts för våld i nära relation, så att den som utsatt sin tidigare partner för våld och övergrepp kan förbjudas att vara i ett visst bostadsområde även efter att ha släppts ur fängelset"
+  },
+  {
+   "id": "b0344",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa kontaktförbud och fotboja direkt för en man som utsätter en kvinna för våld, om en riskbedömning visar att det finns behov"
+  },
+  {
+   "id": "b0345",
+   "role": "bullet",
+   "page": 13,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Fortsätta stärka kvinnojourerna"
+  },
+  {
+   "id": "b0346",
+   "role": "caption",
+   "page": 13,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0347",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2012"
+  },
+  {
+   "id": "b0348",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2013"
+  },
+  {
+   "id": "b0349",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2014"
+  },
+  {
+   "id": "b0350",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2015"
+  },
+  {
+   "id": "b0351",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2016"
+  },
+  {
+   "id": "b0352",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2017"
+  },
+  {
+   "id": "b0353",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2018"
+  },
+  {
+   "id": "b0354",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2019"
+  },
+  {
+   "id": "b0355",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2020"
+  },
+  {
+   "id": "b0356",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "2021"
+  },
+  {
+   "id": "b0357",
+   "role": "caption",
+   "page": 13,
+   "size": 9.0,
+   "bold": false,
+   "text": "Prognos 2022"
+  },
+  {
+   "id": "b0358",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "Självrapporterad utsatthet för sexualbrott 2006-2020. Andel utsatta av männen respektive kvinnorna i befolkningen (16-84 år)."
+  },
+  {
+   "id": "b0359",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "0%"
+  },
+  {
+   "id": "b0360",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "1%"
+  },
+  {
+   "id": "b0361",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2%"
+  },
+  {
+   "id": "b0362",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "3%"
+  },
+  {
+   "id": "b0363",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "4%"
+  },
+  {
+   "id": "b0364",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "5%"
+  },
+  {
+   "id": "b0365",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "6%"
+  },
+  {
+   "id": "b0366",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "7%"
+  },
+  {
+   "id": "b0367",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "8%"
+  },
+  {
+   "id": "b0368",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "9%"
+  },
+  {
+   "id": "b0369",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "10%"
+  },
+  {
+   "id": "b0370",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "11%"
+  },
+  {
+   "id": "b0371",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "Kvinnor"
+  },
+  {
+   "id": "b0372",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "Män"
+  },
+  {
+   "id": "b0373",
+   "role": "h2",
+   "page": 14,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stoppa ungdomsrånen"
+  },
+  {
+   "id": "b0374",
+   "role": "para",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sedan 2014 har antalet ungdomsrån mer än fördubblats. Fruktansvärda skildringar av brutala rån mot unga som karaktäriseras av råhet och vilja att förnedra brottsoffren har på senare tid blivit vanligare i media. Rånen visar på en utveckling där ungdomsbrottsligheten både har blivit allt grövre och gärningsmännen allt yngre. Idag kan unga personer som grips för mycket grova brott vara tillbaka på gatan redan samma dag – trots att risken för återfall i brottslighet är uppenbar. Moderaterna menar att samhällets skyddsnät ska fungera så pass bra att unga i riskzonen fångas upp långt innan de begår allvarliga brott – men att de som ändå väljer den brottsliga vägen ska mötas av tidiga och tydliga konsekvenser."
+  },
+  {
+   "id": "b0375",
+   "role": "caption",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0376",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att rån med förnedringsinslag rubriceras som grova rån, vilket alltid ska leda till strängare straff"
+  },
+  {
+   "id": "b0377",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta bort sekretesshindren mellan polis och socialtjänst samt inrätta ett nationellt no entry-program för unga i riskzonen i syfte att snabbt stoppa en påbörjad kriminell karriär"
+  },
+  {
+   "id": "b0378",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att fler unga lagöverträdare omhändertas enligt lagen om vård av unga"
+  },
+  {
+   "id": "b0379",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utreda sänkt straffmyndighetsålder och inrätta ungdomsfängelser"
+  },
+  {
+   "id": "b0380",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Nationella trygghetsundersökningen (NTU) 2021"
+  },
+  {
+   "id": "b0381",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att fler unga lagöverträdare häktas när det rör sig om allvarliga brott och det finns risk för återfall"
+  },
+  {
+   "id": "b0382",
+   "role": "h2",
+   "page": 14,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska upprätta äldrefrid"
+  },
+  {
+   "id": "b0383",
+   "role": "para",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "I skuggan av skjutningarna rapporteras allt oftare om rån mot äldre, som ibland utförs genom att okända personer tränger in i bostaden för att stjäla pengar eller värdesaker. Brotten sker även utomhus, där äldre kan ha svårt att värja sig mot fickstölder, väskryckningar eller bedragare som lurar till sig bankomatkort och kod. Också telefonbedrägerierna ökar kraftigt i antal. Kriminalitet som riktar sig mot sårbara människor är extra klandervärd."
+  },
+  {
+   "id": "b0384",
+   "role": "caption",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0385",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa äldrefridsbrott som en ny brottsrubricering i syfte att skärpa straffen för dessa brott"
+  },
+  {
+   "id": "b0386",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa mer pengar på att utreda bedrägeribrott och annan brottslighet mot äldre"
+  },
+  {
+   "id": "b0387",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utreda införandet av en statlig stödlinje för äldre brottsoffer"
+  },
+  {
+   "id": "b0388",
+   "role": "bullet",
+   "page": 14,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utöka rätten till målsägandebiträde för äldre brottsoffer"
+  },
+  {
+   "id": "b0389",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2006"
+  },
+  {
+   "id": "b0390",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2007"
+  },
+  {
+   "id": "b0391",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2008"
+  },
+  {
+   "id": "b0392",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2009"
+  },
+  {
+   "id": "b0393",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2010"
+  },
+  {
+   "id": "b0394",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2011"
+  },
+  {
+   "id": "b0395",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2012"
+  },
+  {
+   "id": "b0396",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2013"
+  },
+  {
+   "id": "b0397",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2014"
+  },
+  {
+   "id": "b0398",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2015"
+  },
+  {
+   "id": "b0399",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2016"
+  },
+  {
+   "id": "b0400",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2017"
+  },
+  {
+   "id": "b0401",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2018"
+  },
+  {
+   "id": "b0402",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2019"
+  },
+  {
+   "id": "b0403",
+   "role": "caption",
+   "page": 14,
+   "size": 9.0,
+   "bold": false,
+   "text": "2020"
+  },
+  {
+   "id": "b0404",
+   "role": "caption",
+   "page": 14,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0405",
+   "role": "h1",
+   "page": 15,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0406",
+   "role": "h1",
+   "page": 15,
+   "size": 38.0,
+   "bold": false,
+   "text": "på miljön, klimatet"
+  },
+  {
+   "id": "b0407",
+   "role": "h1",
+   "page": 15,
+   "size": 38.0,
+   "bold": false,
+   "text": "och energin"
+  },
+  {
+   "id": "b0408",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "Mitt i klimatkrisen tvingas Sverige elda 140 000 liter olja i timmen i Karlshamnsverket för att elen ska räcka. Det är inte en hållbar energipolitik. Och en helt ohållbar klimatpolitik. Utan ren och stabil el till rimligt pris blir det ingen klimatomställning. Moderaterna tänker genomdriva en ny energipolitik – med mer kärnkraft – både för klimatets och för energiförsörjningens skull."
+  },
+  {
+   "id": "b0409",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vi ska som land ta fullt ansvar här hemma och nå nettonollutsläpp senast år 2045. Det gör vi genom att ersätta fossil energi med ren el och innovativa tekniker som minskar eller tar"
+  },
+  {
+   "id": "b0410",
+   "role": "h2",
+   "page": 15,
+   "size": 14.0,
+   "bold": false,
+   "text": "Nya elprisrekord varje månad"
+  },
+  {
+   "id": "b0411",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "bort utsläppen. Samtidigt ska vi hjälpa andra länder att minska sina utsläpp genom effektivt internationellt samarbete."
+  },
+  {
+   "id": "b0412",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vår miljöpolitik tar sin utgångspunkt i människan samt i naturen och dess rika tillgångar. Människors rätt att äga ska värnas så att skogen kan brukas långsiktigt och hållbart till nytta för klimatet och miljön."
+  },
+  {
+   "id": "b0413",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "Våra rika mineraltillgångar ska kunna utvinnas ansvarsfullt och långsiktigt hållbart. Vi är övertygade om att politiska styrmedel i kombination"
+  },
+  {
+   "id": "b0414",
+   "role": "h2",
+   "page": 15,
+   "size": 14.0,
+   "bold": false,
+   "text": "Elpris öre/kWh, södra Sverige"
+  },
+  {
+   "id": "b0415",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "250"
+  },
+  {
+   "id": "b0416",
+   "role": "caption",
+   "page": 15,
+   "size": 14.0,
+   "bold": false,
+   "text": "2021"
+  },
+  {
+   "id": "b0417",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "200"
+  },
+  {
+   "id": "b0418",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "150"
+  },
+  {
+   "id": "b0419",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "100"
+  },
+  {
+   "id": "b0420",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "50"
+  },
+  {
+   "id": "b0421",
+   "role": "caption",
+   "page": 15,
+   "size": 14.0,
+   "bold": false,
+   "text": "2022"
+  },
+  {
+   "id": "b0422",
+   "role": "caption",
+   "page": 15,
+   "size": 14.0,
+   "bold": false,
+   "text": "2020"
+  },
+  {
+   "id": "b0423",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "jan"
+  },
+  {
+   "id": "b0424",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "0 feb"
+  },
+  {
+   "id": "b0425",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "mar"
+  },
+  {
+   "id": "b0426",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "apr"
+  },
+  {
+   "id": "b0427",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "maj"
+  },
+  {
+   "id": "b0428",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "jun"
+  },
+  {
+   "id": "b0429",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "jul"
+  },
+  {
+   "id": "b0430",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "aug"
+  },
+  {
+   "id": "b0431",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "sep"
+  },
+  {
+   "id": "b0432",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "nov"
+  },
+  {
+   "id": "b0433",
+   "role": "para",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "dec"
+  },
+  {
+   "id": "b0434",
+   "role": "caption",
+   "page": 15,
+   "size": 11.0,
+   "bold": false,
+   "text": "I södra Sverige slår elpriserna nya rekord varje månad. I snitt har priserna under 2022 varit nästan fem gånger högre än 2020."
+  },
+  {
+   "id": "b0435",
+   "role": "caption",
+   "page": 15,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Vattenfall"
+  },
+  {
+   "id": "b0436",
+   "role": "caption",
+   "page": 15,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0437",
+   "role": "h2",
+   "page": 16,
+   "size": 14.0,
+   "bold": false,
+   "text": "Genomsnittlig elprisskillnad per månad mellan Skåne och Norrland"
+  },
+  {
+   "id": "b0438",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "Avveckling Ringhals 2"
+  },
+  {
+   "id": "b0439",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "Avveckling Ringhals 1"
+  },
+  {
+   "id": "b0440",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "Krigsutbrott i Ukraina"
+  },
+  {
+   "id": "b0441",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "160"
+  },
+  {
+   "id": "b0442",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "140"
+  },
+  {
+   "id": "b0443",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "120"
+  },
+  {
+   "id": "b0444",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "100"
+  },
+  {
+   "id": "b0445",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "80"
+  },
+  {
+   "id": "b0446",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "60"
+  },
+  {
+   "id": "b0447",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "40"
+  },
+  {
+   "id": "b0448",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "20"
+  },
+  {
+   "id": "b0449",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0450",
+   "role": "para",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "med teknisk utveckling och ekonomisk tillväxt kan göra vårt klimatavtryck mindre och vår livsmiljö renare."
+  },
+  {
+   "id": "b0451",
+   "role": "para",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sveriges fantastiska natur ska skyddas och vara tillgänglig så att var och en kan njuta av den. Vi ska slå vakt om allemansrätten och minska övergödning, försurning, utsläpp av farliga ämnen och nedskräpning, inte minst i Östersjön."
+  },
+  {
+   "id": "b0452",
+   "role": "h2",
+   "page": 16,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska säkra en stabil energiförsörjning – med ny kärnkraft"
+  },
+  {
+   "id": "b0453",
+   "role": "para",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "Den gröna omställningen förpliktigar. Fram till 2045 kommer Sveriges elbehov mer än fördubblas."
+  },
+  {
+   "id": "b0454",
+   "role": "para",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "Ska vi klara det behövs en elproduktion där alla fossilfria energikällor är med och bidrar. I det läge Sverige har hamnat i på grund av dåliga politiska beslut kommer en utbyggnad av kärnkraften att vara helt central. Det är avgörande både för energiförsörjningen och klimatet. Inte minst finns ett behov av att bygga många nya, mindre reaktorer snarare än ett fåtal stora för att säkerställa att det finns el-"
+  },
+  {
+   "id": "b0455",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Vattenfall"
+  },
+  {
+   "id": "b0456",
+   "role": "para",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "produktion som fungerar oberoende av väder och vind. Moderaterna vill att staten garanterar lån för byggandet av ny kärnkraft – det skulle möjliggöra att 10 nya reaktorer byggs."
+  },
+  {
+   "id": "b0457",
+   "role": "caption",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0458",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ändra det energipolitiska målet från 100 procent förnybart till 100 procent fossilfritt"
+  },
+  {
+   "id": "b0459",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge resurser till Strålsäkerhetsmyndigheten för att ta fram ett regelverk för ny kärnkraft"
+  },
+  {
+   "id": "b0460",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa förbudet mot att bygga reaktorer på andra platser än vid de befintliga kärnkraftverken"
+  },
+  {
+   "id": "b0461",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge Vattenfall i uppdrag att omedelbart genomföra en förstudie för att bygga ny kärnkraft vid Ringhals"
+  },
+  {
+   "id": "b0462",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge nybyggd kärnkraft rätten till drift och elproduktion under hela sin tekniska livslängd"
+  },
+  {
+   "id": "b0463",
+   "role": "bullet",
+   "page": 16,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta bort förbudet mot att ha fler än tio kärnkraftsreaktorer i drift"
+  },
+  {
+   "id": "b0464",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jan-18 apr-18"
+  },
+  {
+   "id": "b0465",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jul-18 okt-18"
+  },
+  {
+   "id": "b0466",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jan-19 apr-19"
+  },
+  {
+   "id": "b0467",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jul-19 okt-19"
+  },
+  {
+   "id": "b0468",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jan-20 apr-20"
+  },
+  {
+   "id": "b0469",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jul-20 okt-20"
+  },
+  {
+   "id": "b0470",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jan-21 apr-21"
+  },
+  {
+   "id": "b0471",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jul-21 okt-21"
+  },
+  {
+   "id": "b0472",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jan-22 apr-22"
+  },
+  {
+   "id": "b0473",
+   "role": "caption",
+   "page": 16,
+   "size": 9.0,
+   "bold": false,
+   "text": "jul-22"
+  },
+  {
+   "id": "b0474",
+   "role": "caption",
+   "page": 16,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0475",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa gröna kreditgarantier för ny kärnkraft"
+  },
+  {
+   "id": "b0476",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "– staten ska underlätta finansieringen"
+  },
+  {
+   "id": "b0477",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett statligt högkostnadsskydd för konstruktionen av ny kärnkraft"
+  },
+  {
+   "id": "b0478",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Investera i det svenska elnätet och korta tillståndsprocesserna för elnätsutbyggnad"
+  },
+  {
+   "id": "b0479",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Upphandla kraftproduktion som stärker stabiliteten"
+  },
+  {
+   "id": "b0480",
+   "role": "bullet",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa avfallsförbränningsskatten för att öka kapaciteten i kraftvärmeverket"
+  },
+  {
+   "id": "b0481",
+   "role": "h2",
+   "page": 17,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska minska utsläppen"
+  },
+  {
+   "id": "b0482",
+   "role": "h2",
+   "page": 17,
+   "size": 14.0,
+   "bold": false,
+   "text": "– på riktigt"
+  },
+  {
+   "id": "b0483",
+   "role": "para",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige står för cirka 0,1 procent av de totala utsläppen i världen. Här hemma utgör transporter och industrier tillsammans två tredjedelar av utsläppen. Vår politik syftar därför till att ställa om transportsektorn genom elektrifiering. Vi vill snabbt bygga ett nätverk av laddstationer för personbilar och lastbilar i hela landet. Utöver det vill vi förkorta och förenkla tillståndsprocesser för industrier som satsar på omställning och få på plats en storskalig satsning på tekniker för att fånga in och lagra koldioxid."
+  },
+  {
+   "id": "b0484",
+   "role": "h2",
+   "page": 17,
+   "size": 14.0,
+   "bold": false,
+   "text": "Kärnkraften är klimatsmart"
+  },
+  {
+   "id": "b0485",
+   "role": "h2",
+   "page": 17,
+   "size": 14.0,
+   "bold": false,
+   "text": "Utsläppsintensitet g CO2e/kWh"
+  },
+  {
+   "id": "b0486",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "1 000"
+  },
+  {
+   "id": "b0487",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "750"
+  },
+  {
+   "id": "b0488",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "500"
+  },
+  {
+   "id": "b0489",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "850"
+  },
+  {
+   "id": "b0490",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "500"
+  },
+  {
+   "id": "b0491",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "250"
+  },
+  {
+   "id": "b0492",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0493",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "2,5"
+  },
+  {
+   "id": "b0494",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Kärnkraft"
+  },
+  {
+   "id": "b0495",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "4"
+  },
+  {
+   "id": "b0496",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Vattenkraft"
+  },
+  {
+   "id": "b0497",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "12"
+  },
+  {
+   "id": "b0498",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Vindkraft"
+  },
+  {
+   "id": "b0499",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Gaskraft"
+  },
+  {
+   "id": "b0500",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Kolkraft"
+  },
+  {
+   "id": "b0501",
+   "role": "caption",
+   "page": 17,
+   "size": 11.0,
+   "bold": false,
+   "text": "Livscykelanalys visar att kärnkraften ger lägst utsläpp av växthusgaser jämfört med annan kraftproduktion."
+  },
+  {
+   "id": "b0502",
+   "role": "caption",
+   "page": 17,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Vattenfall"
+  },
+  {
+   "id": "b0503",
+   "role": "caption",
+   "page": 17,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0504",
+   "role": "para",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Samtidigt är kostnaden för att minska utsläppen genom internationella klimatinsatser ofta mycket lägre än för att minska utsläppen i Sverige – därför kommer Moderaterna också att rikta om biståndet för att minska utsläppen i andra länder."
+  },
+  {
+   "id": "b0505",
+   "role": "caption",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0506",
+   "role": "bullet",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Bygga ut laddstolpar och laddstationer i hela landet"
+  },
+  {
+   "id": "b0507",
+   "role": "bullet",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på tillverkning av biodrivmedel"
+  },
+  {
+   "id": "b0508",
+   "role": "bullet",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Få på plats storskalig infångning av koldioxid"
+  },
+  {
+   "id": "b0509",
+   "role": "bullet",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Fortsätta satsa på Industriklivet som hjälper industrin att ställa om"
+  },
+  {
+   "id": "b0510",
+   "role": "bullet",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Öka klimatbiståndets andel av det totala biståndet för att minska utsläppen utomlands"
+  },
+  {
+   "id": "b0511",
+   "role": "h2",
+   "page": 18,
+   "size": 14.0,
+   "bold": false,
+   "text": "miljoner flygresor"
+  },
+  {
+   "id": "b0512",
+   "role": "caption",
+   "page": 18,
+   "size": 28.2,
+   "bold": false,
+   "text": "8"
+  },
+  {
+   "id": "b0513",
+   "role": "h2",
+   "page": 18,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stötta, inte styra, jord- och skogsbruket"
+  },
+  {
+   "id": "b0514",
+   "role": "para",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det nya säkerhetsläget i Europa gör att vi som land måste minska vår sårbarhet och öka vår självförsörjningsgrad. Samtidigt vittnar bönder om att det inte lönar sig att så inför sommarsäsongen. Det är ohållbart. Moderaterna vill förbättra förutsättningarna att driva lantbruk genom att sänka skatterna, vilket vi redan börjat göra på drivmedel, och minska regelkrånglet så att kostnaderna för administration går ner."
+  },
+  {
+   "id": "b0515",
+   "role": "para",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Nästan två tredjedelar av Sveriges yta är täckt av skog. Den svenska skogen och produkter från skogen binder årligen nästan lika mycket koldioxid som Sverige släpper ut under ett helt år. Skogsbruket är även viktigt för att tillverka bland annat biodrivmedel."
+  },
+  {
+   "id": "b0516",
+   "role": "para",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Äganderätten är en förutsättning för ett hållbart skogsbruk. Det man äger vårdar man, och egenansvar skapar de bästa förutsättningarna för en levande landsbygd. Idag är närmare 30 procent av skogsmarken tagen ur produktion. Det är dåligt för Sverige och för klimatet – mer skog ska brukas, inte mindre."
+  },
+  {
+   "id": "b0517",
+   "role": "caption",
+   "page": 18,
+   "size": 11.0,
+   "bold": false,
+   "text": "Regeringens stängning av Ringhals 1 och 2 leder till att utsläppen i EU ökar med 8 miljoner ton. Det motsvarar utsläppen från 8 miljoner flygresor till södra Europa."
+  },
+  {
+   "id": "b0518",
+   "role": "caption",
+   "page": 18,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0519",
+   "role": "caption",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0520",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska antalet regler för jordbruket och korta handläggningstider för miljötillstånd"
+  },
+  {
+   "id": "b0521",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förstärka livsmedelsstrategin"
+  },
+  {
+   "id": "b0522",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka ägande- och brukanderätten för jordbrukare"
+  },
+  {
+   "id": "b0523",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sänka slakteriavgifterna"
+  },
+  {
+   "id": "b0524",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska ytan av skog som är undantagen från skogsbruk"
+  },
+  {
+   "id": "b0525",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Vårda redan skyddad skog bättre för att stärka den biologiska mångfalden"
+  },
+  {
+   "id": "b0526",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sälja av en större andel av statliga Sveaskogs innehav till personer med regional anknytning"
+  },
+  {
+   "id": "b0527",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka skogsägarnas äganderätt genom att formellt skydd av skog ska ske genom frivillighet"
+  },
+  {
+   "id": "b0528",
+   "role": "caption",
+   "page": 19,
+   "size": 53.3,
+   "bold": false,
+   "text": "30%"
+  },
+  {
+   "id": "b0529",
+   "role": "h2",
+   "page": 19,
+   "size": 14.0,
+   "bold": false,
+   "text": "Två tredjedelar av Sveriges yta är täckt av skog, 30% tagen ur produktion"
+  },
+  {
+   "id": "b0530",
+   "role": "h2",
+   "page": 19,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stoppa jakten på jägarna och rädda fiskerinäringen"
+  },
+  {
+   "id": "b0531",
+   "role": "para",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "Jakt och djurhållning är för många människor en viktig del av livet, kanske framför allt för de som bor utanför storstadsregionerna, med den närhet till naturen som det ofta innebär. Den svenska jakten är också en viktig del av vår kultur. Jägarnas insatser är en starkt bidragande orsak till att vi har livskraftiga viltstammar i landet. Det ska värnas. Det är viktigt att EU:s vapendirektiv inte genomförs i svensk lagstiftning så att du som är jägare, sportskytt eller vapensamlare drabbas negativt. Samtidigt ska du som äger tamboskap inte lida ekonomisk skada på grund av rovdjursangrepp som du inte haft möjlighet att förhindra. Fiskerinäringen har drabbats hårt av minskade bestånd på senare år inte minst på grund av det kustnära trålfisket – den utvecklingen måste brytas."
+  },
+  {
+   "id": "b0532",
+   "role": "caption",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0533",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att minska vargstammen i Sverige till 170 vargar – genom ökad jakt"
+  },
+  {
+   "id": "b0534",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Värna den svenska löshundsjakten"
+  },
+  {
+   "id": "b0535",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att fjälljakten är tillgänglig för alla svenska jägare på lika villkor"
+  },
+  {
+   "id": "b0536",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Arbeta för kortade handläggningstider för vapenlicenser"
+  },
+  {
+   "id": "b0537",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta en ny viltmyndighet"
+  },
+  {
+   "id": "b0538",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Höja ersättningsnivåerna för rovdjursangrepp så att de ligger i nivå med de faktiska kostnaderna"
+  },
+  {
+   "id": "b0539",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Låta jägare sälja vildsvinskött direkt till konsumenter"
+  },
+  {
+   "id": "b0540",
+   "role": "bullet",
+   "page": 19,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stävja minskningen av sill-/strömmingsbestånden i Östersjön genom att flytta gränsen för trålfiske från fyra till tolv nautiska mil"
+  },
+  {
+   "id": "b0541",
+   "role": "caption",
+   "page": 19,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0542",
+   "role": "h2",
+   "page": 20,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska städa upp i naturen"
+  },
+  {
+   "id": "b0543",
+   "role": "para",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "Mer än hälften av världens största områden med döda bottnar finns i Östersjön. Moderaterna vill vidta kraftfulla åtgärder för att förbättra havs- och vattenmiljön. Det handlar om att minska övergödning, försurning, utsläpp av farliga ämnen och marin nedskräpning. Det handlar om att ta ansvar gentemot framtida generationer."
+  },
+  {
+   "id": "b0544",
+   "role": "para",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "Antalet anmälda miljöbrott ökar samtidigt som uppklarningsgraden minskar. Straffet för den som blir dömd för brott mot miljöbalken stannar i många fall vid ett lågt bötesbelopp. Småskräp som till exempel fimpar, snus och tuggummi står för en stor andel av all nedskräpning och bidrar till att mikroplaster och kemikalier sprider sig till hav och natur. Dessutom kan djur som får i sig skräpet skadas. Det är dags för en nolltolerans mot nedskräpning för att göra Sverige skräpfritt."
+  },
+  {
+   "id": "b0545",
+   "role": "caption",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0546",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Bärga miljöfarligt avfall som hittats i haven"
+  },
+  {
+   "id": "b0547",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska jordbrukets miljöpåverkan genom stöd till teknikutveckling och innovationer"
+  },
+  {
+   "id": "b0548",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på forskning om vattenrening samt utbyggnad av avancerad vattenrening"
+  },
+  {
+   "id": "b0549",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förstärka det gemensamma Östersjöarbetet för åtgärder mot övergödning och nedskräpning"
+  },
+  {
+   "id": "b0550",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skärpa straffen för miljöbrott och nedskräpning och ge ordningsvakter befogenhet att dela ut böter för småskräp"
+  },
+  {
+   "id": "b0551",
+   "role": "h2",
+   "page": 20,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska göra naturen tillgänglig för alla"
+  },
+  {
+   "id": "b0552",
+   "role": "para",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "Friluftslivet och naturen ska vara tillgänglig för alla. Det behövs mer statliga resurser för att sköta och förvalta områden med värdefull natur, samt för att rusta upp befintliga och vid behov skapa nya leder i nationalparker och statliga naturreservat. Friluftsanordningar såsom rastplatser, toaletter och eldstäder behöver också byggas ut för att göra naturen tillgänglig för fler. Många markägare ser positivt på friluftsliv på sin mark om det sker med respekt för de rättigheter och skyldigheter som följer med allemansrätten. Detta vill Moderaterna uppmuntra."
+  },
+  {
+   "id": "b0553",
+   "role": "caption",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0554",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Tydliggöra det offentligas ansvar för friluftslivet"
+  },
+  {
+   "id": "b0555",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Göra naturupplevelser och friluftsliv i statliga naturreservat och nationalparker tillgängliga för fler genom satsningar på leder och friluftsanordningar"
+  },
+  {
+   "id": "b0556",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stödja privata markägare som vill tillgängliggöra sin mark för friluftslivet genom till exempel hjälp med skyltning och leder"
+  },
+  {
+   "id": "b0557",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förhindra missbruk av och värna allemansrätten"
+  },
+  {
+   "id": "b0558",
+   "role": "bullet",
+   "page": 20,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka kunskapen om och tillämpningen av allemansrätten och äganderätten genom utökad information"
+  },
+  {
+   "id": "b0559",
+   "role": "caption",
+   "page": 20,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0560",
+   "role": "h1",
+   "page": 21,
+   "size": 30.0,
+   "bold": false,
+   "text": "Frihetens, trygghetens"
+  },
+  {
+   "id": "b0561",
+   "role": "h1",
+   "page": 21,
+   "size": 30.0,
+   "bold": false,
+   "text": "och möjligheternas Sverige"
+  },
+  {
+   "id": "b0562",
+   "role": "h1",
+   "page": 21,
+   "size": 30.0,
+   "bold": false,
+   "text": "finns inom räckhåll – bara"
+  },
+  {
+   "id": "b0563",
+   "role": "h1",
+   "page": 21,
+   "size": 30.0,
+   "bold": false,
+   "text": "viljan och kraften finns att få"
+  },
+  {
+   "id": "b0564",
+   "role": "h1",
+   "page": 21,
+   "size": 30.0,
+   "bold": false,
+   "text": "allting gjort som måste göras."
+  },
+  {
+   "id": "b0565",
+   "role": "caption",
+   "page": 21,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0566",
+   "role": "caption",
+   "page": 22,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0567",
+   "role": "h1",
+   "page": 23,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0568",
+   "role": "h1",
+   "page": 23,
+   "size": 38.0,
+   "bold": false,
+   "text": "på invandringen"
+  },
+  {
+   "id": "b0569",
+   "role": "h1",
+   "page": 23,
+   "size": 38.0,
+   "bold": false,
+   "text": "och integrationen"
+  },
+  {
+   "id": "b0570",
+   "role": "para",
+   "page": 23,
+   "size": 11.0,
+   "bold": false,
+   "text": "Invandringen till Sverige behöver minska för att integrationen ska fungera bättre. Förra året beviljades 95 000 uppehållstillstånd. Det motsvarar ett nytt Växjö på bara ett år. På tio år har nästan en halv miljon människor sökt asyl i Sverige och drygt 400 000 har fått asylrelaterade tillstånd. Oproportionerligt många har kommit till Sverige jämfört med våra nordiska grannländer."
+  },
+  {
+   "id": "b0571",
+   "role": "para",
+   "page": 23,
+   "size": 11.0,
+   "bold": false,
+   "text": "Samtidigt har integrationen misslyckats. Arbetslösheten är idag fem gånger så hög bland utrikes födda som bland inrikes födda, och varannan invandrad person – runt 700 000 personer – är inte självförsörjande. Faktum är att inget annat land i EU har så stor skillnad i arbetslöshet mellan inrikes och utrikes födda. Den som vill få ordning på Sverige måste ta tag i detta."
+  },
+  {
+   "id": "b0572",
+   "role": "h2",
+   "page": 23,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska minska invandringen"
+  },
+  {
+   "id": "b0573",
+   "role": "para",
+   "page": 23,
+   "size": 11.0,
+   "bold": false,
+   "text": "En målstyrd, stram och hållbar migrationspolitik är en förutsättning för att integrationen ska fungera. Vår integrationsförmåga ska vara styrande för nivån på invandringen. Antalet asylsökande till Sverige behöver minska betydligt. Av största vikt är att den som fått ett nej på asylansökan så fort som möjligt lämnar landet. Vi riskerar annars ett växande skuggsamhälle, med social utsatthet, illegalt arbete och brottslighet – där särskilt barn drabbas hårt."
+  },
+  {
+   "id": "b0574",
+   "role": "h2",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "Sverige har tagit emot"
+  },
+  {
+   "id": "b0575",
+   "role": "caption",
+   "page": 23,
+   "size": 30.2,
+   "bold": false,
+   "text": "360 000"
+  },
+  {
+   "id": "b0576",
+   "role": "h2",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "asylsökande"
+  },
+  {
+   "id": "b0577",
+   "role": "h2",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "sedan 2014"
+  },
+  {
+   "id": "b0578",
+   "role": "para",
+   "page": 23,
+   "size": 11.1,
+   "bold": false,
+   "text": "Att jämföras med våra nordiska grannländer under samma period:"
+  },
+  {
+   "id": "b0579",
+   "role": "toc",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "42 630"
+  },
+  {
+   "id": "b0580",
+   "role": "toc",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "42 835"
+  },
+  {
+   "id": "b0581",
+   "role": "toc",
+   "page": 23,
+   "size": 14.1,
+   "bold": false,
+   "text": "61 674"
+  },
+  {
+   "id": "b0582",
+   "role": "caption",
+   "page": 23,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0583",
+   "role": "caption",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0584",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett volymmål för asylmottagandet på nordiska nivåer"
+  },
+  {
+   "id": "b0585",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Anpassa asyllagstiftningen efter den rättsliga miniminivån enligt EU-rätten"
+  },
+  {
+   "id": "b0586",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa möjligheten till spårbyte, det vill säga möjligheten för en person som fått avslag på sin asylansökan att i stället få ett arbetstillstånd"
+  },
+  {
+   "id": "b0587",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Prioritera kvinnor och hbtq-personer i kvotflyktingmottagandet"
+  },
+  {
+   "id": "b0588",
+   "role": "caption",
+   "page": 24,
+   "size": 14.0,
+   "bold": false,
+   "text": "2021"
+  },
+  {
+   "id": "b0589",
+   "role": "caption",
+   "page": 24,
+   "size": 30.0,
+   "bold": false,
+   "text": "95 000"
+  },
+  {
+   "id": "b0590",
+   "role": "h2",
+   "page": 24,
+   "size": 14.0,
+   "bold": false,
+   "text": "uppehållstillstånd"
+  },
+  {
+   "id": "b0591",
+   "role": "caption",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "År 2021 beviljades 95 000 uppehållstillstånd. Det motsvarar ett nytt Växjö."
+  },
+  {
+   "id": "b0592",
+   "role": "h2",
+   "page": 24,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska ställa högre krav på självförsörjning och anpassning"
+  },
+  {
+   "id": "b0593",
+   "role": "para",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vem vill bli en del av ett samhälle där ingen räknar med en? Det måste bli ett slut på de låga förväntningarnas politik. Idag finns inga språkkrav för den som invandrat till Sverige – inte heller några krav på aktivitet för den som"
+  },
+  {
+   "id": "b0594",
+   "role": "para",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "är långtidsarbetslös och lever på bidrag. Och bidragen kan bli så höga när de staplas på varandra att det för många inte lönar sig alls att ta ett jobb. Det finns idag omkring 50 000 hushåll som skulle omfattas av vårt förslag på bidragstak, varav majoriteten består av utrikes födda."
+  },
+  {
+   "id": "b0595",
+   "role": "para",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "Arbetslinjen försvagas ytterligare av att regeringens höjning av a-kassan gjort att även de som nyss blivit arbetslösa tackar nej till jobb. En förutsättning för att kunna få ett arbete är ofta att man kan tala begriplig svenska. Moderaterna vill därför göra SFI effektivare. Varje person som läser SFI ska få en individuell prestationsplan med kunskapsmål som han eller hon ska uppnå i sin utbildning."
+  },
+  {
+   "id": "b0596",
+   "role": "caption",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0597",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa kvalificering till välfärden för nyanlända genom eget arbete eller genom permanent och laglig bosättning i landet"
+  },
+  {
+   "id": "b0598",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ställa krav på heltidsaktiviteter för att få bidrag"
+  },
+  {
+   "id": "b0599",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kräva grundläggande kunskaper i svenska för permanent uppehållstillstånd och medborgarskap"
+  },
+  {
+   "id": "b0600",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ställa högre krav på den som deltar i SFIundervisning – om individuella kunskapsmål inte uppnås ska bidragen kunna minska"
+  },
+  {
+   "id": "b0601",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa obligatorisk samhällsorientering med prov, där godkänt ska vara ett krav för medborgarskap"
+  },
+  {
+   "id": "b0602",
+   "role": "bullet",
+   "page": 24,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utveckla samhällsorienteringen till att fokusera på grundläggande värderingar och hur vi lever i Sverige"
+  },
+  {
+   "id": "b0603",
+   "role": "caption",
+   "page": 24,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0604",
+   "role": "h2",
+   "page": 25,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska se till att alla barn får rätt förutsättningar att klara skolan"
+  },
+  {
+   "id": "b0605",
+   "role": "para",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "Inget barn ska behöva känna att möjligheterna i livet är uttömda redan innan det har börjat på allvar. De enskilt viktigaste åtgärderna för att bryta segregationen handlar om kvaliteten i undervisningen och det svenska språket. I dag börjar många barn som är födda i Sverige skolan utan att kunna tala eller förstå svenska, och får därför mycket sämre förutsättningar att klara sin skolgång. Vi föreslår därför omfattande satsningar på svenska språket redan i tidig ålder."
+  },
+  {
+   "id": "b0606",
+   "role": "caption",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0607",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa obligatorisk språkuppföljning vid 3 års ålder för att upptäcka barn som inte kan tala svenska"
+  },
+  {
+   "id": "b0608",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa obligatorisk språkförskola för barn som visar en bristande språkutveckling"
+  },
+  {
+   "id": "b0609",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utöka lovskolan för barn som halkar efter"
+  },
+  {
+   "id": "b0610",
+   "role": "h2",
+   "page": 25,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska bekämpa kriminella klaner"
+  },
+  {
+   "id": "b0611",
+   "role": "para",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "Hederskultur, organiserad brottslighet, penningtvätt och systematiskt bidragsfusk. Det är några av de saker de kriminella klaner som etablerat sig i Sverige idag ägnar sig åt. Det finns nu runt 40 kriminella klaner i Sverige, som har ett omfattande våldskapital och uttalade ambitioner att konkurrera med den svenska staten om kontrollen. Klanen tillhandahåller ett eget system för rättsskipning, skydd mot yttre fiender och ett socialt skyddsnät till sina medlemmar."
+  },
+  {
+   "id": "b0612",
+   "role": "para",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "I dessa familjer fostras barn tidigt in i en oacceptabel uppväxtmiljö med en tidigt utstakad brottsbana och ett liv i konflikt med det vanliga samhället."
+  },
+  {
+   "id": "b0613",
+   "role": "para",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "Klanrättegångar hör inte hemma i Sverige. De kriminella klanerna ska bekämpas."
+  },
+  {
+   "id": "b0614",
+   "role": "caption",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0615",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge Brå i uppdrag att kartlägga de kriminella klaner som är aktiva i Sverige idag"
+  },
+  {
+   "id": "b0616",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kriminalisera klanrättegångar och andra otillbörliga parallella rättsprocesser"
+  },
+  {
+   "id": "b0617",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbjuda kusinäktenskap"
+  },
+  {
+   "id": "b0618",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta en särskild klanenhet inom Polisen enligt tysk modell"
+  },
+  {
+   "id": "b0619",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att fler barn som växer upp i kriminella klaner ska omhändertas"
+  },
+  {
+   "id": "b0620",
+   "role": "bullet",
+   "page": 25,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att fler kriminella klanmedlemmar utvisas"
+  },
+  {
+   "id": "b0621",
+   "role": "caption",
+   "page": 25,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0622",
+   "role": "h1",
+   "page": 26,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning på"
+  },
+  {
+   "id": "b0623",
+   "role": "h1",
+   "page": 26,
+   "size": 38.0,
+   "bold": false,
+   "text": "försvaret och Sveriges"
+  },
+  {
+   "id": "b0624",
+   "role": "h1",
+   "page": 26,
+   "size": 38.0,
+   "bold": false,
+   "text": "omvärldsrelationer"
+  },
+  {
+   "id": "b0625",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Rysslands invasion av Ukraina har skapat den allvarligaste säkerhetspolitiska krisen i Europa sedan andra världskriget. Sverige ska helhjärtat stå upp för Ukraina, även med fortsatta vapenleveranser. Men omvärldsläget kräver också att vår egen motståndskraft stärks på bred front."
+  },
+  {
+   "id": "b0626",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Försvaret ska därför vara starkt och väl rustat för uppgiften. Det land som inte kan försvara sig, kan vilken dag som helst förlora sin frihet."
+  },
+  {
+   "id": "b0627",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Samtidigt vet vi att ensam inte är stark när Ryssland än en gång står på krigsfot. I försvaret av demokratin är vi säkrare tillsammans med andra. Vi välkomnar därför att Sverige ska gå med i Nato, en fråga vi drivit under 20 års tid. En regering som leds av Moderaterna kommer att vara en garant för att Sverige också blir en aktiv och högt ansedd Natomedlem. Även detta ställer helt nya krav på Sveriges försvar."
+  },
+  {
+   "id": "b0628",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Parallellt med ansökningsprocessen till Nato går Sverige snart in som ordförandeland i EU. Det innebär både ett stort ansvar och stora möjligheter. EU är tillsammans med Nato vårt allra viktigaste internationella samarbete. För Moderaterna är det självklart att Sverige som ordförandeland ska kliva fram och ta ansvar för gemensamma europeiska frågor, som säkerhet och klimat, och samtidigt driva frågor som är särskilt viktiga för Sverige, som villkoren för skogsnäringen. Moderaterna är Europapartiet i svensk politik, och vi är redo att axla uppgiften att leda det svenska EU-ordförandeskapet."
+  },
+  {
+   "id": "b0629",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "I en föränderlig omvärld finns skäl att se över Sveriges samlade utrikespolitiska verktygslåda. Exempelvis behöver biståndet som en del av"
+  },
+  {
+   "id": "b0630",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sveriges samlade utrikespolitik och ett ständigt växande utgiftsområde, reformeras i grunden."
+  },
+  {
+   "id": "b0631",
+   "role": "h2",
+   "page": 26,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska rusta upp försvaret"
+  },
+  {
+   "id": "b0632",
+   "role": "para",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Försvaret måste stärkas för att vi bättre ska kunna försvara vårt land, hävda vår territoriella integritet och värna svenska intressen. Vidare behöver det svenska försvaret i ökad utsträckning ta höjd för de möjligheter och risker som den allt snabbare teknikutvecklingen innebär. Sammantaget krävs kraftfulla satsningar på såväl det militära som det civila försvaret och att dessa satsningar går i takt för att skapa ett fungerande totalförsvar som stärker Sveriges säkerhet på bred front. Målet är att det svenska försvaret ska vara krigsavhållande och avskräcka en eventuell motståndare från att angripa Sverige."
+  },
+  {
+   "id": "b0633",
+   "role": "caption",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0634",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbereda försvaret för svenskt Natomedlemskap"
+  },
+  {
+   "id": "b0635",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att försvarsanslagen uppgår till motsvarande 2 procent av BNP redan år 2025"
+  },
+  {
+   "id": "b0636",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka armén, flygpvapnet och marinen både när det gäller förmåga och materiel"
+  },
+  {
+   "id": "b0637",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka försvarsunderrättelseförmågan"
+  },
+  {
+   "id": "b0638",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta ett nationellt säkerhetsråd på Statsrådsberedningen"
+  },
+  {
+   "id": "b0639",
+   "role": "bullet",
+   "page": 26,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utveckla cyberförsvaret"
+  },
+  {
+   "id": "b0640",
+   "role": "caption",
+   "page": 26,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0641",
+   "role": "h2",
+   "page": 27,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stärka den civila beredskapen"
+  },
+  {
+   "id": "b0642",
+   "role": "para",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Fungerar inte det civila försvaret så kan inte heller det militära försvaret lösa sina uppgifter. Rysslands invasion av Ukraina har lett till utbudsstörningar som kraftigt drivit upp kostnaderna i svensk livsmedelsproduktion. Redan före krigsutbrottet var svenska livsmedelsproducenter hårt pressade av kostnadsökningar. Sveriges självförsörjning av livsmedel är idag omkring 50 procent. Att stärka det civila försvaret är inte bara viktigt för att stärka kapaciteten i det samlade totalförsvaret i händelse av krig. Det civila försvaret är även en avgörande resurs i händelse av kris. Utöver bättre livmedelsberedskap behöver Sverige bygga upp bättre beredskapslager av till exempel läkemedel och sjukvårdsmateriel."
+  },
+  {
+   "id": "b0643",
+   "role": "caption",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0644",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en handlingsplan med konkreta åtgärder mot hybridhot och cyberattacker"
+  },
+  {
+   "id": "b0645",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka jordbruket för att öka den inhemska produktionen av livsmedel"
+  },
+  {
+   "id": "b0646",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Säkra en långsiktig planering för det civila försvaret"
+  },
+  {
+   "id": "b0647",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förstärka det civila försvarets personalförsörjning"
+  },
+  {
+   "id": "b0648",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Bygga bättre beredskapslager"
+  },
+  {
+   "id": "b0649",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta fram en plan för hur animalieproduktion och växtodling ska kunna bedrivas vid höjd beredskap"
+  },
+  {
+   "id": "b0650",
+   "role": "h2",
+   "page": 27,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska göra Sverige till en aktiv Natomedlem"
+  },
+  {
+   "id": "b0651",
+   "role": "para",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill sätta en hög ambitionsnivå för Sverige som blivande Natomedlem. Sverige ska som medlem i Nato vara en säkerhetsproducent i vårt närområde och även få ut"
+  },
+  {
+   "id": "b0652",
+   "role": "para",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "mesta möjliga effekt av medlemskapet. Vi kan bidra mer än de allra flesta exempelvis när det gäller stridsflyg och ubåtar, men även inom telekom och artificiell intelligens. Sverige bör bidra konkret till skyddet av våra vänner i de baltiska länderna, exempelvis genom att överväga att skicka bidrag till Natos stridsgrupper eller att delta med vårt stridsflyg i Natos incidentberedskap."
+  },
+  {
+   "id": "b0653",
+   "role": "caption",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0654",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för ett fördjupat samarbete i norra Europa"
+  },
+  {
+   "id": "b0655",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att Sveriges teknologiska kunnande och kompetenta försvarsindustri kommer hela Nato till del"
+  },
+  {
+   "id": "b0656",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att Sveriges Natomedlemskap tillsammans med Finland leder till ett fördjupat samarbete inom Norden och mellan Norden och Baltikum, inte bara på det försvars- och säkerhetspolitiska området."
+  },
+  {
+   "id": "b0657",
+   "role": "h2",
+   "page": 27,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska dra nytta av Sveriges ordförandeskap i EU"
+  },
+  {
+   "id": "b0658",
+   "role": "para",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaternas syn på EU speglar vår syn på statens uppgifter: EU ska varken göra eller fatta beslut om allt. Beslut ska fattas på lägsta möjliga nivå, så nära medborgarna som möjligt. EU:s fokus ska ligga på att lösa problem som Sverige inte kan hantera ensamt, till exempel handel, klimat, migration och säkerhet. Sveriges EU-ordförandeskap 2023 ska användas till att få EU att fokusera på just dessa områden."
+  },
+  {
+   "id": "b0659",
+   "role": "caption",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0660",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Arrangera ett EU-toppmöte om tillväxt under det svenska EU-ordförandeskapet i syfte att sätta i gång ett arbete med att få på plats en ny tillväxtstrategi för EU"
+  },
+  {
+   "id": "b0661",
+   "role": "bullet",
+   "page": 27,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Fördjupa den inre marknaden, inte minst för tjänster och digitala produkter"
+  },
+  {
+   "id": "b0662",
+   "role": "caption",
+   "page": 27,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0663",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska regelkrånglet och onödig byråkrati, bland annat genom att motverka överimplementering i Sverige av EU-beslut – som huvudregel ska EU-direktiv genomföras på miniminivå"
+  },
+  {
+   "id": "b0664",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka EU:s gräns- och kustbevakning, Frontex, för att förbättra kontrollen över EU:s yttre gräns"
+  },
+  {
+   "id": "b0665",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kraftigt öka antalet utvisningar genom fler EU-gemensamma återtagandeavtal"
+  },
+  {
+   "id": "b0666",
+   "role": "h2",
+   "page": 28,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska göra biståndet smalare och smartare"
+  },
+  {
+   "id": "b0667",
+   "role": "para",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "Biståndet är en del av Sveriges samlade omvärldsengagemang och en viktig del av den svenska utrikespolitiken. Men bistånd i sig driver inte samhällelig utveckling."
+  },
+  {
+   "id": "b0668",
+   "role": "para",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill reformera biståndet och göra det mer fokuserat på de länder och insatser där Sverige kan göra mest nytta. Dina skattepengar ska inte försvinna i korruption eller hamna i fickorna på odemokratiska ledare, och inte heller okritiskt kanaliseras i ökande volymer genom oreformerade FN-organ som"
+  },
+  {
+   "id": "b0669",
+   "role": "para",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "brister i transparens och uppföljning. En större andel av biståndet ska vara humanitärt. Svenska intressen och värderingar om demokrati, rättsstat och individuell frihet ska i högre grad styra valet av biståndsinsatser."
+  },
+  {
+   "id": "b0670",
+   "role": "para",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "Biståndets storlek ska bygga på en bedömning av vilken budget som är rimlig när biståndet ställs mot andra behov, samt utifrån vilka resultat som bedöms kunna uppnås, snarare än på ett utbetalningsmål."
+  },
+  {
+   "id": "b0671",
+   "role": "caption",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0672",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa enprocentmålet och ersätta det med en fyraårig budgetram för biståndet som skapar förutsägbarhet och resultatfokus"
+  },
+  {
+   "id": "b0673",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Fokusera det svenska biståndet till de länder, organisationer och tematiska områden där det gör störst nytta"
+  },
+  {
+   "id": "b0674",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Prioritera insatser som stödjer arbetet för demokrati och mänskliga rättigheter"
+  },
+  {
+   "id": "b0675",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Öka andelen humanitärt bistånd i den svenska biståndsbudgeten"
+  },
+  {
+   "id": "b0676",
+   "role": "bullet",
+   "page": 28,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för ett reformerat FN"
+  },
+  {
+   "id": "b0677",
+   "role": "toc",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "60 000 000"
+  },
+  {
+   "id": "b0678",
+   "role": "toc",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "40 000 000"
+  },
+  {
+   "id": "b0679",
+   "role": "toc",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "20 000 000"
+  },
+  {
+   "id": "b0680",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "0"
+  },
+  {
+   "id": "b0681",
+   "role": "h2",
+   "page": 28,
+   "size": 14.0,
+   "bold": false,
+   "text": "Biståndsramens utveckling 2002-2022, tusentals kronor"
+  },
+  {
+   "id": "b0682",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "Källa: Budgetpropositionerna för respektive år (utfall per år, prognos år 2022)"
+  },
+  {
+   "id": "b0683",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2002"
+  },
+  {
+   "id": "b0684",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2003"
+  },
+  {
+   "id": "b0685",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2004"
+  },
+  {
+   "id": "b0686",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2005"
+  },
+  {
+   "id": "b0687",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2006"
+  },
+  {
+   "id": "b0688",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2007"
+  },
+  {
+   "id": "b0689",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2008"
+  },
+  {
+   "id": "b0690",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2009"
+  },
+  {
+   "id": "b0691",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2010"
+  },
+  {
+   "id": "b0692",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2011"
+  },
+  {
+   "id": "b0693",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2012"
+  },
+  {
+   "id": "b0694",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2013"
+  },
+  {
+   "id": "b0695",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2014"
+  },
+  {
+   "id": "b0696",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2015"
+  },
+  {
+   "id": "b0697",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2016"
+  },
+  {
+   "id": "b0698",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2017"
+  },
+  {
+   "id": "b0699",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2018"
+  },
+  {
+   "id": "b0700",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2019"
+  },
+  {
+   "id": "b0701",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2020"
+  },
+  {
+   "id": "b0702",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2021"
+  },
+  {
+   "id": "b0703",
+   "role": "caption",
+   "page": 28,
+   "size": 9.0,
+   "bold": false,
+   "text": "2022"
+  },
+  {
+   "id": "b0704",
+   "role": "caption",
+   "page": 28,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0705",
+   "role": "h1",
+   "page": 29,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0706",
+   "role": "h1",
+   "page": 29,
+   "size": 38.0,
+   "bold": false,
+   "text": "på vården och"
+  },
+  {
+   "id": "b0707",
+   "role": "h1",
+   "page": 29,
+   "size": 38.0,
+   "bold": false,
+   "text": "äldreomsorgen"
+  },
+  {
+   "id": "b0708",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Svensk hälso-och sjukvård fungerar väldigt bra när det kommer till medicinsk kvalitet, akut omhändertagande, ny medicinsk teknologi och användning av läkemedel. Bristerna handlar framför allt om långa vårdköer, väntetider och bristande tillgänglighet."
+  },
+  {
+   "id": "b0709",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Du som betalar in skatt ska också få valuta för dina inbetalade skattepengar. Du ska kunna känna dig trygg med att välfärden fungerar oavsett var i landet du bor. Alla har rätt till likvärdig vård – som kan ges i rätt tid och håller hög kvalitet."
+  },
+  {
+   "id": "b0710",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Samma krav ska naturligtvis kunna ställas på äldreomsorgen, när den behövs på ålderns höst. Det är en anständighetsfråga."
+  },
+  {
+   "id": "b0711",
+   "role": "caption",
+   "page": 29,
+   "size": 11.3,
+   "bold": false,
+   "text": "Fyra av tio patienter tvingas vänta längre på vård än vad den lagstadgade vårdgarantin utlovar."
+  },
+  {
+   "id": "b0712",
+   "role": "h2",
+   "page": 29,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska korta vårdköerna"
+  },
+  {
+   "id": "b0713",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Fyra av tio patienter har i år väntat längre än lagstadgad tid på sin operation eller annan behandling. Vi tycker att du ska kunna förvänta dig mer av ett välfärdsland som Sverige."
+  },
+  {
+   "id": "b0714",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill korta tiden som du behöver vänta på att få vård men särskilt prioritera cancervård och barn- och ungdomspsykiatrin."
+  },
+  {
+   "id": "b0715",
+   "role": "caption",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0716",
+   "role": "bullet",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utöka kömiljarden genom att rikta särskilda prestationsbaserade resurser till köerna inom cancervården respektive barn- och ungdomspsykiatrin (BUP)"
+  },
+  {
+   "id": "b0717",
+   "role": "bullet",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka vårdens medarbetare, bland annat genom att förbättra arbetsmiljön och möjligheterna till vidareutbildning – det behövs fler händer i vården som kan korta vårdköerna och avlasta personalen"
+  },
+  {
+   "id": "b0718",
+   "role": "bullet",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Inrätta en nationell vårdförmedling som ska hjälpa patienter med lång väntetid att få vård i en annan del av landet där det finns ledig kapacitet"
+  },
+  {
+   "id": "b0719",
+   "role": "h2",
+   "page": 29,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska förbättra cancervården"
+  },
+  {
+   "id": "b0720",
+   "role": "para",
+   "page": 29,
+   "size": 11.0,
+   "bold": false,
+   "text": "Alla ska få sin cancervård när de behöver den. Så är det inte idag. Färre än hälften av alla kvinnor med bröstcancer får vård i tid. Färre än hälften av alla män med prostatacancer får vård i tid. Nästan varje dag drabbas ett barn i Sverige av cancer och barncancer är den vanligaste dödsorsaken i åldern 1–14 år. Samtidigt är det oerhört hoppfullt att ungefär 85 procent av alla barn i Sverige överlever sin cancer. Men sju av tio drabbas av komplikationer senare i livet. Det är tydligt att tillgängligheten och effektiviteten i cancervården idag är för låg. Det finns också stora regionala skillnader i kvalitet och väntetider."
+  },
+  {
+   "id": "b0721",
+   "role": "caption",
+   "page": 29,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0722",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Färre än fyra av tio män med prostatacancer får vård i rätt tid."
+  },
+  {
+   "id": "b0723",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Färre än hälften av alla kvinnor med bröstcancer får vård i rätt tid."
+  },
+  {
+   "id": "b0724",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Färre än tre av tio kvinnor och män med lungcancer får vård i rätt tid."
+  },
+  {
+   "id": "b0725",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0726",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en förstärkt vårdgaranti för cancerpatienter – om inte vården kan ges inom angivna tidsgränser ska patienten ha rätt att vända sig till annan vårdgivare och bli ersatt för de merkostnader detta innebär"
+  },
+  {
+   "id": "b0727",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Prioritera cancervården och fördubbla stödet till barncancervården, som ska ges särskilt riktade resurser varje år"
+  },
+  {
+   "id": "b0728",
+   "role": "h2",
+   "page": 30,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska prioritera kvinnors sjukdomar och hälsa"
+  },
+  {
+   "id": "b0729",
+   "role": "para",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Kvinnor ska inte behöva ge uttryck för mer smärta och lidande för att få samma behandling som män. Men så är det idag. Kvinnors sjukdomar har både inom forskning och i det kliniska arbetet under lång tid varit eftersatta. På flera områden finns därför kunskapsluckor om hur skillnaden mellan könen tar sig uttryck både gällande symptom, smärta samt reaktion på läkemedel. Forskning pekar på att även vid sjukdomar som drabbar både kvinnor och män, är vården inte jämlik. Kvinnor får senare diagnos, sämre tillgång till nya läkemedel och det tar längre tid till dess att behandlingar sätts in."
+  },
+  {
+   "id": "b0730",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0731",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbättra möjligheterna att ställa tidigare diagnoser, bland annat med hjälp av digitala beslutsstöd och strukturerade arbetssätt med till exempel riskprofilering"
+  },
+  {
+   "id": "b0732",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka forskningen gällande sjukdomar som drabbar kvinnor"
+  },
+  {
+   "id": "b0733",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Modernisera aborträtten – genom att bland annat möjliggöra abort i hemmet och utreda ett grundlagsskydd för aborträtten"
+  },
+  {
+   "id": "b0734",
+   "role": "h2",
+   "page": 30,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stärka förlossningsvården"
+  },
+  {
+   "id": "b0735",
+   "role": "para",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Att bli förälder är något fantastiskt, som ska vara förenat med förväntan, spänning och lycka. Men många hamnar idag i stället i en situation där förlossningen leder till stress, oro och funderingar kring hur det ska gå. Några av de allra största problemen inom förlossningsvården handlar om kvalitet och ojämlikhet. Moderaterna kommer att arbeta för att förlossningsvården ska stärkas när det gäller möjligheterna till kontinuitet, jämlik vård samt uppföljning och återkoppling."
+  },
+  {
+   "id": "b0736",
+   "role": "caption",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0737",
+   "role": "bullet",
+   "page": 30,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att födande kvinnor får ha tillgång till samma team av barnmorskor från mödravård till eftervård"
+  },
+  {
+   "id": "b0738",
+   "role": "caption",
+   "page": 30,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0739",
+   "role": "caption",
+   "page": 31,
+   "size": 15.1,
+   "bold": false,
+   "text": "30"
+  },
+  {
+   "id": "b0740",
+   "role": "caption",
+   "page": 31,
+   "size": 6.7,
+   "bold": false,
+   "text": "dagar"
+  },
+  {
+   "id": "b0741",
+   "role": "h2",
+   "page": 31,
+   "size": 14.0,
+   "bold": false,
+   "text": "Färre än hälften av alla barn som väntar på utredning eller behandling från BUP får en första undersökning inom 30 dagar."
+  },
+  {
+   "id": "b0742",
+   "role": "h2",
+   "page": 31,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska förebygga psykisk ohälsa bland barn och unga"
+  },
+  {
+   "id": "b0743",
+   "role": "para",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "Få saker är viktigare att prioritera än barns psykiska mående. En studie från Socialstyrelsen visar att orosanmälningar om barn som far illa har ökat under pandemin. Bris bekräftar den bilden. Samtal från barn med ångest och nedstämdhet har ökat med över 60 procent jämfört med året innan. Moderaterna vill lagstifta om att barn som mår psykiskt dåligt och behöver hjälp och stöd ska få det inom maximalt 30 dagar. Och inom ytterligare maximalt 30 dagar få den behandling som behövs."
+  },
+  {
+   "id": "b0744",
+   "role": "caption",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0745",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en ny lagstadgad vårdgaranti för barn"
+  },
+  {
+   "id": "b0746",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka barn- och ungdomspsykiatrin så att barn och unga som mår dåligt får hjälp snabbt"
+  },
+  {
+   "id": "b0747",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka Bris nationella stödlinje och andra stödlinjer så att de kan hålla öppet dygnet runt"
+  },
+  {
+   "id": "b0748",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ta fram en nationell strategi mot självmord, med särskilt fokus på barn och unga"
+  },
+  {
+   "id": "b0749",
+   "role": "h2",
+   "page": 31,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska förbättra äldreomsorgen"
+  },
+  {
+   "id": "b0750",
+   "role": "para",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "Den som behöver omsorg på ålderns höst ska känna sig trygg med det. Anhöriga ska veta att mamma eller pappa tas väl om hand – äter bra för att maten är god och näringsrik, får regelbunden vård och omsorg av personal de känner igen och som pratar svenska. Coronakommissionens slutsatser om att äldreomsorgen inte stod förberedd och rustad att möta samhällsspridningen i pandemin måste leda till förändring. Den medicinska kompetensen och kontinuiteten måste stärkas inom äldreomsorgen."
+  },
+  {
+   "id": "b0751",
+   "role": "para",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "Att alla har tak över huvudet är en anständighetsfråga i ett välfärdsland som Sverige. Ändå ökar hemlösheten bland äldre, vilket är en oacceptabel utveckling."
+  },
+  {
+   "id": "b0752",
+   "role": "caption",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0753",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa språkkrav för personal inom vård och äldreomsorg"
+  },
+  {
+   "id": "b0754",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska förekomsten av delade turer i offentlig vård och omsorg"
+  },
+  {
+   "id": "b0755",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att den patientansvariga läkarkontakten ska utgöra navet i äldres sjukvård"
+  },
+  {
+   "id": "b0756",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för ett systematiskt måltidslyft inom äldrevården och äldreomsorgen"
+  },
+  {
+   "id": "b0757",
+   "role": "bullet",
+   "page": 31,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en nollvision för hemlöshet bland pensionärer och öka den statliga finansieringen av boendestöd"
+  },
+  {
+   "id": "b0758",
+   "role": "caption",
+   "page": 31,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0759",
+   "role": "h1",
+   "page": 32,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0760",
+   "role": "h1",
+   "page": 32,
+   "size": 38.0,
+   "bold": false,
+   "text": "på skolan"
+  },
+  {
+   "id": "b0761",
+   "role": "para",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "År 2021 lämnade 16 000 barn grundskolan utan behörighet till gymnasiet. Det motsvarar över 600 skolklasser. Samtidigt halkar även de barn som det går bäst för efter i internationella kunskapsjämförelser. En bra skola är avgörande för Sveriges välstånd. Men framför allt är skolgången avgörande för varje elevs möjlighet att skapa sig en ljus framtid. Moderaterna vill att svensk skola ska möjliggöra klassresor. Och då menar vi inte, som andra partier föreslår, att elever ska tvångsbussas från ett område till ett annat. Nej, i stället vill vi säkerställa att alla skolor är bra skolor – och slå vakt om din rätt att själv välja skola till dina barn. Moderaterna vill få ordning på svensk skola så att varje elev går ut nian med fullständiga betyg och möter vuxenlivet med rätt kunskaper och gott självförtroende."
+  },
+  {
+   "id": "b0762",
+   "role": "h1",
+   "page": 32,
+   "size": 33.3,
+   "bold": false,
+   "text": "Aa"
+  },
+  {
+   "id": "b0763",
+   "role": "caption",
+   "page": 32,
+   "size": 11.2,
+   "bold": false,
+   "text": "Sommaren 2021 lämnade 16 058 barn grundskolan utan behörighet till gymnasiet. Det motsvarar över 600 skolklasser."
+  },
+  {
+   "id": "b0764",
+   "role": "h2",
+   "page": 32,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska göra upp med flumskolan och återupprätta kunskapsskolan"
+  },
+  {
+   "id": "b0765",
+   "role": "para",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "De skolor som lyckas bra, även i Sveriges utanförskapsområden, pekar alla på samma framgångsrecept: fokus på studiero, kunskap och på ett tydligt ledarskap. Den dåliga nyheten är att dessa skolor i dag är alldeles för få. Den goda nyheten är att de flesta kan bli riktigt bra, om vi lägger om den svenska skolpolitiken. Att värderas utifrån kriterier som man inte förstår framkallar både stress och ångest. Idag slår otydliga mål, tidiga krav på abstrakta resonemang, och en vag kunskapssyn ut många helt i onödan."
+  },
+  {
+   "id": "b0766",
+   "role": "para",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vår kunskapsskola är en annan. Det finns en ett samband mellan utökad undervisningstid och bättre skolresultat. Sverige har betydligt mindre undervisningstid i skolan jämfört med andra länder. Moderaterna kommer därför utöka undervisningstiden i skolan. Vi vill se mer lärarledd undervisning. Mätbara fakta i kurs- och läroplanerna. Betygskriterier som är begripliga och centralt rättade nationella prov, för att bekämpa betygsinflationen."
+  },
+  {
+   "id": "b0767",
+   "role": "caption",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0768",
+   "role": "bullet",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Utöka undervisningstiden med en timme om dagen i lågstadiet"
+  },
+  {
+   "id": "b0769",
+   "role": "bullet",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Fokusera på mätbara faktakunskaper, med inspiration från Finlands läroplan"
+  },
+  {
+   "id": "b0770",
+   "role": "bullet",
+   "page": 32,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Minska lärarnas dokumentationskrav"
+  },
+  {
+   "id": "b0771",
+   "role": "caption",
+   "page": 32,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0772",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa central rättning av betygsgrundande nationella prov samt ett slutprov efter årskurs nio – och ge Skolinspektionen i uppdrag att granska skolor som avviker från nationella prov"
+  },
+  {
+   "id": "b0773",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Sätta stopp för betygsinflation och olämpliga påtryckningar från föräldrar"
+  },
+  {
+   "id": "b0774",
+   "role": "h2",
+   "page": 33,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska upprätta ordning och reda i skolan"
+  },
+  {
+   "id": "b0775",
+   "role": "para",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Alla elever drabbas av en stökig skolmiljö, men det är särskilt elever som redan har det svårt som halkar efter. Var tredje niondeklassare upplever att han eller hon saknar studiero i skolan. Dessutom har nästan hälften av eleverna blivit utsatta för ett brott. Samtidigt uppger en fjärdedel av lärarna att de har blivit utsatta för hot, våld, sexuella trakasserier eller kränkningar på jobbet. I en sådan miljö kan inte skolan fungera som det är tänkt. Studiero är en förutsättning för lärande."
+  },
+  {
+   "id": "b0776",
+   "role": "caption",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0777",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa våld mot skolpersonal som ny brottsrubricering"
+  },
+  {
+   "id": "b0778",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka lärares och rektorers auktoritet att kunna ingripa i stökiga situationer"
+  },
+  {
+   "id": "b0779",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skriva in ordning och studiero i skollagens portalparagraf och införa ordningsomdömen"
+  },
+  {
+   "id": "b0780",
+   "role": "h2",
+   "page": 33,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska ge bättre stöd till de barn som har det svårast"
+  },
+  {
+   "id": "b0781",
+   "role": "para",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Forskning pekar på att tidiga insatser är avgörande för att höja kunskapsresultaten. Åtgärder måste vidtas i tid för elever som inte klarar av sin skolgång. De elever som halkar efter ska få gå i skola på loven. Idag är det många barn som börjar skolan utan att kunna tala svenska, och vi vet att de får en betydligt svårare resa än andra. Därför krävs också omfattande satsningar på svenska språket redan i tidig ålder."
+  },
+  {
+   "id": "b0782",
+   "role": "caption",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0783",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa en skyldighet för kommuner att erbjuda lovskola från lågstadiet. Elever som ligger efter i skolan ska vara skyldiga att delta i lovskolan"
+  },
+  {
+   "id": "b0784",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Göra det obligatoriskt för kommuner att erbjuda läxhjälp från lågstadiet"
+  },
+  {
+   "id": "b0785",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa obligatorisk språkförskola för barn som visar en bristande språkutveckling"
+  },
+  {
+   "id": "b0786",
+   "role": "h2",
+   "page": 33,
+   "size": 14.0,
+   "bold": false,
+   "text": "Föräldrar ska välja skola till sina barn – vi säger nej till bussning och lottning"
+  },
+  {
+   "id": "b0787",
+   "role": "para",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Det fria skolvalet gör att alla barn oavsett bakgrund och ekonomi kan välja den skola som passar dem bäst. Den friheten vill vi bevara. Vi säger därför bestämt nej till storskaliga experiment med kvotering, lottning eller tvångsbussning av elever. Barn ska inte lottas till dåliga skolor – dåliga skolor ska stängas. Målet måste självklart vara att alla skolor ska vara bra"
+  },
+  {
+   "id": "b0788",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "– det ansvaret får inte politiken fly. Därför måste vi också bekämpa oseriösa aktörer och fusk. Skolor som misslyckas med sitt uppdrag ska inte få ta ut vinster. Moderaterna har nolltolerans mot dåliga skolor. Staten ska kunna ta över eller stänga skolor som inte är tillräckligt bra."
+  },
+  {
+   "id": "b0789",
+   "role": "caption",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0790",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett aktivt och obligatoriskt skolval för alla"
+  },
+  {
+   "id": "b0791",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att skolor som drivs i företagsform lever upp till högt ställda kvalitetskriterier för att få göra vinstutdelning samt dra in tillståndet för skolor som allvarligt brister"
+  },
+  {
+   "id": "b0792",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge Skolinspektionen i särskilt uppdrag att granska och stänga skolor som kan misstänkas främja radikalisering och segregation"
+  },
+  {
+   "id": "b0793",
+   "role": "bullet",
+   "page": 33,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa alla förslag som rör tvångsbussning, kvotering och lottning av elever mellan skolor"
+  },
+  {
+   "id": "b0794",
+   "role": "caption",
+   "page": 33,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0795",
+   "role": "bullet",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Öka likvärdigheten genom att införa ett gemensamt kommunalt kösystem och en tydligare statlig styrning av skolpengen"
+  },
+  {
+   "id": "b0796",
+   "role": "h2",
+   "page": 34,
+   "size": 14.0,
+   "bold": false,
+   "text": "Skolan ska förbereda för ett yrkesliv – och forskningen stå fri"
+  },
+  {
+   "id": "b0797",
+   "role": "para",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "Kompetensförsörjningen på svensk arbetsmarknad måste bli bättre. Då krävs att både den svenska skolan och all högre utbildning håller högsta internationella nivå – i en allt hårdare konkurrens."
+  },
+  {
+   "id": "b0798",
+   "role": "para",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "Idag ställs allt högre krav på omställning inom en rad yrken, med betoning på tekniska utbildningar. Det finns därför behov av att snarast införa olika kortare utbildningar. De gymnasiala yrkesutbildningarna och vuxenutbildningarna i Sverige måste få ett innehåll som är relevant och eftertraktat."
+  },
+  {
+   "id": "b0799",
+   "role": "para",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "Högre utbildning och forskning är en i högsta grad internationell verksamhet. Vi måste bättre värna den akademiska friheten i Sverige och se till att forskningen står fri från politiska pekpinnar och möjliggöra banbrytande forskningsresultat."
+  },
+  {
+   "id": "b0800",
+   "role": "caption",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0801",
+   "role": "bullet",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Få på plats en nationell samordning över samhällets behov av antalet utbildningsplatser för att förbättra kompetensförsörjningen"
+  },
+  {
+   "id": "b0802",
+   "role": "bullet",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Arbeta för ett resursfördelningssystem till högskolan så att akademisk kvalitet, genomströmning samt etablering på arbetsmarknaden premieras i högre utsträckning"
+  },
+  {
+   "id": "b0803",
+   "role": "bullet",
+   "page": 34,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Värna den fria forskningen från politiska pekpinnar"
+  },
+  {
+   "id": "b0804",
+   "role": "caption",
+   "page": 34,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0805",
+   "role": "h1",
+   "page": 35,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0806",
+   "role": "h1",
+   "page": 35,
+   "size": 38.0,
+   "bold": false,
+   "text": "på hela Sveriges"
+  },
+  {
+   "id": "b0807",
+   "role": "h1",
+   "page": 35,
+   "size": 38.0,
+   "bold": false,
+   "text": "möjligheter"
+  },
+  {
+   "id": "b0808",
+   "role": "para",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna vill ta vara på hela Sveriges möjligheter. Men ska det gå att bo och verka i hela Sverige måste också hela Sverige fungera. Företag ska ha tillgång till el året runt. Bredband måste finnas så att alla har samma möjligheter att koppla upp sig mot en vårdcentral eller att jobba hemifrån. Mobiltäckning överallt ska vara en självklarhet, liksom vetskapen om att polisen kommer när du ringer oavsett var du bor. Vi vill ta ansvar för att tågen går i tid och att vägarna håller hög kvalitet i stället för låg hastighet."
+  },
+  {
+   "id": "b0809",
+   "role": "h2",
+   "page": 35,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska förbättra infrastrukturen"
+  },
+  {
+   "id": "b0810",
+   "role": "para",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "En infrastruktur av hög kvalitet är viktig för jobb och tillväxt i alla delar av landet. Hastigheten på alla statliga vägar där hastigheten sänkts på grund av bristande underhåll bör på sikt återställas. Tillgången på laddstationer ska vara hög så att även den som bor i glesbygd har användning av en elbil. Dessutom behöver viktiga vägstråk stärkas så att de klarar tyngre lastbilar."
+  },
+  {
+   "id": "b0811",
+   "role": "para",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "Tågtrafiken präglas alltjämt av förseningar och flaskhalsar. I stället för dyra och olönsamma skrytbyggen som höghastighetståg kommer Moderaterna rusta upp den järnväg som redan finns, så att tågen kan gå i tid och du slipper stå och frysa på perrongen. Flyget är mitt uppe i en snabb omställning med"
+  },
+  {
+   "id": "b0812",
+   "role": "para",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "ökad användning av biobränslen, vätgas och utveckling av elflyg. Det är en utveckling som Moderaterna vill bejaka. Företagande ska underlättas i hela Sverige genom bättre tillgång till bredband. Samtidigt är behovet av nya isbrytare stort, inte minst för att underlätta transporter från och till industrin i Norrland."
+  },
+  {
+   "id": "b0813",
+   "role": "caption",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0814",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Rusta upp dagens järnväg i stället för att satsa på höghastighetståg som riskerar att vara omoderna redan innan de är klara"
+  },
+  {
+   "id": "b0815",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Laga Sveriges vägar så att du kan komma fram säkert och i tid"
+  },
+  {
+   "id": "b0816",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbättra tillgången på laddstationer för elbilar"
+  },
+  {
+   "id": "b0817",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Bygga ut Arlanda med målet att Arlanda ska bli den ledande flygplatsen i Norden"
+  },
+  {
+   "id": "b0818",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Satsa på utvecklingen av fossilfria bränslen till flyget och utvecklingen av elflygplan"
+  },
+  {
+   "id": "b0819",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Klassa bredband som nationell infrastruktur och prioritera därefter"
+  },
+  {
+   "id": "b0820",
+   "role": "bullet",
+   "page": 35,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förnya flottan av isbrytare för att underlätta för industrin i norra Sverige"
+  },
+  {
+   "id": "b0821",
+   "role": "caption",
+   "page": 35,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0822",
+   "role": "caption",
+   "page": 36,
+   "size": 23.4,
+   "bold": false,
+   "text": "71%"
+  },
+  {
+   "id": "b0823",
+   "role": "h2",
+   "page": 36,
+   "size": 14.0,
+   "bold": false,
+   "text": "Det är bostadsbrist i 207 av landets 290 kommuner."
+  },
+  {
+   "id": "b0824",
+   "role": "h2",
+   "page": 36,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska se till att det byggs fler bostäder – även strandnära"
+  },
+  {
+   "id": "b0825",
+   "role": "para",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "I 207 av landets 290 kommuner råder det idag bostadsbrist. En fungerande bostadsmarknad är en förutsättning för ökad tillväxt. I Moderaternas Sverige ska alla våga drömma om att äga sin egen bostad. Pensionärer ska inte tvingas att flytta från sina hus på ålderns höst för att fastighetsskatten har återinförts och barnfamiljers ekonomi ska inte slås sönder av avskaffade ränteavdrag. Vi vill genomföra reformer som ökar byggandet av såväl hyressom bostadsrätter. För att nå ökad acceptans hos allmänheten vill vi ge medborgarna större inflytande över arkitekturen."
+  },
+  {
+   "id": "b0826",
+   "role": "caption",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0827",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Avskaffa dagens strandskydd för att möjliggöra ökat byggande"
+  },
+  {
+   "id": "b0828",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ersätta avancerade detaljplaner med enklare byggplaner"
+  },
+  {
+   "id": "b0829",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Låta medborgare få större inflytande över arkitekturen för att minska överklaganden"
+  },
+  {
+   "id": "b0830",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa vänstersidan från att återinföra fastighetsskatten"
+  },
+  {
+   "id": "b0831",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Behålla ränteavdraget för bolån"
+  },
+  {
+   "id": "b0832",
+   "role": "bullet",
+   "page": 36,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Möjliggöra mer rättvisa hyror genom att potentiella hyresgästers värdering av boendet ges större vikt"
+  },
+  {
+   "id": "b0833",
+   "role": "caption",
+   "page": 36,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0834",
+   "role": "h1",
+   "page": 37,
+   "size": 38.0,
+   "bold": false,
+   "text": "Så får vi ordning"
+  },
+  {
+   "id": "b0835",
+   "role": "h1",
+   "page": 37,
+   "size": 38.0,
+   "bold": false,
+   "text": "på demokratin"
+  },
+  {
+   "id": "b0836",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaternas politik utgår från alla människors lika värde och varje individs rätt till frihet. Sverige ska vara ett fritt och öppet samhälle där rättigheter, skyldigheter och möjligheter gäller lika för alla."
+  },
+  {
+   "id": "b0837",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vi ska stärka den liberala demokratin."
+  },
+  {
+   "id": "b0838",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Demokratins grundvalar behöver stärkas. Vår svenska grundlag ska ha en tydlig katalog av fri- och rättigheter. Vi måste se till att det inte bara är vackra ord, utan att grundlagen också ger ett praktiskt och effektivt skydd för enskilda människor i relation till exempelvis en kommun eller en statlig myndighet."
+  },
+  {
+   "id": "b0839",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Sverige ska vara en demokratisk rättsstat. Det betyder att alla som utövar offentlig makt, och ytterst våra domstolar, ska garantera att grundlagarnas skydd för individens fri- och rättigheter efterlevs. Majoriteten får aldrig göra vad den vill mot minoriteten. Vi ser stora behov av att förstärka domstolarnas oberoende och förtydliga hur ansvar kan utkrävas för offentliga beslut."
+  },
+  {
+   "id": "b0840",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Vi måste också stärka demokratins skydd mot våldsbejakande extremism och andra kriminella hot."
+  },
+  {
+   "id": "b0841",
+   "role": "caption",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0842",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka domstolarnas oberoende och skyddet för medborgarnas fri- och rättigheter"
+  },
+  {
+   "id": "b0843",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Slå vakt om trossamfundens säkerhet för alla ska kunna utöva sin tro utan att känna sig hotade"
+  },
+  {
+   "id": "b0844",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka Säkerhetspolisen för att öka deras förmåga att skydda den liberala demokratin och landets alla medborgare"
+  },
+  {
+   "id": "b0845",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa utbetalningar av skattepengar till organisationer som inte delar det svenska samhällets grundläggande demokratiska värderingar utan som hotar människors frihet"
+  },
+  {
+   "id": "b0846",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbjuda deltagande i organisationer med våldsbejakande verksamhet samt förbjuda deltagande i kriminella gäng"
+  },
+  {
+   "id": "b0847",
+   "role": "bullet",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Skärpa tjänstemannaansvaret så att du som skattebetalare vet att med all offentlig maktutövning följer ett ansvar för de beslut som fattas"
+  },
+  {
+   "id": "b0848",
+   "role": "h2",
+   "page": 37,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stoppa hedersförtrycket"
+  },
+  {
+   "id": "b0849",
+   "role": "para",
+   "page": 37,
+   "size": 11.0,
+   "bold": false,
+   "text": "Kvinnofientliga traditioner och strukturer kan aldrig accepteras i ett fritt, öppet och jämställt samhälle. Det finns många exempel på hur hederskulturen breder ut sig i Sverige. Kvinnor ”faller” från balkonger. Flickor förs bort under sommarlovet och tvingas in i ett liv kantat av tvångsgiftermål, misshandel och våldtäkter. Bröder tvingas kontrollera sina systrar. Ingrepp som kallas reparation av mödomshinnan görs, där unga kvinnor som lever under hedersrelaterade normer betalar för att ”laga” något som inte finns. Kvinnor fråntas sin frihet och isoleras i hemmet. Kvinnor mördas av sina män, bröder och pappor. Att detta sker i Sverige idag är avskyvärt och något som politiken och samhället som helhet måste ägna betydligt mer kraft åt att motverka. Dessa flickor, pojkar och kvinnor förtjänar möjligheten att få välja hur de vill leva sina liv, i trygghet och utan att vara rädda att straffas för sina val. I Sverige ska alla kunna leva sina liv i frihet. Moderaterna vill införa en nolltolerans mot hedersbrott."
+  },
+  {
+   "id": "b0850",
+   "role": "caption",
+   "page": 37,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0851",
+   "role": "caption",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0852",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att personer utan svenskt medborgarskap som begår hedersbrott utvisas"
+  },
+  {
+   "id": "b0853",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa jämställdhet och hbtq-personers rättigheter som en del i den obligatoriska samhällsorienteringen för nyanlända"
+  },
+  {
+   "id": "b0854",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Genomföra en nationell kartläggning av hedersförtryckets utbredning"
+  },
+  {
+   "id": "b0855",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att en nationell hedersscreening införs för asylsökande familjer"
+  },
+  {
+   "id": "b0856",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Införa ett särskilt brott – olaga frihetsbegränsning"
+  },
+  {
+   "id": "b0857",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbjuda ”moralpoliser”"
+  },
+  {
+   "id": "b0858",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Kriminalisera oskuldskontroller"
+  },
+  {
+   "id": "b0859",
+   "role": "h2",
+   "page": 38,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska stå upp för hbtq-personers rättigheter"
+  },
+  {
+   "id": "b0860",
+   "role": "para",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "I Sverige ska du kunna leva ett fritt liv, och öppet kunna visa din kärlek, bilda familj och få ett tryggt bemötande av det offentliga, oavsett vilken sexuell läggning du har. Men idag finns platser i Sverige där detta inte respekteras. Där människor inte vågar hålla hand med vem man vill eller visa en regnbågsflagga på grund av att otidsenliga normer slagit rot. I hederskulturer är hbtq-personer dubbelt utsatta. Och konverteringsterapi tillämpas i syfte att ändra en individs sexuella läggning eller könsidentitet. Samtidigt är familjepolitiken inte tidsenlig och utformad utifrån hur människor idag väljer att bilda familj och leva sina liv. Det finns blodbrist i sjukvården, samtidigt finns det människor som vill donera blod men som inte får – på grund av sexuell läggning. Även det vill vi ändra på."
+  },
+  {
+   "id": "b0861",
+   "role": "caption",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0862",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Förbjuda konverteringsterapi, som syftar till att ändra en individs sexuella läggning eller könsidentitet"
+  },
+  {
+   "id": "b0863",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stoppa utbetalningar av skattemedel till organisationer som hetsar och sprider hat mot hbtq-personer"
+  },
+  {
+   "id": "b0864",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Verka för att altruistiskt surrogatmoderskap ska vara möjligt i Sverige"
+  },
+  {
+   "id": "b0865",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Se till att all familjelagstiftning är könsneutral"
+  },
+  {
+   "id": "b0866",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Ge Socialstyrelsen i uppdrag att ändra i riktlinjerna för blodgivning så att sexuell läggning inte längre ska vara avgörande för vem som får donera blod"
+  },
+  {
+   "id": "b0867",
+   "role": "h2",
+   "page": 38,
+   "size": 14.0,
+   "bold": false,
+   "text": "Vi ska ha en mediepolitik för mångfald"
+  },
+  {
+   "id": "b0868",
+   "role": "para",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "En mångfald av fria och oberoende medier som håller hög kvalitet spelar en helt avgörande roll för det öppna och demokratiska samhället. Det är också det viktigaste motmedlet mot företeelser såsom ”fake news” och desinformationskampanjer."
+  },
+  {
+   "id": "b0869",
+   "role": "para",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaternas mediepolitik har som mål att skapa förutsättningar för ett brett utbud av medier i olika format som kan verka fritt, självständigt och i konkurrens med varandra. Vi vill värna och utveckla public service, och stärka skyddet för journalister mot hot och våld."
+  },
+  {
+   "id": "b0870",
+   "role": "caption",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "Moderaterna kommer att:"
+  },
+  {
+   "id": "b0871",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Värna och stärka public services kärnuppdrag och kravet på saklighet och opartiskhet"
+  },
+  {
+   "id": "b0872",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Reformera mediestödet för att stödja den digitala transformationen och omställningen"
+  },
+  {
+   "id": "b0873",
+   "role": "bullet",
+   "page": 38,
+   "size": 11.0,
+   "bold": false,
+   "text": "• Stärka det straffrättsliga skyddet för journalister, i syfte att värna tryck- och yttrandefriheten, motverka hot, våld och andra olagliga angrepp mot journalister och medieredaktioner"
+  },
+  {
+   "id": "b0874",
+   "role": "caption",
+   "page": 38,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  },
+  {
+   "id": "b0875",
+   "role": "caption",
+   "page": 39,
+   "size": 10.0,
+   "bold": false,
+   "text": "Valmanifest 2022"
+  }
+ ]
+}

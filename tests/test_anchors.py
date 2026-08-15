@@ -1,0 +1,488 @@
+"""The reverse index — a corpus line, and the votes that leaned on it.
+
+Fixtures are real corpus documents and real block ids. The thing that makes this
+index hard to get right is not the grouping, it is the pairing: the served text
+is one line per surviving block, and if that correspondence slips by one every
+anchor after it names the wrong line while every count stays plausible. So the
+pairing is tested against the real files, and the failure is tested by breaking
+it deliberately.
+
+The build gate gets the same treatment. `build-anchors` is allowed to refuse a
+run, and a gate that has never been seen to fire is not a gate.
+"""
+
+import json
+
+import pytest
+
+from aidag import anchors
+from aidag.config import CORPUS_DIR
+from aidag.simulate import _normalize_ws
+
+KD2015 = "partiprogram-kd-2015"
+KD2025 = "partiprogram-kd-2025"
+
+
+def _index(slug: str) -> anchors.BlockIndex:
+    if not (CORPUS_DIR / f"{slug}.txt").exists():
+        pytest.skip(f"{slug} not extracted (run: uv run aidag extract-corpus)")
+    return anchors.block_index(slug)
+
+
+@pytest.fixture(scope="module")
+def kd2015():
+    return _index(KD2015)
+
+
+def _a_block(idx: anchors.BlockIndex, min_words: int = 14) -> tuple[str, str]:
+    """(block_id, its served text) — long enough to locate unambiguously."""
+    for i, bid in enumerate(idx.ids):
+        text = idx.served[idx.starts[i] : idx.ends[i]]
+        if len(text.split()) >= min_words and text[0].isupper():
+            return bid, text
+    raise AssertionError("no usable block")
+
+
+def _decision(
+    quotes,
+    parti="KD",
+    document="partiprogram",
+    rost="Ja",
+    vid="V1",
+    flags=None,
+    arm="anonymous",
+    prompt_version="p6",
+    svag=False,
+):
+    return {
+        "votering_id": vid,
+        "parti": parti,
+        "prompt_version": prompt_version,
+        "arm": arm,
+        "rost": rost,
+        "hallning": "avvisar" if rost == "Ja" else "stodjer",
+        "coverage": "explicit",
+        "confidence": "high",
+        "plan_tacker_utskottets_skal": "ja",
+        "flags": list(flags or []),
+        "citations": [
+            {"document": document, "quote": q, "princip": "p", **({"svag": True} if svag else {})}
+            for q in quotes
+        ],
+    }
+
+
+CASES = {"V1": {"votering_id": "V1", "datum": "2023-04-12", "utskott": "SfU"}}
+POSITIONS = {("V1", "KD"): "Ja"}
+
+
+class TestVerdict:
+    """`rost` is derived from `hallning`, so this is the GAP, not vote accuracy."""
+
+    def test_the_plan_and_the_floor_agree(self):
+        assert anchors.verdict_of("Ja", "Ja") == "kept"
+        assert anchors.verdict_of("Nej", "Nej") == "kept"
+
+    def test_the_plan_and_the_floor_disagree(self):
+        assert anchors.verdict_of("Ja", "Nej") == "diverged"
+        assert anchors.verdict_of("Nej", "Ja") == "diverged"
+
+    def test_an_abstention_is_neither(self):
+        """gap.py scores only ('Ja','Nej') — the plan was never asked to predict
+        a floor tactic, so an abstention may not be reported as a divergence."""
+        for rost in ("Ja", "Nej"):
+            assert anchors.verdict_of(rost, "Avstår") == "avstar"
+
+    def test_absence_is_its_own_verdict_however_it_arrives(self):
+        """A party with no `party_positions` row cast no votes in the division,
+        which is the same fact `build_cases` writes as 'Frånvarande'."""
+        assert anchors.verdict_of("Ja", "Frånvarande") == "franvarande"
+        assert anchors.verdict_of("Ja", None) == "franvarande"
+
+    def test_every_verdict_is_declared(self):
+        seen = {anchors.verdict_of("Ja", p) for p in ("Ja", "Nej", "Avstår", None)}
+        assert seen == set(anchors.VERDICTS)
+
+    def test_no_committed_position_falls_through_to_an_unintended_branch(self):
+        """The real table, not a hand-written list of what it might contain."""
+        import polars as pl
+
+        from aidag.config import PROCESSED_DIR
+
+        path = PROCESSED_DIR / "party_positions.parquet"
+        if not path.exists():
+            pytest.skip("party_positions not built")
+        seen = set(pl.read_parquet(path, columns=["position"])["position"].unique())
+        assert seen <= {"Ja", "Nej", "Avstår", "Frånvarande"}
+        for position in seen:
+            assert anchors.verdict_of("Ja", position) in anchors.VERDICTS
+
+
+class TestBlockIndex:
+    def test_a_quote_resolves_to_the_block_that_holds_it(self, kd2015):
+        bid, text = _a_block(kd2015)
+        assert kd2015.locate(text) == (bid, 0)
+
+    def test_the_offset_is_measured_inside_the_block(self, kd2015):
+        bid, text = _a_block(kd2015)
+        tail = " ".join(text.split()[4:])
+        assert kd2015.locate(tail) == (bid, len(text) - len(tail))
+
+    def test_whitespace_is_collapsed_first_so_verify_and_this_agree(self, kd2015):
+        bid, text = _a_block(kd2015)
+        assert kd2015.locate("  \n  ".join(text.split())) == (bid, 0)
+
+    def test_a_quote_that_is_not_in_the_document_does_not_resolve(self, kd2015):
+        assert kd2015.locate("Riksdagen bör ersättas med ett lotteri om skattemedlen.") is None
+
+    def test_a_blank_quote_does_not_resolve(self, kd2015):
+        assert kd2015.locate("") is None
+        assert kd2015.locate("   ") is None
+
+    def test_offset_and_length_cut_the_quote_back_out_of_the_block(self, kd2015):
+        """What Task 8's renderer needs: the span is a slice of the block, so a
+        cited line can be marked without re-running the matcher in the browser."""
+        _, text = _a_block(kd2015)
+        tail = " ".join(text.split()[3:])
+        bid, offset = kd2015.locate(tail)
+        block = kd2015.served[
+            kd2015.starts[kd2015.ids.index(bid)] : kd2015.ends[kd2015.ids.index(bid)]
+        ]
+        assert block[offset : offset + len(tail)] == tail
+
+    def test_the_served_text_is_the_one_verify_compares_against(self, kd2015):
+        from aidag.migrate_quotes import index_for
+
+        assert kd2015.served == index_for(KD2015).served
+
+    def test_every_block_id_comes_from_the_committed_block_file(self, kd2015):
+        from aidag.extract_corpus import blocks_path
+
+        ids = {b["id"] for b in json.loads(blocks_path(KD2015).read_text())["blocks"]}
+        assert set(kd2015.ids) <= ids
+        assert len(set(kd2015.ids)) == len(kd2015.ids)
+
+    def test_the_pairing_holds_for_every_extracted_document(self):
+        """The invariant the whole index rests on: served line i IS block i."""
+        from aidag.extract_corpus import cited_slugs
+
+        for slug in cited_slugs():
+            if not (CORPUS_DIR / f"{slug}.txt").exists():
+                pytest.skip(f"{slug} not extracted")
+            idx = anchors.block_index(slug)  # raises if the pairing has drifted
+            assert len(idx.ids) == len(idx.starts) == len(idx.ends)
+
+    def test_a_drifted_block_file_raises_instead_of_shifting_every_anchor(
+        self, kd2015, tmp_path, monkeypatch
+    ):
+        """Off-by-one here is invisible in the output — it renames every line."""
+        from aidag.extract_corpus import blocks_path
+
+        payload = json.loads(blocks_path(KD2015).read_text())
+        payload["blocks"].insert(0, {"id": "bXXXX", "role": "para", "page": 0,
+                                     "size": 11.0, "bold": False, "text": "Inskjuten rad."})
+        bogus = tmp_path / f"{KD2015}.json"
+        bogus.write_text(json.dumps(payload, ensure_ascii=False))
+        monkeypatch.setattr("aidag.extract_corpus.blocks_path", lambda slug: bogus)
+        anchors.block_index.cache_clear()
+        with pytest.raises(ValueError, match="served"):
+            anchors.block_index(KD2015)
+        anchors.block_index.cache_clear()
+
+    def test_a_missing_block_file_names_the_command_that_writes_it(
+        self, tmp_path, monkeypatch
+    ):
+        monkeypatch.setattr(
+            "aidag.extract_corpus.blocks_path", lambda slug: tmp_path / "absent.json"
+        )
+        anchors.block_index.cache_clear()
+        with pytest.raises(FileNotFoundError, match="extract-corpus"):
+            anchors.block_index(KD2015)
+        anchors.block_index.cache_clear()
+
+
+class TestCollect:
+    def test_a_citation_becomes_one_ref_under_its_block(self, kd2015):
+        bid, text = _a_block(kd2015)
+        by_slug, counts, unlocated = anchors.collect(
+            [_decision([text])], CASES, POSITIONS
+        )
+        assert unlocated == []
+        assert list(by_slug) == [KD2015]
+        (anchor,) = by_slug[KD2015]
+        assert (anchor.block_id, anchor.offset) == (bid, 0)
+        assert anchor.refs == [{
+            "votering_id": "V1", "parti": "KD", "verdict": "kept",
+            "tier": "explicit", "utskott": "SfU", "datum": "2023-04-12", "svag": False,
+        }]
+        assert counts["located"] == 1
+
+    def test_two_decisions_citing_one_line_share_an_anchor(self, kd2015):
+        _, text = _a_block(kd2015)
+        rows = [_decision([text]), _decision([text], parti="KD", vid="V1", rost="Nej")]
+        by_slug, counts, _ = anchors.collect(rows, CASES, POSITIONS)
+        (anchor,) = by_slug[KD2015]
+        assert len(anchor.refs) == 2
+        assert {r["verdict"] for r in anchor.refs} == {"kept", "diverged"}
+        assert counts["anchors"] == 1
+
+    def test_one_decision_citing_the_same_line_twice_is_one_vote(self, kd2015):
+        _, text = _a_block(kd2015)
+        by_slug, counts, _ = anchors.collect([_decision([text, text])], CASES, POSITIONS)
+        (anchor,) = by_slug[KD2015]
+        assert len(anchor.refs) == 1
+        assert counts["duplicate_ref"] == 1
+
+    def test_the_weak_marker_rides_along(self, kd2015):
+        _, text = _a_block(kd2015)
+        by_slug, _, _ = anchors.collect([_decision([text], svag=True)], CASES, POSITIONS)
+        assert by_slug[KD2015][0].refs[0]["svag"] is True
+
+    def test_a_blank_quote_is_skipped_and_does_not_fail_the_build(self):
+        by_slug, counts, unlocated = anchors.collect([_decision([""])], CASES, POSITIONS)
+        assert (by_slug, unlocated) == ({}, [])
+        assert counts["blank"] == 1
+
+    def test_an_unlocatable_quote_is_reported(self, kd2015):
+        junk = "Detta har aldrig stått i något partiprogram över huvud taget."
+        _, counts, unlocated = anchors.collect([_decision([junk])], CASES, POSITIONS)
+        assert counts["unlocated"] == 1
+        assert unlocated == [
+            {"document": KD2015, "quote": junk, "cid": "V1", "parti": "KD"}
+        ]
+
+    def test_an_unlocatable_quote_the_record_already_flagged_is_excused(self, kd2015):
+        junk = "Detta har aldrig stått i något partiprogram över huvud taget."
+        _, counts, unlocated = anchors.collect(
+            [_decision([junk], flags=["citat_ej_migrerat"])], CASES, POSITIONS
+        )
+        assert unlocated == []
+        assert counts["unlocated_excused"] == 1
+
+    def test_a_pre_p6_decision_is_skipped(self, kd2015):
+        """Those runs read data/corpus/frozen/; these blocks are not their text."""
+        _, text = _a_block(kd2015)
+        by_slug, counts, _ = anchors.collect(
+            [_decision([text], prompt_version="p5")], CASES, POSITIONS
+        )
+        assert (by_slug, counts["pre_p6"]) == ({}, 1)
+
+    def test_a_non_anonymous_arm_is_skipped(self, kd2015):
+        _, text = _a_block(kd2015)
+        by_slug, counts, _ = anchors.collect(
+            [_decision([text], arm="named")], CASES, POSITIONS
+        )
+        assert (by_slug, counts["other_arm"]) == ({}, 1)
+
+    def test_a_document_class_without_blocks_is_out_of_scope(self):
+        _, counts, unlocated = anchors.collect(
+            [_decision(["vad som helst"], document="budgetmotion")], CASES, POSITIONS
+        )
+        assert (counts["out_of_scope"], unlocated) == (1, [])
+
+    def test_anchors_come_out_in_reading_order(self, kd2015):
+        blocks = [
+            (i, kd2015.served[kd2015.starts[i] : kd2015.ends[i]])
+            for i in range(len(kd2015.ids))
+        ]
+        picks = [t for _, t in blocks if len(t.split()) >= 14][:4]
+        rows = [_decision([q]) for q in reversed(picks)]
+        by_slug, _, _ = anchors.collect(rows, CASES, POSITIONS)
+        order = {bid: i for i, bid in enumerate(kd2015.ids)}
+        got = [(order[a.block_id], a.offset) for a in by_slug[KD2015]]
+        assert got == sorted(got)
+
+
+class TestDateGatedResolution:
+    """A citation names a CLASS. Which edition it meant is a date."""
+
+    def test_a_2023_vote_anchors_into_the_2015_programme(self):
+        idx = _index(KD2015)
+        _, text = _a_block(idx)
+        cases = {"V1": {"datum": "2023-04-12", "utskott": "SfU"}}
+        by_slug, _, unlocated = anchors.collect([_decision([text])], cases, POSITIONS)
+        assert list(by_slug) == [KD2015]
+        assert unlocated == []
+
+    def test_a_2026_vote_anchors_into_the_2025_programme(self):
+        idx = _index(KD2025)
+        _, text = _a_block(idx)
+        cases = {"V1": {"datum": "2026-01-15", "utskott": "SfU"}}
+        by_slug, _, _ = anchors.collect([_decision([text])], cases, POSITIONS)
+        assert list(by_slug) == [KD2025]
+
+    def test_the_older_edition_is_not_consulted_for_a_later_vote(self):
+        """Every citation of a 2026 vote is offered to the 2025 edition alone —
+        whether the quote then resolves there is a fact about the two documents,
+        not something the resolver may fall back on."""
+        cases = {"V1": {"datum": "2026-01-15", "utskott": "SfU"}}
+        _, text = _a_block(_index(KD2015))
+        by_slug, _, unlocated = anchors.collect([_decision([text])], cases, POSITIONS)
+        assert KD2015 not in by_slug
+        assert all(u["document"] == KD2025 for u in unlocated)
+        assert set(by_slug) | {u["document"] for u in unlocated} == {KD2025}
+
+
+class TestBuild:
+    """The write path and the gate, over a throwaway run layout."""
+
+    @pytest.fixture
+    def run_root(self, tmp_path, monkeypatch, kd2015):
+        monkeypatch.setattr(anchors, "_case_tables", lambda: (CASES, POSITIONS))
+        d = tmp_path / "simulations" / "test-run"
+        d.mkdir(parents=True)
+        return tmp_path, d
+
+    def _write(self, sim_dir, rows):
+        (sim_dir / "KD.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
+        )
+
+    def test_it_writes_one_file_per_cited_document(self, run_root, kd2015):
+        root, sim = run_root
+        bid, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        out = anchors.anchors_dir("test-run", root) / f"{KD2015}.json"
+        payload = json.loads(out.read_text())
+        assert payload["slug"] == KD2015
+        assert (payload["n_anchors"], payload["n_refs"]) == (1, 1)
+        assert payload["anchors"][0]["block_id"] == bid
+        assert payload["anchors"][0]["length"] == len(_normalize_ws(text))
+
+    def test_an_unlocatable_quote_fails_the_build(self, run_root, kd2015):
+        root, sim = run_root
+        self._write(sim, [_decision(["Detta står ingenstans i något program alls."])])
+        with pytest.raises(anchors.Unlocated, match="citat_ej_migrerat"):
+            anchors.build("test-run", results_dir=root)
+        assert not anchors.anchors_dir("test-run", root).exists()
+
+    def test_a_blanked_quote_does_not_fail_the_build(self, run_root, kd2015):
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text, ""])])
+        result = anchors.build("test-run", results_dir=root)
+        assert result["counts"]["blank"] == 1
+        assert result["report"] == [{"slug": KD2015, "anchors": 1, "refs": 1}]
+
+    def test_a_flagged_quote_does_not_fail_the_build(self, run_root, kd2015):
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text, "Detta står ingenstans alls."],
+                                    flags=["citat_ej_migrerat"])])
+        result = anchors.build("test-run", results_dir=root)
+        assert result["counts"]["unlocated_excused"] == 1
+
+    def test_the_refusal_names_the_quotes(self, run_root, kd2015):
+        root, sim = run_root
+        self._write(sim, [_decision(["Detta står ingenstans i något program alls."])])
+        with pytest.raises(anchors.Unlocated, match="Detta står ingenstans"):
+            anchors.build("test-run", results_dir=root)
+
+    def test_running_twice_is_byte_identical(self, run_root, kd2015):
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        out = anchors.anchors_dir("test-run", root) / f"{KD2015}.json"
+        once = out.read_bytes()
+        anchors.build("test-run", results_dir=root)
+        assert out.read_bytes() == once
+
+
+class TestSiteShapes:
+    """Page weight: aggregates inline, ref lists fetched."""
+
+    @pytest.fixture
+    def payload(self, kd2015):
+        _, text = _a_block(kd2015)
+        rows = [_decision([text]), _decision([text], vid="V1", rost="Nej")]
+        by_slug, _, _ = anchors.collect(rows, CASES, POSITIONS)
+        anchor = by_slug[KD2015][0]
+        return {
+            "slug": KD2015,
+            "run_id": "test-run",
+            "n_anchors": 1,
+            "n_refs": len(anchor.refs),
+            "anchors": [anchor.to_dict()],
+        }
+
+    def test_the_inline_summary_counts_by_block(self, payload):
+        s = anchors.summarize(payload)
+        block = s["blocks"][payload["anchors"][0]["block_id"]]
+        assert (block["refs"], block["kept"], block["diverged"]) == (2, 1, 1)
+        assert block["tiers"] == {"explicit": 2}
+        assert block["parties"] == {"KD": 2}
+        assert s["totals"] == {"anchors": 1, "refs": 2, "kept": 1, "diverged": 1,
+                               "avstar": 0, "franvarande": 0}
+
+    def test_the_inline_summary_carries_no_ref_rows_and_no_quote_text(self, payload):
+        """9,007 refs on one document is why this half exists at all."""
+        blob = json.dumps(anchors.summarize(payload), ensure_ascii=False)
+        assert "votering_id" not in blob
+        assert payload["anchors"][0]["quote"][:40] not in blob
+
+    def test_the_inline_summary_keeps_the_span_so_the_line_can_be_marked(self, payload):
+        s = anchors.summarize(payload)
+        (block,) = s["blocks"].values()
+        assert block["anchors"] == [
+            {"offset": 0, "length": payload["anchors"][0]["length"],
+             "refs": 2, "kept": 1, "diverged": 1, "avstar": 0, "franvarande": 0}
+        ]
+
+    def test_the_fetched_half_is_rows_keyed_by_a_declared_field_order(self, payload):
+        c = anchors.compact_refs(payload)
+        assert c["fields"] == list(anchors.REF_FIELDS)
+        row = c["anchors"][0]["refs"][0]
+        assert dict(zip(c["fields"], row)) == payload["anchors"][0]["refs"][0]
+
+    def test_the_fetched_half_names_the_block_it_belongs_to(self, payload):
+        c = anchors.compact_refs(payload)
+        assert c["anchors"][0]["block_id"] == payload["anchors"][0]["block_id"]
+        assert len(c["anchors"][0]["refs"]) == payload["n_refs"]
+
+
+class TestExportSite:
+    def test_blocks_and_both_anchor_halves_land_in_the_site(self, tmp_path, monkeypatch, kd2015):
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        _, text = _a_block(kd2015)
+        by_slug, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+
+        n = export_site.export_blocks_and_anchors("test-run")
+        assert n == 1
+        assert (site / "corpus" / "blocks" / f"{KD2015}.json").exists()
+        inline = json.loads((site / "corpus" / "anchors" / f"{KD2015}.json").read_text())
+        assert inline["totals"]["refs"] == 1
+        fetched = json.loads(
+            (tmp_path / "site" / "public" / "data" / "anchors" / f"{KD2015}.json").read_text()
+        )
+        assert fetched["fields"] == list(anchors.REF_FIELDS)
+
+    def test_a_run_without_anchors_still_exports_the_blocks(self, tmp_path, monkeypatch):
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        assert export_site.export_blocks_and_anchors("no-such-run") == 0
+        assert list((site / "corpus" / "blocks").glob("*.json"))
+
+    def test_a_slug_that_stops_being_cited_loses_its_file(self, tmp_path, monkeypatch, kd2015):
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        stale = site / "corpus" / "anchors"
+        stale.mkdir(parents=True)
+        (stale / "partiprogram-x-1999.json").write_text("{}")
+        export_site.export_blocks_and_anchors("no-such-run")
+        assert not (stale / "partiprogram-x-1999.json").exists()
