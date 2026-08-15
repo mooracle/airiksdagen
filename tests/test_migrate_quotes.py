@@ -308,6 +308,22 @@ class TestMigrateDecision:
         assert counts["out_of_scope"] == 1
         assert d["flags"] == []
 
+    def test_an_in_scope_citation_that_dates_no_edition_is_not_counted_as_out_of_scope(
+        self,
+    ):
+        """A blank `datum` — the votering_id is missing from cases.parquet —
+        makes `resolve_slug` answer None exactly as a budgetmotion does.
+
+        Folding the two together hides a citation this pass serves among the
+        ones it never touches, and `repair-citations` reads the same blank date,
+        finds no document, and blanks the quote as the model's invention.
+        `anchors.collect` draws the same line.
+        """
+        d = _decision(["vad som helst"], document="partiprogram")
+        counts = mq.migrate_decision(d, "")
+        assert (counts["unresolved"], counts["out_of_scope"]) == (1, 0)
+        assert d["flags"] == []
+
     def test_a_second_run_changes_nothing(self, kd2015):
         original = _sentence(kd2015)
         d = _decision([_break_a_word(original)])
