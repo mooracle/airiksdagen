@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { stripInvisible, type CorpusBlockFile } from './doctext';
+import type { AnchorSummary } from './anchors';
 
 // process.cwd() is the site/ project root both in `astro dev` and `astro build`
 // (import.meta.url would point into dist/.prerender after bundling).
@@ -282,6 +283,21 @@ export function getCorpusBlocks(slug: string): CorpusBlockFile | null {
   const p = path.join(DATA_DIR, 'corpus', 'blocks', `${slug}.json`);
   if (!fs.existsSync(p)) return null;
   return JSON.parse(fs.readFileSync(p, 'utf-8')) as CorpusBlockFile;
+}
+
+/** The per-block citation aggregates for a document, or null when it has none.
+ *
+ * Written by `aidag build-anchors` and shipped by `export_site
+ * .export_blocks_and_anchors()`. Absent for the 17 documents without blocks, and
+ * absent for a re-extracted document no decision has cited — both are the normal
+ * case, so this returns null rather than throwing. The heavier half (one row per
+ * citing vote) is not read here at all: it sits under `public/data/anchors/` and
+ * the browser fetches it when a panel is opened.
+ */
+export function getCorpusAnchors(slug: string): AnchorSummary | null {
+  const p = path.join(DATA_DIR, 'corpus', 'anchors', `${slug}.json`);
+  if (!fs.existsSync(p)) return null;
+  return JSON.parse(fs.readFileSync(p, 'utf-8')) as AnchorSummary;
 }
 
 /** Slug of the corpus document a citation points at, or null if not published.
