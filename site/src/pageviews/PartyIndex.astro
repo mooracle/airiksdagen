@@ -48,6 +48,17 @@ const docs = listCorpusDocs().sort();
 const { byParty, shared } = corpusDocsByParty(order);
 const cites = corpusCitationStats();
 const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
+/** Which measure the grid is showing. Decided once for the whole grid, so the
+ *  caption above it and the numbers in it can never describe different things —
+ *  the per-card fallback used to be able to mix gap and agreement silently. */
+const hasGap = order.some((c) => gap?.per_party?.[c]?.explicit?.gap_rate != null);
+/** Documents no citation has ever landed in — the 16 shadow budgets and the Tidö
+ *  agreement, which the p6 run does not show the agents at all. They stay on the
+ *  site (their pages, and the note above, both promise as much) but they are not
+ *  what any claim here rests on, so they come out of the per-party lists and sit
+ *  together behind one disclosure. Listed inline they were half the rows and
+ *  every one of them said "ej i underlaget". */
+const isCited = (slug: string) => cites.has(slug);
 const citedTotal = {
   docs: cites.size,
   lines: [...cites.values()].reduce((n, c) => n + c.lines, 0),
@@ -59,27 +70,30 @@ const citedTotal = {
   <h1>{t('party.title')}</h1>
   <p class="lede">{t('meta.desc.parties')}</p>
 
+  {/* The measure is named ONCE, for the grid. It used to be repeated inside all
+      eight cards — the same six words at the same size beside every number,
+      which is most of the ink on the row and the one part of it that never
+      varies. What a reader compares here is eight percentages; the cards should
+      carry the percentages. */}
+  <p class="gridlbl">{hasGap ? t('party.cardGap') : t('party.cardAgreement')}</p>
+
   <div class="pgrid">
     {order.map((code) => {
       const g = gap?.per_party?.[code]?.explicit;
       const s = summary?.per_party?.[code];
+      const shown = hasGap
+        ? (g && g.gap_rate != null ? { pct: g.gap_rate, n: g.n } : null)
+        : (s ? { pct: s.agreement, n: s.n } : null);
       return (
         <a class="card pcard" href={localePath(lang, `/parti/${code.toLowerCase()}/`)}
            style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
           <PartyBadge code={code} parties={meta.parties} label="name" size={26} />
-          {g && g.gap_rate != null ? (
+          {shown && (
             <span class="stat">
-              <span class="num">{(g.gap_rate * 100).toFixed(0)}<small>%</small></span>
-              <span class="cardlbl">{t('party.cardGap')}</span>
-              <span class="meta">n = {g.n}</span>
+              <span class="num">{(shown.pct * 100).toFixed(0)}<small>%</small></span>
+              <span class="meta">n = {num(shown.n)}</span>
             </span>
-          ) : s ? (
-            <span class="stat">
-              <span class="num">{(s.agreement * 100).toFixed(0)}<small>%</small></span>
-              <span class="cardlbl">{t('party.cardAgreement')}</span>
-              <span class="meta">n = {s.n}</span>
-            </span>
-          ) : null}
+          )}
         </a>
       );
     })}
@@ -143,26 +157,20 @@ const citedTotal = {
   )}
 
   <div class="dgrid">
-    {order.filter((code) => byParty[code].length).map((code) => (
+    {order.filter((code) => byParty[code].some(isCited)).map((code) => (
       <div class="card dcard" style={`--pc:${meta.parties[code]?.color ?? 'var(--muted)'}`}>
         <PartyBadge code={code} parties={meta.parties} label="name" size={22} />
         <ul>
-          {byParty[code].map((slug) => {
-            const c = cites.get(slug);
+          {byParty[code].filter(isCited).map((slug) => {
+            const c = cites.get(slug)!;
             return (
               <li>
                 <a href={dokPath(slug)}>{docLabel(slug).split(' — ')[0]}</a>
-                {c ? (
-                  <span class="dstat" title={sv
-                    ? `${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
-                    : `${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
-                    {sv
-                      ? `${num(c.lines)} citerade rader · ${num(c.votes)} voteringar`
-                      : `${num(c.lines)} cited lines · ${num(c.votes)} votes`}
-                  </span>
-                ) : (
-                  <span class="dstat off">{sv ? 'ej i underlaget' : 'not in the context'}</span>
-                )}
+                <span class="dstat" title={sv
+                  ? `${num(c.lines)} citerade rader · ${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
+                  : `${num(c.lines)} cited lines · ${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
+                  {num(c.votes)} {sv ? 'voteringar' : 'votes'}
+                </span>
               </li>
             );
           })}
@@ -171,16 +179,19 @@ const citedTotal = {
     ))}
   </div>
 
-  {shared.length > 0 && (
-    <div class="card dcard shared">
-      <strong>{t('docs.shared')}</strong>
-      <ul>
-        {shared.map((slug) => (
-          <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>
-        ))}
-      </ul>
-    </div>
-  )}
+  {/* Everything no citation reaches, in one place rather than salted through
+      eight cards. Kept reachable because the note above says it is. */}
+  {(() => {
+    const rest = [...order.flatMap((c) => byParty[c]), ...shared].filter((s2) => !isCited(s2));
+    return rest.length > 0 && (
+      <details class="uncited">
+        <summary>{t('docs.uncited').replace('{n}', String(rest.length))}</summary>
+        <ul>
+          {rest.map((slug) => <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>)}
+        </ul>
+      </details>
+    );
+  })()}
 
   <style>
     .pgrid { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
@@ -197,12 +208,11 @@ const citedTotal = {
     .pcard .num small {
       font-size: 0.42em; font-weight: 700; margin-left: 0.1em; vertical-align: baseline;
     }
-    /* names the measurement on the card itself — a bare percentage on a party
-       card invites being read as a vote share */
-    .pcard .cardlbl {
-      display: block; font-size: 0.82rem; color: var(--ink-2); line-height: 1.25;
+    /* The measure is named once, above the grid — see the markup. */
+    .gridlbl {
+      margin: 0 0 0.6rem; font-size: 0.9rem; color: var(--ink-2);
     }
-    .pcard .meta { display: block; margin-top: 0.15rem; }
+    .pcard .meta { display: block; margin-top: 0.2rem; }
 
     .crosslink { margin: 1.2rem 0 0; }
 
@@ -229,6 +239,14 @@ const citedTotal = {
     /* A document the agents are not shown cannot be cited, so it has no count —
        said in words, because a blank line reads as "nobody quoted it". */
     .dstat.off { font-style: italic; cursor: default; }
-    .dcard.shared { margin-top: 0.9rem; }
+    .uncited { margin-top: 1rem; font-size: 0.9rem; }
+    .uncited > summary { cursor: pointer; color: var(--muted); }
+    .uncited > summary:hover { color: var(--accent-ink); }
+    .uncited ul {
+      margin: 0.6rem 0 0; padding-left: 1.1rem;
+      columns: 2; column-gap: 2rem;
+    }
+    .uncited li { margin: 0.2rem 0; break-inside: avoid; }
+    @media (max-width: 620px) { .uncited ul { columns: 1; } }
   </style>
 </Base>

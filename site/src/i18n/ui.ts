@@ -127,8 +127,6 @@ export const ui = {
       'En markering betyder att en dokumentgrundad läsning av partiets program pekade åt ett annat håll än partiets röst. Den kan inte ensam skilja ”koalitionsdisciplin övertrumfade programmet” från ”AI-agenten läste programmet fel”. Att partier aldrig överger sin egen reservation (0 % i samtliga fall nedan) talar för att mätningen fångar något verkligt — men enskilda rader ska läsas som frågor, inte som domar.',
     'coalition.authoredZero':
       'Lade partiet reservationen självt övergav det den aldrig — 0 % för samtliga partier, båda trösklarna. Proceduren är avgörande där proceduren gäller. Kolumnen till höger är därför det egentliga testet.',
-    'party.calibration': 'Kalibrering — planens röst sammanföll med den verkliga',
-    'party.calibrationTip': 'Hur ofta den ståndpunkt planen pekar mot råkade sammanfalla med partiets verkliga röst. Det är en kontrollsiffra, inte ett mått på träffsäkerhet: planens röst är vad dokumenten implicerar, inte en förutsägelse av kammartaktik.',
     // Two figures on the header card, not a chart — see PartyPage.astro for why.
     // `cohesionNote` is still the definition of both, kept for the tooltip.
     'nav.method': 'Metod',
@@ -270,12 +268,12 @@ export const ui = {
     'party.funnel.addressed': '…där planen säger något om saken',
     'party.funnel.explicit': '…där planen tog uttryckligen ställning',
     'party.funnelNote': 'Avvikelsen mäts på den sista raden — de enda voteringar som kan visa att ett åtagande faktiskt bröts. Ett partiprogram är ingen omröstningsmanual: att de flesta ståndpunkter måste härledas ur principer, och att en nedlagd röst inte går att uttrycka i en plan, är väntat.',
-    'party.robustNote.steady': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt — avvikelsen vilar alltså inte på de osäkra läsningarna.',
-    'party.robustNote.lower': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt. En del av avvikelsen bärs alltså av de läsningar agenten var mindre säker på.',
+    'party.robustNote.steady': 'De {n} fall agenten läste säkrast ger {pct}, mot {head} totalt — avvikelsen vilar inte på de osäkra läsningarna.',
+    'party.robustNote.lower': 'De {n} fall agenten läste säkrast ger {pct}, mot {head} totalt — en del av avvikelsen bärs av de mindre säkra läsningarna.',
     'party.title': 'Partisidor',
     'party.kicker': 'Åtta partier',
-    'party.cardGap': 'av de uttryckliga åtagandena bröts',
-    'party.cardAgreement': 'planen stämde med rösten',
+    'party.cardGap': 'Andel av partiets uttryckliga åtaganden som bröts',
+    'party.cardAgreement': 'Andel röster där planen stämde med rösten',
     'party.toAnalysis': 'Jämförelser mellan partier finns i Analys',
     'party.secDocs': 'Underlaget',
     // The party detail page's own document block. `{party}` and `{n}` are filled
@@ -285,6 +283,7 @@ export const ui = {
     'party.allDocs': 'Alla partiers källdokument',
     'docs.title': 'Källdokument',
     'docs.shared': 'Gemensamma dokument',
+    'docs.uncited': 'Ytterligare {n} dokument finns publicerade men ingen votering citerar dem',
     // Dokumentsidan: kapitelspalten och citatpanelerna i marginalen. Färgaxeln
     // är blå/guld och avsiktligt INTE --ja/--nej: en avvikelse är signalen, inte
     // ett fel, och rött hade påstått "brutet löfte" om varje rad.
@@ -478,8 +477,6 @@ export const ui = {
       'A flag means a document-grounded reading of the party’s programme pointed the other way from its vote. It cannot by itself distinguish "coalition discipline overrode the programme" from "the AI agent misread the programme". That parties never abandon their own reservation (0% in every case below) suggests the measurement captures something real — but individual rows should be read as questions, not verdicts.',
     'coalition.authoredZero':
       'Where a party moved the reservation itself, it never abandoned it — 0% for every party, at both thresholds. Procedure is decisive where procedure applies. The right-hand column is therefore the real test.',
-    'party.calibration': 'Calibration — the plan-implied vote matched the actual one',
-    'party.calibrationTip': 'How often the position the plan points to happened to coincide with the party’s real vote. A cross-check, not an accuracy score: the plan-implied vote is what the documents entail, not a prediction of floor tactics.',
     'nav.method': 'Methodology',
     'nav.data': 'Data',
     'nav.about': 'About',
@@ -613,12 +610,12 @@ export const ui = {
     'party.funnel.addressed': '…where the plan says something about it',
     'party.funnel.explicit': '…where the plan stated a position outright',
     'party.funnelNote': 'The gap is measured on the last row — the only divisions that can show a commitment was actually broken. A party programme is not a voting manual: that most positions have to be derived from principle, and that an abstention cannot be expressed in a plan, is expected.',
-    'party.robustNote.steady': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt — avvikelsen vilar alltså inte på de osäkra läsningarna.',
-    'party.robustNote.lower': 'De {n} av {t} uttryckliga fall där agenten var säkrast ger {pct}, mot {head} totalt. En del av avvikelsen bärs alltså av de läsningar agenten var mindre säker på.',
+    'party.robustNote.steady': 'De {n} fall agenten läste säkrast ger {pct}, mot {head} totalt — avvikelsen vilar inte på de osäkra läsningarna.',
+    'party.robustNote.lower': 'De {n} fall agenten läste säkrast ger {pct}, mot {head} totalt — en del av avvikelsen bärs av de mindre säkra läsningarna.',
     'party.title': 'Partisidor',
     'party.kicker': 'Åtta partier',
-    'party.cardGap': 'av de uttryckliga åtagandena bröts',
-    'party.cardAgreement': 'planen stämde med rösten',
+    'party.cardGap': 'Andel av partiets uttryckliga åtaganden som bröts',
+    'party.cardAgreement': 'Andel röster där planen stämde med rösten',
     'party.toAnalysis': 'Jämförelser mellan partier finns i Analys',
     'party.secDocs': 'Underlaget',
     // The party detail page's own document block. `{party}` and `{n}` are filled
@@ -628,6 +625,7 @@ export const ui = {
     'party.allDocs': 'Alla partiers källdokument',
     'docs.title': 'Källdokument',
     'docs.shared': 'Gemensamma dokument',
+    'docs.uncited': 'Ytterligare {n} dokument finns publicerade men ingen votering citerar dem',
     // Dokumentsidan: kapitelspalten och citatpanelerna i marginalen. Färgaxeln
     // är blå/guld och avsiktligt INTE --ja/--nej: en avvikelse är signalen, inte
     // ett fel, och rött hade påstått "brutet löfte" om varje rad.
@@ -821,8 +819,6 @@ export const ui = {
       'A flag means a document-grounded reading of the party’s programme pointed the other way from its vote. It cannot by itself distinguish "coalition discipline overrode the programme" from "the AI agent misread the programme". That parties never abandon their own reservation (0% in every case below) suggests the measurement captures something real — but individual rows should be read as questions, not verdicts.',
     'coalition.authoredZero':
       'Where a party moved the reservation itself, it never abandoned it — 0% for every party, at both thresholds. Procedure is decisive where procedure applies. The right-hand column is therefore the real test.',
-    'party.calibration': 'Calibration — the plan-implied vote matched the actual one',
-    'party.calibrationTip': 'How often the position the plan points to happened to coincide with the party’s real vote. A cross-check, not an accuracy score: the plan-implied vote is what the documents entail, not a prediction of floor tactics.',
     'nav.method': 'Methodology',
     'nav.data': 'Data',
     'nav.about': 'About',
@@ -950,11 +946,11 @@ export const ui = {
     'browser.missTipX': 'The plan took an explicit position on the substance — the party still voted the other way',
     'browser.noAi': 'No AI stance',
     'party.validity': 'What the plan reaches',
-    'party.robustNote.steady': 'The {n} of {t} explicit cases the agent was surest about give {pct}, against {head} overall — so the gap does not rest on the uncertain readings.',
-    'party.robustNote.lower': 'The {n} of {t} explicit cases the agent was surest about give {pct}, against {head} overall. Part of the gap is therefore carried by the readings the agent was less sure of.',
+    'party.robustNote.steady': 'The {n} cases the agent read most confidently give {pct}, against {head} overall — the gap does not rest on the uncertain readings.',
+    'party.robustNote.lower': 'The {n} cases the agent read most confidently give {pct}, against {head} overall — part of the gap is carried by the less certain readings.',
     'party.title': 'Parties',
-    'party.cardGap': 'of explicit commitments broken',
-    'party.cardAgreement': 'plan matched the vote',
+    'party.cardGap': 'Share of each party’s explicit commitments that were broken',
+    'party.cardAgreement': 'Share of votes where the plan matched the vote',
     'party.toAnalysis': 'Cross-party comparisons live in Analysis',
     'party.secDocs': 'The corpus',
     'party.ownDocs': 'Measured against {party}’s own documents',
@@ -962,6 +958,7 @@ export const ui = {
     'party.allDocs': 'Source documents for every party',
     'docs.title': 'Source documents',
     'docs.shared': 'Shared documents',
+    'docs.uncited': '{n} further documents are published, but no division cites them',
     // The document page: the chapter rail and the margin citation panels. The
     // colour axis is blue/gold and deliberately NOT --ja/--nej — a divergence is
     // the signal, not an error, and red would assert "broken promise" on lines
