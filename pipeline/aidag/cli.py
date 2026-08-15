@@ -330,6 +330,23 @@ def casemeta_status() -> None:
     status()
 
 
+@app.command("migrate-quotes")
+def migrate_quotes(
+    run_id: str = typer.Option(..., "--run-id"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Report only, write nothing"),
+) -> None:
+    """Move committed citation quotes onto the re-extracted corpus (flagged).
+
+    Run after `extract-corpus` and BEFORE `repair-citations`: this pass records a
+    corpus change (`citat_migrerat`), repair records a model paraphrase
+    (`citat_korrigerat`), and whatever this one cannot place it leaves untouched
+    for repair to resolve.
+    """
+    from aidag.migrate_quotes import run as migrate
+
+    migrate(run_id=run_id, dry_run=dry_run)
+
+
 @app.command("repair-citations")
 def repair_citations(run_id: str = typer.Option(..., "--run-id")) -> None:
     """Align paraphrased citation quotes to the true document span (flagged)."""
