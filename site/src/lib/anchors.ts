@@ -303,6 +303,14 @@ export function chapters(
   const { max = MAX_RAIL } = opts;
   const pages = groups.reduce((n, g) => Math.max(n, (g.page ?? 0) + 1), 0);
   const out: Chapter[] = [];
+  // Cited lines ahead of the first accepted heading. A manifesto opens with
+  // prose, and `isFurniture` rejects first-page headings besides, so this is the
+  // ordinary case rather than a corner: `valmanifest-2022-v` published 60 of its
+  // 66 cited lines with the whole introduction missing. They have no chapter
+  // above them to be demoted into, so they join the first one below instead of
+  // being dropped — same invariant as the demotion and the MAX_RAIL collapse,
+  // the rail's counts sum to the document's.
+  let lead = 0;
   for (const g of groups) {
     const level = HEADINGS[g.role];
     const cited = citedLines(g, summary).length;
@@ -318,10 +326,12 @@ export function chapters(
       !isFurniture(text, g.page, pages) &&
       text.toLowerCase() !== last?.text.toLowerCase();
     if (opens) {
-      out.push({ id: g.parts[0].id as string, text, level, lines: cited });
+      out.push({ id: g.parts[0].id as string, text, level, lines: cited + lead });
+      lead = 0;
       continue;
     }
     if (last) last.lines += cited;
+    else lead += cited;
   }
   if (out.length <= max) return out;
   // Dropping the h2s must not drop their counts with them: a collapsed chapter's
@@ -331,9 +341,16 @@ export function chapters(
   // heavily cited manifestos read as the two least. Copy rather than accumulate
   // in place: `out` is still returned unchanged when the h1s are too few.
   const top: Chapter[] = [];
+  let head = 0; // h2s ahead of the first h1, folded down the same way `lead` is
   for (const c of out) {
-    if (c.level === 1) top.push({ ...c });
-    else if (top.length) top[top.length - 1].lines += c.lines;
+    if (c.level === 1) {
+      top.push({ ...c, lines: c.lines + head });
+      head = 0;
+    } else if (top.length) {
+      top[top.length - 1].lines += c.lines;
+    } else {
+      head += c.lines;
+    }
   }
   return top.length >= MIN_TOP_LEVEL ? top : out;
 }
