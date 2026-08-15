@@ -91,6 +91,15 @@ CAPTION_BLOCK_CHARS = 90
 # titles in a row, and several of them end in a number.
 TOC_MAX_RATIO = 1.35
 
+# `mid_clause_cuts`: how many unterminated paragraphs in a row stop being damage
+# and become a list. Two is a paragraph the extraction cut twice; three is a
+# glossary, a contents list or a page of headline pledges.
+LIST_RUN = 3
+# The roles a cut paragraph can have. `label`, `toc` and the headings are the
+# roles that legitimately end without punctuation, and `caption`/`unreadable`
+# are not prose at all.
+PROSE_ROLES = ("para",)
+
 _DIGITS = re.compile(r"\d+")
 _BULLET = re.compile(r"^(?:[•·▪◦‣⁃]|[–—-]\s|\(?\d{1,2}[.)]\s|[a-zA-ZåäöÅÄÖ][.)]\s)")
 _LEADER = re.compile(r"\.{4,}")
@@ -812,6 +821,67 @@ def blocks_from_text(text: str) -> list[Block]:
             )
         )
     return blocks
+
+
+def mid_clause_cuts(blocks: list[Block]) -> list[int]:
+    """Indices of prose blocks the extraction cut in the middle of a clause.
+
+    The plan's acceptance metric is "paragraph fragmentation < 20% per document",
+    and the naive reading of it — a `para` block with no terminal punctuation —
+    measures the wrong thing. It reads 32.7% on kd-2015 and 30.7% on kd-2025, and
+    almost all of that is their glossaries: 210 of kd-2015's 216 hits are the 8pt
+    marginal term list, 189 of kd-2025's 190 are the `Ordlista` appendix. A
+    dictionary entry has no full stop because that is the form of a dictionary
+    entry. The same false positive covers sd-2019's and mp-2013's contents lists
+    and valmanifest-m's page of headline pledges.
+
+    What separates them is not the block, it is the neighbourhood. A list is a
+    RUN — three or more unterminated paragraphs in a row at one size. A cut
+    cannot chain that way: the extraction splits a paragraph at a column or page
+    boundary and the tail it leaves behind finishes the sentence, so a genuine
+    cut is bounded by a terminated block. Runs are therefore excluded, and what
+    survives is mostly the real defect (valmanifest-m p4, 'Sverige' / 'har redan
+    ett av världens högsta skattetryck' — a two-column page read straight
+    across).
+
+    Mostly, not entirely: a glossary whose entries sometimes do end in a full
+    stop breaks into short runs, and 17 of kd-2025's 18 remaining hits are
+    Ordlista entries rather than cuts. The rule takes that document from 30.7% to
+    2.9% and kd-2015 from 32.7% to 2.9%, which is enough for a 20% gate to mean
+    something; it is not a classifier, and a use that needs one should not read
+    this number.
+
+    Measured on the corpus: 145 cuts over 6,036 prose blocks (2.4%), worst
+    document valmanifest-m at 11.2%. Blocks, not rendered paragraphs: the site's
+    `groupBlocks()` rejoins what it can, but it also fuses kd-2025's Ordlista
+    into 5 run-on paragraphs, so measuring there would score the extraction on a
+    rendering artefact.
+    """
+    prose = [i for i, b in enumerate(blocks) if b.role in PROSE_ROLES]
+    open_ended = [not _SENTENCE_END.search(blocks[i].text) for i in prose]
+    cuts: list[int] = []
+    i = 0
+    while i < len(prose):
+        if not open_ended[i]:
+            i += 1
+            continue
+        j = i
+        while (
+            j + 1 < len(prose)
+            and open_ended[j + 1]
+            and blocks[prose[j + 1]].size == blocks[prose[i]].size
+        ):
+            j += 1
+        if j - i + 1 < LIST_RUN:
+            cuts.extend(prose[i : j + 1])
+        i = j + 1
+    return cuts
+
+
+def fragmentation(blocks: list[Block]) -> tuple[int, int]:
+    """(cuts, prose blocks) for one document — the acceptance metric's numerator
+    and denominator, so a caller reporting a share cannot pick a different one."""
+    return len(mid_clause_cuts(blocks)), sum(1 for b in blocks if b.role in PROSE_ROLES)
 
 
 _MD_PREFIX = {"h1": "# ", "h2": "## ", "h3": "### ", "bullet": "- ", "toc": "- "}
