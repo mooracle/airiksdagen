@@ -11,7 +11,7 @@ The question: a citation quotes a party document verbatim, and the site draws a
 kept-vs-diverged bar beside it. How often is the quoted line not a commitment at all,
 but a heading or a topic label — something that names a subject and promises nothing?
 
-**Answer: 16 blocks, 180 citations, 178 distinct votes — 0.26% of the 69,418
+**Answer: 6 blocks, 84 citations, 83 distinct votes — 0.12% of the 69,418
 (vote, line) pairs in the corpus.** The number that matters more is the one it is not:
 on the role vocabulary alone it reads **1,165**, and 1,163 of those are genuine pledges.
 
@@ -58,62 +58,65 @@ which is the failure mode this project exists to avoid.
 Nor does widening to every navigational role fix it: on `h1`/`h2`/`h3`/`label`/`toc` the
 count is 82 blocks / 1,433 pairs, and the pledge lists are still in it.
 
-## 3. The rule, and the 16 lines it finds
+## 3. The rule, and the 6 lines it finds
 
 A cited line is navigation when its **role and its text** both say so: a navigational
-role, no bullet glyph, no sentence-ending punctuation, and ≤ 8 words. `toc` is exempt
-from the text test — a contents entry is navigation whatever it says. The rule is
+role, no bullet glyph, ≤ 8 words, and not stating anything. `toc` is exempt from the text
+test — a contents entry is navigation whatever it says. The rule is
 `anchors.is_navigational()`, mirrored in `site/src/lib/anchors.ts:isNavigational` for
 the per-block flag the document pages draw.
+
+**"States anything" is a clause test, not a punctuation test**, and getting that wrong is
+the same false claim entering by the other door. A topic label is a noun phrase; a pledge
+is a clause, and a clause needs a verb. Headings drop the terminal period by typographic
+convention, so testing punctuation alone flagged ten of `valmanifest-2022-m`'s and `-s`'s
+headline pledges — "Vi ska stoppa mäns våld mot kvinnor", "Statens utgifter ska minska",
+"Bryt segregationen för att hålla ihop Sverige" — as lines that promise nothing. Those
+are commitments set as headings, and they were **96 of the 180 (vote, line) pairs** the
+flag then reached, more than half of the finding. So the text test looks for the finite
+verb that fills a Swedish declarative (`ska`, `vill`, `kommer`, `är`, …) and for the bare
+imperative stem at the head of the line, and a line carrying either states something.
 
 | document | block | role | votes | text |
 |---|---|---|---:|---|
 | `valmanifest-2022-kd` | b0097 | h3 | 33 | STÄRKT CIVILSAMHÄLLE FÖRBÄTTRAD INTEGRATION FLER BOSTÄDER |
-| `valmanifest-2022-m` | b0194 | h2 | 30 | Statens utgifter ska minska |
-| `valmanifest-2022-m` | b0513 | h2 | 30 | Vi ska stötta, inte styra, jord- och skogsbruket |
 | `valmanifest-2022-kd` | b0096 | h3 | 29 | BÄTTRE OMSORG FÖR UTSATTA SJÄLVBESTÄMMANDE VID FUNKTIONSNEDSÄTTNING |
-| `valmanifest-2022-m` | b0337 | h2 | 16 | Vi ska stoppa mäns våld mot kvinnor |
 | `valmanifest-2022-kd` | b0094 | h3 | 9 | FLER JOBB FLER FöRETAG |
 | `valmanifest-2022-kd` | b0099 | h3 | 8 | JÄMSTÄLLDHET PÅ RIKTIGT |
-| `valmanifest-2022-m` | b0116 | h2 | 6 | Du ska ha råd med elräkningen |
-| `valmanifest-2022-m` | b0182 | h2 | 6 | Vi ska öka den ekonomiska jämställdheten |
 | `valmanifest-2022-kd` | b0095 | h3 | 3 | STARKARE FAMILJER |
-| `valmanifest-2022-m` | b0859 | h2 | 3 | Vi ska stå upp för hbtq-personers rättigheter |
 | `partiprogram-v-2016` | b0104 | label | 2 | Den politiska demokratin – ofullgången men ovärderlig |
-| `valmanifest-2022-m` | b0316 | h2 | 2 | Vi ska stoppa gängvåldet, skjutningarna och sprängningarna |
-| `valmanifest-2022-m` | b0641 | h2 | 1 | Vi ska stärka den civila beredskapen |
-| `valmanifest-2022-m` | b0867 | h2 | 1 | Vi ska ha en mediepolitik för mångfald |
-| `valmanifest-2022-s` | b0043 | h2 | 1 | Bryt segregationen för att hålla ihop Sverige |
 
-By party: **M 94 · KD 81 · V 2 · S 1**. By document: `valmanifest-2022-m` 9 blocks,
-`valmanifest-2022-kd` 5, `partiprogram-v-2016` 1, `valmanifest-2022-s` 1. (The lower-case
-ö in `FöRETAG` is verbatim — KD's display font maps that glyph so, and the committed text
-carries it. Pre-existing character damage, out of this plan's scope.)
+By party: **KD 81 · V 2**. By document: `valmanifest-2022-kd` 5 blocks,
+`partiprogram-v-2016` 1. (The lower-case ö in `FöRETAG` is verbatim — KD's display font
+maps that glyph so, and the committed text carries it. Pre-existing character damage, out
+of this plan's scope.)
 
-Two observations about *which* documents these are. Both are 2022 manifestos, the
-document class whose typography is closest to advertising — a spread of large statements
-with the policy underneath. And KD's five are the back-cover topic list this plan's
-Overview opens with; in the final extraction they carry the role `h3`, not `label`, which
-is the direct reason the flag could not be a role test.
+What survives is a narrow, specific phenomenon rather than a general one: KD's five are
+the back-cover topic list this plan's Overview opens with, one spread of a single
+manifesto. In the final extraction they carry the role `h3`, not `label`, which is the
+direct reason the flag could not be a role test. The error the rule now avoids in both
+directions — 1,163 pledges on the `label` side, 96 vote-lines on the heading side — is
+an order of magnitude larger than the finding itself.
 
 ## 4. What the flag is worth
 
-The 180 citations, by the evidence tier the decision claimed and the gap verdict it
+The 84 citations, by the evidence tier the decision claimed and the gap verdict it
 produced:
 
 | | |
 |---|---|
-| tier | `off_axis` 104 · `extrapolated` 54 · **`explicit` 22** |
-| verdict | `diverged` 122 · `kept` 57 · `avstar` 1 |
+| tier | `off_axis` 44 · `extrapolated` 30 · **`explicit` 10** |
+| verdict | `diverged` 79 · `kept` 5 |
 | already `svag` (`blocklist.WEAK_LIST`) | **0** |
 
-The 22 are the sharp end: an `explicit` tier asserts *the party wrote this down as a
-commitment*, and for these 22 votes the line it points at is "STARKARE FAMILJER" or
-"Vi ska stärka den civila beredskapen" — a subject heading. That is 12.2% of the flagged
-citations against 19.9% `explicit` corpus-wide, so the model does lean on headings less
-confidently than on prose, but not so much less that the claim can be left unmarked.
-122 sit under a `diverged` verdict, where the "broken promise" reading is strongest and
-a heading can least support it.
+The 10 are the sharp end: an `explicit` tier asserts *the party wrote this down as a
+commitment*, and for these 10 votes the line it points at is "STARKARE FAMILJER" or
+"JÄMSTÄLLDHET PÅ RIKTIGT" — a subject heading. That is 11.9% of the flagged citations
+against 19.9% `explicit` corpus-wide, so the model does lean on headings less confidently
+than on prose, but not so much less that the claim can be left unmarked. 79 of the 84 sit
+under a `diverged` verdict, where the "broken promise" reading is strongest and a heading
+can least support it — a concentration sharper than the whole-corpus split, and the
+reason the remaining set is still worth marking.
 
 The final row is the reason this is a distinct phenomenon: **none of these citations is
 already caught by `WEAK_LIST`.** Generic boilerplate and topic labels are different
@@ -123,7 +126,7 @@ specific and simply makes no promise.
 ## 5. `WEAK_LIST`: assessed, and not proposed
 
 The plan's fallback was to register the offending phrases in `blocklist.WEAK_LIST`, which
-would mark any citation of them `svag`. Every one of the 16 phrases was scored against
+would mark any citation of them `svag`. Every one of the 6 phrases was scored against
 the bar `blocklist.py:21-26` states — "long and distinctive enough that either-direction
 containment cannot catch a genuine policy quote" — on two tests:
 
@@ -134,12 +137,13 @@ containment cannot catch a genuine policy quote" — on two tests:
   party's document of that class, which needs no committed quote to exist to become one.
   **0 occurrences.**
 
-So all 16 pass, and none is proposed anyway. Three reasons, in order of weight:
+So all 6 pass, and none is proposed anyway. Three reasons, in order of weight:
 
 1. **`svag` would make a claim that is not true of them.** It renders as "supporting but
-   generic". These quotes are the opposite of generic — "Vi ska stoppa mäns våld mot
-   kvinnor" is highly specific. What they cannot carry is a *commitment*, and that is
-   what the per-block flag says instead ("citat ur en rubrik" / "quoted from a heading").
+   generic". These quotes are the opposite of generic — "BÄTTRE OMSORG FÖR UTSATTA
+   SJÄLVBESTÄMMANDE VID FUNKTIONSNEDSÄTTNING" is highly specific. What they cannot carry
+   is a *commitment*, and that is what the per-block flag says instead ("citat ur en
+   rubrik" / "quoted from a heading").
 2. **The exact mechanism already exists and is exact.** Task 8b marks these per block,
    per document, from the role and the text of the line the citation actually landed on.
    A containment rule over a document class is a blunter instrument for a job that is
@@ -159,8 +163,12 @@ the report says so with the false positives named.
 
 - `aidag navigation-report --run-id <run>` recomputes everything above, and `--out`
   writes it as JSON.
-- `tests/test_anchors.py::TestNavigationParity` pins **16 blocks / 180 citations / 178
-  votes** and the 1,165-vs-180 gap as a ratchet against the committed run.
+- `tests/test_anchors.py::TestNavigationParity` pins **6 blocks / 84 citations / 83
+  votes** and the 1,165-vs-84 gap as a ratchet against the committed run, and asserts
+  that no `Vi ska …` heading and no block of `valmanifest-2022-m` is among them.
 - `tests/test_anchors.py::TestNavigationRule` and `site/tests/anchors.test.mjs` assert the
   same rule case for case in both languages, because it is written twice — once for the
-  report, once for the page.
+  report, once for the page. Both carry the ten real pledge headings *unpunctuated*, which
+  is the fixture the punctuation-only version was missing.
+- `site/tests/corpus.test.mjs` re-measures the 6 / 84 in TypeScript against the committed
+  export, so the duplicated rule cannot drift in one language only.
