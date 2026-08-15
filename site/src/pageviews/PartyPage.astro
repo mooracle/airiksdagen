@@ -118,20 +118,11 @@ const sureDelta =
     : null;
 const sureVerdict = sureDelta == null ? null : Math.abs(sureDelta) <= 0.03 ? 'steady' : 'lower';
 
-/** The per-level tables, kept behind the disclosure as the raw split. Framed as
- *  a contrast across scope, which is what it is — NOT a strong-versus-weak test
- *  of the headline (see the note above). */
-const validity = Object.entries(pgap?.validity ?? {})
-  .map(([field, levels]) => ({
-    field,
-    rows: (VALIDITY_ORDER[field] ?? Object.keys(levels))
-      .filter((lv) => levels[lv])
-      .map((lv) => {
-        const ci = ciHalf(levels[lv].gap_rate, levels[lv].n);
-        return { lv, ...levels[lv], ci, thin: ci !== null && ci > 0.1 };
-      }),
-  }))
-  .filter((f) => f.rows.length > 0);
+// The per-level tables that used to sit behind a disclosure here are gone. They
+// showed the gap split three ways across ALL decided votes, and needed a
+// paragraph explaining that it was a contrast between different questions rather
+// than a test of the number above — which is the tell that they did not belong on
+// the page. `gap.json` still carries every level for anyone who wants them.
 const supportSeries = getAggregate<{ month: string; parti: string; support: number }[]>('party_support') ?? [];
 const cohesionSeries = getAggregate<{ parti: string; month: string; cohesion: number; absence: number }[]>('cohesion') ?? [];
 
@@ -343,7 +334,7 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     </>
   )}
 
-  {validity.length > 0 && (
+  {scope && (
     <>
       <h2>{t('party.validity')}</h2>
       <div class="card">
@@ -384,64 +375,15 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
         {/* The one genuine robustness check, once scope is no longer mistaken for
             evidence quality: inside the explicit tier, is the gap carried by the
             readings the model was surest of, or by the rest? */}
-        {sure && confRows.length > 1 && (
-          <div class="vrobust">
-            <p class="vq">{t('party.robustTitle')}</p>
-            {confRows.map((r) => (
-              <span class="vside" data-lv={r.lv}>
-                <span class="vlbl">{t(`party.validityLevel.${r.lv}` as any)}</span>
-                <span class="vbar">
-                  <span style={`width:${((r.gap_rate ?? 0) * 100).toFixed(1)}%;background:${r.lv === 'high' ? (party?.color ?? 'var(--muted)') : 'var(--muted)'}`} />
-                </span>
-                <b class="vpct">{r.gap_rate == null ? '–' : `${(r.gap_rate * 100).toFixed(0)}%`}</b>
-                <span class="vn">n = {r.n}</span>
-              </span>
-            ))}
-            {sureVerdict && (
-              <p class="vverdict" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
-                {t(`party.robustNote.${sureVerdict}` as any)
-                  .replace('{n}', num(sure.n))
-                  .replace('{t}', num(pgap?.explicit.n ?? 0))
-                  .replace('{pct}', sure.gap_rate == null ? '–' : `${(sure.gap_rate * 100).toFixed(0)}%`)
-                  .replace('{head}', pgap?.explicit.gap_rate == null ? '–' : `${(pgap.explicit.gap_rate * 100).toFixed(0)}%`)}
-              </p>
-            )}
-          </div>
+        {sure && sureVerdict && (
+          <p class="vrobust" data-v={sureVerdict === 'steady' ? 'holds' : 'weak'}>
+            {t(`party.robustNote.${sureVerdict}` as any)
+              .replace('{n}', num(sure.n))
+              .replace('{t}', num(pgap?.explicit.n ?? 0))
+              .replace('{pct}', sure.gap_rate == null ? '–' : `${(sure.gap_rate * 100).toFixed(0)}%`)
+              .replace('{head}', pgap?.explicit.gap_rate == null ? '–' : `${(pgap.explicit.gap_rate * 100).toFixed(0)}%`)}
+          </p>
         )}
-
-        <details class="vmore">
-          <summary>{t('party.validityHow')}</summary>
-          <p class="muted vnote">{t('party.validityNote')}</p>
-          {/* The full per-level split, across every decided vote. A CONTRAST
-              across scope, not a strong-versus-weak test of the headline — the
-              note above says so, and the previous version of this section did
-              not, which is what made it misread its own data. */}
-          <div class="vgrid">
-            {validity.map((f) => (
-              <div class="vblock">
-                <div class="vhead">
-                  <h3>{t(`party.validityBy.${f.field}` as any)}</h3>
-                  <span class="vscale muted">{t('party.validityScale')}</span>
-                </div>
-                {f.rows.map((l) => (
-                  <div class="vrow" data-thin={l.thin ? 'true' : undefined}>
-                    <span class="vlabel">{t(`party.validityLevel.${l.lv}` as any)}</span>
-                    <span class="vbar">
-                      <span style={`width:${((l.gap_rate ?? 0) * 100).toFixed(1)}%;background:${party?.color ?? 'var(--muted)'}`} />
-                    </span>
-                    <span class="vpct">{l.gap_rate == null ? '–' : `${(l.gap_rate * 100).toFixed(0)}%`}</span>
-                    <span class="vn muted">
-                      {l.n}
-                      {l.thin && l.ci != null && (
-                        <span class="vci" title={t('party.validityThin')}> ±{(l.ci * 100).toFixed(0)}</span>
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </details>
       </div>
     </>
   )}
@@ -663,62 +605,15 @@ const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
     }
     .vlogic { font-size: 0.88rem; max-width: 62ch; margin: 0 0 1.2rem; }
 
-    .vrobust { padding-top: 0.9rem; border-top: 1px solid var(--line-soft); display: grid; gap: 0.35rem; }
-    /* The question, in the reader's words — the old <h3> said "Efter täckning". */
-    .vq { margin: 0 0 0.35rem; font-weight: 600; font-size: 0.95rem; }
-    /* Label, bar, %, n — the strong side and the pooled weak side read against
-       one another, which is the whole comparison the test makes. */
-    .vside {
-      display: grid; grid-template-columns: minmax(9rem, 15rem) 1fr 2.6rem 3.6rem;
-      align-items: center; gap: 0.5rem; font-size: 0.85rem;
+    /* One sentence, not a chart: the comparison it makes is two numbers, and the
+       sentence states both. */
+    .vrobust {
+      margin: 0; padding: 0.75rem 0 0 0.6rem; border-top: 1px solid var(--line-soft);
+      border-left: 3px solid var(--muted); font-size: 0.85rem; line-height: 1.5;
+      color: var(--ink-2);
     }
-    .vside .vlbl { color: var(--ink-2); }
-    .vside .vn { color: var(--muted); }
-    /* The weak side is context for the strong one, so it is drawn quieter — a
-       second full-strength bar reads as a second finding. */
-    .vside.weak .vbar > span { background: var(--muted); opacity: 0.45; }
-    .vside.weak .vpct { font-weight: 600; color: var(--ink-2); }
-    @media (max-width: 620px) {
-      .vside { grid-template-columns: 1fr 2.6rem 3.4rem; }
-      .vside .vlbl { grid-column: 1 / -1; }
-    }
-
-    .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1rem; }
-    .vhead {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem;
-      margin-bottom: 0.45rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--line-soft);
-    }
-    .vblock h3 { margin: 0; font-size: 0.78rem; text-transform: uppercase;
-      letter-spacing: 0.04em; color: var(--ink-2); font-weight: 700; font-family: inherit; }
-    /* names the axis, so "explicit first" reads as an ordering and not a list */
-    .vscale { font-size: 0.68rem; white-space: nowrap; }
-    /* One line per level: label, bar, %, n. Previously n wrapped to its own row,
-       which doubled the block height and broke the vertical rhythm. */
-    .vrow {
-      display: grid; grid-template-columns: 4.9rem 1fr 2.4rem 2.6rem;
-      align-items: center; gap: 0.5rem; padding: 0.28rem 0; font-size: 0.85rem;
-    }
-    .vlabel { color: var(--ink-2); }
-    .vbar { display: block; height: 9px; border-radius: 5px; background: #ebe8df; overflow: hidden; }
-    .vbar > span { display: block; height: 100%; border-radius: 5px; min-width: 2px; }
-    .vpct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
-    .vn { text-align: right; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
-    /* Thin slice: a 57% on n=28 must not read as firmly as a 75% on n=493, so the
-       bar is dimmed and the interval is shown rather than only the point estimate. */
-    .vrow[data-thin] .vbar > span { opacity: 0.42; }
-    .vrow[data-thin] .vpct { font-weight: 600; color: var(--muted); }
-    .vci { cursor: help; }
-    /* The block's answer to the section's question, in place of leaving the
-       reader to compare three bars against a paragraph. */
-    .vverdict {
-      margin: 0.55rem 0 0; font-size: 0.76rem; font-weight: 600; line-height: 1.4;
-      padding-left: 0.6rem; border-left: 3px solid var(--muted); color: var(--ink-2);
-    }
-    .vverdict[data-v='holds'] { border-left-color: var(--ja); color: #2f5326; }
-    .vverdict[data-v='weak'] { border-left-color: var(--avstar); color: #7a4b12; }
-    .vmore { margin-top: 1.1rem; }
-    .vmore > summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; }
-    .vnote { font-size: 0.85rem; margin: 0.5rem 0 0; max-width: 46rem; }
+    .vrobust[data-v='holds'] { border-left-color: var(--ja); }
+    .vrobust[data-v='weak'] { border-left-color: var(--avstar); }
     .ovintro { font-size: 0.88rem; max-width: 46rem; }
     .ovcase { padding: 0.55rem 0; border-bottom: 1px solid var(--line-soft); }
     .ovcase:last-child { border-bottom: 0; }
