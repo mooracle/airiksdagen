@@ -1,0 +1,32 @@
+---
+// The text of one rendered paragraph on a /dokument/ page.
+//
+// Usually one block, emitted as a bare text node. When the extraction split a
+// paragraph at a column or page break, doctext.groupBlocks() rejoins the pieces
+// here so a citation's #:~:text= fragment does not have to cross a <p> boundary
+// — and each piece keeps its own block id on an inline <span>, which is what the
+// annotation layer addresses. Inline elements do not break the browser's text
+// matcher; block-level ones do.
+//
+// The joining space sits INSIDE the following span rather than between them, so
+// the rendered text is exactly the served string (single-spaced blocks) with no
+// dependency on how the compiler treats whitespace between elements.
+import type { RenderGroup } from '../lib/doctext';
+
+interface Props { group: RenderGroup }
+const { group } = Astro.props;
+---
+{group.parts.length === 1
+  ? group.parts[0].text
+  : group.parts.map((p, i) => (
+      <span id={p.id ?? undefined} class={`part ${p.role}`}>{(i ? ' ' : '') + p.text}</span>
+    ))}
+
+<style>
+  /* Only reached when a paragraph was rejoined from two or more blocks, and only
+     then does the weight belong on the span rather than the <p>: a bold lead-in
+     joined to its continuation must not bold the whole paragraph. */
+  .part.label { font-weight: 600; }
+  .part.para,
+  .part.bullet { font-weight: 400; }
+</style>

@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --import ./tests/register.mjs --test \"tests/**/*.test.mjs\""
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
