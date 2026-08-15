@@ -54,6 +54,13 @@ test('every published document renders, from blocks or from text', { skip }, () 
   }
   assert.equal(fromBlocks, withBlocks.length);
   assert.equal(fromBlocks + fromText, slugs.length);
+  // The plan's acceptance figures, pinned rather than derived: 23 re-extracted
+  // documents and the 17 keeping formatCorpusDoc(). Deriving both from the
+  // directory listing makes the counts agree with themselves and with nothing
+  // else, which is exactly what a corpus half-exported would also do.
+  assert.equal(slugs.length, 40);
+  assert.equal(fromBlocks, 23);
+  assert.equal(fromText, 17);
 });
 
 test('mp-2013 still says where its undecodable headings were', { skip }, () => {

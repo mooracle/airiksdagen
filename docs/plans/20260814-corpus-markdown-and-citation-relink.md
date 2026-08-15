@@ -1008,18 +1008,121 @@ assertion, and `TestNavigationParity` pins **16 blocks / 180 citations / 178 vot
 the 1,165-vs-180 gap as a ratchet against the committed run.
 
 ### Task 10: Verify acceptance criteria
-- [ ] every full-v4 citation resolves to a block, is blank, or is flagged
-      `citat_ej_migrerat`
-- [ ] `verify simulate` green for **both** `full-v3` and `full-v4`
-- [ ] no block contains stripped furniture (assert against the drop log)
-- [ ] paragraph fragmentation < 20% for every document (currently `kd-2025` 40%,
-      `valmanifest-m` 39% — must be fixed by Task 3)
-- [ ] `valmanifest-2022-v` no longer a single wall (currently median block 487 chars)
-- [ ] `mp-2013`'s 43 unreadable headings still surfaced as explicit placeholders
-- [ ] all 40 document pages render (23 from blocks, 17 via `formatCorpusDoc`)
-- [ ] reconcile the citation count in `site/src/pageviews/AboutPage.astro:344`
-      ("All 77,719 citations") with the post-repair total
-- [ ] run full suite `uv run pytest tests -q`; `cd site && npm run build`
+
+Every criterion is pinned as a test rather than measured once —
+`tests/test_acceptance.py`, one class per item. Each of these was true at some
+point during the build; what a one-off measurement cannot survive is the *next*
+re-run of `extract-corpus`, `migrate-quotes` or `repair-citations`, all of which
+rewrite committed data and none of which would announce which guarantee it just
+spent.
+
+- [x] every full-v4 citation resolves to a block, is blank, or is flagged
+      `citat_ej_migrerat` — **77,599 located, 120 blank, 0 excused, 0 unlocated**.
+      The escape hatch is unused: `repair-citations` blanks the 119 rather than
+      passing them through, so the strongest disposition holds everywhere and
+      that is asserted as `0`, not as "≤ 119"
+- [x] `verify simulate` green for **both** `full-v3` and `full-v4` — 0 hallucinated
+      of 6,563 (p5, `frozen/`) and 0 of 20,312 (p6, re-extracted). Run in-process
+      through `simulate.verify_run` so the gate rides the suite
+- [x] no block contains stripped furniture (assert against the drop log) — **168
+      identifying furniture lines, 0 in any prose block**; restated to be about
+      something, see ⚠️ 1
+- [x] paragraph fragmentation < 20% for every document — **2.40% corpus-wide,
+      worst `valmanifest-m` at 11.2%**, on the restated metric the plan asked
+      Task 10 to choose (⚠️ 2). `kd-2025` 30.7% → 2.9%, `kd-2015` 32.7% → 2.9%
+- [x] `valmanifest-2022-v` no longer a single wall — **10 `h2` headings across
+      51,016 chars**, against zero before; largest unheaded stretch **16.9%** of
+      the document. Median block length is the wrong measure and moved the *other*
+      way (487 → 586 chars); see ⚠️ 3
+- [x] `mp-2013`'s unreadable headings still surfaced as explicit placeholders —
+      **50**, not the 43 the plan wrote, and every one is in the documented
+      `normalize()` drop set. Rendered as placeholders by `groupBlocks()`
+      (`site/tests/corpus.test.mjs` pins the same 50)
+- [x] all 40 document pages render (23 from blocks, 17 via `formatCorpusDoc`) —
+      split asserted on both sides: the exported data in Python, the rendering in
+      `site/tests/corpus.test.mjs`, which now pins 40/23/17 absolutely instead of
+      deriving both halves from the same directory listing
+- [x] reconcile the citation count in `site/src/pageviews/AboutPage.astro`
+      ("All 77,719 citations") with the post-repair total — the total is right;
+      "One citation failed the check" was **120**. Corrected in both languages,
+      and the 520 migrations disclosed, since the sidecar ships in the public
+      `decisions-full-v4.jsonl.gz`. Pinned against the record by
+      `TestThePublishedCitationCountReconciles`, so prose cannot go stale quietly
+- [x] run full suite `uv run pytest tests -q` (561 passed; 18 new in
+      `tests/test_acceptance.py`); `cd site && npm run build` (7,723 pages),
+      `npm test` 56 passed. Cost, stated so it is a choice and not a surprise:
+      **46s → 102s**. Almost all of it is the two `verify_run` sweeps and the
+      per-citation locate over 77,719 quotes — the checks that read the whole
+      record, which is exactly why they cannot be fixtures
+
+**Measured across the 23 re-extracted documents**
+
+| | |
+|---|---|
+| Citations located / blank / unlocated | 77,599 / 120 / **0** |
+| `verify simulate` full-v3 \| full-v4 | 0 of 6,563 \| 0 of 20,312 |
+| Furniture lines dropped, of them identifying | 1,056 \| 168 — **0 reach prose** |
+| Paragraph fragmentation, corpus | **145 / 6,036 = 2.40%** |
+| ...worst document | `valmanifest-2022-m` 18/161 = **11.2%** |
+| Migrated quotes changing a *word* | **0 of 520** (all spacing/hyphenation) |
+
+⚠️ **Deviation 1, recorded — the furniture invariant is about identifying lines.**
+"No block contains stripped furniture" read literally over the drop log is
+meaningless: 888 of the 1,056 dropped lines are bare page numbers and bullet
+glyphs, and asking whether `3` occurs inside a block answers a question about the
+digit three. Taken literally it "fails" 582 times. Scoped to lines that identify
+something (≥ 4 chars, ≥ 3 letters) it is 168 lines and **0** leaks into `para` or
+`bullet` blocks.
+
+The three hits that a naive substring test flags are all one thing, and it is the
+thing Task 2's deviation predicted: `partiprogram-v-2024`'s 6pt running header
+carries the chapter name, so `Frihetens hinder` is in the drop log *and* is the
+chapter's own 30pt `h1` *and* is its two `toc` entries. That is the face-aware
+signature working, not furniture surviving — so it is asserted as a second test
+(`test_a_repeated_chapter_name_is_kept_where_it_is_a_title`) rather than papered
+over with an exclusion.
+
+⚠️ **Deviation 2, recorded — the fragmentation metric is restated, as Task 3
+asked.** Read literally ("a `para` block with no terminal punctuation") it reads
+32.7% on `kd-2015`, 30.7% on `kd-2025`, 27.1% on `valmanifest-c` and 24.8% on
+`sd-2019` — and almost none of that is damage. 210 of kd-2015's 216 are its 8pt
+marginal glossary; 189 of kd-2025's 190 are the `Ordlista` appendix; sd-2019's
+and mp-2013's are contents lists that came out roled `para`; valmanifest-c's 45
+are its headings, and that document has no text layer at all, so it has no font
+metric to role them with.
+
+`docx.mid_clause_cuts()` therefore excludes **runs**: three or more unterminated
+paragraphs in a row at one size is a list — a glossary, a contents list, a page of
+headline pledges. A cut cannot chain that way, because the tail the extraction
+leaves behind finishes the sentence. What survives is the real defect, and it
+reads as one: `valmanifest-m` p4 `…konsumenter. Sverige` / `har redan ett av
+världens högsta skattetryck` is a two-column page read straight across.
+
+Two things this is not. It is not a classifier — 17 of kd-2025's remaining 18 are
+still glossary entries, in runs of one and two that the rule cannot see, and the
+docstring says so rather than letting a later reader take 2.9% for a count of
+broken paragraphs. And it is deliberately **not** measured on the *rendered*
+paragraph, which was the tempting alternative: `groupBlocks()` rejoins what the
+extraction cut, but it also fuses kd-2025's Ordlista into 5 run-on paragraphs, so
+the rendered figure (4.0%) is partly an artefact of a rendering defect. Scoring
+the extraction on that would have been the wrong number for the right-looking
+reason.
+
+➕ Found while measuring, not fixed: **kd-2025's `Ordlista` renders as 5 run-on
+paragraphs** — `joinsOn` chains its entries because they are all `para` at body
+size with lower-case openers, and Task 8a's new-page restriction only covers the
+`label`/`bullet` shape kd-2015 uses. Appendix-only, no effect on deep links (a
+fused paragraph can only help them) and none on the served text or the anchors.
+Left alone here: it is a rendering change, and Task 10 verifies.
+
+⚠️ **Deviation 3, recorded — "no longer a single wall" is not a block-length
+test.** The criterion carries "currently median block 487 chars", and on that
+measure the document got *worse*: 586.5 chars now. It is the wrong measure. The
+defect the Overview names is "*zero* headings for 51k chars" — an absence of
+structure, not an excess of prose — and 586.5 is exactly the median line length of
+SND's own text rendition, i.e. the paragraphs the party actually wrote. The
+document now carries 10 `h2` headings and no unheaded stretch reaches a quarter of
+it, which is what the criterion is asserted on.
 
 ### Task 11: [Final] Update documentation
 - [ ] update `CLAUDE.md`: extraction pipeline, `frozen/` split, new commands
