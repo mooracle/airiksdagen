@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import ConfidenceMeter from '../components/ConfidenceMeter.astro';
 import MultiLineChart from '../components/MultiLineChart.astro';
 import PartyBadge from '../components/PartyBadge.astro';
-import { getMeta, getAggregate } from '../lib/data';
+import { getMeta, getAggregate, corpusDocsByParty, corpusCitationStats } from '../lib/data';
+import { docTitle } from '../lib/doctext';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; code: string }
@@ -133,6 +134,26 @@ const BLOC_KEY = {
 const blocLabel = party?.bloc && party.bloc in BLOC_KEY
   ? t(BLOC_KEY[party.bloc as keyof typeof BLOC_KEY])
   : null;
+
+// This party's own documents — the evidence every number above is measured
+// against. The page led with a gap percentage and never named the texts it was
+// computed from, so the reader had to find them via /parti/#dokument and pick
+// this party out of eight. Same grouping and same counts as that list, from
+// lib/data.ts, so the two can never disagree about what is this party's.
+//
+// Split by whether the p6 run actually shows the document to the agent: the
+// budget motions and the Tidö agreement are published here for transparency but
+// are not in the context, and listing them undifferentiated would imply the gap
+// was measured against them too.
+const sv = lang === 'sv';
+const cites = corpusCitationStats();
+const partyDocs = corpusDocsByParty(meta.hemicycle_order).byParty[code] ?? [];
+const inContext = partyDocs.filter((s) => cites.has(s));
+const alsoPublished = partyDocs.filter((s) => !cites.has(s));
+const partyName = (c: string): string => meta.parties[c.toUpperCase()]?.name ?? c.toUpperCase();
+const docLabel = (slug: string): string => docTitle(slug, { sv, partyName }).split(' — ')[0];
+const dokPath = (slug: string) => localePath(lang, `/dokument/${slug}/`);
+const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
 ---
 
 <Base lang={lang} title={party?.name ?? code} description={`${party?.name ?? code} ${t('meta.desc.partySuffix')}`} path={`/parti/${code.toLowerCase()}/`}>
@@ -164,6 +185,43 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
     </div>
   ) : (
     <p class="muted">{t('home.noai')}</p>
+  )}
+
+  {/* Placed directly under the headline number rather than at the foot of the
+      page: it is what that number was measured against, and a reader who wants
+      to check a gap of 25% should not have to go looking for the texts. */}
+  {partyDocs.length > 0 && (
+    <div class="card pdocs">
+      <p class="dhead">{t('party.ownDocs').replace('{party}', party?.name ?? code)}</p>
+      <ul>
+        {inContext.map((slug) => {
+          const c = cites.get(slug)!;
+          return (
+            <li>
+              <a href={dokPath(slug)}>{docLabel(slug)}</a>
+              <span class="dstat" title={sv
+                ? `${num(c.kept)} röster följde planen, ${num(c.diverged)} avvek`
+                : `${num(c.kept)} votes followed the plan, ${num(c.diverged)} diverged`}>
+                {sv
+                  ? `${num(c.lines)} citerade rader · ${num(c.votes)} voteringar`
+                  : `${num(c.lines)} cited lines · ${num(c.votes)} votes`}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {alsoPublished.length > 0 && (
+        <details class="alsopub">
+          <summary>{t('party.docsNotInContext').replace('{n}', String(alsoPublished.length))}</summary>
+          <ul>
+            {alsoPublished.map((slug) => <li><a href={dokPath(slug)}>{docLabel(slug)}</a></li>)}
+          </ul>
+        </details>
+      )}
+      <p class="dmore">
+        <a href={`${localePath(lang, '/parti/')}#dokument`}>{t('party.allDocs')} →</a>
+      </p>
+    </div>
   )}
 
   {ts.length > 1 && (
@@ -368,6 +426,33 @@ const blocLabel = party?.bloc && party.bloc in BLOC_KEY
     .phead .calib {
       margin: 0.9rem 0 0; font-size: 0.88rem;
       padding-top: 0.8rem; border-top: 1px solid var(--line-soft);
+    }
+    /* The party's own corpus, directly under its headline number. Keyed to the
+       party colour like .phead, because the two belong together: the panel is
+       the claim, this is what the claim was read from. */
+    .pdocs { border-left-color: var(--pc, var(--gold)); }
+    .pdocs .dhead {
+      margin: 0 0 0.6rem; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+    }
+    .pdocs ul { margin: 0; padding-left: 1.1rem; }
+    .pdocs li { margin: 0.45rem 0; }
+    /* Under the title, not beside it: a manifesto name plus a count wraps into
+       two ragged lines in a narrow column otherwise. */
+    .pdocs .dstat {
+      display: block; font-size: 0.78rem; color: var(--muted);
+      font-variant-numeric: tabular-nums; cursor: help;
+    }
+    /* Collapsed: published for transparency, but not what the gap was measured
+       against, and an open list of four budget motions would outweigh the three
+       documents that actually carry the finding. */
+    .pdocs .alsopub { margin-top: 0.8rem; font-size: 0.88rem; }
+    .pdocs .alsopub > summary { cursor: pointer; color: var(--muted); }
+    .pdocs .alsopub > summary:hover { color: var(--accent-ink); }
+    .pdocs .alsopub ul { margin-top: 0.4rem; }
+    .pdocs .dmore {
+      margin: 0.9rem 0 0; padding-top: 0.7rem;
+      border-top: 1px solid var(--line-soft); font-size: 0.85rem;
     }
     .vgrid { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
     .vhead {

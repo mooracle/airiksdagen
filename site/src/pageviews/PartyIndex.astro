@@ -11,7 +11,13 @@
 // cards rather than three screens into the methodology.
 import Base from '../layouts/Base.astro';
 import PartyBadge from '../components/PartyBadge.astro';
-import { getMeta, getAggregate, listCorpusDocs, getCorpusAnchors } from '../lib/data';
+import {
+  getMeta,
+  getAggregate,
+  listCorpusDocs,
+  corpusDocsByParty,
+  corpusCitationStats,
+} from '../lib/data';
 import { docTitle } from '../lib/doctext';
 import { useTranslations, localePath, type Lang } from '../i18n/ui';
 
@@ -35,51 +41,17 @@ const partyName = (code: string): string => meta.parties[code.toUpperCase()]?.na
 const docLabel = (slug: string): string => docTitle(slug, { sv, partyName });
 const dokPath = (slug: string) => localePath(lang, `/dokument/${slug}/`);
 
-// Group the corpus by the party its filename encodes. The position of the code
-// is NOT fixed: programmes and budget motions are `<kind>-<party>-<year>`
-// (`partiprogram-kd-2025`) but the manifestos are `<kind>-<year>-<party>`
-// (`valmanifest-2022-kd`). Scanning every segment for a known code covers both;
-// keying on the second segment silently dropped all eight manifestos into
-// `shared` — and the manifestos are half of what the agents actually read.
-// Party codes never collide with the numeric segments, so the scan is safe.
-// Anything with no code (the Tidö agreement) lands in `shared` and is listed
-// under its own heading rather than dropped.
-// How much of each document the votes actually leaned on. Read off the committed
-// citation index (`aidag build-anchors` -> src/data/corpus/anchors/), which is 23
-// small files at build time — the per-vote rows behind these totals are the 8.3 MB
-// that stay out of every page until a reader opens a panel.
-//
-// The two numbers are different questions and both are worth printing. "Lines" is
-// how much of the document is under citation at all; "votes" is how many divisions
-// leaned on it, counted once per division however many lines it quoted — the same
-// distinction the document pages draw between a block's `decisions.n` and `refs`.
-// Absent for the 17 documents the p6 run does not show the agents, and absent is
-// the honest answer there: no citation can point at a document nobody was given.
-const cites = new Map<string, { lines: number; votes: number; kept: number; diverged: number }>();
-for (const slug of listCorpusDocs()) {
-  const a = getCorpusAnchors(slug);
-  if (!a) continue;
-  cites.set(slug, {
-    lines: Object.keys(a.blocks).length,
-    votes: a.totals.decisions.n,
-    kept: a.totals.decisions.kept,
-    diverged: a.totals.decisions.diverged,
-  });
-}
+// Both grouped and counted in lib/data.ts: /parti/[code] lists the same
+// documents with the same numbers, and the two pages disagreeing would be
+// invisible from either one.
+const docs = listCorpusDocs().sort();
+const { byParty, shared } = corpusDocsByParty(order);
+const cites = corpusCitationStats();
 const num = (n: number) => n.toLocaleString(sv ? 'sv-SE' : 'en-GB');
 const citedTotal = {
   docs: cites.size,
   lines: [...cites.values()].reduce((n, c) => n + c.lines, 0),
 };
-
-const docs = listCorpusDocs().sort();
-const byParty: Record<string, string[]> = Object.fromEntries(order.map((c) => [c, []]));
-const shared: string[] = [];
-for (const slug of docs) {
-  const code = slug.split('-').map((seg) => seg.toUpperCase()).find((seg) => seg in byParty);
-  if (code) byParty[code].push(slug);
-  else shared.push(slug);
-}
 ---
 
 <Base lang={lang} title={t('party.title')} description={t('meta.desc.parties')} path="/parti/">
