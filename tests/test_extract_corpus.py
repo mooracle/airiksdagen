@@ -204,6 +204,48 @@ class TestInterlocks:
         assert "--force ignored" in capsys.readouterr().out
         assert fetch_corpus.cached_pdf(slug).read_bytes() == before
 
+    def test_force_does_not_rewrite_a_txt_that_derives_from_blocks(self, capsys):
+        """The other half of the same pin, and the one CLAUDE.md states outright.
+
+        Both fetchers consult `_skip_derived` BEFORE the force check, because a
+        derived .txt is a function of `blocks/<slug>.json`: rewriting it from a
+        fresh `pdf_to_text()` desynchronises the text agents are served from the
+        structure the site renders and `build-anchors` indexes, with the block
+        file still claiming to describe it.
+        """
+        from aidag import fetch_corpus
+        from aidag.config import CORPUS_DIR
+
+        for slug in ("valmanifest-2022-kd", "partiprogram-kd-2015"):
+            if not ec.blocks_path(slug).exists():
+                pytest.skip("blocks not built (run: uv run aidag extract-corpus)")
+            assert fetch_corpus.is_derived_from_blocks(slug)
+            assert fetch_corpus._skip_derived(CORPUS_DIR / f"{slug}.txt")
+        assert "extract-corpus --force" in capsys.readouterr().out
+
+        # a document with no block file is still fetchable — the guard has to
+        # name the 23, not switch fetching off
+        assert not fetch_corpus.is_derived_from_blocks("budgetmotion-v-202223")
+        assert not fetch_corpus._skip_derived(CORPUS_DIR / "budgetmotion-v-202223.txt")
+
+    def test_force_leaves_the_derived_manifesto_txt_byte_identical(self, capsys):
+        """The guard runs ahead of the force check, so no network call happens."""
+        from aidag import fetch_corpus
+        from aidag.config import CORPUS_DIR
+
+        path = CORPUS_DIR / fetch_corpus.manifesto_filename("KD")
+        if not ec.blocks_path(path.stem).exists() or not path.exists():
+            pytest.skip("blocks not built (run: uv run aidag extract-corpus)")
+        before = path.read_bytes()
+
+        class ExplodingClient:
+            def get(self, url):
+                raise AssertionError(f"--force must not re-fetch {url}")
+
+        fetch_corpus.fetch_manifesto(ExplodingClient(), "KD", True)
+        assert path.read_bytes() == before
+        assert "derived from blocks/" in capsys.readouterr().out
+
     def test_an_existing_extraction_is_not_redone_without_force(self, capsys):
         # guarded like _blocks(): without the committed block file this stops
         # being a skip test and becomes a real extraction that rewrites

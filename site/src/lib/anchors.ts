@@ -97,6 +97,17 @@ const WORD = /\p{L}+/gu;
 
 const NAV_ROLES = new Set<DocRole>(['h1', 'h2', 'h3', 'label', 'toc']);
 
+/*  Kept low deliberately, and measured. At 9 the rule also reaches
+ *  `valmanifest-2022-l`'s numbered pledges, whose blocks run "21. Bekämpa
+ *  hedersbrott och hedersförtryck. Parallella samhällen med odemokratiska…" —
+ *  marking two real commitments as promising nothing, which is the false claim
+ *  this whole rule is shaped to avoid. The cost is one known miss in the other
+ *  direction: `valmanifest-2022-kd`'s `b0098` is a back-cover topic label like
+ *  the five beside it, and goes unflagged because the extraction fused several
+ *  labels into one 9-word block. A missed annotation is the side to err on.
+ *  Mirrors `anchors.NAV_MAX_WORDS`; edit both. */
+const NAV_MAX_WORDS = 8;
+
 /*  A topic label is a noun phrase; a pledge is a clause, and a clause needs a
  *  verb. Punctuation alone cannot separate them, because a heading drops its
  *  full stop by typographic convention — "Vi ska stoppa mäns våld mot kvinnor"
@@ -151,7 +162,7 @@ function isNavigational(role: DocRole, text: string): boolean {
   if (!NAV_ROLES.has(role)) return false;
   const t = text.trim();
   if (BULLET_GLYPH.test(t) || statesSomething(t)) return false;
-  return t.split(/\s+/).length <= 8;
+  return t.split(/\s+/).length <= NAV_MAX_WORDS;
 }
 
 /** The cited blocks of one rendered paragraph, in reading order. */

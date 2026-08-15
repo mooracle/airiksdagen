@@ -229,3 +229,38 @@ class TestSiteCorpusMatchesWhatAgentsRead:
             assert "­" not in body and "﻿" not in body, site_path.name
             for line in body.splitlines():
                 assert not corpus._broken_font_line(line), f"{site_path.name}: {line!r}"
+
+
+class TestMockReadsTheSameBytesVerifyServesItBack:
+    """`mock-v1` cites real manifesto substrings, and has to cite the right copy.
+
+    The snippets and `verify simulate` ask one question twice: which bytes does
+    a decision at this `prompt_version` read? `mock.PROMPT_VERSION` is "mock",
+    which sorts below "p6", so `documents_for()` serves it `data/corpus/frozen/`.
+    Taking the snippet from `data/corpus/` instead would draw it from the
+    re-extracted p6 bytes — and for the parties whose manifesto moved, the mock
+    run's own citations then read as hallucinated.
+    """
+
+    def test_the_mock_version_selects_the_frozen_corpus(self):
+        from aidag import mock
+
+        assert mock.PROMPT_VERSION < "p6"
+
+    def test_every_partys_snippet_is_verbatim_in_what_verify_serves(self):
+        from aidag import mock
+        from aidag.config import PARTY_CODES
+
+        frozen = mock.PROMPT_VERSION < "p6"
+        for p in PARTY_CODES:
+            name = f"valmanifest-2022-{p.lower()}.txt"
+            text = corpus._text(name, frozen=frozen)
+            snippet = " ".join(" ".join(text.split()).split(" ")[100:120])
+            assert snippet, name
+            served = dict(
+                (kind, body)
+                for kind, _tag, body in corpus.documents_for(
+                    p, "2023-01-01", "2022/23", "mock", mock.PROMPT_VERSION
+                )
+            )["valmanifest"]
+            assert snippet in " ".join(served.split()), f"{p}: snippet is not in the served bytes"

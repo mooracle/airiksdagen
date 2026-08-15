@@ -66,6 +66,22 @@ test — a contents entry is navigation whatever it says. The rule is
 `anchors.is_navigational()`, mirrored in `site/src/lib/anchors.ts:isNavigational` for
 the per-block flag the document pages draw.
 
+**The ≤ 8 is measured, not a round number.** At 9 the rule reaches three more blocks,
+and two of them are `valmanifest-2022-l` pledges — blocks that begin
+"21. Bekämpa hedersbrott och hedersförtryck. Parallella samhällen med odemokratiska…",
+where the extraction has fused a numbered commitment with the start of its body text.
+Marking those is the same false claim as the `label` role test, at smaller scale. At no
+cap at all it takes eight of them.
+
+The price is one known miss in the safe direction. `valmanifest-2022-kd`'s `b0098` —
+"BRA SKOLA EN STRAM MIGRATION MINSKADE KLIMATUTSLÄPP INTERNATIONELLT ANSVARSTAGANDE",
+41 votes — is the sixth entry of the same back-cover topic list as the five the rule does
+find, set in the same 10.9pt bold `h3`, and goes unflagged because the extraction fused
+several labels into one 9-word block. So one spread shows the flag on five lines and not
+on the sixth. That is a missed annotation, which is the error this rule is built to
+prefer: every threshold here is set so that when it is wrong, it says nothing rather than
+says something false about a party's pledge.
+
 **"States anything" is a clause test, not a punctuation test**, and getting that wrong is
 the same false claim entering by the other door. A topic label is a noun phrase; a pledge
 is a clause, and a clause needs a verb. Headings drop the terminal period by typographic
@@ -93,7 +109,8 @@ of this plan's scope.)
 
 What survives is a narrow, specific phenomenon rather than a general one: KD's five are
 the back-cover topic list this plan's Overview opens with, one spread of a single
-manifesto. In the final extraction they carry the role `h3`, not `label`, which is the
+manifesto — six entries on the page, of which the rule flags five (see the word-cap note
+in §3 for the sixth). In the final extraction they carry the role `h3`, not `label`, which is the
 direct reason the flag could not be a role test. The error the rule now avoids in both
 directions — 1,163 pledges on the `label` side, 96 vote-lines on the heading side — is
 an order of magnitude larger than the finding itself.

@@ -317,6 +317,13 @@ def collect(
         counts["decisions"] += 1
         case = cases.get(d["votering_id"], {})
         position = positions.get((d["votering_id"], d["parti"]))
+        # Decision-level, and deliberately read as such: `migrate_decision` sets
+        # the flag when ANY one of a decision's citations could not be placed, so
+        # this excuses that decision's other citations too. Narrowing it means a
+        # per-citation marker, which the committed record does not carry — and
+        # the excuse is inert in the documented pass order anyway, because
+        # `repair-citations` runs in between and blanks what did not verify, so
+        # the `blank` branch below claims these first. full-v4 excuses 0.
         excused = "citat_ej_migrerat" in (d.get("flags") or [])
         for c in d.get("citations", []):
             quote = c.get("quote") or ""
@@ -631,6 +638,16 @@ def compact_refs(payload: dict) -> dict:
 # `tests/test_anchors.py::TestNavigationParity` instead of trusted.
 
 NAV_ROLES = frozenset({"h1", "h2", "h3", "label", "toc"})
+
+# Kept low deliberately, and measured against the committed run. At 9 the rule
+# also reaches `valmanifest-2022-l`'s numbered pledges, whose blocks run
+# "21. Bekämpa hedersbrott och hedersförtryck. Parallella samhällen med
+# odemokratiska…" — two real commitments marked as promising nothing, which is
+# the false claim this rule is shaped to avoid. The cost is one known miss the
+# other way: `valmanifest-2022-kd`'s `b0098` is a back-cover topic label like
+# the five beside it and goes unflagged, because the extraction fused several
+# labels into one 9-word block. A missed annotation is the side to err on —
+# the same trade `_IMPERATIVE_LEAD` below is written for.
 NAV_MAX_WORDS = 8
 _BULLET_GLYPH = re.compile(r"^\s*[•▪◦·]")
 _SENTENCE_END = re.compile(r"[.!?][\"»”']?$")

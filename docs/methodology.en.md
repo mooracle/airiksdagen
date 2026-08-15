@@ -1,7 +1,7 @@
 # Methodology (summary)
 
-The full methodology is rendered on the site (`/en/methodology/`,
-`site/src/pageviews/Method.astro`). The core:
+The full methodology is rendered on the site (`/en/about/`,
+`site/src/pageviews/AboutPage.astro`). The core:
 
 - **Reconstruction, not prediction.** The model's training data likely contains
   the real outcomes; we measure document-fidelity, not forecasting skill.
@@ -21,9 +21,19 @@ The full methodology is rendered on the site (`/en/methodology/`,
   documents remain the basis; worldstate may be weighed in only when it
   materially affects their application, and is then reported structurally
   (`omvarld.paverkar` + factors). Sources and rules: `docs/worldstate-plan.md`.
-- **Citation control:** quotes are machine-verified as verbatim excerpts;
-  paraphrased quotes (~2% on Sonnet) are deterministically aligned to the
-  closest actual passage and flagged `citat_korrigerat`, visible on the site.
+- **Citation control:** quotes are machine-verified as verbatim excerpts of the
+  documents the agent was actually shown. On `full-v4`: 2 were deterministically
+  aligned to the closest actual passage (`citat_korrigerat`), 120 could not be
+  verified and are blanked with the agent's own wording kept beside them
+  (`citat_ej_verifierat` / `quote_ej_verifierad`), and 520 were rewritten when the
+  source documents were re-extracted from their PDFs — spacing and hyphenation only,
+  original kept in `quote_fore_migrering` (`citat_migrerat`). All of it is flagged
+  openly on the site; English translations of a withdrawn quote are withheld at export.
+- **Reverse index:** every citation is indexed back to the corpus block it quotes
+  (`aidag build-anchors`), so each cited line on a document page shows which votes
+  leaned on it and whether the party then voted with its own plan. A citation landing
+  on a heading or topic label is marked as such — 6 blocks / 84 citations on
+  `full-v4`; see `docs/topic-label-citations.md`.
 - **Leakage controls:** no case numbers/dates in prompts, anonymized
   counter-proposals, never the Riksdag's post-decision summary (only the
   committee's pre-decision one), document references masked. Regex-asserted in

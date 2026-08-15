@@ -562,6 +562,10 @@ class TestKnownUnrecovered:
         payload = json.loads((CORPUS_DIR / "known-unrecovered.json").read_text())
         quotes = payload["quotes"]
         assert payload["run_id"] == "full-v4"
+        # non-empty first: every assertion below is over `quotes`, so an emptied
+        # file would pass the whole ratchet while turning the allowlist — and
+        # `repair.py`'s refusal to fuzzy-rewrite these — silently off
+        assert quotes
         assert len(quotes) <= 12
         assert sum(q["citations"] for q in quotes) <= 119
         for q in quotes:

@@ -163,6 +163,23 @@ class TestKnownUnrecoverableCitations:
         )
         assert "citat_korrigerat" in d["flags"]
 
+    def test_a_pre_p6_decision_is_never_offered_the_allowlist(self):
+        """The list describes the RE-EXTRACTED geometry, and p4/p5 never read it.
+
+        `documents_for()` serves those runs `data/corpus/frozen/` — bytes this
+        extraction did not touch — so a paraphrase there is a paraphrase, and
+        blanking it as "the corpus could not be read" is the same misattribution
+        the allowlist exists to prevent, running the other way. `repair.run`
+        gates on the version that `migrate_quotes.run` gates on.
+        """
+        from aidag.migrate_quotes import MIGRATED_FROM
+
+        assert "p5" < MIGRATED_FROM <= "p6"
+        # what run() passes for a pre-p6 decision: no allowlist at all
+        d = self._decision()
+        assert repair_decision(d, self.CORPUS, "2023-04-12", None) == (0, 1, 0)
+        assert "citat_korrigerat" in d["flags"]
+
     def test_a_listed_quote_that_starts_resolving_is_left_alone(self, resolves):
         """The ratchet: if a re-extraction ever places one of these, the exact
         branch fires first and the allowlist never sees it. A stale entry can

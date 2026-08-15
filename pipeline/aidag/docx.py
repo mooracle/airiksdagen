@@ -642,13 +642,23 @@ def style_clusters(groups: list[list[Line]]) -> list[Cluster]:
     largest volume first, so tracking artefacts do not fragment the body.
     """
     raw: dict[tuple[float, str], list[int]] = defaultdict(list)
-    bold: dict[tuple[float, str], bool] = {}
+    # Weight, don't overwrite. `_is_bold` ORs PyMuPDF's flag with a font-name
+    # test, so boldness is not uniform within a face — two of `partiprogram-kd-
+    # 2015`'s are mixed. Taking the last block's value made the face's weight a
+    # function of document order, and `_role_per_cluster` reads it twice: a face
+    # is `label` when it is bold and the BODY is not, so one stray bold block in
+    # the body face silences the role for the whole document. The dominant
+    # weight by character volume is the same choice `_block_face` makes about
+    # the font, and reproduces the committed roles for all 23 documents.
+    weight: dict[tuple[float, str], list[int]] = defaultdict(lambda: [0, 0])
     for group in groups:
         text = join_lines([line.text for line in group])
         if text:
             face = _block_face(group)
             raw[face].append(len(text))
-            bold[face] = any(line.bold for line in group)
+            weight[face][0] += len(text) if any(line.bold for line in group) else 0
+            weight[face][1] += len(text)
+    bold = {face: n * 2 > total for face, (n, total) in weight.items()}
 
     merged: dict[tuple[float, str], list[int]] = {}
     for face in sorted(raw, key=lambda k: (-sum(raw[k]), -k[0])):

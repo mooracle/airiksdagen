@@ -1,7 +1,7 @@
 # Metod (sammanfattning)
 
-Den fullständiga metodbeskrivningen renderas på webbplatsen (`/metod/`,
-`site/src/pageviews/Method.astro`). Kärnan:
+Den fullständiga metodbeskrivningen renderas på webbplatsen (`/om/`,
+`site/src/pageviews/AboutPage.astro`). Kärnan:
 
 - **Rekonstruktion, inte prediktion.** Modellens träningsdata innehåller
   sannolikt de verkliga utfallen; vi mäter dokumenttrohet, inte prognosförmåga.
@@ -19,9 +19,19 @@ Den fullständiga metodbeskrivningen renderas på webbplatsen (`/metod/`,
   vägas in endast när den väsentligt påverkar tillämpningen och redovisas då
   strukturerat (`omvarld.paverkar` + faktorer). Källor och regler:
   `docs/worldstate-plan.md`.
-- **Citatkontroll:** citat verifieras maskinellt som ordagranna utdrag;
-  parafraserade citat (~2 % hos Sonnet) rättas deterministiskt till närmaste
-  faktiska textställe och flaggas `citat_korrigerat` öppet på webbplatsen.
+- **Citatkontroll:** citat verifieras maskinellt som ordagranna utdrag ur just de
+  dokument agenten faktiskt fick se. I `full-v4`: 2 rättades deterministiskt till
+  närmaste faktiska textställe (`citat_korrigerat`), 120 kunde inte verifieras och
+  tömdes med agentens egen formulering bevarad bredvid (`citat_ej_verifierat` /
+  `quote_ej_verifierad`), och 520 skrevs om när källdokumenten extraherades på nytt
+  ur sina PDF:er — enbart avstavning och blanksteg, originalet kvar i
+  `quote_fore_migrering` (`citat_migrerat`). Allt flaggas öppet på webbplatsen;
+  engelska översättningar av ett tömt citat hålls tillbaka vid export.
+- **Omvänt register:** varje citat indexeras tillbaka till det textblock det
+  citerar (`aidag build-anchors`), så varje citerad rad i dokumentvyn visar vilka
+  voteringar som lutade sig mot den och om partiet sedan röstade med sin egen plan.
+  Ett citat som landat på en rubrik eller etikett märks som sådant — 6 block / 84
+  citat i `full-v4`; se `docs/topic-label-citations.md`.
 - **Läckagekontroller:** inga ärendenummer/datum i prompten, anonymiserade
   motförslag, aldrig riksdagens beslutsnotis (endast utskottets
   förhandssammanfattning), maskering av dokumentreferenser. Regex-verifierat i
