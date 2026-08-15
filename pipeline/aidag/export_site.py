@@ -107,6 +107,34 @@ def merge_case_metadata(payload: dict, index_row: dict, meta_rec: dict | None) -
     ).lower()
 
 
+def _withhold_unverified(tr: dict | None, citations: list[dict]) -> dict | None:
+    """Drop English quotes whose Swedish source has been withdrawn.
+
+    `repair-citations` BLANKS a quote it cannot verify against the corpus —
+    that is the whole mechanism by which the site never presents an
+    unverifiable string as a verbatim source. But the English was translated
+    from the wording the agent produced, before that pass ran, and it is still
+    in `data/results/translations/`. Shipped as-is it puts the withdrawn text
+    back into the record in the other language, in machine-readable form.
+
+    Positional, because that is how the pairing works throughout
+    (`CasePage.astro` reads `dEn?.citations?.[i]`); the `princip` label is kept,
+    since it is the model's own summary and never claimed to be verbatim.
+    """
+    if not tr:
+        return tr
+    en = tr.get("citations") or []
+    if not any(i < len(en) and en[i].get("quote") and not c.get("quote")
+               for i, c in enumerate(citations)):
+        return tr
+    return tr | {
+        "citations": [
+            (e | {"quote": ""}) if i < len(citations) and not citations[i].get("quote") else e
+            for i, e in enumerate(en)
+        ]
+    }
+
+
 def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
     if run_id is None:
         return {}
@@ -123,7 +151,7 @@ def load_decisions_by_case(run_id: str | None) -> dict[str, dict[str, dict]]:
             if d.get("arm", "anonymous") != "anonymous":
                 continue  # the anonymous arm is the headline result
             cid = f"{d['parti']}:{d['votering_id']}:{d['prompt_version']}:{d['arm']}"
-            tr = translations.get(cid)
+            tr = _withhold_unverified(translations.get(cid), d["citations"])
             out.setdefault(d["votering_id"], {})[d["parti"]] = {
                 "rost": d["rost"],
                 # p6: the plan's stance on what the counter-proposal demands, and

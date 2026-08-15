@@ -88,6 +88,101 @@ class TestRepairDecision:
         assert "citat_ej_verifierat" in d["flags"]
 
 
+class TestKnownUnrecoverableCitations:
+    """The one case where a high-scoring span is the wrong answer.
+
+    `best_span` scores fixed-width word windows, so it cannot tell a typo from a
+    column boundary: on the quotes Task 3 measured as unplaceable it returns the
+    neighbouring column and scores it well over the 0.75 bar. Run against full-v4
+    without the allowlist it took all 98 of them, and the result is verbatim in
+    the served document and is not what the party wrote.
+
+    The fixture is that real failure, shortened — `ING` is the fragment of the
+    next column that the extraction interleaves into the sentence.
+    """
+
+    CORPUS = {
+        "valmanifest": (
+            "Vi ser människors behov av välfärd och vi ser företagaren vars ING "
+            "affärsidéer gör det möjligt att betala för välfärden."
+        )
+    }
+    QUOTE = (
+        "Vi ser människors behov av välfärd och vi ser företagaren vars "
+        "affärsidéer gör det möjligt att betala"
+    )
+    SLUG = "valmanifest-2022-kd"
+
+    @pytest.fixture
+    def resolves(self, monkeypatch):
+        """Pin slug resolution so the guard is tested, not `program_at`'s dates."""
+        import aidag.migrate_quotes as mq
+
+        monkeypatch.setattr(mq, "resolve_slug", lambda kind, code, datum: self.SLUG)
+
+    def _decision(self, quote=None):
+        return {
+            "parti": "KD",
+            "citations": [{"document": "valmanifest", "quote": quote or self.QUOTE}],
+            "flags": [],
+        }
+
+    def _known(self, quote=None):
+        from aidag.simulate import _normalize_ws
+
+        return {(self.SLUG, _normalize_ws(quote or self.QUOTE))}
+
+    def test_unguarded_it_splices_in_the_neighbouring_column(self):
+        """Not a hypothetical — this is what the pass did before the guard."""
+        d = self._decision()
+        assert repair_decision(d, self.CORPUS) == (0, 1, 0)
+        assert "ING" in d["citations"][0]["quote"]
+        assert "citat_korrigerat" in d["flags"]
+
+    def test_a_listed_quote_is_blanked_rather_than_rewritten(self, resolves):
+        d = self._decision()
+        assert repair_decision(d, self.CORPUS, "2023-04-12", self._known()) == (0, 0, 1)
+        assert d["citations"][0]["quote"] == ""
+        assert d["citations"][0]["quote_ej_verifierad"] == self.QUOTE
+        assert d["flags"] == ["citat_ej_verifierat"]
+
+    def test_the_agents_exact_words_survive_the_blanking(self, resolves):
+        """`citat_korrigerat` would have claimed the model paraphrased. It did
+        not — so the record has to keep what it actually wrote."""
+        d = self._decision()
+        repair_decision(d, self.CORPUS, "2023-04-12", self._known())
+        assert d["citations"][0]["quote_ej_verifierad"] == self.QUOTE
+        assert "citat_korrigerat" not in d["flags"]
+
+    def test_an_unlisted_quote_in_the_same_document_still_repairs(self, resolves):
+        d = self._decision()
+        assert repair_decision(d, self.CORPUS, "2023-04-12", self._known("något annat")) == (
+            0,
+            1,
+            0,
+        )
+        assert "citat_korrigerat" in d["flags"]
+
+    def test_a_listed_quote_that_starts_resolving_is_left_alone(self, resolves):
+        """The ratchet: if a re-extraction ever places one of these, the exact
+        branch fires first and the allowlist never sees it. A stale entry can
+        therefore not blank a quote that has become verifiable."""
+        quote = "Vi ser människors behov av välfärd"
+        d = self._decision(quote)
+        assert repair_decision(d, self.CORPUS, "2023-04-12", self._known(quote)) == (1, 0, 0)
+        assert d["citations"][0]["quote"] == quote
+        assert d["flags"] == []
+
+    def test_a_document_class_outside_the_migration_is_not_consulted(self, monkeypatch):
+        """`resolve_slug` returns None for budgetmotioner and Tidöavtalet — they
+        were never re-extracted, so nothing about them can be on the list."""
+        import aidag.migrate_quotes as mq
+
+        monkeypatch.setattr(mq, "resolve_slug", lambda kind, code, datum: None)
+        d = self._decision()
+        assert repair_decision(d, self.CORPUS, "2023-04-12", self._known()) == (0, 1, 0)
+
+
 class TestWorkflowScriptSync:
     """The workflow script duplicates pipeline schemas in JS; these tripwires
     catch the copies drifting apart."""

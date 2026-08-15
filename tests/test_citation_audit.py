@@ -1,0 +1,295 @@
+"""The invariant that has no error path of its own.
+
+English citations are paired with Swedish ones by *position*
+(`export_site.py:149` → `CasePage.astro`'s `dEn?.citations?.[i]`), and
+`repair-citations` can remove a citation. Nothing in that chain raises: the page
+still renders, every quote in it is real, and the English one beside the Swedish
+one is simply not its translation. So these tests are about a diff being taken at
+all, and about it being taken on the right thing — shape, not text, since text is
+what the passes under audit are supposed to change.
+
+The last class runs against the committed record rather than a fixture. It is the
+one that would actually have caught a misaligned ship.
+"""
+
+import json
+
+import pytest
+
+from aidag import citation_audit as ca
+
+
+def _decision(n_citations: int, *, parti="KD", vid="V1", flags=None, blank=0, sidecar=None) -> dict:
+    citations = [
+        {"document": "partiprogram", "princip": f"p{i}", "quote": "" if i < blank else f"q{i}"}
+        for i in range(n_citations)
+    ]
+    if sidecar and citations:
+        citations[0][sidecar] = "vad agenten skrev"
+    return {
+        "parti": parti,
+        "votering_id": vid,
+        "prompt_version": "p6",
+        "arm": "anonymous",
+        "flags": list(flags or []),
+        "citations": citations,
+    }
+
+
+def _run_dir(tmp_path, rows_by_party: dict[str, list[dict]]):
+    d = tmp_path / "simulations" / "test-run"
+    d.mkdir(parents=True)
+    for party, rows in rows_by_party.items():
+        (d / f"{party}.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n"
+        )
+    return tmp_path
+
+
+class TestSnapshot:
+    def test_it_counts_decisions_citations_and_blanks(self, tmp_path):
+        root = _run_dir(
+            tmp_path,
+            {
+                "KD": [_decision(4, vid="A"), _decision(3, vid="B", blank=1)],
+                "V": [_decision(2, parti="V", vid="C")],
+            },
+        )
+        snap = ca.snapshot("test-run", root)
+        assert snap["decisions"] == 3
+        assert snap["citations"] == 9
+        assert snap["blank_quotes"] == 1
+
+    def test_it_keys_lengths_on_the_cid_the_translations_use(self, tmp_path):
+        root = _run_dir(tmp_path, {"KD": [_decision(4, vid="A")]})
+        assert ca.snapshot("test-run", root)["lengths"] == {"KD:A:p6:anonymous": 4}
+
+    def test_it_tallies_decision_flags_and_citation_sidecars(self, tmp_path):
+        root = _run_dir(
+            tmp_path,
+            {
+                "KD": [
+                    _decision(4, vid="A", flags=["citat_svagt"], sidecar="quote_fore_migrering"),
+                    _decision(4, vid="B", flags=["citat_svagt", "citat_blockerat"]),
+                ]
+            },
+        )
+        snap = ca.snapshot("test-run", root)
+        assert snap["flags"] == {"citat_blockerat": 1, "citat_svagt": 2}
+        assert snap["sidecars"] == {"quote_fore_migrering": 1}
+
+    def test_it_records_no_quote_text(self, tmp_path):
+        """A rewriting pass changes quotes by design; a snapshot that held them
+        would report the pass working as a difference to investigate."""
+        root = _run_dir(tmp_path, {"KD": [_decision(4, vid="A")]})
+        assert "q0" not in json.dumps(ca.snapshot("test-run", root))
+
+    def test_a_missing_run_is_empty_rather_than_an_error(self, tmp_path):
+        snap = ca.snapshot("no-such-run", tmp_path)
+        assert snap["decisions"] == 0 and snap["citations"] == 0
+
+
+class TestCompare:
+    def _snap(self, tmp_path, name, rows):
+        root = _run_dir(tmp_path / name, {"KD": rows})
+        return ca.snapshot("test-run", root)
+
+    def test_an_untouched_run_is_aligned(self, tmp_path):
+        rows = [_decision(4, vid="A"), _decision(3, vid="B")]
+        before = self._snap(tmp_path, "b", rows)
+        after = self._snap(tmp_path, "a", rows)
+        diff = ca.compare(before, after)
+        assert diff["aligned"]
+        assert diff["length_changes"] == []
+
+    def test_a_dropped_citation_is_reported_by_cid(self, tmp_path):
+        """`strip_blocked` removing one citation from one decision — the exact
+        event that shifts every later English quote up by one."""
+        before = self._snap(tmp_path, "b", [_decision(4, vid="A"), _decision(4, vid="B")])
+        after = self._snap(tmp_path, "a", [_decision(3, vid="A"), _decision(4, vid="B")])
+        diff = ca.compare(before, after)
+        assert not diff["aligned"]
+        assert diff["length_changes"] == [{"cid": "KD:A:p6:anonymous", "before": 4, "after": 3}]
+        assert diff["citations"] == {"before": 8, "after": 7}
+
+    def test_a_decision_vanishing_from_the_run_is_reported(self, tmp_path):
+        before = self._snap(tmp_path, "b", [_decision(4, vid="A"), _decision(4, vid="B")])
+        after = self._snap(tmp_path, "a", [_decision(4, vid="A")])
+        diff = ca.compare(before, after)
+        assert not diff["aligned"]
+        assert diff["dropped"] == ["KD:B:p6:anonymous"]
+
+    def test_a_decision_appearing_is_reported(self, tmp_path):
+        before = self._snap(tmp_path, "b", [_decision(4, vid="A")])
+        after = self._snap(tmp_path, "a", [_decision(4, vid="A"), _decision(4, vid="B")])
+        diff = ca.compare(before, after)
+        assert not diff["aligned"]
+        assert diff["added"] == ["KD:B:p6:anonymous"]
+
+    def test_flag_deltas_carry_a_direction(self, tmp_path):
+        """A rise in `citat_ej_verifierat` is what "investigate any increase"
+        means; an unchanged flag is noise and is left out."""
+        before = self._snap(
+            tmp_path, "b", [_decision(4, vid="A", flags=["citat_svagt"]), _decision(4, vid="B")]
+        )
+        after = self._snap(
+            tmp_path,
+            "a",
+            [
+                _decision(4, vid="A", flags=["citat_svagt"]),
+                _decision(4, vid="B", flags=["citat_ej_verifierat"]),
+            ],
+        )
+        diff = ca.compare(before, after)
+        assert diff["flag_deltas"] == {
+            "citat_ej_verifierat": {"before": 0, "after": 1, "delta": 1}
+        }
+
+    def test_sidecar_deltas_are_reported(self, tmp_path):
+        before = self._snap(tmp_path, "b", [_decision(4, vid="A")])
+        after = self._snap(tmp_path, "a", [_decision(4, vid="A", sidecar="quote_ej_verifierad")])
+        diff = ca.compare(before, after)
+        assert diff["sidecar_deltas"]["quote_ej_verifierad"]["delta"] == 1
+
+    def test_a_quote_rewritten_in_place_is_not_a_difference(self, tmp_path):
+        """Migration and repair both rewrite quote text without moving the list.
+        That must read as aligned or the check cries wolf on every run."""
+        before = self._snap(tmp_path, "b", [_decision(4, vid="A")])
+        root = _run_dir(tmp_path / "a", {"KD": [_decision(4, vid="A")]})
+        path = root / "simulations" / "test-run" / "KD.jsonl"
+        d = json.loads(path.read_text())
+        d["citations"][0]["quote"] = "en helt annan text"
+        path.write_text(json.dumps(d, ensure_ascii=False) + "\n")
+        assert ca.compare(before, ca.snapshot("test-run", root))["aligned"]
+
+
+class TestSnapshotRoundTrip:
+    def test_a_snapshot_survives_the_file(self, tmp_path):
+        root = _run_dir(tmp_path, {"KD": [_decision(4, vid="A", flags=["citat_svagt"])]})
+        snap = ca.snapshot("test-run", root)
+        path = ca.write_snapshot(snap, tmp_path / "audit" / "before.json")
+        assert ca.read_snapshot(path) == snap
+
+
+class TestTranslationGaps:
+    """Against the committed English rather than a proxy for it."""
+
+    @pytest.fixture
+    def root(self, tmp_path, monkeypatch):
+        root = _run_dir(tmp_path, {"KD": [_decision(4, vid="A"), _decision(3, vid="B")]})
+        monkeypatch.setattr(ca, "RESULTS_DIR", root)
+        return root
+
+    def _english(self, root, rows: dict[str, int]):
+        path = root / "translations" / "test-run"
+        path.mkdir(parents=True, exist_ok=True)
+        (path / "decisions.jsonl").write_text(
+            "\n".join(
+                json.dumps({"cid": cid, "citations": [{"quote": "x"}] * n, "motivering": "m"})
+                for cid, n in rows.items()
+            )
+            + "\n"
+        )
+
+    def test_matching_lengths_are_no_gap(self, root):
+        self._english(root, {"KD:A:p6:anonymous": 4, "KD:B:p6:anonymous": 3})
+        assert ca.translation_gaps("test-run", root) == []
+
+    def test_a_shortened_swedish_list_is_a_gap(self, root):
+        self._english(root, {"KD:A:p6:anonymous": 5, "KD:B:p6:anonymous": 3})
+        assert ca.translation_gaps("test-run", root) == [
+            {"cid": "KD:A:p6:anonymous", "swedish": 4, "english": 5}
+        ]
+
+    def test_an_untranslated_decision_is_not_a_gap(self, root):
+        """`export_site` emits `en: null` and the page falls back to Swedish —
+        designed behaviour, not misalignment."""
+        self._english(root, {"KD:A:p6:anonymous": 4})
+        assert ca.translation_gaps("test-run", root) == []
+
+    def test_a_translation_with_no_decision_is_a_gap(self, root):
+        self._english(root, {"KD:A:p6:anonymous": 4, "KD:ZZZ:p6:anonymous": 2})
+        assert ca.translation_gaps("test-run", root) == [
+            {"cid": "KD:ZZZ:p6:anonymous", "swedish": None, "english": 2}
+        ]
+
+
+class TestWithholdingUnverifiedEnglish:
+    """The other half of the pairing: same index, opposite failure.
+
+    A length change misaligns the pair. Blanking misaligns nothing — the lists
+    stay the same length — but leaves an English quote standing for a Swedish
+    one that `repair-citations` withdrew precisely so it would not be shown.
+    Measured on full-v4 after this task's repair: 119 of the 120 blanked
+    citations had one.
+    """
+
+    def _tr(self, quotes):
+        return {"citations": [{"quote": q, "princip": f"p{i}"} for i, q in enumerate(quotes)]}
+
+    def test_english_is_kept_where_the_swedish_survives(self):
+        from aidag.export_site import _withhold_unverified
+
+        tr = self._tr(["the plan says", "and also"])
+        out = _withhold_unverified(tr, [{"quote": "planen säger"}, {"quote": "och även"}])
+        assert [c["quote"] for c in out["citations"]] == ["the plan says", "and also"]
+
+    def test_english_is_withheld_where_the_swedish_was_blanked(self):
+        from aidag.export_site import _withhold_unverified
+
+        tr = self._tr(["the plan says", "and also"])
+        out = _withhold_unverified(tr, [{"quote": ""}, {"quote": "och även"}])
+        assert [c["quote"] for c in out["citations"]] == ["", "and also"]
+
+    def test_the_princip_label_survives(self):
+        """It is the model's own summary, never claimed to be verbatim — losing
+        it would take the citation's only remaining label with it."""
+        from aidag.export_site import _withhold_unverified
+
+        out = _withhold_unverified(self._tr(["the plan says"]), [{"quote": ""}])
+        assert out["citations"][0]["princip"] == "p0"
+
+    def test_an_untranslated_decision_passes_through(self):
+        from aidag.export_site import _withhold_unverified
+
+        assert _withhold_unverified(None, [{"quote": ""}]) is None
+
+    def test_an_unaffected_row_is_returned_unchanged(self):
+        """Same object, not a copy — 20,312 decisions and 119 affected."""
+        from aidag.export_site import _withhold_unverified
+
+        tr = self._tr(["the plan says"])
+        assert _withhold_unverified(tr, [{"quote": "planen säger"}]) is tr
+
+    def test_the_source_translation_row_is_not_mutated(self):
+        from aidag.export_site import _withhold_unverified
+
+        tr = self._tr(["the plan says"])
+        _withhold_unverified(tr, [{"quote": ""}])
+        assert tr["citations"][0]["quote"] == "the plan says"
+
+
+@pytest.fixture(scope="module")
+def snap():
+    from aidag.config import RESULTS_DIR
+
+    if not (RESULTS_DIR / "simulations" / "full-v4").exists():
+        pytest.skip("full-v4 not present")
+    return ca.snapshot("full-v4")
+
+
+class TestCommittedRecord:
+    """The real run. Cheap enough to keep in the suite and the only version of
+    this check that guards what actually ships."""
+
+    def test_the_run_is_whole(self, snap):
+        assert snap["decisions"] == 20312
+        assert snap["citations"] == 77719
+
+    def test_every_translated_decision_pairs_positionally(self, snap):
+        from aidag.config import RESULTS_DIR
+
+        if not (RESULTS_DIR / "translations" / "full-v4" / "decisions.jsonl").exists():
+            pytest.skip("full-v4 decision translations not present")
+        gaps = ca.translation_gaps("full-v4")
+        assert gaps == [], f"{len(gaps)} decision(s) render English against the wrong Swedish"

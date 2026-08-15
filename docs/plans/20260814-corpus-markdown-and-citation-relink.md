@@ -508,19 +508,102 @@ the wrong English quote against the wrong Swedish one.
 **Files:**
 - Modify: `data/results/simulations/full-v4/*.jsonl`, site data
 
-- [ ] record per-decision citation-list lengths **before** repair
-- [ ] run `uv run aidag repair-citations --run-id full-v4`
-- [ ] assert citation-list lengths unchanged; if any changed, list affected cids and
-      re-run translation for them rather than shipping misaligned English
-- [ ] decide and record: `citat_migrerat` rows keep English translated from the
-      pre-migration wording (accept, since the change is sub-quote) or are re-translated
-- [ ] run `uv run aidag verify simulate --run-id full-v4` — must be green
-- [ ] run `uv run aidag verify simulate --run-id full-v3` — must be green (frozen route)
-- [ ] compare before/after `citat_korrigerat`, `citat_ej_verifierat`, `citat_svagt`,
-      `citat_blockerat`; investigate any increase
-- [ ] confirm `citat_ej_migrerat` matches the Task 5 dry-run
-- [ ] run `uv run aidag export-site --run-id full-v4`
-- [ ] run full suite `uv run pytest tests -q`
+- [x] record per-decision citation-list lengths **before** repair — new module
+      `pipeline/aidag/citation_audit.py` and `aidag citation-audit --run-id X
+      [--out P] [--baseline P] [--check-translations]`. It snapshots the *shape*
+      of the record (per-cid list lengths, decision flags, sidecar and blank
+      tallies) and deliberately not the quote text, which is what the passes under
+      audit are supposed to change. Snapshots land in `data/interim/audit/`
+- [x] run `uv run aidag repair-citations --run-id full-v4`
+- [x] assert citation-list lengths unchanged — **0 decisions changed length**,
+      20,312 in and out, 77,719 citations in and out, `0 generic dropped`. Nothing
+      to re-translate. Checked against the committed English too, not only as a
+      proxy: `translation_gaps()` reports **0** of 20,312 translated decisions
+      whose English list length differs
+- [x] decide and record: **keep the pre-migration English.** Not accepted on the
+      "sub-quote" argument but measured — all **520** `quote_fore_migrering` /
+      `quote` pairs are letter-identical (`re.sub(r"[^0-9a-zà-öø-ÿ]", "")` equal).
+      Every migration is spacing, hyphenation or a hyphen/en-dash swap
+      (`omfatt ning` → `omfattning`, `energioch` → `energi- och`), so no word
+      changed and no translation of one could differ. Re-translating 503 decisions
+      would cost ~$1 to reproduce identical English
+- [x] run `uv run aidag verify simulate --run-id full-v4` — **green**, 0 hallucinated
+      of 20,312
+- [x] run `uv run aidag verify simulate --run-id full-v3` — **green** (frozen route),
+      0 hallucinated of 6,563
+- [x] compare before/after `citat_korrigerat`, `citat_ej_verifierat`, `citat_svagt`,
+      `citat_blockerat`; investigate any increase — the first run's `citat_korrigerat`
+      increase was real damage and is now fixed at source; see ⚠️ 1
+- [x] confirm `citat_ej_migrerat` matches the Task 5 dry-run — **119**, unchanged by
+      repair, and every one of repair's 119 actions lands inside those decisions.
+      Zero citations elsewhere in the run were touched
+- [x] run `uv run aidag export-site --run-id full-v4`
+- [x] run full suite `uv run pytest tests -q` (463 passed; 31 new — 25 in
+      `tests/test_citation_audit.py`, 6 in `tests/test_agent_pipeline.py`) and
+      `cd site && npm run build` (7,723 pages)
+
+**Measured across the pass**
+
+| | before | after |
+|---|---|---|
+| Decisions / citations | 20,312 / 77,719 | **unchanged** |
+| Per-decision citation-list length | — | **0 changed** |
+| `citat_korrigerat` | 2 | **2** |
+| `citat_ej_verifierat` | 1 | **120** |
+| `citat_svagt` / `citat_blockerat` | 236 / 164 | **236 / 164** |
+| `citat_migrerat` / `citat_ej_migrerat` | 503 / 119 | **503 / 119** |
+| Blank quotes | 1 | 120 |
+
+Exported-case churn is exactly what the passes did and nothing else: 617 decisions
+gained flags, 520 Swedish quotes changed (Task 5's migrations reaching the site for
+the first time), 119 blanked, 119 English withheld, **0 citation-count changes**.
+
+⚠️ **Deviation 1, recorded — `repair.py` now consults the known-unrecovered
+allowlist.** The first run of this task reported `98 repaired (flagged)` and the
+investigation the checkbox asks for showed all 98 were damage:
+
+```
+WAS  Vi ser människors behov av välfärd och vi ser företagaren vars affärsidéer …
+NOW  ser människors behov av välfärd och vi ser företagaren vars ING affärsidéer …
+
+WAS  Sverige har redan ett av världens högsta skattetryck – mer skatt är ingen lösning.
+NOW  ett av världens högsta skattetryck – mer skatt är ingen lösning.
+```
+
+These are the 119 citations Task 5 handed off, and `best_span` takes them for the
+reason Task 5's Deviation 2 already documented: it scores fixed-width word windows
+and cannot tell a typo from a column boundary, so it returns the neighbouring
+column, splices in page furniture, and scores it well over 0.75. Worse than the
+text is the attribution — `citat_korrigerat` asserts *the model paraphrased*, and
+for these it did not. The quote was faithful and the corpus could not be read.
+
+`known_unrecovered()`'s own docstring already states the rule ("a listed quote is
+never fuzzy-rewritten"); `repair.py` simply never consulted it. It does now, via
+`migrate_quotes.resolve_slug` for the same date-gated slug, and blanks instead —
+`citat_ej_verifierat`, with the agent's exact words kept in `quote_ej_verifierad`.
+The result is the honest one: `citat_korrigerat` stays at 2, `citat_ej_verifierat`
+goes to 120, and the run drops from 7m11s to 33s because those 119 no longer walk
+a 172-page programme. The exact-substring branch still fires first, so a listed
+quote that starts resolving is untouched and a stale entry cannot blank a
+verifiable quote — tested as `TestKnownUnrecoverableCitations`.
+
+⚠️ **Deviation 2, recorded — the English side of blanking.** Blanking is
+length-preserving, so the positional check passes, but it exposes the mirror-image
+defect: the English was translated *before* repair ran and is still committed, and
+`CasePage.astro:547` rendered `citEn.quote` with no `cit.quote` guard — while the
+Swedish side at `:541` has always had one. 119 of the 120 blanked citations had an
+English quote, so the withdrawn text would have gone back onto the page in the
+other language. Fixed in both places, and the reasons differ: `export_site.
+_withhold_unverified()` keeps it out of the committed data (which the public
+`decisions-full-v4.jsonl.gz` download also carries), and the `CasePage` guard
+restores symmetry with the Swedish one. `princip` survives — it is the model's own
+summary and was never claimed to be verbatim. Verified against the export: 120
+blank Swedish quotes, **0** still carrying English.
+
+➕ **Note for `CLAUDE.md` (Task 11)**: its "AI decisions 0/9460 — the decision pass
+has never been run" is stale. `data/results/translations/full-v4/decisions.jsonl`
+holds **20,312** rows, complete, on `claude-haiku-4-5`. That is why the pairing
+check in this task had real data to run against.
 
 ### Task 7: Build the anchor index
 

@@ -544,7 +544,13 @@ const caseJsonLd = {
                       ) : (
                         <span class="muted">({docLabel[cit.document] ?? cit.document})</span>
                       )}
-                      {citEn?.quote && <span class="qtrans">“{citEn.quote}”</span>}
+                      {/* Only alongside a Swedish quote. `repair-citations`
+                          BLANKS a quote it cannot verify — the whole point being
+                          that the site never shows it — but the English was
+                          translated before that pass and is still committed.
+                          Rendered on its own it puts the withdrawn text back on
+                          the page in the other language. */}
+                      {cit.quote && citEn?.quote && <span class="qtrans">“{citEn.quote}”</span>}
                     </li>
                   );
                 })}

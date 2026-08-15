@@ -65,9 +65,41 @@ def _mark_unverifiable(d: dict, c: dict) -> None:
     _flag(d, "citat_ej_verifierat")
 
 
-def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
+def _is_known_unrecoverable(c: dict, parti: str, datum: str, known: set) -> bool:
+    """Is this citation one the extraction is measured as unable to place?
+
+    `data/corpus/known-unrecovered.json` lists quotes whose reading order the
+    PDF geometry does not determine — a column continuing past a heading that
+    belongs to a figure below it. Its own contract is that a listed quote is
+    "never fuzzy-rewritten, because what a matcher finds for it is a
+    neighbouring column with page furniture spliced in".
+
+    That has to hold here as well as in `migrate-quotes`, and for the same
+    reason: `best_span` scores fixed-width word windows and cannot tell a
+    typo from a column boundary, so it takes these every time and scores them
+    well. Measured over full-v4 it rewrote all 98 of them, producing spans
+    that are verbatim in the served document and are not what the party wrote —
+    `Vi ser människors behov av välfärd …` became `ser människors behov av
+    välfärd och vi ser företagaren vars ING affärsidéer …`, splicing in a
+    fragment of the next column.
+
+    Worse than the text is the attribution: `citat_korrigerat` says the model
+    paraphrased. For these it did not. The quote was faithful and the corpus
+    could not be read, which is `citat_ej_verifierat` — the flag that keeps the
+    agent's exact words in `quote_ej_verifierad` and claims nothing about them.
+    """
+    from aidag.migrate_quotes import resolve_slug  # imports best_span from here
+
+    slug = resolve_slug(c["document"], parti, datum)
+    return slug is not None and (slug, _normalize_ws(c["quote"])) in known
+
+
+def repair_decision(
+    d: dict, corpus: dict[str, str], datum: str = "", known: set | None = None
+) -> tuple[int, int, int]:
     """Repair one decision's citations in place. Returns (ok, fixed, failed)."""
     norm = {k: _normalize_ws(v) for k, v in corpus.items()}
+    known = known or set()
     n_ok = n_fixed = n_failed = 0
     for c in d.get("citations", []):
         if not c["quote"]:
@@ -81,6 +113,10 @@ def repair_decision(d: dict, corpus: dict[str, str]) -> tuple[int, int, int]:
             continue
         if _normalize_ws(c["quote"]) in src:
             n_ok += 1
+            continue
+        if known and _is_known_unrecoverable(c, d["parti"], datum, known):
+            _mark_unverifiable(d, c)
+            n_failed += 1
             continue
         span, ratio = best_span(c["quote"], corpus[c["document"]])
         if ratio >= THRESHOLD:
@@ -105,7 +141,9 @@ def run(run_id: str) -> None:
     meta = {r["votering_id"]: (r["datum"], r["rm"]) for r in cases.iter_rows(named=True)}
 
     from aidag.blocklist import mark_weak, strip_blocked
+    from aidag.migrate_quotes import known_unrecovered
 
+    known = known_unrecovered()
     sim_dir = RESULTS_DIR / "simulations" / run_id
     n_ok = n_fixed = n_failed = n_blocked = n_weak = 0
     for path in sorted(sim_dir.glob("*.jsonl")):
@@ -124,7 +162,7 @@ def run(run_id: str) -> None:
                     party, datum, rm, d["votering_id"], d["prompt_version"]
                 )
             }
-            ok, fixed, failed = repair_decision(d, corpus)
+            ok, fixed, failed = repair_decision(d, corpus, datum, known)
             n_ok += ok
             n_fixed += fixed
             n_failed += failed
