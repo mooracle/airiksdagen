@@ -62,10 +62,23 @@ def _fetch_pdf(client: httpx.Client, slug: str, url: str, force: bool) -> bytes:
     Filling this cache is the point: the 15 programme URLs are live party-site
     links and every one of those parties has replaced the pinned edition at least
     once, so an uncached document is one redesign away from unreproducible.
+
+    Which is why `force` refreshes the cache for everything EXCEPT a slug whose
+    corpus text is derived from blocks. Those bytes are what `blocks/<slug>.json`
+    and the .txt beside it were extracted from, and the same `--force` that
+    (correctly) leaves the derived .txt alone would replace the PDF under it with
+    whatever the party serves today — leaving the block file describing an edition
+    that is no longer on disk, with nothing raised: `extract-corpus` reads this
+    cache, and `source_pdf_bytes()` never fetches precisely so it cannot pick up a
+    different edition. Re-pinning an edition is a deliberate act.
     """
     path = cached_pdf(slug)
-    if path.exists() and not force:
-        return path.read_bytes()
+    if path.exists():
+        if not force:
+            return path.read_bytes()
+        if is_derived_from_blocks(slug):
+            print(f"  pdf/{path.name}: pinned — blocks/ derive from it, --force ignored")
+            return path.read_bytes()
     r = client.get(url)
     r.raise_for_status()
     if not r.content.startswith(b"%PDF"):

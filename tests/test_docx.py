@@ -229,6 +229,19 @@ class TestStripRunning:
         kept, dropped = docx.strip_running(lines)
         assert not kept and len(dropped) == 6
 
+    def test_a_roman_folio_in_the_band_goes(self):
+        lines = [_line(n, page=p, y0=800.0) for p, n in enumerate(["i", "ii", "iii", "iv"])]
+        kept, dropped = docx.strip_running(lines)
+        assert not kept and len(dropped) == 4
+
+    def test_a_title_made_only_of_roman_numeral_letters_survives(self):
+        """The page-number rule is the one drop with no repetition requirement,
+        so a single match deletes the line outright — and 'Vi vill' is nothing
+        but i/v/l plus a space. Below the repeat floor so only that rule can fire."""
+        for title in ("Vi vill", "Civil", "Mild"):
+            kept, dropped = docx.strip_running([_line(title, page=0, y0=20.0)])
+            assert [line.text for line in kept] == [title] and not dropped
+
     def test_below_the_repeat_floor_nothing_is_dropped(self):
         """Two pages cannot establish a running header."""
         lines = [_line("Ett rubrikliknande stycke", page=p, y0=20.0) for p in range(2)]

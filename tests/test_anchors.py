@@ -909,17 +909,68 @@ class TestExportSite:
         assert list((site / "corpus" / "blocks").glob("*.json"))
 
     def test_a_slug_that_stops_being_cited_loses_its_file(self, tmp_path, monkeypatch, kd2015):
+        """The run must have an index for this to be the question it sounds like.
+
+        Rebuilt-not-merged is about a run that indexed OTHER slugs than the ones
+        on disk. A run with no index at all is the case below, and answering it
+        the same way deletes the committed anchors.
+        """
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        _, text = _a_block(kd2015)
+        by_slug, _, _ = anchors.collect([_decision([text])], CASES, POSITIONS)
+        anchors.write("test-run", by_slug, tmp_path)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        stale = site / "corpus" / "anchors"
+        stale.mkdir(parents=True)
+        (stale / "partiprogram-x-1999.json").write_text("{}")
+        export_site.export_blocks_and_anchors("test-run")
+        assert not (stale / "partiprogram-x-1999.json").exists()
+        assert (stale / f"{KD2015}.json").exists()
+
+    def test_a_run_with_no_index_leaves_the_committed_anchors_alone(self, tmp_path, monkeypatch):
+        """`export-site --run-id X` before `build-anchors` ever ran for X.
+
+        `load()` cannot distinguish "no index" from "indexed nothing" — both are
+        {} — so driving the rebuild off it deletes the committed 46 files and
+        ships a site whose document pages have no panels and no rail totals.
+        README keeps `mock-v1` as exactly such a run.
+        """
         from aidag import export_site
 
         site = tmp_path / "site" / "src" / "data"
         site.mkdir(parents=True)
         monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
         monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        inline = site / "corpus" / "anchors"
+        inline.mkdir(parents=True)
+        (inline / f"{KD2015}.json").write_text('{"slug": "kept"}')
+        public = tmp_path / "site" / "public" / "data" / "anchors"
+        public.mkdir(parents=True)
+        (public / f"{KD2015}.json").write_text('{"slug": "kept"}')
+
+        assert export_site.export_blocks_and_anchors("no-such-run") == 0
+        assert json.loads((inline / f"{KD2015}.json").read_text())["slug"] == "kept"
+        assert json.loads((public / f"{KD2015}.json").read_text())["slug"] == "kept"
+
+    def test_a_run_that_indexed_nothing_still_sweeps(self, tmp_path, monkeypatch):
+        """The directory exists and is empty: that IS a run citing nothing, and
+        its stale files must go. Only the missing directory is left alone."""
+        from aidag import export_site
+
+        site = tmp_path / "site" / "src" / "data"
+        site.mkdir(parents=True)
+        monkeypatch.setattr(export_site, "SITE_DATA_DIR", site)
+        monkeypatch.setattr(anchors, "RESULTS_DIR", tmp_path)
+        anchors.anchors_dir("empty-run", tmp_path).mkdir(parents=True)
         stale = site / "corpus" / "anchors"
         stale.mkdir(parents=True)
-        (stale / "partiprogram-x-1999.json").write_text("{}")
-        export_site.export_blocks_and_anchors("no-such-run")
-        assert not (stale / "partiprogram-x-1999.json").exists()
+        (stale / f"{KD2015}.json").write_text("{}")
+        assert export_site.export_blocks_and_anchors("empty-run") == 0
+        assert not (stale / f"{KD2015}.json").exists()
 
     def test_a_document_that_stops_being_extracted_loses_its_block_file(
         self, tmp_path, monkeypatch

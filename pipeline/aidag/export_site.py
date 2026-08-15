@@ -86,12 +86,13 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
 
     Returns the number of anchor files written — 0 when the run has no anchors
     yet, which is not an error: `build-anchors` runs after `repair-citations` and
-    an export in between should still produce a site. `run_id=None` (the
-    no-decisions export) returns 0 without touching the anchors at all; it is the
-    absence of a run, not a run without anchors, and the two must not rebuild the
-    same directories from the same empty payload.
+    an export in between should still produce a site. Both no-index cases —
+    `run_id=None` (the no-decisions export) and a run whose `build-anchors` has
+    not run — return 0 without touching the anchors at all. Neither is "a run
+    that cites nothing", and rebuilding the directories from their empty payload
+    would delete the committed index rather than leave it alone.
     """
-    from aidag.anchors import compact_refs, load, summarize
+    from aidag.anchors import anchors_dir, compact_refs, load, summarize
     from aidag.config import BLOCKS_DIR
 
     corpus_out = SITE_DATA_DIR / "corpus"
@@ -111,6 +112,15 @@ def export_blocks_and_anchors(run_id: str | None) -> int:
         # (cli.py). There is no run to index, so there is nothing to say about
         # the citation anchors — and the rebuild below, driven by an empty
         # payload, would delete the committed index rather than leave it alone.
+        return 0
+    if not anchors_dir(run_id).exists():
+        # The same hazard one step in, and the likelier one: `export-site` before
+        # `build-anchors` has ever run for this run_id, or against the synthetic
+        # `mock-v1` (README). `load()` answers {} for "no index" exactly as it
+        # does for "indexed nothing", so the rebuild below cannot tell them apart
+        # and would silently drop 46 committed files. An empty *directory* is the
+        # real empty run, and its files are still swept.
+        print(f"  anchors: {run_id} has no index — committed anchors left alone")
         return 0
 
     payloads = load(run_id)
