@@ -267,6 +267,34 @@ export function listCorpusDocs(): string[] {
     .map((f) => f.replace(/\.txt$/, ''));
 }
 
+/** The corpus grouped by the party whose filename encodes it.
+ *
+ * The position of the code is NOT fixed: programmes and budget motions are
+ * `<kind>-<party>-<year>` (`partiprogram-kd-2025`) but the manifestos are
+ * `<kind>-<year>-<party>` (`valmanifest-2022-kd`). Scanning every segment for a
+ * known code covers both; keying on the second segment silently dropped all
+ * eight manifestos into `shared` — and the manifestos are half of what the
+ * agents actually read. Party codes never collide with the numeric segments, so
+ * the scan is safe. Anything with no code (the Tidö agreement) lands in `shared`
+ * rather than being dropped.
+ *
+ * Shared by /parti/ and /parti/[code], which must not disagree about which
+ * documents are a party's own.
+ */
+export function corpusDocsByParty(codes: string[]): {
+  byParty: Record<string, string[]>;
+  shared: string[];
+} {
+  const byParty: Record<string, string[]> = Object.fromEntries(codes.map((c) => [c, []]));
+  const shared: string[] = [];
+  for (const slug of listCorpusDocs().sort()) {
+    const code = slug.split('-').map((seg) => seg.toUpperCase()).find((seg) => seg in byParty);
+    if (code) byParty[code].push(slug);
+    else shared.push(slug);
+  }
+  return { byParty, shared };
+}
+
 export function getCorpusDoc(slug: string): string {
   return fs.readFileSync(path.join(DATA_DIR, 'corpus', `${slug}.txt`), 'utf-8');
 }
@@ -321,6 +349,44 @@ export function getCorpusAnchors(slug: string): AnchorSummary | null {
   const p = path.join(DATA_DIR, 'corpus', 'anchors', `${slug}.json`);
   if (!fs.existsSync(p)) return null;
   return JSON.parse(fs.readFileSync(p, 'utf-8')) as AnchorSummary;
+}
+
+export interface DocCites {
+  /** blocks of the document at least one citation landed on */
+  lines: number;
+  /** distinct divisions that cited it, however many of its lines each quoted */
+  votes: number;
+  kept: number;
+  diverged: number;
+}
+
+/** How much of each document the votes actually leaned on, keyed by slug.
+ *
+ * Read off the committed citation index (`aidag build-anchors` ->
+ * src/data/corpus/anchors/), which is 23 small files at build time — the
+ * per-vote rows behind these totals are the 8.3 MB that stay out of every page
+ * until a reader opens a panel.
+ *
+ * `lines` and `votes` are different questions and both are worth printing: how
+ * much of the document is under citation at all, and how many divisions leaned
+ * on it — the same distinction the document pages draw between a block's
+ * `decisions.n` and its `refs`. Absent for the 17 documents the p6 run does not
+ * show the agents, and absent is the honest answer there: no citation can point
+ * at a document nobody was given.
+ */
+export function corpusCitationStats(): Map<string, DocCites> {
+  const out = new Map<string, DocCites>();
+  for (const slug of listCorpusDocs()) {
+    const a = getCorpusAnchors(slug);
+    if (!a) continue;
+    out.set(slug, {
+      lines: Object.keys(a.blocks).length,
+      votes: a.totals.decisions.n,
+      kept: a.totals.decisions.kept,
+      diverged: a.totals.decisions.diverged,
+    });
+  }
+  return out;
 }
 
 /** The divisions whose citations landed somewhere in the corpus.

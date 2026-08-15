@@ -289,6 +289,11 @@ export const ui = {
     'party.cardAgreement': 'planen stämde med rösten',
     'party.toAnalysis': 'Jämförelser mellan partier finns i Analys',
     'party.secDocs': 'Underlaget',
+    // The party detail page's own document block. `{party}` and `{n}` are filled
+    // in PartyPage.astro.
+    'party.ownDocs': 'Mätt mot {party}s egna dokument',
+    'party.docsNotInContext': 'Ytterligare {n} dokument finns publicerade men ingår inte i underlaget',
+    'party.allDocs': 'Alla partiers källdokument',
     'docs.title': 'Källdokument',
     'docs.shared': 'Gemensamma dokument',
     // Dokumentsidan: kapitelspalten och citatpanelerna i marginalen. Färgaxeln
@@ -642,6 +647,9 @@ export const ui = {
     'party.cardAgreement': 'plan matched the vote',
     'party.toAnalysis': 'Cross-party comparisons live in Analysis',
     'party.secDocs': 'The corpus',
+    'party.ownDocs': 'Measured against {party}’s own documents',
+    'party.docsNotInContext': '{n} further documents are published but are not part of the context',
+    'party.allDocs': 'Source documents for every party',
     'docs.title': 'Source documents',
     'docs.shared': 'Shared documents',
     // The document page: the chapter rail and the margin citation panels. The
