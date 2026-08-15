@@ -269,6 +269,10 @@ class Unlocated(Exception):
     """One or more citations no longer resolve, and none of them was excused."""
 
 
+class EmptyIndex(Exception):
+    """The run indexed nothing, and an index of nothing deletes the standing one."""
+
+
 def ref_for(d: dict, c: dict, case: dict, position: str | None) -> dict:
     """The seven fields a document page shows about one citing vote."""
     from aidag.promptgen import evidence_tier
@@ -486,6 +490,25 @@ def build(run_id: str, results_dir=None) -> dict:
             "would silently disappear. Re-run migrate-quotes, or list the quote in "
             "data/corpus/known-unrecovered.json if the extraction genuinely cannot "
             "produce it."
+        )
+    if not by_slug:
+        # The last hole in the "refuse rather than rebuild to nothing" rule
+        # `_load_run()` opens the pass with. A run whose decisions are all
+        # skipped INSIDE collect() — every one pre-p6, or every one another arm —
+        # reaches here past that check with an empty by_slug and nothing
+        # unlocated, and write() would mkdir an index directory holding no
+        # files. `export_blocks_and_anchors()` reads an existing-but-empty
+        # directory as "this run cites nothing" and prunes accordingly, so
+        # `build-anchors --run-id full-v3 && export-site --run-id full-v3` — a
+        # sequence the documented pass order runs full-v3 through — would delete
+        # all 46 committed anchor files and still print a success line.
+        raise EmptyIndex(
+            f"{run_id}: 0 citations indexed ({counts['pre_p6']} pre-p6, "
+            f"{counts['other_arm']} other arm, {counts['blank']} blank, "
+            f"{counts['out_of_scope']} out of scope). Anchors index the re-extracted "
+            f"blocks, so only a {MIGRATED_FROM}-or-later run has any; writing the "
+            "empty result would leave export-site an index of nothing to prune the "
+            "committed one down to. Index a p6 run instead."
         )
     report = write(run_id, by_slug, results_dir)
     for row in report:

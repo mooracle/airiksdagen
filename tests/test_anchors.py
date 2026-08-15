@@ -476,6 +476,39 @@ class TestBuild:
             anchors.build("test-run", results_dir=root)
         assert out.read_bytes() == before
 
+    def test_a_run_that_indexes_nothing_refuses_to_write_an_empty_index(
+        self, run_root, kd2015
+    ):
+        """`build-anchors` against a pre-p6 run — full-v3 is one, and the
+        documented pass order still runs it.
+
+        The skip happens inside collect(), so `_load_run`'s "refuse rather than
+        rebuild to nothing" check passes on the way in and by_slug is {} on the
+        way out. write() would then mkdir an index directory holding no files,
+        and `export_blocks_and_anchors` prunes the committed anchors down to
+        whatever that directory says — all 46 files, with a success line.
+        """
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text], prompt_version="p5")])
+        with pytest.raises(anchors.EmptyIndex, match="pre-p6"):
+            anchors.build("test-run", results_dir=root)
+        assert not anchors.anchors_dir("test-run", root).exists()
+
+    def test_a_refusal_to_index_nothing_leaves_a_standing_index_alone(
+        self, run_root, kd2015
+    ):
+        root, sim = run_root
+        _, text = _a_block(kd2015)
+        self._write(sim, [_decision([text])])
+        anchors.build("test-run", results_dir=root)
+        out = anchors.anchors_dir("test-run", root) / f"{KD2015}.json"
+        before = out.read_bytes()
+        self._write(sim, [_decision([text], prompt_version="p5")])
+        with pytest.raises(anchors.EmptyIndex):
+            anchors.build("test-run", results_dir=root)
+        assert out.read_bytes() == before
+
     def test_a_missing_run_directory_refuses_too(self, run_root, kd2015):
         root, _ = run_root
         with pytest.raises(FileNotFoundError, match="nothing to index"):
@@ -1110,7 +1143,12 @@ class TestExportSite:
 
     def test_a_run_that_indexed_nothing_still_sweeps(self, tmp_path, monkeypatch):
         """The directory exists and is empty: that IS a run citing nothing, and
-        its stale files must go. Only the missing directory is left alone."""
+        its stale files must go. Only the missing directory is left alone.
+
+        `anchors.build()` refuses to leave such a directory behind (it raises
+        `EmptyIndex` before write()), so reaching this state takes a deliberate
+        hand — which is what makes honouring it the right answer here.
+        """
         from aidag import export_site
 
         site = tmp_path / "site" / "src" / "data"

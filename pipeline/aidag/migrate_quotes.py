@@ -320,6 +320,19 @@ def migrate_decision(
             continue
         slug = resolve_slug(c["document"], d["parti"], datum)
         if slug is None:
+            if c["document"] in MIGRATED_CLASSES:
+                # In scope and still unresolved: `program_at` could date no
+                # edition, which is what a votering_id missing from
+                # cases.parquet looks like (`datum` comes back ""). Counting it
+                # as out-of-scope hides it among the budgetmotioner that belong
+                # there — and `repair-citations`, reading the same blank date,
+                # then finds no document to verify against and blanks the quote
+                # as `citat_ej_verifierad`: an ingest gap recorded as the model
+                # having made the quote up, which is the misattribution the
+                # migrate/repair split exists to prevent. `anchors.collect`
+                # keeps the two apart for the same reason.
+                out["unresolved"] += 1
+                continue
             out["out_of_scope"] += 1
             continue
         key = (slug, _normalize_ws(quote))
@@ -357,6 +370,14 @@ def _report(counts: Counter, unknown: list[tuple[str, str]], dry_run: bool) -> N
                 f"  {slug}: {row['exact']} exact, {row['fuzzy']} migrated, "
                 f"{row['failed']} unplaced"
             )
+    if counts["unresolved"]:
+        # a defect, not a category: these are citations this pass serves and
+        # could not even name a document for, and the next pass blames the model
+        print(
+            f"  {counts['unresolved']} citation(s) name a document class this pass "
+            "serves but resolve to no edition — a blank `datum` (votering_id missing "
+            "from cases.parquet) is the usual cause. NOT migrated; re-run the ingest."
+        )
     if unknown:
         print(f"  {len(unknown)} unplaced quote(s) NOT on the known-unrecovered list:")
         for slug, q in unknown[:20]:
@@ -367,7 +388,8 @@ def _report(counts: Counter, unknown: list[tuple[str, str]], dry_run: bool) -> N
         f"citations: {counts['exact']} already exact, {counts['fuzzy']} migrated, "
         f"{counts['failed']} unplaced ({counts['known_failed']} known, "
         f"{counts['failed'] - counts['known_failed']} new), {counts['blank']} blank, "
-        f"{counts['out_of_scope']} out of scope, {counts['pre_p6']} pre-p6 decisions skipped"
+        f"{counts['out_of_scope']} out of scope, {counts['unresolved']} unresolved, "
+        f"{counts['pre_p6']} pre-p6 decisions skipped"
         + (" [dry run — nothing written]" if dry_run else "")
     )
 
