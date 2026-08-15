@@ -27,6 +27,7 @@ from aidag.config import (
     TIDO_DATE,
     TIDO_SIGNATORIES,
     TIDO_SUPPORT,
+    version_ge,
 )
 from aidag.corpus import DOCS_P4, docs_for_version, documents_for, tido_applies  # noqa: F401
 
@@ -41,7 +42,7 @@ def decision_schema(prompt_version: str = PROMPT_VERSION) -> dict:
     programme and the shadow budget; p6 narrows it to the party's own plan."""
     import copy
 
-    base = DECISION_SCHEMA_P6 if prompt_version >= "p6" else DECISION_SCHEMA
+    base = DECISION_SCHEMA_P6 if version_ge(prompt_version, "p6") else DECISION_SCHEMA
     schema = copy.deepcopy(base)
     schema["properties"]["citations"]["items"]["properties"]["document"]["enum"] = list(
         docs_for_version(prompt_version)
@@ -326,7 +327,7 @@ def build_system_blocks(
     it never saw.
     """
     party_name = PARTIES[code]["name"]
-    if prompt_version >= "p6":
+    if version_ge(prompt_version, "p6"):
         # No Tidöavtalet block in p6, so no Tidö role addendum either — it would
         # tell a governing party about a document it is no longer shown, and the
         # run is measuring fidelity to the party's own plan, not to the coalition.
@@ -336,7 +337,7 @@ def build_system_blocks(
         if tido_applies(code, datum):
             extra = TIDO_ROLE_SIGNATORY if code in TIDO_SIGNATORIES else TIDO_ROLE_SUPPORT
             role += extra.format(party_name=party_name)
-        if prompt_version >= "p5":
+        if version_ge(prompt_version, "p5"):
             role += P5_ROLE_DOCS
 
     blocks = [{"type": "text", "text": role}]
@@ -515,7 +516,7 @@ def _render_p6_arende(case: dict, arm: str) -> list[str] | None:
 
 
 def render_user_message(case: dict, arm: str = "anonymous", prompt_version: str = PROMPT_VERSION) -> str:
-    if prompt_version >= "p6":
+    if version_ge(prompt_version, "p6"):
         head = [f"Tidpunkt: {coarse_time(case['datum'])}."]
         if ctx := (render_worldstate_block(case["datum"]) or render_kb_block(case["kb_month"])):
             head.append(ctx)

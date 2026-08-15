@@ -76,7 +76,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from functools import lru_cache
 
-from aidag.config import CORPUS_DIR, RESULTS_DIR
+from aidag.config import CORPUS_DIR, RESULTS_DIR, version_ge
 from aidag.repair import _flag, best_span
 from aidag.simulate import _normalize_ws
 
@@ -391,7 +391,7 @@ def run(run_id: str, dry_run: bool = False) -> Counter:
             if not line.strip():
                 continue
             d = json.loads(line)
-            if d["prompt_version"] < MIGRATED_FROM:
+            if not version_ge(d["prompt_version"], MIGRATED_FROM):
                 # pre-p6 runs read the frozen corpus, which this change did not move
                 counts["pre_p6"] += 1
             else:

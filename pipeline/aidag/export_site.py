@@ -642,8 +642,14 @@ def run(run_id: str | None = None) -> None:
             shutil.copy(f, SITE_DATA_DIR / "aggregates" / f.name)
 
     # Corpus documents for the /dokument/ pages (citation deep links).
-    export_corpus()
+    # Blocks and anchors FIRST: their guards refuse a mismatched extraction, and
+    # `export_corpus()` writes the derived .txt into the same directory. Run the
+    # other way round and a `StaleAnchors` refusal leaves the site tree holding
+    # the new text beside the previous extraction's blocks and anchors — a state
+    # `git status` shows as a plausible diff, and README's publish recipe adds
+    # wholesale.
     n_anchors = export_blocks_and_anchors(run_id)
+    export_corpus()
     print(f"exported blocks for {len(list(SITE_DATA_DIR.glob('corpus/blocks/*.json')))} documents, "
           f"anchors for {n_anchors}")
 

@@ -18,7 +18,7 @@ from __future__ import annotations
 import difflib
 import json
 
-from aidag.config import RESULTS_DIR
+from aidag.config import RESULTS_DIR, version_ge
 from aidag.simulate import _normalize_ws
 
 THRESHOLD = 0.75
@@ -171,7 +171,7 @@ def run(run_id: str) -> None:
                 d,
                 corpus,
                 datum,
-                known if d["prompt_version"] >= MIGRATED_FROM else None,
+                known if version_ge(d["prompt_version"], MIGRATED_FROM) else None,
             )
             n_ok += ok
             n_fixed += fixed
