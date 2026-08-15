@@ -360,8 +360,27 @@ export function partyInk(hex: string): string {
  * not contain and match nothing. */
 export function quoteFragment(quote: string): string {
   const words = stripInvisible(quote).trim().split(/\s+/);
-  if (words.length <= 8) return encodeURIComponent(words.join(' '));
+  if (words.length <= 8) return frag(words.join(' '));
   const start = words.slice(0, 5).join(' ');
   const end = words.slice(-4).join(' ');
-  return `${encodeURIComponent(start)},${encodeURIComponent(end)}`;
+  return `${frag(start)},${frag(end)}`;
+}
+
+/** `encodeURIComponent` plus the hyphen, which it leaves literal.
+ *
+ * The directive grammar is `[prefix-,]textStart[,textEnd][,-suffix]`, and the
+ * parser splits on commas and applies that `-` test to the still-encoded token,
+ * before percent-decoding. So a first term ending in a hyphen is consumed as a
+ * *prefix* — which must immediately precede the match — and the quote then
+ * matches nothing at all: no highlight, no scroll, no error, the reader lands at
+ * the top of a 90-page programme. Swedish coordinated compounds put a trailing
+ * hyphen on a word constantly ("mötes- och föreningsfriheten", "grundskole-
+ * eller gymnasieutbildning") and the five-word head lands on one in 119 of
+ * full-v4's 77,599 rendered links. `%2D` percent-decodes back to `-` after the
+ * syntax check, so the text being searched for is unchanged.
+ *
+ * The blanket replace is safe: `encodeURIComponent` escapes to uppercase `%XX`,
+ * so a `-` in its output can only have come from a literal one in the input. */
+function frag(s: string): string {
+  return encodeURIComponent(s).replace(/-/g, '%2D');
 }

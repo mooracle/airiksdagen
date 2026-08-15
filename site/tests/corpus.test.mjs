@@ -176,6 +176,7 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
   const KNOWN = new Set(['valmanifest-2022-m/b0198: tillfälliga personnummer – samordningsnummer.']);
   const used = new Set();
   const wrong = [];
+  const misparsed = [];
   let verified = 0;
   for (const f of fs.readdirSync(dir)) {
     const slug = f.replace(/\.json$/, '');
@@ -209,7 +210,18 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
           else if (quote !== want) wrong.push(`${slug}/${key}: ${JSON.stringify(quote.slice(0, 48))}`);
         }
         // Exactly what CasePage.astro puts in the URL, decoded back to terms.
-        const terms = quoteFragment(quote).split(',').map(decodeURIComponent);
+        const encoded = quoteFragment(quote).split(',');
+        const terms = encoded.map(decodeURIComponent);
+        // Decoding first is what the term check below needs and is exactly what
+        // hides a directive that never parses as terms at all: `text=` reads
+        // `[prefix-,]textStart[,textEnd][,-suffix]`, and the browser applies that
+        // `-` test to the ENCODED token. A term ending in a literal hyphen —
+        // "mötes-", "grundskole-", which Swedish produces constantly — is taken
+        // as a prefix, the rest as textStart, and the link matches nothing while
+        // both halves still decode to text that is genuinely on the page.
+        if (encoded[0].endsWith('-') || encoded[encoded.length - 1].startsWith('-')) {
+          misparsed.push(`${slug}/${blockId}: ${encoded.join(',')}`);
+        }
         const at = doc.paragraph.get(blockId);
         // The quote starts in that paragraph; a long one runs into the next few.
         const window = doc.texts.slice(at, at + 4);
@@ -227,6 +239,7 @@ test('every citation deep link resolves inside one rendered paragraph', { skip: 
   // that has stopped being needed masks the next regression at that block
   assert.deepEqual([...KNOWN].filter((k) => !used.has(k)), [], 'stale KNOWN entry');
   assert.deepEqual(broken, [], `${broken.length} of ${checked} anchors lost their deep link`);
+  assert.deepEqual(misparsed, [], `${misparsed.length} of ${checked} fragments parse as prefix-/-suffix`);
   assert.deepEqual(wrong, [], `${wrong.length} of ${verified} spans recover the wrong text`);
   // the span check is the load-bearing half; a missing results/ directory would
   // otherwise turn it off and leave a green sweep that checked only grouping
