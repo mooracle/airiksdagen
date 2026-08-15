@@ -62,6 +62,15 @@ REPEAT_FLOOR = 3
 # stamp; any one of the three alone is prose, a chart or an ornament.
 MARGIN = 0.10
 
+# A drop cap: one letter set this many times the body size, with the paragraph
+# wrapped around it. m-2021 sets its 18 at 186.5pt against a 10pt body (18.7x),
+# so the ratio does not need to be delicate — what it must not reach is an
+# ordinary heading, and the largest of those in this corpus is 49.9pt (5.0x).
+DROP_CAP_RATIO = 8.0
+# How often the fragment must stand as a word elsewhere before a space is put
+# back between it and the cap. Its own occurrence is discounted first.
+DROP_CAP_WORD_FLOOR = 2
+
 # Block splitting, in multiples of the document's median leading.
 GAP_SPLIT = 1.65        # a vertical jump this big is a new block anywhere
 LAYOUT_GAP_SPLIT = 1.20  # ...or this big when PyMuPDF also reports a new layout block
@@ -856,12 +865,95 @@ def mark_toc(blocks: list[Block], body: float) -> list[Block]:
     return blocks
 
 
+def merge_drop_caps(blocks: list[Block]) -> list[Block]:
+    """Put an initial back on the paragraph it was lifted out of.
+
+    `partiprogram-m-2021` opens each of its 18 chapters with a drop cap — one
+    letter at 186.5pt against a 10pt body, with the paragraph set around it. The
+    extraction sees a giant one-character block and roles it `h1`, so the document
+    rendered 18 chapter headings reading "M", "P", "V", "E"… and the paragraph
+    beside each one began mid-word: "oderata Samlingspartiet verkar i en
+    liberalkonservativ tradition…". Both halves of that are the same bug.
+
+    The cap does not sit next to its paragraph in reading order — the XY-cut puts
+    it at the end of the page — so it is paired by page: the first `para` on the
+    cap's page that begins with a lowercase letter is the one it was taken from.
+    A paragraph does not otherwise start lowercase, which is what makes the pair
+    unambiguous.
+
+    WHETHER TO PUT A SPACE BACK is decided by the document's own vocabulary, not
+    guessed. Usually the cap is the first letter of the word ("M" + "oderata"),
+    but sometimes it is a word in its own right ("I" + "ett fritt samhälle"), and
+    Swedish gives no way to tell from the letter alone. Two signals together:
+    the joined form is unattested elsewhere in the document AND the fragment
+    stands as a word on its own elsewhere. Either alone gets a case wrong —
+    "vår"/"när" are attested joined and would take a space on the fragment test
+    ("V" + "år", "N" + "är"), and "kunskapsinnehållet" appears exactly once so
+    the joined test alone splits it into "K unskapsinnehållet".
+    """
+    if not blocks:
+        return blocks
+    body = statistics.median([b.size for b in blocks if b.role == "para"] or [0])
+    if not body:
+        return blocks
+    vocab: defaultdict[str, int] = defaultdict(int)
+    for b in blocks:
+        for w in re.findall(r"[^\W\d_]+", b.text, re.UNICODE):
+            vocab[w.lower()] += 1
+
+    caps = [
+        b for b in blocks
+        if len(b.text.strip()) == 1 and b.text.strip().isalpha() and b.size >= DROP_CAP_RATIO * body
+    ]
+    if not caps:
+        return blocks
+    merged: dict[int, str] = {}
+    drop: set[int] = set()
+    for cap in caps:
+        letter = cap.text.strip()
+        target = next(
+            (
+                b for b in blocks
+                if b.page == cap.page and b.role == "para" and b.text[:1].islower()
+                and id(b) not in merged
+            ),
+            None,
+        )
+        if target is None:
+            continue
+        m = re.match(r"[^\W\d_]+", target.text, re.UNICODE)
+        if not m:
+            continue
+        frag = m.group(0)
+        joined_attested = vocab[(letter + frag).lower()] > 0
+        # its own occurrence discounted: a fragment appearing only here is not
+        # evidence that it stands as a word
+        frag_attested = vocab[frag.lower()] - 1 >= DROP_CAP_WORD_FLOOR
+        sep = " " if (not joined_attested and frag_attested) else ""
+        merged[id(target)] = letter + sep + target.text
+        drop.add(id(cap))
+
+    out = []
+    for b in blocks:
+        if id(b) in drop:
+            continue
+        if id(b) in merged:
+            b = Block(id=b.id, role=b.role, page=b.page, size=b.size, bold=b.bold, text=merged[id(b)])
+        out.append(b)
+    # ids are positional and the ones above have just moved
+    return [
+        Block(id=f"b{i:04d}", role=b.role, page=b.page, size=b.size, bold=b.bold, text=b.text)
+        for i, b in enumerate(out)
+    ]
+
+
 def extract(pdf_bytes: bytes) -> Extraction:
     """Full pipeline over one PDF's bytes. Raises NoTextLayer for outline-only PDFs."""
     lines = read_lines(pdf_bytes)
     pages = (max(line.page for line in lines) + 1) if lines else 0
     kept, dropped = strip_running(lines)
     blocks, clusters = assign_roles(split_blocks(detect_columns(kept)))
+    blocks = merge_drop_caps(blocks)
     return Extraction(
         blocks=blocks,
         pages=pages,
