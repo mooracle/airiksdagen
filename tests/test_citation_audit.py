@@ -385,8 +385,14 @@ class TestCommittedRecord:
     this check that guards what actually ships."""
 
     def test_the_run_is_whole(self, snap):
-        assert snap["decisions"] == 20312
-        assert snap["citations"] == 77719
+        # 20,288, not the original 20,312. The p6 sign-inversion repair re-ran 56
+        # decisions on 7 cases whose prompt gained the counter-proposal it had been
+        # missing, and DELETED 24 on the 3 "Motioner som bereds förenklat" points,
+        # which no single stance can answer (`casemeta.undecidable_report`).
+        # 20312 - 24 = 20288. Those 24 are not coming back, so this is the whole run
+        # now, not a shortfall waiting to be topped up.
+        assert snap["decisions"] == 20288
+        assert snap["citations"] == 77642
 
     def test_every_translated_decision_pairs_positionally(self, snap):
         from aidag.config import RESULTS_DIR

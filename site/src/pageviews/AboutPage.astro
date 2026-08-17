@@ -191,11 +191,11 @@ const schemaSummary = `{
         prompten — tidsangivelsen är grov ("november 2023") — och utfallet ingår aldrig. Det
         upprätthålls maskinellt av spärrmönster i promptgenereringen och av golden tests som
         alltid körs mot den skarpa promptversionen.</p>
-        <p>Två observationer talar åt samma håll. Alla 77&nbsp;719 citat är kontrollerade som
+        <p>Två observationer talar åt samma håll. Alla 77&nbsp;642 citat är kontrollerade som
         ordagranna utdrag ur just de dokument agenten faktiskt fick se — inga citat till
         dokument utanför kontexten. 120 föll i kontrollen och är blankade och markerade, med
-        agentens egna ord bevarade vid sidan om; två justerades till exakt källtext och är
-        markerade som korrigerade. Ytterligare 520 skrevs om när källdokumenten extraherades
+        agentens egna ord bevarade vid sidan om; sex justerades till exakt källtext och är
+        markerade som korrigerade. Ytterligare 515 skrevs om när källdokumenten extraherades
         om från sina PDF:er — enbart avstavning och mellanrum, inget ord ändrat, och det
         ursprungliga citatet finns kvar intill vart och ett. Och memorering skulle <em>krympa</em> gapet,
         eftersom modellen då drog sin ståndpunkt mot det utfall den minns; det uppmätta gapet är
@@ -359,11 +359,11 @@ const schemaSummary = `{
         exact dates are stripped from the prompt — the time context is coarse ("November 2023") —
         and the outcome never appears. This is enforced mechanically by forbidden-pattern checks
         in prompt generation and by golden tests that always run against the live prompt version.</p>
-        <p>Two observations point the same way. All 77,719 citations are checked as verbatim
+        <p>Two observations point the same way. All 77,642 citations are checked as verbatim
         substrings of the specific documents the agent was actually shown — no citations to
         documents outside its context. 120 failed the check and are blanked and flagged, with
-        the agent's own words kept beside them; two were realigned to the exact source span and
-        flagged as corrected. A further 520 were rewritten when the source documents were
+        the agent's own words kept beside them; six were realigned to the exact source span and
+        flagged as corrected. A further 515 were rewritten when the source documents were
         re-extracted from their PDFs — hyphenation and spacing only, no word changed, with the
         original kept beside each one. And memorization would <em>shrink</em> the
         gap, since the model would bend its stance toward the outcome it remembers; the measured

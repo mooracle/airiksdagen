@@ -1054,27 +1054,35 @@ class TestNavigationParity:
     """The committed finding, held as a ratchet against the real run.
 
     These are the numbers `docs/topic-label-citations.md` reports and the site
-    measured independently in TypeScript (Task 8b: 6 blocks / 84 decisions).
+    measured independently in TypeScript (Task 8b, then 6 blocks / 84 decisions).
     Two implementations of one rule agreeing on the same corpus is the only
     check there is that the duplication has not drifted.
+
+    Re-measured after the p6 sign-inversion repair (80 decisions left the run, 56
+    came back). The BLOCK count is unchanged at 6 — the rule still reaches exactly
+    the same six lines, which is what this class really guards. Only the vote
+    tallies moved, and only because the run did.
     """
 
     def test_the_corpus_wide_navigation_count_is_what_the_site_measured(self, rep):
         nav = rep["navigational"]
         assert nav["blocks"] == 6
-        assert nav["block_decisions"] == 84
-        assert nav["decisions"] == 83  # one vote cited two navigation lines
+        assert nav["block_decisions"] == 83
+        assert nav["decisions"] == 82  # one vote cited two navigation lines
 
     def test_role_alone_would_have_claimed_the_pledge_lists(self, rep):
-        """1,165 block-votes against 84 — the gap IS the finding."""
-        assert rep["label_toc"]["block_decisions"] == 1165
-        assert rep["role_only"]["block_decisions"] == 1433
+        """1,161 block-votes against 83 — the gap IS the finding."""
+        assert rep["label_toc"]["block_decisions"] == 1161
+        assert rep["role_only"]["block_decisions"] == 1428
 
     def test_the_finding_is_a_fact_about_two_parties_documents(self, rep):
         assert set(rep["navigational"]["by_document"]) == {
             KDVAL, "partiprogram-v-2016"
         }
-        assert rep["navigational"]["by_party"]["KD"]["decisions"] == 81
+        # KD 80, was 81 — one of KD's navigation-line citations belonged to a
+        # decision the p6 sign-inversion repair re-ran. V is untouched at 2, and the
+        # DOCUMENTS above are what the finding is about; those are unchanged.
+        assert rep["navigational"]["by_party"]["KD"]["decisions"] == 80
         assert rep["navigational"]["by_party"]["V"]["decisions"] == 2
 
     def test_no_declarative_pledge_heading_is_among_them(self, rep):
@@ -1104,7 +1112,7 @@ class TestNavigationParity:
         assert len(cands) == 6
         # the matcher really ran against the committed record, so "no false
         # positive" is a measurement rather than an empty scan
-        assert sum(c["catches"] for c in cands) == 84
+        assert sum(c["catches"] for c in cands) == 83
         assert all(c["false_positives"] == 0 for c in cands)
         assert all(c["other_documents"] == [] for c in cands)
         from aidag.blocklist import WEAK_LIST

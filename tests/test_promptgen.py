@@ -9,9 +9,12 @@ import re
 import pytest
 
 from aidag.promptgen import (
+    DECISION_SCHEMA_P6,
     FORBIDDEN_PATTERNS,
     build_system_blocks,
     coarse_time,
+    derive_rost,
+    p6_decidable,
     render_user_message,
     scrub_text,
     tido_applies,
@@ -224,3 +227,58 @@ def test_system_blocks_byte_identical_within_party():
     a = build_system_blocks("M", "2023-06-07")
     b = build_system_blocks("M", "2024-11-01")
     assert a == b
+
+
+class TestP6StanceIsGrounded:
+    """A p6 `hallning` is a stance on the counter-proposal's DEMAND, and
+    `derive_rost` turns it into a published vote by applying a sign. Both only
+    mean something if the agent was shown a counter-proposal — see
+    `promptgen.p6_decidable` for what the silent p5 fallback cost on full-v4.
+    """
+
+    # The p6 <arende> is built from the committed casemeta brief keyed on
+    # votering_id, NOT from this dict's `alternatives` — so an undecidable
+    # fixture needs an id casemeta does not cover. Stripping `alternatives`
+    # alone leaves the real brief, Nej side and all, in the render.
+    NO_MOTFORSLAG = {
+        **CASE,
+        "votering_id": "00000000-0000-4000-8000-000000000000",
+        "alternatives": [
+            {"alt_id": "utskottet", "text": "Bifall till propositionen", "source_partier": []}
+        ],
+    }
+
+    def test_case_with_only_utskottet_is_undecidable_under_p6(self):
+        assert not p6_decidable(self.NO_MOTFORSLAG, "anonymous")
+
+    def test_undecidable_render_is_the_p5_shape(self):
+        # Why the predicate is needed at all: the render does not fail, it
+        # QUIETLY answers a different question. The p6 schema has no `rost`, so
+        # this closing line has no field to land in but `hallning`.
+        msg = render_user_message(self.NO_MOTFORSLAG, "anonymous", "p6")
+        assert "Motförslag i voteringen:" not in msg
+        assert msg.rstrip().endswith("enligt sina egna dokument?")
+        assert "rost" not in DECISION_SCHEMA_P6["properties"]
+
+    def test_predicate_and_render_cannot_drift_apart(self):
+        # The invariant the run-level check in `simulate.verify_run` relies on:
+        # undecidable is exactly "the rendered p6 prompt carries no motförslag".
+        # Asserted on the real corpus, since the p6 <arende> is built from the
+        # committed casemeta brief rather than from the case dict.
+        import polars as pl
+
+        from aidag.config import PROCESSED_DIR
+
+        try:
+            cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet")
+        except FileNotFoundError:
+            pytest.skip("cases.parquet absent — run locally")
+        for c in cases.iter_rows(named=True):
+            msg = render_user_message(c, "anonymous", "p6")
+            assert p6_decidable(c, "anonymous") == ("Motförslag i voteringen:" in msg), (
+                c["votering_id"]
+            )
+
+    def test_sign_is_a_sign_not_a_relabelling(self):
+        assert derive_rost("stodjer") == "Nej"
+        assert derive_rost("avvisar") == "Ja"

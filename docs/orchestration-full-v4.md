@@ -6,6 +6,12 @@ decision produced the same way — one grouped Opus 5 agent per ≤60 same-party
 same-context cases. Supersedes `orchestration-grouped-run.md` (full-v2, p4,
 Sonnet, group 8) for execution.
 
+The run as it now stands is **20,288**: `agent-prepare` holds out cases p6 cannot
+decide, and three "Motioner som bereds förenklat" points (24 decisions) are held out
+permanently because they reject a bundle of mutually contradictory yrkanden that no
+single `hallning` can answer. `aidag undecidable-report` prints them with the
+recovered source as evidence; CLAUDE.md has the mechanism.
+
 Run from an interactive Claude Code session (the orchestrator); no API key needed.
 
 ## Run identity — fixed for the whole run

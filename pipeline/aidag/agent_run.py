@@ -23,9 +23,15 @@ from pathlib import Path
 
 import polars as pl
 
-from aidag.config import INTERIM_DIR, PARTY_CODES, PROCESSED_DIR, PROMPT_VERSION
+from aidag.config import (
+    INTERIM_DIR,
+    PARTY_CODES,
+    PROCESSED_DIR,
+    PROMPT_VERSION,
+    version_ge,
+)
 from aidag.corpus import context_key
-from aidag.promptgen import build_system_blocks, render_user_message
+from aidag.promptgen import build_system_blocks, p6_decidable, render_user_message
 from aidag.simulate import collected_ids
 
 ARM = "anonymous"
@@ -172,6 +178,26 @@ def prepare(
     base = run_dir(run_id)
     cases = _load_cases()
     sims = _pending(run_id, cases, mirror_run=mirror_run, prompt_version=prompt_version)
+
+    # A p6 case with no counter-proposal cannot be answered by the p6 schema: the
+    # render degrades to the p5 block, whose closing question asks for a vote while
+    # the schema accepts only a stance, and `derive_rost` then inverts every answer
+    # that meant "the committee is right". Holding them out here is what stops the
+    # defect being re-manufactured on the next run — `promptgen.p6_decidable` has
+    # the mechanism and what it cost on full-v4. Issuing them has to be a
+    # deliberate, visible act; it is never the default.
+    if version_ge(prompt_version, "p6"):
+        blocked = {cid for cid, _party, case in sims if not p6_decidable(case, ARM)}
+        if blocked:
+            vids = sorted({cid.split(":")[1] for cid in blocked})
+            sims = [s for s in sims if s[0] not in blocked]
+            print(
+                f"HELD OUT: {len(blocked)} sims across {len(vids)} cases with no "
+                f"counter-proposal — undecidable under {prompt_version}, not issued"
+            )
+            for vid in vids:
+                print(f"  {vid}")
+
     if not sims:
         print("nothing pending — run complete")
         return

@@ -304,22 +304,28 @@ def reservations_status() -> None:
 def casemeta_prepare(
     batch_size: int = typer.Option(500, help="Agents per batch (default covers all pending)"),
     per_request: int = typer.Option(6, help="Case packets bundled into one agent's request file"),
+    only: list[str] = typer.Option(
+        None, "--only", help="Re-issue these already-built votering_ids (source-side repair)"
+    ),
 ) -> None:
     """Emit the next unified case-metadata batch manifest (run-independent, checkpoint-aware)."""
     from aidag.casemeta import prepare
 
-    prepare(batch_size=batch_size, per_request=per_request)
+    prepare(batch_size=batch_size, per_request=per_request, only=list(only) if only else None)
 
 
 @app.command("casemeta-ingest")
 def casemeta_ingest(
     input: str = typer.Option(..., "--input", help="Workflow output dir or merged {cases:[...]} JSON"),
     model: str = typer.Option("claude-sonnet-4-6", help="Model the agents ran on"),
+    replace: bool = typer.Option(
+        False, "--replace", help="Overwrite already-built ids (pairs with casemeta-prepare --only)"
+    ),
 ) -> None:
     """Ingest unified case-metadata records (validated, de-leaked, deterministic-merged, idempotent)."""
     from aidag.casemeta import ingest
 
-    ingest(input_path=input, model=model)
+    ingest(input_path=input, model=model, replace=replace)
 
 
 @app.command("casemeta-status")
@@ -328,6 +334,77 @@ def casemeta_status() -> None:
     from aidag.casemeta import status
 
     status()
+
+
+@app.command("sim-prune")
+def sim_prune(
+    run_id: str = typer.Option(..., "--run-id"),
+    case: list[str] = typer.Option(None, "--case", help="Prune this votering_id (prompt changed)"),
+    undecidable: bool = typer.Option(
+        False, "--undecidable", help="Prune decisions on cases the schema cannot answer (deletion)"
+    ),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Report only, write nothing"),
+) -> None:
+    """Remove stale or unanswerable decisions so agent-prepare re-issues the rest."""
+    from aidag.simulate import prune
+
+    prune(run_id=run_id, cases=list(case) if case else None,
+          undecidable=undecidable, dry_run=dry_run)
+
+
+@app.command("stance-recheck-prepare")
+def stance_recheck_prepare(
+    run_id: str = typer.Option(..., "--run-id"),
+    batch_size: int = typer.Option(240, help="Agents per manifest"),
+    per_request: int = typer.Option(8, help="Cases bundled into one judge agent's request"),
+    sample: int = typer.Option(0, help="Cap at ~N cases on a deterministic stride (0 = all)"),
+) -> None:
+    """Emit the next blind stance-recheck manifest: do the votes follow the citations?"""
+    from aidag.stance_recheck import prepare
+
+    prepare(run_id=run_id, batch_size=batch_size, per_request=per_request,
+            sample=sample or None)
+
+
+@app.command("stance-recheck-ingest")
+def stance_recheck_ingest(
+    run_id: str = typer.Option(..., "--run-id"),
+    input: str = typer.Option(..., "--input", help="Judge output dir or a {units:[...]} JSON"),
+    model: str = typer.Option(..., "--model", help="Model the judges ran on"),
+) -> None:
+    """Ingest blind stance-recheck verdicts (idempotent on cid)."""
+    from aidag.stance_recheck import ingest
+
+    ingest(run_id=run_id, input_path=input, model=model)
+
+
+@app.command("stance-recheck-status")
+def stance_recheck_status(run_id: str = typer.Option(..., "--run-id")) -> None:
+    """Stance-recheck progress."""
+    from aidag.stance_recheck import status
+
+    status(run_id=run_id)
+
+
+@app.command("stance-recheck-report")
+def stance_recheck_report(
+    run_id: str = typer.Option(..., "--run-id"),
+    limit: int = typer.Option(25, help="How many worst cases to print"),
+) -> None:
+    """Sign / contradiction / ungrounded rates from the blind stance recheck."""
+    from aidag.stance_recheck import report
+
+    report(run_id=run_id, limit=limit)
+
+
+@app.command("undecidable-report")
+def undecidable_report_cmd(
+    write: bool = typer.Option(False, "--write", help="Write data/results/casemeta/p6-undecidable.json"),
+) -> None:
+    """Cases p6 cannot decide, split by reason, with the recovered source as evidence."""
+    from aidag.casemeta import undecidable_report
+
+    undecidable_report(write=write)
 
 
 @app.command("migrate-quotes")
@@ -476,7 +553,7 @@ def agent_ingest(
 
 @app.command()
 def verify(
-    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|metadata|reservations|casemeta|site|all"),
+    stage: str = typer.Argument(..., help="votes|cases|kb|prompts|simulate|translate|recheck|metadata|reservations|casemeta|site|all"),
     run_id: str = typer.Option(None, "--run-id"),
 ) -> None:
     """Read-only integrity checks; exits nonzero on failure (CI gate)."""

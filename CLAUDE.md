@@ -17,7 +17,7 @@ repo root via `wrangler.toml`; the Python pipeline never runs in the cloud build
   call site (`npm run build | sed '/├─/d'`) rather than inside the script.
 - `PROMPT_VERSION` in `pipeline/aidag/config.py` is the current prompt version and
   is **`p6`** (the policy-first stance schema the live run uses). It is part of the
-  cid, so a default that lags the run makes `agent-status` report `0/20312 done`
+  cid, so a default that lags the run makes `agent-status` report `0/20288 done`
   against a full results file and `agent-prepare` emit manifests for the wrong
   schema. Bump it with the run, and pass `--prompt-version p5` when working on
   full-v3 or earlier. Tests that assert version-specific *rendering* must pin their
@@ -149,7 +149,7 @@ fetched only when a panel is opened — 8.3 MB that never loads with the page).
 It also writes `site/public/data/anchors/cases.json` — votering_id → `[sv, en]` title,
 2,539 rows, 428 KB — so a citation panel can say what each citing vote was *about*
 rather than only when it happened. One shared file, not one per document and not a
-column on the 77,599 ref rows: a vote cites ~30 lines across the corpus, and the
+column on the 77,522 ref rows: a vote cites ~30 lines across the corpus, and the
 browser caches this across all 23 document pages. It is written only when `run()`
 passes `case_titles`; `export_blocks_and_anchors()` called without them (every test)
 leaves it alone.
@@ -210,14 +210,14 @@ It runs in CI (`.github/workflows/ci.yml`, the `site` job) but is **not** wired 
 Cloudflare build, which runs `npm ci && npm run build` only.
 
 `aidag navigation-report --run-id full-v4` reports the citations that landed on a
-heading or topic label rather than on a promise — **6 blocks, 83 votes** (84
+heading or topic label rather than on a promise — **6 blocks, 82 votes** (83
 vote-line pairs, which is the number the site shows per block). The finding is written
 up in `docs/topic-label-citations.md`. The report prints three scopes because they are
-three different numbers: `label_toc` (the `label`/`toc` roles alone) reads **1,165**
+three different numbers: `label_toc` (the `label`/`toc` roles alone) reads **1,161**
 vote-line pairs and printing *that* would be a false claim about two parties' pledge
-lists; `role_only` (every navigational role, headings included) reads **1,433**;
+lists; `role_only` (every navigational role, headings included) reads **1,428**;
 `navigational` — role *and* the text reading as a label, which is what the site marks —
-is the 84. `site/tests/corpus.test.mjs` re-measures the last of these in TypeScript
+is the 83. `site/tests/corpus.test.mjs` re-measures the last of these in TypeScript
 against the committed export, so the duplicated rule cannot drift in one language only.
 
 The text half of that last test is a **clause test, not a punctuation test**, and it has
@@ -238,6 +238,102 @@ way: `valmanifest-2022-kd`'s `b0098` is a back-cover topic label like the five b
 and goes unflagged, because the extraction fused several labels into one 9-word block.
 The whole rule errs toward a missed annotation over a false claim, and this is that
 trade being paid.
+
+---
+
+## Does the published vote follow from the citations?
+
+p6 agents never predict a vote. They return a **stance on what the counter-proposal
+demands** (`hallning`), and `promptgen.derive_rost` computes the vote in code —
+`stodjer`→Nej, `avvisar`→Ja. That mapping is a **sign**, so it is only meaningful if
+the agent was actually shown the counter-proposal. Gate every p6 render on
+`promptgen.p6_decidable`.
+
+**What went wrong once, so it is not re-derived from scratch next time.**
+`_render_p6_arende` returns `None` when a case has no counter-proposal, and
+`render_user_message` then fell through to the **p5** block — which shows no
+motförslag *and* closes with the p5 question ("Hur borde partiet rösta … Ja/Nej/
+Avstår?"). The p6 schema has no `rost` field, so the agent answered a vote question
+into a stance field and `HALLNING_TO_ROST` inverted every answer that meant "the
+committee is right". 10 of 2,539 cases, 80 decisions. On FöU14 punkt 2 both M and S
+cited pro-Nato commitments, wrote *"Planen talar därför för att förslaget antas"*,
+and shipped as **Nej** against a real **Ja** — which was also the whole basis of
+that page's "this vote would have flipped" counterfactual. A reader found it before
+any check did.
+
+Three guards now, and they are deliberately at different layers:
+
+- `simulate.verify_run` — every p6 stance had a counter-proposal, and `rost` is
+  still `derive_rost(hallning)`. Runs under `aidag verify simulate`.
+- `agent_run.prepare` — **holds out** undecidable cases and prints which, so a
+  re-run cannot remanufacture the defect. Issuing them has to be deliberate.
+- `casemeta.verify_casemeta` — the casemeta-side half. Its comment used to assert
+  the p5 fallback "is correct for a votering with no counter-proposal"; that is true
+  for p5 and false for p6, and believing it is what scoped the old check to skip
+  exactly the failing class. Don't restore that reasoning.
+
+**A punkt with no reservation usually still has a counter-proposal** — the motion the
+committee proposes to reject. `casemeta.motion_demands` recovers it from the
+betänkande's own "Motionerna" prose. The rule that a motion id is one the fulltext
+introduces with `I motion <nr>` is load-bearing: reading ids straight out of
+`forslag_text` would take the *proposition* named in the same sentence ("Därmed
+bifaller riksdagen proposition 2025/26:254 … och avslår motion 2025/26:4176") for the
+Nej side and invert the case.
+
+**Three cases are undecidable in principle, not for want of data.** "Motioner som
+bereds förenklat" rejects 18–39 yrkanden in one go. `casemeta.bundle_yrkanden`
+recovers all of them verbatim (Bilaga 2 maps punkt→motion→yrkande, Bilaga 1 states
+each one; 100% coverage) — and that is what *proves* the point unanswerable rather
+than assumed: the bundle is grouped by topic, not direction, so UU15 punkt 7 demands
+both that UNRWA be wound up and that support to UNRWA continue. `hallning` has no
+answer there. `aidag undecidable-report --write` commits the evidence to
+`data/results/casemeta/p6-undecidable.json`.
+
+```sh
+uv run aidag undecidable-report                      # split by reason, with evidence
+uv run aidag casemeta-prepare --only <vid> ...       # re-issue an already-built case
+uv run aidag casemeta-ingest --input <dir> --replace # ...ingest needs --replace, or it no-ops
+uv run aidag sim-prune --run-id full-v4 --case <vid> --undecidable [--dry-run]
+```
+
+`casemeta-ingest` is append-only and **first-wins**; without `--replace` a repair
+prints "ingested 0" and looks like a no-op that succeeded. `sim-prune` separates the
+two reasons a committed decision has to go: `--case` for "the prompt changed" (a cid
+carries no hash of the rendered text, so nothing but the operator knows), and
+`--undecidable` for a deletion that will not be re-issued.
+
+### The recheck pass — the general case
+
+The guards above are structural: they catch a stance with no referent. They cannot
+catch a decision that saw a proper counter-proposal and still labelled the stance
+backwards against its own citations. **That needs a model.** Direction in Swedish
+prose does not read off the surface — "Att avslå förslaget skulle bromsa arbetet"
+argues *against* rejection while containing every token of one. A regex over the
+concluding sentence was measured on full-v4 at 30 hits, 2 real: **~7% precision.**
+Don't rebuild it as a regex.
+
+`aidag stance-recheck-*` (+ `scripts/stance_recheck_workflow.js`) is a blind re-derivation instead: a judge sees the same
+`<arende>` the agent saw plus that decision's own citations and motivering, never its
+`hallning` or `rost`, and derives the stance itself. Three separate findings —
+`sign` (vote doesn't follow the evidence), `contradiction` (the motivering concludes
+against its own stored stance — the FöU14 class), `ungrounded` (citations don't bear
+on the demand).
+
+```sh
+uv run aidag stance-recheck-prepare --run-id full-v4 [--sample 200]
+#   ...prints the exact Workflow({scriptPath:"scripts/stance_recheck_workflow.js"...}) line
+uv run aidag stance-recheck-ingest --run-id full-v4 --input <out_dir> --model <m>
+uv run aidag stance-recheck-status --run-id full-v4    # trust this, not the workflow count
+uv run aidag stance-recheck-report --run-id full-v4
+```
+
+Grouped by **case**, not decision: the `<arende>` is most of the input and all eight
+parties share it byte for byte. Two limits are real and documented in the module —
+the judge is *not* party-blind and cannot be (citations are verbatim programme text
+that names parties), and `hallning` is firewalled from the motivering by instruction
+and **field order** rather than by construction. `VERDICT_SCHEMA`'s key order is
+therefore load-bearing: `citations_bear` and `hallning` before `motivering_direction`,
+or the pass becomes an echo of the prose it is meant to check.
 
 ---
 
@@ -262,7 +358,7 @@ language, in machine-readable form, whether or not any page renders it. (The pub
 `site/public/downloads/decisions-full-v4.jsonl.gz` is *not* the artifact at risk — it is
 the Swedish simulation shards concatenated verbatim and carries no English at all.)
 
-State as of 2026-08-15: **case texts 2539/2539**, **AI decisions 20312/20312** —
+State as of 2026-08-17: **case texts 2539/2539**, **AI decisions 20288/20288** —
 both passes are complete, both on `claude-haiku-4-5`, so `translate-prepare` emits
 nothing today. Work appears again only when new decisions land or when units are
 deleted from `decisions.jsonl` to re-run them. Always read it off the tool rather
@@ -283,7 +379,7 @@ not a downgrade:
   glossary, so the consistency that would otherwise depend on model strength is
   pinned in the prompt instead.
 - ~3x cheaper than Sonnet (~$1.5 vs ~$4.5 per 1,000 decisions in shadow API
-  terms — so ~$31 vs ~$91 for a full 20,312-decision pass; the real cost is
+  terms — so ~$31 vs ~$91 for a full 20,288-decision pass; the real cost is
   Claude Code usage, since these run as subagents with no API key).
 
 The workflow's own default is still `sonnet` so an unchanged launch behaves as it
@@ -302,7 +398,7 @@ uv run aidag translate-prepare --run-id full-v4 --kind decisions --batch-size 24
 Writes `data/interim/translate/full-v4/batches/batch-NNN.json` plus one
 self-contained request file per agent under `reqs/`. At
 `DECISIONS_PER_REQUEST = 40` the agent count is `ceil(pending / 40)` — **0** today,
-and **508** for a full 20,312-decision re-translation (`--batch-size 240` caps
+and **508** for a full 20,288-decision re-translation (`--batch-size 240` caps
 groups per manifest, not units).
 
 Note that 240 cap: 508 agents do not fit one manifest, so a full pass makes

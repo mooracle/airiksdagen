@@ -1,19 +1,19 @@
 {
- "n_decisions": 20312,
+ "n_decisions": 20288,
  "per_party": {
   "S": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "opposition",
-   "coalition_baseline": 0.4986,
-   "programme_accuracy": 0.4809,
+   "coalition_baseline": 0.498,
+   "programme_accuracy": 0.4803,
    "programme_lift": -0.0177,
    "authored_reservation_n": 939,
    "override": {
     "strict": {
      "all": {
-      "den": 321,
-      "num": 64,
-      "rate": 0.1994
+      "den": 320,
+      "num": 63,
+      "rate": 0.1969
      },
      "authored": {
       "den": 202,
@@ -21,16 +21,16 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 119,
-      "num": 64,
-      "rate": 0.5378
+      "den": 118,
+      "num": 63,
+      "rate": 0.5339
      }
     },
     "loose": {
      "all": {
-      "den": 366,
-      "num": 80,
-      "rate": 0.2186
+      "den": 365,
+      "num": 79,
+      "rate": 0.2164
      },
      "authored": {
       "den": 219,
@@ -38,25 +38,25 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 147,
-      "num": 80,
-      "rate": 0.5442
+      "den": 146,
+      "num": 79,
+      "rate": 0.5411
      }
     }
    }
   },
   "M": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "government",
    "coalition_baseline": 0.9965,
-   "programme_accuracy": 0.4707,
-   "programme_lift": -0.5258,
+   "programme_accuracy": 0.4704,
+   "programme_lift": -0.526,
    "authored_reservation_n": 8,
    "override": {
     "strict": {
      "all": {
-      "den": 191,
-      "num": 191,
+      "den": 190,
+      "num": 190,
       "rate": 1.0
      },
      "authored": {
@@ -65,15 +65,15 @@
       "rate": null
      },
      "not_authored": {
-      "den": 191,
-      "num": 191,
+      "den": 190,
+      "num": 190,
       "rate": 1.0
      }
     },
     "loose": {
      "all": {
-      "den": 246,
-      "num": 246,
+      "den": 245,
+      "num": 245,
       "rate": 1.0
      },
      "authored": {
@@ -82,19 +82,19 @@
       "rate": null
      },
      "not_authored": {
-      "den": 246,
-      "num": 246,
+      "den": 245,
+      "num": 245,
       "rate": 1.0
      }
     }
    }
   },
   "SD": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "support",
-   "coalition_baseline": 0.7928,
-   "programme_accuracy": 0.4391,
-   "programme_lift": -0.3537,
+   "coalition_baseline": 0.7926,
+   "programme_accuracy": 0.4385,
+   "programme_lift": -0.3541,
    "authored_reservation_n": 301,
    "override": {
     "strict": {
@@ -134,18 +134,18 @@
    }
   },
   "C": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "opposition",
-   "coalition_baseline": 0.4986,
-   "programme_accuracy": 0.3915,
-   "programme_lift": -0.1071,
+   "coalition_baseline": 0.498,
+   "programme_accuracy": 0.392,
+   "programme_lift": -0.1061,
    "authored_reservation_n": 682,
    "override": {
     "strict": {
      "all": {
-      "den": 335,
-      "num": 88,
-      "rate": 0.2627
+      "den": 336,
+      "num": 89,
+      "rate": 0.2649
      },
      "authored": {
       "den": 142,
@@ -153,16 +153,16 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 193,
-      "num": 88,
-      "rate": 0.456
+      "den": 194,
+      "num": 89,
+      "rate": 0.4588
      }
     },
     "loose": {
      "all": {
-      "den": 375,
-      "num": 101,
-      "rate": 0.2693
+      "den": 376,
+      "num": 102,
+      "rate": 0.2713
      },
      "authored": {
       "den": 158,
@@ -170,19 +170,19 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 217,
-      "num": 101,
-      "rate": 0.4654
+      "den": 218,
+      "num": 102,
+      "rate": 0.4679
      }
     }
    }
   },
   "V": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "opposition",
-   "coalition_baseline": 0.4191,
-   "programme_accuracy": 0.486,
-   "programme_lift": 0.067,
+   "coalition_baseline": 0.4184,
+   "programme_accuracy": 0.487,
+   "programme_lift": 0.0686,
    "authored_reservation_n": 984,
    "override": {
     "strict": {
@@ -222,11 +222,11 @@
    }
   },
   "KD": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "government",
    "coalition_baseline": 0.9953,
-   "programme_accuracy": 0.2343,
-   "programme_lift": -0.7609,
+   "programme_accuracy": 0.2334,
+   "programme_lift": -0.7618,
    "authored_reservation_n": 11,
    "override": {
     "strict": {
@@ -248,8 +248,8 @@
     },
     "loose": {
      "all": {
-      "den": 301,
-      "num": 301,
+      "den": 302,
+      "num": 302,
       "rate": 1.0
      },
      "authored": {
@@ -258,26 +258,26 @@
       "rate": null
      },
      "not_authored": {
-      "den": 301,
-      "num": 301,
+      "den": 302,
+      "num": 302,
       "rate": 1.0
      }
     }
    }
   },
   "MP": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "opposition",
-   "coalition_baseline": 0.3686,
-   "programme_accuracy": 0.4549,
-   "programme_lift": 0.0863,
+   "coalition_baseline": 0.3679,
+   "programme_accuracy": 0.4562,
+   "programme_lift": 0.0883,
    "authored_reservation_n": 945,
    "override": {
     "strict": {
      "all": {
-      "den": 596,
+      "den": 597,
       "num": 118,
-      "rate": 0.198
+      "rate": 0.1977
      },
      "authored": {
       "den": 300,
@@ -285,16 +285,16 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 296,
+      "den": 297,
       "num": 118,
-      "rate": 0.3986
+      "rate": 0.3973
      }
     },
     "loose": {
      "all": {
-      "den": 635,
+      "den": 636,
       "num": 133,
-      "rate": 0.2094
+      "rate": 0.2091
      },
      "authored": {
       "den": 310,
@@ -302,19 +302,19 @@
       "rate": 0.0
      },
      "not_authored": {
-      "den": 325,
+      "den": 326,
       "num": 133,
-      "rate": 0.4092
+      "rate": 0.408
      }
     }
    }
   },
   "L": {
-   "n": 2539,
+   "n": 2536,
    "bloc": "government",
    "coalition_baseline": 0.9965,
-   "programme_accuracy": 0.2552,
-   "programme_lift": -0.7412,
+   "programme_accuracy": 0.2543,
+   "programme_lift": -0.7421,
    "authored_reservation_n": 8,
    "override": {
     "strict": {
@@ -558,10 +558,10 @@
   {
    "parti": "S",
    "month": "2025-03",
-   "n": 90,
-   "coalition_baseline": 0.4222,
-   "programme_accuracy": 0.5556,
-   "programme_lift": 0.1333
+   "n": 89,
+   "coalition_baseline": 0.4157,
+   "programme_accuracy": 0.5506,
+   "programme_lift": 0.1348
   },
   {
    "parti": "S",
@@ -646,10 +646,10 @@
   {
    "parti": "S",
    "month": "2026-04",
-   "n": 143,
-   "coalition_baseline": 0.4336,
-   "programme_accuracy": 0.5035,
-   "programme_lift": 0.0699
+   "n": 142,
+   "coalition_baseline": 0.4296,
+   "programme_accuracy": 0.5,
+   "programme_lift": 0.0704
   },
   {
    "parti": "S",
@@ -662,10 +662,10 @@
   {
    "parti": "S",
    "month": "2026-06",
-   "n": 146,
-   "coalition_baseline": 0.5137,
-   "programme_accuracy": 0.6164,
-   "programme_lift": 0.1027
+   "n": 145,
+   "coalition_baseline": 0.5103,
+   "programme_accuracy": 0.6138,
+   "programme_lift": 0.1034
   },
   {
    "parti": "M",
@@ -870,10 +870,10 @@
   {
    "parti": "M",
    "month": "2025-03",
-   "n": 90,
+   "n": 89,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.3667,
-   "programme_lift": -0.6333
+   "programme_accuracy": 0.3596,
+   "programme_lift": -0.6404
   },
   {
    "parti": "M",
@@ -958,10 +958,10 @@
   {
    "parti": "M",
    "month": "2026-04",
-   "n": 143,
+   "n": 142,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.4825,
-   "programme_lift": -0.5175
+   "programme_accuracy": 0.4789,
+   "programme_lift": -0.5211
   },
   {
    "parti": "M",
@@ -974,10 +974,10 @@
   {
    "parti": "M",
    "month": "2026-06",
-   "n": 146,
+   "n": 145,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.7055,
-   "programme_lift": -0.2945
+   "programme_accuracy": 0.7103,
+   "programme_lift": -0.2897
   },
   {
    "parti": "SD",
@@ -1182,10 +1182,10 @@
   {
    "parti": "SD",
    "month": "2025-03",
-   "n": 90,
-   "coalition_baseline": 0.6889,
-   "programme_accuracy": 0.5222,
-   "programme_lift": -0.1667
+   "n": 89,
+   "coalition_baseline": 0.6854,
+   "programme_accuracy": 0.5169,
+   "programme_lift": -0.1685
   },
   {
    "parti": "SD",
@@ -1270,10 +1270,10 @@
   {
    "parti": "SD",
    "month": "2026-04",
-   "n": 143,
+   "n": 142,
    "coalition_baseline": 0.993,
-   "programme_accuracy": 0.3916,
-   "programme_lift": -0.6014
+   "programme_accuracy": 0.3873,
+   "programme_lift": -0.6056
   },
   {
    "parti": "SD",
@@ -1286,10 +1286,10 @@
   {
    "parti": "SD",
    "month": "2026-06",
-   "n": 146,
-   "coalition_baseline": 0.9932,
-   "programme_accuracy": 0.5822,
-   "programme_lift": -0.411
+   "n": 145,
+   "coalition_baseline": 0.9931,
+   "programme_accuracy": 0.5793,
+   "programme_lift": -0.4138
   },
   {
    "parti": "C",
@@ -1494,10 +1494,10 @@
   {
    "parti": "C",
    "month": "2025-03",
-   "n": 90,
-   "coalition_baseline": 0.4333,
-   "programme_accuracy": 0.3,
-   "programme_lift": -0.1333
+   "n": 89,
+   "coalition_baseline": 0.427,
+   "programme_accuracy": 0.3034,
+   "programme_lift": -0.1236
   },
   {
    "parti": "C",
@@ -1582,10 +1582,10 @@
   {
    "parti": "C",
    "month": "2026-04",
-   "n": 143,
-   "coalition_baseline": 0.4825,
-   "programme_accuracy": 0.4615,
-   "programme_lift": -0.021
+   "n": 142,
+   "coalition_baseline": 0.4789,
+   "programme_accuracy": 0.4577,
+   "programme_lift": -0.0211
   },
   {
    "parti": "C",
@@ -1598,10 +1598,10 @@
   {
    "parti": "C",
    "month": "2026-06",
-   "n": 146,
-   "coalition_baseline": 0.4726,
-   "programme_accuracy": 0.4795,
-   "programme_lift": 0.0068
+   "n": 145,
+   "coalition_baseline": 0.469,
+   "programme_accuracy": 0.4897,
+   "programme_lift": 0.0207
   },
   {
    "parti": "V",
@@ -1616,8 +1616,8 @@
    "month": "2022-11",
    "n": 26,
    "coalition_baseline": 0.2692,
-   "programme_accuracy": 0.7692,
-   "programme_lift": 0.5
+   "programme_accuracy": 0.8077,
+   "programme_lift": 0.5385
   },
   {
    "parti": "V",
@@ -1806,10 +1806,10 @@
   {
    "parti": "V",
    "month": "2025-03",
-   "n": 90,
-   "coalition_baseline": 0.3778,
-   "programme_accuracy": 0.4,
-   "programme_lift": 0.0222
+   "n": 89,
+   "coalition_baseline": 0.3708,
+   "programme_accuracy": 0.4045,
+   "programme_lift": 0.0337
   },
   {
    "parti": "V",
@@ -1894,10 +1894,10 @@
   {
    "parti": "V",
    "month": "2026-04",
-   "n": 143,
-   "coalition_baseline": 0.3217,
-   "programme_accuracy": 0.5315,
-   "programme_lift": 0.2098
+   "n": 142,
+   "coalition_baseline": 0.3169,
+   "programme_accuracy": 0.5352,
+   "programme_lift": 0.2183
   },
   {
    "parti": "V",
@@ -1910,10 +1910,10 @@
   {
    "parti": "V",
    "month": "2026-06",
-   "n": 146,
-   "coalition_baseline": 0.1644,
-   "programme_accuracy": 0.637,
-   "programme_lift": 0.4726
+   "n": 145,
+   "coalition_baseline": 0.1586,
+   "programme_accuracy": 0.6414,
+   "programme_lift": 0.4828
   },
   {
    "parti": "KD",
@@ -2118,10 +2118,10 @@
   {
    "parti": "KD",
    "month": "2025-03",
-   "n": 90,
+   "n": 89,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.2222,
-   "programme_lift": -0.7778
+   "programme_accuracy": 0.2135,
+   "programme_lift": -0.7865
   },
   {
    "parti": "KD",
@@ -2206,10 +2206,10 @@
   {
    "parti": "KD",
    "month": "2026-04",
-   "n": 143,
+   "n": 142,
    "coalition_baseline": 0.993,
-   "programme_accuracy": 0.2587,
-   "programme_lift": -0.7343
+   "programme_accuracy": 0.2535,
+   "programme_lift": -0.7394
   },
   {
    "parti": "KD",
@@ -2222,10 +2222,10 @@
   {
    "parti": "KD",
    "month": "2026-06",
-   "n": 146,
+   "n": 145,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.3836,
-   "programme_lift": -0.6164
+   "programme_accuracy": 0.3793,
+   "programme_lift": -0.6207
   },
   {
    "parti": "MP",
@@ -2240,8 +2240,8 @@
    "month": "2022-11",
    "n": 26,
    "coalition_baseline": 0.4615,
-   "programme_accuracy": 0.6538,
-   "programme_lift": 0.1923
+   "programme_accuracy": 0.6923,
+   "programme_lift": 0.2308
   },
   {
    "parti": "MP",
@@ -2430,10 +2430,10 @@
   {
    "parti": "MP",
    "month": "2025-03",
-   "n": 90,
-   "coalition_baseline": 0.3,
-   "programme_accuracy": 0.4333,
-   "programme_lift": 0.1333
+   "n": 89,
+   "coalition_baseline": 0.2921,
+   "programme_accuracy": 0.4382,
+   "programme_lift": 0.1461
   },
   {
    "parti": "MP",
@@ -2518,10 +2518,10 @@
   {
    "parti": "MP",
    "month": "2026-04",
-   "n": 143,
-   "coalition_baseline": 0.2937,
-   "programme_accuracy": 0.4755,
-   "programme_lift": 0.1818
+   "n": 142,
+   "coalition_baseline": 0.2887,
+   "programme_accuracy": 0.4789,
+   "programme_lift": 0.1901
   },
   {
    "parti": "MP",
@@ -2534,10 +2534,10 @@
   {
    "parti": "MP",
    "month": "2026-06",
-   "n": 146,
-   "coalition_baseline": 0.2466,
-   "programme_accuracy": 0.6164,
-   "programme_lift": 0.3699
+   "n": 145,
+   "coalition_baseline": 0.2414,
+   "programme_accuracy": 0.6276,
+   "programme_lift": 0.3862
   },
   {
    "parti": "L",
@@ -2742,10 +2742,10 @@
   {
    "parti": "L",
    "month": "2025-03",
-   "n": 90,
+   "n": 89,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.2222,
-   "programme_lift": -0.7778
+   "programme_accuracy": 0.2135,
+   "programme_lift": -0.7865
   },
   {
    "parti": "L",
@@ -2830,10 +2830,10 @@
   {
    "parti": "L",
    "month": "2026-04",
-   "n": 143,
+   "n": 142,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.2517,
-   "programme_lift": -0.7483
+   "programme_accuracy": 0.2465,
+   "programme_lift": -0.7535
   },
   {
    "parti": "L",
@@ -2846,10 +2846,10 @@
   {
    "parti": "L",
    "month": "2026-06",
-   "n": 146,
+   "n": 145,
    "coalition_baseline": 1.0,
-   "programme_accuracy": 0.411,
-   "programme_lift": -0.589
+   "programme_accuracy": 0.4069,
+   "programme_lift": -0.5931
   }
  ],
  "override_cases": [
@@ -84672,51 +84672,51 @@
    "coverage": "explicit",
    "strict": true,
    "authored_reservation": false,
-   "motivering": "Utskottet vill bemyndiga insats av svenska väpnade styrkor i Natos framskjutna närvaro i Finland och avslår motionen mot detta. Planen är uttryckligen motståndare till Sveriges allt djupare militära samarbete med Nato, vill återupprätta alliansfriheten och siktar på att lämna Nato, och vänder sig mot militarisering. Planen stöder därför motförslagets krav i sak. Utskottets skäl gäller just Nato-samarbetets fördjupning, som planen uttalar sig om.",
+   "motivering": "Valplattformen säger uttryckligen att partiet är motståndare till Sveriges allt djupare militära samarbete med Nato och vill återupprätta alliansfriheten samt riva upp värdlandsavtalet. Ett svenskt bidrag med väpnade styrkor till Natos framskjutna närvaro i Finland, inklusive rollen som ramverksnation, är just en fördjupning av det samarbetet. Partiprogrammet pekar dessutom mot att lämna Nato och vänder sig emot militarisering och kapprustning. Motförslagets krav att förslaget inte genomförs följer därför av planen.",
    "citations": [
     {
      "document": "valmanifest",
      "quote": "Därför är Vänsterpartiet motståndare till Sveriges allt djupare militära samarbete med NATO och EU, och vi är det enda riksdagspartiet som konsekvent värnar och vill återupprätta svensk alliansfrihet.",
-     "princip": "mot fördjupat Nato-samarbete",
+     "princip": "motstånd mot Nato-samarbete",
      "svag": null
     },
     {
      "document": "partiprogram",
      "quote": "med sikte på att lämna Nato.",
-     "princip": "lämna Nato",
-     "svag": null
-    },
-    {
-     "document": "partiprogram",
-     "quote": "Vi vänder oss emot militarisering och kapprustning.",
-     "princip": "mot militarisering",
+     "princip": "sikte på att lämna Nato",
      "svag": null
     },
     {
      "document": "valmanifest",
      "quote": "Vänsterpartiet anser att Sverige ska vara en röst för fred och rättvisa, inte för ökad militarisering.",
-     "princip": "röst för fred",
+     "princip": "fred inte militarisering",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det är viktigt att Sverige kan agera självständigt från stormakter",
+     "princip": "självständighet från stormakter",
      "svag": null
     }
    ],
    "en": {
-    "motivering": "The committee wants to authorise deployment of Swedish armed forces in NATO's advanced presence in Finland and rejects the motion against it. The plan is explicitly opposed to Sweden's deepening military cooperation with NATO, wants to restore military non-alignment and aims to leave NATO, and opposes militarisation. The plan therefore supports the counter-proposal's demands in substance. The committee's reasoning concerns precisely NATO cooperation's deepening, which the plan addresses.",
+    "motivering": "The election manifesto explicitly states that the party opposes Sweden's ever-deepening military cooperation with NATO and wants to restore non-alignment as well as tear up the host nation agreement. A Swedish contribution with armed forces to NATO's forward presence in Finland, including the role as framework nation, is precisely a deepening of that cooperation. The party programme furthermore points toward leaving NATO and opposes militarisation and arms race. The counter-proposal's demand that the proposal is not implemented therefore follows from the plan.",
     "citations": [
      {
-      "quote": "Therefore Left Party opposes Sweden's deepening military cooperation with NATO and EU, and we are the only parliamentary party that consistently safeguards and wants to restore Swedish military non-alignment.",
-      "princip": "against deepened NATO cooperation"
+      "quote": "Therefore the Left Party opposes Sweden's ever-deepening military cooperation with NATO and the EU, and we are the only Riksdag party that consistently upholds and wants to restore Swedish non-alignment.",
+      "princip": "opposition to NATO cooperation"
      },
      {
-      "quote": "with the aim of leaving NATO.",
-      "princip": "leave NATO"
+      "quote": "with a view to leaving NATO.",
+      "princip": "view to leaving NATO"
      },
      {
-      "quote": "We oppose militarisation and arms race.",
-      "princip": "against militarisation"
+      "quote": "The Left Party believes Sweden should be a voice for peace and justice, not for increased militarisation.",
+      "princip": "peace not militarisation"
      },
      {
-      "quote": "Left Party considers that Sweden shall be a voice for peace and justice, not for increased militarisation.",
-      "princip": "voice for peace"
+      "quote": "It is important that Sweden can act independently from great powers",
+      "princip": "independence from great powers"
      }
     ]
    }
@@ -84779,6 +84779,68 @@
      {
       "quote": "Apart from forests and water, the major expansion of wind power will mainly take place in rural areas.",
       "princip": "rural areas bear wind power expansion"
+     }
+    ]
+   }
+  },
+  {
+   "votering_id": "BDB946B2-CE43-4713-B018-C38FE9A8917E",
+   "datum": "2026-06-09",
+   "rubrik": "Rättssäkerhet m.m.",
+   "rubrik_en": "Legal security, etc.",
+   "utskott": "SfU",
+   "parti": "C",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "high",
+   "coverage": "explicit",
+   "strict": true,
+   "authored_reservation": false,
+   "motivering": "Valmanifestet kräver uttryckligen att alla som bor i Sverige ska kunna få sin sak prövad och att tillgången till ombud förbättras, vilket är motsatsen till att strama åt rätten till offentligt biträde till unionsrättens miniminivå. Partiprogrammet binder partiet till en generös och human flykting- och invandringspolitik och till att all lagstiftning proportionalitetsprövas mot inskränkningen av enskildas rättigheter. Motförslagets krav på rättssäkerhet, humanitet, barnets bästa och en samlad konsekvensanalys ligger därmed i linje med planen.",
+   "citations": [
+    {
+     "document": "valmanifest",
+     "quote": "Alla som bor i Sverige ska kunna få sin sak prövad. Ledtiderna för handläggning och myndighetsutövning i domstolar och myndigheter måste kortas och tillgången till ombud förbättras.",
+     "princip": "förbättrad tillgång till ombud",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Centerpartiet strävar efter öppna gränser, fri rörlighet samt en generös och human flykting- och invandringspolitik.",
+     "princip": "generös och human flyktingpolitik",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Rättsstaten och individens rättigheter gentemot staten måste försvaras. Vi säger därför nej till visitationszoner, kollektiv bestraffning, omvänd bevisbörda, anonyma vittnen, preventiv avlyssning och inskränkningar av religionsfriheten.",
+     "princip": "rättsstaten försvaras",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Det måste finnas en proportionalitet mellan lagstiftningens inskränkning av medborgarnas integritet och lagarnas syfte.",
+     "princip": "proportionalitetsprövad lagstiftning",
+     "svag": null
+    }
+   ],
+   "en": {
+    "motivering": "The election manifesto explicitly requires that everyone living in Sweden shall be able to get their case heard and that access to counsel is improved, which is the opposite of tightening the right to state-funded counsel to the EU law minimum level. The party programme binds the party to a generous and humane refugee and immigration policy and to all legislation being tested for proportionality against the restriction of individuals' rights. The counter-proposal's demands for legal certainty, humanity, the best interests of the child and a comprehensive impact analysis thereby align with the plan.",
+    "citations": [
+     {
+      "quote": "Everyone living in Sweden shall be able to get their case heard. Lead times for handling and exercise of authority in courts and authorities must be shortened and access to counsel must be improved.",
+      "princip": "improved access to counsel"
+     },
+     {
+      "quote": "The Centre Party strives for open borders, free movement and a generous and humane refugee and immigration policy.",
+      "princip": "generous and humane refugee policy"
+     },
+     {
+      "quote": "The rule of law and the individual's rights against the state must be defended. We therefore say no to search zones, collective punishment, reversed burden of proof, anonymous witnesses, preventive wiretapping and restrictions on freedom of religion.",
+      "princip": "the rule of law defended"
+     },
+     {
+      "quote": "There must be proportionality between the legislation's restriction of citizens' integrity and the laws' purpose.",
+      "princip": "proportionality-tested legislation"
      }
     ]
    }
@@ -85044,51 +85106,51 @@
    "coverage": "explicit",
    "strict": true,
    "authored_reservation": false,
-   "motivering": "Betänkandet avskaffar permanenta uppehållstillstånd för skyddsbehövande, medan planen uttryckligen gör permanenta uppehållstillstånd till huvudregel och slår fast att asylrätten ska värnas. Planen kräver också att barn på flykt får permanent uppehållstillstånd och att familjer ska kunna återförenas. Partiet borde därför stå bakom motionen och rösta nej till utskottets förslag att avslå den.",
+   "motivering": "Planen står för en human och rättssäker migrationspolitik och kräver uttryckligen stärkt rättssäkerhet i asylprocessen och särskilt stöd till sårbara grupper. Partiprogrammet slår fast att asylrätten ska värnas i Sverige och i hela EU, och valmanifestet att barnperspektivet ska genomsyra migrationslagarna. Motförslagets krav på rättssäkerhet, proportionalitet, barnets bästa och att genomförandet av EU-pakten inte får gå längre än unionsrätten kräver ligger därmed i linje med planen, till skillnad från utskottets linje att strama åt till unionsrättens miniminivå.",
    "citations": [
     {
-     "document": "partiprogram",
-     "quote": "Därför ska permanenta uppehållstillstånd vara huvudregel.",
-     "princip": "permanenta tillstånd som huvudregel",
+     "document": "valmanifest",
+     "quote": "stärka rättssäkerheten i asylprocessen och stödet för hbtqi-flyktingar och andra sårbara grupper.",
+     "princip": "rättssäker asylprocess",
      "svag": null
     },
     {
      "document": "partiprogram",
-     "quote": "Därför finns asylrätten. Asylrätten ska värnas i Sverige och i resten av EU och världen och",
-     "princip": "asylrätten ska värnas",
+     "quote": "Vi gröna står för en human och rättssäker migrationspolitik.",
+     "princip": "human och rättssäker migration",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Asylrätten ska värnas i Sverige och i resten av EU och världen",
+     "princip": "asylrätten värnas i EU",
      "svag": null
     },
     {
      "document": "valmanifest",
-     "quote": "att barn på flykt ska få permanent uppehållstillstånd.",
-     "princip": "permanent tillstånd för barn",
-     "svag": null
-    },
-    {
-     "document": "valmanifest",
-     "quote": "att fler familjer ska kunna återförenas i Sverige. Inga asylsökande barn ska kunna skiljas från sina föräldrar.",
-     "princip": "utökad familjeåterförening",
+     "quote": "Barnperspektivet ska genomsyra migrationslagarna",
+     "princip": "barnets bästa i migrationslagarna",
      "svag": null
     }
    ],
    "en": {
-    "motivering": "The committee report abolishes permanent residence permits for those in need of protection, while the plan explicitly makes permanent residence permits the main rule and establishes that asylum rights should be protected. The plan also requires that children fleeing get permanent residence permits and that families should be able to reunite. The party should therefore support the motion and vote no to the committee's proposal to reject it.",
+    "motivering": "The plan stands for a humane and secure migration policy and explicitly requires strengthened legal certainty in the asylum process and particular support to vulnerable groups. The party programme establishes that asylum rights shall be valued in Sweden and throughout the EU, and the election manifesto that the child's perspective shall permeate migration laws. The counter-proposal's demands for legal certainty, proportionality, the best interests of the child and that implementation of the EU pact does not go further than EU law requires thereby align with the plan, unlike the committee's line of tightening to EU law minimum level.",
     "citations": [
      {
-      "quote": "Therefore, permanent residence permits should be the main rule.",
-      "princip": "permanent permits as the main rule"
+      "quote": "strengthen legal certainty in the asylum process and support for LGBTQ+ refugees and other vulnerable groups.",
+      "princip": "secure asylum process"
      },
      {
-      "quote": "That is why asylum rights exist. Asylum rights should be protected in Sweden and in the rest of the EU and the world and",
-      "princip": "asylum rights should be protected"
+      "quote": "We greens stand for a humane and secure migration policy.",
+      "princip": "humane and secure migration"
      },
      {
-      "quote": "that children fleeing should get permanent residence permits.",
-      "princip": "permanent permits for children"
+      "quote": "Asylum rights shall be valued in Sweden and in the rest of the EU and the world",
+      "princip": "asylum rights valued in the EU"
      },
      {
-      "quote": "that more families should be able to reunite in Sweden. No asylum-seeking children should be separated from their parents.",
-      "princip": "expanded family reunification"
+      "quote": "The child's perspective shall permeate migration laws",
+      "princip": "best interests of child in migration laws"
      }
     ]
    }
@@ -85590,68 +85652,6 @@
    }
   },
   {
-   "votering_id": "13FA18B9-3512-44C9-B1CD-265A8145CD19",
-   "datum": "2026-06-17",
-   "rubrik": "Förutsättningar för operativt militärt samarbete",
-   "rubrik_en": "Conditions for Operational Military Cooperation",
-   "utskott": "FöU",
-   "parti": "M",
-   "ai_rost": "Nej",
-   "actual": "Ja",
-   "confidence": "high",
-   "coverage": "explicit",
-   "strict": true,
-   "authored_reservation": false,
-   "motivering": "Planen vill förbereda försvaret för Nato-medlemskapet och sätta en hög ambitionsnivå som medlem, med konkreta bidrag i närområdet. Förslaget ger regeringen möjlighet att låta Nato och allierade stater vidta försvarsåtgärder på svenskt territorium, vilket är en direkt förutsättning för det operativa samarbete planen efterfrågar. Partiet bör därför rösta ja till förslaget.",
-   "citations": [
-    {
-     "document": "valmanifest",
-     "quote": "Förbereda försvaret för svenskt Natomedlemskap",
-     "princip": "anpassning till Natomedlemskap",
-     "svag": null
-    },
-    {
-     "document": "valmanifest",
-     "quote": "Moderaterna vill sätta en hög ambitionsnivå för Sverige som blivande Natomedlem.",
-     "princip": "hög ambition i Nato",
-     "svag": null
-    },
-    {
-     "document": "partiprogram",
-     "quote": "Vi ska vara en fullvärdig medlem i Nato",
-     "princip": "fullvärdigt Natomedlemskap",
-     "svag": null
-    },
-    {
-     "document": "valmanifest",
-     "quote": "Verka för att Sveriges teknologiska kunnande och kompetenta försvarsindustri kommer hela Nato till del",
-     "princip": "fördjupat försvarssamarbete",
-     "svag": null
-    }
-   ],
-   "en": {
-    "motivering": "The plan wants to prepare the defence for NATO membership and set a high level of ambition as a member, with concrete contributions in the immediate region. The proposal gives the government the opportunity to let NATO and allied states take defence measures on Swedish territory, which is a direct prerequisite for the operational cooperation the plan seeks. The party should therefore vote yes to the proposal.",
-    "citations": [
-     {
-      "quote": "Prepare the defence for Swedish NATO membership",
-      "princip": "adaptation to NATO membership"
-     },
-     {
-      "quote": "The Moderates want to set a high level of ambition for Sweden as a prospective NATO member.",
-      "princip": "high ambition in NATO"
-     },
-     {
-      "quote": "We should be a full member of NATO",
-      "princip": "full NATO membership"
-     },
-     {
-      "quote": "Work for Sweden's technological knowledge and competent defence industry to benefit all NATO",
-      "princip": "deepened defence cooperation"
-     }
-    ]
-   }
-  },
-  {
    "votering_id": "AEDA557F-E721-4F88-B4D4-A128882C30A9",
    "datum": "2026-06-17",
    "rubrik": "Om återtagandet av eftersatt järnvägsunderhåll",
@@ -85709,68 +85709,6 @@
      {
       "quote": "All new promises and reforms – such as for example our income tax cuts – need to be financed or fit within the surplus target.",
       "princip": "finansierade reformer"
-     }
-    ]
-   }
-  },
-  {
-   "votering_id": "13FA18B9-3512-44C9-B1CD-265A8145CD19",
-   "datum": "2026-06-17",
-   "rubrik": "Förutsättningar för operativt militärt samarbete",
-   "rubrik_en": "Conditions for Operational Military Cooperation",
-   "utskott": "FöU",
-   "parti": "S",
-   "ai_rost": "Nej",
-   "actual": "Ja",
-   "confidence": "high",
-   "coverage": "explicit",
-   "strict": true,
-   "authored_reservation": false,
-   "motivering": "Valmanifestet slår fast att medlemskapet i Nato är den bästa vägen för Sveriges säkerhet, och partiprogrammet vill se ett aktivt svenskt deltagande i alliansen och ett starkare europeiskt försvarssamarbete. Lagändringar som ger Sverige bättre förutsättningar att delta i det operativa militära samarbetet och som låter allierade genomföra militär verksamhet på svenskt territorium följer direkt av det åtagandet. Planen talar därför för att förslaget antas.",
-   "citations": [
-    {
-     "document": "valmanifest",
-     "quote": "Sverige ska gå med i Nato. Ett svenskt medlemskap i Nato är den bästa vägen för vårt lands säkerhet och Sverige har därför lämnat in sin medlemsansökan.",
-     "princip": "svenskt Nato-medlemskap",
-     "svag": null
-    },
-    {
-     "document": "partiprogram",
-     "quote": "Starkare europeiskt försvarssamarbete.",
-     "princip": "europeiskt försvarssamarbete",
-     "svag": null
-    },
-    {
-     "document": "valmanifest",
-     "quote": "Kraftfullt stärka Sveriges militära förmåga.",
-     "princip": "stärkt militär förmåga",
-     "svag": null
-    },
-    {
-     "document": "partiprogram",
-     "quote": "Stark motståndskraft i hela samhället genom betydande militär förmåga, stark svensk",
-     "princip": "betydande militär förmåga",
-     "svag": null
-    }
-   ],
-   "en": {
-    "motivering": "The election manifesto establishes that NATO membership is the best way for Sweden's security, and the party programme wants to see active Swedish participation in the alliance and stronger European defense cooperation. Legal changes that give Sweden better conditions to participate in operational military cooperation and that allow allies to conduct military activities on Swedish territory follow directly from this commitment. The plan therefore speaks for accepting the proposal.",
-    "citations": [
-     {
-      "quote": "Sweden shall join NATO. Swedish NATO membership is the best way for our country's security and Sweden has therefore submitted its membership application.",
-      "princip": "Swedish NATO membership"
-     },
-     {
-      "quote": "Stronger European defense cooperation.",
-      "princip": "European defense cooperation"
-     },
-     {
-      "quote": "Powerfully strengthen Sweden's military capacity.",
-      "princip": "strengthened military capacity"
-     },
-     {
-      "quote": "Strong resilience throughout society through significant military capacity, strong Swedish",
-      "princip": "significant military capacity"
      }
     ]
    }
@@ -105929,6 +105867,68 @@
      {
       "quote": "Through European defence cooperation, Swedish defence policy which aims for peace and freedom is also supported.",
       "princip": "European defence cooperation"
+     }
+    ]
+   }
+  },
+  {
+   "votering_id": "BDB946B2-CE43-4713-B018-C38FE9A8917E",
+   "datum": "2026-06-09",
+   "rubrik": "Rättssäkerhet m.m.",
+   "rubrik_en": "Legal security, etc.",
+   "utskott": "SfU",
+   "parti": "KD",
+   "ai_rost": "Nej",
+   "actual": "Ja",
+   "confidence": "medium",
+   "coverage": "explicit",
+   "strict": false,
+   "authored_reservation": false,
+   "motivering": "Planen kräver att hela asylprocessen utformas så att rättssäkerhet garanteras den enskilde och att barnperspektivet alltid finns med i migrationsärenden, och den vill en gemensam och generös flyktingpolitik där humanitära skäl väger tungt. Motförslagets krav på rättssäkerhet, proportionalitet, barnets bästa och att genomförandet inte inskränker grundläggande rättigheter mer än unionsrätten kräver ligger i linje med dessa åtaganden, medan en inskränkning av rätten till offentligt biträde tar bort en rättssäkerhetsgaranti. Valmanifestets krav på stram migrationspolitik talar för åtstramning i sak, men säger inget om att rättssäkerhetsgarantier ska begränsas.",
+   "citations": [
+    {
+     "document": "partiprogram",
+     "quote": "För den som söker asyl i Sverige måste hela processen vara utformad så att rättssäkerhet",
+     "princip": "rättssäker asylprocess",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "Barnperspektivet ska alltid finnas med i migrationsärenden.",
+     "princip": "barnperspektiv i migrationsärenden",
+     "svag": null
+    },
+    {
+     "document": "partiprogram",
+     "quote": "EU:s medlemsländer ha en gemensam och generös flyktingpolitik",
+     "princip": "generös gemensam flyktingpolitik",
+     "svag": null
+    },
+    {
+     "document": "valmanifest",
+     "quote": "Stram migrationspolitik krävs för att ta itu med integrationsproblem och utanförskap.",
+     "princip": "stram migrationspolitik",
+     "svag": null
+    }
+   ],
+   "en": {
+    "motivering": "The plan requires that the entire asylum process is designed to guarantee legal certainty to the individual and that the child's perspective is always present in migration matters, and it wants a joint and generous refugee policy where humanitarian grounds carry weight. The counter-proposal's demands for legal certainty, proportionality, the best interests of the child and that implementation does not restrict fundamental rights more than EU law requires align with these commitments, whilst a restriction of the right to state-funded counsel removes a legal certainty guarantee. The election manifesto's demand for strict migration policy speaks for tightening in substance, but says nothing about limiting legal certainty guarantees.",
+    "citations": [
+     {
+      "quote": "For those seeking asylum in Sweden, the entire process must be designed to ensure legal certainty",
+      "princip": "secure asylum process"
+     },
+     {
+      "quote": "The child's perspective shall always be present in migration matters.",
+      "princip": "child perspective in migration matters"
+     },
+     {
+      "quote": "EU's member states have a joint and generous refugee policy",
+      "princip": "generous joint refugee policy"
+     },
+     {
+      "quote": "Strict migration policy is required to address integration problems and exclusion.",
+      "princip": "strict migration policy"
      }
     ]
    }

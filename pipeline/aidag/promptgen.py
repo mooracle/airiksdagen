@@ -162,8 +162,41 @@ def derive_rost(hallning: str) -> str:
     This is the separate actor's vote, not a forecast of the party. The actor
     decides on party targets alone and has no access to parliamentary tactics,
     so it never abstains — abstention is something only the real party does.
+
+    The mapping is a SIGN, not a relabelling: it is only meaningful if the agent
+    was actually shown the counter-proposal whose demand `hallning` refers to.
+    Gate every p6 render on `p6_decidable` — see its docstring for what a stance
+    taken against no counter-proposal costs on the way through here.
     """
     return HALLNING_TO_ROST[hallning]
+
+
+def p6_decidable(case: dict, arm: str = "anonymous") -> bool:
+    """Whether this case can be decided under the p6 stance schema at all.
+
+    p6 drops `rost` and asks only for `hallning` — a stance on the COUNTER-
+    PROPOSAL's demand — from which `derive_rost` computes the vote. So a p6
+    prompt that shows no counter-proposal asks for a stance on nothing, and
+    `render_user_message` silently falls through to the p5 block, which closes
+    with the p5 question ("Hur borde partiet rösta … Ja/Nej/Avstår?"). The agent
+    then answers the question it was asked (a vote) into the only field it was
+    given (a stance), and `HALLNING_TO_ROST` inverts every answer that meant
+    "I support the committee's proposal" into a published Nej.
+
+    Measured on full-v4: 10 of 2,539 cases, 80 decisions, all 10 both missing
+    the motförslag block and closing with the p5 question. On FöU14 punkt 2 both
+    M and S wrote that the plan speaks FOR the proposal ("Partiet bör därför
+    rösta ja till förslaget"), returned hallning="stodjer", and shipped as Nej
+    against a real Ja — which is also the whole basis of that case's published
+    "this vote would have flipped" counterfactual.
+
+    `casemeta.verify_casemeta` has a neighbouring check that deliberately skips
+    these cases, on the reasoning that the p5 fallback "is correct for a votering
+    with no counter-proposal". That holds for p5, which asks for a vote and gets
+    a vote. It does not hold for p6, where the fallback changes the question out
+    from under the schema. This predicate is the p6 half of that guard.
+    """
+    return _render_p6_arende(case, arm) is not None
 
 
 # How much weight a target-vs-vote difference can carry. Derived in code from

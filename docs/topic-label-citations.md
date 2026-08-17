@@ -1,6 +1,6 @@
 # Citations that land on a topic label
 
-Measured 2026-08-15 on `full-v4` (p6, 20,312 decisions, 77,719 citations), from the
+Measured 2026-08-17 on `full-v4` (p6, 20,288 decisions, 77,642 citations), from the
 committed anchor index. Reproduce with:
 
 ```sh
@@ -11,9 +11,9 @@ The question: a citation quotes a party document verbatim, and the site draws a
 kept-vs-diverged bar beside it. How often is the quoted line not a commitment at all,
 but a heading or a topic label — something that names a subject and promises nothing?
 
-**Answer: 6 blocks, 84 citations, 83 distinct votes — 0.12% of the 69,418
+**Answer: 6 blocks, 83 citations, 82 distinct votes — 0.12% of the 69,360
 (vote, line) pairs in the corpus.** The number that matters more is the one it is not:
-on the role vocabulary alone it reads **1,165**, and 1,163 of those are genuine pledges.
+on the role vocabulary alone it reads **1,161**, and 1,159 of those are genuine pledges.
 
 ---
 
@@ -23,25 +23,25 @@ Every cited block in the run, by the role the extraction assigned it:
 
 | role | cited blocks | citations | (vote, line) pairs |
 |---|---:|---:|---:|
-| `para` | 3,856 | 58,752 | 51,218 |
-| `bullet` | 775 | 17,354 | 16,764 |
-| `label` | 56 | 1,222 | 1,165 |
+| `para` | 3,856 | 58,704 | 51,187 |
+| `bullet` | 775 | 17,330 | 16,742 |
+| `label` | 56 | 1,218 | 1,161 |
 | `h2` | 20 | 145 | 145 |
-| `h3` | 6 | 123 | 123 |
+| `h3` | 6 | 122 | 122 |
 | `caption` | 2 | 3 | 3 |
-| **total** | **4,715** | **77,599** | **69,418** |
+| **total** | **4,715** | **77,522** | **69,360** |
 
 `toc` is absent, and that is a result rather than a gap: the corpus holds **281 `toc`
 blocks and not one of them is cited**. The contents lists are never quoted, so the role
 this finding was expected to be about contributes nothing to it.
 
 (120 further citations are blank — `repair-citations` withdrew them — which is why the
-citation column sums to 77,599 rather than 77,719.)
+citation column sums to 77,522 rather than 77,642.)
 
 ## 2. Why `label` is the wrong question
 
 The plan asked for "citations landing on `label`/`toc` blocks". Taken literally that is
-**56 blocks / 1,165 (vote, line) pairs**, and it would be a false claim on almost all of
+**56 blocks / 1,161 (vote, line) pairs**, and it would be a false claim on almost all of
 them:
 
 | document | blocks | votes | what the `label` blocks are |
@@ -56,7 +56,7 @@ Marking those "promises nothing" would assert the opposite of what the document 
 which is the failure mode this project exists to avoid.
 
 Nor does widening to every navigational role fix it: on `h1`/`h2`/`h3`/`label`/`toc` the
-count is 82 blocks / 1,433 pairs, and the pledge lists are still in it.
+count is 82 blocks / 1,428 pairs, and the pledge lists are still in it.
 
 ## 3. The rule, and the 6 lines it finds
 
@@ -180,8 +180,8 @@ the report says so with the false positives named.
 
 - `aidag navigation-report --run-id <run>` recomputes everything above, and `--out`
   writes it as JSON.
-- `tests/test_anchors.py::TestNavigationParity` pins **6 blocks / 84 citations / 83
-  votes** and the 1,165-vs-84 gap as a ratchet against the committed run, and asserts
+- `tests/test_anchors.py::TestNavigationParity` pins **6 blocks / 83 citations / 82
+  votes** and the 1,161-vs-83 gap as a ratchet against the committed run, and asserts
   that no `Vi ska …` heading and no block of `valmanifest-2022-m` is among them.
 - `tests/test_anchors.py::TestNavigationRule` and `site/tests/anchors.test.mjs` assert the
   same rule case for case in both languages, because it is written twice — once for the

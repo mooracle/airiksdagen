@@ -448,5 +448,9 @@ test('the navigational flag reads the same corpus the same way Python does', { s
     }
   }
   assert.equal(blocks, 6);
-  assert.equal(blockDecisions, 84);
+  // 83, was 84: the p6 sign-inversion repair re-ran 56 decisions and deleted 24,
+  // so the vote tally moved with the run. `blocks` is unchanged at 6 — the rule
+  // still reaches the same six lines, which is what the parity actually guards.
+  // Both sides are edited together on purpose; if only one moves, that is drift.
+  assert.equal(blockDecisions, 83);
 });

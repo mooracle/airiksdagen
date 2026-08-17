@@ -125,10 +125,128 @@ def _reservations_of(case: dict) -> list[dict]:
     return [a for a in alts if a.get("alt_id") != "utskottet"]
 
 
-def build_packet(case: dict, blocks: list[dict], entries: list[dict]) -> dict:
+# A motion's demand opens with "I motion <nr>" / "I kommittémotion <nr>" in the
+# betänkande's own "Motionerna" prose, and runs to the next such opening or to the
+# committee's answer.
+_MOTION_OPEN = r"I (?:kommitté|parti|flerparti|enskild)?motion(?:erna)?\s+"
+_MOTION_END = re.compile(
+    r"Utskottets ställningstagande|" + _MOTION_OPEN + r"\d{4}/\d{2}:\d+|"
+    r"Reservation(?:er)?\b|Särskilt yttrande|Bilaga\b"
+)
+
+# The two appendices a simplified-handling punkt needs. Bilaga 2 maps punkt ->
+# (motion, yrkanden); Bilaga 1 carries every yrkande's verbatim demand. Both
+# headings also appear in the document's own table of contents, so callers take
+# the LAST occurrence — the appendix itself.
+_BILAGA1 = "Bilaga 1 Förteckning över behandlade förslag"
+_BILAGA2 = "Bilaga 2 Motionsyrkanden som avstyrks av utskottet"
+
+
+def _norm(plain: str) -> str:
+    """Plain fulltext with the double-escaped entities these documents carry
+    (`&#xa0;`, `&#xad;`) collapsed to spaces, so a token match is not defeated by
+    a soft hyphen sitting inside a word."""
+    return re.sub(r"\s+", " ", re.sub(r"&#x[0-9a-f]+;|&nbsp;", " ", plain)).strip()
+
+
+def bundle_yrkanden(case: dict, plain: str) -> list[dict]:
+    """Every motion yrkande a "Motioner som bereds förenklat" punkt turns down.
+
+    These punkter name no motion in `forslag_text` — they reject a bundle listed
+    in "utskottets förteckning över avstyrkta motionsyrkanden" — so
+    `motion_demands` finds nothing and the punkt has no Nej side. The bundle IS
+    fully recoverable: Bilaga 2 lists this punkt's motions and yrkande numbers,
+    and Bilaga 1 states each one verbatim (100% coverage across the three
+    full-v4 cases: 18, 39 and 23 motions).
+
+    Recovering it does NOT make the punkt decidable under p6, and that is the
+    point of having this function. The bundle is grouped by topic, not by
+    direction, so it routinely demands a thing and its opposite in one vote:
+    UU15 punkt 7 asks both that UNRWA be wound up (three motions) and that
+    support to Palestine including UNRWA continue and be developed (one), and
+    both that Sweden revoke its recognition of Palestine and that it impose a
+    military embargo on Israel. `hallning` is one field answering "does the
+    party's plan support what the counter-proposal demands in substance", and
+    against a self-contradictory bundle every party's plan supports some of it
+    and rejects the rest — so there is no answer to give rather than a missing
+    one. This turns that from an assumption into something a reader can check.
+    """
+    text = _norm(plain)
+    try:
+        b1 = text.rindex(_BILAGA1)
+        b2 = text.rindex(_BILAGA2)
+    except ValueError:
+        return []
+    listing = text[b2:]
+    m = re.search(
+        rf"\b{case['punkt']}\.\s+Motioner som bereds förenklat(?P<body>.*?)"
+        r"(?=\b\d+\.\s+[A-ZÅÄÖ]|$)",
+        listing,
+        re.S,
+    )
+    if not m:
+        return []
+    catalogue = text[b1:b2]
+    out = []
+    for nr in sorted(set(re.findall(r"\d{4}/\d{2}:\d+", m.group("body")))):
+        i = catalogue.find(nr)
+        if i < 0:
+            continue
+        nxt = re.search(r"\d{4}/\d{2}:\d+", catalogue[i + len(nr) :])
+        end = i + len(nr) + (nxt.start() if nxt else len(catalogue))
+        out.append({"motion": nr, "text": catalogue[i:end].strip()})
+    return out
+
+
+def motion_demands(case: dict, plain: str) -> list[dict]:
+    """The Nej side for a punkt that has no reservation.
+
+    On these points the counter-proposal is a MOTION the committee proposes to
+    reject, not a reservation — so `_reservations_of` comes back empty, the Nej
+    side used to come out blank, and the p6 stance was left with no referent at
+    all (`promptgen.p6_decidable` has the mechanism and what it cost on full-v4).
+    The betänkande's own "Motionerna" prose states each motion's demand; slicing
+    it is what recovers them, with no model in the path.
+
+    A motion id is one the fulltext introduces with "I motion <nr>". That test —
+    rather than reading the ids out of `forslag_text` directly — is what separates
+    motions from the propositions and skrivelser named in the SAME sentence
+    ("Därmed bifaller riksdagen proposition 2025/26:254 … och avslår motion
+    2025/26:4176", "lägger skrivelse 2021/22:265 till handlingarna"). Those are
+    what the committee is FOR; taking one for the Nej side would invert the case.
+
+    Returns [] when the point has no single demand to state — which is the honest
+    answer for "Motioner som bereds förenklat", where the committee rejects a
+    bundle of 17-20 unrelated yrkanden in one go and `forslag_text` names no
+    motion at all. Those points stay undecidable under p6 by design.
+    """
+    out = []
+    for nr in sorted(set(re.findall(r"\d{4}/\d{2}:\d+", case.get("forslag_text") or ""))):
+        m = re.search(_MOTION_OPEN + re.escape(nr) + r"\b", plain)
+        if not m:
+            continue  # a proposition or skrivelse, not a motion
+        rest = plain[m.end() :]
+        end = _MOTION_END.search(rest)
+        body = (plain[m.start() : m.end() + (end.start() if end else len(rest))]).strip()
+        # These fulltexts are double-escaped, so `_plain`'s single unescape leaves
+        # literal "&#xa0;" / "&#xad;" in the prose. Harmless in a parse, noise in a
+        # prompt — the p6 <arende> is built from this text.
+        body = re.sub(r"&#x[0-9a-f]+;|&nbsp;", " ", body)
+        body = re.sub(r"\s+", " ", body).strip()
+        out.append({"alt_id": f"mot-{nr.split(':')[1]}", "motion": nr, "body": body[:2200]})
+    return out
+
+
+def build_packet(
+    case: dict, blocks: list[dict], entries: list[dict], plain: str = ""
+) -> dict:
     """Deterministic per-case source packet: parquet facts + Ja candidates + Nej bodies,
     in a party-aware `display_src` and a scrubbed `agent_src`. `flags` records association
-    cross-checks (missing/party mismatch) for the validator to gate on."""
+    cross-checks (missing/party mismatch) for the validator to gate on.
+
+    `plain` is the betänkande fulltext as plain prose, used only to recover the Nej
+    side on a punkt with no reservation (see `motion_demands`). Defaults to empty so
+    existing callers keep the reservation-only behaviour."""
     want = set(re.findall(r"\d{4}/\d{2}:\d+", case.get("forslag_text") or ""))
     cands = rank_candidates(want, blocks, k=2)
     ja_display = [c["body"][:2200] for c in cands]
@@ -167,6 +285,17 @@ def build_packet(case: dict, blocks: list[dict], entries: list[dict]) -> dict:
         nej_display.append({"alt_id": a["alt_id"], "party": e["party"], "body": e["body"][:2200]})
         nej_agent.append({"alt_id": a["alt_id"], "body": scrub_substance(e["body"])[:2200]})
 
+    # No reservation on this punkt: the counter-proposal is a motion the committee
+    # proposes to reject. Recovering it is what makes the point decidable under p6
+    # at all — an empty Nej side here does not mean "uncontested", it means the
+    # stance field has nothing to refer to. Only consulted when the reservation
+    # path found nothing, so no existing packet changes.
+    if not nej_display and (demands := motion_demands(case, plain)):
+        for d in demands:
+            flags.append(f"{d['alt_id']}: Nej side recovered from motion {d['motion']}")
+            nej_display.append({"alt_id": d["alt_id"], "party": [], "body": d["body"]})
+            nej_agent.append({"alt_id": d["alt_id"], "body": scrub_substance(d["body"])[:2200]})
+
     fallback = not cands and not nej_display
     if fallback:
         flags.append("fallback: no committee/reservation blocks — grounded on förslag")
@@ -195,8 +324,9 @@ def build_packets(votering_ids: list[str]) -> list[dict]:
         full = fetch_fulltext(dok)
         blocks = parse_committee_blocks(full)
         resindex = parse_reservations_indexed(full)
+        plain = _plain(full)
         for row in rows:
-            packets.append(build_packet(row, blocks, resindex))
+            packets.append(build_packet(row, blocks, resindex, plain))
     return packets
 
 
@@ -224,8 +354,9 @@ INSTRUCTIONS = (
     "Fields: subject = specific bilingual title of what THIS vote decides; subtopics = 3-6 "
     "short tags; decision = one neutral sentence naming the contested axis (both sides); "
     "at_stake = 1-2 plain sentences on why it matters and who is affected; ja = the "
-    "committee's position + main reason; nej[] = each reservation's demand + reason (copy "
-    "alt_id); agent.committee + agent.alternatives[] = the same Ja/Nej substance but "
+    "committee's position + main reason; nej[] = each COUNTER-PROPOSAL's demand + reason "
+    "(copy alt_id — `res-N` is a reservation, `mot-N` a motion the committee turns down; "
+    "state the demand either way); agent.committee + agent.alternatives[] = the same Ja/Nej substance but "
     "PARTY-BLIND from agent_src. RULES for agent.*: name no party/politician; present tense; "
     "no floor-vote outcome — do NOT use outcome words such as beslutade/beslutar/antog/"
     "biföll/avslog/röstade/tillkännager; no document numbers; no dates. Copy votering_id. "
@@ -242,10 +373,25 @@ def _pending_ids() -> list[str]:
     return [v for v in allc["votering_id"].to_list() if v not in done]
 
 
-def prepare(batch_size: int = 500, per_request: int = 6) -> None:
+def prepare(
+    batch_size: int = 500, per_request: int = 6, only: list[str] | None = None
+) -> None:
     """Emit the next casemeta batch manifest from pending cases. Each request file bundles
-    per_request case packets; one Sonnet agent per file writes {cases:[record,...]}."""
-    pending = _pending_ids()
+    per_request case packets; one Sonnet agent per file writes {cases:[record,...]}.
+
+    `only` re-issues named cases that are already built — for a source-side repair,
+    where the packet changed but the id is no longer pending. `ingest` dedupes on
+    votering_id, so the new record replaces the old one. Every id must exist and
+    already be built: a typo would otherwise print the same output as a valid
+    re-issue while quietly rebuilding nothing.
+    """
+    if only:
+        built = set(load_casemeta())
+        if unknown := [v for v in only if v not in built]:
+            raise ValueError(f"--only names {len(unknown)} case(s) not already built: {unknown}")
+        pending = list(only)
+    else:
+        pending = _pending_ids()
     if not pending:
         print("nothing pending — casemeta complete")
         return
@@ -270,6 +416,61 @@ def prepare(batch_size: int = 500, per_request: int = 6) -> None:
     print(f"  remaining after this batch: {len(packets) - n_units}")
 
 
+UNDECIDABLE_PATH = CASEMETA_DIR / "p6-undecidable.json"
+
+
+def undecidable_report(write: bool = False) -> dict:
+    """Which cases p6 cannot decide, and — for each — the source that proves it.
+
+    A p6 case needs a counter-proposal for `hallning` to refer to. Two reasons a
+    case can lack one, and they are not the same finding:
+
+      `no_nej_side`   — the punkt has neither a reservation nor a recoverable
+                        motion demand. A gap; re-check when extraction improves.
+      `contradictory_bundle` — "Motioner som bereds förenklat". The demands ARE
+                        fully recoverable (`bundle_yrkanden`), and recovering them
+                        is what shows the punkt has no single demand to take a
+                        stance on: the bundle is grouped by topic, so it asks for a
+                        thing and its opposite in one vote. Not a gap, and not
+                        fixable by better parsing.
+
+    Writing the report is what keeps the exclusion auditable instead of a silent
+    hole: the recovered yrkanden are the evidence, so a reader can check the claim
+    and a later extraction change cannot quietly turn one class into the other.
+    """
+    from aidag.promptgen import p6_decidable
+
+    cases = pl.read_parquet(PROCESSED_DIR / "cases.parquet")
+    rows, by_dok = [], {}
+    for c in cases.iter_rows(named=True):
+        if not p6_decidable(c, "anonymous"):
+            by_dok.setdefault(c["dok_id"], []).append(c)
+    for dok, members in sorted(by_dok.items()):
+        plain = _plain(fetch_fulltext(dok))
+        for c in members:
+            ys = bundle_yrkanden(c, plain)
+            rows.append({
+                "votering_id": c["votering_id"],
+                "beteckning": c["beteckning"],
+                "punkt": c["punkt"],
+                "rubrik": c["rubrik"],
+                "reason": "contradictory_bundle" if ys else "no_nej_side",
+                "n_motions": len(ys),
+                "yrkanden": ys,
+            })
+    rows.sort(key=lambda r: (r["reason"], r["beteckning"], r["punkt"]))
+    report = {"n_undecidable": len(rows), "cases": rows}
+    for r in rows:
+        print(f"  {r['reason']:22s} {r['beteckning']:8s} punkt {r['punkt']:2d}  "
+              f"{r['n_motions']:3d} motions  {r['rubrik'][:44]}")
+    print(f"{len(rows)} cases undecidable under p6")
+    if write:
+        UNDECIDABLE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        UNDECIDABLE_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=1))
+        print(f"wrote {UNDECIDABLE_PATH}")
+    return report
+
+
 def status() -> None:
     total = pl.read_parquet(PROCESSED_DIR / "cases.parquet").height
     done = len(load_casemeta())
@@ -288,9 +489,18 @@ def validate_record(rec: dict) -> None:
             _assert_clean(alt[lang], f"agent.alt.{lang}")
 
 
-def ingest(input_path: str, model: str) -> None:
+def ingest(input_path: str, model: str, replace: bool = False) -> None:
     """Ingest workflow output ({cases:[record,...]} files, or a dir of them). Validates +
-    de-leaks the agent view, merges deterministic fields, dedupes on votering_id."""
+    de-leaks the agent view, merges deterministic fields, dedupes on votering_id.
+
+    Append-only and FIRST-wins by default: an id already in `cases.jsonl` is skipped,
+    so re-ingesting a directory cannot corrupt records that are already good.
+
+    `replace` is the counterpart to `prepare(only=...)`. A source-side repair re-issues
+    ids that are already built, and without this they would all be skipped — the pass
+    would print "ingested 0" and look like a no-op that succeeded. Replacing rewrites
+    the file rather than appending, so it is deliberately opt-in.
+    """
     from pathlib import Path
 
     from aidag.metadata import extract_deterministic
@@ -299,31 +509,50 @@ def ingest(input_path: str, model: str) -> None:
     files = sorted(p.glob("*.json")) if p.is_dir() else [p]
     records = [r for f in files for r in json.loads(f.read_text()).get("cases", [])]
     cases = {c["votering_id"]: c for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True)}
-    done = set(load_casemeta())
+    existing = load_casemeta()
+    done = set(existing)
     now = datetime.now(timezone.utc).isoformat()
-    n_ok = n_bad = 0
+    n_ok = n_bad = n_replaced = 0
+    accepted: dict[str, dict] = {}
+    for rec in records:
+        vid = rec.get("votering_id")
+        if not vid:
+            continue
+        if vid in done and not replace:
+            continue
+        if vid not in cases:
+            n_bad += 1
+            continue
+        try:
+            validate_record(rec)
+        except Exception as e:  # noqa: BLE001
+            n_bad += 1
+            print(f"  skipped {vid[:8]}: {e}")
+            continue
+        if vid in done:
+            n_replaced += 1
+        done.add(vid)
+        accepted[vid] = {
+            "votering_id": vid,
+            **extract_deterministic(cases[vid]),
+            **{k: rec[k] for k in ("subject", "subtopics", "decision", "at_stake", "ja", "nej", "agent")},
+            "model": model,
+            "collected_at": now,
+        }
+        n_ok += 1
     cases_path().parent.mkdir(parents=True, exist_ok=True)
-    with open(cases_path(), "a") as f:
-        for rec in records:
-            vid = rec.get("votering_id")
-            if not vid or vid in done:
-                continue
-            if vid not in cases:
-                n_bad += 1
-                continue
-            try:
-                validate_record(rec)
-            except Exception as e:  # noqa: BLE001
-                n_bad += 1
-                print(f"  skipped {vid[:8]}: {e}")
-                continue
-            done.add(vid)
-            out = {"votering_id": vid, **extract_deterministic(cases[vid]),
-                   **{k: rec[k] for k in ("subject", "subtopics", "decision", "at_stake", "ja", "nej", "agent")},
-                   "model": model, "collected_at": now}
-            f.write(json.dumps(out, ensure_ascii=False) + "\n")
-            n_ok += 1
-    print(f"ingested {n_ok} casemeta records ({n_bad} skipped)")
+    if replace:
+        # Rewrite in place, preserving the original line order so a repair shows up
+        # as a diff on the repaired records only.
+        merged = {**existing, **accepted}
+        cases_path().write_text(
+            "".join(json.dumps(merged[v], ensure_ascii=False) + "\n" for v in merged)
+        )
+    else:
+        with open(cases_path(), "a") as f:
+            for rec in accepted.values():
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    print(f"ingested {n_ok} casemeta records ({n_bad} skipped, {n_replaced} replaced)")
 
 
 def verify_casemeta(run_id: str | None = None):
@@ -346,9 +575,16 @@ def verify_casemeta(run_id: str | None = None):
     # carry an EMPTY Nej side, which is invisible here but silently degrades the
     # p6 agent prompt: `promptgen._render_p6_arende` returns None when
     # `agent.alternatives` is empty and falls back to the p5 block — a ~92-char
-    # hollow Ja-only brief. That fallback is correct for a votering with no
-    # counter-proposal and WRONG for one that has them, so the check is scoped to
-    # cases whose source record actually lists alternatives.
+    # hollow Ja-only brief.
+    #
+    # This check is scoped to cases whose source record lists reservations. It used
+    # to say the fallback "is correct for a votering with no counter-proposal", and
+    # that was wrong in a way that cost 80 published decisions: correct for p5, which
+    # asks for a vote and gets one, but NOT for p6, where the fallback also swaps the
+    # closing question while the schema still only accepts a stance. The p6 half of
+    # the guard is `promptgen.p6_decidable`, enforced in `simulate.verify_run` and
+    # `agent_run.prepare`; a punkt with no reservation but a rejected motion is
+    # recovered by `motion_demands` rather than left to the fallback.
     cases = {
         c["votering_id"]: c
         for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True)

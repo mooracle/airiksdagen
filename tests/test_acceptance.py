@@ -38,7 +38,16 @@ FRAGMENTATION_GATE = 0.20
 
 # Measured on full-v4 and accepted in Task 10. A ratchet, not a description: a
 # re-run that moves either number has changed what the site publishes.
-N_CITATIONS = 77_719
+#
+# Re-measured after the p6 sign-inversion repair: 56 decisions re-run on 7 cases
+# that had been served no counter-proposal, and 24 deleted on the 3 points no
+# single stance can answer (`casemeta.undecidable_report`). Citations 77,719 ->
+# 77,642 and located 77,599 -> 77,522 both fall by 77, which is the net citation
+# count of those 80 decisions. N_BLANK is unchanged at 120: every blank belongs to
+# a decision the repair did not touch, and `repair-citations` resolved all 4 new
+# paraphrases to verbatim rather than blanking any.
+N_CITATIONS = 77_642
+N_LOCATED = 77_522
 N_BLANK = 120
 
 ABOUT_PAGE = SITE_DATA_DIR.parent / "pageviews" / "AboutPage.astro"
@@ -134,7 +143,7 @@ class TestEveryCitationIsAccountedFor:
                 unlocated.append((slug, c["votering_id"], c["quote"][:70]))
         assert not unlocated, f"{len(unlocated)} citations locate nowhere, e.g. {unlocated[:3]}"
         assert sum(tally.values()) == N_CITATIONS
-        assert tally == {"located": 77_599, "blank": N_BLANK, "excused": 0, "out_of_scope": 0}
+        assert tally == {"located": N_LOCATED, "blank": N_BLANK, "excused": 0, "out_of_scope": 0}
 
     def test_a_blank_citation_keeps_the_agents_words(self, citations):
         """Blanking withdraws a claim about the corpus; it does not erase evidence."""
@@ -160,7 +169,11 @@ class TestEveryCitationIsAccountedFor:
         """
         letters = re.compile(r"[^0-9a-zà-öø-ÿ]")
         migrated = [c for c in citations if c["before"] is not None]
-        assert len(migrated) == 520
+        # 515, down from 520: five of the migrated citations belonged to decisions
+        # the p6 sign-inversion repair re-ran or deleted. The re-run ones were
+        # generated against the CURRENT corpus, so they carry no
+        # `quote_fore_migrering` — nothing had moved under them.
+        assert len(migrated) == 515
         for c in migrated:
             assert letters.sub("", c["before"].lower()) == letters.sub("", c["quote"].lower()), (
                 f"{c['votering_id']}: migration changed a word, not just spacing — "

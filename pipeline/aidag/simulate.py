@@ -26,7 +26,13 @@ from aidag.config import (
     RESULTS_DIR,
 )
 from aidag.models import Decision
-from aidag.promptgen import DECISION_SCHEMA, build_system_blocks, render_user_message
+from aidag.promptgen import (
+    DECISION_SCHEMA,
+    HALLNING_TO_ROST,
+    build_system_blocks,
+    p6_decidable,
+    render_user_message,
+)
 
 BATCHES_LEDGER = RESULTS_DIR / "batches.json"
 MAX_TOKENS = 4000
@@ -264,6 +270,109 @@ def collect(run_id: str) -> None:
         print(f"{entry['batch_id']} [{entry['party']}]: collected {n_ok} decisions, {n_err} errors")
 
 
+def prune(
+    run_id: str,
+    cases: list[str] | None = None,
+    undecidable: bool = False,
+    dry_run: bool = False,
+) -> int:
+    """Remove decisions from a run's shards so `agent-prepare` re-issues them.
+
+    Two reasons a committed decision has to go, and neither is detectable from the
+    decision itself:
+
+      --case VID    the case's PROMPT changed since the decision was made. A cid is
+                    (party, votering, prompt_version, arm) and carries no hash of
+                    the rendered text, so a decision made against an old <arende>
+                    looks identical to a fresh one. After a source-side repair the
+                    operator knows which cases moved; nothing else does.
+      --undecidable the case cannot be answered under the run's schema at all
+                    (`promptgen.p6_decidable`). These are not re-issued — the same
+                    predicate holds them out of `agent-prepare` — so pruning them
+                    is a deletion, which is why it is a separate, named flag.
+
+    The run's English translations go with the decisions, always. They are keyed on
+    the same cid and pair **positionally** with the Swedish citation list, so a
+    translation whose decision is gone is never valid: orphaned if the decision was
+    deleted, and mis-paired against the wrong quote if the decision is re-run with a
+    citation list of a different length. That is the failure mode `citation-audit`
+    exists to catch, and leaving it for a later pass to notice is what makes it
+    dangerous — `export_site` renders the pair with nothing raised.
+
+    Backs up each shard next to itself before writing. Returns the number removed.
+    """
+    from aidag.promptgen import p6_decidable
+
+    if not cases and not undecidable:
+        raise ValueError("pass --case and/or --undecidable — refusing to prune nothing")
+    sim_dir = RESULTS_DIR / "simulations" / run_id
+    files = sorted(sim_dir.glob("*.jsonl")) if sim_dir.exists() else []
+    if not files:
+        raise FileNotFoundError(f"no shards for run {run_id!r}")
+    all_cases = {
+        c["votering_id"]: c
+        for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True)
+    }
+    named = set(cases or [])
+    if unknown := named - set(all_cases):
+        raise ValueError(f"--case names {len(unknown)} unknown votering_id(s): {sorted(unknown)}")
+    drop_undecidable = set()
+    if undecidable:
+        drop_undecidable = {
+            vid for vid, c in all_cases.items() if not p6_decidable(c, "anonymous")
+        }
+    n_removed = 0
+    by_reason: dict[str, int] = {}
+    dropped_cids: set[str] = set()
+    for path in files:
+        kept, removed = [], 0
+        for line in path.read_text().splitlines():
+            if not line.strip():
+                continue
+            d = json.loads(line)
+            vid = d["votering_id"]
+            reason = None
+            if vid in named:
+                reason = "prompt changed"
+            elif vid in drop_undecidable and d.get("hallning"):
+                reason = "undecidable"
+            if reason:
+                removed += 1
+                by_reason[reason] = by_reason.get(reason, 0) + 1
+                dropped_cids.add(
+                    f"{d['parti']}:{vid}:{d['prompt_version']}:{d['arm']}"
+                )
+                continue
+            kept.append(line)
+        if removed and not dry_run:
+            path.with_suffix(".jsonl.bak").write_text(path.read_text())
+            path.write_text("".join(x + "\n" for x in kept))
+        n_removed += removed
+        if removed:
+            print(f"  {path.name}: removed {removed}, kept {len(kept)}")
+    verb = "would remove" if dry_run else "removed"
+    print(f"{verb} {n_removed} decisions from {run_id}: " +
+          ", ".join(f"{v} {k}" for k, v in sorted(by_reason.items())))
+
+    # The paired English, in the same breath — see the docstring. Re-preparing
+    # translations after this re-issues exactly the re-run decisions.
+    from aidag.translate import decisions_path
+
+    tpath = decisions_path(run_id)
+    n_tr = 0
+    if dropped_cids and tpath.exists():
+        rows = [x for x in tpath.read_text().splitlines() if x.strip()]
+        kept_tr = [x for x in rows if json.loads(x).get("cid") not in dropped_cids]
+        n_tr = len(rows) - len(kept_tr)
+        if n_tr and not dry_run:
+            tpath.with_suffix(".jsonl.bak").write_text("".join(x + "\n" for x in rows))
+            tpath.write_text("".join(x + "\n" for x in kept_tr))
+    print(f"{verb} {n_tr} paired English translations")
+    if not dry_run and (n_removed or n_tr):
+        print("  backups written alongside as *.jsonl.bak")
+    return n_removed
+
+
 def _normalize_ws(text: str) -> str:
     return " ".join(text.split())
 
@@ -280,11 +389,21 @@ def verify_run(run_id: str):
     )
     datum_by_vid = {r["votering_id"]: r["datum"] for r in _cases.iter_rows(named=True)}
     rm_by_vid = {r["votering_id"]: r["rm"] for r in _cases.iter_rows(named=True)}
+    # Full rows, for the p6 stance-grounding check below. `p6_decidable` needs the
+    # whole case (it re-renders the ärende block), not the three columns above.
+    case_by_vid = {
+        c["votering_id"]: c
+        for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True)
+    }
     seen: set[str] = set()
     dupes = 0
     bad_quotes = 0
     out_of_context = 0
     n = 0
+    n_p6 = 0
+    ungrounded: list[str] = []
+    unsigned: list[str] = []
+    decidable: dict[tuple[str, str], bool] = {}
     corpus_map = {}
     for path in files:
         for line in path.read_text().splitlines():
@@ -296,6 +415,20 @@ def verify_run(run_id: str):
             if cid in seen:
                 dupes += 1
             seen.add(cid)
+            if d.get("hallning"):
+                # A p6 decision. Two things have to hold for its published vote to
+                # mean anything, and neither was checked anywhere before: the agent
+                # must have been SHOWN the counter-proposal `hallning` is a stance
+                # on, and the stored `rost` must still be that stance's sign.
+                n_p6 += 1
+                case = case_by_vid.get(d["votering_id"])
+                key = (d["votering_id"], d["arm"])
+                if key not in decidable:
+                    decidable[key] = bool(case) and p6_decidable(case, d["arm"])
+                if not decidable[key]:
+                    ungrounded.append(cid)
+                if d.get("rost") != HALLNING_TO_ROST.get(d["hallning"]):
+                    unsigned.append(cid)
             for c in d.get("citations", []):
                 # exactly what THIS decision's agent was served, from the same
                 # function the prompt builder used — a citation to anything else
@@ -326,4 +459,16 @@ def verify_run(run_id: str):
         "citations only cite in-context documents",
         out_of_context == 0,
         f"{out_of_context} citations to documents the agent never saw",
+    )
+    # p6 only. A p4/p5 run carries `rost` straight from the model and has no
+    # stance to ground, so both checks pass vacuously at n_p6 == 0.
+    ung_detail = f"{len(ungrounded)} of {n_p6} p6 stances taken against no counter-proposal"
+    if ungrounded:
+        vids = sorted({c.split(":")[1] for c in ungrounded})
+        ung_detail += f" — {len(vids)} cases, e.g. {vids[0]}"
+    yield ("p6 stances had a counter-proposal to take a stance on", not ungrounded, ung_detail)
+    yield (
+        "rost is the stored stance's sign",
+        not unsigned,
+        f"{len(unsigned)} of {n_p6} p6 decisions disagree with derive_rost(hallning)",
     )

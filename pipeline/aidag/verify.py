@@ -177,6 +177,14 @@ def verify_translate(run_id: str | None) -> None:
         check(name, ok, detail)
 
 
+def verify_recheck_stage(run_id: str | None) -> None:
+    print(f"recheck (run_id={run_id}):")
+    from aidag.stance_recheck import verify_recheck
+
+    for name, ok, detail in verify_recheck(run_id):
+        check(name, ok, detail)
+
+
 def verify_metadata() -> None:
     print("metadata:")
     from aidag.metadata import verify_metadata as checks
@@ -230,6 +238,8 @@ def run(stage: str, run_id: str | None = None) -> int:
         verify_simulate(run_id)
     elif stage == "translate":
         verify_translate(run_id)
+    elif stage == "recheck":
+        verify_recheck_stage(run_id)
     elif stage == "all":
         for fn in stages.values():
             try:
