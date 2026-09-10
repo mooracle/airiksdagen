@@ -676,12 +676,20 @@ const TR = {
     /* CiteNote's own styles live here, as :global rules. A scoped <style> in the
        component would put a `data-astro-cid` attribute on each of its dozen
        elements, and those elements are rendered 510 times on one page. */
+    /* Cancel the hanging indent. `li.line` carries `text-indent: -1.3rem` for
+       the document's own bullet, and text-indent inherits — so below the 1080px
+       grid (phones included) every first line in the panel, title and verdict
+       alike, shifted left and was clipped by `.refs ul`'s scroll container:
+       "AI-ansiktsigenkänning…" rendered as "ansiktsigenkänning…". The panel is
+       not part of the bullet, so it resets unconditionally rather than inside a
+       media query. */
     .doc :global(.cnote) {
       font-size: 0.8rem;
       line-height: 1.45;
       color: var(--ink-2);
       border-left: 2px solid var(--line);
       padding-left: 0.6rem;
+      text-indent: 0;
     }
     .doc :global(.cnote + .cnote) { margin-top: 0.5rem; }
     .doc :global(.cnote > summary) {
