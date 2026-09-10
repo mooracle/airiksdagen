@@ -2,8 +2,13 @@
 /**
  * 349-seat chamber, rendered at build time as static SVG (zero client JS).
  * Each seat = one MP colored by their actual vote; party wedges are contiguous
- * (seats arrive pre-sorted in party-block order from export-site). Below each
- * party's wedge a badge shows the AI decision with a match/mismatch marker.
+ * (seats arrive pre-sorted in party-block order from export-site).
+ *
+ * With `labels` set, a badge row follows the chamber: per party, the AI vote
+ * beside the real one with a match/mismatch mark. The embed widget uses it,
+ * having no other comparison; the case page passes no `labels` because its
+ * table below already is that comparison, and a second copy under the chamber
+ * read as a legend for the seats.
  */
 import { hemicycleLayout, VOTE_COLORS } from '../lib/hemicycle';
 import { partyInk } from '../lib/data';
@@ -15,9 +20,17 @@ interface Props {
   ai: Record<string, AiDecision>;
   actual: Record<string, ActualPosition>;
   voteLabels: Record<string, string>;
+  /** labels for the badge row: the two chips ("AI" / "actual vote") and the
+      ✓/✕ verdict. Rendered as a key line above the badges and as tooltips. */
+  labels?: {
+    heading?: string; note?: string;      // optional lead-in over the badge row
+    ai: string; actual: string;           // full names, for the key line and tooltips
+    aiShort: string; actualShort: string; // the tag on each chip ("AI" / "Röst")
+    match: string; mismatch: string;
+  };
 }
 
-const { seats, parties, ai, actual, voteLabels } = Astro.props;
+const { seats, parties, ai, actual, voteLabels, labels } = Astro.props;
 const layout = hemicycleLayout(seats.length);
 
 // party label arcs: min/max seat index per party (seats are party-contiguous)
@@ -91,7 +104,29 @@ function labelPos(range: { from: number; to: number }) {
     })}
   </svg>
 
-  <div class="ai-row">
+  {/* One badge per party: the AI vote, then the vote the party actually cast,
+      then the verdict. Both chips are shown because the AI can only answer
+      Ja/Nej while a party can abstain — with the AI chip alone, an "Avstår"
+      wedge in the chamber above had no counterpart down here and its ✕ read as
+      a rendering error rather than as the miss the metric counts it as. */}
+  {/* The badge row is not a second reading of the chamber above it, and on a
+      page where the chamber is coloured Ja/Nej/Avstår the same chip colours
+      below it read as one. Say what the row is before showing it. */}
+  {labels?.heading && (
+    <h3 class="ai-head">{labels.heading}</h3>
+  )}
+  {labels?.note && (
+    <p class="ai-note muted">{labels.note}</p>
+  )}
+  {labels && (
+    <p class="ai-key muted">
+      <span class="ai-key-item"><span class="tag">{labels.aiShort}</span> {labels.ai}</span>
+      <span class="ai-key-item"><span class="tag">{labels.actualShort}</span> {labels.actual}</span>
+      <span class="ai-key-item"><span class="match" aria-hidden="true">✓</span> {labels.match}</span>
+      <span class="ai-key-item"><span class="mismatch" aria-hidden="true">✕</span> {labels.mismatch}</span>
+    </p>
+  )}
+  {labels && <div class="ai-row">
     {partyOrder.map(([code]) => {
       const decision = ai[code];
       const act = actual[code]?.position;
@@ -100,20 +135,30 @@ function labelPos(range: { from: number; to: number }) {
       return (
         <div class="ai-badge" id={code} style={`border-top: 3px solid ${parties[code]?.color ?? '#999'}`}>
           <span class="code">{code}</span>
-          {decision ? (
-            <>
-              <span class="votechip" data-v={decision.rost}>{voteLabels[decision.rost] ?? decision.rost}</span>
-              {comparable && (
-                <span class={isMatch ? 'match' : 'mismatch'}>{isMatch ? '✓' : '✕'}</span>
-              )}
-            </>
-          ) : (
-            <span class="muted">–</span>
+          <span class="rows">
+            <span class="tag" title={labels?.ai}>{labels?.aiShort}</span>
+            {decision ? (
+              <span class="votechip" data-v={decision.rost} title={labels?.ai}>{voteLabels[decision.rost] ?? decision.rost}</span>
+            ) : (
+              <span class="muted" title={labels?.ai}>–</span>
+            )}
+            <span class="tag" title={labels?.actual}>{labels?.actualShort}</span>
+            {act ? (
+              <span class="votechip" data-v={act} title={labels?.actual}>{voteLabels[act] ?? act}</span>
+            ) : (
+              <span class="muted" title={labels?.actual}>–</span>
+            )}
+          </span>
+          {decision && comparable && (
+            <span class={isMatch ? 'match' : 'mismatch'} title={isMatch ? labels?.match : labels?.mismatch}>
+              <span aria-hidden="true">{isMatch ? '✓' : '✕'}</span>
+              {labels && <span class="srtext">{isMatch ? labels.match : labels.mismatch}</span>}
+            </span>
           )}
         </div>
       );
     })}
-  </div>
+  </div>}
 
   <figcaption class="muted">
     {Object.entries(VOTE_COLORS).map(([v, c]) => (
@@ -135,7 +180,30 @@ function labelPos(range: { from: number; to: number }) {
     padding: 0.3rem 0.4rem; text-align: center; font-size: 0.85rem;
     display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
   }
+  .ai-head { margin: 1.1rem 0 0.2rem; font-size: 1.05rem; text-align: center; }
+  .ai-note { margin: 0 auto; max-width: 60ch; font-size: 0.86rem; line-height: 1.5; text-align: center; }
+  .ai-key {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 1.1rem;
+    margin: 0.7rem 0 0.35rem; font-size: 0.82rem;
+  }
+  .ai-key-item { white-space: nowrap; }
   .ai-badge .code { font-weight: 700; }
+  .srtext {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  /* two labelled rows: who voted, then how. The tag is the same element in the
+     key line above, so the reader learns it once. */
+  .ai-badge .rows {
+    display: grid; grid-template-columns: auto auto; gap: 0.2rem 0.3rem;
+    align-items: center; justify-items: start; margin: 0.1rem 0;
+  }
+  .tag {
+    display: inline-block; min-width: 2.1em; padding: 0 0.3em; border-radius: 3px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink-2); background: var(--panel-2); border: 1px solid var(--line);
+    text-align: center; line-height: 1.5;
+  }
   figcaption { font-size: 0.8rem; margin-top: 0.6rem; text-align: center; }
   .legend { margin: 0 0.5rem; white-space: nowrap; }
   .swatch {

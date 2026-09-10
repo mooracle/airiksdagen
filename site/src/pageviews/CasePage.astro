@@ -220,6 +220,9 @@ const caseJsonLd = {
     </section>
   )}
 
+  {/* The chamber is the real vote and nothing else. The AI comparison lives in
+      the table below, which already carries confidence and tier; a badge row
+      under the chamber was a third copy of it that read as a legend. */}
   <Hemicycle
     seats={c.seats}
     parties={meta.parties}
@@ -227,6 +230,19 @@ const caseJsonLd = {
     actual={c.actual}
     voteLabels={voteLabels}
   />
+
+  {/* What the colours mean in this case sits next to the chamber they colour. */}
+  {c.compact && (
+    <>
+      <h2>{t('case.meanings')}</h2>
+      <div class="card meanings">
+        <p><span class="votechip" data-v="Ja">{voteLabels.Ja}</span> {lang === 'sv' ? c.compact.ja_sv : c.compact.ja_en}</p>
+        <p><span class="votechip" data-v="Nej">{voteLabels.Nej}</span> {lang === 'sv' ? c.compact.nej_sv : c.compact.nej_en}</p>
+        <p><span class="votechip" data-v="Avstår">{voteLabels['Avstår']}</span> {lang === 'sv' ? c.compact.avstar_sv : c.compact.avstar_en}</p>
+      </div>
+    </>
+  )}
+
 
   {/* The same division re-run with only the documented commitments moved. Sits
       directly under the chamber it re-runs. Rendered whenever any party
@@ -268,18 +284,9 @@ const caseJsonLd = {
     </div>
   )}
 
-  {c.compact && (
-    <>
-      <h2>{t('case.meanings')}</h2>
-      <div class="card meanings">
-        <p><span class="votechip" data-v="Ja">{voteLabels.Ja}</span> {lang === 'sv' ? c.compact.ja_sv : c.compact.ja_en}</p>
-        <p><span class="votechip" data-v="Nej">{voteLabels.Nej}</span> {lang === 'sv' ? c.compact.nej_sv : c.compact.nej_en}</p>
-        <p><span class="votechip" data-v="Avstår">{voteLabels['Avstår']}</span> {lang === 'sv' ? c.compact.avstar_sv : c.compact.avstar_en}</p>
-      </div>
-    </>
-  )}
 
-  <h2>{t('case.ai')} / {t('case.actual')}</h2>
+  <h2>{t('hemi.aiHead')}</h2>
+  <p class="muted aihead-note">{t('hemi.aiNote')}</p>
   <div class="tablewrap">
   <table class="compare tight">
     <thead>
@@ -806,6 +813,7 @@ const caseJsonLd = {
       .partycard > summary { gap: 0.35rem 0.6rem; }
       .pc-cmp { font-size: 0.94rem; }
     }
+    .aihead-note { margin: -0.3rem 0 0.8rem; max-width: 64ch; font-size: 0.9rem; line-height: 1.5; }
     .srclist { margin: 0.2rem 0; padding-left: 1.2rem; }
     .srclist li { margin: 0.25rem 0; }
     .meanings p { margin: 0.45rem 0; }

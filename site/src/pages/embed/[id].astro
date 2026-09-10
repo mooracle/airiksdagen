@@ -55,6 +55,12 @@ const dissentLine =
         ai={c.ai}
         actual={c.actual}
         voteLabels={voteLabels}
+        labels={{
+          heading: 'Så hade AI-partierna röstat',
+          ai: 'Planens ståndpunkt', actual: 'Verklig röst',
+          aiShort: 'AI', actualShort: 'Röst',
+          match: 'lika', mismatch: 'skiljer',
+        }}
       />
       {c.compact && (
         <p class="meaning">
