@@ -44,6 +44,26 @@ The full methodology is rendered on the site (`/en/about/`,
   mechanically against the live prompt version. Memorization would shrink the
   gap — the measured gap is instead large and almost entirely one-directional,
   which points the same way.
+- **Measuring contamination (`aidag recall-probe-*`):** the structural defence
+  assumes the agent cannot tell which vote it sees, but month, committee and case
+  title together identify 2,499 of the 2,539 votes. The recall probe tests that
+  assumption directly (after Golchin & Surdeanu, ICLR 2024): on a stratified sample
+  of 150 votes the model gets only those three fields and must guess the committee
+  report's number, which the topic cannot reveal, and the reservation's parties.
+  Run through the Claude Code CLI with no tools, no MCP servers and hooks disabled,
+  Claude Opus 5 named the right report for 27 of 150 votes (18.0%, chance 4.9%,
+  exact binomial p ≈ 4e-9), falling from 9/34 votes in 2023 to 2/40 in 2026.
+  Results: `data/results/probes/`. The probe shows the model *can* identify votes,
+  not how much that moved a verdict; on the 27 recognised votes the published
+  verdicts agree with the actual vote somewhat more often (`recall-probe-report`).
+- **No-documents arm (`agent-prepare --arm nodocs`):** the same role and case text
+  with the party's documents withheld, on the probe's sample
+  (`--votes-file data/results/probes/sample.json`). What the agent concludes then
+  is what the model already believes about the party; a verdict reads as fidelity
+  to the documents only to the extent it differs from this baseline. Compare with
+  `aidag compare-runs`; `verify simulate` does not apply to this arm, since quotes
+  cannot be verbatim excerpts of documents the agent never saw. The arm is part of
+  the cid and is skipped by `export-site` and `build-anchors`.
 - **Verification:** our vote aggregation is cross-checked against the
   Riksdag's own per-party tables (0 mismatches across all voteringar); AI
   citations are verified as exact substrings of the source documents.

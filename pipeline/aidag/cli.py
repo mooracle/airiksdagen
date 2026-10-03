@@ -143,6 +143,12 @@ def agent_prepare(
         help="p4 = valmanifest+Tidö; p5 = + date-gated partiprogram & budgetmotion; "
         "p6 = policy-first (stance only, vote derived; own plan only)",
     ),
+    arm: str = typer.Option(
+        "anonymous", help="'anonymous' (published) or 'nodocs' (party documents withheld)"
+    ),
+    votes_file: str = typer.Option(
+        None, help="JSON with 'votering_ids' to restrict to, e.g. data/results/probes/sample.json"
+    ),
 ) -> None:
     """Emit the next subagent batch manifest from pending work (checkpoint-aware)."""
     from aidag.agent_run import prepare
@@ -154,7 +160,41 @@ def agent_prepare(
         mirror_run=mirror_run,
         prompt_version=prompt_version,
         context_limit=context_limit,
+        arm=arm,
+        votes_file=votes_file,
     )
+
+
+@app.command("recall-probe-sample")
+def recall_probe_sample(
+    n: int = typer.Option(150, help="Votes to sample, stratified by half-year"),
+    seed: int = typer.Option(20261003),
+    run_id: str = typer.Option("full-v4", "--run-id", help="Pool = votes this run decided for all 8 parties"),
+) -> None:
+    """Write the probe's vote sample to data/results/probes/sample.json."""
+    from aidag.recall_probe import write_sample
+
+    write_sample(n=n, seed=seed, run_id=run_id)
+
+
+@app.command("recall-probe-run")
+def recall_probe_run(model: str = typer.Option("claude-opus-5")) -> None:
+    """Ask the model, from month + committee + title only, for the report number and
+    the reservation's parties (Claude Code CLI, isolated, 25 questions per call)."""
+    from aidag.recall_probe import run
+
+    run(model=model)
+
+
+@app.command("recall-probe-report")
+def recall_probe_report(
+    model: str = typer.Option("claude-opus-5"),
+    run_id: str = typer.Option("full-v4", "--run-id", help="Compare its verdicts on recognised vs other votes"),
+) -> None:
+    """Hit rate vs chance (exact binomial), by year, and reservation-author overlap vs baseline."""
+    from aidag.recall_probe import report
+
+    report(model=model, run_id=run_id or None)
 
 
 @app.command("compare-runs")
