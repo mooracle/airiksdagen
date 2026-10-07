@@ -154,8 +154,8 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fo
   ${chamber(268, 380, 176)}
   <text x="516" y="292" font-size="104" font-weight="700" letter-spacing="-1" fill="${INK}">AI Riksdag</text>
   <rect x="520" y="322" width="150" height="6" fill="${GOLD}"/>
-  <text x="516" y="392" font-size="35" fill="#45525e" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">Hur borde partierna ha röstat —</text>
-  <text x="516" y="440" font-size="35" fill="#45525e" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">enligt sina egna dokument?</text>
+  <text x="516" y="392" font-size="35" fill="#45525e" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">Vad partierna skrev —</text>
+  <text x="516" y="440" font-size="35" fill="#45525e" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">och hur de röstade</text>
   <text x="516" y="516" font-size="30" fill="#1c5d99" font-weight="600" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">airiksdagen.se</text>
 </svg>`;
 

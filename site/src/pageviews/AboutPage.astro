@@ -64,8 +64,8 @@ const schemaSummary = `{
   <h1>{sv ? 'Om projektet' : 'About the project'}</h1>
   <p class="lede">
     {sv
-      ? 'Ett öppet, partipolitiskt obundet forskningsprojekt: för varje votering i riksdagen 2022–2026 låter vi en AI-agent per parti avgöra hur partiet borde rösta enbart utifrån partiets egna dokument, och jämför med hur det faktiskt röstade.'
-      : 'An open, politically unaffiliated research project: for every Riksdag vote 2022–2026, one AI agent per party decides how the party should vote from its own documents alone, compared with how it actually voted.'}
+      ? 'Ett öppet, partipolitiskt obundet forskningsprojekt som kopplar varje votering i sakfrågan i riksdagen 2022–2026 till vad partiets eget valmanifest och partiprogram säger i frågan, och visar var rösten gick åt andra hållet. En AI-agent per parti gör läsningen: den redovisar vad partiets dokument stödjer och citerar dem ordagrant. Den ombeds aldrig förutsäga rösten.'
+      : 'An open, politically unaffiliated research project that links every substantive Riksdag vote 2022–2026 to what the party’s own election manifesto and party programme say about the question, and shows where the vote went the other way. One AI agent per party does the reading: it states what the party’s documents support and quotes them verbatim. It is never asked to predict the vote.'}
   </p>
 
   <nav class="jump" aria-label={sv ? 'På denna sida' : 'On this page'}>
@@ -79,10 +79,15 @@ const schemaSummary = `{
     <h2>{sv ? 'Metod' : 'Methodology'}</h2>
     {sv ? (
       <Fragment>
-        <p><strong>Rekonstruktion, inte prediktion.</strong> Projektet mäter hur väl en AI-agent kan
-        rekonstruera ett partis röstbeteende enbart utifrån partiets egna offentliga dokument.
-        Det mäter <em>inte</em> förmågan att förutsäga röster: modellens träningsdata innehåller
-        med stor sannolikhet de verkliga utfallen.</p>
+        <p><strong>Ingen förutsägelse.</strong> Projektet prövar inte om en AI kan gissa hur
+        partierna röstar. Det kopplar varje votering till vad partiets egna dokument säger i
+        frågan och visar var de två går isär. Agenten ombeds aldrig säga hur partiet röstade och får aldrig
+        veta utfallet: den avgör vilken av voteringens två ståndpunkter partiets egna dokument
+        stödjer — konkret, om de stödjer det motförslaget kräver — och citerar de stycken
+        ståndpunkten vilar på. Den röst ståndpunkten innebär härleds sedan i kod. En avvikelse
+        mellan den rösten och den verkliga är vad webbplatsen finns till för att visa, inte ett
+        betyg på AI:n — varje avvikelse är en fråga som citaten låter läsaren pröva:
+        koalitionsdisciplin, en ändrad hållning, eller att agenten läst planen fel.</p>
 
         <h3>Uppställning</h3>
         <ul>
@@ -156,7 +161,7 @@ const schemaSummary = `{
         det som motförslaget kräver? Rösten härleds sedan i kod (stödjer → Nej, avvisar → Ja)
         och efterfrågas aldrig av modellen. Skälet är att en plan inte uttrycker
         kammartaktik: i den tidigare körningen var 40,8 % av alla avvikelser fall där partiet
-        avstod taktiskt, och att be ett valmanifest förutsäga det är en kategorifel.</p>
+        avstod taktiskt, och att be ett valmanifest förutsäga det är ett kategorifel.</p>
         <p>De två sidorna i en votering är dock <strong>inte samma slags påstående</strong>.
         Utskottets ståndpunkt är ofta procedurmässig (”en utredning pågår, föregrip den
         inte”) medan reservationen är saklig (”gör X nu”). Planer talar om sak och är tysta
@@ -186,8 +191,8 @@ const schemaSummary = `{
 
         <h3>Kontaminering</h3>
         <p>Risken är att modellen minns utfallet från sin träningsdata i stället för att läsa
-        dokumenten. Försvaret är strukturellt: modellen får aldrig veta <em>vilken</em> votering
-        den ser. Dokument-id, betänkandebeteckning, voteringens id och exakta datum tas bort ur
+        dokumenten. Försvaret är strukturellt: modellen får aldrig de uppgifter som pekar ut en
+        viss votering. Dokument-id, betänkandebeteckning, voteringens id och exakta datum tas bort ur
         prompten — tidsangivelsen är grov ("november 2023") — och utfallet ingår aldrig. Det
         upprätthålls maskinellt av spärrmönster i promptgenereringen och av golden tests som
         alltid körs mot den skarpa promptversionen.</p>
@@ -201,25 +206,24 @@ const schemaSummary = `{
         eftersom modellen då drog sin ståndpunkt mot det utfall den minns; det uppmätta gapet är
         i stället stort och nästan helt ensidigt (1&nbsp;686 fall där planen pekade på Nej men
         partiet röstade Ja, mot 14 åt andra hållet).</p>
-        <p>Kvarstående risk: för ett fåtal mycket uppmärksammade voteringar kan sakinnehållet
-        ensamt räcka för att känna igen ärendet. Effekten går i så fall mot ett mindre gap, vilket
+        <p>Kvarstående risk: prompten innehåller fortfarande utskottet, ärendets rubrik och
+        månaden, och för uppmärksammade voteringar kan det räcka för att känna igen ärendet. Effekten går i så fall mot ett mindre gap, vilket
         gör huvudsiffran försiktig snarare än uppblåst.</p>
 
         <h3>Kända begränsningar</h3>
         <ul>
-          <li>Språkmodeller har dokumenterad politisk slagsida i forskningslitteraturen;
-          fel kan vara asymmetriska mellan partier. Vi publicerar per-parti-fel i stället för
-          att dölja dem.</li>
+          <li>Språkmodeller har dokumenterad politisk slagsida i forskningslitteraturen, och
+          en felläsning kan vara vanligare för vissa partier än för andra. Varje läsning
+          publiceras därför med sina citat, sin säkerhet och sin evidensnivå, så att den går
+          att pröva fall för fall.</li>
           <li>Reservationstexternas fulltext ingår inte i v1 (endast utskottets förslagstext
           och reservationsmetadata).</li>
           <li>Wikipedia-händelser är skrivna i efterhand; de är daterade inom månaden men
           formuleringarna kan innehålla efterhandsperspektiv.</li>
-          <li>Regeringspartier röstar nästan alltid ja till sina egna förslag — hög
-          överensstämmelse där är väntad och föga informativ; Cohens kappa redovisas därför
-          vid sidan av rå överensstämmelse. Detta är inte ett fel i mätningen utan
-          resultatet: se <a href={`${localePath(lang, '/analys/')}#koalition`}>Koalitionen eller
-          partiprogrammet?</a>, där koalitionslinjen ställs mot partiets egna dokument
-          som två konkurrerande förklaringar.</li>
+          <li>Regeringspartierna röstar med utskottet nästan varje gång, så där deras eget
+          valmanifest pekar åt annat håll mäter avvikelsen främst vad koalitionsuppgörelsen
+          bär. Detta är inte ett fel i mätningen utan resultatet: se <a href={`${localePath(lang, '/analys/')}#koalition`}>Koalitionen eller
+          partiprogrammet?</a>, där utskottslinjen ställs mot varje partis egna dokument.</li>
           <li>En markering ”mot eget program” säger att en dokumentgrundad läsning pekade
           åt annat håll än partiets röst. Den kan inte i sig skilja koalitionsdisciplin
           från att AI-agenten läst programmet fel. Vem som skrivit en reservation är
@@ -249,10 +253,16 @@ const schemaSummary = `{
       </Fragment>
     ) : (
       <Fragment>
-        <p><strong>Reconstruction, not prediction.</strong> The project measures how well an AI
-        agent can reconstruct a party's voting behaviour from the party's own public documents
-        alone. It does <em>not</em> measure forecasting ability: the model's training data most
-        likely contains the real outcomes.</p>
+        <p><strong>Not a prediction.</strong> The project does not test whether an AI can guess
+        how parties vote. It links each vote to what the party's own documents say about the
+        question, and shows where the two diverge. The agent is never asked how the party voted and
+        never told the outcome: it decides which of the division's two positions the party's own
+        documents back — concretely, whether they support what the counter-proposal demands —
+        and quotes the passages that rests on. The vote that stance implies is then derived in
+        code. A
+        divergence between that vote and the real one is what the site exists to surface, not a
+        score against the AI — each one is a question the quotes let the reader check: coalition
+        discipline, a changed position, or the agent misreading the plan.</p>
 
         <h3>Setup</h3>
         <ul>
@@ -354,8 +364,8 @@ const schemaSummary = `{
 
         <h3>Contamination</h3>
         <p>The risk is that the model recalls the outcome from its training data instead of
-        reading the documents. The defence is structural: the model is never told <em>which</em>
-        vote it is looking at. Document ids, committee report designations, the division id and
+        reading the documents. The defence is structural: the model is never given the identifiers that
+        pin down a particular vote. Document ids, committee report designations, the division id and
         exact dates are stripped from the prompt — the time context is coarse ("November 2023") —
         and the outcome never appears. This is enforced mechanically by forbidden-pattern checks
         in prompt generation and by golden tests that always run against the live prompt version.</p>
@@ -369,23 +379,23 @@ const schemaSummary = `{
         gap, since the model would bend its stance toward the outcome it remembers; the measured
         gap is instead large and almost entirely one-directional (1,686 cases where the plan
         pointed to Nej but the party voted Ja, against 14 the other way).</p>
-        <p>Residual risk: for a handful of genuinely high-profile votes, the substance alone may
-        be enough to recognise the case. That effect would push toward a smaller gap, making the
+        <p>Residual risk: the prompt still carries the committee, the case title and the month,
+        which for well-known votes can be enough to recognise the case. That effect would push toward a smaller gap, making the
         headline figure conservative rather than inflated.</p>
 
         <h3>Known limitations</h3>
         <ul>
-          <li>Language models have documented political bias; errors may be asymmetric across
-          parties. Per-party errors are published rather than hidden.</li>
+          <li>Language models have documented political bias, and a misreading may be more
+          common for some parties than for others. Every reading is therefore published with its
+          quotes, confidence and evidence tier, so it can be checked case by case.</li>
           <li>Full reservation texts are not included in v1.</li>
           <li>Wikipedia events are written retrospectively; dated within the month but phrasing
           may carry hindsight.</li>
-          <li>Government parties nearly always support their own proposals — high agreement
-          there is expected and uninformative; Cohen's kappa is reported alongside raw
-          agreement. This is not a flaw in the measurement but the result of it: see
+          <li>Governing parties vote with the committee almost every time, so where their own
+          manifesto points elsewhere the divergence mostly measures what the coalition deal
+          carries. This is not a flaw in the measurement but the result of it: see
           <a href={`${localePath(lang, '/analys/')}#koalition`}>The coalition, or the party
-          programme?</a>, which sets the coalition line against a party's own documents as
-          two competing explanations.</li>
+          programme?</a>, which sets the committee line against each party's own documents.</li>
           <li>An "against own programme" flag says a document-grounded reading pointed the
           other way from the party's vote. It cannot by itself separate coalition discipline
           from the AI agent misreading the programme. Who authored a reservation is
@@ -579,8 +589,8 @@ const schemaSummary = `{
     <h2>{sv ? 'Data & kod' : 'Data & code'}</h2>
     <p>
       {sv
-        ? 'Allt underlag är öppet: pipeline-kod, prompter, simuleringsresultat och aggregat.'
-        : 'Everything is open: pipeline code, prompts, simulation results and aggregates.'}
+        ? 'Allt underlag är öppet: pipeline-kod, prompter, AI-agenternas läsningar med citat, och aggregat.'
+        : 'Everything is open: pipeline code, prompts, the AI agents’ readings with their citations, and aggregates.'}
     </p>
     <ul>
       <li><a href="https://github.com/mooracle/airiksdagen">GitHub</a> — {sv ? 'kod, prompter, resultat (JSONL)' : 'code, prompts, results (JSONL)'}</li>

@@ -56,10 +56,10 @@ const dissentLine =
         actual={c.actual}
         voteLabels={voteLabels}
         labels={{
-          heading: 'Så hade AI-partierna röstat',
+          heading: 'Vad planen pekar mot — och hur partiet röstade',
           ai: 'Planens ståndpunkt', actual: 'Verklig röst',
-          aiShort: 'AI', actualShort: 'Röst',
-          match: 'lika', mismatch: 'skiljer',
+          aiShort: 'Plan', actualShort: 'Röst',
+          match: 'följer planen', mismatch: 'avviker från planen',
         }}
       />
       {c.compact && (
@@ -71,7 +71,7 @@ const dissentLine =
         <p class="meaning"><strong>Avvek från partilinjen:</strong> {dissentLine}</p>
       )}
       <p class="foot">
-        Verklig röst per ledamot; märket under varje parti = AI enligt partiets egna dokument.
+        Verklig röst per ledamot; märket under varje parti = vad partiets eget valmanifest och partiprogram pekar mot.
         <a href={caseUrl} target="_blank" rel="noopener">AI Riksdag →</a>
       </p>
     </div>
