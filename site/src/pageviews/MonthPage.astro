@@ -1,0 +1,132 @@
+---
+/**
+ * One month of divisions as a plain list — /fall/manad/2023-11/.
+ *
+ * Exists so every case page has an ordinary link two clicks from the home page.
+ * The case browser renders its rows in JS and the timeline used to link into it
+ * with ?m= filters (which canonicalise back to /fall/), so ~1,600 of the 2,539
+ * case pages were reachable only through the sitemap or other case pages, and
+ * Search Console held ~2,300 URLs as "Discovered – currently not indexed".
+ *
+ * The marks are the case browser's own (disc / ringed disc / ⇄), with its legend,
+ * so a reader moving between the two reads one vocabulary.
+ */
+import Base from '../layouts/Base.astro';
+import PartyBadge from '../components/PartyBadge.astro';
+import { getMeta, getIndex, getCaseSubject, listCaseMonths } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; month: string }
+const { lang, month } = Astro.props;
+const t = useTranslations(lang);
+const meta = getMeta();
+
+const monthName = (m: string) =>
+  new Intl.DateTimeFormat(lang === 'sv' ? 'sv-SE' : 'en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' })
+    .format(new Date(`${m}-01T00:00:00Z`));
+const label = monthName(month);
+const heading = label.charAt(0).toUpperCase() + label.slice(1);
+
+const rows = getIndex()
+  .filter((r) => r.datum.startsWith(month))
+  .sort((a, b) => a.datum.localeCompare(b.datum) || a.bet.localeCompare(b.bet) || a.punkt - b.punkt);
+
+const months = listCaseMonths();
+const at = months.indexOf(month);
+const prev = at > 0 ? months[at - 1] : null;
+const next = at < months.length - 1 ? months[at + 1] : null;
+const monthPath = (m: string) => localePath(lang, `/fall/manad/${m}/`);
+const browserBase = localePath(lang, '/fall/');
+
+const lede = t('month.lede').replace('{n}', String(rows.length)).replace('{month}', label);
+const titleOf = (r: (typeof rows)[number]) =>
+  getCaseSubject(r.id)?.[lang] || (lang === 'en' && r.rubrik_en) || r.rubrik || r.titel;
+---
+
+<Base lang={lang} title={t('month.title').replace('{month}', label)} description={lede} path={`/fall/manad/${month}/`}>
+  <p class="eyebrow">{t('month.kicker')}</p>
+  <h1>{heading}</h1>
+  <p class="lede">{lede}</p>
+
+  <nav class="mnav" aria-label={t('month.kicker')}>
+    {prev ? <a href={monthPath(prev)} rel="prev" title={t('month.prev')}>← {monthName(prev)}</a> : <span />}
+    <a class="mbrowse" href={`${browserBase}?m=${month}`}>{t('month.browse')} →</a>
+    {next ? <a href={monthPath(next)} rel="next" title={t('month.next')}>{monthName(next)} →</a> : <span />}
+  </nav>
+
+  <p class="muted mhint">{t('browser.hint')}</p>
+  <ol class="card mlist">
+    {rows.map((r) => {
+      const strong = new Set(r.missx ?? []);
+      return (
+        <li>
+          <span class="mdate muted">{r.datum}</span>
+          <span class="mmain">
+            <a href={localePath(lang, `/fall/${r.id}/`)}>{titleOf(r)}</a>
+            {r.flip && (
+              <span class="flipmark" title={t('browser.flipTip')} role="img" aria-label={t('browser.flipTip')}> ⇄</span>
+            )}
+            <span class="mref muted">{r.bet} p.{r.punkt} · {r.utskott}</span>
+          </span>
+          <span class="mmarks">
+            {!r.hasAi ? (
+              <span class="muted" title={t('browser.noAi')}>—</span>
+            ) : !(r.miss?.length) ? (
+              <span class="ok" title={t('browser.allMatch')}>✓<span class="srtext">{t('browser.allMatch')}</span></span>
+            ) : (
+              <span class="misses" title={t('browser.missTip')}>
+                {r.miss.map((code) => (
+                  <span class={strong.has(code) ? 'mk strong' : 'mk'}>
+                    <PartyBadge code={code} parties={meta.parties} size={20} />
+                  </span>
+                ))}
+              </span>
+            )}
+          </span>
+        </li>
+      );
+    })}
+  </ol>
+
+  <nav class="mnav" aria-label={t('month.kicker')}>
+    {prev ? <a href={monthPath(prev)} rel="prev" title={t('month.prev')}>← {monthName(prev)}</a> : <span />}
+    <span class="mbrowse" />
+    {next ? <a href={monthPath(next)} rel="next" title={t('month.next')}>{monthName(next)} →</a> : <span />}
+  </nav>
+
+  <style>
+    .mnav {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.6rem;
+      align-items: baseline; margin: 1.2rem 0 0.6rem; font-size: 0.9rem;
+    }
+    .mnav > :last-child { justify-self: end; }
+    .mbrowse { justify-self: center; }
+    .mhint { font-size: 0.82rem; margin: 0 0 0.6rem; }
+    /* a table in list form, not prose: opt out of the global list measure */
+    .mlist { list-style: none; padding: 0.2rem 0.9rem; margin: 0; max-width: none; }
+    .mlist li {
+      display: grid; grid-template-columns: 6.2rem minmax(0, 1fr) auto; gap: 0.4rem 0.9rem;
+      align-items: baseline; padding: 0.6rem 0; border-bottom: 1px solid var(--line-soft);
+    }
+    .mlist li:last-child { border-bottom: 0; }
+    .mdate { font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+    .mmain a { font-weight: 600; }
+    .mref { display: block; font-size: 0.8rem; margin-top: 0.15rem; }
+    .flipmark { color: var(--accent-ink); font-weight: 700; cursor: help; }
+    .mmarks { justify-self: end; }
+    .misses { display: inline-flex; gap: 0.28rem; }
+    /* the case browser's ring: explicit commitment, not just a different reading */
+    .mk.strong :global(.pbadge) { box-shadow: 0 0 0 1.5px var(--paper), 0 0 0 3px #3c3a34; }
+    .ok { color: #2f7d43; font-weight: 700; }
+    .srtext {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+    @media (max-width: 640px) {
+      .mnav { grid-template-columns: 1fr 1fr; }
+      .mbrowse { display: none; }
+      .mlist li { grid-template-columns: minmax(0, 1fr) auto; }
+      .mdate { grid-column: 1 / -1; }
+    }
+  </style>
+</Base>

@@ -13,7 +13,8 @@ const SITE = (process.env.SITE_URL ?? 'https://airiksdagen.se').replace(/\/$/, '
 
 /** EN path (no /en prefix) -> canonical Swedish path. Inverse of localizedSlugs. */
 function deLocalize(enPath) {
-  for (const sv of ['/fall/', '/om/', '/metod/', '/dokument/', '/analys/', '/parti/']) {
+  // '/fall/manad/' before '/fall/': the first prefix that matches wins.
+  for (const sv of ['/fall/manad/', '/fall/', '/om/', '/metod/', '/dokument/', '/analys/', '/parti/']) {
     const en = localizedSlugs('en', sv);
     if (enPath.startsWith(en)) return sv + enPath.slice(en.length);
   }

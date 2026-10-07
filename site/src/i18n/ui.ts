@@ -260,6 +260,14 @@ export const ui = {
     'browser.missTip': 'Partier vars plan pekade åt ett annat håll än rösten',
     'browser.missTipX': 'Planen tog uttryckligen ställning i sakfrågan — partiet röstade ändå åt andra hållet',
     'browser.noAi': 'Ingen AI-ståndpunkt',
+    // Månadssidorna: en statisk lista per månad, så att varje votering nås med en
+    // vanlig länk två klick från startsidan (ärendesöket renderar sina rader i JS).
+    'month.kicker': 'Voteringar per månad',
+    'month.title': 'Voteringar i {month}',
+    'month.lede': 'Alla {n} voteringar i sakfrågan i riksdagen under {month}, med varje partis egen plan mot hur partiet röstade.',
+    'month.prev': 'Föregående månad',
+    'month.next': 'Nästa månad',
+    'month.browse': 'Filtrera månaden i ärendesöket',
     'party.validity': 'Vad planen räcker till',
     // Two metrics about the party's documents. `{a}/{t}/{e}/{i}/{pct}/{n}` are
     // filled in PartyPage.astro.
@@ -616,6 +624,12 @@ export const ui = {
     'browser.missTip': 'Parties whose own plan pointed the other way from their vote',
     'browser.missTipX': 'The plan took an explicit position on the substance — the party still voted the other way',
     'browser.noAi': 'No AI stance',
+    'month.kicker': 'Votes by month',
+    'month.title': 'Votes in {month}',
+    'month.lede': 'All {n} substantive votes in the Riksdag in {month}, each with every party’s own plan set against how it voted.',
+    'month.prev': 'Previous month',
+    'month.next': 'Next month',
+    'month.browse': 'Filter this month in the case browser',
     'party.validity': 'What the plan reaches',
     'party.robustNote.steady': 'The {n} cases the agent read most confidently give {pct}, against {head} overall — the gap does not rest on the uncertain readings.',
     'party.robustNote.lower': 'The {n} cases the agent read most confidently give {pct}, against {head} overall — part of the gap is carried by the less certain readings.',
@@ -711,6 +725,9 @@ export function useTranslations(lang: Lang) {
 // Route slugs that differ between the language trees (sv ↔ en). Paths are
 // always passed around in CANONICAL (Swedish) form; localePath translates.
 const SLUG_PAIRS: [string, string][] = [
+  // Longer prefixes first: localizedSlugs takes the first match, so '/fall/'
+  // listed above '/fall/manad/' would turn a month page into /cases/manad/.
+  ['/fall/manad/', '/cases/month/'],
   ['/fall/', '/cases/'],
   ['/om/', '/about/'],
   ['/metod/', '/methodology/'],

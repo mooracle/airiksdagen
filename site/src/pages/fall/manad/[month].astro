@@ -1,0 +1,12 @@
+---
+import MonthPage from '../../../pageviews/MonthPage.astro';
+import { listCaseMonths } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return listCaseMonths().map((month) => ({ params: { month } }));
+}
+
+const { month } = Astro.params;
+---
+
+<MonthPage lang="sv" month={month!} />

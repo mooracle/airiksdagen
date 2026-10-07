@@ -1,8 +1,13 @@
 ---
 /**
- * 349-seat chamber, rendered at build time as static SVG (zero client JS).
+ * 349-seat chamber, rendered at build time as static SVG.
  * Each seat = one MP colored by their actual vote; party wedges are contiguous
  * (seats arrive pre-sorted in party-block order from export-site).
+ *
+ * The chamber draws and colours itself with no JS. Only the per-seat name
+ * tooltip needs it: names live in one shared roster file (getMemberRoster) and
+ * each seat carries `<roster index><vote>[!]` in the svg's data-seats, because
+ * 349 inline <title>s made every case page ~40% the same text as every other.
  *
  * With `labels` set, a badge row follows the chamber: per party, the AI vote
  * beside the real one with a match/mismatch mark. The embed widget uses it,
@@ -11,7 +16,7 @@
  * read as a legend for the seats.
  */
 import { hemicycleLayout, VOTE_COLORS } from '../lib/hemicycle';
-import { partyInk } from '../lib/data';
+import { getMemberRoster, memberIndex, partyInk } from '../lib/data';
 import type { AiDecision, ActualPosition, PartyInfo } from '../lib/data';
 
 interface Props {
@@ -49,6 +54,18 @@ const partyOrder = Object.entries(partyRanges)
   .filter(([code]) => code in parties)
   .sort((a, b) => a[1].from - b[1].from);
 
+// Per seat: roster index, then a one-letter vote code, then `!` when the member
+// broke with the party line. An empty index means the seat has no member record.
+const VOTE_CODE: Record<string, string> = { Ja: 'J', Nej: 'N', 'Avstår': 'A', 'Frånvarande': 'F' };
+const seatData = layout.map((_, i) => {
+  const [parti, rost, namn, valkrets] = seats[i] ?? ['?', 'Frånvarande', '', ''];
+  const partyPos = actual[parti]?.position;
+  const dissent = rost !== 'Frånvarande' && partyPos && partyPos !== 'Frånvarande' && rost !== partyPos;
+  return { parti, rost, dissent, code: `${memberIndex(namn, parti, valkrets) ?? ''}${VOTE_CODE[rost] ?? 'F'}${dissent ? '!' : ''}` };
+});
+const voteByCode = Object.fromEntries(Object.entries(VOTE_CODE).map(([v, c]) => [c, voteLabels[v] ?? v]));
+const rosterUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/data/members/${getMemberRoster().version}.json`;
+
 function labelPos(range: { from: number; to: number }) {
   const mid = layout[Math.floor((range.from + range.to) / 2)];
   const cx = 340, cy = 340;
@@ -60,24 +77,27 @@ function labelPos(range: { from: number; to: number }) {
 ---
 
 <figure class="hemicycle">
-  <svg viewBox="-18 -18 716 400" role="img" aria-label={`${seats.length} seats`}>
+  <svg
+    viewBox="-18 -18 716 400"
+    role="img"
+    aria-label={`${seats.length} seats`}
+    data-seats={seatData.map((s) => s.code).join(',')}
+    data-vl={JSON.stringify(voteByCode)}
+    data-roster={rosterUrl}
+  >
     {layout.map((seat, i) => {
-      const [parti, rost, namn, valkrets] = seats[i] ?? ['?', 'Frånvarande', '', ''];
-      const partyPos = actual[parti]?.position;
-      // an MP who cast a vote different from their party's majority position
-      const dissent =
-        rost !== 'Frånvarande' && partyPos && partyPos !== 'Frånvarande' && rost !== partyPos;
+      // a dark ring marks an MP who voted against their party's majority position
+      const { rost, dissent } = seatData[i];
       return (
         <circle
+          class="seat"
           cx={seat.x}
           cy={seat.y}
           r={seat.r}
           fill={VOTE_COLORS[rost] ?? '#999'}
           stroke={dissent ? '#14202b' : 'none'}
           stroke-width={dissent ? 2 : 0}
-        >
-          <title>{`${namn} (${parti}), ${valkrets}: ${voteLabels[rost] ?? rost}${dissent ? ' ⚠' : ''}`}</title>
-        </circle>
+        />
       );
     })}
     {partyOrder.map(([code, range]) => {
@@ -215,3 +235,77 @@ function labelPos(range: { from: number; to: number }) {
     .ai-row { grid-template-columns: repeat(4, 1fr); }
   }
 </style>
+
+<style is:global>
+  /* appended to <body> by the script below, so it cannot use scoped styles */
+  .seat-tip {
+    position: fixed; z-index: 50; pointer-events: none; max-width: 18rem;
+    background: #14202b; color: #fff; font-size: 0.78rem; line-height: 1.35;
+    padding: 0.3rem 0.5rem; border-radius: 4px; box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+  }
+</style>
+
+<script>
+  // Seat tooltips: "Namn (P), Valkrets: Ja ⚠", the text the per-seat <title>
+  // used to carry. Names come from the shared roster, fetched once on first hover.
+  type Member = [string, string, string];
+  let roster: Promise<Member[]> | null = null;
+  const tip = document.createElement('div');
+  tip.className = 'seat-tip';
+  tip.setAttribute('role', 'tooltip');
+  tip.hidden = true;
+  document.body.append(tip);
+
+  function place(x: number, y: number) {
+    const pad = 12;
+    const left = Math.min(x + pad, window.innerWidth - tip.offsetWidth - 4);
+    const top = y + pad + tip.offsetHeight > window.innerHeight ? y - tip.offsetHeight - pad : y + pad;
+    tip.style.left = `${Math.max(4, left)}px`;
+    tip.style.top = `${Math.max(4, top)}px`;
+  }
+
+  for (const svg of document.querySelectorAll<SVGSVGElement>('svg[data-seats]')) {
+    const codes = (svg.dataset.seats ?? '').split(',');
+    const labels: Record<string, string> = JSON.parse(svg.dataset.vl ?? '{}');
+    const seatEls = [...svg.querySelectorAll('circle.seat')];
+    const load = () => (roster ??= fetch(svg.dataset.roster ?? '').then((r) => r.json()));
+    let current: Element | null = null;
+
+    const hide = () => {
+      current = null;
+      tip.hidden = true;
+    };
+    const show = async (target: EventTarget | null, x: number, y: number) => {
+      const i = target instanceof Element ? seatEls.indexOf(target) : -1;
+      const m = i < 0 ? null : /^(\d*)([JNAF])(!?)$/.exec(codes[i] ?? '');
+      if (!m) return hide();
+      current = target as Element;
+      let who = '';
+      if (m[1]) {
+        try {
+          const member = (await load())[Number(m[1])];
+          if (member) who = `${member[0]} (${member[1]}), ${member[2]}: `;
+        } catch {
+          // roster unavailable: the vote alone is still worth showing
+        }
+      }
+      if (current !== target) return; // the pointer moved on while the roster loaded
+      tip.textContent = `${who}${labels[m[2]] ?? ''}${m[3] ? ' ⚠' : ''}`;
+      tip.hidden = false;
+      place(x, y);
+    };
+
+    svg.addEventListener('pointerover', (e) => void show(e.target, e.clientX, e.clientY));
+    svg.addEventListener('pointermove', (e) => {
+      if (!tip.hidden) place(e.clientX, e.clientY);
+    });
+    // a touch "leaves" the moment the finger lifts, which would close the tip
+    // it just opened — touch tooltips close on the next tap elsewhere instead
+    svg.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'touch') hide();
+    });
+  }
+  document.addEventListener('pointerdown', (e) => {
+    if (!(e.target instanceof Element) || !e.target.closest('svg[data-seats]')) tip.hidden = true;
+  });
+</script>

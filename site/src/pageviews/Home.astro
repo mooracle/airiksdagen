@@ -293,7 +293,7 @@ const tierTotal = gap ? Math.max(1, TIERS.reduce((n, tier) => n + gap.tiers[tier
         return (
           <a
             class="tcell"
-            href={`${browserBase}?m=${m}`}
+            href={localePath(lang, `/fall/manad/${m}/`)}
             data-empty={fill ? undefined : 'true'}
             style={fill ? `background:${fill}` : undefined}
             title={`${m}: ${s.n} ${t('home.cases')}${s.compared ? ` · ${s.agree}/${s.compared} ✓` : ''}`}

@@ -175,7 +175,9 @@ const caseJsonLd = {
   jsonLd={caseJsonLd}
 >
   <p>
-    <span class="chip">{c.datum}</span>
+    {/* a link, not just a label: it is how a case reaches its month list and the
+        neighbouring votes, without going through the JS-rendered case browser */}
+    <a class="chip datechip" href={localePath(lang, `/fall/manad/${c.datum.slice(0, 7)}/`)}>{c.datum}</a>
     <span class="chip">{c.rm}:{c.beteckning} · p.{c.punkt}</span>
     <span class="chip">{c.utskott}</span>
     {topicLabel && <span class="chip topic">{topicLabel}</span>}
@@ -667,6 +669,9 @@ const caseJsonLd = {
   </script>
 
   <style>
+    /* the date chip is a link to its month; keep it reading as a chip */
+    .datechip { text-decoration: none; }
+    .datechip:hover { background: #e4dfcf; color: var(--ink); }
     /* The plan's stance — the p6 product. Sits immediately before the vote chip
        it implies, so the derivation reads left to right. */
     .stance {
