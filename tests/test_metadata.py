@@ -46,6 +46,16 @@ def synth_record(**overrides) -> dict:
     }
     return rec | overrides
 
+# cases.parquet is gitignored (the data is re-fetchable from public APIs), so CI
+# runs with no data tree. Tests that read real cases skip there instead of failing
+# with FileNotFoundError, which kept main's CI red from 2026-08-01 and hid any real
+# failure behind the same 35 — the guard test_agent_pipeline.py and
+# test_migrate_quotes.py already use. Locally, with the data built, they all run.
+needs_cases = pytest.mark.skipif(
+    not (PROCESSED_DIR / "cases.parquet").exists(),
+    reason="cases.parquet not built (run: uv run aidag build-cases)",
+)
+
 # Golden real votering_ids (verified against cases.parquet this session).
 VID_BUDGET_RIKTLINJER = "8D1F96AB-81FF-4783-BA15-FE3F866523F3"  # FiU1, finansplan
 VID_BUDGET_UTGIFTSTAK = "A5E32EAE-C89F-4C6F-8D6F-163CE3CA9848"  # FiU1, utgiftstak
@@ -67,6 +77,7 @@ def case(vid: str) -> dict:
     return cases[vid]
 
 
+@needs_cases
 class TestClassifyType:
     def test_budget_riktlinjer(self):
         assert extract_deterministic(case(VID_BUDGET_RIKTLINJER))["type"] == "budget"
@@ -94,11 +105,13 @@ class TestClassifyType:
 
 
 class TestPolicyArea:
+    @needs_cases
     def test_three_committees(self):
         assert extract_deterministic(case(VID_BUDGET_RIKTLINJER))["policy_area"] == "finance"
         assert extract_deterministic(case(VID_PROPOSITION))["policy_area"] == "constitution"
         assert extract_deterministic(case(VID_MOTION))["policy_area"] == "tax"
 
+    @needs_cases
     def test_committee_preserved_raw(self):
         assert extract_deterministic(case(VID_MOTION))["committee"] == "SkU"
 
@@ -123,6 +136,7 @@ class TestPolicyArea:
             assert area in labels
 
 
+@needs_cases
 class TestPartiesAndCounts:
     def test_parties_from_source_partier(self):
         # the pure-motion SkU2 case has a reservation authored by MP.
@@ -200,6 +214,7 @@ def test_pack_groups():
     assert [u["i"] for g in groups for u in g] == list(range(13))
 
 
+@needs_cases
 class TestCaseUnit:
     def test_shape(self):
         unit = _case_unit(case(VID_MOTION))
@@ -241,6 +256,7 @@ class TestCaseUnit:
         assert "ZZZUNIQUE" not in json.dumps(unit, ensure_ascii=False)
 
 
+@needs_cases
 class TestPrepareStatus:
     def test_prepare_writes_files_and_manifest(self, tmp_path, monkeypatch):
         import aidag.metadata as m
@@ -332,6 +348,7 @@ class TestValidateMetadata:
             validate_metadata(synth_record(), unit={"votering_id": "other"})
 
 
+@needs_cases
 class TestIngest:
     def _setup(self, tmp_path, monkeypatch):
         import aidag.metadata as m
@@ -381,6 +398,7 @@ class TestIngest:
         assert load_metadata() == {}
 
 
+@needs_cases
 class TestVerifyMetadata:
     def test_clean_records_pass(self, tmp_path, monkeypatch):
         import aidag.metadata as m
@@ -426,6 +444,7 @@ class TestVerifyMetadata:
         assert align[1] is False
 
 
+@needs_cases
 class TestVerifyStageCLI:
     """The `aidag verify metadata` stage dispatch (run-independent, in the stages dict)."""
 
@@ -466,6 +485,7 @@ class TestMergeCaseMetadata:
         return {"votering_id": VID_MOTION, **extract_deterministic(case(VID_MOTION)),
                 **{k: rec[k] for k in ("subject", "at_stake", "subtopics", "agent")}}
 
+    @needs_cases
     def test_merges_full_meta_into_payload(self):
         from aidag.export_site import merge_case_metadata
 
@@ -477,6 +497,7 @@ class TestMergeCaseMetadata:
         assert m["at_stake"]["sv"] and m["subtopics"] == ["skatt", "kemikalier", "elektronik"]
         assert "MP" in m["parties_involved"]
 
+    @needs_cases
     def test_carries_the_casemeta_brief(self):
         """decision/ja/nej reach the payload; agent.* deliberately does not."""
         from aidag.export_site import merge_case_metadata
@@ -497,6 +518,7 @@ class TestMergeCaseMetadata:
         for k in ("decision", "ja", "nej"):
             assert k not in row
 
+    @needs_cases
     def test_brief_absent_on_pre_casemeta_records(self):
         """A record predating the casemeta layer still merges, with empty brief fields."""
         from aidag.export_site import merge_case_metadata
@@ -506,6 +528,7 @@ class TestMergeCaseMetadata:
         m = payload["meta"]
         assert m["decision"] is None and m["ja"] is None and m["nej"] == []
 
+    @needs_cases
     def test_index_row_is_lean(self):
         from aidag.export_site import merge_case_metadata
 

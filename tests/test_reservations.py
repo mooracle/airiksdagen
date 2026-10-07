@@ -132,6 +132,9 @@ class TestIngestVerify:
         from aidag.config import PROCESSED_DIR
         from aidag.reservations import _reservations_of
 
+        # gitignored data: CI has no cases.parquet (see test_metadata.needs_cases)
+        if not (PROCESSED_DIR / "cases.parquet").exists():
+            pytest.skip("cases.parquet not built (run: uv run aidag build-cases)")
         for c in pl.read_parquet(PROCESSED_DIR / "cases.parquet").iter_rows(named=True):
             res = _reservations_of(c)
             if res:

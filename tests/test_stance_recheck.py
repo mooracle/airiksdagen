@@ -97,6 +97,11 @@ class TestPending:
         assert "undecidable" in capsys.readouterr().out
 
     def test_already_rechecked_decisions_are_not_reissued(self, monkeypatch):
+        # `_pending` joins decisions to cases.parquet, which CI does not have
+        from aidag.config import PROCESSED_DIR
+
+        if not (PROCESSED_DIR / "cases.parquet").exists():
+            pytest.skip("cases.parquet not built (run: uv run aidag build-cases)")
         cid = sr._cid(DECISION)
         monkeypatch.setattr(sr, "load_stances", lambda run_id: {cid: {"cid": cid}})
         monkeypatch.setattr(sr, "load_decisions", lambda run_id: [DECISION])
