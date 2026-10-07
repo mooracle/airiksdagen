@@ -3,12 +3,19 @@
 Den fullständiga metodbeskrivningen renderas på webbplatsen (`/om/`,
 `site/src/pageviews/AboutPage.astro`). Kärnan:
 
-- **Rekonstruktion, inte prediktion.** Modellens träningsdata innehåller
-  sannolikt de verkliga utfallen; vi mäter dokumenttrohet, inte prognosförmåga.
+- **Ingen förutsägelse.** Webbplatsen kopplar varje votering till vad partiets
+  egna dokument säger i frågan och visar var rösten gick åt andra hållet.
+  Agenten ombeds aldrig säga hur partiet röstade: den tar ställning till det motförslaget
+  kräver (`hallning`), och rösten det innebär härleds i kod. Det som mäts är hur
+  väl partiets röster följer dess egna dokument — inte prognosförmåga, och inte
+  modellens träffsäkerhet.
 - **Enhet:** huvudvotering i sakfrågan, 2022–2026 (Riksdagens öppna data).
-- **Agent:** en förfrågan per votering × parti; underlag = valmanifest 2022
-  (SND Vivill), Tidöavtalet för M/KD/L/SD fr.o.m. 2022-10-14, samt månadsvis
-  lägesbild med publiceringsvintage (ingen information efter beslutsmånaden).
+- **Agent:** en förfrågan per votering × parti; underlag = partiets eget
+  valmanifest 2022 (SND Vivill) och dess partiprogram, vart och ett synligt först
+  från sitt antagandedatum, samt månadsvis lägesbild med publiceringsvintage
+  (ingen information efter beslutsmånaden). Blockdokument — Tidöavtalet och
+  budgetmotionerna — ingår medvetet inte i den skarpa körningen (`p6`), så varje
+  parti mäts mot sin egen plan.
   Opinionsmätningar ingår medvetet **inte** i agentens underlag — partiet ska
   följa sin plan, inte opinionen; väljarstödet visas bara på webbplatsen.
 - **Omvärldsläge (p4):** agenten får ett datumspecifikt omvärldsblock

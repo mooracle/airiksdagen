@@ -1,32 +1,37 @@
-# AI Riksdag — vad partierna *borde* ha röstat enligt sina egna dokument
+# AI Riksdag — vad partierna skrev, och hur de röstade
 
 **Live:** [airiksdagen.se](https://airiksdagen.se) · Built by [mooracle.io](https://mooracle.io) · Open research data & code (MIT)
 
-Ett öppet forskningsprojekt: för varje votering i Sveriges riksdag under mandatperioden
-2022–2026 låter vi en AI-agent per parti (S, M, SD, C, V, KD, MP, L) avgöra hur partiet
-*borde* rösta — **enbart** utifrån partiets egna dokument (valmanifest, partiprogram,
-budgetmotion, samt Tidöavtalet för regeringssidan), där varje dokument bara är synligt från
-sitt antagningsdatum, plus en tidsbunden lägesbild av landet. Agenten får ingen information
-daterad efter beslutsdagen.
+Ett öppet forskningsprojekt som kopplar varje votering i sakfrågan i Sveriges riksdag under
+mandatperioden 2022–2026 till vad partiernas egna dokument säger i frågan — och visar var
+partiets röst gick åt andra hållet. För varje votering och parti (S, M, SD, C, V, KD, MP, L)
+läser en AI-agent **enbart** partiets eget valmanifest och partiprogram, där varje dokument bara
+är synligt från sitt antagandedatum, plus en tidsbunden lägesbild av landet. Agenten tar
+ställning till det motförslaget kräver och citerar ordagrant de stycken ståndpunkten vilar på;
+den röst ståndpunkten innebär härleds i kod. Blockdokument — Tidöavtalet och budgetmotionerna —
+ingår medvetet inte: varje parti mäts mot sin egen plan.
 
-Resultatet jämförs med hur partiet faktiskt röstade och publiceras som en statisk webbplats
-med full statistik, källhänvisningar och en visualisering av kammarens 349 platser per ärende.
+Ståndpunkten jämförs med hur partiet faktiskt röstade och publiceras som en statisk webbplats
+med källhänvisningar och en visualisering av kammarens 349 platser per ärende.
 Källhänvisningarna går åt båda hållen: varje citerad rad i ett partidokument visar också vilka
-beslut som lutade sig mot just den raden, och om partiet sedan röstade med sin egen plan.
+voteringar som lutade sig mot just den raden, och om partiet sedan röstade med sin egen plan.
 
-**Detta är rekonstruktion, inte prediktion.** Modellens träningsdata innehåller sannolikt de
-verkliga utfallen. Kontamineringen hanteras strukturellt: agenten får aldrig veta vilken
-votering den ser — ärendenummer, voterings-id och exakta datum tas bort ur prompten, maskinellt
-upprätthållet av golden tests. Projektet är partipolitiskt obundet; metodik, prompts, kod och rådata är öppna.
+**Detta är ingen förutsägelse.** Agenten ombeds aldrig gissa hur partiet röstade och får aldrig
+veta utfallet; ärendenummer, voterings-id och exakta datum tas bort ur prompten, maskinellt
+upprätthållet av golden tests. Avvikelsen mellan partiets egen text och dess röst är
+resultatet, inte ett fel att räkna bort. Projektet är partipolitiskt obundet; metodik, prompts,
+kod och rådata är öppna.
 
-> **English:** For every chamber vote in the Swedish Riksdag 2022–2026, one AI agent per party
-> decides how that party *should* vote based solely on the party's own documents — each visible
-> only from its adoption date — plus a point-in-time snapshot of the country, with no information
-> after the decision date. AI decisions are compared against actual party votes and published as a
-> static site. Framed as **reconstruction, not prediction**: training-data contamination is
-> handled structurally — the agent is never told which vote it is looking at (identifiers and
-> exact dates are stripped from the prompt, enforced by golden tests). Not affiliated with any
-> party.
+> **English:** Links every substantive vote in the Swedish Riksdag 2022–2026 to what each party's own
+> documents say about the question, and shows where the party voted the other way. For each vote
+> and party, an AI agent reads only that party's election manifesto and party programme — each
+> visible only from its adoption date — plus a point-in-time snapshot of the country. It takes a
+> stance on what the counter-proposal demands and quotes the passages it rests on verbatim; the
+> vote that stance implies is derived in code. Bloc documents (the Tidö agreement, budget
+> motions) are deliberately excluded. **This is not vote prediction:** the agent is never asked
+> how the party voted and never told the outcome (identifiers and exact dates are stripped from
+> the prompt, enforced by golden tests). The divergence between a party's own text
+> and its vote is the finding. Not affiliated with any party.
 
 ---
 

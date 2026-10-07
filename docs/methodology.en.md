@@ -3,14 +3,20 @@
 The full methodology is rendered on the site (`/en/about/`,
 `site/src/pageviews/AboutPage.astro`). The core:
 
-- **Reconstruction, not prediction.** The model's training data likely contains
-  the real outcomes; we measure document-fidelity, not forecasting skill.
+- **Not a prediction.** The site links each vote to what the party's own
+  documents say about the question and shows where the vote went the other way.
+  The agent is never asked how the party voted: it takes a stance on what the
+  counter-proposal demands (`hallning`), and the implied vote is derived in code.
+  What is measured is how far a party's votes follow its own documents — not
+  forecasting skill, and not the model's accuracy.
 - **Unit:** main chamber vote on the substantive question, 2022–2026
   (Riksdag open data).
-- **Agent:** one request per vote × party; inputs = the 2022 election manifesto
-  (SND Vivill), the Tidö agreement for M/KD/L/SD from 2022-10-14, and a monthly
-  country snapshot with publication vintages (no information after the
-  decision month). Opinion polls are deliberately **not** part of the agent's
+- **Agent:** one request per vote × party; inputs = that party's own 2022
+  election manifesto (SND Vivill) and its party programme, each visible only from
+  its adoption date, plus a monthly country snapshot with publication vintages
+  (no information after the decision month). Bloc documents — the Tidö agreement
+  and budget motions — are deliberately excluded from the live run (`p6`), so
+  every party is measured against its own plan alone. Opinion polls are deliberately **not** part of the agent's
   inputs — the party must follow its plan, not the polls; support figures
   appear on the website only.
 - **Worldstate (p4):** the agent receives a per-vote-date worldstate block
