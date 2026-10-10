@@ -35,6 +35,11 @@ from aidag.promptgen import build_system_blocks, p6_decidable, render_user_messa
 from aidag.simulate import collected_ids
 
 ARM = "anonymous"
+# "nodocs" renders like "anonymous" but withholds the party's documents from the
+# system prompt (promptgen.build_system_blocks(documents=False)). The arm is part
+# of the cid, so a nodocs decision never collides with the published one, and
+# export_site / anchors skip every arm but "anonymous".
+ARMS = ("anonymous", "nodocs")
 
 
 def run_dir(run_id: str):
@@ -49,8 +54,9 @@ def _load_cases() -> list[dict]:
     )
 
 
-def _system_filename(party: str, case: dict, prompt_version: str) -> str:
-    return f"{context_key(party, case['datum'], case['rm'], case['votering_id'], prompt_version)}.txt"
+def _system_filename(party: str, case: dict, prompt_version: str, arm: str = ARM) -> str:
+    key = context_key(party, case["datum"], case["rm"], case["votering_id"], prompt_version)
+    return f"{key}.txt" if arm == ARM else f"{key}-{arm}.txt"
 
 
 # Context budget for one group agent. The agent must hold its party corpus, every
@@ -137,6 +143,7 @@ def _pending(
     cases: list[dict],
     mirror_run: str | None = None,
     prompt_version: str = PROMPT_VERSION,
+    arm: str = ARM,
 ):
     """Pending work. With mirror_run, the universe is restricted to the decisions
     already COLLECTED in that run — used for methodology experiments that re-run
@@ -152,7 +159,7 @@ def _pending(
     sims = []
     for case in cases:
         for party in PARTY_CODES:
-            cid = f"{party}:{case['votering_id']}:{prompt_version}:{ARM}"
+            cid = f"{party}:{case['votering_id']}:{prompt_version}:{arm}"
             if cid in done:
                 continue
             if universe is not None and (party, case["votering_id"]) not in universe:
@@ -168,6 +175,8 @@ def prepare(
     mirror_run: str | None = None,
     prompt_version: str = PROMPT_VERSION,
     context_limit: int = 200_000,
+    arm: str = ARM,
+    votes_file: str | None = None,
 ) -> None:
     """Write the NEXT batch manifest from whatever is still pending.
 
@@ -175,9 +184,16 @@ def prepare(
     agent up to --context-limit (and the output cap). Cases are bucketed by
     (party, context) — one agent then decides several cases while reading the
     party corpus once (see scripts/grouped_batch_workflow.js)."""
+    if arm not in ARMS:
+        raise ValueError(f"unknown arm {arm!r}; expected one of {ARMS}")
     base = run_dir(run_id)
     cases = _load_cases()
-    sims = _pending(run_id, cases, mirror_run=mirror_run, prompt_version=prompt_version)
+    if votes_file:
+        # Restrict to a fixed set of votes, e.g. the recall probe's stratified
+        # sample (data/results/probes/sample.json) for a no-documents arm.
+        wanted = set(json.loads(Path(votes_file).read_text())["votering_ids"])
+        cases = [c for c in cases if c["votering_id"] in wanted]
+    sims = _pending(run_id, cases, mirror_run=mirror_run, prompt_version=prompt_version, arm=arm)
 
     # A p6 case with no counter-proposal cannot be answered by the p6 schema: the
     # render degrades to the p5 block, whose closing question asks for a vote while
@@ -187,7 +203,7 @@ def prepare(
     # the mechanism and what it cost on full-v4. Issuing them has to be a
     # deliberate, visible act; it is never the default.
     if version_ge(prompt_version, "p6"):
-        blocked = {cid for cid, _party, case in sims if not p6_decidable(case, ARM)}
+        blocked = {cid for cid, _party, case in sims if not p6_decidable(case, arm)}
         if blocked:
             vids = sorted({cid.split(":")[1] for cid in blocked})
             sims = [s for s in sims if s[0] not in blocked]
@@ -218,11 +234,12 @@ def prepare(
     def _system_file(party: str, case: dict) -> str:
         """One file per distinct context (12 under p4; 34 under p5, since the
         programme and the shadow budget roll over on their adoption dates)."""
-        name = _system_filename(party, case, prompt_version)
+        name = _system_filename(party, case, prompt_version, arm)
         path = base / "system" / name
         if not path.exists():
             blocks = build_system_blocks(
-                party, case["datum"], case["rm"], case["votering_id"], prompt_version
+                party, case["datum"], case["rm"], case["votering_id"], prompt_version,
+                documents=arm != "nodocs",
             )
             path.write_text("\n\n".join(b["text"] for b in blocks))
         return name
@@ -237,7 +254,7 @@ def prepare(
         if not path.exists():
             path.write_text(
                 json.dumps(
-                    {"user": render_user_message(case, arm=ARM, prompt_version=prompt_version)},
+                    {"user": render_user_message(case, arm=arm, prompt_version=prompt_version)},
                     ensure_ascii=False,
                 )
             )
@@ -282,7 +299,7 @@ def prepare(
                             "cases": [
                                 {"cid": cid,
                                  "user": render_user_message(
-                                     case, arm=ARM, prompt_version=prompt_version)}
+                                     case, arm=arm, prompt_version=prompt_version)}
                                 for cid, case in chunk
                             ]
                         },
