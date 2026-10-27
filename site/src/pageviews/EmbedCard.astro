@@ -1,0 +1,256 @@
+---
+/**
+ * The embeddable widget for one division: /embed/<id>/ (sv) and /en/embed/<id>/.
+ *
+ * Two sizes from one page. `?v=short` adds `.short` to <html> before first paint
+ * and CSS hides everything marked .long-only, so a size costs no extra files —
+ * a page per size per language would add ~7,600 to a deploy already at ~7,900.
+ * Without the parameter, or without JS, the long version shows.
+ *
+ *   short  subject, outcome, and per party: what its plan points to → how it voted
+ *   long   + the chamber, and per party the decisive quote from its own programme,
+ *          deep-linked to that exact line, with its evidence tier
+ *
+ * An embed is read away from the site that explains it, so the footer says what
+ * "the plan" is on every widget: an AI reading of the party's own documents, with
+ * verbatim quotes, not a prediction.
+ */
+import Hemicycle from '../components/Hemicycle.astro';
+import PartyBadge from '../components/PartyBadge.astro';
+import { getMeta, citationDocSlug, quoteFragment, type CaseData } from '../lib/data';
+import { useTranslations, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; caseData: CaseData }
+const { lang, caseData: c } = Astro.props;
+const t = useTranslations(lang);
+const sv = lang === 'sv';
+const meta = getMeta();
+
+// Absolute links: the widget lives in someone else's page, and every link leaves it.
+const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/, '');
+const abs = (canonicalPath: string) => `${site}${localePath(lang, canonicalPath)}`;
+const caseUrl = abs(`/fall/${c.votering_id}/`);
+
+const voteLabels: Record<string, string> = {
+  Ja: t('vote.Ja'), Nej: t('vote.Nej'), 'Avstår': t('vote.Avstår'), 'Frånvarande': t('vote.Frånvarande'),
+};
+const subject = c.meta?.subject?.[lang] || (!sv && c.en?.rubrik) || c.rubrik;
+const decision = ((c.meta as { decision?: { sv: string; en: string } } | undefined)?.decision?.[lang]) || null;
+
+// The outcome from every seat, independents included: the chamber that voted,
+// not an eight-party subtotal.
+const ja = c.seats.filter((s) => s[1] === 'Ja').length;
+const nej = c.seats.filter((s) => s[1] === 'Nej').length;
+const fill = (key: 'embed.adopted' | 'embed.rejected' | 'embed.tied', a: number, b: number) =>
+  t(key).replace('{a}', String(a)).replace('{b}', String(b));
+const outcome = ja > nej ? fill('embed.adopted', ja, nej) : nej > ja ? fill('embed.rejected', nej, ja) : fill('embed.tied', ja, nej);
+
+const partyOrder = meta.hemicycle_order.filter((p) => c.ai[p]);
+const docLabel: Record<string, string> = {
+  valmanifest: sv ? 'valmanifest 2022' : '2022 manifesto',
+  partiprogram: sv ? 'partiprogram' : 'party programme',
+};
+
+/** The decisive quote: the first citation that is not a weak, general principle. */
+function decisive(code: string) {
+  const d = c.ai[code];
+  let i = d.citations.findIndex((x) => !x.svag && x.quote?.trim());
+  if (i < 0) i = d.citations.findIndex((x) => x.quote?.trim());
+  if (i < 0) return null; // every quote was withdrawn by repair-citations
+  const cit = d.citations[i];
+  const slug = citationDocSlug(code, cit.document, c.datum);
+  const en = sv ? null : d.en?.citations?.[i] ?? null;
+  return {
+    quote: cit.quote,
+    princip: en?.princip || cit.princip || '',
+    // English only beside the Swedish it translates (see CasePage: a blanked
+    // quote's committed translation must never stand on its own)
+    gloss: en?.quote || null,
+    href: slug ? `${abs(`/dokument/${slug}/`)}#:~:text=${quoteFragment(cit.quote)}` : null,
+    doc: docLabel[cit.document] ?? cit.document,
+  };
+}
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{subject} — AI Riksdag</title>
+    <script is:inline>
+      if (/[?&]v=short(&|$)/.test(location.search)) document.documentElement.classList.add('short');
+    </script>
+  </head>
+  <body>
+    <div class="w">
+      <header>
+        <a class="title" href={caseUrl} target="_blank" rel="noopener">{subject}</a>
+        <p class="meta">{c.datum} · {c.rm}:{c.beteckning} p.{c.punkt}</p>
+        {decision && <p class="decision long-only">{decision}</p>}
+        <p class="outcome">
+          {outcome}
+          {c.flip?.flips && (
+            <span class="flipnote" title={t('flip.caseNote')}> · ⇄ {t('flip.caseFlips')}</span>
+          )}
+        </p>
+      </header>
+
+      <div class="long-only chamber">
+        <Hemicycle seats={c.seats} parties={meta.parties} actual={c.actual} voteLabels={voteLabels} />
+      </div>
+
+      <h2 class="head">{t('hemi.aiHead')}</h2>
+      {partyOrder.length === 0 ? (
+        <p class="none">{t('browser.noAi')}</p>
+      ) : (
+        <>
+          <p class="key short-only">
+            <span class="tag" title={t('embed.planTip')}>{t('embed.plan')}</span> → <span class="tag">{t('embed.vote')}</span>
+          </p>
+          <ul class="parties">
+            {partyOrder.map((code) => {
+              const d = c.ai[code];
+              const a = c.actual[code];
+              const comparable = a && a.position !== 'Frånvarande';
+              const isMatch = comparable && d.rost === a.position;
+              const q = decisive(code);
+              return (
+                <li id={code} class={comparable && !isMatch ? 'p diverges' : 'p'}>
+                  <div class="prow">
+                    <PartyBadge code={code} parties={meta.parties} size={20} />
+                    <span class="pname long-only">{meta.parties[code]?.name ?? code}</span>
+                    <span class="vs">
+                      <span class="tag long-only" title={t('embed.planTip')}>{t('embed.plan')}</span>
+                      <span class="votechip" data-v={d.rost} title={t('embed.planTip')}>{voteLabels[d.rost]}</span>
+                      <span class="arrow" aria-hidden="true">→</span>
+                      <span class="tag long-only">{t('embed.vote')}</span>
+                      {a ? <span class="votechip" data-v={a.position}>{voteLabels[a.position]}</span> : <span class="muted">–</span>}
+                      {comparable && (
+                        <span class={isMatch ? 'match' : 'mismatch'} title={isMatch ? t('case.match') : t('case.mismatch')}>
+                          <span aria-hidden="true">{isMatch ? '✓' : '✕'}</span>
+                          <span class="srtext">{isMatch ? t('case.match') : t('case.mismatch')}</span>
+                        </span>
+                      )}
+                    </span>
+                    {d.tier && (
+                      <span class="tier long-only" data-tier={d.tier} title={t(`tier.${d.tier}Tip` as any)}>
+                        {t(`tier.${d.tier}Short` as any)}
+                      </span>
+                    )}
+                  </div>
+                  {q && (
+                    <blockquote class="long-only">
+                      <span class="q">»{q.quote}«</span>
+                      {q.gloss && <span class="gloss">“{q.gloss}”</span>}
+                      <span class="src">
+                        {q.princip && <>{q.princip} · </>}
+                        {q.href ? <a href={q.href} target="_blank" rel="noopener">{q.doc} ↗</a> : q.doc}
+                      </span>
+                    </blockquote>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+
+      <p class="foot">
+        {t('embed.foot')}{' '}
+        <a class="open" href={caseUrl} target="_blank" rel="noopener">{t('case.open')} →</a>
+        <span class="brand"> · <a href={abs('/')} target="_blank" rel="noopener">airiksdagen.se</a></span>
+      </p>
+    </div>
+
+    <script is:inline>
+      // Report our height to the host page. The snippet's one-line listener (see
+      // CasePage) sizes the iframe from it, so the widget never clips on a phone
+      // nor leaves a gap on a desktop; where a host strips scripts, the snippet's
+      // fixed height still works and the frame scrolls.
+      if (window.parent !== window) {
+        const send = () => parent.postMessage(
+          { airiksdagen: 'height', height: Math.ceil(document.documentElement.getBoundingClientRect().height) }, '*');
+        addEventListener('load', send);
+        new ResizeObserver(send).observe(document.documentElement);
+      }
+    </script>
+
+    <!-- standalone iframe: palette mirrors the site tokens in Base.astro -->
+    <style is:global>
+      :root { --ink: #14202b; --ink-2: #3d4a56; --muted: #6c7883; --line: #ddd8cc; --panel-2: #f3f1ea; --paper: #fff; }
+      body {
+        margin: 0; background: #fff; color: var(--ink);
+        font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 14px; line-height: 1.4; -webkit-font-smoothing: antialiased;
+      }
+      .w { padding: 12px 14px; }
+      a { color: #175d92; }
+      .title { font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.05rem; line-height: 1.3; }
+      .title:hover { color: #175d92; }
+      .meta { margin: 2px 0 0; color: var(--muted); font-size: 0.78rem; }
+      .decision { margin: 6px 0 0; color: var(--ink-2); font-size: 0.86rem; }
+      .outcome { margin: 6px 0 0; font-weight: 600; font-size: 0.86rem; }
+      .flipnote { font-weight: 600; color: #8a5a00; cursor: help; }
+      .chamber { margin: 8px auto 0; max-width: 460px; }
+      .head { font-size: 0.92rem; margin: 12px 0 6px; }
+      .none { color: var(--muted); }
+      .muted { color: var(--muted); }
+      .key { margin: 0 0 6px; font-size: 0.75rem; color: var(--muted); }
+      .tag {
+        display: inline-block; padding: 0 0.3em; border-radius: 3px; border: 1px solid var(--line);
+        background: var(--panel-2); color: var(--ink-2); font-size: 0.66rem; font-weight: 700;
+        letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.5; cursor: help;
+      }
+      .votechip {
+        display: inline-block; padding: 0 0.5rem; border-radius: 999px;
+        font-size: 0.75rem; font-weight: 700; color: #fff; line-height: 1.6;
+      }
+      .votechip[data-v='Ja'] { background: #2f7d43; }
+      .votechip[data-v='Nej'] { background: #c0322c; }
+      .votechip[data-v='Avstår'] { background: #dc9a1c; color: #3a2c00; }
+      .votechip[data-v='Frånvarande'] { background: #cbc6bc; color: #4b4941; }
+      .match { color: #2f7d43; font-weight: 700; }
+      .mismatch { color: #c0322c; font-weight: 700; }
+      .srtext { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .parties { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+      .p { border: 1px solid #ece8de; border-radius: 6px; padding: 5px 8px; }
+      /* gold, not red: a divergence is the signal the site exists to show, not an error */
+      .p.diverges { border-color: #e2c079; background: #fdf8ec; }
+      .prow { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; }
+      .pname { font-weight: 600; font-size: 0.85rem; }
+      .vs { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; }
+      .arrow { color: var(--muted); }
+      .tier {
+        padding: 0 0.4rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600;
+        background: #ecebe6; color: #5d5a52; white-space: nowrap; cursor: help;
+      }
+      .tier[data-tier='explicit'] { background: #d8e8d2; color: #2f5326; }
+      blockquote { margin: 6px 0 0; padding-left: 8px; border-left: 2px solid var(--line); font-size: 0.82rem; color: var(--ink-2); }
+      .q { display: block; }
+      .gloss { display: block; font-style: italic; color: var(--muted); margin-top: 2px; }
+      .src { display: block; margin-top: 3px; font-size: 0.75rem; color: var(--muted); }
+      .foot { margin: 10px 0 0; color: var(--muted); font-size: 0.72rem; }
+      .foot .open, .foot .brand { white-space: nowrap; }
+      :target { outline: 2px solid #175d92; }
+      /* PartyBadge's disc lives in Base.astro, which this standalone page does not
+         load — mirrored here, or every party reads as a bare letter */
+      .pbadge-wrap { display: inline-flex; align-items: center; gap: 0.4em; vertical-align: middle; }
+      .pbadge {
+        display: inline-flex; align-items: center; justify-content: center; flex: none;
+        border-radius: 50%; background: var(--pb); color: var(--pb-ink);
+        font-weight: 700; line-height: 1; letter-spacing: -0.02em;
+        box-shadow: inset 0 0 0 1px rgb(23 34 44 / 0.16); user-select: none;
+      }
+      /* --- short: one compact cell per party, four to a row --- */
+      .short-only { display: none; }
+      .short .short-only { display: block; }
+      .short .long-only { display: none; }
+      .short .parties { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .short .prow { justify-content: center; }
+      .short .vs { margin-left: 0; }
+      @media (max-width: 420px) { .short .parties { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    </style>
+  </body>
+</html>
