@@ -1,0 +1,13 @@
+---
+/** Embeddable widget, English. See pages/embed/[id].astro. */
+import EmbedCard from '../../../pageviews/EmbedCard.astro';
+import { getCase, listCaseIds } from '../../../lib/data';
+
+export async function getStaticPaths() {
+  return listCaseIds().map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+---
+
+<EmbedCard lang="en" caseData={getCase(id!)} />

@@ -9,33 +9,22 @@
  * each seat carries `<roster index><vote>[!]` in the svg's data-seats, because
  * 349 inline <title>s made every case page ~40% the same text as every other.
  *
- * With `labels` set, a badge row follows the chamber: per party, the AI vote
- * beside the real one with a match/mismatch mark. The embed widget uses it,
- * having no other comparison; the case page passes no `labels` because its
- * table below already is that comparison, and a second copy under the chamber
- * read as a legend for the seats.
+ * The chamber is the real vote and nothing else. The plan-vs-vote comparison
+ * lives beside it on each page (the case page's table, the embed's party rows);
+ * the badge row that once sat under the chamber read as a legend for the seats.
  */
 import { hemicycleLayout, VOTE_COLORS } from '../lib/hemicycle';
 import { getMemberRoster, memberIndex, partyInk } from '../lib/data';
-import type { AiDecision, ActualPosition, PartyInfo } from '../lib/data';
+import type { ActualPosition, PartyInfo } from '../lib/data';
 
 interface Props {
   seats: [string, string, string, string][]; // [parti, rost, namn, valkrets]
   parties: Record<string, PartyInfo>;
-  ai: Record<string, AiDecision>;
   actual: Record<string, ActualPosition>;
   voteLabels: Record<string, string>;
-  /** labels for the badge row: the two chips ("AI" / "actual vote") and the
-      ✓/✕ verdict. Rendered as a key line above the badges and as tooltips. */
-  labels?: {
-    heading?: string; note?: string;      // optional lead-in over the badge row
-    ai: string; actual: string;           // full names, for the key line and tooltips
-    aiShort: string; actualShort: string; // the tag on each chip ("AI" / "Röst")
-    match: string; mismatch: string;
-  };
 }
 
-const { seats, parties, ai, actual, voteLabels, labels } = Astro.props;
+const { seats, parties, actual, voteLabels } = Astro.props;
 const layout = hemicycleLayout(seats.length);
 
 // party label arcs: min/max seat index per party (seats are party-contiguous)
@@ -124,61 +113,6 @@ function labelPos(range: { from: number; to: number }) {
     })}
   </svg>
 
-  {/* One badge per party: the AI vote, then the vote the party actually cast,
-      then the verdict. Both chips are shown because the AI can only answer
-      Ja/Nej while a party can abstain — with the AI chip alone, an "Avstår"
-      wedge in the chamber above had no counterpart down here and its ✕ read as
-      a rendering error rather than as the miss the metric counts it as. */}
-  {/* The badge row is not a second reading of the chamber above it, and on a
-      page where the chamber is coloured Ja/Nej/Avstår the same chip colours
-      below it read as one. Say what the row is before showing it. */}
-  {labels?.heading && (
-    <h3 class="ai-head">{labels.heading}</h3>
-  )}
-  {labels?.note && (
-    <p class="ai-note muted">{labels.note}</p>
-  )}
-  {labels && (
-    <p class="ai-key muted">
-      <span class="ai-key-item"><span class="tag">{labels.aiShort}</span> {labels.ai}</span>
-      <span class="ai-key-item"><span class="tag">{labels.actualShort}</span> {labels.actual}</span>
-      <span class="ai-key-item"><span class="match" aria-hidden="true">✓</span> {labels.match}</span>
-      <span class="ai-key-item"><span class="mismatch" aria-hidden="true">✕</span> {labels.mismatch}</span>
-    </p>
-  )}
-  {labels && <div class="ai-row">
-    {partyOrder.map(([code]) => {
-      const decision = ai[code];
-      const act = actual[code]?.position;
-      const comparable = act && act !== 'Frånvarande';
-      const isMatch = decision && comparable && decision.rost === act;
-      return (
-        <div class="ai-badge" id={code} style={`border-top: 3px solid ${parties[code]?.color ?? '#999'}`}>
-          <span class="code">{code}</span>
-          <span class="rows">
-            <span class="tag" title={labels?.ai}>{labels?.aiShort}</span>
-            {decision ? (
-              <span class="votechip" data-v={decision.rost} title={labels?.ai}>{voteLabels[decision.rost] ?? decision.rost}</span>
-            ) : (
-              <span class="muted" title={labels?.ai}>–</span>
-            )}
-            <span class="tag" title={labels?.actual}>{labels?.actualShort}</span>
-            {act ? (
-              <span class="votechip" data-v={act} title={labels?.actual}>{voteLabels[act] ?? act}</span>
-            ) : (
-              <span class="muted" title={labels?.actual}>–</span>
-            )}
-          </span>
-          {decision && comparable && (
-            <span class={isMatch ? 'match' : 'mismatch'} title={isMatch ? labels?.match : labels?.mismatch}>
-              <span aria-hidden="true">{isMatch ? '✓' : '✕'}</span>
-              {labels && <span class="srtext">{isMatch ? labels.match : labels.mismatch}</span>}
-            </span>
-          )}
-        </div>
-      );
-    })}
-  </div>}
 
   <figcaption class="muted">
     {Object.entries(VOTE_COLORS).map(([v, c]) => (
@@ -188,51 +122,16 @@ function labelPos(range: { from: number; to: number }) {
 </figure>
 
 <style>
+  /* Capped here, not only by the pages that place it: at a full 1,150px column
+     the chamber ran ~650px tall and outweighed everything it is context for. */
+  .hemicycle { max-width: 34rem; margin-inline: auto; }
   .hemicycle svg { width: 100%; height: auto; display: block; }
-  .ai-row {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 0.4rem;
-    margin-top: 0.5rem;
-  }
-  .ai-badge {
-    background: #fff; border: 1px solid var(--line); border-radius: 6px;
-    padding: 0.3rem 0.4rem; text-align: center; font-size: 0.85rem;
-    display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
-  }
-  .ai-head { margin: 1.1rem 0 0.2rem; font-size: 1.05rem; text-align: center; }
-  .ai-note { margin: 0 auto; max-width: 60ch; font-size: 0.86rem; line-height: 1.5; text-align: center; }
-  .ai-key {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 1.1rem;
-    margin: 0.7rem 0 0.35rem; font-size: 0.82rem;
-  }
-  .ai-key-item { white-space: nowrap; }
-  .ai-badge .code { font-weight: 700; }
-  .srtext {
-    position: absolute; width: 1px; height: 1px; overflow: hidden;
-    clip: rect(0 0 0 0); white-space: nowrap;
-  }
-  /* two labelled rows: who voted, then how. The tag is the same element in the
-     key line above, so the reader learns it once. */
-  .ai-badge .rows {
-    display: grid; grid-template-columns: auto auto; gap: 0.2rem 0.3rem;
-    align-items: center; justify-items: start; margin: 0.1rem 0;
-  }
-  .tag {
-    display: inline-block; min-width: 2.1em; padding: 0 0.3em; border-radius: 3px;
-    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-    color: var(--ink-2); background: var(--panel-2); border: 1px solid var(--line);
-    text-align: center; line-height: 1.5;
-  }
   figcaption { font-size: 0.8rem; margin-top: 0.6rem; text-align: center; }
   .legend { margin: 0 0.5rem; white-space: nowrap; }
   .swatch {
     display: inline-block; width: 0.75em; height: 0.75em;
     border-radius: 50%; margin-right: 0.3em;
     box-shadow: inset 0 0 0 1px rgb(23 34 44 / 0.18);
-  }
-  @media (max-width: 640px) {
-    .ai-row { grid-template-columns: repeat(4, 1fr); }
   }
 </style>
 

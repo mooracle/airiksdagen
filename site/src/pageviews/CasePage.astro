@@ -33,7 +33,18 @@ const sammanfattning = c.sammanfattning;
 // Everything falls back cleanly when a case has no metadata record yet.
 const cmeta = c.meta;
 const subject = cmeta ? (lang === 'sv' ? cmeta.subject.sv : cmeta.subject.en) : null;
-const lead = subject || sammanfattning;
+// The subject often restates the h1 — 578 sv / 353 en case pages share 60%+ of
+// their words with it, so the deck read as the title twice. Skip it there: the
+// brief right below carries the specifics. With no subject, the committee's
+// summary stands in as before.
+const words = (s: string | null | undefined) => new Set((s ?? '').toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? []);
+const overlap = (a: string, b: string) => {
+  const A = words(a), B = words(b);
+  let shared = 0;
+  for (const w of A) if (B.has(w)) shared++;
+  return A.size && B.size ? shared / (A.size + B.size - shared) : 0;
+};
+const lead = subject ? (overlap(subject, rubrik) < 0.6 ? subject : null) : sammanfattning;
 const atStake = cmeta ? (lang === 'sv' ? cmeta.at_stake.sv : cmeta.at_stake.en) : null;
 const topicLabel = cmeta ? (meta.policy_areas?.[cmeta.policy_area]?.[lang] ?? null) : null;
 const altTexts = c.alternatives.map((a, i) => (en?.alternatives?.[i] || a.text));
@@ -101,8 +112,21 @@ const dissenters = c.seats
 // absolute URLs for the share/embed box (correct once SITE_URL is set in CI)
 const site = (Astro.site?.toString() ?? 'https://airiksdagen.se/').replace(/\/$/, '');
 const pageAbsUrl = `${site}${localePath(lang, pagePath)}`;
-const embedAbsUrl = `${site}${base}/embed/${c.votering_id}/`;
-const embedSnippet = `<iframe src="${embedAbsUrl}" width="100%" height="430" style="border:1px solid #ddd;border-radius:8px" title="AI Riksdag: ${(en?.rubrik || c.rubrik).replace(/"/g, "'")}" loading="lazy"></iframe>`;
+// The widget comes in two sizes (?v=short) and both languages; the box below
+// rebuilds the snippet as they are picked. Heights are what each size measures
+// at a typical article width — the iframe scrolls inside itself past that.
+const embedUrls = { sv: `${site}${base}/embed/${c.votering_id}/`, en: `${site}${base}/en/embed/${c.votering_id}/` };
+const embedHeights = { short: 300, long: 1550 };
+const embedTitle = `AI Riksdag: ${(en?.rubrik || c.rubrik).replace(/"/g, "'")}`;
+const embedSrc = `${embedUrls[lang]}?v=short`;
+// The listener resizes the frame from the height the widget reports. It accepts
+// only messages from the site's own origin, and only for the frame that sent
+// them, so several widgets on one page each size themselves.
+const embedOrigin = new URL(site).origin;
+const embedListener = `<script>addEventListener("message",function(e){if(e.origin!=="${embedOrigin}"||!e.data||e.data.airiksdagen!=="height")return;document.querySelectorAll("iframe[data-airiksdagen]").forEach(function(f){if(f.contentWindow===e.source)f.style.height=e.data.height+"px"})})</script>`;
+const buildSnippet = (src: string, height: number) =>
+  `<iframe data-airiksdagen src="${src}" width="100%" height="${height}" style="border:1px solid #ddd;border-radius:8px" title="${embedTitle}" loading="lazy"></iframe>${embedListener}`;
+const embedSnippet = buildSnippet(embedSrc, embedHeights.short);
 
 // per-party document references used in this case (deduped), for the study box
 const docRefs = partyOrder
@@ -194,6 +218,11 @@ const caseJsonLd = {
     <p class="muted mtnote">{c.en ? t('case.mtNote') : t('case.notTranslated')}</p>
   )}
 
+  {/* The brief and the chamber side by side. The chamber is the real vote — context
+      for the comparison further down, not the subject of the page — and at full
+      column width it ran ~650px tall and pushed the plan-vs-vote table two screens
+      down while the brief left the right half of the page empty. */}
+  <div class={hasBrief ? 'overview two' : 'overview'}>
   {hasBrief && (
     <section class="brief">
       <h2>{t('case.brief')}</h2>
@@ -222,13 +251,13 @@ const caseJsonLd = {
     </section>
   )}
 
+  <div class="chambercol">
   {/* The chamber is the real vote and nothing else. The AI comparison lives in
       the table below, which already carries confidence and tier; a badge row
       under the chamber was a third copy of it that read as a legend. */}
   <Hemicycle
     seats={c.seats}
     parties={meta.parties}
-    ai={c.ai}
     actual={c.actual}
     voteLabels={voteLabels}
   />
@@ -244,6 +273,8 @@ const caseJsonLd = {
       </div>
     </>
   )}
+  </div>
+  </div>
 
 
   {/* The same division re-run with only the documented commitments moved. Sits
@@ -614,13 +645,25 @@ const caseJsonLd = {
         <button class="btn ghost" type="button" data-copybtn>{t('case.copy')}</button>
       </span>
     </label>
-    <label>
-      <span>{t('case.shareEmbed')} <a href={embedAbsUrl} target="_blank" rel="noopener">{t('case.embedPreview')}</a></span>
+    <div class="embedbox">
+      <span class="ebhead">{t('case.shareEmbed')} <a href={embedSrc} target="_blank" rel="noopener" data-embedpreview>{t('case.embedPreview')}</a></span>
+      <span class="ebopts">
+        <span role="radiogroup" aria-label={t('embed.size')}>
+          <span class="eblbl">{t('embed.size')}</span>
+          <label><input type="radio" name="emb-v" value="short" checked /> {t('embed.short')}</label>
+          <label><input type="radio" name="emb-v" value="long" /> {t('embed.long')}</label>
+        </span>
+        <span role="radiogroup" aria-label={t('embed.lang')}>
+          <span class="eblbl">{t('embed.lang')}</span>
+          <label><input type="radio" name="emb-l" value="sv" checked={lang === 'sv'} /> Svenska</label>
+          <label><input type="radio" name="emb-l" value="en" checked={lang === 'en'} /> English</label>
+        </span>
+      </span>
       <span class="row">
-        <textarea readonly rows="3" data-copy>{embedSnippet}</textarea>
+        <textarea readonly rows="3" data-copy data-embedsnippet>{embedSnippet}</textarea>
         <button class="btn ghost" type="button" data-copybtn>{t('case.copy')}</button>
       </span>
-    </label>
+    </div>
   </div>
 
   <h2>{t('case.sources')}</h2>
@@ -648,7 +691,7 @@ const caseJsonLd = {
     <p class="muted" style="font-size:0.82rem;margin:0.8rem 0 0">{t('case.source')}</p>
   </div>
 
-  <script is:inline define:vars={{ pageAbsUrl }}>
+  <script is:inline define:vars={{ pageAbsUrl, embedUrls, embedHeights, embedTitle, embedListener }}>
     for (const btn of document.querySelectorAll('[data-copybtn]')) {
       btn.addEventListener('click', () => {
         const field = btn.parentElement.querySelector('[data-copy]');
@@ -659,6 +702,16 @@ const caseJsonLd = {
         });
       });
     }
+    const snippet = document.querySelector('[data-embedsnippet]');
+    const preview = document.querySelector('[data-embedpreview]');
+    const pickEmbed = () => {
+      const v = document.querySelector('input[name=emb-v]:checked')?.value ?? 'short';
+      const l = document.querySelector('input[name=emb-l]:checked')?.value ?? 'sv';
+      const src = `${embedUrls[l]}${v === 'short' ? '?v=short' : ''}`;
+      snippet.value = `<iframe data-airiksdagen src="${src}" width="100%" height="${embedHeights[v]}" style="border:1px solid #ddd;border-radius:8px" title="${embedTitle}" loading="lazy"></iframe>${embedListener}`;
+      preview.href = src;
+    };
+    for (const r of document.querySelectorAll('input[name=emb-v], input[name=emb-l]')) r.addEventListener('change', pickEmbed);
     const sel = document.querySelector('[data-partysel]');
     const link = document.querySelector('[data-partylink]');
     if (sel && link) {
@@ -822,6 +875,19 @@ const caseJsonLd = {
     .srclist { margin: 0.2rem 0; padding-left: 1.2rem; }
     .srclist li { margin: 0.25rem 0; }
     .meanings p { margin: 0.45rem 0; }
+    /* One column on phones and tablets, the chamber capped so it never runs the
+       full measure; two columns once there is room for the chamber beside the
+       brief. The brief keeps its own 46rem cap either way. */
+    .chambercol { max-width: 620px; margin: 1.2rem auto 0; }
+    .chambercol h2 { font-size: 1.15rem; margin-top: 1.1rem; }
+    @media (min-width: 1000px) {
+      .overview.two {
+        display: grid; grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
+        gap: 2.4rem; align-items: start;
+      }
+      /* start level with the brief's h2, not above it */
+      .overview.two .chambercol { margin-top: 2.2rem; max-width: none; }
+    }
     .meanings .votechip { min-width: 4.2rem; text-align: center; margin-right: 0.5rem; }
     /* counterfactual outcome. The gold left edge is only drawn when the decision
        actually changes — otherwise this is a null result and should not shout. */
@@ -848,5 +914,10 @@ const caseJsonLd = {
     .sharebox .row { display: flex; gap: 0.5rem; }
     .sharebox input[type='text'], .sharebox textarea { flex: 1; font-size: 0.84rem; font-family: ui-monospace, Menlo, monospace; }
     .sharebox textarea { resize: vertical; }
+    .embedbox { font-size: 0.86rem; color: var(--muted); }
+    .ebhead { display: block; margin-bottom: 0.3rem; }
+    .ebopts { display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; margin-bottom: 0.4rem; }
+    .ebopts label { display: inline-flex; align-items: center; gap: 0.25rem; margin: 0 0.6rem 0 0; color: var(--ink-2); cursor: pointer; }
+    .eblbl { margin-right: 0.5rem; font-weight: 600; }
   </style>
 </Base>
