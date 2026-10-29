@@ -137,6 +137,8 @@ navigation-report  which citations landed on a heading or topic label rather tha
 aggregate          agreement stats, confusion matrices, coalition-vs-programme metric
 export-site        write per-case JSON + indexes → site/src/data/
 translate-*        English translations (checkpoint-aware); compare-runs, agent-status
+recall-probe-*     contamination: does the model recognise the vote from month + committee + title?
+                   (sample → run → report; see docs/methodology.en.md)
 ```
 
 > Decisions are produced by Claude Code subagents on a Claude subscription (no Anthropic API key

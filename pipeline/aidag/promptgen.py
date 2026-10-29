@@ -350,6 +350,7 @@ def build_system_blocks(
     rm: str = "",
     votering_id: str = "",
     prompt_version: str = PROMPT_VERSION,
+    documents: bool = True,
 ) -> list[dict]:
     """System blocks for one party at one date.
 
@@ -374,6 +375,13 @@ def build_system_blocks(
             role += P5_ROLE_DOCS
 
     blocks = [{"type": "text", "text": role}]
+    if not documents:
+        # The no-documents arm (agent_run ARMS): the same role text with the
+        # party's documents withheld. What the agent then concludes is what the
+        # model already believes about the party, which is the baseline the
+        # documents have to beat for a verdict to be read as fidelity to them.
+        blocks[-1]["cache_control"] = {"type": "ephemeral", "ttl": "1h"}
+        return blocks
     for _kind, tag, text in documents_for(code, datum, rm, votering_id, prompt_version):
         open_tag = tag.split(" ")[0]
         blocks.append({"type": "text", "text": f"<{tag}>\n{text}\n</{open_tag}>"})
